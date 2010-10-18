@@ -10,6 +10,7 @@
 #import "PreyRestHttp.h"
 #import "KeyParserDelegate.h"
 #import "ErrorParserDelegate.h"
+#import "ConfigParserDelegate.h"
 
 
 @implementation PreyRestHttp
@@ -157,7 +158,7 @@
 	
 }
 
-- (NSString *) getXMLforUser: (NSString *) apiKey device:(NSString *) deviceKey;
+- (DeviceModulesConfig *) getXMLforUser: (NSString *) apiKey device:(NSString *) deviceKey;
 {
 	
 	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", deviceKey]];
@@ -174,14 +175,19 @@
 		int statusCode = [request responseStatusCode];
 		//NSString *statusMessage = [request responseStatusMessage];
 		NSString *response = [request responseString];
-		NSLog(@"GET devices/id.xml: %@",response);
+		NSLog(@"GET devices/%@.xml: %@",deviceKey,response);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
 			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
 		}
 		
-		if (!error) {	
-			return response;
+		if (!error) {
+			NSError *error = nil;
+			ConfigParserDelegate *configParser = [[ConfigParserDelegate alloc] init];
+			NSData *responseData = [request responseData];
+			DeviceModulesConfig *modulesConfig = [configParser parseModulesConfig:responseData parseError:&error];
+			[configParser release];			
+			return modulesConfig;
 		}	
 		else {
 			@throw [NSException exceptionWithName:@"GetXMLforDeviceException" reason:[error localizedDescription] userInfo:nil];
@@ -195,6 +201,46 @@
 	return nil;
 }
 
+- (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey {
+	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", deviceKey]];
+	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	[request setUsername:apiKey];
+	[request setPassword: @"x"];
+	[request setRequestMethod:@"PUT"];
+	if (missing)
+		[request setPostValue:@"1" forKey:@"device[missing]"];
+	else
+		[request setPostValue:@"0" forKey:@"device[missing]"];
+	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
+	[request setUseSessionPersistence:NO];
+	[request setShouldRedirect:NO];
+	
+	
+	@try {
+		[request startSynchronous];
+		NSError *error = [request error];
+		if (!error) {
+			/*
+			 int statusCode = [request responseStatusCode];
+			 NSString *statusMessage = [request responseStatusMessage];
+			 NSString *response = [request responseString];
+			 //NSLog(@"URL: %@ response status: %@ with data: %@", url, statusMessage, response );
+			 */
+			return NO;
+		}
+		
+		else {
+			return YES;
+			
+		}
+	}
+	@catch (NSException * e) {
+		@throw;
+	}
+	
+	return NO;
+	
+}
 
 - (BOOL) validateIfExistApiKey: (NSString *) apiKey andDeviceKey: (NSString *) deviceKey
 {

@@ -15,6 +15,7 @@
 #import "RegexKitLite.h"
 #import "Constants.h"
 #import "Device.h"
+#import "DeviceModulesConfig.h"
 
 
 @interface PreyRestHttp : NSObject {
@@ -32,7 +33,7 @@
 - (BOOL) deleteDevice: (Device*) device ofUser: (User *) user;
 - (BOOL) validateIfExistApiKey: (NSString *) apiKey andDeviceKey: (NSString *) deviceKey;
 - (NSString *) getErrorMessageFromXML: (NSData *) response;
-- (NSString *) getXMLforUser: (NSString *) user device:(NSString *) device;
-
+- (DeviceModulesConfig *) getXMLforUser: (NSString *) apiKey device:(NSString *) deviceKey;
+- (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey;
 
 @end

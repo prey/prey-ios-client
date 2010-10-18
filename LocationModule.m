@@ -18,6 +18,10 @@
     [locationController.locationManager startUpdatingLocation];
 }
 
+- (NSString *) getName {
+	return @"geo";
+}
+
 - (void)locationUpdate:(CLLocation *)location {
 	PreyRunner *runner = [PreyRunner instance];
 	[runner setLastLocation:location];

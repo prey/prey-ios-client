@@ -10,6 +10,7 @@
 #import "LocationModule.h"
 #import "PreyConfig.h"
 #import "PreyRestHttp.h"
+#import "DeviceModulesConfig.h"
 
 
 @implementation PreyRunner
@@ -32,11 +33,17 @@
 	queue = [[NSOperationQueue alloc] init];
 	PreyConfig *config = [PreyConfig getInstance];
 	PreyRestHttp *preyHttp = [[PreyRestHttp alloc] init];
-	NSString *deviceXML = [preyHttp getXMLforUser:[config apiKey] device:[config deviceKey]];
+	BOOL setMissing = [preyHttp changeStatusToMissing:YES forDevice:[config deviceKey] fromUser:[config apiKey]];
+	DeviceModulesConfig *modulesConfig = [preyHttp getXMLforUser:[config apiKey] device:[config deviceKey]];
+	
+	
+	/*
 	LocationModule *locationModule = [[LocationModule alloc] init];
 	[queue addOperation:locationModule];
 	[locationModule release];
+	 */
 	[config release];
+	[modulesConfig release];
 	[preyHttp release];
 	
 }

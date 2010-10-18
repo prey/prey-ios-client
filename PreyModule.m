@@ -7,8 +7,29 @@
 //
 
 #import "PreyModule.h"
-
+#import "LocationModule.h"
 
 @implementation PreyModule
+
+@synthesize configParms;
+
+- (id) init {
+	self = [super init];
+	if(self != nil)
+		configParms = [[NSMutableDictionary alloc] init];
+	return self;
+}
+
+
++ (PreyModule *) getModuleForName: (NSString *) moduleName {
+	if ([moduleName isEqualToString:@"geo"]) {
+		return [[LocationModule alloc] init];
+	}
+	return nil;
+}
+
+- (NSString *) getName {
+	return nil; //must be overriden;
+}
 
 @end

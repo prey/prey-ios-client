@@ -16,6 +16,8 @@
 		07178E4D12663A23007B290C /* SetupControllerTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 07178E4B12663A23007B290C /* SetupControllerTemplate.m */; };
 		07178F2412675A77007B290C /* Report.m in Sources */ = {isa = PBXBuildFile; fileRef = 07178F2312675A77007B290C /* Report.m */; };
 		07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07178F2512675AD3007B290C /* CoreLocation.framework */; };
+		073E6B2B126CFB34008FEB71 /* ConfigParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 073E6B2A126CFB34008FEB71 /* ConfigParserDelegate.m */; };
+		073E6B44126CFFB9008FEB71 /* DeviceModulesConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 073E6B43126CFFB9008FEB71 /* DeviceModulesConfig.m */; };
 		07783BA6126CDE07007BD409 /* PreyRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BA5126CDE07007BD409 /* PreyRunner.m */; };
 		07783BB7126CE08D007BD409 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BB6126CE08D007BD409 /* LocationController.m */; };
 		07783BCB126CE584007BD409 /* PreyModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BCA126CE584007BD409 /* PreyModule.m */; };
@@ -73,6 +75,10 @@
 		07178F2212675A77007B290C /* Report.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Report.h; sourceTree = "<group>"; };
 		07178F2312675A77007B290C /* Report.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Report.m; sourceTree = "<group>"; };
 		07178F2512675AD3007B290C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		073E6B29126CFB34008FEB71 /* ConfigParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigParserDelegate.h; sourceTree = "<group>"; };
+		073E6B2A126CFB34008FEB71 /* ConfigParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigParserDelegate.m; sourceTree = "<group>"; };
+		073E6B42126CFFB9008FEB71 /* DeviceModulesConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceModulesConfig.h; sourceTree = "<group>"; };
+		073E6B43126CFFB9008FEB71 /* DeviceModulesConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceModulesConfig.m; sourceTree = "<group>"; };
 		07783BA4126CDE07007BD409 /* PreyRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyRunner.h; sourceTree = "<group>"; };
 		07783BA5126CDE07007BD409 /* PreyRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyRunner.m; sourceTree = "<group>"; };
 		07783BB5126CE08D007BD409 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
@@ -224,6 +230,7 @@
 				07178E9B126641A0007B290C /* Setup Controllers */,
 			);
 			name = Controllers;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		07178FA81268A47F007B290C /* Login Controller */ = {
@@ -242,6 +249,7 @@
 				07783BA5126CDE07007BD409 /* PreyRunner.m */,
 			);
 			name = "Prey Runner";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		07783BC8126CE55D007BD409 /* Prey Modules */ = {
@@ -255,6 +263,7 @@
 				07783BCD126CE5CD007BD409 /* LocationModule.m */,
 			);
 			name = "Prey Modules";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		078053FE125541DE00E4CCE5 /* ASIHttp */ = {
@@ -280,7 +289,6 @@
 				078054101255420E00E4CCE5 /* Reachability.m */,
 			);
 			name = ASIHttp;
-			path = Classes;
 			sourceTree = "<group>";
 		};
 		0780541E1255421800E4CCE5 /* Prey Http */ = {
@@ -291,6 +299,7 @@
 				078054201255424E00E4CCE5 /* PreyRestHttp.m */,
 			);
 			name = "Prey Http";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		078054221255425800E4CCE5 /* Prey Model */ = {
@@ -306,8 +315,11 @@
 				078055C212563C6800E4CCE5 /* PreyConfig.m */,
 				07178F2212675A77007B290C /* Report.h */,
 				07178F2312675A77007B290C /* Report.m */,
+				073E6B42126CFFB9008FEB71 /* DeviceModulesConfig.h */,
+				073E6B43126CFFB9008FEB71 /* DeviceModulesConfig.m */,
 			);
 			name = "Prey Model";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		07805429125542EF00E4CCE5 /* Prey Utils */ = {
@@ -321,6 +333,7 @@
 				0780542B1255430D00E4CCE5 /* IphoneInformationHelper.m */,
 			);
 			name = "Prey Utils";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		078054CB1255537800E4CCE5 /* XML Parsers */ = {
@@ -330,6 +343,8 @@
 				078054CD1255539800E4CCE5 /* KeyParserDelegate.m */,
 				078055541256287100E4CCE5 /* ErrorParserDelegate.h */,
 				078055551256287100E4CCE5 /* ErrorParserDelegate.m */,
+				073E6B29126CFB34008FEB71 /* ConfigParserDelegate.h */,
+				073E6B2A126CFB34008FEB71 /* ConfigParserDelegate.m */,
 			);
 			name = "XML Parsers";
 			sourceTree = "<group>";
@@ -355,6 +370,13 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				07178F3B12675C2C007B290C /* Controllers */,
+				07805429125542EF00E4CCE5 /* Prey Utils */,
+				078054221255425800E4CCE5 /* Prey Model */,
+				07783BA2126CDDEE007BD409 /* Prey Runner */,
+				07783BC8126CE55D007BD409 /* Prey Modules */,
+				0780541E1255421800E4CCE5 /* Prey Http */,
+				078053FE125541DE00E4CCE5 /* ASIHttp */,
 				1D3623240D0F684500981E51 /* PreyAppDelegate.h */,
 				1D3623250D0F684500981E51 /* PreyAppDelegate.m */,
 				07CD96C91254017500590FCD /* RootController.h */,
@@ -374,13 +396,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				07783BC8126CE55D007BD409 /* Prey Modules */,
-				07178F3B12675C2C007B290C /* Controllers */,
-				07805429125542EF00E4CCE5 /* Prey Utils */,
-				078054221255425800E4CCE5 /* Prey Model */,
-				07783BA2126CDDEE007BD409 /* Prey Runner */,
-				0780541E1255421800E4CCE5 /* Prey Http */,
-				078053FE125541DE00E4CCE5 /* ASIHttp */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -530,6 +545,8 @@
 				07783BB7126CE08D007BD409 /* LocationController.m in Sources */,
 				07783BCB126CE584007BD409 /* PreyModule.m in Sources */,
 				07783BCE126CE5CD007BD409 /* LocationModule.m in Sources */,
+				073E6B2B126CFB34008FEB71 /* ConfigParserDelegate.m in Sources */,
+				073E6B44126CFFB9008FEB71 /* DeviceModulesConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

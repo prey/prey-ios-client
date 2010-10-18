@@ -10,7 +10,11 @@
 
 
 @interface PreyModule : NSOperation {
-
+	NSMutableDictionary *configParms;
 }
+@property (nonatomic, retain) NSMutableDictionary *configParms;
+
++ (PreyModule *) getModuleForName: (NSString *) moduleName;
+- (NSString *) getName;
 
 @end
