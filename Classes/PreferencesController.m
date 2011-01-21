@@ -8,10 +8,14 @@
 
 #import "PreferencesController.h"
 #import "PreyRunner.h"
+#import "PreyAppDelegate.h"
+#import "PreyConfig.h"
+#import "LocationController.h"
 
 @interface PreferencesController()
 
 -(void) goPrey;
+-(void) showAlert;
 
 @end
 
@@ -20,21 +24,40 @@
 #pragma mark -
 #pragma mark Private Methods
 -(void) goPrey{
-	PreyRunner *runner = [PreyRunner instance];
-	[runner goPrey];
+	[[PreyRunner instance] startPreyService];
 }
+
+-(void) stopPrey{
+	[[PreyRunner instance] stopPreyService];
+}
+
+-(void) startOnIntervalChecking {
+	[[PreyRunner instance] startOnIntervalChecking];
+}
+
+-(void) stopOnIntervalChecking {
+	[[PreyRunner instance] stopOnIntervalChecking];
+}
+
+
+- (void)showAlert{
+	PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+	[appDelegate showAlert:@"This is a stolen computer, and is being tracked by Prey. Please contact the owner at (INSERT_MAIL_HERE) to resolve the situation."];
+}
+
+
 
 #pragma mark -
 #pragma mark View lifecycle
 
-/*
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
-*/
+
 
 /*
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,7 +93,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 2;
+    return 3;
 }
 
 
@@ -80,8 +103,11 @@
 		case 0:
 			return 2;
 			break;
+		case 1:
+			return 2;
+			break;
 		default:
-			return 3;
+			return 4;
 			break;
 	}
 
@@ -100,19 +126,26 @@
     
     switch ([indexPath section]) {
 		case 0:
-			if ([indexPath row] == 0) {
+			if ([indexPath row] == 0)
 				cell.textLabel.text = @"GO Prey";
-				cell.textLabel.textAlignment = UITextAlignmentCenter;
-			} else {
-				cell.textLabel.text = @"Deactivation message";
-			}
-
+			else if ([indexPath row] == 1)
+				cell.textLabel.text = @"STOP Prey";
+			cell.textLabel.textAlignment = UITextAlignmentCenter;
+			break;
+		case 1:
+			if ([indexPath row] == 0)
+				cell.textLabel.text = @"Start on-interval checking";
+			else if ([indexPath row] == 1)
+				cell.textLabel.text = @"Stop on-interval checking";
+			cell.textLabel.textAlignment = UITextAlignmentCenter;
 			break;
 		default:
 		if ([indexPath row] == 0) {
-			cell.textLabel.text = @"Change password";
+			cell.textLabel.text = @"Alert screen preview";
 		} else if ([indexPath row] == 1) {
 			cell.textLabel.text = @"Detach phone";
+		} else if ([indexPath row] == 2) {
+			cell.textLabel.text = @"Change password";
 		} else {
 			cell.textLabel.text = @"About";
 		}
@@ -167,15 +200,25 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
+	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
 	switch ([indexPath section]) {
 		case 0:
-			if ([indexPath row] == 0) {
+			if ([indexPath row] == 0)
 				[self goPrey];
-			} else {
-				//cell.textLabel.text = @"Deactivation message";
-			}
-			
+			else if ([indexPath row] == 1)
+				[self stopPrey];
+			break;
+		case 1:
+			if ([indexPath row] == 0)
+				[self startOnIntervalChecking];
+			else if ([indexPath row] == 1)
+				[self stopOnIntervalChecking];
+			break;
+		default:
+			if ([indexPath row] == 0)
+				[self showAlert];
+			else if ([indexPath row] == 1)
+				[[PreyConfig  getInstance] detachDevice];
 			break;
 	}
 }

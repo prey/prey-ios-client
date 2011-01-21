@@ -7,32 +7,26 @@
 //
 
 #import "LocationModule.h"
-#import "PreyRunner.h"
 
 
 @implementation LocationModule
 
+
 - (void)main {
-	locationController = [[LocationController alloc] init];
-	locationController.delegate = self;
-    [locationController.locationManager startUpdatingLocation];
+	reportToFill.waitForLocation = YES;
 }
 
 - (NSString *) getName {
 	return @"geo";
 }
 
-- (void)locationUpdate:(CLLocation *)location {
-	PreyRunner *runner = [PreyRunner instance];
-	[runner setLastLocation:location];
-}
 
-- (void)locationError:(NSError *)error {
-    //see what to do here
+- (NSMutableDictionary *) reportData {
+//parameters: {geo[lng]=-122.084095, geo[alt]=0.0, geo[lat]=37.422006, geo[acc]=0.0, api_key=rod8vlf13jco}
+	 return nil;
 }
 
 - (void)dealloc {
 	[super dealloc];
-	[locationController release];
 }
 @end

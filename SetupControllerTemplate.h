@@ -15,7 +15,7 @@
 	MBProgressHUD *HUD;
 }
 
-- (IBAction) next: (id) sender;
+//- (IBAction) next: (id) sender;
 - (IBAction) cancel: (id) sender;
 - (IBAction) doneEditing:(id)sender;
 

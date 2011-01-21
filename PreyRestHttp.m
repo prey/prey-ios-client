@@ -11,6 +11,7 @@
 #import "KeyParserDelegate.h"
 #import "ErrorParserDelegate.h"
 #import "ConfigParserDelegate.h"
+#import "PreyConfig.h"
 
 
 @implementation PreyRestHttp
@@ -39,7 +40,7 @@
 		int statusCode = [request responseStatusCode];
 		//NSString *statusMessage = [request responseStatusMessage];
 		NSString *response = [request responseString];
-		NSLog(@"GET profile.xml: %@",response);
+		LogMessageCompat(@"GET profile.xml: %@",response);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
 			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
@@ -138,9 +139,9 @@
 			if (statusCode == 302)
 				@throw [NSException exceptionWithName:@"NoMoreDevicesAllowed" reason:NSLocalizedString(@"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.",nil) userInfo:nil];
 			
-			NSString *statusMessage = [request responseStatusMessage];
+			//NSString *statusMessage = [request responseStatusMessage];
 			NSString *response = [request responseString];
-			NSLog(@"POST devices.xml: %@",response);
+			LogMessageCompat(@"POST devices.xml: %@",response);
 			KeyParserDelegate *keyParser = [[KeyParserDelegate alloc] init];
 			NSString *deviceKey = [keyParser parseKey:[request responseData] parseError:&error];
 			return deviceKey;
@@ -175,7 +176,7 @@
 		int statusCode = [request responseStatusCode];
 		//NSString *statusMessage = [request responseStatusMessage];
 		NSString *response = [request responseString];
-		NSLog(@"GET devices/%@.xml: %@",deviceKey,response);
+		LogMessageCompat(@"GET devices/%@.xml: %@",deviceKey,response);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
 			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
@@ -224,7 +225,7 @@
 			 int statusCode = [request responseStatusCode];
 			 NSString *statusMessage = [request responseStatusMessage];
 			 NSString *response = [request responseString];
-			 //NSLog(@"URL: %@ response status: %@ with data: %@", url, statusMessage, response );
+			 //LogMessageCompat(@"URL: %@ response status: %@ with data: %@", url, statusMessage, response );
 			 */
 			return NO;
 		}
@@ -264,7 +265,7 @@
 		if (!error) {
 			NSString *extractedDeviceKey = NULL;
 			[response getCapturesWithRegexAndReferences:deviceKey,	 @"$0", &extractedDeviceKey, nil];	
-			//NSLog(@"Extracted key from response: %@", extractedDeviceKey);
+			//LogMessageCompat(@"Extracted key from response: %@", extractedDeviceKey);
 			return [extractedDeviceKey isEqual:deviceKey];
 		}
 		
@@ -280,10 +281,11 @@
 	return NO;
 }
 
-- (BOOL) deleteDevice: (Device*) device ofUser: (User *) user{
+- (BOOL) deleteDevice: (Device*) device{
+	PreyConfig* preyConfig = [PreyConfig getInstance];
 	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [device deviceKey]]];
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-	[request setUsername:[user apiKey]];
+	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
 	[request setRequestMethod:@"DELETE"];
 	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
@@ -299,7 +301,7 @@
 			int statusCode = [request responseStatusCode];
 			NSString *statusMessage = [request responseStatusMessage];
 			NSString *response = [request responseString];
-			//NSLog(@"URL: %@ response status: %@ with data: %@", url, statusMessage, response );
+			//LogMessageCompat(@"URL: %@ response status: %@ with data: %@", url, statusMessage, response );
 			 */
 			return NO;
 		}
@@ -312,8 +314,52 @@
 	@catch (NSException * e) {
 		@throw;
 	}
+	@finally {
+		[preyConfig release];
+	}
 	
 	return NO;
+	
+}
+
+- (void) sendReport: (Report *) report {
+	PreyConfig *preyConfig = [PreyConfig getInstance];
+	//NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [preyConfig deviceKey]]];
+	NSURL *url = [NSURL URLWithString:report.url];
+	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	[request setUsername:[preyConfig apiKey]];
+	[request setPassword: @"x"];
+	[request setRequestMethod:@"POST"];
+	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
+	
+
+	[[report getReportData] enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
+		LogMessageCompat(@"adding to report: %@ = %@", key, object);
+		[request setPostValue:(NSString*)object forKey:(NSString *) key];
+	}];
+
+	[request setUseSessionPersistence:NO];
+	[request setShouldRedirect:NO];
+	
+	@try {
+		[request startSynchronous];
+		NSError *error = [request error];
+		if (!error) {
+			int statusCode = [request responseStatusCode];
+			if (statusCode != 200)
+				@throw [NSException exceptionWithName:@"ReportNotSentException" reason:NSLocalizedString(@"Report couldn't be sent",nil) userInfo:nil];
+			NSString *response = [request responseString];
+			LogMessageCompat(@"Report sent response: %@",response);
+		}	
+		else {
+			@throw [NSException exceptionWithName:@"ReportNotSentException" reason:[error localizedDescription] userInfo:nil];
+			
+		} 
+	} 
+	@catch (NSException *e) {
+		@throw;
+	}
+	[preyConfig release];
 	
 }
 

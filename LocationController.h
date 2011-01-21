@@ -8,25 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol PreyLocationControllerDelegate 
-@required
-- (void)locationUpdate:(CLLocation *)location;
-- (void)locationError:(NSError *)error;
-@end
-
 @interface LocationController : NSObject <CLLocationManagerDelegate> {
-	CLLocationManager *locationManager;
-	id delegate;
+
 }
 
-@property (nonatomic, retain) CLLocationManager *locationManager;
-@property (nonatomic, assign) id  delegate;
+@property (nonatomic, retain) CLLocationManager *accurateLocationManager;
+@property (nonatomic, retain) CLLocationManager *significantLocationManager;
 
++(LocationController *) instance;
 - (void)locationManager:(CLLocationManager *)manager
 		   didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation;
 
 - (void)locationManager:(CLLocationManager *)manager
 		   didFailWithError:(NSError *)error;
+
+- (void)startUpdatingLocation;
+- (void)stopUpdatingLocation;
+- (void)startMonitoringSignificantLocationChanges;
+- (void)stopMonitoringSignificantLocationChanges;
 
 @end

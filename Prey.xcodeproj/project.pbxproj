@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,6 +22,17 @@
 		07783BB7126CE08D007BD409 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BB6126CE08D007BD409 /* LocationController.m */; };
 		07783BCB126CE584007BD409 /* PreyModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BCA126CE584007BD409 /* PreyModule.m */; };
 		07783BCE126CE5CD007BD409 /* LocationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BCD126CE5CD007BD409 /* LocationModule.m */; };
+		077D7A04126E12FB00C713B7 /* AlarmModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 077D7A03126E12FB00C713B7 /* AlarmModule.m */; };
+		077D7A06126E135E00C713B7 /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 077D7A05126E135E00C713B7 /* siren.mp3 */; };
+		077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7A3B126E171300C713B7 /* AudioToolbox.framework */; };
+		077D7A6A126E29A100C713B7 /* AlertModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 077D7A69126E29A100C713B7 /* AlertModule.m */; };
+		077D7A78126E2B3C00C713B7 /* AlertModuleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 077D7A76126E2B3C00C713B7 /* AlertModuleController.m */; };
+		077D7A79126E2B3C00C713B7 /* AlertModuleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 077D7A77126E2B3C00C713B7 /* AlertModuleController.xib */; };
+		077D7A87126E2EEC00C713B7 /* large9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 077D7A86126E2EEC00C713B7 /* large9.ttf */; };
+		077D7B27126F3BFE00C713B7 /* ContactsModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 077D7B26126F3BFE00C713B7 /* ContactsModule.m */; };
+		077D7B2D126F3C8400C713B7 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7B2C126F3C8400C713B7 /* AddressBook.framework */; };
+		077D7B9C1270D75400C713B7 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 077D7B9B1270D75400C713B7 /* RegexKitLite.m */; };
+		077D7BA21270D79700C713B7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7BA11270D79700C713B7 /* MapKit.framework */; };
 		078054111255420E00E4CCE5 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 078054001255420E00E4CCE5 /* ASIAuthenticationDialog.m */; };
 		078054121255420E00E4CCE5 /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 078054031255420E00E4CCE5 /* ASIDownloadCache.m */; };
 		078054131255420E00E4CCE5 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 078054051255420E00E4CCE5 /* ASIFormDataRequest.m */; };
@@ -38,7 +49,6 @@
 		0780548112554BDA00E4CCE5 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0780548012554BDA00E4CCE5 /* libz.1.2.3.dylib */; };
 		078054A412554C1E00E4CCE5 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 078054A312554C1E00E4CCE5 /* Constants.m */; };
 		078054CE1255539800E4CCE5 /* KeyParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 078054CD1255539800E4CCE5 /* KeyParserDelegate.m */; };
-		078055441255603600E4CCE5 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 078055431255603600E4CCE5 /* RegexKitLite.m */; };
 		078055561256287100E4CCE5 /* ErrorParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 078055551256287100E4CCE5 /* ErrorParserDelegate.m */; };
 		07805595125636DC00E4CCE5 /* NewUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07805593125636DC00E4CCE5 /* NewUserController.m */; };
 		07805596125636DC00E4CCE5 /* NewUserController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07805594125636DC00E4CCE5 /* NewUserController.xib */; };
@@ -52,6 +62,7 @@
 		07CD96251253E13800590FCD /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96231253E13800590FCD /* LoginController.m */; };
 		07CD96261253E13800590FCD /* LoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD96241253E13800590FCD /* LoginController.xib */; };
 		07CD96CB1254017500590FCD /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96CA1254017500590FCD /* RootController.m */; };
+		07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */; };
 		1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* PreyAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -87,6 +98,22 @@
 		07783BCA126CE584007BD409 /* PreyModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyModule.m; sourceTree = "<group>"; };
 		07783BCC126CE5CD007BD409 /* LocationModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationModule.h; sourceTree = "<group>"; };
 		07783BCD126CE5CD007BD409 /* LocationModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationModule.m; sourceTree = "<group>"; };
+		077D7A02126E12FB00C713B7 /* AlarmModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmModule.h; sourceTree = "<group>"; };
+		077D7A03126E12FB00C713B7 /* AlarmModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmModule.m; sourceTree = "<group>"; };
+		077D7A05126E135E00C713B7 /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siren.mp3; sourceTree = "<group>"; };
+		077D7A3B126E171300C713B7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		077D7A68126E29A100C713B7 /* AlertModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertModule.h; sourceTree = "<group>"; };
+		077D7A69126E29A100C713B7 /* AlertModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertModule.m; sourceTree = "<group>"; };
+		077D7A75126E2B3C00C713B7 /* AlertModuleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertModuleController.h; sourceTree = "<group>"; };
+		077D7A76126E2B3C00C713B7 /* AlertModuleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertModuleController.m; sourceTree = "<group>"; };
+		077D7A77126E2B3C00C713B7 /* AlertModuleController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertModuleController.xib; sourceTree = "<group>"; };
+		077D7A86126E2EEC00C713B7 /* large9.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = large9.ttf; sourceTree = "<group>"; };
+		077D7B25126F3BFE00C713B7 /* ContactsModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsModule.h; sourceTree = "<group>"; };
+		077D7B26126F3BFE00C713B7 /* ContactsModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsModule.m; sourceTree = "<group>"; };
+		077D7B2C126F3C8400C713B7 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		077D7B9A1270D75400C713B7 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		077D7B9B1270D75400C713B7 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		077D7BA11270D79700C713B7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		078053FF1255420E00E4CCE5 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		078054001255420E00E4CCE5 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		078054011255420E00E4CCE5 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
@@ -120,8 +147,6 @@
 		078054A312554C1E00E4CCE5 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		078054CC1255539800E4CCE5 /* KeyParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyParserDelegate.h; sourceTree = "<group>"; };
 		078054CD1255539800E4CCE5 /* KeyParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyParserDelegate.m; sourceTree = "<group>"; };
-		078055421255603600E4CCE5 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
-		078055431255603600E4CCE5 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		078055541256287100E4CCE5 /* ErrorParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorParserDelegate.h; sourceTree = "<group>"; };
 		078055551256287100E4CCE5 /* ErrorParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorParserDelegate.m; sourceTree = "<group>"; };
 		07805592125636DC00E4CCE5 /* NewUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewUserController.h; sourceTree = "<group>"; };
@@ -142,6 +167,9 @@
 		07CD96241253E13800590FCD /* LoginController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LoginController.xib; path = Classes/LoginController.xib; sourceTree = "<group>"; };
 		07CD96C91254017500590FCD /* RootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootController.h; sourceTree = "<group>"; };
 		07CD96CA1254017500590FCD /* RootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootController.m; sourceTree = "<group>"; };
+		07CEDA9912E9DD9E002B4EB5 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
+		07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
+		07CEDA9B12E9DD9E002B4EB5 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* PreyAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* PreyAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyAppDelegate.m; sourceTree = "<group>"; };
@@ -167,6 +195,9 @@
 				0780548112554BDA00E4CCE5 /* libz.1.2.3.dylib in Frameworks */,
 				0780561D12564F1C00E4CCE5 /* SystemConfiguration.framework in Frameworks */,
 				07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */,
+				077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */,
+				077D7B2D126F3C8400C713B7 /* AddressBook.framework in Frameworks */,
+				077D7BA21270D79700C713B7 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,15 +286,48 @@
 		07783BC8126CE55D007BD409 /* Prey Modules */ = {
 			isa = PBXGroup;
 			children = (
-				07783BB5126CE08D007BD409 /* LocationController.h */,
-				07783BB6126CE08D007BD409 /* LocationController.m */,
+				077D7B24126F3BE000C713B7 /* Contacts Module */,
+				077D7B23126F3B6E00C713B7 /* Geo Module */,
+				077D7A66126E296400C713B7 /* Alert Module */,
 				07783BC9126CE584007BD409 /* PreyModule.h */,
 				07783BCA126CE584007BD409 /* PreyModule.m */,
-				07783BCC126CE5CD007BD409 /* LocationModule.h */,
-				07783BCD126CE5CD007BD409 /* LocationModule.m */,
+				077D7A02126E12FB00C713B7 /* AlarmModule.h */,
+				077D7A03126E12FB00C713B7 /* AlarmModule.m */,
 			);
 			name = "Prey Modules";
 			path = ..;
+			sourceTree = "<group>";
+		};
+		077D7A66126E296400C713B7 /* Alert Module */ = {
+			isa = PBXGroup;
+			children = (
+				077D7A68126E29A100C713B7 /* AlertModule.h */,
+				077D7A69126E29A100C713B7 /* AlertModule.m */,
+				077D7A75126E2B3C00C713B7 /* AlertModuleController.h */,
+				077D7A76126E2B3C00C713B7 /* AlertModuleController.m */,
+				077D7A77126E2B3C00C713B7 /* AlertModuleController.xib */,
+			);
+			name = "Alert Module";
+			sourceTree = "<group>";
+		};
+		077D7B23126F3B6E00C713B7 /* Geo Module */ = {
+			isa = PBXGroup;
+			children = (
+				07783BB5126CE08D007BD409 /* LocationController.h */,
+				07783BB6126CE08D007BD409 /* LocationController.m */,
+				07783BCC126CE5CD007BD409 /* LocationModule.h */,
+				07783BCD126CE5CD007BD409 /* LocationModule.m */,
+			);
+			name = "Geo Module";
+			sourceTree = "<group>";
+		};
+		077D7B24126F3BE000C713B7 /* Contacts Module */ = {
+			isa = PBXGroup;
+			children = (
+				077D7B25126F3BFE00C713B7 /* ContactsModule.h */,
+				077D7B26126F3BFE00C713B7 /* ContactsModule.m */,
+			);
+			name = "Contacts Module";
 			sourceTree = "<group>";
 		};
 		078053FE125541DE00E4CCE5 /* ASIHttp */ = {
@@ -325,10 +389,10 @@
 		07805429125542EF00E4CCE5 /* Prey Utils */ = {
 			isa = PBXGroup;
 			children = (
+				077D7B9A1270D75400C713B7 /* RegexKitLite.h */,
+				077D7B9B1270D75400C713B7 /* RegexKitLite.m */,
 				0717886F125A31B9007B290C /* MBProgressHUD.h */,
 				07178870125A31B9007B290C /* MBProgressHUD.m */,
-				078055421255603600E4CCE5 /* RegexKitLite.h */,
-				078055431255603600E4CCE5 /* RegexKitLite.m */,
 				0780542A1255430D00E4CCE5 /* IphoneInformationHelper.h */,
 				0780542B1255430D00E4CCE5 /* IphoneInformationHelper.m */,
 			);
@@ -367,9 +431,20 @@
 			name = "OldUser Controller";
 			sourceTree = "<group>";
 		};
+		07CEDA9812E9DD77002B4EB5 /* NSLogger */ = {
+			isa = PBXGroup;
+			children = (
+				07CEDA9912E9DD9E002B4EB5 /* LoggerClient.h */,
+				07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */,
+				07CEDA9B12E9DD9E002B4EB5 /* LoggerCommon.h */,
+			);
+			name = NSLogger;
+			sourceTree = "<group>";
+		};
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				07CEDA9812E9DD77002B4EB5 /* NSLogger */,
 				07178F3B12675C2C007B290C /* Controllers */,
 				07805429125542EF00E4CCE5 /* Prey Utils */,
 				078054221255425800E4CCE5 /* Prey Model */,
@@ -417,6 +492,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				077D7A86126E2EEC00C713B7 /* large9.ttf */,
+				077D7A05126E135E00C713B7 /* siren.mp3 */,
 				07178976125B8498007B290C /* Images */,
 				078055A61256371600E4CCE5 /* OldUserController.xib */,
 				07805594125636DC00E4CCE5 /* NewUserController.xib */,
@@ -433,6 +510,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				077D7BA11270D79700C713B7 /* MapKit.framework */,
+				077D7B2C126F3C8400C713B7 /* AddressBook.framework */,
 				07178F2512675AD3007B290C /* CoreLocation.framework */,
 				0780561C12564F1C00E4CCE5 /* SystemConfiguration.framework */,
 				0780547C12554BDA00E4CCE5 /* CFNetwork.framework */,
@@ -441,6 +520,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
+				077D7A3B126E171300C713B7 /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -471,7 +551,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Prey" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -503,6 +583,9 @@
 				07178927125A45F1007B290C /* WelcomeController.xib in Resources */,
 				0717896B125A6771007B290C /* CongratulationsController.xib in Resources */,
 				07178978125B84B8007B290C /* check.png in Resources */,
+				077D7A06126E135E00C713B7 /* siren.mp3 in Resources */,
+				077D7A79126E2B3C00C713B7 /* AlertModuleController.xib in Resources */,
+				077D7A87126E2EEC00C713B7 /* large9.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,7 +614,6 @@
 				0780542C1255430D00E4CCE5 /* IphoneInformationHelper.m in Sources */,
 				078054A412554C1E00E4CCE5 /* Constants.m in Sources */,
 				078054CE1255539800E4CCE5 /* KeyParserDelegate.m in Sources */,
-				078055441255603600E4CCE5 /* RegexKitLite.m in Sources */,
 				078055561256287100E4CCE5 /* ErrorParserDelegate.m in Sources */,
 				07805595125636DC00E4CCE5 /* NewUserController.m in Sources */,
 				078055A71256371600E4CCE5 /* OldUserController.m in Sources */,
@@ -547,6 +629,12 @@
 				07783BCE126CE5CD007BD409 /* LocationModule.m in Sources */,
 				073E6B2B126CFB34008FEB71 /* ConfigParserDelegate.m in Sources */,
 				073E6B44126CFFB9008FEB71 /* DeviceModulesConfig.m in Sources */,
+				077D7A04126E12FB00C713B7 /* AlarmModule.m in Sources */,
+				077D7A6A126E29A100C713B7 /* AlertModule.m in Sources */,
+				077D7A78126E2B3C00C713B7 /* AlertModuleController.m in Sources */,
+				077D7B27126F3BFE00C713B7 /* ContactsModule.m in Sources */,
+				077D7B9C1270D75400C713B7 /* RegexKitLite.m in Sources */,
+				07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,9 +676,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-licucore";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -604,7 +693,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};

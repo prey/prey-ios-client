@@ -25,10 +25,10 @@
 @synthesize email,password;
 
 - (void) addDeviceForCurrentUser {
-#if !(TARGET_IPHONE_SIMULATOR)
-	sleep(1);
-	[self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
-#else
+//#if !(TARGET_IPHONE_SIMULATOR)
+//	sleep(1);
+//	[self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
+//#else
 	User *user = nil;
 	Device *device = nil;
 	PreyConfig *config = nil;
@@ -52,7 +52,7 @@
 		[device release];
 		[config release];
 	}
-#endif
+//#endif
 }
 
 - (void) hideKeyboard {

@@ -10,8 +10,14 @@
 #import <CoreLocation/CoreLocation.h> 
 
 @interface Report : NSObject {
-	CLLocation *fix;
-	
+	NSMutableArray *modules;
+	NSMutableDictionary *reportData;
 }
 
+@property (nonatomic, retain) NSMutableArray *modules;
+@property BOOL waitForLocation;
+@property (nonatomic, retain) NSString *url;
+
+- (void) send;
+- (NSMutableDictionary *) getReportData;
 @end

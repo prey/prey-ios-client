@@ -30,10 +30,11 @@
 - (NSString *) getCurrentControlPanelApiKey: (User *) user;
 - (NSString *) createApiKey: (User *) user;
 - (NSString *) createDeviceKeyForDevice: (Device*) device usingApiKey: (NSString *) apiKey;
-- (BOOL) deleteDevice: (Device*) device ofUser: (User *) user;
+- (BOOL) deleteDevice: (Device*) device;
 - (BOOL) validateIfExistApiKey: (NSString *) apiKey andDeviceKey: (NSString *) deviceKey;
 - (NSString *) getErrorMessageFromXML: (NSData *) response;
 - (DeviceModulesConfig *) getXMLforUser: (NSString *) apiKey device:(NSString *) deviceKey;
 - (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey;
+- (void) sendReport: (Report *) report;
 
 @end

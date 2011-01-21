@@ -11,35 +11,76 @@
 
 @implementation LocationController
 
-@synthesize locationManager;
-@synthesize delegate;
+@synthesize accurateLocationManager,significantLocationManager;
 
 - (id) init {
     self = [super init];
     if (self != nil) {
-        self.locationManager = [[[CLLocationManager alloc] init] autorelease];
-        self.locationManager.delegate = self; // send loc updates to myself
+		LogMessageCompat(@"Initializing Accurate LocationManager...");
+		self.accurateLocationManager = [[CLLocationManager alloc] init];
+		self.accurateLocationManager.delegate = self;
+		self.accurateLocationManager.desiredAccuracy = kCLLocationAccuracyBest;
+		//self.locationManager.distanceFilter = 1;
+	
+		LogMessageCompat(@"Initializing Significant LocationManager...");
+		self.significantLocationManager = [[CLLocationManager alloc] init];
+		self.significantLocationManager.delegate = self;		
     }
     return self;
 }
+
++(LocationController *)instance  {
+	static LocationController *instance;
+	@synchronized(self) {
+		if(!instance) {
+			instance = [[LocationController alloc] init];
+		}
+	}
+	return instance;
+}
+
+- (void)startUpdatingLocation {
+	[self.accurateLocationManager startUpdatingLocation];
+	LogMessageCompat(@"Accurate location updating started.");
+}
+- (void)startMonitoringSignificantLocationChanges {
+	[self.significantLocationManager startMonitoringSignificantLocationChanges];
+	LogMessageCompat(@"Significant location updating started.");
+}
+
+- (void)stopUpdatingLocation {
+	[self.accurateLocationManager stopUpdatingLocation];
+	LogMessageCompat(@"Accurate location updating stopped.");
+}
+- (void)stopMonitoringSignificantLocationChanges {
+	[self.significantLocationManager stopUpdatingLocation];
+	LogMessageCompat(@"Significant location updating stopped.");
+}
+
 
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
 {
-    NSLog(@"New location received: %@", [newLocation description]);
-	[self.delegate locationUpdate:newLocation];
+    LogMessageCompat(@"---> New location received: %@", [newLocation description]);
+	NSDate* eventDate = newLocation.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    if (abs(howRecent) < 15.0)
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"locationUpdated" object:newLocation];
+	else
+		LogMessageCompat(@"Location received too old, discarded!");
 }
 
 - (void)locationManager:(CLLocationManager *)manager
 	   didFailWithError:(NSError *)error
 {
-	NSLog(@"Error getting location: %@", [error description]);
-	 [self.delegate locationError:error];
+	LogMessageCompat(@"Error getting location: %@", [error description]);
 }
 
 - (void)dealloc {
-    [self.locationManager release];
+	LogMessageCompat(@"LocationController is going to be released...");
+    [self.accurateLocationManager release];
+	[self.significantLocationManager release];
     [super dealloc];
 }
 @end

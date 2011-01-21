@@ -30,4 +30,5 @@
 + (PreyConfig*) getInstance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;
 - (void) saveValues;
+- (void) detachDevice;
 @end

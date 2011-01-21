@@ -12,9 +12,19 @@
 
 @interface PreyRunner : NSObject {
 	CLLocation *lastLocation;
-	NSOperationQueue *queue;
+	NSOperationQueue *reportQueue;
+	NSOperationQueue *actionQueue;
+	
 }
 @property (nonatomic, retain) CLLocation *lastLocation;
+@property (nonatomic, retain) NSDate *lastExecution;
+@property (nonatomic, retain) NSNumber *delay;
+
 +(PreyRunner *) instance;
--(void)goPrey;
+-(void)startPreyService;
+-(void)stopPreyService;
+-(void) startOnIntervalChecking;
+-(void) stopOnIntervalChecking;
+-(void)runPrey;
+
 @end

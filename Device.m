@@ -9,7 +9,7 @@
 #import "Device.h"
 #import "PreyRestHttp.h"
 #import "IphoneInformationHelper.h"
-
+#import "PreyConfig.h"
 
 @implementation Device
 
@@ -33,10 +33,23 @@
 	@catch (NSException * e) {
 		@throw;
 	}
+	[http release];
 			
 	return newDevice;
+}
 
++(Device*) getInstance{
+	PreyConfig* preyConfig = [PreyConfig getInstance];
+	Device* dev = [[Device alloc]init];
+	[dev setDeviceKey:[preyConfig deviceKey]];
+	return dev;
+}
 
+-(void) detachDevice {
+	PreyRestHttp *http = [[PreyRestHttp alloc] init];
+	[http deleteDevice: self];
+	[http release];
+	[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
 }
 
 @end

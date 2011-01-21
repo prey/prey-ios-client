@@ -60,6 +60,10 @@ static NSString *const ALREADY_REGISTERED = @"already_registered";
 	
 }
 
+- (void) detachDevice {
+	[[Device getInstance] detachDevice]; 
+}
+
 - (void) dealloc {
 	[super dealloc];
 	[apiKey release];

@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LocationController.h"
 
 @interface PreyAppDelegate : NSObject <UIApplicationDelegate, UINavigationControllerDelegate> {
     UIWindow *window;
 	UIViewController *viewController;
+	
+	LocationController *locationController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -20,6 +22,7 @@
 - (void)showOldUserWizard;
 - (void)showNewUserWizard;
 - (void)showPreferences;
+- (void)showAlert: (NSString *) textToShow;
 
 @end
 

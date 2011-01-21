@@ -70,8 +70,9 @@
 		if (self.inModules) {
 			
 			NSString *name = [attributeDict objectForKey:@"name"];
-			NSString *active = [attributeDict objectForKey:@"active"];			
-			[self.modulesConfig addModuleName:name ifActive:active];
+			NSString *active = [attributeDict objectForKey:@"active"];	
+			NSString *type = [attributeDict objectForKey:@"type"];	
+			[self.modulesConfig addModuleName:name ifActive:active ofType:type];
 		}
 	}
 	if (self.inModule) {
