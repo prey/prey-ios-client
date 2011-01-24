@@ -18,6 +18,7 @@
 #import "DeviceModulesConfig.h"
 
 
+
 @interface PreyRestHttp : NSObject {
 	NSMutableData *responseData;
 	NSURL *baseURL;
@@ -36,5 +37,6 @@
 - (DeviceModulesConfig *) getXMLforUser: (NSString *) apiKey device:(NSString *) deviceKey;
 - (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey;
 - (void) sendReport: (Report *) report;
++ (BOOL) checkInternet;
 
 @end

@@ -14,6 +14,7 @@
 	UIViewController *viewController;
 	
 	LocationController *locationController;
+	NSDate *wentToBackground;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

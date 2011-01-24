@@ -21,10 +21,14 @@
 
 @implementation PreferencesController
 
+@synthesize cLoadingView;
+
 #pragma mark -
 #pragma mark Private Methods
 -(void) goPrey{
+	[NSThread detachNewThreadSelector: @selector(spinBegin) toTarget:self withObject:nil];
 	[[PreyRunner instance] startPreyService];
+	[NSThread detachNewThreadSelector: @selector(spinEnd) toTarget:self withObject:nil];
 }
 
 -(void) stopPrey{
@@ -46,12 +50,33 @@
 }
 
 
+#pragma mark -
+#pragma mark Spinner Methods
+
+- (void)initSpinner {
+	cLoadingView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];    
+	// we put our spinning "thing" right in the center of the current view
+	CGPoint newCenter = (CGPoint) [self.view center];
+	cLoadingView.center = newCenter;	
+	[self.view addSubview:cLoadingView];	
+}
+
+- (void)spinBegin {
+	[cLoadingView startAnimating];
+}
+
+
+- (void)spinEnd {
+	[cLoadingView stopAnimating];
+}
+
 
 #pragma mark -
 #pragma mark View lifecycle
 
 
 - (void)viewDidLoad {
+	[self initSpinner];
     [super viewDidLoad];
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.

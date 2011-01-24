@@ -12,7 +12,7 @@
 #import "ErrorParserDelegate.h"
 #import "ConfigParserDelegate.h"
 #import "PreyConfig.h"
-
+#import "Reachability.h"
 
 @implementation PreyRestHttp
 
@@ -371,6 +371,22 @@
 	[errorsParser release];
 	return (NSString*)[errors objectAtIndex:0];
 	
+}
+
++(BOOL)checkInternet{
+	//Test for Internet Connection
+	LogMessage(@"PreyRestHttp", 10, @"Checking for Internet connection.");
+	Reachability *r = [Reachability reachabilityWithHostName:@"control.preyproject.com"];
+	NetworkStatus internetStatus = [r currentReachabilityStatus];
+	BOOL internet;
+	if ((internetStatus != ReachableViaWiFi) && (internetStatus != ReachableViaWWAN)) {
+		internet = NO;
+		LogMessage(@"PreyRestHttp", 10, @"Internet connection NOT FOUND!");
+	} else {
+		internet = YES;
+		LogMessage(@"PreyRestHttp", 10, @"Internet connection FOUND!");
+	}
+	return internet;
 }
 
 @end

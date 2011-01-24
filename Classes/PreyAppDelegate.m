@@ -19,6 +19,7 @@
 
 
 
+
 @interface PreyAppDelegate()
 
 -(void)renderFirstScreen;
@@ -39,7 +40,7 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-
+	LoggerSetOptions(NULL, 0x01); 
 	UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]; 
 	
 	if (localNotif) {
@@ -49,14 +50,14 @@
 		[runner startPreyService];
 	}
 	
-	/*
+	
 	LogMessageCompat(@"Registering for push notifications...");    
     [[UIApplication sharedApplication] 
 	 registerForRemoteNotificationTypes:
 	 (UIRemoteNotificationTypeAlert | 
 	  UIRemoteNotificationTypeBadge | 
 	  UIRemoteNotificationTypeSound)];
-	*/
+	
 	
 	
 	/*
@@ -97,7 +98,8 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, called instead of applicationWillTerminate: when the user quits.
      */
-	LogMessageCompat(@"Prey is now running in the background");
+	LogMessage(@"App Delegate", 0, @"Prey is now running in the background");
+	wentToBackground = [NSDate date];
 	for (UIView *view in [window subviews]) {
 		[view removeFromSuperview];
 	}
@@ -141,11 +143,15 @@
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    LogMessageCompat(@"Application will terminate");
-	/*
-     Called when the application is about to terminate.
-     See also applicationDidEnterBackground:.
-     */
+	int minutes;
+	int seconds;
+	if (wentToBackground != nil){
+		NSTimeInterval inBg = [wentToBackground timeIntervalSinceNow];
+		minutes = floor(-inBg/60);
+		seconds = trunc(-inBg - minutes * 60);
+	}
+	LogMessage(@"App Delegate", 0, @"Application will terminate!. Time alive: %f minutes, %f seconds",minutes,seconds);
+	
 }
 
 // Function to be called when the animation is complete
@@ -255,7 +261,6 @@
 #pragma mark Push notifications delegate
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken { 
-	
     LogMessageCompat(@"Did register for remote notifications - Device Token=%@",deviceToken);
 	
 }
@@ -267,7 +272,6 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-	
     for (id key in userInfo) {
         LogMessageCompat(@"Remote notification received - key: %@, value: %@", key, [userInfo objectForKey:key]);
     }    

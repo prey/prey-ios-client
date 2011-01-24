@@ -10,7 +10,12 @@
 
 
 @interface PreferencesController : UITableViewController {
-
+UIActivityIndicatorView *cLoadingView;
 }
+
+@property (nonatomic, retain) UIActivityIndicatorView *cLoadingView;
+- (void)initSpinner;
+- (void)spinBegin;
+- (void)spinEnd;
 
 @end

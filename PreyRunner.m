@@ -40,7 +40,8 @@
 	//We'll use the location services to keep Prey running in the background...
 	LocationController *locController = [LocationController instance];
 	[locController startUpdatingLocation];
-	
+	if (![PreyRestHttp checkInternet])
+		return;
 	PreyConfig *config = [PreyConfig getInstance];
 	PreyRestHttp *preyHttp = [[PreyRestHttp alloc] init];
 	[preyHttp changeStatusToMissing:YES forDevice:[config deviceKey] fromUser:[config apiKey]];
@@ -54,7 +55,8 @@
 	LogMessageCompat(@"Stopping Prey... ");
 	LocationController *locController = [LocationController instance];
 	[locController stopUpdatingLocation];
-	
+	if (![PreyRestHttp checkInternet])
+		return;
 	PreyConfig *config = [PreyConfig getInstance];
 	PreyRestHttp *preyHttp = [[PreyRestHttp alloc] init];
 	[preyHttp changeStatusToMissing:NO forDevice:[config deviceKey] fromUser:[config apiKey]];
@@ -75,15 +77,19 @@
 
 - (void)locationUpdated:(NSNotification *)notification
 {
-    LogMessage(@"Prey Runner", 0, @"Location updated notification received!");
 	NSTimeInterval lastRunInterval = -[self.lastExecution timeIntervalSinceNow];
-    if (lastRunInterval >= delay.intValue*60/4)
+    if (lastRunInterval >= delay.intValue*60/4){
+		LogMessage(@"Prey Runner", 0, @"Location updated notification received. Waiting interval expired, running Prey now!");
 		[self runPrey]; 
+	}
+	LogMessage(@"Prey Runner", 0, @"Location updated notification received, but interval hasn't expired.");
 }
 
 
 -(void) runPrey{
 	self.lastExecution = [NSDate date];
+	if (![PreyRestHttp checkInternet])
+		return;
 	PreyRestHttp *preyHttp = [[PreyRestHttp alloc] init];
 	PreyConfig *config = [PreyConfig getInstance];
 	DeviceModulesConfig *modulesConfig = [preyHttp getXMLforUser:[config apiKey] device:[config deviceKey]];
