@@ -9,20 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
-@interface WelcomeController : UIViewController {
-	UILabel *welcomeTitle;
-	UITextView *welcomeText;
-	UIButton *yes;
-	UIButton *no;
+@interface WelcomeController : UIViewController < UITableViewDelegate, UITableViewDataSource > {
+	UITableView *optionsTable;
 
 }
+@property (nonatomic, retain) IBOutlet UITableView *optionsTable;
 
-@property (nonatomic, retain) IBOutlet UILabel *welcomeTitle;
-@property (nonatomic, retain) IBOutlet UITextView *welcomeText;
-@property (nonatomic, retain) IBOutlet UIButton *yes;
-@property (nonatomic, retain) IBOutlet UIButton *no;
-
-- (IBAction) notRegistered: (id) sender;
-- (IBAction) alreadyRegistered: (id) sender;
 
 @end

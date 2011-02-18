@@ -11,14 +11,15 @@
 
 @interface PreyAppDelegate : NSObject <UIApplicationDelegate, UINavigationControllerDelegate> {
     UIWindow *window;
-	UIViewController *viewController;
+	UINavigationController *viewController;
 	
 	LocationController *locationController;
 	NSDate *wentToBackground;
+	BOOL showFakeScreen;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UIViewController *viewController;
+@property (nonatomic, retain) IBOutlet UINavigationController *viewController;
 
 - (void)showOldUserWizard;
 - (void)showNewUserWizard;

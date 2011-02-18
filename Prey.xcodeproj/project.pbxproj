@@ -22,6 +22,7 @@
 		07783BB7126CE08D007BD409 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BB6126CE08D007BD409 /* LocationController.m */; };
 		07783BCB126CE584007BD409 /* PreyModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BCA126CE584007BD409 /* PreyModule.m */; };
 		07783BCE126CE5CD007BD409 /* LocationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BCD126CE5CD007BD409 /* LocationModule.m */; };
+		077B3479130EE26C004ADA99 /* prey-iphone-front.png in Resources */ = {isa = PBXBuildFile; fileRef = 077B3478130EE26C004ADA99 /* prey-iphone-front.png */; };
 		077D7A04126E12FB00C713B7 /* AlarmModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 077D7A03126E12FB00C713B7 /* AlarmModule.m */; };
 		077D7A06126E135E00C713B7 /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 077D7A05126E135E00C713B7 /* siren.mp3 */; };
 		077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7A3B126E171300C713B7 /* AudioToolbox.framework */; };
@@ -98,6 +99,7 @@
 		07783BCA126CE584007BD409 /* PreyModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyModule.m; sourceTree = "<group>"; };
 		07783BCC126CE5CD007BD409 /* LocationModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationModule.h; sourceTree = "<group>"; };
 		07783BCD126CE5CD007BD409 /* LocationModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationModule.m; sourceTree = "<group>"; };
+		077B3478130EE26C004ADA99 /* prey-iphone-front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-iphone-front.png"; sourceTree = "<group>"; };
 		077D7A02126E12FB00C713B7 /* AlarmModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmModule.h; sourceTree = "<group>"; };
 		077D7A03126E12FB00C713B7 /* AlarmModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmModule.m; sourceTree = "<group>"; };
 		077D7A05126E135E00C713B7 /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siren.mp3; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 		07178976125B8498007B290C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				077B3478130EE26C004ADA99 /* prey-iphone-front.png */,
 				07178977125B84B8007B290C /* check.png */,
 				07CD95E31253D4FB00590FCD /* logo.png */,
 			);
@@ -586,6 +589,7 @@
 				077D7A06126E135E00C713B7 /* siren.mp3 in Resources */,
 				077D7A79126E2B3C00C713B7 /* AlertModuleController.xib in Resources */,
 				077D7A87126E2EEC00C713B7 /* large9.ttf in Resources */,
+				077B3479130EE26C004ADA99 /* prey-iphone-front.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

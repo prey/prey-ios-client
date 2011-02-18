@@ -29,7 +29,7 @@
 @implementation PreyAppDelegate
 
 @synthesize window;
-@synthesize viewController;
+//@synthesize viewController;
 
 -(void)renderFirstScreen{
 
@@ -41,7 +41,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
 	LoggerSetOptions(NULL, 0x01); 
-	UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]; 
+	UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+	id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+	if (remoteNotification) {
+		[self showAlert: @"Hey you... suck it!"];
+	}
 	
 	if (localNotif) {
 		application.applicationIconBadgeNumber = localNotif.applicationIconBadgeNumber-1; 
@@ -119,8 +123,12 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
+	if (showFakeScreen){
+		[self showAlert: @"you die!"];
+		showFakeScreen = NO;
+		return;
+	}
 	PreyConfig *config = [PreyConfig getInstance];
-	
 	UIViewController *nextController = nil;
 	LogMessageCompat(@"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
 	if (config.alreadyRegistered)
@@ -128,15 +136,27 @@
 			nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
 		else
 			nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-	else
-		nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+		else {
+			nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+			viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
+			//[viewController setTitle:NSLocalizedString(@"Welcome to Prey!",nil)];
+			[viewController setToolbarHidden:YES animated:NO];
+			[viewController setNavigationBarHidden:YES animated:NO];
+			
+		}
 	
+	
+	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [window addSubview:viewController.view];
+    [window makeKeyAndVisible];
+	
+	/*
 	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
 	nextController.view.frame = applicationFrame;
-	[self setViewController:nextController];
+	//[self setViewController:nextController];
 	[window addSubview:viewController.view];
 	[window makeKeyAndVisible];
-	
+	*/
 	[nextController release];
 	[config release];
 }
@@ -164,17 +184,17 @@
 #pragma mark Wizards and preferences delegate methods
 
 - (void)showOldUserWizard {
-	
 	OldUserController *ouController = [[OldUserController alloc] initWithNibName:@"OldUserController" bundle:nil];
-	UINavigationController *ouw = [[UINavigationController alloc] initWithRootViewController:ouController];
+	//UINavigationController *ouw = [[UINavigationController alloc] initWithRootViewController:ouController];
 	
-	ouw.delegate = self;
+	//ouw.delegate = self;
 	ouController.title = NSLocalizedString(@"Prey install wizard",nil);
-	ouw.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-	[viewController presentModalViewController:ouw animated:YES];
+	[viewController pushViewController:ouController animated:YES];
+	//ouw.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+	//[viewController presentModalViewController:ouw animated:YES];
 	
 	// Release the view controllers to prevent over-retention.
-	[ouw release];
+	//[ouw release];
 	[ouController release];
 	
 	/*
@@ -275,6 +295,7 @@
     for (id key in userInfo) {
         LogMessageCompat(@"Remote notification received - key: %@, value: %@", key, [userInfo objectForKey:key]);
     }    
+	showFakeScreen = YES;
 	
 }
 
