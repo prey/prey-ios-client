@@ -9,14 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "SetupControllerTemplate.h"
 
-@interface OldUserController : SetupControllerTemplate  {
+#define kLabelTag	4096
+
+//@interface OldUserController : SetupControllerTemplate < UITableViewDelegate, UITableViewDataSource > {
+@interface OldUserController : SetupControllerTemplate <UITextFieldDelegate>{
 	
 	UITextField *email;
 	UITextField *password;
+	UITableViewCell *buttonCell;
+	NSString *strEmailMatchstring;
+	BOOL enableToSumbimt;
 
 }
-
-@property (nonatomic, retain) IBOutlet UITextField *email;
-@property (nonatomic, retain) IBOutlet UITextField *password;
 
 @end

@@ -136,14 +136,13 @@
 			nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
 		else
 			nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-		else {
-			nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
-			viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
-			//[viewController setTitle:NSLocalizedString(@"Welcome to Prey!",nil)];
-			[viewController setToolbarHidden:YES animated:NO];
-			[viewController setNavigationBarHidden:YES animated:NO];
-			
-		}
+	else {
+		nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+		viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
+		//[viewController setTitle:NSLocalizedString(@"Welcome to Prey!",nil)];
+		[viewController setToolbarHidden:YES animated:NO];
+		[viewController setNavigationBarHidden:YES animated:NO];	
+	}
 	
 	
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -184,33 +183,10 @@
 #pragma mark Wizards and preferences delegate methods
 
 - (void)showOldUserWizard {
-	OldUserController *ouController = [[OldUserController alloc] initWithNibName:@"OldUserController" bundle:nil];
-	//UINavigationController *ouw = [[UINavigationController alloc] initWithRootViewController:ouController];
-	
-	//ouw.delegate = self;
-	ouController.title = NSLocalizedString(@"Prey install wizard",nil);
+	OldUserController *ouController = [[OldUserController alloc] initWithStyle:UITableViewStyleGrouped];
+	ouController.title = NSLocalizedString(@"Log in to Prey",nil);
 	[viewController pushViewController:ouController animated:YES];
-	//ouw.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-	//[viewController presentModalViewController:ouw animated:YES];
-	
-	// Release the view controllers to prevent over-retention.
-	//[ouw release];
 	[ouController release];
-	
-	/*
-	 OldUserController *ouController = [[OldUserController alloc] initWithNibName:@"OldUserController" bundle:nil];
-	 
-	 
-	 CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
-	 ouController.view.frame = applicationFrame;
-	 [self.view addSubview:ouController.view];
-	 
-	 ouController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-	 [self presentModalViewController:ouController animated:YES];
-	 
-	 [window addSubview:ouController.view];
-	 [window makeKeyAndVisible];
-	 */
 }
 
 - (void)showNewUserWizard {

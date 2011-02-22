@@ -32,9 +32,9 @@
 		return newUser;
 	}
 	@catch (NSException * e) {
-		return nil;
+		@throw;
 	}
-	
+	return nil;
 }
 
 +(User*) createNew: (NSString*) _name email: (NSString*) _email password: (NSString*) _password repassword: (NSString*) _repassword {

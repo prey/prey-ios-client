@@ -59,7 +59,7 @@
 		
 	}
 	@catch (NSException * e) {
-		@throw;
+		@throw e;
 	}
 	return nil;
 }

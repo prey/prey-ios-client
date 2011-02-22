@@ -29,48 +29,6 @@
 	[self.navigationController pushViewController:congratsController animated:YES];
 	[congratsController release];
 }
-- (void) hideKeyboard 
-{
-	//Subclass must override it
-	return;
-}
-
-#pragma mark -
-#pragma mark IBActions
-- (IBAction) cancel: (id) sender 
-{
-	[self dismissModalViewControllerAnimated:YES];
-}
-- (IBAction)doneEditing:(id)sender 
-{
-	[sender resignFirstResponder];
-}
-
-#pragma mark -
-#pragma mark UI sliding methods
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    [self animateTextField: textField up: YES];
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    [self animateTextField: textField up: NO];
-}
-
-- (void) animateTextField: (UITextField*) textField up: (BOOL) up
-{
-    const int movementDistance = 80; // tweak as needed
-    const float movementDuration = 0.3f; // tweak as needed
-	
-    int movement = (up ? -movementDistance : movementDistance);
-	
-    [UIView beginAnimations: @"anim" context: nil];
-    [UIView setAnimationBeginsFromCurrentState: YES];
-    [UIView setAnimationDuration: movementDuration];
-    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
-    [UIView commitAnimations];
-}
 
 #pragma mark -
 #pragma mark MBProgressHUDDelegate methods

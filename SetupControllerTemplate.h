@@ -10,7 +10,7 @@
 #import "MBProgressHUD.h"
 
 
-@interface SetupControllerTemplate : UIViewController <MBProgressHUDDelegate> {
+@interface SetupControllerTemplate : UITableViewController <MBProgressHUDDelegate> {
 	
 	MBProgressHUD *HUD;
 }

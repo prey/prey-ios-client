@@ -51,7 +51,7 @@
 			if ([indexPath row] == 0)
 				cell.textLabel.text = NSLocalizedString(@"I'm already a Prey user",nil);
 			else if ([indexPath row] == 1)
-				cell.textLabel.text = NSLocalizedString(@"I'm new to Prey",nil);
+				cell.textLabel.text = NSLocalizedString(@"I'm a new Prey user",nil);
 			cell.textLabel.textAlignment = UITextAlignmentCenter;
 			break;
 		default:

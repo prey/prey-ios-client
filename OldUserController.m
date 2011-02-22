@@ -12,6 +12,7 @@
 #import "Device.h"
 #import "PreyConfig.h"
 #import "PreyAppDelegate.h"
+#import "RegexKitLite.h"
 
 
 @interface OldUserController () 
@@ -22,13 +23,14 @@
 
 @implementation OldUserController
 
-@synthesize email,password;
 
 - (void) addDeviceForCurrentUser {
 //#if !(TARGET_IPHONE_SIMULATOR)
 //	sleep(1);
 //	[self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
 //#else
+	
+	
 	User *user = nil;
 	Device *device = nil;
 	PreyConfig *config = nil;
@@ -55,12 +57,6 @@
 //#endif
 }
 
-- (void) hideKeyboard {
-	
-	[email resignFirstResponder];
-	[password resignFirstResponder];
-	 
-}
 
 
 
@@ -69,15 +65,139 @@
 
 - (IBAction) next: (id) sender
 {
+	/*
 	[self hideKeyboard];
 	HUD = [[MBProgressHUD alloc] initWithView:self.view];
     HUD.delegate = self;
     HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
 	[self.navigationController.view addSubview:HUD];
 	[HUD showWhileExecuting:@selector(addDeviceForCurrentUser) onTarget:self withObject:nil animated:YES];
+	*/
+}
+
+
+#pragma mark -
+#pragma mark Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    return 2;
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Return the number of rows in the section.
+	switch (section) {
+		case 0:
+			return 2;
+			break;
+
+		default:
+			return 1;
+			break;
+	}
 	
 }
 
+
+// Customize the appearance of table view cells.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+	if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		UILabel *label =[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 75, 25)];
+		label.textAlignment = UITextAlignmentLeft;
+		label.tag = kLabelTag;
+		label.font = [UIFont boldSystemFontOfSize:14];
+		[cell.contentView addSubview:label];
+		[label release];
+		
+    }
+    
+	UILabel *label = (UILabel *)[cell viewWithTag:kLabelTag];
+	
+    switch ([indexPath section]) {
+		case 0:
+			if ([indexPath row] == 0){
+				label.text = NSLocalizedString(@"Email",nil);
+				[cell.contentView addSubview:email];
+				
+			}
+			else if ([indexPath row] == 1){
+				label.text = NSLocalizedString(@"Password",nil);
+				[cell.contentView addSubview:password];
+			}
+			break;
+		case 1:
+			return buttonCell;
+			break;
+
+		default:
+			break;
+	}
+    
+    return cell;
+}
+
+
+#pragma mark -
+#pragma mark Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
+	switch ([indexPath section]) {
+		case 1:
+			if (enableToSumbimt) {
+				if (![email.text isMatchedByRegex:strEmailMatchstring]){
+					UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
+					[objAlert show];
+					[objAlert release];
+					[email becomeFirstResponder];
+					return;
+				}
+				[email resignFirstResponder];
+				[password resignFirstResponder];
+				HUD = [[MBProgressHUD alloc] initWithView:self.view];
+				HUD.delegate = self;
+				HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
+				[self.navigationController.view addSubview:HUD];
+				[HUD showWhileExecuting:@selector(addDeviceForCurrentUser) onTarget:self withObject:nil animated:YES];
+			}
+			break;
+
+		default:
+			break;
+	}
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark UITextField delegate methods
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+	[textField resignFirstResponder];
+    return YES;
+}
+
+
+- (void)checkFieldsToEnableSendButton:(id)sender {
+	if (email.text != nil && 
+		![email.text isEqualToString:@""] && 
+		password.text != nil && 
+		![password.text isEqualToString:@""]) {
+			buttonCell.selectionStyle = UITableViewCellSelectionStyleBlue;
+			buttonCell.textLabel.textColor = [UIColor blackColor];
+			enableToSumbimt = YES;
+	} else {
+		buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
+		buttonCell.textLabel.textColor = [UIColor grayColor];
+		enableToSumbimt = NO;
+	}
+}
 
 #pragma mark -
 
@@ -91,12 +211,34 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    [super viewDidLoad];
+	email = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
+	email.clearsOnBeginEditing = NO;
+	email.returnKeyType = UIReturnKeyDone;
+	email.placeholder = @"Your Prey account email";
+	[email setDelegate:self];
+	[email addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
+	
+	password = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
+	password.clearsOnBeginEditing = NO;
+	password.returnKeyType = UIReturnKeyDone;
+	[password setSecureTextEntry:YES];
+	password.placeholder = @"Your Prey account password";
+	[password setDelegate:self];
+	[password addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
+	
+	buttonCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"buttonCell"];
+	buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
+	buttonCell.textLabel.textColor = [UIColor grayColor];
+	buttonCell.textLabel.text = NSLocalizedString(@"Add this iphone!",nil);
+	buttonCell.textLabel.textAlignment = UITextAlignmentCenter;
+	
+	strEmailMatchstring=@"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
+	[super viewDidLoad];
 }
-*/
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -128,6 +270,8 @@
     [super dealloc];
 	[email release];
 	[password release];
+	[buttonCell release];
+	[strEmailMatchstring release];
 }
 
 
