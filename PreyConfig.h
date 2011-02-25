@@ -17,6 +17,7 @@
 	NSString *deviceKey;
 	NSString *checkUrl;
 	NSString *email;
+	NSNumber *desiredAccuracy;
 	BOOL alreadyRegistered;
 	
 	
@@ -25,9 +26,10 @@
 @property (nonatomic,retain) NSString *deviceKey;
 @property (nonatomic,retain) NSString *checkUrl;
 @property (nonatomic,retain) NSString *email;
+@property (nonatomic,retain) NSNumber *desiredAccuracy;
 @property BOOL alreadyRegistered;
 
-+ (PreyConfig*) getInstance;
++ (PreyConfig*) instance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;
 - (void) saveValues;
 - (void) detachDevice;

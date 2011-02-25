@@ -282,7 +282,7 @@
 }
 
 - (BOOL) deleteDevice: (Device*) device{
-	PreyConfig* preyConfig = [PreyConfig getInstance];
+	PreyConfig* preyConfig = [PreyConfig instance];
 	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [device deviceKey]]];
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
 	[request setUsername:[preyConfig apiKey]];
@@ -314,16 +314,13 @@
 	@catch (NSException * e) {
 		@throw;
 	}
-	@finally {
-		[preyConfig release];
-	}
 	
 	return NO;
 	
 }
 
 - (void) sendReport: (Report *) report {
-	PreyConfig *preyConfig = [PreyConfig getInstance];
+	PreyConfig *preyConfig = [PreyConfig instance];
 	//NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [preyConfig deviceKey]]];
 	NSURL *url = [NSURL URLWithString:report.url];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
@@ -359,7 +356,6 @@
 	@catch (NSException *e) {
 		@throw;
 	}
-	[preyConfig release];
 	
 }
 

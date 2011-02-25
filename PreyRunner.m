@@ -42,11 +42,10 @@
 	[locController startUpdatingLocation];
 	if (![PreyRestHttp checkInternet])
 		return;
-	PreyConfig *config = [PreyConfig getInstance];
+	PreyConfig *config = [PreyConfig instance];
 	PreyRestHttp *preyHttp = [[PreyRestHttp alloc] init];
 	[preyHttp changeStatusToMissing:YES forDevice:[config deviceKey] fromUser:[config apiKey]];
 	[preyHttp release];
-	[config release];
 	
 	[self runPrey];
 }
@@ -57,11 +56,10 @@
 	[locController stopUpdatingLocation];
 	if (![PreyRestHttp checkInternet])
 		return;
-	PreyConfig *config = [PreyConfig getInstance];
+	PreyConfig *config = [PreyConfig instance];
 	PreyRestHttp *preyHttp = [[PreyRestHttp alloc] init];
 	[preyHttp changeStatusToMissing:NO forDevice:[config deviceKey] fromUser:[config apiKey]];
 	[preyHttp release];
-	[config release];
 }
 
 -(void) startOnIntervalChecking {
@@ -91,10 +89,9 @@
 	if (![PreyRestHttp checkInternet])
 		return;
 	PreyRestHttp *preyHttp = [[PreyRestHttp alloc] init];
-	PreyConfig *config = [PreyConfig getInstance];
+	PreyConfig *config = [PreyConfig instance];
 	DeviceModulesConfig *modulesConfig = [preyHttp getXMLforUser:[config apiKey] device:[config deviceKey]];
 	[preyHttp release];
-	[config release];
 	
 	delay = modulesConfig.delay;
 	if (!modulesConfig.missing){

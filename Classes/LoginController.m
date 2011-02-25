@@ -24,9 +24,8 @@
 @synthesize loginPassword;
 
 - (void) checkPassword {
-	PreyConfig *config = [PreyConfig getInstance];
+	PreyConfig *config = [PreyConfig instance];
 	User *user = [User initWithEmail: config.email password: loginPassword.text];
-	[config release];
 	
 	if (user != nil){
 		PreferencesController *preferencesViewController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];

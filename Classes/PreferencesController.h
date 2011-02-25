@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AccuracyManager.h"
 
-
-@interface PreferencesController : UITableViewController {
+@interface PreferencesController : UITableViewController <UIPickerViewDelegate, UIPickerViewDataSource> {
 UIActivityIndicatorView *cLoadingView;
+	AccuracyManager *accManager;
+	UIPickerView *accPicker;
 }
-
 @property (nonatomic, retain) UIActivityIndicatorView *cLoadingView;
 - (void)initSpinner;
 - (void)spinBegin;

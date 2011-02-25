@@ -12,7 +12,7 @@
 #import "Device.h"
 #import "PreyConfig.h"
 #import "PreyAppDelegate.h"
-#import "RegexKitLite.h"
+
 
 
 @interface OldUserController () 
@@ -25,10 +25,10 @@
 
 
 - (void) addDeviceForCurrentUser {
-//#if !(TARGET_IPHONE_SIMULATOR)
-//	sleep(1);
-//	[self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
-//#else
+#if (TARGET_IPHONE_SIMULATOR)
+	sleep(1);
+	[self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
+#else
 	
 	
 	User *user = nil;
@@ -54,7 +54,7 @@
 		[device release];
 		[config release];
 	}
-//#endif
+#endif
 }
 
 
@@ -151,7 +151,7 @@
 	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
 	switch ([indexPath section]) {
 		case 1:
-			if (enableToSumbimt) {
+			if (enableToSubmit) {
 				if (![email.text isMatchedByRegex:strEmailMatchstring]){
 					UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
 					[objAlert show];
@@ -191,11 +191,11 @@
 		![password.text isEqualToString:@""]) {
 			buttonCell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			buttonCell.textLabel.textColor = [UIColor blackColor];
-			enableToSumbimt = YES;
+			enableToSubmit = YES;
 	} else {
 		buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
 		buttonCell.textLabel.textColor = [UIColor grayColor];
-		enableToSumbimt = NO;
+		enableToSubmit = NO;
 	}
 }
 
@@ -218,6 +218,8 @@
 	email.clearsOnBeginEditing = NO;
 	email.returnKeyType = UIReturnKeyDone;
 	email.placeholder = @"Your Prey account email";
+	email.keyboardType = UIKeyboardTypeEmailAddress;
+	email.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	[email setDelegate:self];
 	[email addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
 	
@@ -232,10 +234,9 @@
 	buttonCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"buttonCell"];
 	buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
 	buttonCell.textLabel.textColor = [UIColor grayColor];
-	buttonCell.textLabel.text = NSLocalizedString(@"Add this iphone!",nil);
 	buttonCell.textLabel.textAlignment = UITextAlignmentCenter;
+	buttonCell.textLabel.text = NSLocalizedString(@"Add this iphone!",nil);
 	
-	strEmailMatchstring=@"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
 	[super viewDidLoad];
 }
 
@@ -271,7 +272,7 @@
 	[email release];
 	[password release];
 	[buttonCell release];
-	[strEmailMatchstring release];
+
 }
 
 

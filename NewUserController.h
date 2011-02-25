@@ -10,17 +10,11 @@
 #import "SetupControllerTemplate.h"
 
 
-@interface NewUserController : SetupControllerTemplate {
+@interface NewUserController : SetupControllerTemplate <UITextFieldDelegate> {
 	UITextField *name;
 	UITextField *email;
 	UITextField *password;
 	UITextField *repassword;
 }
-
-@property (nonatomic, retain) IBOutlet UITextField *name;
-@property (nonatomic, retain) IBOutlet UITextField *email;
-@property (nonatomic, retain) IBOutlet UITextField *password;
-@property (nonatomic, retain) IBOutlet UITextField *repassword;
-
 
 @end

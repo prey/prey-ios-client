@@ -128,22 +128,22 @@
 		showFakeScreen = NO;
 		return;
 	}
-	PreyConfig *config = [PreyConfig getInstance];
+	PreyConfig *config = [PreyConfig instance];
 	UIViewController *nextController = nil;
 	LogMessageCompat(@"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
-	if (config.alreadyRegistered)
+	if (!config.alreadyRegistered)
 		if (ASK_FOR_LOGIN)
 			nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
 		else
 			nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
 	else {
 		nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
-		viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
-		//[viewController setTitle:NSLocalizedString(@"Welcome to Prey!",nil)];
-		[viewController setToolbarHidden:YES animated:NO];
-		[viewController setNavigationBarHidden:YES animated:NO];	
+			
 	}
-	
+	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
+	//[viewController setTitle:NSLocalizedString(@"Welcome to Prey!",nil)];
+	[viewController setToolbarHidden:YES animated:NO];
+	[viewController setNavigationBarHidden:YES animated:NO];
 	
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [window addSubview:viewController.view];
@@ -157,7 +157,6 @@
 	[window makeKeyAndVisible];
 	*/
 	[nextController release];
-	[config release];
 }
 
 
@@ -191,6 +190,12 @@
 
 - (void)showNewUserWizard {
 	
+	NewUserController *nuController = [[NewUserController alloc] initWithStyle:UITableViewStyleGrouped];
+	nuController.title = NSLocalizedString(@"Create Prey account",nil);
+	[viewController pushViewController:nuController animated:YES];
+	[nuController release];
+	
+	/*
 	NewUserController *nuController = [[NewUserController alloc] initWithNibName:@"NewUserController" bundle:nil];
 	UINavigationController *nuw = [[UINavigationController alloc] initWithRootViewController:nuController];
 	
@@ -202,6 +207,7 @@
 	// Release the view controllers to prevent over-retention.
 	[nuw release];
 	[nuController release];
+	 */
 }
 
 - (void)showPreferences {

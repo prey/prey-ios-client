@@ -12,6 +12,7 @@
 #import "PreyConfig.h"
 #import "LocationController.h"
 
+
 @interface PreferencesController()
 
 -(void) goPrey;
@@ -72,48 +73,6 @@
 
 
 #pragma mark -
-#pragma mark View lifecycle
-
-
-- (void)viewDidLoad {
-	[self initSpinner];
-    [super viewDidLoad];
-
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-*/
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
-
-#pragma mark -
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -126,11 +85,15 @@
     // Return the number of rows in the section.
 	switch (section) {
 		case 0:
-			return 2;
+			return 3;
 			break;
 		case 1:
 			return 2;
 			break;
+		case 2:
+			return 1;
+			break;
+
 		default:
 			return 4;
 			break;
@@ -139,6 +102,27 @@
 }
 
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	
+	NSString *label = [[[NSString alloc] init] autorelease];
+
+    switch (section) {
+		case 0:
+			label = NSLocalizedString(@"Execution control",nil);
+			break;
+		case 1:
+			label = NSLocalizedString(@"Execution control 2",nil);
+			break;
+		case 2:
+			label = NSLocalizedString(@"About",nil);
+			break;
+
+		default:
+			break;
+	}	
+    return label;
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -146,16 +130,38 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     switch ([indexPath section]) {
 		case 0:
-			if ([indexPath row] == 0)
-				cell.textLabel.text = @"GO Prey";
-			else if ([indexPath row] == 1)
-				cell.textLabel.text = @"STOP Prey";
-			cell.textLabel.textAlignment = UITextAlignmentCenter;
+			if ([indexPath row] == 0){
+				cell.textLabel.text = @"Missing";
+				UISwitch *missing = [[UISwitch alloc]init];
+				cell.accessoryView = missing;
+			}
+			else if ([indexPath row] == 1){
+				cell.textLabel.text = @"Location accuracy";
+				UISlider *accuracy = [[UISlider alloc]init];
+				accuracy.minimumValue = 0;
+				accuracy.maximumValue = 5;
+				accuracy.continuous = NO;
+				
+				NSString* imageName = [[NSBundle mainBundle] pathForResource:@"location_worst" ofType:@"png"];
+				UIImage* worst = [[UIImage alloc] initWithContentsOfFile:imageName];
+				imageName = [[NSBundle mainBundle] pathForResource:@"location_best" ofType:@"png"];
+				UIImage* best = [[UIImage alloc] initWithContentsOfFile:imageName];
+				accuracy.minimumValueImage = worst;
+				accuracy.maximumValueImage = best;
+				
+				[accuracy addTarget:self action:@selector(accuracyChanged:) forControlEvents:UIControlEventValueChanged];
+
+				cell.accessoryView = accuracy;
+			}
+			else if ([indexPath row] == 2){
+				cell.textLabel.text = @"Location accuracy";
+							}
 			break;
 		case 1:
 			if ([indexPath row] == 0)
@@ -164,6 +170,11 @@
 				cell.textLabel.text = @"Stop on-interval checking";
 			cell.textLabel.textAlignment = UITextAlignmentCenter;
 			break;
+		case 2:
+			cell.detailTextLabel.text = @"0.5.3";
+			cell.textLabel.text = @"Current Prey version";
+			break;
+
 		default:
 		if ([indexPath row] == 0) {
 			cell.textLabel.text = @"Alert screen preview";
@@ -171,14 +182,19 @@
 			cell.textLabel.text = @"Detach phone";
 		} else if ([indexPath row] == 2) {
 			cell.textLabel.text = @"Change password";
-		} else {
-			cell.textLabel.text = @"About";
-		}
-			break;
+		} 
+		break;
 	}
     
     return cell;
 }
+- (void)accuracyChanged:(UISlider*)sender
+{
+	float newValue = ceil([sender value]);
+	[sender setValue:newValue];
+	LogMessageCompat(@"sliderAction: value set = %.1f", newValue);
+}
+
 
 
 /*
@@ -232,6 +248,16 @@
 				[self goPrey];
 			else if ([indexPath row] == 1)
 				[self stopPrey];
+			else {
+				accPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 200, 320, 200)];
+				accPicker.delegate = self;
+				[accManager showPicker:accPicker onView:self.view fromTableView:self.tableView];
+				[self.navigationController setNavigationBarHidden:NO animated:YES];
+				UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+												style:UIBarButtonItemStyleDone
+												target:self	action:@selector(accuracyPickerSelected:)];
+				self.navigationItem.rightBarButtonItem = doneButton;
+			}
 			break;
 		case 1:
 			if ([indexPath row] == 0)
@@ -239,15 +265,94 @@
 			else if ([indexPath row] == 1)
 				[self stopOnIntervalChecking];
 			break;
+		case 2:
+			break;
+	
 		default:
 			if ([indexPath row] == 0)
 				[self showAlert];
 			else if ([indexPath row] == 1)
-				[[PreyConfig  getInstance] detachDevice];
+				[[PreyConfig  instance] detachDevice];
 			break;
 	}
 }
 
+#pragma mark -
+#pragma mark Picker datasource
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+	return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+	return [accManager pickerCount];
+}
+
+#pragma mark -
+#pragma mark Picker delegate
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+	return [accManager nameFor:row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+	[accManager setSelectedAccuracyRow:row];
+}
+
+
+- (void)accuracyPickerSelected:(UIBarButtonItem*)sender
+{
+	[accManager hidePicker:accPicker onView:self.view fromTableView:self.tableView];
+	// remove the "Done" button in the nav bar
+	self.navigationItem.rightBarButtonItem = nil;
+	
+	// deselect the current table row
+	NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	//hide the nav bar again
+	[self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+#pragma mark -
+#pragma mark View lifecycle
+
+
+- (void)viewDidLoad {
+	[self initSpinner];
+	accManager = [[AccuracyManager alloc] init];
+    [super viewDidLoad];
+	
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+
+/*
+ - (void)viewWillAppear:(BOOL)animated {
+ [super viewWillAppear:animated];
+ }
+ */
+/*
+ - (void)viewDidAppear:(BOOL)animated {
+ [super viewDidAppear:animated];
+ }
+ */
+/*
+ - (void)viewWillDisappear:(BOOL)animated {
+ [super viewWillDisappear:animated];
+ }
+ */
+/*
+ - (void)viewDidDisappear:(BOOL)animated {
+ [super viewDidDisappear:animated];
+ }
+ */
+/*
+ // Override to allow orientations other than the default portrait orientation.
+ - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ // Return YES for supported orientations
+ return (interfaceOrientation == UIInterfaceOrientationPortrait);
+ }
+ */
 
 #pragma mark -
 #pragma mark Memory management
@@ -266,6 +371,8 @@
 
 
 - (void)dealloc {
+	[accManager release];
+	[accPicker release];
     [super dealloc];
 }
 

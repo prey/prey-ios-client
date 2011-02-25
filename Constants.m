@@ -14,5 +14,5 @@
 	NSString * const PREY_URL = @"http://control.preyproject.com/";
 	NSString * const PREY_SECURE_URL = @"https://control.preyproject.com/";
 	NSString * const PREY_USER_AGENT = @"Prey/0.4 (iphone)"; //could be linked with version constant. TODO!
-	BOOL  const ASK_FOR_LOGIN = YES;
+	BOOL  const ASK_FOR_LOGIN = NO;
 @end

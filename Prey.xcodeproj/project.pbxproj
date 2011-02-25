@@ -18,6 +18,8 @@
 		07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07178F2512675AD3007B290C /* CoreLocation.framework */; };
 		073E6B2B126CFB34008FEB71 /* ConfigParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 073E6B2A126CFB34008FEB71 /* ConfigParserDelegate.m */; };
 		073E6B44126CFFB9008FEB71 /* DeviceModulesConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 073E6B43126CFFB9008FEB71 /* DeviceModulesConfig.m */; };
+		0752D47713159B4B005CB176 /* location_best.png in Resources */ = {isa = PBXBuildFile; fileRef = 0752D47513159B4B005CB176 /* location_best.png */; };
+		0752D47813159B4B005CB176 /* location_worst.png in Resources */ = {isa = PBXBuildFile; fileRef = 0752D47613159B4B005CB176 /* location_worst.png */; };
 		07783BA6126CDE07007BD409 /* PreyRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BA5126CDE07007BD409 /* PreyRunner.m */; };
 		07783BB7126CE08D007BD409 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BB6126CE08D007BD409 /* LocationController.m */; };
 		07783BCB126CE584007BD409 /* PreyModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BCA126CE584007BD409 /* PreyModule.m */; };
@@ -64,6 +66,7 @@
 		07CD96261253E13800590FCD /* LoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD96241253E13800590FCD /* LoginController.xib */; };
 		07CD96CB1254017500590FCD /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96CA1254017500590FCD /* RootController.m */; };
 		07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */; };
+		07DAFD2413185EE400FECCAD /* AccuracyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFD2313185EE400FECCAD /* AccuracyManager.m */; };
 		1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* PreyAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -91,6 +94,8 @@
 		073E6B2A126CFB34008FEB71 /* ConfigParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigParserDelegate.m; sourceTree = "<group>"; };
 		073E6B42126CFFB9008FEB71 /* DeviceModulesConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceModulesConfig.h; sourceTree = "<group>"; };
 		073E6B43126CFFB9008FEB71 /* DeviceModulesConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceModulesConfig.m; sourceTree = "<group>"; };
+		0752D47513159B4B005CB176 /* location_best.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_best.png; sourceTree = "<group>"; };
+		0752D47613159B4B005CB176 /* location_worst.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_worst.png; sourceTree = "<group>"; };
 		07783BA4126CDE07007BD409 /* PreyRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyRunner.h; sourceTree = "<group>"; };
 		07783BA5126CDE07007BD409 /* PreyRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyRunner.m; sourceTree = "<group>"; };
 		07783BB5126CE08D007BD409 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
@@ -172,6 +177,8 @@
 		07CEDA9912E9DD9E002B4EB5 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
 		07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
 		07CEDA9B12E9DD9E002B4EB5 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
+		07DAFD2213185EE400FECCAD /* AccuracyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccuracyManager.h; sourceTree = "<group>"; };
+		07DAFD2313185EE400FECCAD /* AccuracyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccuracyManager.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* PreyAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* PreyAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyAppDelegate.m; sourceTree = "<group>"; };
@@ -227,6 +234,8 @@
 		07178976125B8498007B290C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0752D47513159B4B005CB176 /* location_best.png */,
+				0752D47613159B4B005CB176 /* location_worst.png */,
 				077B3478130EE26C004ADA99 /* prey-iphone-front.png */,
 				07178977125B84B8007B290C /* check.png */,
 				07CD95E31253D4FB00590FCD /* logo.png */,
@@ -239,6 +248,8 @@
 			children = (
 				07CD95F11253D99500590FCD /* PreferencesController.h */,
 				07CD95F21253D99500590FCD /* PreferencesController.m */,
+				07DAFD2213185EE400FECCAD /* AccuracyManager.h */,
+				07DAFD2313185EE400FECCAD /* AccuracyManager.m */,
 			);
 			name = "Preferences Controller";
 			sourceTree = "<group>";
@@ -590,6 +601,8 @@
 				077D7A79126E2B3C00C713B7 /* AlertModuleController.xib in Resources */,
 				077D7A87126E2EEC00C713B7 /* large9.ttf in Resources */,
 				077B3479130EE26C004ADA99 /* prey-iphone-front.png in Resources */,
+				0752D47713159B4B005CB176 /* location_best.png in Resources */,
+				0752D47813159B4B005CB176 /* location_worst.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,6 +652,7 @@
 				077D7B27126F3BFE00C713B7 /* ContactsModule.m in Sources */,
 				077D7B9C1270D75400C713B7 /* RegexKitLite.m in Sources */,
 				07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */,
+				07DAFD2413185EE400FECCAD /* AccuracyManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
