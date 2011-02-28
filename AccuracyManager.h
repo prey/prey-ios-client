@@ -9,15 +9,14 @@
 #import <Foundation/Foundation.h>
 
 
-@interface AccuracyManager : NSObject {
+@interface AccuracyManager : NSObject <UIPickerViewDelegate, UIPickerViewDataSource>{
 	NSArray *accuracyNames;
 	NSArray *accuracyValues;
 	NSDictionary *accuracyData;
+	UIPickerView *accPicker;
 }
 
-- (NSString *) nameFor:(NSInteger)value;
-- (NSInteger) pickerCount;
-- (void) setSelectedAccuracyRow:(NSInteger)value;
-- (void) showPicker:(UIPickerView *)picker onView:(UIView *)view fromTableView:(UITableView *)tableView;
-- (void) hidePicker:(UIPickerView *)picker onView:(UIView *)view fromTableView:(UITableView *)tableView;
+- (NSString *) currentlySelectedName;
+- (void) showPickerOnView:(UIView *)view fromTableView:(UITableView *)tableView;
+- (void) hidePickerOnView:(UIView *)view fromTableView:(UITableView *)tableView;
 @end

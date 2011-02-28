@@ -15,7 +15,7 @@
 - (id)init {
 	self = [super init];
 	
-	accuracyNames = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Most accurate possible",nil),
+	accuracyNames = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Best possible",nil),
 					 NSLocalizedString(@"Quite accurate",nil),
 					 NSLocalizedString(@"Nearest 10 meters",nil),
 					 NSLocalizedString(@"Hundred of Meters",nil),
@@ -41,35 +41,42 @@
 	return self;
  }
 
-- (NSInteger) pickerCount {
-	return [accuracyData count];
-}
-- (void) setSelectedAccuracyRow:(NSInteger)value {
+
+
+- (NSString *) currentlySelectedName {
 	PreyConfig *config = [PreyConfig instance];
-	config.desiredAccuracy = [accuracyValues objectAtIndex:value];
-
-}
-- (NSString *) nameFor:(NSInteger)value {
-	return [accuracyNames objectAtIndex:value];
+	NSInteger index = [accuracyValues indexOfObject:[NSNumber numberWithDouble:config.desiredAccuracy]];
+	return [accuracyNames objectAtIndex:index];
 }
 
-- (void) showPicker:(UIPickerView *)picker onView:(UIView *)view fromTableView:(UITableView *)tableView {
+- (NSString *) accuracyNameForValue:(NSNumber *)value {
+	return (NSString *) [accuracyData objectForKey:value];
+}
 
-	picker.showsSelectionIndicator = YES;
+- (void) showPickerOnView:(UIView *)view fromTableView:(UITableView *)tableView {
 	
-	//TODO: Seleccionar el valor por defecto que debe mostrarse en el picker!!
-	//[picker selectRow:<#(NSInteger)row#> inComponent:<#(NSInteger)component#> animated:<#(BOOL)animated#>
-	[view.window addSubview: picker];
+	accPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 200, 320, 200)];
+	accPicker.delegate = self;
+	accPicker.showsSelectionIndicator = YES;
+	
+	PreyConfig *config = [PreyConfig instance];
+	
+	if (config.desiredAccuracy != 0) {
+		NSInteger index = [accuracyValues indexOfObject:[NSNumber numberWithDouble:config.desiredAccuracy]];
+		[accPicker selectRow:index inComponent:0 animated:YES];
+	}
+	
+	[view.window addSubview: accPicker];
 	
 	// size up the picker view to our screen and compute the start/end frame origin for our slide up animation
 	//
 	// compute the start frame
 	CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
-	CGSize pickerSize = [picker sizeThatFits:CGSizeZero];
+	CGSize pickerSize = [accPicker sizeThatFits:CGSizeZero];
 	CGRect startRect = CGRectMake(0.0,
 								  screenRect.origin.y + screenRect.size.height,
 								  pickerSize.width, pickerSize.height);
-	picker.frame = startRect;
+	accPicker.frame = startRect;
 	
 	// compute the end frame
 	CGRect pickerRect = CGRectMake(0.0,
@@ -83,19 +90,19 @@
 	// we need to perform some post operations after the animation is complete
 	[UIView setAnimationDelegate:self];
 	
-	picker.frame = pickerRect;
+	accPicker.frame = pickerRect;
 	
 	// shrink the table vertical size to make room for the date picker
 	CGRect newFrame = tableView.frame;
-	newFrame.size.height -= picker.frame.size.height;
+	newFrame.size.height -= accPicker.frame.size.height;
 	tableView.frame = newFrame;
 	[UIView commitAnimations];
 	
 }
 
-- (void) hidePicker:(UIPickerView *)picker onView:(UIView *)view fromTableView:(UITableView *)tableView{
+- (void) hidePickerOnView:(UIView *)view fromTableView:(UITableView *)tableView{
 	CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
-	CGRect endFrame = picker.frame;
+	CGRect endFrame = accPicker.frame;
 	endFrame.origin.y = screenRect.origin.y + screenRect.size.height;
 	
 	// start the slide down animation
@@ -104,22 +111,50 @@
 	
 	// we need to perform some post operations after the animation is complete
 	[UIView setAnimationDelegate:self];
-	[UIView setAnimationDidStopSelector:@selector(slideDownDidStop:)];
+	[UIView setAnimationDidStopSelector:@selector(slideDownDidStop)];
 	
-	picker.frame = endFrame;
+	accPicker.frame = endFrame;
 	[UIView commitAnimations];
 	// grow the table back again in vertical size to make room for the date picker
 	CGRect newFrame = tableView.frame;
-	newFrame.size.height += picker.frame.size.height;
+	newFrame.size.height += accPicker.frame.size.height;
 	tableView.frame = newFrame;
 }
 
-- (void)slideDownDidStop:(UIPickerView *) picker
+- (void)slideDownDidStop
 {
-	[picker removeFromSuperview];
+	[accPicker removeFromSuperview];
 }
 	
-- (NSString *) accuracyNameForValue:(NSNumber *)value {
-	return (NSString *) [accuracyData objectForKey:value];
+#pragma mark -
+#pragma mark Picker datasource
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+	return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+	return [accuracyValues count];
+}
+
+#pragma mark -
+#pragma mark Picker delegate
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+	return [accuracyNames objectAtIndex:row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+	PreyConfig *config = [PreyConfig instance];
+	config.desiredAccuracy = [(NSNumber *)[accuracyValues objectAtIndex:row] doubleValue];
+}
+
+
+
+
+- (void)dealloc {
+    [super dealloc];
+	[accuracyNames release];
+	[accuracyValues release];
+	[accuracyData release];
+	[accPicker release];
 }
 @end

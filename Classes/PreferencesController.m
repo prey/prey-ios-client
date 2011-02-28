@@ -85,7 +85,7 @@
     // Return the number of rows in the section.
 	switch (section) {
 		case 0:
-			return 3;
+			return 1;
 			break;
 		case 1:
 			return 2;
@@ -111,7 +111,7 @@
 			label = NSLocalizedString(@"Execution control",nil);
 			break;
 		case 1:
-			label = NSLocalizedString(@"Execution control 2",nil);
+			label = NSLocalizedString(@"Beta options",nil);
 			break;
 		case 2:
 			label = NSLocalizedString(@"About",nil);
@@ -141,35 +141,15 @@
 				UISwitch *missing = [[UISwitch alloc]init];
 				cell.accessoryView = missing;
 			}
-			else if ([indexPath row] == 1){
-				cell.textLabel.text = @"Location accuracy";
-				UISlider *accuracy = [[UISlider alloc]init];
-				accuracy.minimumValue = 0;
-				accuracy.maximumValue = 5;
-				accuracy.continuous = NO;
-				
-				NSString* imageName = [[NSBundle mainBundle] pathForResource:@"location_worst" ofType:@"png"];
-				UIImage* worst = [[UIImage alloc] initWithContentsOfFile:imageName];
-				imageName = [[NSBundle mainBundle] pathForResource:@"location_best" ofType:@"png"];
-				UIImage* best = [[UIImage alloc] initWithContentsOfFile:imageName];
-				accuracy.minimumValueImage = worst;
-				accuracy.maximumValueImage = best;
-				
-				[accuracy addTarget:self action:@selector(accuracyChanged:) forControlEvents:UIControlEventValueChanged];
-
-				cell.accessoryView = accuracy;
-			}
-			else if ([indexPath row] == 2){
-				cell.textLabel.text = @"Location accuracy";
-							}
 			break;
 		case 1:
-			if ([indexPath row] == 0)
-				cell.textLabel.text = @"Start on-interval checking";
+			if ([indexPath row] == 0){
+				cell.textLabel.text = @"Location accuracy";
+				cell.detailTextLabel.text = [accManager currentlySelectedName];
+			}
 			else if ([indexPath row] == 1)
-				cell.textLabel.text = @"Stop on-interval checking";
-			cell.textLabel.textAlignment = UITextAlignmentCenter;
-			break;
+				cell.textLabel.text = @"Delay";
+				break;
 		case 2:
 			cell.detailTextLabel.text = @"0.5.3";
 			cell.textLabel.text = @"Current Prey version";
@@ -187,12 +167,6 @@
 	}
     
     return cell;
-}
-- (void)accuracyChanged:(UISlider*)sender
-{
-	float newValue = ceil([sender value]);
-	[sender setValue:newValue];
-	LogMessageCompat(@"sliderAction: value set = %.1f", newValue);
 }
 
 
@@ -244,27 +218,20 @@
 	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
 	switch ([indexPath section]) {
 		case 0:
-			if ([indexPath row] == 0)
-				[self goPrey];
-			else if ([indexPath row] == 1)
-				[self stopPrey];
-			else {
-				accPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 200, 320, 200)];
-				accPicker.delegate = self;
-				[accManager showPicker:accPicker onView:self.view fromTableView:self.tableView];
-				[self.navigationController setNavigationBarHidden:NO animated:YES];
-				UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
-												style:UIBarButtonItemStyleDone
-												target:self	action:@selector(accuracyPickerSelected:)];
-				self.navigationItem.rightBarButtonItem = doneButton;
+			if ([indexPath row] == 0){
+				
 			}
 			break;
 		case 1:
-			if ([indexPath row] == 0)
-				[self startOnIntervalChecking];
-			else if ([indexPath row] == 1)
-				[self stopOnIntervalChecking];
-			break;
+			if ([indexPath row] == 0){
+				[accManager showPickerOnView:self.view fromTableView:self.tableView];
+				[self.navigationController setNavigationBarHidden:NO animated:YES];
+				UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+																			   style:UIBarButtonItemStyleDone
+																			  target:self	action:@selector(accuracyPickerSelected:)];
+				self.navigationItem.rightBarButtonItem = doneButton;
+			}
+			
 		case 2:
 			break;
 	
@@ -277,30 +244,10 @@
 	}
 }
 
-#pragma mark -
-#pragma mark Picker datasource
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-	return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-	return [accManager pickerCount];
-}
-
-#pragma mark -
-#pragma mark Picker delegate
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-	return [accManager nameFor:row];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-	[accManager setSelectedAccuracyRow:row];
-}
-
 
 - (void)accuracyPickerSelected:(UIBarButtonItem*)sender
 {
-	[accManager hidePicker:accPicker onView:self.view fromTableView:self.tableView];
+	[accManager hidePickerOnView:self.view fromTableView:self.tableView];
 	// remove the "Done" button in the nav bar
 	self.navigationItem.rightBarButtonItem = nil;
 	
@@ -310,6 +257,8 @@
 	
 	//hide the nav bar again
 	[self.navigationController setNavigationBarHidden:YES animated:YES];
+	[self.tableView reloadData];
+
 }
 
 #pragma mark -
@@ -372,7 +321,6 @@
 
 - (void)dealloc {
 	[accManager release];
-	[accPicker release];
     [super dealloc];
 }
 

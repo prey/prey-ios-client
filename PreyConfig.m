@@ -31,7 +31,7 @@ static NSString *const ACCURACY=@"accuracy";
 			instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
 			instance.checkUrl = [defaults stringForKey: CHECK_URL];
 			instance.email = [defaults stringForKey: EMAIL];
-			instance.desiredAccuracy = [NSNumber numberWithDouble:[defaults  doubleForKey:ACCURACY]];
+			instance.desiredAccuracy = [defaults doubleForKey:ACCURACY];
 			NSString *isRegistered = [defaults stringForKey:ALREADY_REGISTERED];
 			if (isRegistered != nil && [@"YES" isEqualToString:isRegistered])
 				instance.alreadyRegistered = YES;
@@ -60,7 +60,7 @@ static NSString *const ACCURACY=@"accuracy";
 	[defaults setObject:[self email] forKey:EMAIL];
 	[defaults setObject:[self checkUrl] forKey:CHECK_URL];
 	[defaults setObject:@"YES" forKey:ALREADY_REGISTERED];
-	[defaults setObject:[self desiredAccuracy] forKey:ACCURACY];
+	[defaults setDouble:desiredAccuracy forKey:ACCURACY];
 	[defaults synchronize]; // this method is optional
 	
 }
@@ -69,10 +69,10 @@ static NSString *const ACCURACY=@"accuracy";
 	[[Device getInstance] detachDevice]; 
 }
 
-- (void) setDesiredAccuracy:(NSNumber *) acc { 
+- (void) setDesiredAccuracy:(double) acc { 
 	desiredAccuracy = acc;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setObject:acc forKey:ACCURACY];
+	[defaults setDouble:acc forKey:ACCURACY];
 	[defaults synchronize]; // this method is optional
 }
 
@@ -82,5 +82,6 @@ static NSString *const ACCURACY=@"accuracy";
 	[deviceKey release];
 	[checkUrl release];
 	[email release];
+
 }
 @end

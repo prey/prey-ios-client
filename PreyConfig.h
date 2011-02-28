@@ -17,7 +17,7 @@
 	NSString *deviceKey;
 	NSString *checkUrl;
 	NSString *email;
-	NSNumber *desiredAccuracy;
+	double desiredAccuracy;
 	BOOL alreadyRegistered;
 	
 	
@@ -26,8 +26,8 @@
 @property (nonatomic,retain) NSString *deviceKey;
 @property (nonatomic,retain) NSString *checkUrl;
 @property (nonatomic,retain) NSString *email;
-@property (nonatomic,retain) NSNumber *desiredAccuracy;
 @property BOOL alreadyRegistered;
+@property double desiredAccuracy;
 
 + (PreyConfig*) instance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;
