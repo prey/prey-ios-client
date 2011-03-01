@@ -40,11 +40,11 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-	LoggerSetOptions(NULL, 0x01); 
+	LoggerSetOptions(NULL, 0x01);  //Logs to console as well
 	UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
 	id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
 	if (remoteNotification) {
-		[self showAlert: @"Hey you... suck it!"];
+		[self showAlert: @"Remote notification received. Here we can send the app to the background or show a customized message."];
 	}
 	
 	if (localNotif) {
@@ -124,21 +124,20 @@
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
 	if (showFakeScreen){
-		[self showAlert: @"you die!"];
+		[self showAlert: @"Hello, I'm a Fake screen :)"];
 		showFakeScreen = NO;
 		return;
 	}
 	PreyConfig *config = [PreyConfig instance];
 	UIViewController *nextController = nil;
 	LogMessageCompat(@"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
-	if (!config.alreadyRegistered)
+	if (config.alreadyRegistered)
 		if (ASK_FOR_LOGIN)
 			nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
 		else
 			nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
 	else {
 		nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
-			
 	}
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
 	//[viewController setTitle:NSLocalizedString(@"Welcome to Prey!",nil)];

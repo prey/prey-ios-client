@@ -18,7 +18,9 @@
 	NSString *checkUrl;
 	NSString *email;
 	double desiredAccuracy;
+	int	delay;
 	BOOL alreadyRegistered;
+	BOOL missing;
 	
 	
 }
@@ -28,9 +30,12 @@
 @property (nonatomic,retain) NSString *email;
 @property BOOL alreadyRegistered;
 @property double desiredAccuracy;
+@property int delay;
+@property BOOL missing;
 
 + (PreyConfig*) instance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;
+- (void) loadDefaultValues;
 - (void) saveValues;
 - (void) detachDevice;
 @end

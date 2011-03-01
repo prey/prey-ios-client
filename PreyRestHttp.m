@@ -202,6 +202,10 @@
 	return nil;
 }
 
+- (BOOL) isMissingTheDevice: (NSString *) device ofTheUser: (NSString *) apiKey{
+	return [self getXMLforUser:apiKey device:device].missing;
+}
+
 - (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey {
 	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", deviceKey]];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];

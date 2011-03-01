@@ -30,14 +30,7 @@
 					  [NSNumber numberWithDouble:kCLLocationAccuracyThreeKilometers],
 					  nil];
 	
-	accuracyData = [NSDictionary dictionaryWithObjectsAndKeys:
-					NSLocalizedString(@"Most accurate possible",nil),[NSNumber numberWithDouble:kCLLocationAccuracyBestForNavigation], 
-					NSLocalizedString(@"Quite accurate",nil),[NSNumber numberWithDouble:kCLLocationAccuracyBest],
-					NSLocalizedString(@"Nearest 10 meters",nil),[NSNumber numberWithDouble:kCLLocationAccuracyNearestTenMeters],
-					NSLocalizedString(@"Hundred of Meters",nil),[NSNumber numberWithDouble:kCLLocationAccuracyHundredMeters],
-					NSLocalizedString(@"One kilometer",nil),[NSNumber numberWithDouble:kCLLocationAccuracyKilometer],
-					NSLocalizedString(@"Nearest 3 kilometers",nil),[NSNumber numberWithDouble:kCLLocationAccuracyThreeKilometers],nil];
-
+	accuracyData = [NSDictionary dictionaryWithObjects:accuracyNames forKeys:accuracyValues];
 	return self;
  }
 

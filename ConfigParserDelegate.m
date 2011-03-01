@@ -8,6 +8,7 @@
 
 #import "ConfigParserDelegate.h"
 #import "DeviceModulesConfig.h"
+#import "PreyConfig.h"
 
 @interface ConfigParserDelegate ()
 	@property (nonatomic) BOOL inMissing;
@@ -100,11 +101,11 @@
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {
-	if (self.inMissing)
-		if ([string isEqualToString:@"true"])
-			self.modulesConfig.missing = YES;
-		else
-			self.modulesConfig.missing = NO;
+	if (self.inMissing){
+		PreyConfig *config = [PreyConfig instance];
+		self.modulesConfig.missing = [string isEqualToString:@"true"];
+		config.missing = [string isEqualToString:@"true"];							
+	}
 	else if (self.inDelay)
 		self.modulesConfig.delay=[NSNumber numberWithInt:[string intValue]];
 	else if (self.inPostUrl)

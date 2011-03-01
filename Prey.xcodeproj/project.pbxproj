@@ -67,6 +67,7 @@
 		07CD96CB1254017500590FCD /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96CA1254017500590FCD /* RootController.m */; };
 		07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */; };
 		07DAFD2413185EE400FECCAD /* AccuracyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFD2313185EE400FECCAD /* AccuracyManager.m */; };
+		07DAFFAC131D532D00FECCAD /* DelayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFFAB131D532D00FECCAD /* DelayManager.m */; };
 		1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* PreyAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -179,6 +180,8 @@
 		07CEDA9B12E9DD9E002B4EB5 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
 		07DAFD2213185EE400FECCAD /* AccuracyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccuracyManager.h; sourceTree = "<group>"; };
 		07DAFD2313185EE400FECCAD /* AccuracyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccuracyManager.m; sourceTree = "<group>"; };
+		07DAFFAA131D532D00FECCAD /* DelayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayManager.h; sourceTree = "<group>"; };
+		07DAFFAB131D532D00FECCAD /* DelayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelayManager.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* PreyAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* PreyAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyAppDelegate.m; sourceTree = "<group>"; };
@@ -250,6 +253,8 @@
 				07CD95F21253D99500590FCD /* PreferencesController.m */,
 				07DAFD2213185EE400FECCAD /* AccuracyManager.h */,
 				07DAFD2313185EE400FECCAD /* AccuracyManager.m */,
+				07DAFFAA131D532D00FECCAD /* DelayManager.h */,
+				07DAFFAB131D532D00FECCAD /* DelayManager.m */,
 			);
 			name = "Preferences Controller";
 			sourceTree = "<group>";
@@ -564,6 +569,9 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Fork Ltd.";
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Prey" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -653,6 +661,7 @@
 				077D7B9C1270D75400C713B7 /* RegexKitLite.m in Sources */,
 				07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */,
 				07DAFD2413185EE400FECCAD /* AccuracyManager.m in Sources */,
+				07DAFFAC131D532D00FECCAD /* DelayManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,6 +720,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-licucore";
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EE817808-1849-4189-AE20-7C8601E9482D";
 				SDKROOT = iphoneos;

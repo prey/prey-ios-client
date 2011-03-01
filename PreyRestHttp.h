@@ -36,6 +36,7 @@
 - (NSString *) getErrorMessageFromXML: (NSData *) response;
 - (DeviceModulesConfig *) getXMLforUser: (NSString *) apiKey device:(NSString *) deviceKey;
 - (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey;
+- (BOOL) isMissingTheDevice: (NSString *) device ofTheUser: (NSString *) apiKey;
 - (void) sendReport: (Report *) report;
 + (BOOL) checkInternet;
 

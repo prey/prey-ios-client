@@ -7,6 +7,7 @@
 //
 
 #import "LocationController.h"
+#import "PreyConfig.h"
 
 
 @implementation LocationController
@@ -17,9 +18,11 @@
     self = [super init];
     if (self != nil) {
 		LogMessageCompat(@"Initializing Accurate LocationManager...");
+		PreyConfig *config = [PreyConfig instance];
 		self.accurateLocationManager = [[CLLocationManager alloc] init];
 		self.accurateLocationManager.delegate = self;
-		self.accurateLocationManager.desiredAccuracy = kCLLocationAccuracyBest;
+		self.accurateLocationManager.desiredAccuracy = config.desiredAccuracy;
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accuracyUpdated:) name:@"accuracyUpdated" object:nil];
 		//self.locationManager.distanceFilter = 1;
 	
 		LogMessageCompat(@"Initializing Significant LocationManager...");
@@ -75,6 +78,13 @@
 	   didFailWithError:(NSError *)error
 {
 	LogMessageCompat(@"Error getting location: %@", [error description]);
+}
+
+- (void)accuracyUpdated:(NSNotification *)notification
+{
+	LogMessage(@"Prey Location Controller", 0, @"Accuracy has been modified. Updating location manager.");
+	self.accurateLocationManager.desiredAccuracy = ((PreyConfig*) notification).desiredAccuracy;
+	
 }
 
 - (void)dealloc {

@@ -8,15 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "AccuracyManager.h"
+#import "DelayManager.h"
 
-@interface PreferencesController : UITableViewController  {
+@interface PreferencesController : UITableViewController <UIActionSheetDelegate>  {
 UIActivityIndicatorView *cLoadingView;
 	AccuracyManager *accManager;
+	DelayManager *delayManager;
+	UISwitch *missing;
 	
 }
 @property (nonatomic, retain) UIActivityIndicatorView *cLoadingView;
 - (void)initSpinner;
 - (void)spinBegin;
 - (void)spinEnd;
+- (void) setupNavigatorForPicker:(BOOL)showed withSelector:(SEL)action;
 
 @end

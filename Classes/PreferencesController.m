@@ -11,6 +11,7 @@
 #import "PreyAppDelegate.h"
 #import "PreyConfig.h"
 #import "LocationController.h"
+#import "PreyRestHttp.h"
 
 
 @interface PreferencesController()
@@ -133,12 +134,15 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    
+    PreyConfig *config = [PreyConfig instance];
     switch ([indexPath section]) {
 		case 0:
 			if ([indexPath row] == 0){
 				cell.textLabel.text = @"Missing";
-				UISwitch *missing = [[UISwitch alloc]init];
+				missing = [[UISwitch alloc]init];
+				[missing addTarget: self action: @selector(changeMissingState:) forControlEvents:UIControlEventValueChanged];
+				if (config.missing)
+					[missing setOn:YES];
 				cell.accessoryView = missing;
 			}
 			break;
@@ -147,9 +151,11 @@
 				cell.textLabel.text = @"Location accuracy";
 				cell.detailTextLabel.text = [accManager currentlySelectedName];
 			}
-			else if ([indexPath row] == 1)
+			else if ([indexPath row] == 1) {
 				cell.textLabel.text = @"Delay";
-				break;
+				cell.detailTextLabel.text = [delayManager currentDelay];
+			}
+			break;
 		case 2:
 			cell.detailTextLabel.text = @"0.5.3";
 			cell.textLabel.text = @"Current Prey version";
@@ -171,44 +177,6 @@
 
 
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 
 #pragma mark -
@@ -225,13 +193,13 @@
 		case 1:
 			if ([indexPath row] == 0){
 				[accManager showPickerOnView:self.view fromTableView:self.tableView];
-				[self.navigationController setNavigationBarHidden:NO animated:YES];
-				UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
-																			   style:UIBarButtonItemStyleDone
-																			  target:self	action:@selector(accuracyPickerSelected:)];
-				self.navigationItem.rightBarButtonItem = doneButton;
+				[self setupNavigatorForPicker:YES withSelector:@selector(accuracyPickerSelected)];
+			} 
+			else if ([indexPath row] == 1){
+				[delayManager showDelayPickerOnView:self.view fromTableView:self.tableView];
+				[self setupNavigatorForPicker:YES withSelector:@selector(delayPickerSelected)];
 			}
-			
+			break;
 		case 2:
 			break;
 	
@@ -244,20 +212,79 @@
 	}
 }
 
+- (void) setupNavigatorForPicker:(BOOL)showed withSelector:(SEL)action {
+	if (showed){
+		[self.navigationController setNavigationBarHidden:NO animated:YES];
+		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+																	   style:UIBarButtonItemStyleDone
+																	  target:self	action:action];
+		self.navigationItem.rightBarButtonItem = doneButton;
+	} else {
+		// remove the "Done" button in the nav bar
+		self.navigationItem.rightBarButtonItem = nil;
+		
+		// deselect the current table row
+		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+		
+		//hide the nav bar again
+		[self.navigationController setNavigationBarHidden:YES animated:YES];
+		[self.tableView reloadData];
+	}
+}
 
-- (void)accuracyPickerSelected:(UIBarButtonItem*)sender
+- (void)accuracyPickerSelected 
 {
 	[accManager hidePickerOnView:self.view fromTableView:self.tableView];
-	// remove the "Done" button in the nav bar
-	self.navigationItem.rightBarButtonItem = nil;
+	[self setupNavigatorForPicker:NO withSelector:nil];
+
+}
+
+- (void)delayPickerSelected
+{
+	[delayManager hideDelayPickerOnView:self.view fromTableView:self.tableView];
+	[self setupNavigatorForPicker:NO withSelector:nil];
 	
-	// deselect the current table row
-	NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark Missing Switch methods
+- (IBAction)changeMissingState:(UISwitch*)missingSwitch{
+	//LogMessageCompat(@"Switch status on? %@", missingSwitch.on == YES? @"YES" : @"NO");
 	
-	//hide the nav bar again
-	[self.navigationController setNavigationBarHidden:YES animated:YES];
-	[self.tableView reloadData];
+	NSString *label = nil;
+	NSString *button = nil;
+	if (missingSwitch.on){
+		label = NSLocalizedString(@"You're attempting to mark this device as missing, and start sending reports to Control Panel.\n\nAre you sure?",nil);
+		button = NSLocalizedString(@"Set as missing",nil); 
+	}
+	else {
+		label = NSLocalizedString(@"Prey will stop sending reports to Control Panel and your device will be mark as recovered.\n\nAre you sure?",nil);
+		button = NSLocalizedString(@"Set as recovered",nil); 
+	}
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:label
+															 delegate:self 
+													cancelButtonTitle:button
+													destructiveButtonTitle:@"Cancel" otherButtonTitles:nil];
+	[actionSheet showInView:self.view];
+	[actionSheet release];
+	[label release];
+	[button release];
+	 
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	PreyRunner *runner = [PreyRunner instance];
+	if (missing.on)
+		if (buttonIndex == 1)
+			[runner startPreyService];
+		else
+			[missing setOn:NO animated:YES];
+	else
+		if (buttonIndex == 1)
+			[runner stopPreyService];
+		else
+			[missing setOn:YES animated:YES];
 
 }
 
@@ -268,6 +295,7 @@
 - (void)viewDidLoad {
 	[self initSpinner];
 	accManager = [[AccuracyManager alloc] init];
+	delayManager = [[DelayManager alloc] init];
     [super viewDidLoad];
 	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
@@ -321,6 +349,7 @@
 
 - (void)dealloc {
 	[accManager release];
+	[delayManager release];
     [super dealloc];
 }
 
