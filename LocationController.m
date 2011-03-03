@@ -17,15 +17,15 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-		LogMessageCompat(@"Initializing Accurate LocationManager...");
+		LogMessage(@"Prey Location Controller", 5, @"Initializing Accurate LocationManager...");
 		PreyConfig *config = [PreyConfig instance];
 		self.accurateLocationManager = [[CLLocationManager alloc] init];
 		self.accurateLocationManager.delegate = self;
 		self.accurateLocationManager.desiredAccuracy = config.desiredAccuracy;
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accuracyUpdated:) name:@"accuracyUpdated" object:nil];
+		
 		//self.locationManager.distanceFilter = 1;
 	
-		LogMessageCompat(@"Initializing Significant LocationManager...");
+		LogMessage(@"Prey Location Controller", 5, @"Initializing Significant LocationManager...");
 		self.significantLocationManager = [[CLLocationManager alloc] init];
 		self.significantLocationManager.delegate = self;		
     }
@@ -43,21 +43,23 @@
 }
 
 - (void)startUpdatingLocation {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accuracyUpdated:) name:@"accuracyUpdated" object:nil];
 	[self.accurateLocationManager startUpdatingLocation];
-	LogMessageCompat(@"Accurate location updating started.");
+	LogMessage(@"Prey Location Controller", 5, @"Accurate location updating started.");
 }
 - (void)startMonitoringSignificantLocationChanges {
 	[self.significantLocationManager startMonitoringSignificantLocationChanges];
-	LogMessageCompat(@"Significant location updating started.");
+	LogMessage(@"Prey Location Controller", 5, @"Significant location updating started.");
 }
 
 - (void)stopUpdatingLocation {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"accuracyUpdated" object:nil];
 	[self.accurateLocationManager stopUpdatingLocation];
-	LogMessageCompat(@"Accurate location updating stopped.");
+	LogMessage(@"Prey Location Controller", 5, @"Accurate location updating stopped.");
 }
 - (void)stopMonitoringSignificantLocationChanges {
 	[self.significantLocationManager stopUpdatingLocation];
-	LogMessageCompat(@"Significant location updating stopped.");
+	LogMessage(@"Prey Location Controller", 5, @"Significant location updating stopped.");
 }
 
 
@@ -65,30 +67,30 @@
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
 {
-    LogMessageCompat(@"---> New location received: %@", [newLocation description]);
+	LogMessage(@"Prey Location Controller", 3, @"---> New location received: %@", [newLocation description]);
 	NSDate* eventDate = newLocation.timestamp;
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
     if (abs(howRecent) < 15.0)
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"locationUpdated" object:newLocation];
 	else
-		LogMessageCompat(@"Location received too old, discarded!");
+		LogMessage(@"Prey Location Controller", 10, @"Location received too old, discarded!");
 }
 
 - (void)locationManager:(CLLocationManager *)manager
 	   didFailWithError:(NSError *)error
 {
-	LogMessageCompat(@"Error getting location: %@", [error description]);
+	LogMessage(@"Prey Location Controller", 0, @"Error getting location: %@", [error description]);
 }
 
 - (void)accuracyUpdated:(NSNotification *)notification
 {
-	LogMessage(@"Prey Location Controller", 0, @"Accuracy has been modified. Updating location manager.");
-	self.accurateLocationManager.desiredAccuracy = ((PreyConfig*) notification).desiredAccuracy;
-	
+	LogMessage(@"Prey Location Controller", 5, @"Accuracy has been modified. Updating location manager...");
+	self.accurateLocationManager.desiredAccuracy =  ((PreyConfig*)[notification object]).desiredAccuracy;
+	[self.accurateLocationManager stopUpdatingLocation];
+	[self.accurateLocationManager startUpdatingLocation];
 }
 
 - (void)dealloc {
-	LogMessageCompat(@"LocationController is going to be released...");
     [self.accurateLocationManager release];
 	[self.significantLocationManager release];
     [super dealloc];

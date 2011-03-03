@@ -60,12 +60,12 @@
 		078055C312563C6800E4CCE5 /* PreyConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 078055C212563C6800E4CCE5 /* PreyConfig.m */; };
 		0780561D12564F1C00E4CCE5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0780561C12564F1C00E4CCE5 /* SystemConfiguration.framework */; };
 		07CD95E41253D4FB00590FCD /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 07CD95E31253D4FB00590FCD /* logo.png */; };
-		07CD95F41253D99500590FCD /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD95F21253D99500590FCD /* PreferencesController.m */; };
 		07CD95F51253D99500590FCD /* PreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD95F31253D99500590FCD /* PreferencesController.xib */; };
 		07CD96251253E13800590FCD /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96231253E13800590FCD /* LoginController.m */; };
 		07CD96261253E13800590FCD /* LoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD96241253E13800590FCD /* LoginController.xib */; };
 		07CD96CB1254017500590FCD /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96CA1254017500590FCD /* RootController.m */; };
 		07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */; };
+		07DA037E132013D900FECCAD /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD95F21253D99500590FCD /* PreferencesController.m */; };
 		07DAFD2413185EE400FECCAD /* AccuracyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFD2313185EE400FECCAD /* AccuracyManager.m */; };
 		07DAFFAC131D532D00FECCAD /* DelayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DAFFAB131D532D00FECCAD /* DelayManager.m */; };
 		1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* PreyAppDelegate.m */; };
@@ -623,7 +623,6 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */,
-				07CD95F41253D99500590FCD /* PreferencesController.m in Sources */,
 				07CD96251253E13800590FCD /* LoginController.m in Sources */,
 				07CD96CB1254017500590FCD /* RootController.m in Sources */,
 				078054111255420E00E4CCE5 /* ASIAuthenticationDialog.m in Sources */,
@@ -662,6 +661,7 @@
 				07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */,
 				07DAFD2413185EE400FECCAD /* AccuracyManager.m in Sources */,
 				07DAFFAC131D532D00FECCAD /* DelayManager.m in Sources */,
+				07DA037E132013D900FECCAD /* PreferencesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

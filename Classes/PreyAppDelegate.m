@@ -62,7 +62,12 @@
 	  UIRemoteNotificationTypeBadge | 
 	  UIRemoteNotificationTypeSound)];
 	
-	
+	PreyConfig *config = [PreyConfig instance];
+	NSOperationQueue *bgQueue = [[NSOperationQueue alloc] init];
+	NSInvocationOperation* updateStatus = [[[NSInvocationOperation alloc] initWithTarget:self
+																				selector:@selector(updateMissingStatus:) object:config] autorelease];
+	[bgQueue addOperation:updateStatus];
+	[bgQueue release];
 	
 	/*
 	LoginController *loginController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
@@ -129,6 +134,7 @@
 		return;
 	}
 	PreyConfig *config = [PreyConfig instance];
+	
 	UIViewController *nextController = nil;
 	LogMessageCompat(@"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
 	if (config.alreadyRegistered)
@@ -157,7 +163,9 @@
 	*/
 	[nextController release];
 }
-
+- (void)updateMissingStatus:(id)data {
+    [(PreyConfig*)data updateMissingStatus];
+}
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	int minutes;

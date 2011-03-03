@@ -8,15 +8,13 @@
 
 #import "PreyRunner.h"
 #import "LocationModule.h"
-#import "PreyConfig.h"
-#import "PreyRestHttp.h"
 #import "DeviceModulesConfig.h"
 #import "Report.h"
 
 
 @implementation PreyRunner
 
-@synthesize lastLocation,lastExecution,delay;
+@synthesize lastLocation,delay,config,http;
 
 +(PreyRunner *)instance  {
 	static PreyRunner *instance;
@@ -26,7 +24,8 @@
 			instance = [[PreyRunner alloc] init];
 			LogMessageCompat(@"Registering PreyRunner to receive location updates notifications");
 			[[NSNotificationCenter defaultCenter] addObserver:instance selector:@selector(locationUpdated:) name:@"locationUpdated" object:nil];
-			
+			instance.config = [PreyConfig instance]; 
+			instance.http = [[PreyRestHttp alloc] init];
 		}
 	}
 	
@@ -36,18 +35,14 @@
 //this method starts the continous execution of Prey
 -(void) startPreyService{
 	LogMessageCompat(@"Starting Prey... ");
-	self.lastExecution = [NSDate date];
+	lastExecution = [[NSDate date] retain];
 	//We'll use the location services to keep Prey running in the background...
 	LocationController *locController = [LocationController instance];
 	[locController startUpdatingLocation];
 	if (![PreyRestHttp checkInternet])
 		return;
-	PreyConfig *config = [PreyConfig instance];
-	PreyRestHttp *preyHttp = [[PreyRestHttp alloc] init];
-	[preyHttp changeStatusToMissing:YES forDevice:[config deviceKey] fromUser:[config apiKey]];
-	[preyHttp release];
-	
-	[self runPrey];
+	[http changeStatusToMissing:YES forDevice:[config deviceKey] fromUser:[config apiKey]];
+
 }
 
 -(void)stopPreyService {
@@ -56,10 +51,7 @@
 	[locController stopUpdatingLocation];
 	if (![PreyRestHttp checkInternet])
 		return;
-	PreyConfig *config = [PreyConfig instance];
-	PreyRestHttp *preyHttp = [[PreyRestHttp alloc] init];
-	[preyHttp changeStatusToMissing:NO forDevice:[config deviceKey] fromUser:[config apiKey]];
-	[preyHttp release];
+	[http changeStatusToMissing:NO forDevice:[config deviceKey] fromUser:[config apiKey]];
 }
 
 -(void) startOnIntervalChecking {
@@ -75,27 +67,34 @@
 
 - (void)locationUpdated:(NSNotification *)notification
 {
-	NSTimeInterval lastRunInterval = -[self.lastExecution timeIntervalSinceNow];
-    if (lastRunInterval >= delay.intValue*60/4){
-		LogMessage(@"Prey Runner", 0, @"Location updated notification received. Waiting interval expired, running Prey now!");
-		[self runPrey]; 
+	if (lastExecution != nil) {
+		NSTimeInterval lastRunInterval = -[lastExecution timeIntervalSinceNow];
+		LogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", delay, lastRunInterval);
+		if (lastRunInterval >= delay){
+			LogMessage(@"Prey Runner", 0, @"Location updated notification received. Waiting interval expired, running Prey now!");
+			[self runPrey]; 
+		}
+		LogMessage(@"Prey Runner", 0, @"Location updated notification received, but interval hasn't expired.");
+	} else {
+		[self runPrey];
 	}
-	LogMessage(@"Prey Runner", 0, @"Location updated notification received, but interval hasn't expired.");
+
+	
 }
 
 
 -(void) runPrey{
-	self.lastExecution = [NSDate date];
+	lastExecution = [[NSDate date] retain];
 	if (![PreyRestHttp checkInternet])
 		return;
-	PreyRestHttp *preyHttp = [[PreyRestHttp alloc] init];
-	PreyConfig *config = [PreyConfig instance];
-	DeviceModulesConfig *modulesConfig = [preyHttp getXMLforUser:[config apiKey] device:[config deviceKey]];
-	[preyHttp release];
-	
-	delay = modulesConfig.delay;
+	DeviceModulesConfig *modulesConfig = [http getXMLforUser:[config apiKey] device:[config deviceKey]];
+	if (USE_CONTROL_PANEL_DELAY)
+		delay = [modulesConfig.delay intValue];
+	else 
+		delay = config.delay;
+
 	if (!modulesConfig.missing){
-		 LogMessageCompat(@"Not missing anymore... stopping accurate location updates and Prey.");
+		 LogMessage(@"Prey Runner", 5, @"Not missing anymore... stopping accurate location updates and Prey.");
 		[[LocationController instance] stopUpdatingLocation]; //finishes Prey execution
 		return;
 	}
@@ -143,7 +142,7 @@
         if ([reportQueue operationCount] == 0) {
             Report *report = (Report *)context;
 			[report send];
-            LogMessageCompat(@"queue has completed. Total modules in the report: %i", [report.modules count]);
+            LogMessage(@"Prey Runner", 10, @"Queue has completed. Total modules in the report: %i", [report.modules count]);
         }
     }
     else {
@@ -155,6 +154,8 @@
 - (void)dealloc {
 	[reportQueue release], reportQueue = nil;
 	[actionQueue release], actionQueue = nil;
+	[http release];
+	[lastExecution release];
     [super dealloc];
 }
 @end

@@ -16,19 +16,21 @@
 - (id)init {
 	self = [super init];
 	
-	delayNames = [[NSArray alloc] initWithObjects:NSLocalizedString(@"2 mins.",nil),
+	delayNames = [[NSArray alloc] initWithObjects:NSLocalizedString(@"30 secs.",nil),
+				  NSLocalizedString(@"2 mins.",nil),
 				   NSLocalizedString(@"5 mins.",nil),
 				   NSLocalizedString(@"10 mins.",nil),
 				   NSLocalizedString(@"20 mins.",nil),
 				   NSLocalizedString(@"45 mins.",nil),
 				   NSLocalizedString(@"60 mins.",nil),
 				   nil];
-	delayKeys = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:2],
-				 [NSNumber numberWithInt:5],
-				 [NSNumber numberWithInt:10],
-				 [NSNumber numberWithInt:20],
-				 [NSNumber numberWithInt:45],
-				 [NSNumber numberWithInt:60],
+	delayKeys = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:0.5*60],
+				 [NSNumber numberWithInt:2*60],
+				 [NSNumber numberWithInt:5*60],
+				 [NSNumber numberWithInt:10*60],
+				 [NSNumber numberWithInt:20*60],
+				 [NSNumber numberWithInt:45*60],
+				 [NSNumber numberWithInt:60*60],
 				 nil];
 	
 	self.delayValues = [NSDictionary dictionaryWithObjects:delayNames forKeys:delayKeys];

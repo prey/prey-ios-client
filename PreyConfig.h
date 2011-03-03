@@ -21,6 +21,7 @@
 	int	delay;
 	BOOL alreadyRegistered;
 	BOOL missing;
+	BOOL alertOnReport;
 	
 	
 }
@@ -32,9 +33,11 @@
 @property double desiredAccuracy;
 @property int delay;
 @property BOOL missing;
+@property BOOL alertOnReport;
 
 + (PreyConfig*) instance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;
+- (void) updateMissingStatus; //get status from Control Panel
 - (void) loadDefaultValues;
 - (void) saveValues;
 - (void) detachDevice;

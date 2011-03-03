@@ -16,4 +16,5 @@ extern NSString * const PREY_SECURE_URL;
 extern NSString * const PREY_URL;
 extern NSString * const PREY_USER_AGENT;
 extern BOOL  const ASK_FOR_LOGIN;
+extern BOOL const USE_CONTROL_PANEL_DELAY;
 @end

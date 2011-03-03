@@ -10,8 +10,8 @@
 #import "PreyRunner.h"
 #import "PreyAppDelegate.h"
 #import "PreyConfig.h"
-#import "LocationController.h"
 #import "PreyRestHttp.h"
+#import "WelcomeController.h"
 
 
 @interface PreferencesController()
@@ -89,7 +89,7 @@
 			return 1;
 			break;
 		case 1:
-			return 2;
+			return 4;
 			break;
 		case 2:
 			return 1;
@@ -141,8 +141,7 @@
 				cell.textLabel.text = @"Missing";
 				missing = [[UISwitch alloc]init];
 				[missing addTarget: self action: @selector(changeMissingState:) forControlEvents:UIControlEventValueChanged];
-				if (config.missing)
-					[missing setOn:YES];
+				[missing setOn:config.missing];
 				cell.accessoryView = missing;
 			}
 			break;
@@ -154,6 +153,16 @@
 			else if ([indexPath row] == 1) {
 				cell.textLabel.text = @"Delay";
 				cell.detailTextLabel.text = [delayManager currentDelay];
+			} else if ([indexPath row] == 2) {
+				cell.textLabel.text = @"Alert on report sent";
+				UISwitch *alert = [[UISwitch alloc]init];
+				[alert addTarget:self action: @selector(changeReportState:) forControlEvents:UIControlEventValueChanged];
+				[alert setOn:config.alertOnReport];
+				cell.accessoryView = alert;
+			} else if ([indexPath row] == 3) {
+				cell.textLabel.text = @"Detach device";
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			}
 			break;
 		case 2:
@@ -198,6 +207,14 @@
 			else if ([indexPath row] == 1){
 				[delayManager showDelayPickerOnView:self.view fromTableView:self.tableView];
 				[self setupNavigatorForPicker:YES withSelector:@selector(delayPickerSelected)];
+			} else if ([indexPath row] == 3){
+				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil)
+																		 delegate:self 
+																cancelButtonTitle:NSLocalizedString(@"Yes, I'm sure, go ahead!",nil)
+														   destructiveButtonTitle:@"Cancel" otherButtonTitles:nil];
+				actionSheet.tag = kDetachAction;
+				[actionSheet showInView:self.view];
+				[actionSheet release];
 			}
 			break;
 		case 2:
@@ -248,7 +265,7 @@
 }
 
 #pragma mark -
-#pragma mark Missing Switch methods
+#pragma mark Switches methods
 - (IBAction)changeMissingState:(UISwitch*)missingSwitch{
 	//LogMessageCompat(@"Switch status on? %@", missingSwitch.on == YES? @"YES" : @"NO");
 	
@@ -274,18 +291,48 @@
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	PreyRunner *runner = [PreyRunner instance];
-	if (missing.on)
-		if (buttonIndex == 1)
-			[runner startPreyService];
-		else
-			[missing setOn:NO animated:YES];
-	else
-		if (buttonIndex == 1)
-			[runner stopPreyService];
-		else
-			[missing setOn:YES animated:YES];
 
+	if (actionSheet.tag == 1){
+		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+		if (buttonIndex == 1){
+			[[PreyConfig instance] detachDevice];
+			WelcomeController *welcomeController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+			[[self navigationController] pushViewController:welcomeController animated:YES];
+		}
+	}
+	else 
+		if (missing.on)
+			if (buttonIndex == 1)
+				[[PreyRunner instance] startPreyService];
+			else
+				[missing setOn:NO animated:YES];
+		else
+			if (buttonIndex == 1)
+				[[PreyRunner instance] stopPreyService];
+			else
+				[missing setOn:YES animated:YES];
+
+}
+
+
+- (IBAction)changeReportState:(UISwitch*)missingSwitch{
+	[PreyConfig instance].alertOnReport = missingSwitch.on;	
+}
+
+#pragma mark -
+#pragma mark Events received
+- (void)missingStateUpdated:(NSNotification *)notification
+{
+	//LogMessage(@"Prey Location Controller", 0, @"Missing state has been updated from the control panel. Setting the missing switch");
+
+	[self performSelectorOnMainThread:@selector(changeMissingSwitch:) withObject:[notification object] waitUntilDone:NO];
+	
+	
+}
+- (void)changeMissingSwitch:(id)config {
+	[missing setOn:((PreyConfig*)config).missing animated:YES];
 }
 
 #pragma mark -
@@ -296,6 +343,7 @@
 	[self initSpinner];
 	accManager = [[AccuracyManager alloc] init];
 	delayManager = [[DelayManager alloc] init];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
     [super viewDidLoad];
 	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.

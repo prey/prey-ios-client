@@ -13,7 +13,6 @@
     UIWindow *window;
 	UINavigationController *viewController;
 	
-	LocationController *locationController;
 	NSDate *wentToBackground;
 	BOOL showFakeScreen;
 }

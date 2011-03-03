@@ -16,10 +16,11 @@ static NSString *const CHECK_URL = @"check_url";
 static NSString *const ALREADY_REGISTERED = @"already_registered";
 static NSString *const ACCURACY=@"accuracy";
 static NSString *const DELAY=@"delay";
+static NSString *const ALERT_ON_REPORT=@"alert_on_report";
 
 @implementation PreyConfig
 
-@synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing;
+@synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing, alertOnReport;
 static PreyConfig *instance;
 
 +(PreyConfig *)instance  {
@@ -33,6 +34,7 @@ static PreyConfig *instance;
 			instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
 			instance.checkUrl = [defaults stringForKey: CHECK_URL];
 			instance.email = [defaults stringForKey: EMAIL];
+			
 			[instance loadDefaultValues];
 		}
 	}
@@ -56,18 +58,18 @@ static PreyConfig *instance;
 	self.desiredAccuracy = accSet != 0 ? accSet : kCLLocationAccuracyHundredMeters; 
 	int delaySet = [defaults integerForKey:DELAY];
 	self.delay = delaySet > 0 ? delaySet : 20;
-	NSString *isRegistered = [defaults stringForKey:ALREADY_REGISTERED];
-	if (isRegistered != nil && [@"YES" isEqualToString:isRegistered]) {
-		self.alreadyRegistered = YES;
-		PreyRestHttp *http = [[PreyRestHttp alloc] init];
-		self.missing = [http isMissingTheDevice:self.deviceKey ofTheUser:self.apiKey];
-		[http release];
-	}
-	else {
-		self.alreadyRegistered = NO;
-		self.missing = NO;
-	}
+	self.alreadyRegistered =[defaults boolForKey:ALREADY_REGISTERED];
+	self.alertOnReport = [defaults boolForKey:ALERT_ON_REPORT];
+	self.missing = NO;
 	
+}
+
+- (void) updateMissingStatus {
+	LogMessageCompat(@"Updating missing status");
+	PreyRestHttp *http = [[PreyRestHttp alloc] init];
+	self.missing = [http isMissingTheDevice:self.deviceKey ofTheUser:self.apiKey];
+	[http release];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:self];
 }
 
 - (void) saveValues
@@ -77,7 +79,8 @@ static PreyConfig *instance;
 	[defaults setObject:[self deviceKey] forKey:DEVICE_KEY];
 	[defaults setObject:[self email] forKey:EMAIL];
 	[defaults setObject:[self checkUrl] forKey:CHECK_URL];
-	[defaults setObject:@"YES" forKey:ALREADY_REGISTERED];
+	[defaults setBool:YES forKey:ALREADY_REGISTERED];
+	[defaults setBool:NO forKey:ALERT_ON_REPORT];
 	[defaults setDouble:desiredAccuracy forKey:ACCURACY];
 	[defaults setInteger:delay forKey:DELAY];
 	[defaults synchronize]; // this method is optional
@@ -85,7 +88,8 @@ static PreyConfig *instance;
 }
 
 - (void) detachDevice {
-	[[Device getInstance] detachDevice]; 
+	[[Device getInstance] detachDevice];
+	instance=nil;
 }
 
 - (void) setDesiredAccuracy:(double) acc { 
@@ -100,6 +104,13 @@ static PreyConfig *instance;
 	delay = newDelay;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setInteger:newDelay forKey:DELAY];
+	[defaults synchronize]; // this method is optional
+}
+
+- (void) setAlertOnReport:(BOOL) isAlertOnReport { 
+	alertOnReport = isAlertOnReport;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults setBool:isAlertOnReport forKey:ALERT_ON_REPORT];
 	[defaults synchronize]; // this method is optional
 }
 

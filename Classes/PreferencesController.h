@@ -10,6 +10,8 @@
 #import "AccuracyManager.h"
 #import "DelayManager.h"
 
+#define kDetachAction  1;
+
 @interface PreferencesController : UITableViewController <UIActionSheetDelegate>  {
 UIActivityIndicatorView *cLoadingView;
 	AccuracyManager *accManager;

@@ -10,6 +10,7 @@
 #import "DeviceModulesConfig.h"
 #import "PreyConfig.h"
 
+
 @interface ConfigParserDelegate ()
 	@property (nonatomic) BOOL inMissing;
 	@property (nonatomic) BOOL inDelay;
