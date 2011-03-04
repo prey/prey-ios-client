@@ -57,7 +57,7 @@ static PreyConfig *instance;
 	double accSet = [defaults doubleForKey:ACCURACY];
 	self.desiredAccuracy = accSet != 0 ? accSet : kCLLocationAccuracyHundredMeters; 
 	int delaySet = [defaults integerForKey:DELAY];
-	self.delay = delaySet > 0 ? delaySet : 20;
+	self.delay = delaySet > 0 ? delaySet : 20*60;
 	self.alreadyRegistered =[defaults boolForKey:ALREADY_REGISTERED];
 	self.alertOnReport = [defaults boolForKey:ALERT_ON_REPORT];
 	self.missing = NO;
@@ -81,8 +81,8 @@ static PreyConfig *instance;
 	[defaults setObject:[self checkUrl] forKey:CHECK_URL];
 	[defaults setBool:YES forKey:ALREADY_REGISTERED];
 	[defaults setBool:NO forKey:ALERT_ON_REPORT];
-	[defaults setDouble:desiredAccuracy forKey:ACCURACY];
-	[defaults setInteger:delay forKey:DELAY];
+	[defaults setDouble:[self desiredAccuracy] forKey:ACCURACY];
+	[defaults setInteger:[self delay] forKey:DELAY];
 	[defaults synchronize]; // this method is optional
 	
 }
@@ -90,6 +90,7 @@ static PreyConfig *instance;
 - (void) detachDevice {
 	[[Device getInstance] detachDevice];
 	instance=nil;
+	[instance release];
 }
 
 - (void) setDesiredAccuracy:(double) acc { 

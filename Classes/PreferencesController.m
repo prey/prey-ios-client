@@ -210,7 +210,7 @@
 			} else if ([indexPath row] == 3){
 				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil)
 																		 delegate:self 
-																cancelButtonTitle:NSLocalizedString(@"Yes, I'm sure, go ahead!",nil)
+																cancelButtonTitle:NSLocalizedString(@"Sure, go ahead!",nil)
 														   destructiveButtonTitle:@"Cancel" otherButtonTitles:nil];
 				actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];

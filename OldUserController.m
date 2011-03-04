@@ -52,7 +52,6 @@
 	} @finally {
 		[user release];
 		[device release];
-		[config release];
 	}
 #endif
 }

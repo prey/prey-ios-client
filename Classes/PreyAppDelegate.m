@@ -28,7 +28,7 @@
 
 @implementation PreyAppDelegate
 
-@synthesize window;
+@synthesize window,viewController;
 //@synthesize viewController;
 
 -(void)renderFirstScreen{
@@ -61,6 +61,8 @@
 	 (UIRemoteNotificationTypeAlert | 
 	  UIRemoteNotificationTypeBadge | 
 	  UIRemoteNotificationTypeSound)];
+	
+	[[LocationController instance] startMonitoringSignificantLocationChanges];
 	
 	PreyConfig *config = [PreyConfig instance];
 	NSOperationQueue *bgQueue = [[NSOperationQueue alloc] init];
@@ -154,13 +156,6 @@
     [window addSubview:viewController.view];
     [window makeKeyAndVisible];
 	
-	/*
-	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
-	nextController.view.frame = applicationFrame;
-	//[self setViewController:nextController];
-	[window addSubview:viewController.view];
-	[window makeKeyAndVisible];
-	*/
 	[nextController release];
 }
 - (void)updateMissingStatus:(id)data {
@@ -201,32 +196,10 @@
 	nuController.title = NSLocalizedString(@"Create Prey account",nil);
 	[viewController pushViewController:nuController animated:YES];
 	[nuController release];
-	
-	/*
-	NewUserController *nuController = [[NewUserController alloc] initWithNibName:@"NewUserController" bundle:nil];
-	UINavigationController *nuw = [[UINavigationController alloc] initWithRootViewController:nuController];
-	
-	nuw.delegate = self;
-	nuController.title = NSLocalizedString(@"Prey install wizard",nil);
-	nuw.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-	[viewController presentModalViewController:nuw animated:YES];
-	
-	// Release the view controllers to prevent over-retention.
-	[nuw release];
-	[nuController release];
-	 */
 }
 
 - (void)showPreferences {
-	/*
-	 PreferencesController *preferencesController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-	 CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
-	 preferencesController.view.frame = applicationFrame;
-	 [self setViewController:preferencesController];
-	 [window addSubview:preferencesController.view];
-	 [window makeKeyAndVisible];
-	 [preferencesController release];
-	 */	
+
 	PreferencesController *preferencesController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
 	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
 	preferencesController.view.frame = applicationFrame;
