@@ -8,6 +8,7 @@
 
 #import "CongratulationsController.h"
 #import "PreyAppDelegate.h"
+#import "PreferencesController.h"
 
 
 @implementation CongratulationsController
@@ -17,10 +18,19 @@
 #pragma mark -
 #pragma mark IBActions
 - (IBAction) okPressed: (id) sender{
+	
+	PreferencesController *preferencesController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
+	[self.navigationController popToRootViewControllerAnimated:YES];
+	[self.navigationController setNavigationBarHidden:YES animated:YES];
+	
+	[self.navigationController pushViewController:preferencesController animated:YES];
+	[preferencesController release];
+	
+	/*
 	PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
 	[self.navigationController dismissModalViewControllerAnimated:YES];
 	[appDelegate showPreferences];
-	
+	*/
 }
 
 /*

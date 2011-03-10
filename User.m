@@ -20,7 +20,7 @@
 @synthesize repassword;
 @synthesize devices;
 
-+(User*) initWithEmail: (NSString*) _email password: (NSString*) _password {
++(User*) allocWithEmail: (NSString*) _email password: (NSString*) _password {
 	User *newUser = [[User alloc] init];
 	newUser.email = _email;
 	newUser.password = _password;
@@ -69,10 +69,10 @@
 	return nil;
 }
 
--(BOOL) deleteDevice: (Device*) _device {
+-(BOOL) deleteDevice: (Device*) dev {
 	@try {
 		PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
-		return [userHttp deleteDevice:_device ofUser:self];
+		return [userHttp deleteDevice:dev];
 	}
 	@catch (NSException * e) {
 		@throw;

@@ -29,7 +29,7 @@
 @property (nonatomic,retain) NSString *repassword;
 @property (nonatomic,retain) NSArray *devices;
 
-+(User*) initWithEmail: (NSString*) email password: (NSString*) password;
++(User*) allocWithEmail: (NSString*) email password: (NSString*) password;
 +(User*) createNew: (NSString*) name email: (NSString*) email password: (NSString*) password repassword: (NSString*) repassword;
 -(BOOL) deleteDevice: (Device*) device;
 

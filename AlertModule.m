@@ -16,7 +16,6 @@
 	PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
 	NSString *alertMessage = [self.configParms objectForKey:@"alert_message"];
 	[appDelegate showAlert:alertMessage];
-	[alertMessage release];
 }
 
 - (NSString *) getName {

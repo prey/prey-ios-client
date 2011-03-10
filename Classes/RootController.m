@@ -72,6 +72,7 @@
 - (void)showWelcomeView {
 	WelcomeController *welcomeController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
 	[self.view addSubview:welcomeController.view];
+	[welcomeController release];
     /*
 	[window addSubview:welcomeController.view];
     [window makeKeyAndVisible];

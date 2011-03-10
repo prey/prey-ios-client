@@ -41,6 +41,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
 	LoggerSetOptions(NULL, 0x01);  //Logs to console as well
+	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.6", 55408);
+	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
+    
+    
 	UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
 	id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
 	if (remoteNotification) {
@@ -49,28 +53,29 @@
 	
 	if (localNotif) {
 		application.applicationIconBadgeNumber = localNotif.applicationIconBadgeNumber-1; 
-		LogMessageCompat(@"Prey local notification clicked... running!");
+		LogMessage(@"App Delegate", 10, @"Prey local notification clicked... running!");
 		PreyRunner *runner = [PreyRunner instance];
 		[runner startPreyService];
 	}
 	
 	
-	LogMessageCompat(@"Registering for push notifications...");    
+	LogMessage(@"App Delegate", 10, @"Registering for push notifications...");    
     [[UIApplication sharedApplication] 
 	 registerForRemoteNotificationTypes:
 	 (UIRemoteNotificationTypeAlert | 
 	  UIRemoteNotificationTypeBadge | 
 	  UIRemoteNotificationTypeSound)];
 	
+    
 	[[LocationController instance] startMonitoringSignificantLocationChanges];
 	
 	PreyConfig *config = [PreyConfig instance];
 	NSOperationQueue *bgQueue = [[NSOperationQueue alloc] init];
-	NSInvocationOperation* updateStatus = [[[NSInvocationOperation alloc] initWithTarget:self
-																				selector:@selector(updateMissingStatus:) object:config] autorelease];
+	NSInvocationOperation* updateStatus = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(updateMissingStatus:) object:config] autorelease];
 	[bgQueue addOperation:updateStatus];
 	[bgQueue release];
-	
+
+     
 	/*
 	LoginController *loginController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
     [window addSubview:loginController.view];
@@ -90,7 +95,7 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif {
-	LogMessageCompat(@"Prey local notification received while in foreground... let's run Prey now!");
+	LogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
 	PreyRunner *runner = [PreyRunner instance];
 	[runner startPreyService];
 }
@@ -109,7 +114,7 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, called instead of applicationWillTerminate: when the user quits.
      */
-	LogMessage(@"App Delegate", 0, @"Prey is now running in the background");
+	LogMessage(@"App Delegate", 10, @"Prey is now running in the background");
 	wentToBackground = [NSDate date];
 	for (UIView *view in [window subviews]) {
 		[view removeFromSuperview];
@@ -122,7 +127,7 @@
     /*
      Called as part of  transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
      */
-	LogMessageCompat(@"Prey is now entering to the foreground");
+	LogMessage(@"App Delegate", 10, @"Prey is now entering to the foreground");
 }
 
 
@@ -130,15 +135,17 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-	if (showFakeScreen){
+    
+    	if (showFakeScreen){
 		[self showAlert: @"Hello, I'm a Fake screen :)"];
 		showFakeScreen = NO;
 		return;
 	}
-	PreyConfig *config = [PreyConfig instance];
+	
+    PreyConfig *config = [PreyConfig instance];
 	
 	UIViewController *nextController = nil;
-	LogMessageCompat(@"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
+	LogMessage(@"App Delegate", 10, @"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
 	if (config.alreadyRegistered)
 		if (ASK_FOR_LOGIN)
 			nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
@@ -152,10 +159,9 @@
 	[viewController setToolbarHidden:YES animated:NO];
 	[viewController setNavigationBarHidden:YES animated:NO];
 	
-	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	//window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [window addSubview:viewController.view];
     [window makeKeyAndVisible];
-	
 	[nextController release];
 }
 - (void)updateMissingStatus:(id)data {
@@ -163,14 +169,14 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-	int minutes;
-	int seconds;
+	int minutes=0;
+	int seconds=0;
 	if (wentToBackground != nil){
 		NSTimeInterval inBg = [wentToBackground timeIntervalSinceNow];
 		minutes = floor(-inBg/60);
 		seconds = trunc(-inBg - minutes * 60);
 	}
-	LogMessage(@"App Delegate", 0, @"Application will terminate!. Time alive: %f minutes, %f seconds",minutes,seconds);
+	LogMessage(@"App Delegate", 10, @"Application will terminate!. Time alive: %f minutes, %f seconds",minutes,seconds);
 	
 }
 
@@ -219,11 +225,15 @@
 	// Set Animation type and which UIView should animate
 	[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
 	
+	for (UIView *subview in window.subviews)
+		[subview removeFromSuperview];
+
 	// Add subview to the UIView set in the previous line
 	[window addSubview:preferencesController.view];
 	
 	//Start the animation
 	[UIView commitAnimations];
+	[preferencesController release];
 	
 }
 
@@ -243,19 +253,19 @@
 #pragma mark Push notifications delegate
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken { 
-    LogMessageCompat(@"Did register for remote notifications - Device Token=%@",deviceToken);
+    LogMessage(@"App Delegate", 10, @"Did register for remote notifications - Device Token=%@",deviceToken);
 	
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err { 
 	
-    LogMessageCompat( @"Failed to register for remote notifications - Error: %@", err);    
+    LogMessage(@"App Delegate", 10,  @"Failed to register for remote notifications - Error: %@", err);    
 	
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     for (id key in userInfo) {
-        LogMessageCompat(@"Remote notification received - key: %@, value: %@", key, [userInfo objectForKey:key]);
+        LogMessage(@"App Delegate", 10, @"Remote notification received - key: %@, value: %@", key, [userInfo objectForKey:key]);
     }    
 	showFakeScreen = YES;
 	
@@ -264,11 +274,11 @@
 #pragma mark -
 #pragma mark UINavigationController delegate methods
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)_viewController animated:(BOOL)animated {
-	LogMessageCompat(@"UINAV did show: %@", [_viewController class]);
+	LogMessage(@"App Delegate", 10, @"UINAV did show: %@", [_viewController class]);
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)_viewController animated:(BOOL)animated {
-	LogMessageCompat(@"UINAV will show: %@", [_viewController class]);
+	LogMessage(@"App Delegate", 10, @"UINAV will show: %@", [_viewController class]);
 }
 
 #pragma mark -

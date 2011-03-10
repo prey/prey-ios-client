@@ -40,7 +40,7 @@
 		int statusCode = [request responseStatusCode];
 		//NSString *statusMessage = [request responseStatusMessage];
 		NSString *response = [request responseString];
-		LogMessageCompat(@"GET profile.xml: %@",response);
+		LogMessage(@"PreyRestHttp", 10, @"GET profile.xml: %@",response);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
 			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
@@ -141,7 +141,7 @@
 			
 			//NSString *statusMessage = [request responseStatusMessage];
 			NSString *response = [request responseString];
-			LogMessageCompat(@"POST devices.xml: %@",response);
+			LogMessage(@"PreyRestHttp", 10, @"POST devices.xml: %@",response);
 			KeyParserDelegate *keyParser = [[KeyParserDelegate alloc] init];
 			NSString *deviceKey = [keyParser parseKey:[request responseData] parseError:&error];
 			return deviceKey;
@@ -176,7 +176,7 @@
 		int statusCode = [request responseStatusCode];
 		//NSString *statusMessage = [request responseStatusMessage];
 		NSString *response = [request responseString];
-		LogMessageCompat(@"GET devices/%@.xml: %@",deviceKey,response);
+		LogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",deviceKey,response);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
 			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
@@ -335,7 +335,7 @@
 	
 
 	[[report getReportData] enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
-		LogMessageCompat(@"adding to report: %@ = %@", key, object);
+		//LogMessage(@"PreyRestHttp", 10, @"Adding to report: %@ = %@", key, object);
 		[request setPostValue:(NSString*)object forKey:(NSString *) key];
 	}];
 
@@ -350,7 +350,7 @@
 			if (statusCode != 200)
 				@throw [NSException exceptionWithName:@"ReportNotSentException" reason:NSLocalizedString(@"Report couldn't be sent",nil) userInfo:nil];
 			NSString *response = [request responseString];
-			LogMessageCompat(@"Report sent response: %@",response);
+			LogMessage(@"PreyRestHttp", 10, @"Report sent response: %@",response);
 		}	
 		else {
 			@throw [NSException exceptionWithName:@"ReportNotSentException" reason:[error localizedDescription] userInfo:nil];

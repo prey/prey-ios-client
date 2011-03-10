@@ -201,17 +201,18 @@
 			break;
 		case 1:
 			if ([indexPath row] == 0){
-				[accManager showPickerOnView:self.view fromTableView:self.tableView];
-				[self setupNavigatorForPicker:YES withSelector:@selector(accuracyPickerSelected)];
+				if (!pickerShowed){
+					[accManager showPickerOnView:self.view fromTableView:self.tableView];
+					[self setupNavigatorForPicker:YES withSelector:@selector(accuracyPickerSelected)];
+				}
 			} 
 			else if ([indexPath row] == 1){
-				[delayManager showDelayPickerOnView:self.view fromTableView:self.tableView];
-				[self setupNavigatorForPicker:YES withSelector:@selector(delayPickerSelected)];
+				if (!pickerShowed) {
+					[delayManager showDelayPickerOnView:self.view fromTableView:self.tableView];
+					[self setupNavigatorForPicker:YES withSelector:@selector(delayPickerSelected)];
+				}
 			} else if ([indexPath row] == 3){
-				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil)
-																		 delegate:self 
-																cancelButtonTitle:NSLocalizedString(@"Sure, go ahead!",nil)
-														   destructiveButtonTitle:@"Cancel" otherButtonTitles:nil];
+				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Sure, go ahead!",nil) destructiveButtonTitle:@"Cancel" otherButtonTitles:nil];
 				actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
 				[actionSheet release];
@@ -232,10 +233,9 @@
 - (void) setupNavigatorForPicker:(BOOL)showed withSelector:(SEL)action {
 	if (showed){
 		[self.navigationController setNavigationBarHidden:NO animated:YES];
-		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
-																	   style:UIBarButtonItemStyleDone
-																	  target:self	action:action];
+		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self	action:action];
 		self.navigationItem.rightBarButtonItem = doneButton;
+		pickerShowed = YES;
 	} else {
 		// remove the "Done" button in the nav bar
 		self.navigationItem.rightBarButtonItem = nil;
@@ -247,6 +247,7 @@
 		//hide the nav bar again
 		[self.navigationController setNavigationBarHidden:YES animated:YES];
 		[self.tableView reloadData];
+		pickerShowed = NO;
 	}
 }
 
@@ -285,8 +286,7 @@
 													destructiveButtonTitle:@"Cancel" otherButtonTitles:nil];
 	[actionSheet showInView:self.view];
 	[actionSheet release];
-	[label release];
-	[button release];
+	
 	 
 }
 
@@ -300,6 +300,7 @@
 			[[PreyConfig instance] detachDevice];
 			WelcomeController *welcomeController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
 			[[self navigationController] pushViewController:welcomeController animated:YES];
+			[welcomeController release];
 		}
 	}
 	else 
@@ -332,7 +333,10 @@
 	
 }
 - (void)changeMissingSwitch:(id)config {
-	[missing setOn:((PreyConfig*)config).missing animated:YES];
+	BOOL isMissing = ((PreyConfig*)config).missing;
+	[missing setOn:isMissing animated:YES];
+	if (isMissing)
+	 	[[PreyRunner instance]startPreyService];
 }
 
 #pragma mark -
@@ -345,9 +349,6 @@
 	delayManager = [[DelayManager alloc] init];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
     [super viewDidLoad];
-	
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 

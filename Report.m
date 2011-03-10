@@ -30,7 +30,7 @@
 			selector:@selector(locationUpdated:)
 			name:@"locationUpdated" object:nil];
 	} else {
-		LogMessage(@"Report", 5, @"Sending report right now");
+		LogMessage(@"Report", 5, @"I've a valid location to send. Sending report now!");
 		PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
 		[userHttp sendReport:self];
 		[self performSelectorOnMainThread:@selector(alertReportSent) withObject:nil waitUntilDone:NO];
@@ -61,12 +61,11 @@
 - (void)locationUpdated:(NSNotification *)notification
 {
     CLLocation *newLocation = (CLLocation*)[notification object];
-	LogMessage(@"Report", 5, @"New location received.");
 	NSMutableDictionary *data = [[[NSMutableDictionary alloc] init] autorelease];
-	[data setValue:[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude] forKey:[[NSString alloc] initWithFormat:@"%@[%@]",@"geo",@"lng"]];
-	[data setValue:[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude] forKey:[[NSString alloc] initWithFormat:@"%@[%@]",@"geo",@"lat"]];
-	[data setValue:[NSString stringWithFormat:@"%f",newLocation.altitude] forKey:[[NSString alloc] initWithFormat:@"%@[%@]",@"geo",@"alt"]];
-	[data setValue:[NSString stringWithFormat:@"%f",newLocation.horizontalAccuracy] forKey:[[NSString alloc] initWithFormat:@"%@[%@]",@"geo",@"acc"]];
+	[data setValue:[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude] forKey:[NSString stringWithFormat:@"%@[%@]",@"geo",@"lng"]];
+	[data setValue:[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude] forKey:[NSString stringWithFormat:@"%@[%@]",@"geo",@"lat"]];
+	[data setValue:[NSString stringWithFormat:@"%f",newLocation.altitude] forKey:[NSString stringWithFormat:@"%@[%@]",@"geo",@"alt"]];
+	[data setValue:[NSString stringWithFormat:@"%f",newLocation.horizontalAccuracy] forKey:[NSString stringWithFormat:@"%@[%@]",@"geo",@"acc"]];
 	[reportData addEntriesFromDictionary:data];
 	waitForLocation = NO;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"locationUpdated" object:nil];

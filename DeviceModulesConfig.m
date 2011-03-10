@@ -26,7 +26,7 @@
 - (void) addModuleName: (NSString *) name ifActive: (NSString *) isActive ofType: (NSString *) type {
 
 	if ([isActive isEqualToString:@"true"]) {
-		PreyModule *module = [PreyModule getModuleForName:name];
+		PreyModule *module = [PreyModule newModuleForName:name];
 		if (module != nil){
 			if ([type isEqualToString:@"report"]){
 				module.type = ReportModuleType;
@@ -37,6 +37,7 @@
 				[self.actionModules addObject:module];
 			}
 			[module setReportToFill:self.reportToFill];
+			[module release];
 		}
 	}
 }

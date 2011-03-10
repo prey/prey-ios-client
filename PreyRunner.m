@@ -14,7 +14,7 @@
 
 @implementation PreyRunner
 
-@synthesize lastLocation,delay,config,http;
+@synthesize lastLocation,config,http;
 
 +(PreyRunner *)instance  {
 	static PreyRunner *instance;
@@ -69,8 +69,8 @@
 {
 	if (lastExecution != nil) {
 		NSTimeInterval lastRunInterval = -[lastExecution timeIntervalSinceNow];
-		LogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", delay, lastRunInterval);
-		if (lastRunInterval >= delay){
+		LogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", [PreyConfig instance].delay, lastRunInterval);
+		if (lastRunInterval >= [PreyConfig instance].delay){
 			LogMessage(@"Prey Runner", 0, @"Location updated notification received. Waiting interval expired, running Prey now!");
 			[self runPrey]; 
 		}
@@ -87,15 +87,14 @@
 	lastExecution = [[NSDate date] retain];
 	if (![PreyRestHttp checkInternet])
 		return;
-	DeviceModulesConfig *modulesConfig = [http getXMLforUser:[config apiKey] device:[config deviceKey]];
+	DeviceModulesConfig *modulesConfig = [[http getXMLforUser:[config apiKey] device:[config deviceKey]] retain];
 	if (USE_CONTROL_PANEL_DELAY)
-		delay = [modulesConfig.delay intValue];
-	else 
-		delay = config.delay;
-
+		[PreyConfig instance].delay = [modulesConfig.delay intValue];
+	
 	if (!modulesConfig.missing){
 		 LogMessage(@"Prey Runner", 5, @"Not missing anymore... stopping accurate location updates and Prey.");
 		[[LocationController instance] stopUpdatingLocation]; //finishes Prey execution
+		[modulesConfig release];
 		return;
 	}
 	

@@ -18,13 +18,11 @@
 	NSOperationQueue *actionQueue;
 	PreyConfig *config;
 	PreyRestHttp *http;
-	int delay;
 	NSDate *lastExecution;
 	
 }
 @property (nonatomic, retain) CLLocation *lastLocation;
 //@property (nonatomic, retain) NSDate *lastExecution;
-@property (nonatomic) int delay;
 @property (nonatomic, retain) PreyConfig *config;
 @property (nonatomic, retain) PreyRestHttp *http;
 

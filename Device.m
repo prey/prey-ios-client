@@ -38,7 +38,7 @@
 	return newDevice;
 }
 
-+(Device*) getInstance{
++(Device*) allocInstance{
 	PreyConfig* preyConfig = [PreyConfig instance];
 	Device* dev = [[Device alloc]init];
 	[dev setDeviceKey:[preyConfig deviceKey]];

@@ -25,7 +25,7 @@
 
 - (void) checkPassword {
 	PreyConfig *config = [PreyConfig instance];
-	User *user = [User initWithEmail: config.email password: loginPassword.text];
+	User *user = [User allocWithEmail: config.email password: loginPassword.text];
 	
 	if (user != nil){
 		PreferencesController *preferencesViewController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
@@ -80,7 +80,7 @@
 
 - (void) animateTextField: (UITextField*) textField up: (BOOL) up
 {
-    const int movementDistance = 80; // tweak as needed
+    const int movementDistance = 140; // tweak as needed
     const float movementDuration = 0.3f; // tweak as needed
 	
     int movement = (up ? -movementDistance : movementDistance);

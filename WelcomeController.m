@@ -53,6 +53,7 @@
 			else if ([indexPath row] == 1)
 				cell.textLabel.text = NSLocalizedString(@"I'm a new Prey user",nil);
 			cell.textLabel.textAlignment = UITextAlignmentCenter;
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			break;
 		default:
 			break;
@@ -88,10 +89,6 @@
 			break;
 	}
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-- (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
-	return UITableViewCellAccessoryDisclosureIndicator;
 }
 
 

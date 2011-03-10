@@ -27,7 +27,7 @@
 
 
 +(Device*) newDeviceForApiKey: (NSString*) apiKey;
-+(Device*) getInstance;
++(Device*) allocInstance;
 -(void) detachDevice;
 
 @end

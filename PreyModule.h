@@ -21,7 +21,7 @@ typedef NSInteger ModuleType;
 @property (nonatomic, retain) Report *reportToFill;
 @property (nonatomic) ModuleType type;
 
-+ (PreyModule *) getModuleForName: (NSString *) moduleName;
++ (PreyModule *) newModuleForName: (NSString *) moduleName;
 - (NSString *) getName;
 - (NSMutableDictionary *) reportData;
 

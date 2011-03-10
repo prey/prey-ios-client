@@ -25,7 +25,7 @@
 
 
 - (void) addDeviceForCurrentUser {
-#if (TARGET_IPHONE_SIMULATOR)
+#if (!TARGET_IPHONE_SIMULATOR)
 	sleep(1);
 	[self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
 #else
@@ -35,7 +35,7 @@
 	Device *device = nil;
 	PreyConfig *config = nil;
 	@try {
-		user = [User initWithEmail:[email text] password:[password text]];
+		user = [User allocWithEmail:[email text] password:[password text]];
 		device = [Device newDeviceForApiKey:[user apiKey]];
 		config = [PreyConfig initWithUser:user andDevice:device];
 		if (config != nil)
@@ -270,7 +270,7 @@
     [super dealloc];
 	[email release];
 	[password release];
-	[buttonCell release];
+	//[buttonCell release];
 
 }
 

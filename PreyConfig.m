@@ -65,11 +65,13 @@ static PreyConfig *instance;
 }
 
 - (void) updateMissingStatus {
-	LogMessageCompat(@"Updating missing status");
-	PreyRestHttp *http = [[PreyRestHttp alloc] init];
-	self.missing = [http isMissingTheDevice:self.deviceKey ofTheUser:self.apiKey];
-	[http release];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:self];
+	if (self.deviceKey != nil && ![self.deviceKey isEqualToString:@""]){
+		LogMessage(@"PreyConfig", 10, @"Updating missing status...");
+		PreyRestHttp *http = [[PreyRestHttp alloc] init];
+		self.missing = [http isMissingTheDevice:self.deviceKey ofTheUser:self.apiKey];
+		[http release];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:self];
+	}
 }
 
 - (void) saveValues
@@ -88,9 +90,11 @@ static PreyConfig *instance;
 }
 
 - (void) detachDevice {
-	[[Device getInstance] detachDevice];
+	Device *dev = [Device allocInstance];
+	[dev detachDevice];
 	instance=nil;
 	[instance release];
+	[dev release];
 }
 
 - (void) setDesiredAccuracy:(double) acc { 

@@ -22,7 +22,7 @@
 	return self;
 }
 
-+ (PreyModule *) getModuleForName: (NSString *) moduleName {
++ (PreyModule *) newModuleForName: (NSString *) moduleName {
 	if ([moduleName isEqualToString:@"geo"]) {
 		return [[LocationModule alloc] init];
 	}

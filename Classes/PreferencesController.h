@@ -17,6 +17,7 @@ UIActivityIndicatorView *cLoadingView;
 	AccuracyManager *accManager;
 	DelayManager *delayManager;
 	UISwitch *missing;
+	BOOL pickerShowed;
 	
 }
 @property (nonatomic, retain) UIActivityIndicatorView *cLoadingView;
