@@ -25,11 +25,12 @@
 
 
 - (void) addDeviceForCurrentUser {
-#if (!TARGET_IPHONE_SIMULATOR)
+/*
+#if (TARGET_IPHONE_SIMULATOR)
 	sleep(1);
 	[self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
 #else
-	
+*/	
 	
 	User *user = nil;
 	Device *device = nil;
@@ -37,7 +38,7 @@
 	@try {
 		user = [User allocWithEmail:[email text] password:[password text]];
 		device = [Device newDeviceForApiKey:[user apiKey]];
-		config = [PreyConfig initWithUser:user andDevice:device];
+		config = [[PreyConfig initWithUser:user andDevice:device] retain];
 		if (config != nil)
 			[self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
 
@@ -50,10 +51,11 @@
 		[alertView show];
 		[alertView release];
 	} @finally {
+        [config release];
 		[user release];
 		[device release];
 	}
-#endif
+//#endif
 }
 
 
@@ -219,6 +221,7 @@
 	email.placeholder = @"Your Prey account email";
 	email.keyboardType = UIKeyboardTypeEmailAddress;
 	email.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    email.text=@"iphone@yaconi.cl";
 	[email setDelegate:self];
 	[email addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
 	
@@ -227,6 +230,7 @@
 	password.returnKeyType = UIReturnKeyDone;
 	[password setSecureTextEntry:YES];
 	password.placeholder = @"Your Prey account password";
+    password.text=@"asdasd";
 	[password setDelegate:self];
 	[password addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
 	

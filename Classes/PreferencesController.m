@@ -224,8 +224,11 @@
 		default:
 			if ([indexPath row] == 0)
 				[self showAlert];
-			else if ([indexPath row] == 1)
+			else if ([indexPath row] == 1){
 				[[PreyConfig  instance] detachDevice];
+                [[LocationController instance] stopUpdatingLocation];
+                [[LocationController instance] stopMonitoringSignificantLocationChanges];
+            }
 			break;
 	}
 }

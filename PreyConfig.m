@@ -21,35 +21,34 @@ static NSString *const ALERT_ON_REPORT=@"alert_on_report";
 @implementation PreyConfig
 
 @synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing, alertOnReport;
-static PreyConfig *instance;
+static PreyConfig *_instance = nil;
 
 +(PreyConfig *)instance  {
 	
 	
-	@synchronized(self) {
-		if(!instance) {
-			instance = [[PreyConfig alloc] init];
+	@synchronized([PreyConfig class]) {
+		if(!_instance) {
+			_instance = [[PreyConfig alloc] init];
 			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-			instance.apiKey = [defaults stringForKey: API_KEY];
-			instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
-			instance.checkUrl = [defaults stringForKey: CHECK_URL];
-			instance.email = [defaults stringForKey: EMAIL];
-			
-			[instance loadDefaultValues];
+			_instance.apiKey = [defaults stringForKey: API_KEY];
+			_instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
+			_instance.checkUrl = [defaults stringForKey: CHECK_URL];
+			_instance.email = [defaults stringForKey: EMAIL];
+			[_instance loadDefaultValues];
 		}
 	}
-	return instance;
+	return _instance;
 }
 
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device
 {
-	instance = [[PreyConfig alloc] init];
-	instance.apiKey = [user apiKey];
-	instance.deviceKey = [device deviceKey];
-	instance.email = [user email];
-	[instance loadDefaultValues];
-	[instance saveValues];
-	return instance;
+	PreyConfig *newConfig = [[PreyConfig alloc] init];
+	newConfig.apiKey = [user apiKey];
+	newConfig.deviceKey = [device deviceKey];
+	newConfig.email = [user email];
+	[newConfig loadDefaultValues];
+    [newConfig saveValues];
+	return [newConfig autorelease];
 }
 
 - (void) loadDefaultValues {
@@ -62,16 +61,6 @@ static PreyConfig *instance;
 	self.alertOnReport = [defaults boolForKey:ALERT_ON_REPORT];
 	self.missing = NO;
 	
-}
-
-- (void) updateMissingStatus {
-	if (self.deviceKey != nil && ![self.deviceKey isEqualToString:@""]){
-		LogMessage(@"PreyConfig", 10, @"Updating missing status...");
-		PreyRestHttp *http = [[PreyRestHttp alloc] init];
-		self.missing = [http isMissingTheDevice:self.deviceKey ofTheUser:self.apiKey];
-		[http release];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:self];
-	}
 }
 
 - (void) saveValues
@@ -89,11 +78,23 @@ static PreyConfig *instance;
 	
 }
 
+- (void) updateMissingStatus {
+	if (self.deviceKey != nil && ![self.deviceKey isEqualToString:@""]){
+		LogMessage(@"PreyConfig", 10, @"Updating missing status...");
+		PreyRestHttp *http = [[PreyRestHttp alloc] init];
+		self.missing = [http isMissingTheDevice:self.deviceKey ofTheUser:self.apiKey];
+		[http release];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:self];
+	}
+}
+
+
+
 - (void) detachDevice {
 	Device *dev = [Device allocInstance];
 	[dev detachDevice];
-	instance=nil;
-	[instance release];
+	_instance=nil;
+	[_instance release];
 	[dev release];
 }
 

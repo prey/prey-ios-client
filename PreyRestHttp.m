@@ -209,6 +209,7 @@
 - (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey {
 	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", deviceKey]];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    [request setShouldContinueWhenAppEntersBackground:YES];
 	[request setUsername:apiKey];
 	[request setPassword: @"x"];
 	[request setRequestMethod:@"PUT"];
@@ -288,25 +289,18 @@
 - (BOOL) deleteDevice: (Device*) device{
 	PreyConfig* preyConfig = [PreyConfig instance];
 	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [device deviceKey]]];
-	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+	__block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
 	[request setRequestMethod:@"DELETE"];
 	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
 	[request setUseSessionPersistence:NO];
 	[request setShouldRedirect:NO];
-
-	
-	@try {
+    
+    @try {
 		[request startSynchronous];
 		NSError *error = [request error];
 		if (!error) {
-			/*
-			int statusCode = [request responseStatusCode];
-			NSString *statusMessage = [request responseStatusMessage];
-			NSString *response = [request responseString];
-			//LogMessageCompat(@"URL: %@ response status: %@ with data: %@", url, statusMessage, response );
-			 */
 			return NO;
 		}
 		
@@ -318,7 +312,7 @@
 	@catch (NSException * e) {
 		@throw;
 	}
-	
+        
 	return NO;
 	
 }
@@ -327,7 +321,8 @@
 	PreyConfig *preyConfig = [PreyConfig instance];
 	//NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [preyConfig deviceKey]]];
 	NSURL *url = [NSURL URLWithString:report.url];
-	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	__block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    [request setShouldContinueWhenAppEntersBackground:YES];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
 	[request setRequestMethod:@"POST"];
@@ -341,9 +336,23 @@
 
 	[request setUseSessionPersistence:NO];
 	[request setShouldRedirect:NO];
-	
+    //[request setDelegate:self];
+    
+    [request setCompletionBlock:^{
+        int statusCode = [request responseStatusCode];
+        if (statusCode != 200)
+            @throw [NSException exceptionWithName:@"ReportNotSentException" reason:NSLocalizedString(@"Report couldn't be sent",nil) userInfo:nil];
+        NSString *response = [request responseString];
+        LogMessage(@"PreyRestHttp", 10, @"Report sent response: %@",response);
+    }];
+    [request setFailedBlock:^{
+        @throw [NSException exceptionWithName:@"ReportNotSentException" reason:[[request error] localizedDescription] userInfo:nil]; }];
+
+    [request startAsynchronous];
+	/*** USED FOR SYNC SENDING **/
+    /*
 	@try {
-		[request startSynchronous];
+		[request startAsynchronous];
 		NSError *error = [request error];
 		if (!error) {
 			int statusCode = [request responseStatusCode];
@@ -360,8 +369,10 @@
 	@catch (NSException *e) {
 		@throw;
 	}
+     */
 	
 }
+
 
 - (NSString *) getErrorMessageFromXML: (NSData*) response {
 	

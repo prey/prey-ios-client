@@ -72,7 +72,10 @@
 		LogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", [PreyConfig instance].delay, lastRunInterval);
 		if (lastRunInterval >= [PreyConfig instance].delay){
 			LogMessage(@"Prey Runner", 0, @"Location updated notification received. Waiting interval expired, running Prey now!");
-			[self runPrey]; 
+			NSInvocationOperation* theOp = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(runPrey) object:nil] autorelease];
+            [theOp start];
+            //[self runPrey]; 
+            
 		}
 		LogMessage(@"Prey Runner", 0, @"Location updated notification received, but interval hasn't expired.");
 	} else {
@@ -84,35 +87,41 @@
 
 
 -(void) runPrey{
-	lastExecution = [[NSDate date] retain];
-	if (![PreyRestHttp checkInternet])
-		return;
-	DeviceModulesConfig *modulesConfig = [[http getXMLforUser:[config apiKey] device:[config deviceKey]] retain];
-	if (USE_CONTROL_PANEL_DELAY)
-		[PreyConfig instance].delay = [modulesConfig.delay intValue];
+    @try {
+        lastExecution = [[NSDate date] retain];
+        if (![PreyRestHttp checkInternet])
+            return;
+        DeviceModulesConfig *modulesConfig = [[http getXMLforUser:[config apiKey] device:[config deviceKey]] retain];
+        if (USE_CONTROL_PANEL_DELAY)
+            [PreyConfig instance].delay = [modulesConfig.delay intValue];
+        
+        if (!modulesConfig.missing){
+            LogMessage(@"Prey Runner", 5, @"Not missing anymore... stopping accurate location updates and Prey.");
+            [[LocationController instance] stopUpdatingLocation]; //finishes Prey execution
+            [modulesConfig release];
+            return;
+        }
+        
+        reportQueue = [[NSOperationQueue alloc] init];
+        [reportQueue addObserver:self forKeyPath:@"operationCount" options:0 context:modulesConfig.reportToFill];
+        
+        PreyModule *module;
+        for (module in modulesConfig.reportModules){
+            [reportQueue  addOperation:module];
+        }
+        
+        actionQueue = [[NSOperationQueue alloc] init];
+        for (module in modulesConfig.actionModules){
+            [actionQueue  addOperation:module];
+        }
+        
+        
+        [modulesConfig release];
+    }
+    @catch (NSException *exception) {
+        LogMessage(@"Prey Runner", 0, @"Exception catched while running Prey: %@", [exception reason]);
+    }
 	
-	if (!modulesConfig.missing){
-		 LogMessage(@"Prey Runner", 5, @"Not missing anymore... stopping accurate location updates and Prey.");
-		[[LocationController instance] stopUpdatingLocation]; //finishes Prey execution
-		[modulesConfig release];
-		return;
-	}
-	
-	reportQueue = [[NSOperationQueue alloc] init];
-	[reportQueue addObserver:self forKeyPath:@"operationCount" options:0 context:modulesConfig.reportToFill];
-	
-	PreyModule *module;
-	for (module in modulesConfig.reportModules){
-		[reportQueue  addOperation:module];
-	}
-	
-	actionQueue = [[NSOperationQueue alloc] init];
-	for (module in modulesConfig.actionModules){
-		[actionQueue  addOperation:module];
-	}
-	
-
-	[modulesConfig release];
 	/*
 	
 	UILocalNotification *localNotif = [[UILocalNotification alloc] init];
