@@ -16,6 +16,7 @@
 #import "Constants.h"
 #import "AlertModuleController.h"
 #import "PreyRunner.h"
+#import "WebViewController.h"
 
 
 
@@ -40,7 +41,7 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-	LoggerSetOptions(NULL, 0x01);  //Logs to console as well
+	LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.6", 55408);
 	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
     
@@ -48,8 +49,7 @@
 	UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
 	id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
 	if (remoteNotification) {
-		[self showAlert: @"Remote notification received. Here we can send the app to the background or show a customized message."];
-	}
+		[self showAlert: @"Remote notification received. Here we can send the app to the background or show a customized message."];	}
 	
 	if (localNotif) {
 		application.applicationIconBadgeNumber = localNotif.applicationIconBadgeNumber-1; 
@@ -135,11 +135,18 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-    
-    	if (showFakeScreen){
-		[self showAlert: @"Hello, I'm a Fake screen :)"];
-		showFakeScreen = NO;
-		return;
+
+    if (showFakeScreen){
+        WebViewController *webView = [[WebViewController alloc] initWithNibName:@"WebView" bundle:nil];
+        
+        [window addSubview:[webView view]];
+        
+        // Override point for customization after app launch
+        [window makeKeyAndVisible];
+        //[self showAlert: @"Remote notification received. Here we can send the app to the background or show a customized message."];
+        //[self showAlert: @"Hello, I'm a Fake screen :)"];
+        showFakeScreen = NO;
+        return;
 	}
 	
     PreyConfig *config = [PreyConfig instance];

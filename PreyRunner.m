@@ -42,6 +42,7 @@
 	if (![PreyRestHttp checkInternet])
 		return;
 	[http changeStatusToMissing:YES forDevice:[config deviceKey] fromUser:[config apiKey]];
+    config.missing=YES;
 
 }
 
@@ -52,6 +53,7 @@
 	if (![PreyRestHttp checkInternet])
 		return;
 	[http changeStatusToMissing:NO forDevice:[config deviceKey] fromUser:[config apiKey]];
+    config.missing=NO;
 }
 
 -(void) startOnIntervalChecking {

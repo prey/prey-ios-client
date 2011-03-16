@@ -176,7 +176,7 @@
 		int statusCode = [request responseStatusCode];
 		//NSString *statusMessage = [request responseStatusMessage];
 		NSString *response = [request responseString];
-		LogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",deviceKey,response);
+		LogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",deviceKey,[request responseStatusMessage]);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
 			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
@@ -223,7 +223,9 @@
 	
 	
 	@try {
+        LogMessage(@"PreyRestHttp", 10, @"Attempting to change status on Control Panel");
 		[request startSynchronous];
+        LogMessage(@"PreyRestHttp", 10, @"PUT devices/%@.xml [missing=%@] response: %@",deviceKey,missing?@"YES":@"NO",[request responseStatusMessage]);
 		NSError *error = [request error];
 		if (!error) {
 			/*
@@ -342,8 +344,7 @@
         int statusCode = [request responseStatusCode];
         if (statusCode != 200)
             @throw [NSException exceptionWithName:@"ReportNotSentException" reason:NSLocalizedString(@"Report couldn't be sent",nil) userInfo:nil];
-        NSString *response = [request responseString];
-        LogMessage(@"PreyRestHttp", 10, @"Report sent response: %@",response);
+        LogMessage(@"PreyRestHttp", 10, @"POST %@ response: %@",report.url,[request responseStatusMessage]);
     }];
     [request setFailedBlock:^{
         @throw [NSException exceptionWithName:@"ReportNotSentException" reason:[[request error] localizedDescription] userInfo:nil]; }];

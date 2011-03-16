@@ -15,7 +15,7 @@
 
 +(IphoneInformationHelper*) initializeWithValues{ 
 	IphoneInformationHelper *iphoneInfo = [[[IphoneInformationHelper alloc] init] autorelease];
-	iphoneInfo.name = [[UIDevice currentDevice] localizedModel];
+	iphoneInfo.name = [[UIDevice currentDevice] name];
 	iphoneInfo.type = @"Phone";
 	iphoneInfo.os = @"Android"; //change to iOS
 	iphoneInfo.version = [[UIDevice currentDevice] systemVersion];

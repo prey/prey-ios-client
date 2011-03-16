@@ -221,7 +221,6 @@
 	email.placeholder = @"Your Prey account email";
 	email.keyboardType = UIKeyboardTypeEmailAddress;
 	email.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    email.text=@"iphone@yaconi.cl";
 	[email setDelegate:self];
 	[email addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
 	
@@ -230,7 +229,6 @@
 	password.returnKeyType = UIReturnKeyDone;
 	[password setSecureTextEntry:YES];
 	password.placeholder = @"Your Prey account password";
-    password.text=@"asdasd";
 	[password setDelegate:self];
 	[password addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
 	

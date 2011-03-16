@@ -9,21 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "AccuracyManager.h"
 #import "DelayManager.h"
+#import "MBProgressHUD.h"
 
 #define kDetachAction  1;
 
-@interface PreferencesController : UITableViewController <UIActionSheetDelegate>  {
+@interface PreferencesController : UITableViewController <UIActionSheetDelegate, MBProgressHUDDelegate>  {
 UIActivityIndicatorView *cLoadingView;
 	AccuracyManager *accManager;
 	DelayManager *delayManager;
 	UISwitch *missing;
 	BOOL pickerShowed;
+    MBProgressHUD *HUD;
 	
 }
-@property (nonatomic, retain) UIActivityIndicatorView *cLoadingView;
-- (void)initSpinner;
-- (void)spinBegin;
-- (void)spinEnd;
+
 - (void) setupNavigatorForPicker:(BOOL)showed withSelector:(SEL)action;
 
 @end

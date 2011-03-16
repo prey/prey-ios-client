@@ -16,34 +16,17 @@
 
 @interface PreferencesController()
 
--(void) goPrey;
 -(void) showAlert;
+-(void) startPrey;
+-(void) stopPrey;
 
 @end
 
 @implementation PreferencesController
 
-@synthesize cLoadingView;
 
 #pragma mark -
 #pragma mark Private Methods
--(void) goPrey{
-	[NSThread detachNewThreadSelector: @selector(spinBegin) toTarget:self withObject:nil];
-	[[PreyRunner instance] startPreyService];
-	[NSThread detachNewThreadSelector: @selector(spinEnd) toTarget:self withObject:nil];
-}
-
--(void) stopPrey{
-	[[PreyRunner instance] stopPreyService];
-}
-
--(void) startOnIntervalChecking {
-	[[PreyRunner instance] startOnIntervalChecking];
-}
-
--(void) stopOnIntervalChecking {
-	[[PreyRunner instance] stopOnIntervalChecking];
-}
 
 
 - (void)showAlert{
@@ -51,26 +34,25 @@
 	[appDelegate showAlert:@"This is a stolen computer, and is being tracked by Prey. Please contact the owner at (INSERT_MAIL_HERE) to resolve the situation."];
 }
 
+-(void) startPrey {
+    [[PreyRunner instance] startPreyService];
+}
+
+-(void) stopPrey {
+    [[PreyRunner instance] stopPreyService];
+}
 
 #pragma mark -
-#pragma mark Spinner Methods
+#pragma mark MBProgressHUDDelegate methods
 
-- (void)initSpinner {
-	cLoadingView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];    
-	// we put our spinning "thing" right in the center of the current view
-	CGPoint newCenter = (CGPoint) [self.view center];
-	cLoadingView.center = newCenter;	
-	[self.view addSubview:cLoadingView];	
-}
-
-- (void)spinBegin {
-	[cLoadingView startAnimating];
+- (void)hudWasHidden {
+    // Remove HUD from screen when the HUD was hidded
+    [HUD removeFromSuperview];
+    [HUD release];
+	
 }
 
 
-- (void)spinEnd {
-	[cLoadingView stopAnimating];
-}
 
 
 #pragma mark -
@@ -236,6 +218,7 @@
 - (void) setupNavigatorForPicker:(BOOL)showed withSelector:(SEL)action {
 	if (showed){
 		[self.navigationController setNavigationBarHidden:NO animated:YES];
+        self.navigationItem.hidesBackButton=YES;
 		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self	action:action];
 		self.navigationItem.rightBarButtonItem = doneButton;
 		pickerShowed = YES;
@@ -249,6 +232,7 @@
 		
 		//hide the nav bar again
 		[self.navigationController setNavigationBarHidden:YES animated:YES];
+        self.navigationItem.hidesBackButton=NO;
 		[self.tableView reloadData];
 		pickerShowed = NO;
 	}
@@ -287,7 +271,8 @@
 															 delegate:self 
 													cancelButtonTitle:button
 													destructiveButtonTitle:@"Cancel" otherButtonTitles:nil];
-	[actionSheet showInView:self.view];
+	[actionSheet setTag:2];
+    [actionSheet showInView:self.view];
 	[actionSheet release];
 	
 	 
@@ -300,23 +285,43 @@
 		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 
 		if (buttonIndex == 1){
-			[[PreyConfig instance] detachDevice];
-			WelcomeController *welcomeController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
-			[[self navigationController] pushViewController:welcomeController animated:YES];
-			[welcomeController release];
-		}
+            //Dettaching device...
+            HUD = [[MBProgressHUD alloc] initWithView:self.view];
+            HUD.delegate = self;
+            HUD.labelText = NSLocalizedString(@"Removing device...",nil);
+            [self.navigationController.view addSubview:HUD];
+            [HUD showWhileExecuting:@selector(detachDevice) onTarget:self withObject:nil animated:YES];
+        }
 	}
-	else 
+	else if (actionSheet.tag == 2)
 		if (missing.on)
-			if (buttonIndex == 1)
-				[[PreyRunner instance] startPreyService];
+			if (buttonIndex == 1){
+                HUD = [[MBProgressHUD alloc] initWithView:self.view];
+                HUD.delegate = self;
+                HUD.labelText = NSLocalizedString(@"Starting Prey...",nil);
+                [self.navigationController.view addSubview:HUD];
+                [HUD showWhileExecuting:@selector(startPrey) onTarget:self withObject:nil animated:YES];
+            }
 			else
 				[missing setOn:NO animated:YES];
 		else
-			if (buttonIndex == 1)
-				[[PreyRunner instance] stopPreyService];
+			if (buttonIndex == 1){
+				HUD = [[MBProgressHUD alloc] initWithView:self.view];
+                HUD.delegate = self;
+                HUD.labelText = NSLocalizedString(@"Stopping Prey...",nil);
+                [self.navigationController.view addSubview:HUD];
+                [HUD showWhileExecuting:@selector(stopPrey) onTarget:self withObject:nil animated:YES];
+            }
 			else
 				[missing setOn:YES animated:YES];
+
+}
+
+- (void) detachDevice {
+    [[PreyConfig instance] detachDevice];
+    WelcomeController *welcomeController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+    [[self navigationController] pushViewController:welcomeController animated:YES];
+    [welcomeController release];
 
 }
 
@@ -347,7 +352,6 @@
 
 
 - (void)viewDidLoad {
-	[self initSpinner];
 	accManager = [[AccuracyManager alloc] init];
 	delayManager = [[DelayManager alloc] init];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];

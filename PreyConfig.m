@@ -48,6 +48,8 @@ static PreyConfig *_instance = nil;
 	newConfig.email = [user email];
 	[newConfig loadDefaultValues];
     [newConfig saveValues];
+    newConfig.alreadyRegistered = YES;
+    _instance = nil; //to force the config reload on next +instance call.
 	return [newConfig autorelease];
 }
 

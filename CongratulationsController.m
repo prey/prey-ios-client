@@ -20,7 +20,7 @@
 - (IBAction) okPressed: (id) sender{
 	
 	PreferencesController *preferencesController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-	[self.navigationController popToRootViewControllerAnimated:YES];
+//	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self.navigationController setNavigationBarHidden:YES animated:YES];
 	
 	[self.navigationController pushViewController:preferencesController animated:YES];
