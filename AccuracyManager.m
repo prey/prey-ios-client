@@ -60,11 +60,13 @@
 	}
 	
 	[view.window addSubview: accPicker];
-	
+	CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
+    
+    
 	// size up the picker view to our screen and compute the start/end frame origin for our slide up animation
 	//
 	// compute the start frame
-	CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
+	
 	CGSize pickerSize = [accPicker sizeThatFits:CGSizeZero];
 	CGRect startRect = CGRectMake(0.0,
 								  screenRect.origin.y + screenRect.size.height,
@@ -76,14 +78,38 @@
 								   screenRect.origin.y + screenRect.size.height - pickerSize.height,
 								   pickerSize.width,
 								   pickerSize.height);
+    
+    //Creating the label.
+    warningLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, screenRect.size.width, screenRect.origin.y + screenRect.size.height - pickerSize.height-64)];
+	[view.window addSubview:warningLabel];
+	//warningLabel.font = [UIFont fontWithName:@"Zapfino" size: 14.0];
+	warningLabel.shadowColor = [UIColor blackColor];
+    warningLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.8];
+	//warningLabel.shadowOffset = CGSizeMake(1,1);
+	warningLabel.textColor = [UIColor whiteColor];
+    warningLabel.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
+	warningLabel.lineBreakMode = UILineBreakModeWordWrap;
+	warningLabel.numberOfLines = 0; // 2 lines ; 0 - dynamical number of lines
+	warningLabel.text = @"Better accuracy means more battery consumption.\n'Best possible' option could drain your battery in a couple of hours!";
+    warningLabel.layer.borderColor = [UIColor whiteColor].CGColor;
+    warningLabel.layer.borderWidth = 3.0;
+    warningLabel.userInteractionEnabled = YES;
+    
+    //setting label start position
+    CGRect labelStartRect = CGRectMake(0.0,-100,screenRect.size.width, screenRect.origin.y + screenRect.size.height - pickerSize.height-64);
+	warningLabel.frame = labelStartRect;
+    
+    CGRect labelEndRect = CGRectMake(0,pickerRect.origin.y-warningLabel.frame.size.height, screenRect.size.width, screenRect.origin.y + screenRect.size.height - pickerSize.height-64);
 	// start the slide up animation
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.3];
 	
+    
 	// we need to perform some post operations after the animation is complete
 	[UIView setAnimationDelegate:self];
 	
 	accPicker.frame = pickerRect;
+    warningLabel.frame = labelEndRect;
 	
 	// shrink the table vertical size to make room for the date picker
 	CGRect newFrame = tableView.frame;
@@ -97,7 +123,7 @@
 	CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
 	CGRect endFrame = accPicker.frame;
 	endFrame.origin.y = screenRect.origin.y + screenRect.size.height;
-	
+	CGRect labelEndFrame = CGRectMake(0,-100,320,100);
 	// start the slide down animation
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.3];
@@ -105,7 +131,7 @@
 	// we need to perform some post operations after the animation is complete
 	[UIView setAnimationDelegate:self];
 	[UIView setAnimationDidStopSelector:@selector(slideDownDidStop)];
-	
+	warningLabel.frame = labelEndFrame;
 	accPicker.frame = endFrame;
 	[UIView commitAnimations];
 	// grow the table back again in vertical size to make room for the date picker
@@ -117,6 +143,7 @@
 - (void)slideDownDidStop
 {
 	[accPicker removeFromSuperview];
+    [warningLabel removeFromSuperview];
 }
 	
 #pragma mark -

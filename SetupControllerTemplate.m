@@ -8,6 +8,8 @@
 
 #import "SetupControllerTemplate.h"
 #import "CongratulationsController.h"
+#import "PreyAppDelegate.h"
+#import "PreyRunner.h"
 
 @interface SetupControllerTemplate () 
 
@@ -40,6 +42,11 @@
 	
 }
 #pragma mark -
+
+- (void) activatePreyService {
+    [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
+    [[PreyRunner instance] startOnIntervalChecking];
+}
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {

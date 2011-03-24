@@ -16,7 +16,7 @@
 #import "Constants.h"
 #import "AlertModuleController.h"
 #import "PreyRunner.h"
-#import "WebViewController.h"
+#import "FakeWebView.h"
 
 
 
@@ -38,43 +38,81 @@
 }
 
 #pragma mark -
-#pragma mark Application lifecycle
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-	LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
-	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.6", 55408);
-	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
-    
-    
-	UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-	id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-	if (remoteNotification) {
-		[self showAlert: @"Remote notification received. Here we can send the app to the background or show a customized message."];	}
-	
-	if (localNotif) {
-		application.applicationIconBadgeNumber = localNotif.applicationIconBadgeNumber-1; 
-		LogMessage(@"App Delegate", 10, @"Prey local notification clicked... running!");
-		PreyRunner *runner = [PreyRunner instance];
-		[runner startPreyService];
-	}
-	
-	
-	LogMessage(@"App Delegate", 10, @"Registering for push notifications...");    
+#pragma mark Some useful stuff
+- (void)registerForRemoteNotifications {
+    LogMessage(@"App Delegate", 10, @"Registering for push notifications...");    
     [[UIApplication sharedApplication] 
 	 registerForRemoteNotificationTypes:
 	 (UIRemoteNotificationTypeAlert | 
 	  UIRemoteNotificationTypeBadge | 
 	  UIRemoteNotificationTypeSound)];
-	
+}
+
+- (void)showFakeScreen {
+    LogMessage(@"App Delegate", 20,  @"Showing the guy our fake screen at: %@", url );
+    CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
+    UIWebView *fakeView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 20, appFrame.size.width, appFrame.size.height)] autorelease];
+    [fakeView setDelegate:self];
     
-	[[LocationController instance] startMonitoringSignificantLocationChanges];
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [fakeView loadRequest:requestObj];
+
+    //[fakeView openUrl:url showingLoadingText:@"Accessing your account..."];
+    
+    [window addSubview:fakeView];
+    [window makeKeyAndVisible];
+    showFakeScreen = NO;
+}
+
+#pragma mark -
+#pragma mark WebView delegate
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    MBProgressHUD *HUD2 = [MBProgressHUD showHUDAddedTo:webView animated:YES];
+    HUD2.labelText = NSLocalizedString(@"Accessing your account...",nil);
+    HUD2.removeFromSuperViewOnHide=YES;
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [MBProgressHUD hideHUDForView:webView animated:YES];
+}
+
+#pragma mark -
+#pragma mark Application lifecycle
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
+	//LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
+	LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.2", 50000);
+    //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"Prey");
+	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
+    LogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS!!");
+    
+	UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+	id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+	if (remoteNotification) {
+        LogMessage(@"App Delegate", 10, @"Prey remote notification received while not running!");	
+        url = [remoteNotification objectForKey:@"url"];
+        [[PreyRunner instance] startPreyService];
+        showFakeScreen = YES;
+        //[self showAlert: @"Remote notification received. Here we can send the app to the background or show a customized message."];	
+    }
+	
+	if (localNotif) {
+		application.applicationIconBadgeNumber = localNotif.applicationIconBadgeNumber-1; 
+		LogMessage(@"App Delegate", 10, @"Prey local notification clicked... running!");
+        [[PreyRunner instance] startPreyService];
+	}
 	
 	PreyConfig *config = [PreyConfig instance];
-	NSOperationQueue *bgQueue = [[NSOperationQueue alloc] init];
-	NSInvocationOperation* updateStatus = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(updateMissingStatus:) object:config] autorelease];
-	[bgQueue addOperation:updateStatus];
-	[bgQueue release];
-
+    if (config.alreadyRegistered) {
+        
+        [self registerForRemoteNotifications];
+        [[PreyRunner instance] startOnIntervalChecking];
+ 
+        NSOperationQueue *bgQueue = [[NSOperationQueue alloc] init];
+        NSInvocationOperation* updateStatus = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(updateMissingStatus:) object:config] autorelease];
+        [bgQueue addOperation:updateStatus];
+        [bgQueue release];
+    }
      
 	/*
 	LoginController *loginController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
@@ -135,17 +173,9 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-
+     LogMessage(@"App Delegate", 20,  @"DID BECOME ACTIVE!!");
     if (showFakeScreen){
-        WebViewController *webView = [[WebViewController alloc] initWithNibName:@"WebView" bundle:nil];
-        
-        [window addSubview:[webView view]];
-        
-        // Override point for customization after app launch
-        [window makeKeyAndVisible];
-        //[self showAlert: @"Remote notification received. Here we can send the app to the background or show a customized message."];
-        //[self showAlert: @"Hello, I'm a Fake screen :)"];
-        showFakeScreen = NO;
+        [self showFakeScreen];
         return;
 	}
 	
@@ -260,8 +290,13 @@
 #pragma mark Push notifications delegate
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken { 
-    LogMessage(@"App Delegate", 10, @"Did register for remote notifications - Device Token=%@",deviceToken);
-	
+    NSString * tokenAsString = [[[deviceToken description] 
+                                 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
+                                stringByReplacingOccurrencesOfString:@" " withString:@""];
+    LogMessage(@"App Delegate", 10, @"Did register for remote notifications - Device Token=%@",tokenAsString);
+	PreyRestHttp *http = [[PreyRestHttp alloc] init];
+    [http setPushRegistrationId:tokenAsString]; 
+    
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err { 
@@ -271,9 +306,14 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    LogMessage(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);
+    /*
     for (id key in userInfo) {
-        LogMessage(@"App Delegate", 10, @"Remote notification received - key: %@, value: %@", key, [userInfo objectForKey:key]);
-    }    
+        LogMessage(@"App Delegate", 10, @"%@: %@", key, [userInfo objectForKey:key]);
+    } */   
+    url = [userInfo objectForKey:@"url"];
+    [[PreyRunner instance] startPreyService];
+    [self updateMissingStatus:[PreyConfig instance]];
 	showFakeScreen = YES;
 	
 }

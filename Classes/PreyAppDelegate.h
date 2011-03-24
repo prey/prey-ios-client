@@ -7,14 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LocationController.h"
+#import "MBProgressHUD.h"
 
-@interface PreyAppDelegate : NSObject <UIApplicationDelegate, UINavigationControllerDelegate> {
+
+@interface PreyAppDelegate : NSObject <UIApplicationDelegate, UINavigationControllerDelegate, UIWebViewDelegate> {
     UIWindow *window;
 	UINavigationController *viewController;
-	
 	NSDate *wentToBackground;
 	BOOL showFakeScreen;
+    NSString *url;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -24,6 +25,8 @@
 - (void)showNewUserWizard;
 - (void)showPreferences;
 - (void)showAlert: (NSString *) textToShow;
+- (void)showFakeScreen;
+- (void)registerForRemoteNotifications;
 
 @end
 

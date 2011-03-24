@@ -14,6 +14,7 @@
 	NSArray *accuracyValues;
 	NSDictionary *accuracyData;
 	UIPickerView *accPicker;
+    UILabel *warningLabel;
 }
 
 - (NSString *) currentlySelectedName;

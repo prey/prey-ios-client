@@ -175,7 +175,7 @@
 		NSError *error = [request error];
 		int statusCode = [request responseStatusCode];
 		//NSString *statusMessage = [request responseStatusMessage];
-		NSString *response = [request responseString];
+		//NSString *response = [request responseString];
 		LogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",deviceKey,[request responseStatusMessage]);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
@@ -185,8 +185,8 @@
 		if (!error) {
 			NSError *error = nil;
 			ConfigParserDelegate *configParser = [[ConfigParserDelegate alloc] init];
-			NSData *responseData = [request responseData];
-			DeviceModulesConfig *modulesConfig = [configParser parseModulesConfig:responseData parseError:&error];
+			NSData *respData = [request responseData];
+			DeviceModulesConfig *modulesConfig = [configParser parseModulesConfig:respData parseError:&error];
 			[configParser release];			
 			return modulesConfig;
 		}	
@@ -399,6 +399,33 @@
 		LogMessage(@"PreyRestHttp", 10, @"Internet connection FOUND!");
 	}
 	return internet;
+}
+
+- (void) setPushRegistrationId: (NSString *) id {
+    PreyConfig *preyConfig = [PreyConfig instance];
+    NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [preyConfig deviceKey]]];
+	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    [request setShouldContinueWhenAppEntersBackground:YES];
+	[request setUsername:[preyConfig apiKey]];
+	[request setPassword: @"x"];
+	[request setRequestMethod:@"PUT"];
+	[request setPostValue:id forKey:@"device[notification_id]"];
+	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
+	[request setUseSessionPersistence:NO];
+	[request setShouldRedirect:NO];
+	
+	
+	@try {
+        
+		[request startSynchronous];
+		NSError *error = [request error];
+		if (error)
+			@throw [NSException exceptionWithName:@"CouldntSetRegIdException" reason:[error localizedDescription] userInfo:nil];
+        LogMessage(@"PreyRestHttp", 10, @"Device notification_id updated OK on the Control Panel");
+	}
+	@catch (NSException * e) {
+		 LogMessage(@"PreyRestHttp", 10, @"ERROR Updating device reg_id on the Control Panel: %@", [e reason]);
+	}
 }
 
 @end

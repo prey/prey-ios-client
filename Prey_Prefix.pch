@@ -8,4 +8,5 @@
 	#import <CoreLocation/CoreLocation.h>
 	#import "LoggerCommon.h"
 	#import "LoggerClient.h"
+    #import <QuartzCore/QuartzCore.h>
 #endif

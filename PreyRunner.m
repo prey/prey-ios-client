@@ -35,8 +35,7 @@
 //this method starts the continous execution of Prey
 -(void) startPreyService{
 	LogMessageCompat(@"Starting Prey... ");
-	lastExecution = [[NSDate date] retain];
-	//We'll use the location services to keep Prey running in the background...
+	//We use the location services to keep Prey running in the background...
 	LocationController *locController = [LocationController instance];
 	[locController startUpdatingLocation];
 	if (![PreyRestHttp checkInternet])
@@ -69,22 +68,20 @@
 
 - (void)locationUpdated:(NSNotification *)notification
 {
-	if (lastExecution != nil) {
+	NSInvocationOperation* theOp = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(runPrey) object:nil] autorelease];
+    if (lastExecution != nil) {
 		NSTimeInterval lastRunInterval = -[lastExecution timeIntervalSinceNow];
 		LogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", [PreyConfig instance].delay, lastRunInterval);
 		if (lastRunInterval >= [PreyConfig instance].delay){
 			LogMessage(@"Prey Runner", 0, @"Location updated notification received. Waiting interval expired, running Prey now!");
-			NSInvocationOperation* theOp = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(runPrey) object:nil] autorelease];
+			
             [theOp start];
             //[self runPrey]; 
-            
-		}
-		LogMessage(@"Prey Runner", 0, @"Location updated notification received, but interval hasn't expired.");
+		} else
+            LogMessage(@"Prey Runner", 0, @"Location updated notification received, but interval hasn't expired.");
 	} else {
-		[self runPrey];
+		[theOp start];
 	}
-
-	
 }
 
 

@@ -17,7 +17,7 @@
 	IphoneInformationHelper *iphoneInfo = [[[IphoneInformationHelper alloc] init] autorelease];
 	iphoneInfo.name = [[UIDevice currentDevice] name];
 	iphoneInfo.type = @"Phone";
-	iphoneInfo.os = @"Android"; //change to iOS
+	iphoneInfo.os = @"iOS"; //change to iOS
 	iphoneInfo.version = [[UIDevice currentDevice] systemVersion];
 	iphoneInfo.macAddress = @"";
 	

@@ -39,8 +39,10 @@
 		user = [User allocWithEmail:[email text] password:[password text]];
 		device = [Device newDeviceForApiKey:[user apiKey]];
 		config = [[PreyConfig initWithUser:user andDevice:device] retain];
-		if (config != nil)
-			[self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
+		if (config != nil){
+			[super activatePreyService];
+            [self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
+        }
 
 	}
 	@catch (NSException * e) {		

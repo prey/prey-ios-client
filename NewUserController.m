@@ -11,6 +11,7 @@
 #import "Device.h"
 #import "PreyConfig.h"
 
+
 @interface NewUserController () 
 
 - (void) addNewUser;
@@ -57,6 +58,7 @@
 		config = [PreyConfig initWithUser: user andDevice:device];
 		if (config != nil){
 			NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
+            [super activatePreyService];
 			[self performSelectorOnMainThread:@selector(showCongratsView) withObject:txtCongrats waitUntilDone:NO];
 		}
 	}

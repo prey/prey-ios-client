@@ -23,5 +23,6 @@
 //- (IBAction) next: (id) sender;
 - (IBAction) cancel: (id) sender;
 - (IBAction) doneEditing:(id)sender;
+- (void) activatePreyService;
 
 @end

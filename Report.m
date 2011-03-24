@@ -31,7 +31,7 @@
 			name:@"locationUpdated" object:nil];
 	} else {
         @try {
-            LogMessage(@"Report", 5, @"I've a valid location to send. Sending report now!");
+            LogMessage(@"Report", 5, @"I've got a valid location to send. Sending report now!");
             PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
             [userHttp sendReport:self];
             [self performSelectorOnMainThread:@selector(alertReportSent) withObject:nil waitUntilDone:NO];

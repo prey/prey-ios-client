@@ -20,6 +20,7 @@
 		073E6B44126CFFB9008FEB71 /* DeviceModulesConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 073E6B43126CFFB9008FEB71 /* DeviceModulesConfig.m */; };
 		0752D47713159B4B005CB176 /* location_best.png in Resources */ = {isa = PBXBuildFile; fileRef = 0752D47513159B4B005CB176 /* location_best.png */; };
 		0752D47813159B4B005CB176 /* location_worst.png in Resources */ = {isa = PBXBuildFile; fileRef = 0752D47613159B4B005CB176 /* location_worst.png */; };
+		075BF40E133A768D0019539C /* FakeWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 075BF40D133A768B0019539C /* FakeWebView.m */; };
 		07783BA6126CDE07007BD409 /* PreyRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BA5126CDE07007BD409 /* PreyRunner.m */; };
 		07783BB7126CE08D007BD409 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BB6126CE08D007BD409 /* LocationController.m */; };
 		07783BCB126CE584007BD409 /* PreyModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BCA126CE584007BD409 /* PreyModule.m */; };
@@ -61,8 +62,6 @@
 		078E136E132AB562004B7C60 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E1366132AB562004B7C60 /* ASINetworkQueue.m */; };
 		078E1372132AB584004B7C60 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E1371132AB584004B7C60 /* Reachability.m */; };
 		078E1375132ABC3C004B7C60 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E1374132ABC3C004B7C60 /* ASIAuthenticationDialog.m */; };
-		07C468D213316CA400D7AA3F /* WebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07C468D113316CA400D7AA3F /* WebView.xib */; };
-		07C468D613316D1400D7AA3F /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C468D513316D1400D7AA3F /* WebViewController.m */; };
 		07CD95E41253D4FB00590FCD /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 07CD95E31253D4FB00590FCD /* logo.png */; };
 		07CD95F51253D99500590FCD /* PreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD95F31253D99500590FCD /* PreferencesController.xib */; };
 		07CD96251253E13800590FCD /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96231253E13800590FCD /* LoginController.m */; };
@@ -101,6 +100,8 @@
 		073E6B43126CFFB9008FEB71 /* DeviceModulesConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceModulesConfig.m; sourceTree = "<group>"; };
 		0752D47513159B4B005CB176 /* location_best.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_best.png; sourceTree = "<group>"; };
 		0752D47613159B4B005CB176 /* location_worst.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_worst.png; sourceTree = "<group>"; };
+		075BF40C133A76890019539C /* FakeWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeWebView.h; sourceTree = "<group>"; };
+		075BF40D133A768B0019539C /* FakeWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeWebView.m; sourceTree = "<group>"; };
 		07783BA4126CDE07007BD409 /* PreyRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyRunner.h; sourceTree = "<group>"; };
 		07783BA5126CDE07007BD409 /* PreyRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyRunner.m; sourceTree = "<group>"; };
 		07783BB5126CE08D007BD409 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
@@ -174,9 +175,6 @@
 		078E1371132AB584004B7C60 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		078E1373132ABC3C004B7C60 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		078E1374132ABC3C004B7C60 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
-		07C468D113316CA400D7AA3F /* WebView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebView.xib; sourceTree = "<group>"; };
-		07C468D413316D1400D7AA3F /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = WebViewController.h; sourceTree = "<group>"; };
-		07C468D513316D1400D7AA3F /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		07CD95E31253D4FB00590FCD /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		07CD95F11253D99500590FCD /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesController.h; path = Classes/PreferencesController.h; sourceTree = "<group>"; };
 		07CD95F21253D99500590FCD /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesController.m; path = Classes/PreferencesController.m; sourceTree = "<group>"; };
@@ -286,11 +284,12 @@
 		07178F3B12675C2C007B290C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				07C468D313316CD000D7AA3F /* WebView Controller */,
 				07178FA81268A47F007B290C /* Login Controller */,
 				07178928125A4600007B290C /* Welcome Controller */,
 				07178DA5126605A0007B290C /* Preferences Controller */,
 				07178E9B126641A0007B290C /* Setup Controllers */,
+				075BF40C133A76890019539C /* FakeWebView.h */,
+				075BF40D133A768B0019539C /* FakeWebView.m */,
 			);
 			name = Controllers;
 			path = ..;
@@ -474,15 +473,6 @@
 			path = Reachability;
 			sourceTree = "<group>";
 		};
-		07C468D313316CD000D7AA3F /* WebView Controller */ = {
-			isa = PBXGroup;
-			children = (
-				07C468D413316D1400D7AA3F /* WebViewController.h */,
-				07C468D513316D1400D7AA3F /* WebViewController.m */,
-			);
-			name = "WebView Controller";
-			sourceTree = "<group>";
-		};
 		07CEDA9812E9DD77002B4EB5 /* NSLogger */ = {
 			isa = PBXGroup;
 			children = (
@@ -557,7 +547,6 @@
 				07178925125A45F1007B290C /* WelcomeController.xib */,
 				07178969125A6771007B290C /* CongratulationsController.xib */,
 				8D1107310486CEB800E47090 /* Prey-Info.plist */,
-				07C468D113316CA400D7AA3F /* WebView.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -647,7 +636,6 @@
 				077B3479130EE26C004ADA99 /* prey-iphone-front.png in Resources */,
 				0752D47713159B4B005CB176 /* location_best.png in Resources */,
 				0752D47813159B4B005CB176 /* location_worst.png in Resources */,
-				07C468D213316CA400D7AA3F /* WebView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,7 +689,7 @@
 				078E136E132AB562004B7C60 /* ASINetworkQueue.m in Sources */,
 				078E1372132AB584004B7C60 /* Reachability.m in Sources */,
 				078E1375132ABC3C004B7C60 /* ASIAuthenticationDialog.m in Sources */,
-				07C468D613316D1400D7AA3F /* WebViewController.m in Sources */,
+				075BF40E133A768D0019539C /* FakeWebView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

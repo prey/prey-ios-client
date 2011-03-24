@@ -39,5 +39,6 @@
 - (BOOL) isMissingTheDevice: (NSString *) device ofTheUser: (NSString *) apiKey;
 - (void) sendReport: (Report *) report;
 + (BOOL) checkInternet;
+- (void) setPushRegistrationId: (NSString *) id;
 
 @end
