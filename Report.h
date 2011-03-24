@@ -8,16 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h> 
+#import "ASIFormDataRequest.h"
 
 @interface Report : NSObject {
 	NSMutableArray *modules;
 	NSMutableDictionary *reportData;
+    UIImage *picture;
 }
 
 @property (nonatomic, retain) NSMutableArray *modules;
-@property BOOL waitForLocation;
+@property BOOL waitForLocation, waitForPicture;
 @property (nonatomic, retain) NSString *url;
 
 - (void) send;
 - (NSMutableDictionary *) getReportData;
+- (void) fillReportData:(ASIFormDataRequest*) request;
 @end

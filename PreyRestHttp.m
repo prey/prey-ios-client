@@ -177,6 +177,7 @@
 		//NSString *statusMessage = [request responseStatusMessage];
 		//NSString *response = [request responseString];
 		LogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",deviceKey,[request responseStatusMessage]);
+        //LogMessage(@"PreyRestHttp", 20, @"GET devices/%@.xml response: %@",deviceKey,[request responseString]);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
 			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
@@ -330,11 +331,13 @@
 	[request setRequestMethod:@"POST"];
 	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
 	
-
+    /*
 	[[report getReportData] enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
 		//LogMessage(@"PreyRestHttp", 10, @"Adding to report: %@ = %@", key, object);
-		[request setPostValue:(NSString*)object forKey:(NSString *) key];
+		[request addPostValue:(NSString*)object forKey:(NSString *) key];
 	}];
+     */
+    [report fillReportData:request];
 
 	[request setUseSessionPersistence:NO];
 	[request setShouldRedirect:NO];

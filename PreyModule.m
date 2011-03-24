@@ -10,6 +10,7 @@
 #import "LocationModule.h"
 #import "AlarmModule.h"
 #import "AlertModule.h"
+#import "PictureModule.h"
 
 @implementation PreyModule
 
@@ -32,6 +33,9 @@
 	if ([moduleName isEqualToString:@"alert"]) {
 		return [[AlertModule alloc] init];
 	}
+    if ([moduleName isEqualToString:@"webcam"]) {
+		return [[PictureModule alloc] init];
+	}
 	return nil;
 }
 
@@ -41,6 +45,10 @@
 
 - (NSMutableDictionary *) reportData {
 	return nil; //must be overriden;
+}
+
+- (void) fillReportData:(ASIFormDataRequest*) request {
+    //must be overriden;
 }
 
 @end

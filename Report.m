@@ -13,23 +13,19 @@
 
 @implementation Report
 
-@synthesize modules,waitForLocation,url;
+@synthesize modules,waitForLocation,waitForPicture,url;
 
 - (id) init {
     self = [super init];
     if (self != nil) {
 		waitForLocation = NO;
+        waitForPicture = NO;
 		reportData = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
-- (void) send {
-	if (waitForLocation) {
-		LogMessage(@"Report", 5, @"Have to wait for a location before send the report.");
-		[[NSNotificationCenter defaultCenter] addObserver:self
-			selector:@selector(locationUpdated:)
-			name:@"locationUpdated" object:nil];
-	} else {
+- (void) sendIfConditionsMatch {
+    if (!waitForPicture && !waitForLocation) {
         @try {
             LogMessage(@"Report", 5, @"I've got a valid location to send. Sending report now!");
             PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
@@ -37,11 +33,24 @@
             [self performSelectorOnMainThread:@selector(alertReportSent) withObject:nil waitUntilDone:NO];
         }
         @catch (NSException *exception) {
-             LogMessage(@"Report", 0, @"Report couldn't be sent: %@", [exception reason]);
+            LogMessage(@"Report", 0, @"Report couldn't be sent: %@", [exception reason]);
         }
-		
-	}
-
+    }
+}
+- (void) send {
+	if (waitForLocation) {
+		LogMessage(@"Report", 5, @"Have to wait for a location before send the report.");
+		[[NSNotificationCenter defaultCenter] addObserver:self
+			selector:@selector(locationUpdated:)
+			name:@"locationUpdated" object:nil];
+	} 
+    if (waitForPicture) {
+		LogMessage(@"Report", 5, @"Have to wait the picture be taken before send the report.");
+		[[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(pictureReady:)
+                                                     name:@"pictureReady" object:nil];
+	} 
+    [self sendIfConditionsMatch];
 }
 
 - (void) alertReportSent {
@@ -64,6 +73,28 @@
 	return reportData;
 }
 
+- (void) fillReportData:(ASIFormDataRequest*) request {
+    PreyModule* module;
+	for (module in modules){
+		if ([module reportData] != nil)
+			[reportData addEntriesFromDictionary:[module reportData]];
+	}
+    
+    [reportData enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
+		[request addPostValue:(NSString*)object forKey:(NSString *) key];
+	}];
+    if (picture != nil)
+        [request addData:UIImagePNGRepresentation(picture) withFileName:@"picture.png" andContentType:@"image/png" forKey:@"webcam[picture]"];
+} 
+
+- (void) pictureReady:(NSNotification *)notification {
+    picture = (UIImage*)[notification object];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pictureReady" object:nil];
+    waitForPicture = NO;
+	[self sendIfConditionsMatch];
+    
+}
+
 - (void)locationUpdated:(NSNotification *)notification
 {
     CLLocation *newLocation = (CLLocation*)[notification object];
@@ -75,12 +106,15 @@
 	[reportData addEntriesFromDictionary:data];
 	waitForLocation = NO;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"locationUpdated" object:nil];
-	[self send];
-    
+    waitForLocation = NO;
+	[self sendIfConditionsMatch];
 }
 
 - (void) dealloc {
 	[super dealloc];
 	[reportData release];
+    [modules release];
+    [url release];
+    [picture release];
 }
 @end
