@@ -85,10 +85,11 @@
 	}];
     if (picture != nil)
         [request addData:UIImagePNGRepresentation(picture) withFileName:@"picture.png" andContentType:@"image/png" forKey:@"webcam[picture]"];
+    [picture release];
 } 
 
 - (void) pictureReady:(NSNotification *)notification {
-    picture = (UIImage*)[notification object];
+    picture = [(UIImage*)[notification object] retain];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pictureReady" object:nil];
     waitForPicture = NO;
 	[self sendIfConditionsMatch];

@@ -26,7 +26,7 @@
 - (void) addModuleName: (NSString *) name ifActive: (NSString *) isActive ofType: (NSString *) type {
 
 	if ([isActive isEqualToString:@"true"]) {
-		PreyModule *module = [PreyModule newModuleForName:name];
+		PreyModule *module = [[PreyModule newModuleForName:name] retain];
 		if (module != nil){
 			if ([type isEqualToString:@"report"]){
 				module.type = ReportModuleType;
@@ -37,8 +37,9 @@
 				[self.actionModules addObject:module];
 			}
 			[module setReportToFill:self.reportToFill];
-			[module release];
+			
 		}
+        [module release];
 	}
 }
 
@@ -69,6 +70,15 @@
 - (void) setPostUrl: (NSString *) newUrl{
 	postUrl = newUrl;
 	self.reportToFill.url = newUrl;
+}
+
+-(void) dealloc {
+    [super dealloc];
+    [delay release];
+	[postUrl release];
+	[reportModules release];
+	[actionModules release];
+	[reportToFill release];
 }
 
 @end

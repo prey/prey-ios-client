@@ -81,7 +81,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
 	//LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
-	LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.2", 50000);
+	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.2", 50000);
     //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"Prey");
 	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
     LogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS!!");
@@ -296,7 +296,7 @@
     LogMessage(@"App Delegate", 10, @"Did register for remote notifications - Device Token=%@",tokenAsString);
 	PreyRestHttp *http = [[PreyRestHttp alloc] init];
     [http setPushRegistrationId:tokenAsString]; 
-    
+    [http release];
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err { 

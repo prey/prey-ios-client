@@ -18,8 +18,6 @@
 		07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07178F2512675AD3007B290C /* CoreLocation.framework */; };
 		073E6B2B126CFB34008FEB71 /* ConfigParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 073E6B2A126CFB34008FEB71 /* ConfigParserDelegate.m */; };
 		073E6B44126CFFB9008FEB71 /* DeviceModulesConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 073E6B43126CFFB9008FEB71 /* DeviceModulesConfig.m */; };
-		0752D47713159B4B005CB176 /* location_best.png in Resources */ = {isa = PBXBuildFile; fileRef = 0752D47513159B4B005CB176 /* location_best.png */; };
-		0752D47813159B4B005CB176 /* location_worst.png in Resources */ = {isa = PBXBuildFile; fileRef = 0752D47613159B4B005CB176 /* location_worst.png */; };
 		075BF40E133A768D0019539C /* FakeWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 075BF40D133A768B0019539C /* FakeWebView.m */; };
 		07783BA6126CDE07007BD409 /* PreyRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BA5126CDE07007BD409 /* PreyRunner.m */; };
 		07783BB7126CE08D007BD409 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07783BB6126CE08D007BD409 /* LocationController.m */; };
@@ -103,8 +101,6 @@
 		073E6B2A126CFB34008FEB71 /* ConfigParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigParserDelegate.m; sourceTree = "<group>"; };
 		073E6B42126CFFB9008FEB71 /* DeviceModulesConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceModulesConfig.h; sourceTree = "<group>"; };
 		073E6B43126CFFB9008FEB71 /* DeviceModulesConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceModulesConfig.m; sourceTree = "<group>"; };
-		0752D47513159B4B005CB176 /* location_best.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_best.png; sourceTree = "<group>"; };
-		0752D47613159B4B005CB176 /* location_worst.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location_worst.png; sourceTree = "<group>"; };
 		075BF40C133A76890019539C /* FakeWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeWebView.h; sourceTree = "<group>"; };
 		075BF40D133A768B0019539C /* FakeWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeWebView.m; sourceTree = "<group>"; };
 		07783BA4126CDE07007BD409 /* PreyRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyRunner.h; sourceTree = "<group>"; };
@@ -262,8 +258,6 @@
 		07178976125B8498007B290C /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				0752D47513159B4B005CB176 /* location_best.png */,
-				0752D47613159B4B005CB176 /* location_worst.png */,
 				077B3478130EE26C004ADA99 /* prey-iphone-front.png */,
 				07178977125B84B8007B290C /* check.png */,
 				07CD95E31253D4FB00590FCD /* logo.png */,
@@ -665,8 +659,6 @@
 				077D7A79126E2B3C00C713B7 /* AlertModuleController.xib in Resources */,
 				077D7A87126E2EEC00C713B7 /* large9.ttf in Resources */,
 				077B3479130EE26C004ADA99 /* prey-iphone-front.png in Resources */,
-				0752D47713159B4B005CB176 /* location_best.png in Resources */,
-				0752D47813159B4B005CB176 /* location_worst.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

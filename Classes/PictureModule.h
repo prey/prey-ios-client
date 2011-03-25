@@ -13,6 +13,7 @@
 @interface PictureModule : PreyModule <AVCaptureVideoDataOutputSampleBufferDelegate> {
     int frame;
     AVCaptureSession *session;
+    NSMutableArray *pictures;
 }
 @property (nonatomic,retain) AVCaptureSession *session;
 

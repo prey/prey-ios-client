@@ -15,6 +15,7 @@
 
 -(void) main {
     reportToFill.waitForPicture = YES;
+    pictures = [[NSMutableArray alloc] init];
     [self setupCaptureSession];
 }
 
@@ -29,7 +30,7 @@
     // Configure the session to produce lower resolution video frames, if your 
     // processing algorithm can cope. We'll specify medium quality for the
     // chosen device.
-    session.sessionPreset = AVCaptureSessionPresetMedium;
+    session.sessionPreset = AVCaptureSessionPresetLow;
     
     // Find a suitable AVCaptureDevice
     AVCaptureDevice *device = [AVCaptureDevice
@@ -61,7 +62,7 @@
     
     // If you wish to cap the frame rate to a known value, such as 15 fps, set 
     // minFrameDuration.
-    output.minFrameDuration = CMTimeMake(1, 15);
+    output.minFrameDuration = CMTimeMake(1, 1);
     
     // Start the session running to start the flow of data
     [session startRunning];
@@ -78,15 +79,35 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 { 
     // Create a UIImage from the sample buffer data
     UIImage *image = [[self imageFromSampleBuffer:sampleBuffer] retain];
-    frame++;
-    if (frame == 5){
+    
+    if ([pictures count] < 5){
         //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
         LogMessage(@"PictureModule", 10, @"Picture taken!");
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureReady" object:image];
+        [pictures addObject:image];
+    }
+    else{
+        [self joinImagesAndNotify];
         [self.session stopRunning];
     }
+        
     [image release];
     
+}
+
+- (void) joinImagesAndNotify {
+    CGSize pictureSize = [(UIImage*)[pictures objectAtIndex:0] size];
+    CGSize finalSize = CGSizeMake(pictureSize.width, pictureSize.height * [pictures count]);
+    UIGraphicsBeginImageContext(finalSize);
+    int i = 0;
+    for (UIImage *picture  in pictures) {
+        CGPoint point = CGPointMake(0, i*pictureSize.height);
+        [picture drawAtPoint:point];
+        i++;
+    }
+    UIImage *finalImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureReady" object:finalImage];
 }
 
 
@@ -143,6 +164,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
 - (void)dealloc {
     [session release];
+    [pictures release];
 	[super dealloc];
 }
 
