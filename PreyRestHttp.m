@@ -341,6 +341,7 @@
 
 	[request setUseSessionPersistence:NO];
 	[request setShouldRedirect:NO];
+    [request setNumberOfTimesToRetryOnTimeout:5];
     //[request setDelegate:self];
     
     [request setCompletionBlock:^{
@@ -350,8 +351,10 @@
         LogMessage(@"PreyRestHttp", 10, @"POST %@ response: %@",report.url,[request responseStatusMessage]);
     }];
     [request setFailedBlock:^{
-        @throw [NSException exceptionWithName:@"ReportNotSentException" reason:[[request error] localizedDescription] userInfo:nil]; }];
-
+        /*@throw [NSException exceptionWithName:@"ReportNotSentException" reason:[[request error] localizedDescription] userInfo:nil]; 
+         */
+        PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Report couldn't be sent: %@", [[request error] localizedDescription]);
+    }];
     [request startAsynchronous];
 	/*** USED FOR SYNC SENDING **/
     /*

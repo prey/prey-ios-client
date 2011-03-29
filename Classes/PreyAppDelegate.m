@@ -81,37 +81,47 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
 	//LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
-	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.2", 50000);
+	LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.2", 50000);
     //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"Prey");
 	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
-    LogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS!!");
+    PreyLogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS %@!!", [launchOptions description]);
     
-	UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-	id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-	if (remoteNotification) {
-        LogMessage(@"App Delegate", 10, @"Prey remote notification received while not running!");	
-        url = [remoteNotification objectForKey:@"url"];
-        [[PreyRunner instance] startPreyService];
-        showFakeScreen = YES;
-        //[self showAlert: @"Remote notification received. Here we can send the app to the background or show a customized message."];	
-    }
-	
-	if (localNotif) {
-		application.applicationIconBadgeNumber = localNotif.applicationIconBadgeNumber-1; 
-		LogMessage(@"App Delegate", 10, @"Prey local notification clicked... running!");
-        [[PreyRunner instance] startPreyService];
-	}
-	
-	PreyConfig *config = [PreyConfig instance];
-    if (config.alreadyRegistered) {
-        
-        [self registerForRemoteNotifications];
+    id locationValue = [launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey];
+	if (locationValue) //Significant location change received while app being closed.
+	{
+        PreyLogMessageAndFile(@"App Delegate", 0, @"[PreyAppDelegate] Significant location change received while app was closed!!");
         [[PreyRunner instance] startOnIntervalChecking];
- 
-        NSOperationQueue *bgQueue = [[NSOperationQueue alloc] init];
-        NSInvocationOperation* updateStatus = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(updateMissingStatus:) object:config] autorelease];
-        [bgQueue addOperation:updateStatus];
-        [bgQueue release];
+    }
+    else {        
+        UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+        id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (remoteNotification) {
+            PreyLogMessageAndFile(@"App Delegate", 10, @"Prey remote notification received while not running!");	
+            url = [remoteNotification objectForKey:@"url"];
+            [[PreyRunner instance] startPreyService];
+            showFakeScreen = YES;
+            //[self showAlert: @"Remote notification received. Here we can send the app to the background or show a customized message."];	
+        }
+        
+        if (localNotif) {
+            application.applicationIconBadgeNumber = localNotif.applicationIconBadgeNumber-1; 
+            LogMessage(@"App Delegate", 10, @"Prey local notification clicked... running!");
+            [[PreyRunner instance] startPreyService];
+        }
+        
+        PreyConfig *config = [PreyConfig instance];
+        if (config.alreadyRegistered) {
+            
+            [self registerForRemoteNotifications];
+            [[PreyRunner instance] startOnIntervalChecking];
+     
+            /*
+            NSOperationQueue *bgQueue = [[NSOperationQueue alloc] init];
+            NSInvocationOperation* updateStatus = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(updateMissingStatus:) object:config] autorelease];
+            [bgQueue addOperation:updateStatus];
+            [bgQueue release];
+             */
+        }
     }
      
 	/*
@@ -306,7 +316,7 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    LogMessage(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);
+    PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);
     /*
     for (id key in userInfo) {
         LogMessage(@"App Delegate", 10, @"%@: %@", key, [userInfo objectForKey:key]);

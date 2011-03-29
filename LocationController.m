@@ -12,7 +12,7 @@
 
 @implementation LocationController
 
-@synthesize accurateLocationManager,significantLocationManager;
+@synthesize accurateLocationManager;
 
 - (id) init {
     self = [super init];
@@ -23,11 +23,7 @@
 		self.accurateLocationManager.delegate = self;
 		self.accurateLocationManager.desiredAccuracy = config.desiredAccuracy;
 		
-		//self.locationManager.distanceFilter = 1;
-	
-		LogMessage(@"Prey Location Controller", 5, @"Initializing Significant LocationManager...");
-		self.significantLocationManager = [[CLLocationManager alloc] init];
-		self.significantLocationManager.delegate = self;		
+		//self.locationManager.distanceFilter = 1;	
     }
     return self;
 }
@@ -47,21 +43,12 @@
 	[self.accurateLocationManager startUpdatingLocation];
 	LogMessage(@"Prey Location Controller", 5, @"Accurate location updating started.");
 }
-- (void)startMonitoringSignificantLocationChanges {
-	[self.significantLocationManager startMonitoringSignificantLocationChanges];
-	LogMessage(@"Prey Location Controller", 5, @"Significant location updating started.");
-}
 
 - (void)stopUpdatingLocation {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"accuracyUpdated" object:nil];
 	[self.accurateLocationManager stopUpdatingLocation];
 	LogMessage(@"Prey Location Controller", 5, @"Accurate location updating stopped.");
 }
-- (void)stopMonitoringSignificantLocationChanges {
-	[self.significantLocationManager stopUpdatingLocation];
-	LogMessage(@"Prey Location Controller", 5, @"Significant location updating stopped.");
-}
-
 
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
@@ -84,15 +71,15 @@
 
 - (void)accuracyUpdated:(NSNotification *)notification
 {
-	LogMessage(@"Prey Location Controller", 5, @"Accuracy has been modified. Updating location manager...");
-	self.accurateLocationManager.desiredAccuracy =  ((PreyConfig*)[notification object]).desiredAccuracy;
+    CLLocationAccuracy newAccuracy = ((PreyConfig*)[notification object]).desiredAccuracy;
+	PreyLogMessageAndFile(@"Prey Location Controller", 5, @"Accuracy has been modified. Updating location manager with new accuracy: %d", newAccuracy);
+	self.accurateLocationManager.desiredAccuracy =  newAccuracy;
 	[self.accurateLocationManager stopUpdatingLocation];
 	[self.accurateLocationManager startUpdatingLocation];
 }
 
 - (void)dealloc {
     [self.accurateLocationManager release];
-	[self.significantLocationManager release];
     [super dealloc];
 }
 @end

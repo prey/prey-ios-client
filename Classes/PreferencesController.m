@@ -12,6 +12,7 @@
 #import "PreyConfig.h"
 #import "PreyRestHttp.h"
 #import "WelcomeController.h"
+#import "LogController.h"
 
 
 @interface PreferencesController()
@@ -71,7 +72,7 @@
 			return 1;
 			break;
 		case 1:
-			return 4;
+			return 5;
 			break;
 		case 2:
 			return 1;
@@ -145,6 +146,10 @@
 				cell.textLabel.text = @"Detach device";
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+			} else if ([indexPath row] == 4) {
+				cell.textLabel.text = @"Log";
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			}
 			break;
 		case 2:
@@ -198,6 +203,10 @@
 				actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
 				[actionSheet release];
+			} else if ([indexPath row] == 4){
+				LogController *logController = [[LogController alloc] init];
+                [self.navigationController setNavigationBarHidden:NO animated:NO];
+                [self.navigationController pushViewController:logController animated:YES];
 			}
 			break;
 		case 2:
@@ -352,6 +361,7 @@
 
 
 - (void)viewDidLoad {
+    
 	accManager = [[AccuracyManager alloc] init];
 	delayManager = [[DelayManager alloc] init];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
@@ -359,11 +369,13 @@
 }
 
 
-/*
+
  - (void)viewWillAppear:(BOOL)animated {
- [super viewWillAppear:animated];
+     [super viewWillAppear:animated];
+     [self.navigationController setNavigationBarHidden:YES animated:NO];
+     [self.navigationController setToolbarHidden:YES animated:NO];
  }
- */
+
 /*
  - (void)viewDidAppear:(BOOL)animated {
  [super viewDidAppear:animated];

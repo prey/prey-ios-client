@@ -10,6 +10,7 @@
 #import "LocationModule.h"
 #import "DeviceModulesConfig.h"
 #import "Report.h"
+#import "SignificantLocationController.h"
 
 
 @implementation PreyRunner
@@ -22,7 +23,7 @@
 	@synchronized(self) {
 		if(!instance) {
 			instance = [[PreyRunner alloc] init];
-			LogMessageCompat(@"Registering PreyRunner to receive location updates notifications");
+			LogMessage(@"Prey Runner", 0,@"Registering PreyRunner to receive location updates notifications");
 			[[NSNotificationCenter defaultCenter] addObserver:instance selector:@selector(locationUpdated:) name:@"locationUpdated" object:nil];
 			instance.config = [PreyConfig instance]; 
 			instance.http = [[PreyRestHttp alloc] init];
@@ -32,9 +33,8 @@
 	return instance;
 }
 
-//this method starts the continous execution of Prey
--(void) startPreyService{
-	LogMessageCompat(@"Starting Prey... ");
+-(void) startPreyOnMainThread {
+    PreyLogMessageAndFile(@"Prey Runner", 0,@"Starting Prey service.");
 	//We use the location services to keep Prey running in the background...
 	LocationController *locController = [LocationController instance];
 	[locController startUpdatingLocation];
@@ -44,9 +44,13 @@
     config.missing=YES;
 
 }
+//this method starts the continous execution of Prey
+-(void) startPreyService{
+	[self performSelectorOnMainThread:@selector(startPreyOnMainThread) withObject:nil waitUntilDone:NO];
+}
 
 -(void)stopPreyService {
-	LogMessageCompat(@"Stopping Prey... ");
+	PreyLogMessageAndFile(@"Prey Runner", 0,@"Stopping Prey service.");
 	LocationController *locController = [LocationController instance];
 	[locController stopUpdatingLocation];
 	if (![PreyRestHttp checkInternet])
@@ -56,13 +60,13 @@
 }
 
 -(void) startOnIntervalChecking {
-	LogMessageCompat(@"Starting interval checking monitoring... ");
-	[[LocationController instance] startMonitoringSignificantLocationChanges];
+	PreyLogMessageAndFile(@"Prey Runner", 0,@"Starting interval checking monitoring... ");
+	[[SignificantLocationController instance] startMonitoringSignificantLocationChanges];
 }
 
 -(void) stopOnIntervalChecking {
-	LogMessageCompat(@"Stopping interval checking monitoring... ");
-	[[LocationController instance] stopMonitoringSignificantLocationChanges];
+	PreyLogMessageAndFile(@"Prey Runner", 0,@"Stopping interval checking monitoring... ");
+	[[SignificantLocationController instance] stopMonitoringSignificantLocationChanges];
 }
 
 
@@ -73,12 +77,12 @@
 		NSTimeInterval lastRunInterval = -[lastExecution timeIntervalSinceNow];
 		LogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", [PreyConfig instance].delay, lastRunInterval);
 		if (lastRunInterval >= [PreyConfig instance].delay){
-			LogMessage(@"Prey Runner", 0, @"Location updated notification received. Waiting interval expired, running Prey now!");
+			PreyLogMessageAndFile(@"Prey Runner", 0, @"Location updated notification received. Delay expired, running Prey now!");
 			
             [theOp start];
             //[self runPrey]; 
 		} else
-            LogMessage(@"Prey Runner", 0, @"Location updated notification received, but interval hasn't expired.");
+            PreyLogMessageAndFile(@"Prey Runner", 0, @"Location updated notification received, but interval hasn't expired. (%f secs. since last execution)",lastRunInterval);
 	} else {
 		[theOp start];
 	}
@@ -95,7 +99,7 @@
             [PreyConfig instance].delay = [modulesConfig.delay intValue];
         
         if (!modulesConfig.missing){
-            LogMessage(@"Prey Runner", 5, @"Not missing anymore... stopping accurate location updates and Prey.");
+            PreyLogMessageAndFile(@"Prey Runner", 5, @"Not missing anymore... stopping accurate location updates and Prey.");
             [[LocationController instance] stopUpdatingLocation]; //finishes Prey execution
             [modulesConfig release];
             return;
@@ -118,7 +122,7 @@
         [modulesConfig release];
     }
     @catch (NSException *exception) {
-        LogMessage(@"Prey Runner", 0, @"Exception catched while running Prey: %@", [exception reason]);
+        PreyLogMessageAndFile(@"Prey Runner", 0, @"Exception catched while running Prey: %@", [exception reason]);
     }
 	
 	/*

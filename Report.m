@@ -27,13 +27,14 @@
 - (void) sendIfConditionsMatch {
     if (!waitForPicture && !waitForLocation) {
         @try {
-            LogMessage(@"Report", 5, @"I've got a valid location to send. Sending report now!");
+            PreyLogMessageAndFile(@"Report", 5, @"Sending report now!");
+            
             PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
             [userHttp sendReport:self];
             [self performSelectorOnMainThread:@selector(alertReportSent) withObject:nil waitUntilDone:NO];
         }
         @catch (NSException *exception) {
-            LogMessage(@"Report", 0, @"Report couldn't be sent: %@", [exception reason]);
+            PreyLogMessageAndFile(@"Report", 0, @"Report couldn't be sent: %@", [exception reason]);
         }
     }
 }
