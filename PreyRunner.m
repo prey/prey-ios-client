@@ -34,10 +34,10 @@
 }
 
 -(void) startPreyOnMainThread {
-    PreyLogMessageAndFile(@"Prey Runner", 0,@"Starting Prey service.");
 	//We use the location services to keep Prey running in the background...
 	LocationController *locController = [LocationController instance];
 	[locController startUpdatingLocation];
+    PreyLogMessageAndFile(@"Prey Runner", 0,@"Prey service has been started.");
 	if (![PreyRestHttp checkInternet])
 		return;
 	[http changeStatusToMissing:YES forDevice:[config deviceKey] fromUser:[config apiKey]];
@@ -50,9 +50,9 @@
 }
 
 -(void)stopPreyService {
-	PreyLogMessageAndFile(@"Prey Runner", 0,@"Stopping Prey service.");
 	LocationController *locController = [LocationController instance];
 	[locController stopUpdatingLocation];
+    PreyLogMessageAndFile(@"Prey Runner", 0,@"Prey service has been stopped.");
 	if (![PreyRestHttp checkInternet])
 		return;
 	[http changeStatusToMissing:NO forDevice:[config deviceKey] fromUser:[config apiKey]];
@@ -60,13 +60,13 @@
 }
 
 -(void) startOnIntervalChecking {
-	PreyLogMessageAndFile(@"Prey Runner", 0,@"Starting interval checking monitoring... ");
 	[[SignificantLocationController instance] startMonitoringSignificantLocationChanges];
+    PreyLogMessageAndFile(@"Prey Runner", 0,@"Interval checking has been started.");
 }
 
 -(void) stopOnIntervalChecking {
-	PreyLogMessageAndFile(@"Prey Runner", 0,@"Stopping interval checking monitoring... ");
 	[[SignificantLocationController instance] stopMonitoringSignificantLocationChanges];
+    PreyLogMessageAndFile(@"Prey Runner", 0,@"Interval checking has been stopped.");
 }
 
 
@@ -77,12 +77,12 @@
 		NSTimeInterval lastRunInterval = -[lastExecution timeIntervalSinceNow];
 		LogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", [PreyConfig instance].delay, lastRunInterval);
 		if (lastRunInterval >= [PreyConfig instance].delay){
-			PreyLogMessageAndFile(@"Prey Runner", 0, @"Location updated notification received. Delay expired, running Prey now!");
+			PreyLogMessageAndFile(@"Prey Runner", 0, @"New location notification received. Delay expired (%f secs. since last execution), running Prey now!", lastRunInterval);
 			
             [theOp start];
             //[self runPrey]; 
 		} else
-            PreyLogMessageAndFile(@"Prey Runner", 0, @"Location updated notification received, but interval hasn't expired. (%f secs. since last execution)",lastRunInterval);
+            PreyLogMessageAndFile(@"Prey Runner", 5, @"Location updated notification received, but interval hasn't expired. (%f secs. since last execution)",lastRunInterval);
 	} else {
 		[theOp start];
 	}
@@ -157,8 +157,7 @@
         }
     }
     else {
-        [super observeValueForKeyPath:keyPath ofObject:object 
-                               change:change context:context];
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 

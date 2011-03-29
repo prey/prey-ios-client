@@ -10,10 +10,11 @@
 #import "PreyModule.h"
 #import "PreyRestHttp.h"
 #import "PreyConfig.h"
+#import "PicturesController.h"
 
 @implementation Report
 
-@synthesize modules,waitForLocation,waitForPicture,url;
+@synthesize modules,waitForLocation,waitForPicture,url, picture;
 
 - (id) init {
     self = [super init];
@@ -25,6 +26,15 @@
     return self;
 }
 - (void) sendIfConditionsMatch {
+    if (waitForPicture){
+        UIImage *lastPicture = [[PicturesController instance]lastPicture];
+        if (lastPicture != nil){
+            self.picture = lastPicture;
+            waitForPicture = NO;
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pictureReady" object:nil];
+        }
+        waitForPicture = [UIApplication sharedApplication].applicationState == UIApplicationStateBackground ? NO:waitForPicture; //Can't take pictures if in bg.
+    }
     if (!waitForPicture && !waitForLocation) {
         @try {
             PreyLogMessageAndFile(@"Report", 5, @"Sending report now!");
@@ -86,11 +96,10 @@
 	}];
     if (picture != nil)
         [request addData:UIImagePNGRepresentation(picture) withFileName:@"picture.png" andContentType:@"image/png" forKey:@"webcam[picture]"];
-    [picture release];
 } 
 
 - (void) pictureReady:(NSNotification *)notification {
-    picture = [(UIImage*)[notification object] retain];
+    self.picture = (UIImage*)[notification object];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pictureReady" object:nil];
     waitForPicture = NO;
 	[self sendIfConditionsMatch];

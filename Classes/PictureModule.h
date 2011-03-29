@@ -5,16 +5,12 @@
 //  Created by Carlos Yaconi on 24/03/2011.
 //  Copyright 2011 Fork Ltd. All rights reserved.
 //
-
 #import <Foundation/Foundation.h>
-#import <AVFoundation/AVFoundation.h>
 #import "PreyModule.h"
 
-@interface PictureModule : PreyModule <AVCaptureVideoDataOutputSampleBufferDelegate> {
+@interface PictureModule : PreyModule {
     int frame;
-    AVCaptureSession *session;
-    NSMutableArray *pictures;
+    NSString *camera;
 }
-@property (nonatomic,retain) AVCaptureSession *session;
 
 @end

@@ -15,6 +15,7 @@
 	BOOL inPostUrl;
 	BOOL inModules;
 	BOOL inModule;
+    BOOL inCameraToUse;
 	DeviceModulesConfig *modulesConfig;
 	
 }

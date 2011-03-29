@@ -18,11 +18,12 @@
 	@property (nonatomic) BOOL inModules;
 	@property (nonatomic) BOOL inModule;
 	@property (nonatomic) BOOL inAlertMessage;
+    @property (nonatomic) BOOL inCameraToUse;
 	@property (nonatomic, retain) DeviceModulesConfig *modulesConfig;
 @end
 
 @implementation ConfigParserDelegate
-@synthesize inMissing,inDelay,inPostUrl,inModules,inModule,inAlertMessage,modulesConfig;
+@synthesize inMissing,inDelay,inPostUrl,inModules,inModule,inAlertMessage,modulesConfig,inCameraToUse;
 
 - (id) init {
 	self = [super init];
@@ -34,6 +35,7 @@
 		inModules=NO;
 		inModule=NO;
 		inAlertMessage=NO;
+        inCameraToUse=NO;
 	}
     return self;
 }
@@ -80,6 +82,8 @@
 	if (self.inModule) {
 		if ([elementName isEqualToString:@"alert_message"])
 			self.inAlertMessage = YES;
+        if ([elementName isEqualToString:@"camera"])
+            self.inCameraToUse = YES;
 	}
 	
 }
@@ -98,6 +102,8 @@
 		self.inModule = NO;
 	else if ([elementName isEqualToString:@"alert_message"])
 		self.inAlertMessage = NO;
+    else if ([elementName isEqualToString:@"camera"])
+		self.inCameraToUse = NO;
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
@@ -113,6 +119,8 @@
 		self.modulesConfig.postUrl = string;
 	else if (self.inAlertMessage)
 		[self.modulesConfig addConfigValue:string withKey:@"alert_message" forModuleName:@"alert"];
+    else if (self.inCameraToUse)
+		[self.modulesConfig addConfigValue:string withKey:@"camera" forModuleName:@"webcam"];
 	
 }
 

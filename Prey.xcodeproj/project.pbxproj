@@ -81,6 +81,8 @@
 		07DF36E01341229500F0F218 /* recycle-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 07DF36DD1341229500F0F218 /* recycle-full.png */; };
 		07DF36E11341229500F0F218 /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = 07DF36DE1341229500F0F218 /* reload.png */; };
 		07DF36E313413B6F00F0F218 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07DF36E213413B6E00F0F218 /* MessageUI.framework */; };
+		07DF36E6134222BF00F0F218 /* PicturesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DF36E5134222BF00F0F218 /* PicturesController.m */; };
+		07DF36E91342389700F0F218 /* PicturesControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DF36E81342389600F0F218 /* PicturesControllerDelegate.m */; };
 		1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* PreyAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -217,6 +219,10 @@
 		07DF36DD1341229500F0F218 /* recycle-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recycle-full.png"; sourceTree = "<group>"; };
 		07DF36DE1341229500F0F218 /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload.png; sourceTree = "<group>"; };
 		07DF36E213413B6E00F0F218 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		07DF36E4134222BF00F0F218 /* PicturesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PicturesController.h; sourceTree = "<group>"; };
+		07DF36E5134222BF00F0F218 /* PicturesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PicturesController.m; sourceTree = "<group>"; };
+		07DF36E71342389600F0F218 /* PicturesControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PicturesControllerDelegate.h; sourceTree = "<group>"; };
+		07DF36E81342389600F0F218 /* PicturesControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PicturesControllerDelegate.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* PreyAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* PreyAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyAppDelegate.m; sourceTree = "<group>"; };
@@ -527,6 +533,10 @@
 				07D32397133BB74A00841BFD /* ScreenshotModule.m */,
 				07D32399133BC32C00841BFD /* PictureModule.h */,
 				07D3239A133BC32D00841BFD /* PictureModule.m */,
+				07DF36E4134222BF00F0F218 /* PicturesController.h */,
+				07DF36E5134222BF00F0F218 /* PicturesController.m */,
+				07DF36E71342389600F0F218 /* PicturesControllerDelegate.h */,
+				07DF36E81342389600F0F218 /* PicturesControllerDelegate.m */,
 			);
 			name = "Session Module";
 			path = Classes;
@@ -749,6 +759,8 @@
 				07DF36D51340EAF200F0F218 /* SignificantLocationController.m in Sources */,
 				07DF36D81340F34800F0F218 /* PreyLogger.m in Sources */,
 				07DF36DB1341039F00F0F218 /* LogController.m in Sources */,
+				07DF36E6134222BF00F0F218 /* PicturesController.m in Sources */,
+				07DF36E91342389700F0F218 /* PicturesControllerDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

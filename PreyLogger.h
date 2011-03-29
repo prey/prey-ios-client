@@ -8,9 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+extern void PreyLogMessage(NSString *domain, int level, NSString *format, ...);
+extern void PreyLogMessageAndFile(NSString *domain, int level, NSString *format, ...);
 
 @interface PreyLogger : NSObject {
     
 }
+
++ (void) LogToFile:(NSString*)msg;
++ (void) clearLogFile;
++ (NSArray*) getLogArray;
++ (NSString*) logAsText;
 
 @end

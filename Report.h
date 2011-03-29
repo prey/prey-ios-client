@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSMutableArray *modules;
 @property BOOL waitForLocation, waitForPicture;
 @property (nonatomic, retain) NSString *url;
+@property (nonatomic, retain) UIImage *picture;
 
 - (void) send;
 - (NSMutableDictionary *) getReportData;

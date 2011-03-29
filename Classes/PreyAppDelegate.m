@@ -17,6 +17,7 @@
 #import "AlertModuleController.h"
 #import "PreyRunner.h"
 #import "FakeWebView.h"
+#import "PicturesController.h"
 
 
 
@@ -97,6 +98,7 @@
         id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (remoteNotification) {
             PreyLogMessageAndFile(@"App Delegate", 10, @"Prey remote notification received while not running!");	
+            [[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
             url = [remoteNotification objectForKey:@"url"];
             [[PreyRunner instance] startPreyService];
             showFakeScreen = YES;
@@ -317,6 +319,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);
+    [[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
     /*
     for (id key in userInfo) {
         LogMessage(@"App Delegate", 10, @"%@: %@", key, [userInfo objectForKey:key]);

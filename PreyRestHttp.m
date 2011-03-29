@@ -347,8 +347,10 @@
     [request setCompletionBlock:^{
         int statusCode = [request responseStatusCode];
         if (statusCode != 200)
-            @throw [NSException exceptionWithName:@"ReportNotSentException" reason:NSLocalizedString(@"Report couldn't be sent",nil) userInfo:nil];
-        LogMessage(@"PreyRestHttp", 10, @"POST %@ response: %@",report.url,[request responseStatusMessage]);
+            PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Report wasn't sent: %@", [request responseStatusMessage]);
+            //@throw [NSException exceptionWithName:@"ReportNotSentException" reason:NSLocalizedString(@"Report couldn't be sent",nil) userInfo:nil];
+        else
+            PreyLogMessageAndFile(@"PreyRestHttp", 10, @"Report: POST %@ response: %@",report.url,[request responseStatusMessage]);
     }];
     [request setFailedBlock:^{
         /*@throw [NSException exceptionWithName:@"ReportNotSentException" reason:[[request error] localizedDescription] userInfo:nil]; 
