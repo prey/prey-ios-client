@@ -60,7 +60,7 @@
         PreyRestHttp *http = [[PreyRestHttp alloc] init];
         PreyConfig *config = [PreyConfig instance];
         DeviceModulesConfig *modulesConfig = nil;
-        if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
+        //if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
             UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication]
                                                  beginBackgroundTaskWithExpirationHandler:^{}];
             
@@ -71,7 +71,8 @@
             } else
                 PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"[bg task] Device NOT marked as missing!");
             [[UIApplication sharedApplication] endBackgroundTask:bgTask];
-        }
+    /*    
+    }
         else {
             modulesConfig = [[http getXMLforUser:[config apiKey] device:[config deviceKey]] retain];
             if (modulesConfig.missing){
@@ -79,7 +80,7 @@
                 [[PreyRunner instance] startPreyService];                  
             } else
                 PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"Device NOT marked as missing!");
-        }
+        }*/
         
         [modulesConfig release];
         [http release];

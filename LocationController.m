@@ -72,7 +72,7 @@
 - (void)accuracyUpdated:(NSNotification *)notification
 {
     CLLocationAccuracy newAccuracy = ((PreyConfig*)[notification object]).desiredAccuracy;
-	PreyLogMessageAndFile(@"Prey Location Controller", 5, @"Accuracy has been modified. Updating location manager with new accuracy: %d", newAccuracy);
+	PreyLogMessageAndFile(@"Prey Location Controller", 5, @"Accuracy has been modified. Updating location manager with new accuracy: %f", newAccuracy);
 	self.accurateLocationManager.desiredAccuracy =  newAccuracy;
 	[self.accurateLocationManager stopUpdatingLocation];
 	[self.accurateLocationManager startUpdatingLocation];

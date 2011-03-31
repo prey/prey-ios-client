@@ -59,7 +59,7 @@
 		if (config != nil){
 			NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
             [super activatePreyService];
-			[self performSelectorOnMainThread:@selector(showCongratsView) withObject:txtCongrats waitUntilDone:NO];
+			[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
 		}
 	}
 	@catch (NSException * e) {

@@ -7,15 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AudioToolbox/AudioServices.h>
+#import <AudioToolbox/AudioToolbox.h>
 #import "PreyModule.h"
 
-@interface AlarmModule : PreyModule {
-	CFURLRef        soundFileURLRef;
-    SystemSoundID   soundFileObject;
+@class AVAudioPlayer;
+@interface AlarmModule : PreyModule 
+
+{
+    
+    AVAudioPlayer *backgroundMusicPlayer;
 }
 
-@property (readwrite)   CFURLRef        soundFileURLRef;
-@property (readonly)    SystemSoundID   soundFileObject;
+@property (nonatomic,retain) AVAudioPlayer *backgroundMusicPlayer;
 
 @end

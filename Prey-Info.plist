@@ -30,11 +30,13 @@
 	<string>MainWindow</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>NewJuneBold.otf</string>
 		<string>large9.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
+		<string>audio</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

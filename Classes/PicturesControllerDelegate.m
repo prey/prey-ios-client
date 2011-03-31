@@ -22,7 +22,7 @@
 }
 
 + (id) initWithSession:(AVCaptureSession*)session AndWhenFinishSendImageTo:(SEL)method onTarget:(id)target {
-    PicturesControllerDelegate *delegate = [[PicturesControllerDelegate alloc] init];
+    PicturesControllerDelegate *delegate = [[[PicturesControllerDelegate alloc] init] autorelease];
     delegate.methodToInvoke = method;
     delegate.targetObject = target;
     delegate.session = session;

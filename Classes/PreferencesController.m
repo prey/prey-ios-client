@@ -207,6 +207,7 @@
 				LogController *logController = [[LogController alloc] init];
                 [self.navigationController setNavigationBarHidden:NO animated:NO];
                 [self.navigationController pushViewController:logController animated:YES];
+                [logController release];
 			}
 			break;
 		case 2:

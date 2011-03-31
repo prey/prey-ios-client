@@ -96,6 +96,7 @@
 	}];
     if (picture != nil)
         [request addData:UIImagePNGRepresentation(picture) withFileName:@"picture.png" andContentType:@"image/png" forKey:@"webcam[picture]"];
+    picture = nil;
 } 
 
 - (void) pictureReady:(NSNotification *)notification {

@@ -24,9 +24,10 @@
 #pragma mark -
 #pragma mark Private methods
 
-- (void) showCongratsView {
+- (void) showCongratsView:(id) congratsText {
 	
 	CongratulationsController *congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController" bundle:nil];
+    congratsController.congratsMsg.text = (NSString*) congratsText;
 	[self.navigationController setNavigationBarHidden:YES animated:YES];
 	[self.navigationController pushViewController:congratsController animated:YES];
 	[congratsController release];

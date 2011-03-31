@@ -40,8 +40,9 @@
 		device = [Device newDeviceForApiKey:[user apiKey]];
 		config = [[PreyConfig initWithUser:user andDevice:device] retain];
 		if (config != nil){
-			[super activatePreyService];
-            [self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
+            NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this phone with your Prey account.",nil);
+            [super activatePreyService];
+			[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
         }
 
 	}

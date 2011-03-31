@@ -82,6 +82,7 @@
     //release buttons
     [deleteLog release];
     [sendLog release];
+    [refreshLog release];
     [flexItem release];
 
     

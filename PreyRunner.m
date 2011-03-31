@@ -94,7 +94,10 @@
         lastExecution = [[NSDate date] retain];
         if (![PreyRestHttp checkInternet])
             return;
+        UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication]
+                                             beginBackgroundTaskWithExpirationHandler:^{}];
         DeviceModulesConfig *modulesConfig = [[http getXMLforUser:[config apiKey] device:[config deviceKey]] retain];
+        
         if (USE_CONTROL_PANEL_DELAY)
             [PreyConfig instance].delay = [modulesConfig.delay intValue];
         
@@ -118,6 +121,7 @@
             [actionQueue  addOperation:module];
         }
         
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         
         [modulesConfig release];
     }
