@@ -145,9 +145,11 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif {
-	LogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
+	/*
+    LogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
 	PreyRunner *runner = [PreyRunner instance];
 	[runner startPreyService];
+     */
 }
 
 
@@ -287,15 +289,11 @@
 }
 
 - (void)showAlert: (NSString *) textToShow {
+	AlertModuleController *alertController = [[AlertModuleController alloc] init];
+    [alertController setTextToShow:textToShow];
+    [viewController pushViewController:alertController animated:NO];
+    [alertController release];
 	
-	AlertModuleController *alertController = [[AlertModuleController alloc] initWithNibName:@"AlertModuleController" bundle:nil];
-	[alertController setTextToShow:textToShow];
-	CGRect applicationFrame = [[UIScreen mainScreen] bounds];
-	alertController.view.frame = applicationFrame;
-	[self setViewController:alertController];
-	[window addSubview:viewController.view];
-	[window makeKeyAndVisible];
-	[alertController release];
 }
 
 #pragma mark -

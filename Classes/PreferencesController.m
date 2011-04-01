@@ -375,6 +375,7 @@
      [super viewWillAppear:animated];
      [self.navigationController setNavigationBarHidden:YES animated:NO];
      [self.navigationController setToolbarHidden:YES animated:NO];
+     [[UIApplication sharedApplication] setStatusBarHidden:NO];
  }
 
 /*

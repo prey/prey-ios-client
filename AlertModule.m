@@ -8,14 +8,27 @@
 
 #import "AlertModule.h"
 #import "PreyAppDelegate.h"
-
+#import "AlertModuleController.h"
 
 @implementation AlertModule
 
 - (void)main {
-	PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-	NSString *alertMessage = [self.configParms objectForKey:@"alert_message"];
-	[appDelegate showAlert:alertMessage];
+    NSString *alertMessage = [self.configParms objectForKey:@"alert_message"];
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
+        UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+        if (localNotif) {
+            localNotif.alertBody = alertMessage;
+            localNotif.hasAction = NO;
+            //localNotif.alertAction = NSLocalizedString(@"Read Message", nil);
+            //localNotif.soundName = @"alarmsound.caf";
+            //localNotif.applicationIconBadgeNumber = 1;
+            [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
+            [localNotif release];
+        }
+    } else {
+         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+         [appDelegate showAlert:alertMessage];
+    }
 }
 
 - (NSString *) getName {
