@@ -55,7 +55,11 @@
 		0713246C1346369200F7EFD8 /* NewJuneBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 071324691346369200F7EFD8 /* NewJuneBold.otf */; };
 		0713246D1346369200F7EFD8 /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0713246A1346369200F7EFD8 /* siren.mp3 */; };
 		0713246F134636BB00F7EFD8 /* email.png in Resources */ = {isa = PBXBuildFile; fileRef = 0713246E134636BB00F7EFD8 /* email.png */; };
+		07132472134639DF00F7EFD8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07132470134639DF00F7EFD8 /* Localizable.strings */; };
+		07132474134639E800F7EFD8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07132470134639DF00F7EFD8 /* Localizable.strings */; };
 		07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07178F2512675AD3007B290C /* CoreLocation.framework */; };
+		073CABDE1367731900821032 /* 57px.png in Resources */ = {isa = PBXBuildFile; fileRef = 073CABDC1367731900821032 /* 57px.png */; };
+		073CABDF1367731900821032 /* 114px.png in Resources */ = {isa = PBXBuildFile; fileRef = 073CABDD1367731900821032 /* 114px.png */; };
 		077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7A3B126E171300C713B7 /* AudioToolbox.framework */; };
 		077D7B2D126F3C8400C713B7 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7B2C126F3C8400C713B7 /* AddressBook.framework */; };
 		077D7BA21270D79700C713B7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7BA11270D79700C713B7 /* MapKit.framework */; };
@@ -72,6 +76,7 @@
 		078E136E132AB562004B7C60 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E1366132AB562004B7C60 /* ASINetworkQueue.m */; };
 		078E1372132AB584004B7C60 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E1371132AB584004B7C60 /* Reachability.m */; };
 		078E1375132ABC3C004B7C60 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E1374132ABC3C004B7C60 /* ASIAuthenticationDialog.m */; };
+		07CA9AA21355FADE00307314 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CA9AA11355FADE00307314 /* UIDevice-Hardware.m */; };
 		07CD95F51253D99500590FCD /* PreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD95F31253D99500590FCD /* PreferencesController.xib */; };
 		07CD96251253E13800590FCD /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96231253E13800590FCD /* LoginController.m */; };
 		07CD96261253E13800590FCD /* LoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD96241253E13800590FCD /* LoginController.xib */; };
@@ -174,7 +179,11 @@
 		071324691346369200F7EFD8 /* NewJuneBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = NewJuneBold.otf; path = Resources/NewJuneBold.otf; sourceTree = "<group>"; };
 		0713246A1346369200F7EFD8 /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = siren.mp3; path = Resources/siren.mp3; sourceTree = "<group>"; };
 		0713246E134636BB00F7EFD8 /* email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = email.png; path = Resources/email.png; sourceTree = "<group>"; };
+		07132471134639DF00F7EFD8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		07132473134639E800F7EFD8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07178F2512675AD3007B290C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		073CABDC1367731900821032 /* 57px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 57px.png; sourceTree = "<group>"; };
+		073CABDD1367731900821032 /* 114px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 114px.png; sourceTree = "<group>"; };
 		077D7A3B126E171300C713B7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		077D7B2C126F3C8400C713B7 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		077D7BA11270D79700C713B7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -205,6 +214,8 @@
 		078E1373132ABC3C004B7C60 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		078E1374132ABC3C004B7C60 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		07ABF44E1344C8EB00370933 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		07CA9AA01355FADE00307314 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
+		07CA9AA11355FADE00307314 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Hardware.m"; sourceTree = "<group>"; };
 		07CD95F11253D99500590FCD /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesController.h; path = Classes/PreferencesController.h; sourceTree = "<group>"; };
 		07CD95F21253D99500590FCD /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesController.m; path = Classes/PreferencesController.m; sourceTree = "<group>"; };
 		07CD95F31253D99500590FCD /* PreferencesController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PreferencesController.xib; path = Classes/PreferencesController.xib; sourceTree = "<group>"; };
@@ -287,6 +298,8 @@
 		07178976125B8498007B290C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				073CABDC1367731900821032 /* 57px.png */,
+				073CABDD1367731900821032 /* 114px.png */,
 				0713246E134636BB00F7EFD8 /* email.png */,
 				0713245C1346368200F7EFD8 /* logo.png */,
 				0713245D1346368200F7EFD8 /* prey-iphone-front.png */,
@@ -468,6 +481,8 @@
 		07805429125542EF00E4CCE5 /* Prey Utils */ = {
 			isa = PBXGroup;
 			children = (
+				07CA9AA01355FADE00307314 /* UIDevice-Hardware.h */,
+				07CA9AA11355FADE00307314 /* UIDevice-Hardware.m */,
 				071324371346356300F7EFD8 /* PreyLogger.h */,
 				071324381346356300F7EFD8 /* PreyLogger.m */,
 				071324391346356300F7EFD8 /* RegexKitLite.h */,
@@ -600,6 +615,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				07132470134639DF00F7EFD8 /* Localizable.strings */,
 				071324681346369200F7EFD8 /* large9.ttf */,
 				071324691346369200F7EFD8 /* NewJuneBold.otf */,
 				0713246A1346369200F7EFD8 /* siren.mp3 */,
@@ -609,9 +625,9 @@
 				071324571346363300F7EFD8 /* OldUserController.xib */,
 				07132452134635DC00F7EFD8 /* WelcomeController.xib */,
 				071323FF134633B800F7EFD8 /* CongratulationsController.xib */,
-				07178976125B8498007B290C /* Images */,
 				07CD95F31253D99500590FCD /* PreferencesController.xib */,
 				07CD96241253E13800590FCD /* LoginController.xib */,
+				07178976125B8498007B290C /* Images */,
 				8D1107310486CEB800E47090 /* Prey-Info.plist */,
 			);
 			name = Resources;
@@ -677,6 +693,8 @@
 				Japanese,
 				French,
 				German,
+				en,
+				es,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -710,6 +728,10 @@
 				0713246C1346369200F7EFD8 /* NewJuneBold.otf in Resources */,
 				0713246D1346369200F7EFD8 /* siren.mp3 in Resources */,
 				0713246F134636BB00F7EFD8 /* email.png in Resources */,
+				07132472134639DF00F7EFD8 /* Localizable.strings in Resources */,
+				07132474134639E800F7EFD8 /* Localizable.strings in Resources */,
+				073CABDE1367731900821032 /* 57px.png in Resources */,
+				073CABDF1367731900821032 /* 114px.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -771,10 +793,23 @@
 				0713244B134635A100F7EFD8 /* User.m in Sources */,
 				07132450134635C400F7EFD8 /* PreyRestHttp.m in Sources */,
 				07132451134635C400F7EFD8 /* PreyRunner.m in Sources */,
+				07CA9AA21355FADE00307314 /* UIDevice-Hardware.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		07132470134639DF00F7EFD8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				07132471134639DF00F7EFD8 /* en */,
+				07132473134639E800F7EFD8 /* es */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		07DA04A613213F2200FECCAD /* Ad Hoc */ = {
@@ -786,7 +821,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";
 				PREBINDING = NO;
@@ -806,10 +841,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				INFOPLIST_FILE = "Prey-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "1700790D-1664-4889-9EC5-6387CB145FD0";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1700790D-1664-4889-9EC5-6387CB145FD0";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = "Ad Hoc";
@@ -825,8 +861,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				INFOPLIST_FILE = "Prey-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = Prey;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -839,8 +876,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				INFOPLIST_FILE = "Prey-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = Prey;
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -853,11 +891,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-licucore";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EE817808-1849-4189-AE20-7C8601E9482D";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -870,11 +907,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "EE817808-1849-4189-AE20-7C8601E9482D";
 				SDKROOT = iphoneos;
 			};
 			name = Release;

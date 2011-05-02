@@ -121,7 +121,7 @@
     switch ([indexPath section]) {
 		case 0:
 			if ([indexPath row] == 0){
-				cell.textLabel.text = @"Missing";
+				cell.textLabel.text = NSLocalizedString(@"Missing",nil);
 				missing = [[UISwitch alloc]init];
 				[missing addTarget: self action: @selector(changeMissingState:) forControlEvents:UIControlEventValueChanged];
 				[missing setOn:config.missing];
@@ -130,31 +130,31 @@
 			break;
 		case 1:
 			if ([indexPath row] == 0){
-				cell.textLabel.text = @"Location accuracy";
+				cell.textLabel.text = NSLocalizedString(@"Location accuracy",nil);
 				cell.detailTextLabel.text = [accManager currentlySelectedName];
 			}
 			else if ([indexPath row] == 1) {
-				cell.textLabel.text = @"Delay";
+				cell.textLabel.text = NSLocalizedString(@"Delay",nil);
 				cell.detailTextLabel.text = [delayManager currentDelay];
 			} else if ([indexPath row] == 2) {
-				cell.textLabel.text = @"Alert on report sent";
+				cell.textLabel.text = NSLocalizedString(@"Alert on report sent",nil);
 				UISwitch *alert = [[UISwitch alloc]init];
 				[alert addTarget:self action: @selector(changeReportState:) forControlEvents:UIControlEventValueChanged];
 				[alert setOn:config.alertOnReport];
 				cell.accessoryView = alert;
 			} else if ([indexPath row] == 3) {
-				cell.textLabel.text = @"Detach device";
+				cell.textLabel.text = NSLocalizedString(@"Detach device",nil);
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			} else if ([indexPath row] == 4) {
-				cell.textLabel.text = @"Log";
+				cell.textLabel.text = NSLocalizedString(@"Log",nil);
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			}
 			break;
 		case 2:
-			cell.detailTextLabel.text = @"0.5.3";
-			cell.textLabel.text = @"Current Prey version";
+			cell.detailTextLabel.text = PREY_VERSION;
+			cell.textLabel.text = NSLocalizedString(@"Current Prey version",nil);
 			break;
 
 		default:
@@ -328,6 +328,7 @@
 }
 
 - (void) detachDevice {
+    [self stopPrey];
     [[PreyConfig instance] detachDevice];
     WelcomeController *welcomeController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
     [[self navigationController] pushViewController:welcomeController animated:YES];
@@ -353,8 +354,6 @@
 - (void)changeMissingSwitch:(id)config {
 	BOOL isMissing = ((PreyConfig*)config).missing;
 	[missing setOn:isMissing animated:YES];
-	if (isMissing)
-	 	[[PreyRunner instance]startPreyService];
 }
 
 #pragma mark -

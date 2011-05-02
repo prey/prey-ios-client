@@ -13,7 +13,7 @@
 
 @implementation Device
 
-@synthesize deviceKey, name, type, os, version, macAddress;
+@synthesize deviceKey, name, type, vendor, model, os, version, macAddress, uuid;
 
 
 +(Device*) newDeviceForApiKey: (NSString*) apiKey{
@@ -25,6 +25,9 @@
 	[newDevice setType: [iphoneInfo type]];
 	[newDevice setMacAddress: [iphoneInfo macAddress]];
 	[newDevice setName: [iphoneInfo name]];
+    [newDevice setVendor: [iphoneInfo vendor]];
+    [newDevice setModel: [iphoneInfo model]];
+    [newDevice setUuid: [iphoneInfo uuid]];
 	
 	PreyRestHttp *http = [[PreyRestHttp alloc] init];
 	@try {
@@ -49,7 +52,7 @@
 	PreyRestHttp *http = [[PreyRestHttp alloc] init];
 	[http deleteDevice: self];
 	[http release];
-	[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
+	//[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
 }
 
 @end

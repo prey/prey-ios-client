@@ -92,7 +92,13 @@
     [UIView commitAnimations];
 }
 
+
 #pragma mark -
+
+- (IBAction)textFieldFinished:(id)sender
+{
+    [self checkLoginPassword:sender];
+}
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -104,12 +110,16 @@
  }
  */
 
-/*
+
  // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
  - (void)viewDidLoad {
- [super viewDidLoad];
+     [self.loginPassword addTarget:self
+                        action:@selector(textFieldFinished:)
+              forControlEvents:UIControlEventEditingDidEndOnExit];
+     [super viewDidLoad];
  }
 
+/*
  // Override to allow orientations other than the default portrait orientation.
  - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
  // Return YES for supported orientations

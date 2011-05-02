@@ -32,7 +32,7 @@
 		return newUser;
 	}
 	@catch (NSException * e) {
-		@throw;
+		return nil;
 	}
 	return nil;
 }

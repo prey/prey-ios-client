@@ -25,11 +25,10 @@
 			instance = [[PreyRunner alloc] init];
 			LogMessage(@"Prey Runner", 0,@"Registering PreyRunner to receive location updates notifications");
 			[[NSNotificationCenter defaultCenter] addObserver:instance selector:@selector(locationUpdated:) name:@"locationUpdated" object:nil];
-			instance.config = [PreyConfig instance]; 
 			instance.http = [[PreyRestHttp alloc] init];
 		}
 	}
-	
+	instance.config = [PreyConfig instance];
 	return instance;
 }
 
@@ -105,21 +104,29 @@
             PreyLogMessageAndFile(@"Prey Runner", 5, @"Not missing anymore... stopping accurate location updates and Prey.");
             [[LocationController instance] stopUpdatingLocation]; //finishes Prey execution
             [modulesConfig release];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:[PreyConfig instance]];
+            lastExecution=nil;
             return;
         }
         
         reportQueue = [[NSOperationQueue alloc] init];
-        [reportQueue addObserver:self forKeyPath:@"operationCount" options:0 context:modulesConfig.reportToFill];
+        //[reportQueue addObserver:self forKeyPath:@"operationCount" options:0 context:modulesConfig.reportToFill];
         
         PreyModule *module;
+        Report *report = nil;
         for (module in modulesConfig.reportModules){
-            [reportQueue  addOperation:module];
+            //[reportQueue  addOperation:module];
+            PreyLogMessage(@"Prey Runner", 5, @"Executing module: %@.", [module getName]);
+            [module main];
+            report = module.reportToFill;
         }
+        [report send];
         
         actionQueue = [[NSOperationQueue alloc] init];
         for (module in modulesConfig.actionModules){
             [actionQueue  addOperation:module];
         }
+        
         
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         

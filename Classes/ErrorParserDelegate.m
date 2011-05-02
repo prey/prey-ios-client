@@ -37,17 +37,17 @@
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict 
 {
 	if ([elementName isEqualToString:@"errors"]) 
-		*areInErrorsList = YES;
+		areInErrorsList = YES;
 	if ([elementName isEqualToString:@"error"]) 
-		*areInErrorElement = YES;
+		areInErrorElement = YES;
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
 {
 	if ([elementName isEqualToString:@"errors"]) 
-		*areInErrorsList = NO;
+		areInErrorsList = NO;
 	if ([elementName isEqualToString:@"error"]) 
-		*areInErrorElement = NO;
+		areInErrorElement = NO;
 }
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {

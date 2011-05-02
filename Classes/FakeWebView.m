@@ -25,7 +25,7 @@
     //HUD = [[MBProgressHUD alloc] initWithView:webView];
     HUD = [MBProgressHUD showHUDAddedTo:webView animated:YES];
     HUD.delegate = self;
-    HUD.labelText = NSLocalizedString(spinnerText,nil);
+    HUD.labelText = spinnerText;
     //[webView addSubview:HUD];
     HUD.removeFromSuperViewOnHide=YES;
     [HUD show:YES];

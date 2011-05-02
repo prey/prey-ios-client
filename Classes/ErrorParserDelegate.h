@@ -11,8 +11,8 @@
 
 @interface ErrorParserDelegate : NSObject  <NSXMLParserDelegate> {
 	NSMutableArray *errors;
-	BOOL *areInErrorsList;
-	BOOL *areInErrorElement;
+	BOOL areInErrorsList;
+	BOOL areInErrorElement;
 
 }
 @property (nonatomic, retain) NSMutableArray *errors;

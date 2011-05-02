@@ -51,6 +51,12 @@
 
 - (void)showFakeScreen {
     LogMessage(@"App Delegate", 20,  @"Showing the guy our fake screen at: %@", url );
+    
+    UIView *fake = [[UIView alloc] initWithFrame:CGRectMake(0,0,20,20)];
+    fake.backgroundColor = [UIColor redColor];
+    [window addSubview:fake];
+    [window makeKeyAndVisible];
+    
     CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
     UIWebView *fakeView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 20, appFrame.size.width, appFrame.size.height)] autorelease];
     [fakeView setDelegate:self];
@@ -61,7 +67,6 @@
     //[fakeView openUrl:url showingLoadingText:@"Accessing your account..."];
     
     [window addSubview:fakeView];
-    [window makeKeyAndVisible];
     showFakeScreen = NO;
 }
 
@@ -69,24 +74,37 @@
 #pragma mark WebView delegate
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
+    PreyLogMessage(@"App Delegate", 20,  @"Attempting to show the HUD");
     MBProgressHUD *HUD2 = [MBProgressHUD showHUDAddedTo:webView animated:YES];
     HUD2.labelText = NSLocalizedString(@"Accessing your account...",nil);
     HUD2.removeFromSuperViewOnHide=YES;
+    
+
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [MBProgressHUD hideHUDForView:webView animated:YES];
+    [[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
 }
 
 #pragma mark -
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-	//LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
-	LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.2", 50000);
+    //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
+	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.2", 50000);
     //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"Prey");
 	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
-    PreyLogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS %@!!", [launchOptions description]);
     
+    /*
+    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] systemName]);
+    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] systemVersion]);
+    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] localizedModel]);
+    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] name]);
+    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] macaddress]);
+    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] platformString]);
+    
+    PreyLogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS %@!!", [launchOptions description]);
+    */
     id locationValue = [launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey];
 	if (locationValue) //Significant location change received while app being closed.
 	{
@@ -98,7 +116,7 @@
         id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (remoteNotification) {
             PreyLogMessageAndFile(@"App Delegate", 10, @"Prey remote notification received while not running!");	
-            [[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
+            //[[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
             url = [remoteNotification objectForKey:@"url"];
             [[PreyRunner instance] startPreyService];
             showFakeScreen = YES;
@@ -316,17 +334,11 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);
-    [[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
-    /*
-    for (id key in userInfo) {
-        LogMessage(@"App Delegate", 10, @"%@: %@", key, [userInfo objectForKey:key]);
-    } */   
+    PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);    
     url = [userInfo objectForKey:@"url"];
     [[PreyRunner instance] startPreyService];
-    [self updateMissingStatus:[PreyConfig instance]];
 	showFakeScreen = YES;
-	
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:[PreyConfig instance]];
 }
 
 #pragma mark -

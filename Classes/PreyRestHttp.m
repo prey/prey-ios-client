@@ -30,6 +30,7 @@
 	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
 	[request setUsername:[user email]];
 	[request setPassword: [user password]];
+    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setUseSessionPersistence:NO];
 	[request setShouldRedirect:NO];
 	[request setValidatesSecureCertificate:NO];
@@ -38,9 +39,7 @@
 		[request startSynchronous];
 		NSError *error = [request error];
 		int statusCode = [request responseStatusCode];
-		//NSString *statusMessage = [request responseStatusMessage];
-		NSString *response = [request responseString];
-		LogMessage(@"PreyRestHttp", 10, @"GET profile.xml: %@",response);
+		LogMessage(@"PreyRestHttp", 10, @"GET profile.xml: %@",[request responseStatusMessage]);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
 			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
@@ -116,17 +115,17 @@
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
 	[request setUsername:apiKey];
 	[request setPassword: @"x"];
+    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setRequestMethod:@"POST"];
 	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
-	//do shell script "curl -i -A '" & userAgent & "' -d 'api_key=" & wsapikey & "&device[title]=" & wsdevname & "&device[device_type]=" & devType & "&device[os_version]=" & osname & "&device[os]=Mac&device[state]=OK&device[physical_address]=" & mac_addr & "' http://" & wsserver & "/devices.xml > /tmp/prey/to_parse.xml"
-	
 	[request setPostValue:[device name] forKey:@"device[title]"];
 	[request setPostValue:[device type] forKey:@"device[device_type]"];
 	[request setPostValue:[device version] forKey:@"device[os_version]"];
+    [request setPostValue:[device model] forKey:@"device[model_name]"];
+    [request setPostValue:[device vendor] forKey:@"device[vendor_name]"];
 	[request setPostValue:[device os] forKey:@"device[os]"];
-	[request setPostValue:@"OK" forKey:@"device[state]"];
 	[request setPostValue:[device macAddress] forKey:@"device[physical_address]"];
-	
+    [request setPostValue:[device uuid] forKey:@"device[uuid]"];
 	
 	[request setUseSessionPersistence:NO];
 	[request setShouldRedirect:NO];
@@ -167,6 +166,7 @@
 	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
 	[request setUsername:apiKey];
 	[request setPassword: @"x"];
+    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setUseSessionPersistence:NO];
 	[request setShouldRedirect:NO];
 	
@@ -213,6 +213,7 @@
     [request setShouldContinueWhenAppEntersBackground:YES];
 	[request setUsername:apiKey];
 	[request setPassword: @"x"];
+    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setRequestMethod:@"PUT"];
 	if (missing)
 		[request setPostValue:@"1" forKey:@"device[missing]"];
@@ -261,6 +262,7 @@
 	[request setShouldRedirect:NO];
 	[request setUsername:apiKey];
 	[request setPassword:@"x"];
+    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	
 	@try {
 		[request startSynchronous];
@@ -295,6 +297,7 @@
 	__block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
+    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setRequestMethod:@"DELETE"];
 	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
 	[request setUseSessionPersistence:NO];
@@ -328,6 +331,7 @@
     [request setShouldContinueWhenAppEntersBackground:YES];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
+    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setRequestMethod:@"POST"];
 	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
 	
@@ -416,6 +420,7 @@
     [request setShouldContinueWhenAppEntersBackground:YES];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
+    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setRequestMethod:@"PUT"];
 	[request setPostValue:id forKey:@"device[notification_id]"];
 	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];

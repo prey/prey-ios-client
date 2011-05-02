@@ -49,7 +49,7 @@ static PreyConfig *_instance = nil;
 	[newConfig loadDefaultValues];
     [newConfig saveValues];
     newConfig.alreadyRegistered = YES;
-    _instance = nil; //to force the config reload on next +instance call.
+    _instance = nil; //to force config reload on next +instance call.
 	return [newConfig autorelease];
 }
 
@@ -80,6 +80,22 @@ static PreyConfig *_instance = nil;
 	
 }
 
+-(void)resetValues
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults removeObjectForKey:API_KEY];
+	[defaults removeObjectForKey:DEVICE_KEY];
+	[defaults removeObjectForKey:EMAIL];
+	[defaults removeObjectForKey:CHECK_URL];
+	[defaults removeObjectForKey:ALREADY_REGISTERED];
+	[defaults removeObjectForKey:ALERT_ON_REPORT];
+	[defaults removeObjectForKey:ACCURACY];
+	[defaults removeObjectForKey:DELAY];
+	[defaults synchronize]; // this method is optional
+
+}
+
+
 - (void) updateMissingStatus {
 	if (self.deviceKey != nil && ![self.deviceKey isEqualToString:@""]){
 		LogMessage(@"PreyConfig", 10, @"Updating missing status...");
@@ -93,6 +109,7 @@ static PreyConfig *_instance = nil;
 
 
 - (void) detachDevice {
+    [self resetValues];
 	Device *dev = [Device allocInstance];
 	[dev detachDevice];
 	_instance=nil;

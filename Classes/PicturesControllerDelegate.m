@@ -22,7 +22,7 @@
 }
 
 + (id) initWithSession:(AVCaptureSession*)session AndWhenFinishSendImageTo:(SEL)method onTarget:(id)target {
-    PicturesControllerDelegate *delegate = [[[PicturesControllerDelegate alloc] init] autorelease];
+    PicturesControllerDelegate *delegate = [[PicturesControllerDelegate alloc] init] ;
     delegate.methodToInvoke = method;
     delegate.targetObject = target;
     delegate.session = session;
@@ -40,7 +40,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     if ([pictures count] < 5){
         //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
         LogMessage(@"PicturesControllerDelegate", 10, @"Picture taken!");
-        [pictures addObject:image];
+        [pictures addObject:[self rotateImage:image]];
     }
     else{
         [self joinImagesAndNotify];
@@ -68,6 +68,32 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureReady" object:finalImage];
 }
 
+
+-(UIImage *)rotateImage:(UIImage *)image {
+    
+    int orient = image.imageOrientation;
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    
+    UIImage *imageCopy = [[UIImage alloc] initWithCGImage:image.CGImage];
+    
+    
+    switch (orient) {
+        case UIImageOrientationLeft:
+            imageView.transform = CGAffineTransformMakeRotation(3.0 * M_PI / 2.0);
+            break;
+        case UIImageOrientationRight:
+            imageView.transform = CGAffineTransformMakeRotation(M_PI / 2.0);
+            break;
+        case UIImageOrientationDown: //EXIF = 3
+            imageView.transform = CGAffineTransformMakeRotation(M_PI);
+        default:
+            break;
+    }
+    
+    imageView.image = imageCopy;
+    return (imageView.image);
+}
 
 // Create a UIImage from sample buffer data
 - (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer 

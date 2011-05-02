@@ -14,7 +14,10 @@
 		NSString *type;
 		NSString *os;
 		NSString *version;
-		NSString *macAddress;		
+		NSString *macAddress;	
+        NSString *vendor;
+        NSString *model;
+        NSString *uuid;
 	}
 	
 	@property (nonatomic,retain) NSString *name;
@@ -22,6 +25,9 @@
 	@property (nonatomic,retain) NSString *os;
 	@property (nonatomic,retain) NSString *version;
 	@property (nonatomic,retain) NSString *macAddress;
+    @property (nonatomic,retain) NSString *vendor;
+    @property (nonatomic,retain) NSString *model;
+    @property (nonatomic,retain) NSString *uuid;
 
 +(IphoneInformationHelper*) initializeWithValues;
 

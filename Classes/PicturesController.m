@@ -11,7 +11,7 @@
 
 
 @implementation PicturesController
-@synthesize session;
+@synthesize session,lastPictureTaken;
 
 - (id) init {
 	self = [super init];
@@ -27,7 +27,6 @@
 	@synchronized(self) {
 		if(!instance) {
 			instance = [[PicturesController alloc] init];
-            
 		}
 	}
 	return instance;
@@ -35,10 +34,11 @@
 
 - (UIImage*) lastPicture{
     NSTimeInterval lastRunInterval = -[pictureTakenAt timeIntervalSinceNow];
-    return lastRunInterval > 60 ? nil : lastPicture;
+    return lastRunInterval > 60 ? nil : self.lastPictureTaken;
 }
 - (void) setLastPicture:(UIImage *) picture {
-    lastPicture = picture;
+    LogMessage(@"PicturesController", 10, @"Storing the picture that had been taken...");
+    self.lastPictureTaken = picture;
     [pictureTakenAt release];
     pictureTakenAt = [[NSDate date]retain];
 }
@@ -46,6 +46,8 @@
 -(void) take:(NSNumber*)picturesToTake usingCamera:(NSString*)camera {
 
     // Create the session
+    LogMessage(@"PicturesController", 10, @"Creating the session...");
+
     session = [[AVCaptureSession alloc] init];
     // Configure the session to produce lower resolution video frames, if your 
     // processing algorithm can cope. We'll specify medium quality for the
@@ -56,6 +58,7 @@
     NSError *error = nil;
     
     // Find a suitable AVCaptureDevice
+    LogMessage(@"PicturesController", 10, @"Finding suitable camera device...");
     AVCaptureDevice *device = nil;
     if (camera){
         
@@ -65,19 +68,25 @@
         device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     
     // Create a device input with the device and add it to the session.
+    LogMessage(@"PicturesController", 10, @"Creating the input device...");
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device 
                                                                         error:&error];
     if (!input) {
         // Handling the error appropriately.
         return nil;
     }
+    LogMessage(@"PicturesController", 10, @"Adding input device to the session...");
     [session addInput:input];
     
     // Create a VideoDataOutput and add it to the session
+    LogMessage(@"PicturesController", 10, @"Creating the output device...");
     AVCaptureVideoDataOutput *output = [[[AVCaptureVideoDataOutput alloc] init] autorelease];
+    
+    LogMessage(@"PicturesController", 10, @"Adding output device to the session...");
     [session addOutput:output];
     
     // Configure your output.
+    LogMessage(@"PicturesController", 10, @"Configuring the output device...");
     dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
     PicturesControllerDelegate *delegate = [PicturesControllerDelegate initWithSession:session AndWhenFinishSendImageTo:@selector(setLastPicture:) onTarget:self];
     
@@ -98,6 +107,7 @@
     output.minFrameDuration = CMTimeMake(1, 1);
     
     // Start the session running to start the flow of data
+    LogMessage(@"PicturesController", 10, @"Starting the session to run...");
     [session startRunning];
     
     // Assign session to an ivar.
@@ -133,6 +143,7 @@
 - (void)dealloc {
     [session release];
     [pictureTakenAt release];
+    [lastPictureTaken release];
 	[super dealloc];
 }
 

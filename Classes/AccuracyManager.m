@@ -90,7 +90,7 @@
     warningLabel.textAlignment = UITextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
 	warningLabel.lineBreakMode = UILineBreakModeWordWrap;
 	warningLabel.numberOfLines = 0; // 2 lines ; 0 - dynamical number of lines
-	warningLabel.text = @"Better accuracy means more battery consumption.\n'Best possible' option could drain your battery in a couple of hours!";
+	warningLabel.text = @"Sets the precision of the location sensor. Higher sensibility means higher battery consuption, and delay between reports near to the delay set.\nBe careful: 'Best possible' option could drain your battery in a couple of hours!";
     warningLabel.layer.borderColor = [UIColor whiteColor].CGColor;
     warningLabel.layer.borderWidth = 3.0;
     warningLabel.userInteractionEnabled = YES;

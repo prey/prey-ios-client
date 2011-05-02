@@ -27,12 +27,13 @@
 }
 - (void) sendIfConditionsMatch {
     if (waitForPicture){
-        UIImage *lastPicture = [[PicturesController instance]lastPicture];
+        UIImage *lastPicture = [[[PicturesController instance]lastPicture] copy];
         if (lastPicture != nil){
             self.picture = lastPicture;
             waitForPicture = NO;
             [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pictureReady" object:nil];
         }
+        [lastPicture release];
         waitForPicture = [UIApplication sharedApplication].applicationState == UIApplicationStateBackground ? NO:waitForPicture; //Can't take pictures if in bg.
     }
     if (!waitForPicture && !waitForLocation) {
@@ -42,6 +43,7 @@
             PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
             [userHttp sendReport:self];
             [self performSelectorOnMainThread:@selector(alertReportSent) withObject:nil waitUntilDone:NO];
+            self.picture = nil;
         }
         @catch (NSException *exception) {
             PreyLogMessageAndFile(@"Report", 0, @"Report couldn't be sent: %@", [exception reason]);
@@ -49,6 +51,7 @@
     }
 }
 - (void) send {
+    PreyLogMessage(@"Report", 5, @"Attempting to send the report.");
 	if (waitForLocation) {
 		LogMessage(@"Report", 5, @"Have to wait for a location before send the report.");
 		[[NSNotificationCenter defaultCenter] addObserver:self
