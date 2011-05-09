@@ -9,6 +9,7 @@
 #import "CongratulationsController.h"
 #import "PreyAppDelegate.h"
 #import "PreferencesController.h"
+#import "PreyRunner.h"
 
 
 @implementation CongratulationsController
@@ -56,10 +57,12 @@
      */
 	[self.ok setTitle:NSLocalizedString(@"OK",nil) forState:UIControlStateNormal];
 	[super viewWillAppear:animated];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
+    [[PreyRunner instance] startOnIntervalChecking];
 }
 
 /*

@@ -72,7 +72,7 @@
 			return 1;
 			break;
 		case 1:
-			return 5;
+			return 6;
 			break;
 		case 2:
 			return 1;
@@ -150,7 +150,13 @@
 				cell.textLabel.text = NSLocalizedString(@"Log",nil);
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-			}
+			} else if ([indexPath row] == 5) {
+                UISwitch *askForPassword = [[UISwitch alloc]init];
+                cell.textLabel.text = NSLocalizedString(@"Ask for password",nil);
+				[askForPassword addTarget: self action: @selector(changeAskForPasswordState:) forControlEvents:UIControlEventValueChanged];
+				[askForPassword setOn:config.askForPassword];
+				cell.accessoryView = askForPassword;
+            }
 			break;
 		case 2:
 			cell.detailTextLabel.text = PREY_VERSION;
@@ -170,8 +176,6 @@
     
     return cell;
 }
-
-
 
 
 
@@ -199,7 +203,7 @@
 					[self setupNavigatorForPicker:YES withSelector:@selector(delayPickerSelected)];
 				}
 			} else if ([indexPath row] == 3){
-				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Sure, go ahead!",nil) destructiveButtonTitle:@"Cancel" otherButtonTitles:nil];
+				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) destructiveButtonTitle:@"No, don't delete" otherButtonTitles:nil];
 				actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
 				[actionSheet release];
@@ -286,6 +290,11 @@
 	[actionSheet release];
 	
 	 
+}
+
+- (IBAction)changeAskForPasswordState:(UISwitch*)askForPassSwitch{
+	//LogMessageCompat(@"Switch status on? %@", missingSwitch.on == YES? @"YES" : @"NO");
+        [[PreyConfig instance] setAskForPassword:askForPassSwitch.on];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {

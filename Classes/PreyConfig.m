@@ -17,10 +17,11 @@ static NSString *const ALREADY_REGISTERED = @"already_registered";
 static NSString *const ACCURACY=@"accuracy";
 static NSString *const DELAY=@"delay";
 static NSString *const ALERT_ON_REPORT=@"alert_on_report";
+static NSString *const ASK_FOR_PASSWORD=@"ask_for_pass";
 
 @implementation PreyConfig
 
-@synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing, alertOnReport;
+@synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing, alertOnReport, askForPassword;
 static PreyConfig *_instance = nil;
 
 +(PreyConfig *)instance  {
@@ -62,6 +63,7 @@ static PreyConfig *_instance = nil;
 	self.alreadyRegistered =[defaults boolForKey:ALREADY_REGISTERED];
 	self.alertOnReport = [defaults boolForKey:ALERT_ON_REPORT];
 	self.missing = NO;
+    self.askForPassword = YES;
 	
 }
 
@@ -76,6 +78,7 @@ static PreyConfig *_instance = nil;
 	[defaults setBool:NO forKey:ALERT_ON_REPORT];
 	[defaults setDouble:[self desiredAccuracy] forKey:ACCURACY];
 	[defaults setInteger:[self delay] forKey:DELAY];
+    [defaults setBool:[self askForPassword] forKey:ASK_FOR_PASSWORD];
 	[defaults synchronize]; // this method is optional
 	
 }
@@ -123,6 +126,13 @@ static PreyConfig *_instance = nil;
 	[defaults setDouble:acc forKey:ACCURACY];
 	[defaults synchronize]; // this method is optional
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"accuracyUpdated" object:self];
+}
+
+- (void) setAskForPassword:(BOOL)askForPass { 
+	askForPassword = askForPass;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults setBool:[self askForPassword] forKey:ASK_FOR_PASSWORD];
+	[defaults synchronize]; // this method is optional
 }
 
 - (void) setDelay:(int) newDelay { 

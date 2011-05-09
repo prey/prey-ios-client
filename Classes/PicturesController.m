@@ -52,7 +52,8 @@
     // Configure the session to produce lower resolution video frames, if your 
     // processing algorithm can cope. We'll specify medium quality for the
     // chosen device.
-    session.sessionPreset = AVCaptureSessionPresetLow;
+    if ([session canSetSessionPreset:AVCaptureSessionPresetLow])
+        session.sessionPreset = AVCaptureSessionPresetLow;
     
     //numberOfPictures = picturesToTake;
     NSError *error = nil;

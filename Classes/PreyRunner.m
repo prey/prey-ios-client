@@ -76,12 +76,12 @@
 		NSTimeInterval lastRunInterval = -[lastExecution timeIntervalSinceNow];
 		LogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", [PreyConfig instance].delay, lastRunInterval);
 		if (lastRunInterval >= [PreyConfig instance].delay){
-			PreyLogMessageAndFile(@"Prey Runner", 0, @"New location notification received. Delay expired (%f secs. since last execution), running Prey now!", lastRunInterval);
+			LogMessage(@"Prey Runner", 0, @"New location notification received. Delay expired (%f secs. since last execution), running Prey now!", lastRunInterval);
 			
             [theOp start];
             //[self runPrey]; 
 		} else
-            PreyLogMessageAndFile(@"Prey Runner", 5, @"Location updated notification received, but interval hasn't expired. (%f secs. since last execution)",lastRunInterval);
+            LogMessage(@"Prey Runner", 5, @"Location updated notification received, but interval hasn't expired. (%f secs. since last execution)",lastRunInterval);
 	} else {
 		[theOp start];
 	}

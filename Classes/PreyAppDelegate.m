@@ -216,7 +216,7 @@
 	UIViewController *nextController = nil;
 	LogMessage(@"App Delegate", 10, @"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
 	if (config.alreadyRegistered)
-		if (ASK_FOR_LOGIN)
+		if (config.askForPassword)
 			nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
 		else
 			nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];

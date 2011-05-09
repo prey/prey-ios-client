@@ -21,6 +21,7 @@
 	int	delay;
 	BOOL alreadyRegistered;
 	BOOL missing;
+    BOOL askForPassword;
 	BOOL alertOnReport;
 	
 	
@@ -33,6 +34,7 @@
 @property double desiredAccuracy;
 @property int delay;
 @property BOOL missing;
+@property BOOL askForPassword;
 @property BOOL alertOnReport;
 
 + (PreyConfig*) instance;

@@ -28,10 +28,16 @@
 	User *user = [User allocWithEmail: config.email password: loginPassword.text];
 	
 	if (user != nil){
+        
 		PreferencesController *preferencesViewController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
 		preferencesViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-		[self presentModalViewController:preferencesViewController animated:YES];
-		[preferencesViewController release];
+        [self.navigationController setNavigationBarHidden:NO animated:NO];
+        [self.navigationController pushViewController:preferencesViewController animated:YES];
+        [preferencesViewController release];
+		/*
+        [self presentModalViewController:preferencesViewController animated:YES];
+		
+         */
 		[user release];
 	} else {
 		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Denied!",nil) message:NSLocalizedString(@"Wrong password. Try again.",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
