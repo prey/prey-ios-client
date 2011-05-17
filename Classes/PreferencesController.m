@@ -69,7 +69,12 @@
     // Return the number of rows in the section.
 	switch (section) {
 		case 0:
-			return 1;
+            if ([CLLocationManager locationServicesEnabled])
+                return 1;
+            else {
+                PreyLogMessageAndFile(@"Preferences controller", 0, @"Location services aren't enabled for Prey");
+                return 2;
+            }
 			break;
 		case 1:
 			return 6;
@@ -126,6 +131,9 @@
 				[missing addTarget: self action: @selector(changeMissingState:) forControlEvents:UIControlEventValueChanged];
 				[missing setOn:config.missing];
 				cell.accessoryView = missing;
+			} else if ([indexPath row] == 1){
+				cell.textLabel.text = NSLocalizedString(@"You have to enable Location Services",nil);
+				
 			}
 			break;
 		case 1:
@@ -177,6 +185,15 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
+    switch ([indexPath section]) {
+		case 0:
+			if ([indexPath row] == 1){
+				[cell setBackgroundColor:[UIColor redColor]];
+			}
+        break;
+	}
+}
 
 
 #pragma mark -
@@ -386,6 +403,11 @@
      [[UIApplication sharedApplication] setStatusBarHidden:NO];
  }
 
+- (void)viewDidUnload {
+    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
+    // For example: self.myOutlet = nil;
+}
+
 /*
  - (void)viewDidAppear:(BOOL)animated {
  [super viewDidAppear:animated];
@@ -419,10 +441,7 @@
     // Relinquish ownership any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
-}
+
 
 
 - (void)dealloc {

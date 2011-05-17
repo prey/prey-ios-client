@@ -40,7 +40,7 @@
 		device = [Device newDeviceForApiKey:[user apiKey]];
 		config = [[PreyConfig initWithUser:user andDevice:device] retain];
 		if (config != nil){
-            NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this phone with your Prey account.",nil);
+            NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
             [super activatePreyService];
 			[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
         }
@@ -49,7 +49,7 @@
 	@catch (NSException * e) {		
 		if (device != nil)
 			[user deleteDevice:device];
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Hold your horses!",nil) message:[e reason] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Couldn't add your device",nil) message:[e reason] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		
 		[alertView show];
 		[alertView release];
@@ -153,8 +153,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
-	switch ([indexPath section]) {
+	//PreyLogMessageAndFile(@"Old user controller", 10, @"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
+    switch ([indexPath section]) {
 		case 1:
+            
 			if (enableToSubmit) {
 				if (![email.text isMatchedByRegex:strEmailMatchstring]){
 					UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
@@ -171,6 +173,7 @@
 				[self.navigationController.view addSubview:HUD];
 				[HUD showWhileExecuting:@selector(addDeviceForCurrentUser) onTarget:self withObject:nil animated:YES];
 			}
+                	
 			break;
 
 		default:
@@ -239,7 +242,7 @@
 	buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
 	buttonCell.textLabel.textColor = [UIColor grayColor];
 	buttonCell.textLabel.textAlignment = UITextAlignmentCenter;
-	buttonCell.textLabel.text = NSLocalizedString(@"Add this iphone!",nil);
+	buttonCell.textLabel.text = NSLocalizedString(@"Add this device!",nil);
 	
 	[super viewDidLoad];
 }

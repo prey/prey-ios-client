@@ -66,7 +66,29 @@
 - (void)locationManager:(CLLocationManager *)manager
 	   didFailWithError:(NSError *)error
 {
-	LogMessage(@"Prey Location Controller", 0, @"Error getting location: %@", [error description]);
+	NSString *errorString;
+    //[manager stopUpdatingLocation];
+    NSLog(@"Error: %@",[error localizedDescription]);
+    switch([error code]) {
+        case kCLErrorDenied:
+            //Access denied by user
+            errorString = NSLocalizedString(@"Unable to access Location Services.\n You need to grant Prey access if you wish to track your device.",nil);
+            //Do something...
+            break;
+        case kCLErrorLocationUnknown:
+            //Probably temporary...
+            errorString = NSLocalizedString(@"Unable to fetch location data. Is this device on airplane mode?",nil);
+            //Do something else...
+            break;
+        default:
+            errorString = NSLocalizedString(@"An unknown error has occurred",@"Regarding getting the device's location");
+            break;
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:errorString delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alert show];
+    [alert release];
+    PreyLogMessageAndFile(@"Prey SignificantLocationController", 0, @"Error getting location: %@", [error description]);
 }
 
 - (void)accuracyUpdated:(NSNotification *)notification

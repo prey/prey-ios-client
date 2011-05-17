@@ -25,9 +25,9 @@
 
 - (void) checkPassword {
 	PreyConfig *config = [PreyConfig instance];
-	User *user = [User allocWithEmail: config.email password: loginPassword.text];
-	
-	if (user != nil){
+    
+    @try {
+        User *user = [User allocWithEmail: config.email password: loginPassword.text];
         
 		PreferencesController *preferencesViewController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
 		preferencesViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -39,7 +39,7 @@
 		
          */
 		[user release];
-	} else {
+	} @catch (NSException *e)  {
 		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Denied!",nil) message:NSLocalizedString(@"Wrong password. Try again.",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alertView show];
 		[alertView release];

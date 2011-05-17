@@ -16,8 +16,9 @@
 - (id)init {
 	self = [super init];
 	
-	delayNames = [[NSArray alloc] initWithObjects:NSLocalizedString(@"None: Send everything.",nil),
-                  NSLocalizedString(@"30 secs.",nil),
+	delayNames = [[NSArray alloc] initWithObjects:
+                  //NSLocalizedString(@"None: Send everything.",nil),
+                  //NSLocalizedString(@"30 secs.",nil),
 				  NSLocalizedString(@"2 mins.",nil),
 				   NSLocalizedString(@"5 mins.",nil),
 				   NSLocalizedString(@"10 mins.",nil),
@@ -25,8 +26,9 @@
 				   NSLocalizedString(@"45 mins.",nil),
 				   NSLocalizedString(@"60 mins.",nil),
 				   nil];
-	delayKeys = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:0],
-                 [NSNumber numberWithInt:0.5*60],
+	delayKeys = [[NSArray alloc] initWithObjects:
+                 //[NSNumber numberWithInt:0],
+                 //[NSNumber numberWithInt:0.5*60],
 				 [NSNumber numberWithInt:2*60],
 				 [NSNumber numberWithInt:5*60],
 				 [NSNumber numberWithInt:10*60],

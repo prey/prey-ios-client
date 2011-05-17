@@ -321,7 +321,7 @@
     NSString * tokenAsString = [[[deviceToken description] 
                                  stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
                                 stringByReplacingOccurrencesOfString:@" " withString:@""];
-    LogMessage(@"App Delegate", 10, @"Did register for remote notifications - Device Token=%@",tokenAsString);
+    PreyLogMessageAndFile(@"App Delegate", 10, @"Did register for remote notifications - Device Token=%@",tokenAsString);
 	PreyRestHttp *http = [[PreyRestHttp alloc] init];
     [http setPushRegistrationId:tokenAsString]; 
     [http release];
@@ -329,7 +329,7 @@
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err { 
 	
-    LogMessage(@"App Delegate", 10,  @"Failed to register for remote notifications - Error: %@", err);    
+    PreyLogMessageAndFile(@"App Delegate", 10,  @"Failed to register for remote notifications - Error: %@", err);    
 	
 }
 

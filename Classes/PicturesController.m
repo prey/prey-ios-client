@@ -63,7 +63,8 @@
     AVCaptureDevice *device = nil;
     if (camera){
         
-        device = [camera isEqualToString:@"front"]?[self frontFacingCameraIfAvailable]:[AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        //device = [camera isEqualToString:@"front"]?[self frontFacingCameraIfAvailable]:[AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        device = [self frontFacingCameraIfAvailable];
     }
     else
         device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];

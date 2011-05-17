@@ -36,11 +36,11 @@
 	//We use the location services to keep Prey running in the background...
 	LocationController *locController = [LocationController instance];
 	[locController startUpdatingLocation];
-    PreyLogMessageAndFile(@"Prey Runner", 0,@"Prey service has been started.");
 	if (![PreyRestHttp checkInternet])
 		return;
 	[http changeStatusToMissing:YES forDevice:[config deviceKey] fromUser:[config apiKey]];
     config.missing=YES;
+    PreyLogMessageAndFile(@"Prey Runner", 0,@"Prey service has been started.");
 
 }
 //this method starts the continous execution of Prey
@@ -51,11 +51,12 @@
 -(void)stopPreyService {
 	LocationController *locController = [LocationController instance];
 	[locController stopUpdatingLocation];
-    PreyLogMessageAndFile(@"Prey Runner", 0,@"Prey service has been stopped.");
 	if (![PreyRestHttp checkInternet])
 		return;
 	[http changeStatusToMissing:NO forDevice:[config deviceKey] fromUser:[config apiKey]];
     config.missing=NO;
+    lastExecution = nil;
+    PreyLogMessageAndFile(@"Prey Runner", 0,@"Prey service has been stopped.");
 }
 
 -(void) startOnIntervalChecking {
@@ -65,6 +66,7 @@
 
 -(void) stopOnIntervalChecking {
 	[[SignificantLocationController instance] stopMonitoringSignificantLocationChanges];
+    lastExecution = nil;
     PreyLogMessageAndFile(@"Prey Runner", 0,@"Interval checking has been stopped.");
 }
 
