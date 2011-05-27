@@ -61,13 +61,18 @@
     // Find a suitable AVCaptureDevice
     LogMessage(@"PicturesController", 10, @"Finding suitable camera device...");
     AVCaptureDevice *device = nil;
-    if (camera){
+    //if (camera){
         
         //device = [camera isEqualToString:@"front"]?[self frontFacingCameraIfAvailable]:[AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        device = [self frontFacingCameraIfAvailable];
+    device = [self frontFacingCameraIfAvailable];
+    //}
+    //else
+      //  device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    
+    if (![device supportsAVCaptureSessionPreset:AVCaptureSessionPresetLow]){
+        LogMessage(@"PicturesController", 10, @"Device doesn't acceptp preset low. Can't take photo...");
+        return;
     }
-    else
-        device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     
     // Create a device input with the device and add it to the session.
     LogMessage(@"PicturesController", 10, @"Creating the input device...");
@@ -75,8 +80,10 @@
                                                                         error:&error];
     if (!input) {
         // Handling the error appropriately.
-        return nil;
+        return;
     }
+    
+    
     LogMessage(@"PicturesController", 10, @"Adding input device to the session...");
     [session addInput:input];
     

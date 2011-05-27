@@ -16,6 +16,7 @@
 	BOOL inModules;
 	BOOL inModule;
     BOOL inCameraToUse;
+    BOOL inAccuracy;
 	DeviceModulesConfig *modulesConfig;
 	
 }

@@ -53,7 +53,9 @@
 
 - (void) showDelayPickerOnView:(UIView *)view fromTableView:(UITableView *)tableView {
 	
-	delayPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 200, 320, 200)];
+    CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
+    
+	delayPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 200, screenRect.size.width, 200)];
 	delayPicker.delegate = self;
 	delayPicker.showsSelectionIndicator = YES;
 	
@@ -69,7 +71,7 @@
 	// size up the picker view to our screen and compute the start/end frame origin for our slide up animation
 	//
 	// compute the start frame
-	CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
+	
 	CGSize pickerSize = [delayPicker sizeThatFits:CGSizeZero];
 	CGRect startRect = CGRectMake(0.0,
 								  screenRect.origin.y + screenRect.size.height,

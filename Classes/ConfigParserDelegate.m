@@ -19,11 +19,12 @@
 	@property (nonatomic) BOOL inModule;
 	@property (nonatomic) BOOL inAlertMessage;
     @property (nonatomic) BOOL inCameraToUse;
+    @property (nonatomic) BOOL inAccuracy;
 	@property (nonatomic, retain) DeviceModulesConfig *modulesConfig;
 @end
 
 @implementation ConfigParserDelegate
-@synthesize inMissing,inDelay,inPostUrl,inModules,inModule,inAlertMessage,modulesConfig,inCameraToUse;
+@synthesize inMissing,inDelay,inPostUrl,inModules,inModule,inAlertMessage,modulesConfig,inCameraToUse,inAccuracy;
 
 - (id) init {
 	self = [super init];
@@ -36,6 +37,7 @@
 		inModule=NO;
 		inAlertMessage=NO;
         inCameraToUse=NO;
+        inAccuracy=NO;
 	}
     return self;
 }
@@ -84,6 +86,8 @@
 			self.inAlertMessage = YES;
         if ([elementName isEqualToString:@"camera"])
             self.inCameraToUse = YES;
+        if ([elementName isEqualToString:@"accuracy"])
+            self.inAccuracy = YES;
 	}
 	
 }
@@ -104,6 +108,8 @@
 		self.inAlertMessage = NO;
     else if ([elementName isEqualToString:@"camera"])
 		self.inCameraToUse = NO;
+    else if ([elementName isEqualToString:@"accuracy"])
+		self.inAccuracy = NO;
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
@@ -121,6 +127,15 @@
 		[self.modulesConfig addConfigValue:string withKey:@"alert_message" forModuleName:@"alert"];
     else if (self.inCameraToUse)
 		[self.modulesConfig addConfigValue:string withKey:@"camera" forModuleName:@"webcam"];
+    else if (self.inAccuracy){
+        PreyConfig *config = [PreyConfig instance];
+        if ([string isEqualToString:@"min"])
+            config.desiredAccuracy = [[NSNumber numberWithDouble:kCLLocationAccuracyThreeKilometers] doubleValue];
+        if ([string isEqualToString:@"med"])
+            config.desiredAccuracy = [[NSNumber numberWithDouble:kCLLocationAccuracyNearestTenMeters] doubleValue];
+        if ([string isEqualToString:@"max"])
+            config.desiredAccuracy = [[NSNumber numberWithDouble:kCLLocationAccuracyBestForNavigation] doubleValue];
+    }
 	
 }
 
