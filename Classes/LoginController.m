@@ -40,10 +40,20 @@
          */
 		[user release];
 	} @catch (NSException *e)  {
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Denied!",nil) message:NSLocalizedString(@"Wrong password. Try again.",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        NSString *title = nil;
+        NSString *message = nil;
+        if ([[e name]isEqualToString:@"GetApiKeyUnknownException"]){
+            message = [e description];
+            title = NSLocalizedString(@"Couldn't check your password",nil);
+        }
+        else {
+            message = NSLocalizedString(@"Wrong password. Try again.",nil);
+            title = NSLocalizedString(@"Access Denied",nil);
+        }
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alertView show];
 		[alertView release];
-	}
+	} 
 	
 }
 

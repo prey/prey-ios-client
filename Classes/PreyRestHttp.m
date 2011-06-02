@@ -52,10 +52,8 @@
 			return key;
 		}	
 		else {
-			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:[error localizedDescription] userInfo:nil];
-		}
-		
-		
+			@throw [NSException exceptionWithName:@"GetApiKeyUnknownException" reason:[error localizedDescription] userInfo:nil];
+		}		
 	}
 	@catch (NSException * e) {
 		@throw e;
