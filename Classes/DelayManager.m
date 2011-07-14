@@ -22,9 +22,10 @@
 				  NSLocalizedString(@"2 mins.",nil),
 				   NSLocalizedString(@"5 mins.",nil),
 				   NSLocalizedString(@"10 mins.",nil),
+				   NSLocalizedString(@"15 mins.",nil),
 				   NSLocalizedString(@"20 mins.",nil),
-				   NSLocalizedString(@"45 mins.",nil),
-				   NSLocalizedString(@"60 mins.",nil),
+				   NSLocalizedString(@"30 mins.",nil),
+                  NSLocalizedString(@"40 mins.",nil),
 				   nil];
 	delayKeys = [[NSArray alloc] initWithObjects:
                  //[NSNumber numberWithInt:0],
@@ -32,9 +33,10 @@
 				 [NSNumber numberWithInt:2*60],
 				 [NSNumber numberWithInt:5*60],
 				 [NSNumber numberWithInt:10*60],
+				 [NSNumber numberWithInt:15*60],
 				 [NSNumber numberWithInt:20*60],
-				 [NSNumber numberWithInt:45*60],
-				 [NSNumber numberWithInt:60*60],
+				 [NSNumber numberWithInt:30*60],
+                 [NSNumber numberWithInt:40*60],
 				 nil];
 	
 	self.delayValues = [NSDictionary dictionaryWithObjects:delayNames forKeys:delayKeys];

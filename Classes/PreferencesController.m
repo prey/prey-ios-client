@@ -77,7 +77,7 @@
             }
 			break;
 		case 1:
-			return 6;
+			return 5;
 			break;
 		case 2:
 			return 1;
@@ -100,7 +100,7 @@
 			label = NSLocalizedString(@"Execution control",nil);
 			break;
 		case 1:
-			label = NSLocalizedString(@"Beta options",nil);
+			label = NSLocalizedString(@"Control Panel information",nil);
 			break;
 		case 2:
 			label = NSLocalizedString(@"About",nil);
@@ -143,7 +143,8 @@
 			}
 			else if ([indexPath row] == 1) {
 				cell.textLabel.text = NSLocalizedString(@"Delay",nil);
-				cell.detailTextLabel.text = [delayManager currentDelay];
+				//cell.detailTextLabel.text = [delayManager currentDelay];
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Mins.",config.delay/60];
 			} else if ([indexPath row] == 2) {
 				cell.textLabel.text = NSLocalizedString(@"Alert on report sent",nil);
 				UISwitch *alert = [[UISwitch alloc]init];
@@ -154,11 +155,12 @@
 				cell.textLabel.text = NSLocalizedString(@"Detach device",nil);
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-			} else if ([indexPath row] == 4) {
+			/*} else if ([indexPath row] == 4) {
 				cell.textLabel.text = NSLocalizedString(@"Log",nil);
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-			} else if ([indexPath row] == 5) {
+             */
+			} else if ([indexPath row] == 4) {
                 UISwitch *askForPassword = [[UISwitch alloc]init];
                 cell.textLabel.text = NSLocalizedString(@"Ask for password",nil);
 				[askForPassword addTarget: self action: @selector(changeAskForPasswordState:) forControlEvents:UIControlEventValueChanged];
@@ -209,27 +211,34 @@
 			break;
 		case 1:
 			if ([indexPath row] == 0){
-				if (!pickerShowed){
+				/*
+                if (!pickerShowed){
 					[accManager showPickerOnView:self.view fromTableView:self.tableView];
 					[self setupNavigatorForPicker:YES withSelector:@selector(accuracyPickerSelected)];
 				}
+                */
 			} 
 			else if ([indexPath row] == 1){
-				if (!pickerShowed) {
+				/*
+                if (!pickerShowed) {
 					[delayManager showDelayPickerOnView:self.view fromTableView:self.tableView];
 					[self setupNavigatorForPicker:YES withSelector:@selector(delayPickerSelected)];
 				}
+                */
 			} else if ([indexPath row] == 3){
 				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) destructiveButtonTitle:@"No, don't delete" otherButtonTitles:nil];
 				actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
 				[actionSheet release];
-			} else if ([indexPath row] == 4){
+			} 
+            /*
+            else if ([indexPath row] == 4){
 				LogController *logController = [[LogController alloc] init];
                 [self.navigationController setNavigationBarHidden:NO animated:NO];
                 [self.navigationController pushViewController:logController animated:YES];
                 [logController release];
 			}
+            */
 			break;
 		case 2:
 			break;
@@ -372,11 +381,14 @@
 - (void)missingStateUpdated:(NSNotification *)notification
 {
 	//LogMessage(@"Prey Location Controller", 0, @"Missing state has been updated from the control panel. Setting the missing switch");
-
 	[self performSelectorOnMainThread:@selector(changeMissingSwitch:) withObject:[notification object] waitUntilDone:NO];
-	
-	
 }
+
+- (void)reloadData:(NSNotification *)notification
+{
+	[[self tableView] reloadData];
+}
+
 - (void)changeMissingSwitch:(id)config {
 	BOOL isMissing = ((PreyConfig*)config).missing;
 	[missing setOn:isMissing animated:YES];
@@ -391,6 +403,8 @@
 	accManager = [[AccuracyManager alloc] init];
 	delayManager = [[DelayManager alloc] init];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
     [super viewDidLoad];
 }
 

@@ -140,6 +140,7 @@ static PreyConfig *_instance = nil;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setInteger:newDelay forKey:DELAY];
 	[defaults synchronize]; // this method is optional
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"delayUpdated" object:self];
 }
 
 - (void) setAlertOnReport:(BOOL) isAlertOnReport { 
