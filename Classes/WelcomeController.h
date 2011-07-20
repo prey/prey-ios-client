@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 
 
-@interface WelcomeController : UIViewController < UITableViewDelegate, UITableViewDataSource > {
-	UITableView *optionsTable;
-
+@interface WelcomeController : UIViewController {
+    UIButton *newUser;
+    UIButton *oldUser;
 }
-@property (nonatomic, retain) IBOutlet UITableView *optionsTable;
+-(IBAction)newUserClicked:(id)sender;
+-(IBAction)oldUserClicked:(id)sender;
 
+@property (nonatomic, retain) IBOutlet UIButton *newUser;
+@property (nonatomic, retain) IBOutlet UIButton *oldUser;
 
 @end

@@ -260,15 +260,16 @@
 
 - (void)showOldUserWizard {
 	OldUserController *ouController = [[OldUserController alloc] initWithStyle:UITableViewStyleGrouped];
-	ouController.title = NSLocalizedString(@"Log in to Prey",nil);
+    ouController.title = NSLocalizedString(@"Log in to Prey",nil);
 	[viewController pushViewController:ouController animated:YES];
 	[ouController release];
 }
 
 - (void)showNewUserWizard {
-	
+	NSLog(@"DDD");  
 	NewUserController *nuController = [[NewUserController alloc] initWithStyle:UITableViewStyleGrouped];
 	nuController.title = NSLocalizedString(@"Create Prey account",nil);
+    
 	[viewController pushViewController:nuController animated:YES];
 	[nuController release];
 }

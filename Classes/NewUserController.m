@@ -47,7 +47,7 @@
 	
 #if (TARGET_IPHONE_SIMULATOR)
 	sleep(1);
-	[self performSelectorOnMainThread:@selector(showCongratsView) withObject:@"congrats dummy text" waitUntilDone:NO];
+	[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:@"congrats dummy text" waitUntilDone:NO];
 #else
 	User *user = nil;
 	Device *device = nil;

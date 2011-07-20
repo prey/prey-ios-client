@@ -19,6 +19,22 @@
 
 @end
 
+
+@implementation UINavigationBar (UINavigationBarCustomDraw)
+
+- (void) drawRect:(CGRect)rect {
+    
+    [self setTintColor:[UIColor colorWithRed:0.42f
+                                       green: 0.42f
+                                        blue:0.42f 
+                                       alpha:1]];
+    
+        [[UIImage imageNamed:@"navbarbg.png"] drawInRect:rect];
+}
+
+@end
+
+
 @implementation SetupControllerTemplate
 
 #pragma mark -
@@ -61,7 +77,25 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {	
+    
+    if ([[[UIDevice currentDevice] systemVersion] isEqualToString:@"5.0"]) {
+        [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:0.42f
+                                                                              green: 0.42f
+                                                                               blue:0.42f 
+                                                                              alpha:1]];
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navbarbg.png"] forBarMetrics:UIBarMetricsDefault];
+    }
+    
+    
     strEmailMatchstring=@"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
+    [self.tableView setBackgroundColor:[UIColor clearColor]];
+    UIView *fondo = [[[UIView alloc] initWithFrame:self.tableView.frame] autorelease];
+    [fondo setBackgroundColor:[UIColor whiteColor]];
+    UIImage *btm = [[UIImage imageNamed:@"bg-mnts2.png"] autorelease];
+    UIImageView *imv = [[UIImageView alloc] initWithImage:btm];
+    imv.frame = CGRectMake(0, fondo.frame.size.height-143, 320, 99);
+    [fondo addSubview:imv];
+    [self.tableView setBackgroundView:fondo];
 	[super viewDidLoad];
 }
 

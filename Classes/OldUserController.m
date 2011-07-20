@@ -221,6 +221,7 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    
 	email = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
 	email.clearsOnBeginEditing = NO;
 	email.returnKeyType = UIReturnKeyDone;
