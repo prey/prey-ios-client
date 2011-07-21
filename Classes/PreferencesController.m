@@ -121,6 +121,7 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
     }
     PreyConfig *config = [PreyConfig instance];
     switch ([indexPath section]) {
@@ -399,6 +400,7 @@
 
 
 - (void)viewDidLoad {
+    [self.tableView setBackgroundColor:[UIColor whiteColor]];
     
 	accManager = [[AccuracyManager alloc] init];
 	delayManager = [[DelayManager alloc] init];

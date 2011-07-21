@@ -94,11 +94,14 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
-		5A12537C13D004E700E22135 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A12537B13D004E700E22135 /* libz.1.2.5.dylib */; };
 		5A238A3F13D00CB0008D79DB /* navbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A238A3E13D00CB0008D79DB /* navbarbg@2x.png */; };
-		5A238A4213D0119A008D79DB /* bg-mnts2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A238A4113D0119A008D79DB /* bg-mnts2.png */; };
-		5A7F71B613CF9DEF0063D2F1 /* bg-mnts1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A7F71B513CF9DEF0063D2F1 /* bg-mnts1.png */; };
+		5A238A4213D0119A008D79DB /* bg-mnts2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A238A4113D0119A008D79DB /* bg-mnts2@2x.png */; };
+		5A6D502D13D8D33400C9AB3E /* navbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A6D502C13D8D33400C9AB3E /* navbarbg.png */; };
+		5A6D502F13D8D3A400C9AB3E /* bg-mnts2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A6D502E13D8D3A400C9AB3E /* bg-mnts2.png */; };
+		5A6D503113D8D3AD00C9AB3E /* bg-mnts1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A6D503013D8D3AD00C9AB3E /* bg-mnts1.png */; };
+		5A7F71B613CF9DEF0063D2F1 /* bg-mnts1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A7F71B513CF9DEF0063D2F1 /* bg-mnts1@2x.png */; };
 		5A7F71BB13CFA6D80063D2F1 /* Signupbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A7F71BA13CFA6D80063D2F1 /* Signupbtn@2x.png */; };
+		5ACAB8F713D6931400101831 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACAB8F613D6931400101831 /* libz.1.2.3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -250,11 +253,14 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Prey_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prey_Prefix.pch; sourceTree = "<group>"; };
-		5A12537B13D004E700E22135 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		5A238A3E13D00CB0008D79DB /* navbarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navbarbg@2x.png"; sourceTree = "<group>"; };
-		5A238A4113D0119A008D79DB /* bg-mnts2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts2.png"; sourceTree = "<group>"; };
-		5A7F71B513CF9DEF0063D2F1 /* bg-mnts1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts1.png"; sourceTree = "<group>"; };
+		5A238A4113D0119A008D79DB /* bg-mnts2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts2@2x.png"; sourceTree = "<group>"; };
+		5A6D502C13D8D33400C9AB3E /* navbarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navbarbg.png; sourceTree = "<group>"; };
+		5A6D502E13D8D3A400C9AB3E /* bg-mnts2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts2.png"; sourceTree = "<group>"; };
+		5A6D503013D8D3AD00C9AB3E /* bg-mnts1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts1.png"; sourceTree = "<group>"; };
+		5A7F71B513CF9DEF0063D2F1 /* bg-mnts1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts1@2x.png"; sourceTree = "<group>"; };
 		5A7F71BA13CFA6D80063D2F1 /* Signupbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Signupbtn@2x.png"; path = "Classes/Signupbtn@2x.png"; sourceTree = "<group>"; };
+		5ACAB8F613D6931400101831 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Prey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Prey-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -263,7 +269,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A12537C13D004E700E22135 /* libz.1.2.5.dylib in Frameworks */,
+				5ACAB8F713D6931400101831 /* libz.1.2.3.dylib in Frameworks */,
 				077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */,
 				07DF36E313413B6F00F0F218 /* MessageUI.framework in Frameworks */,
 				07D323A0133BC74B00841BFD /* CoreMedia.framework in Frameworks */,
@@ -600,7 +606,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				5A12537B13D004E700E22135 /* libz.1.2.5.dylib */,
+				5ACAB8F613D6931400101831 /* libz.1.2.3.dylib */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -625,14 +631,17 @@
 			children = (
 				07EBB80C137C7D6200A46037 /* star_wars_battlefront.png */,
 				5A238A3E13D00CB0008D79DB /* navbarbg@2x.png */,
+				5A6D502C13D8D33400C9AB3E /* navbarbg.png */,
 				07132470134639DF00F7EFD8 /* Localizable.strings */,
 				071324681346369200F7EFD8 /* large9.ttf */,
 				071324691346369200F7EFD8 /* NewJuneBold.otf */,
 				0713246A1346369200F7EFD8 /* siren.mp3 */,
 				071324541346363300F7EFD8 /* AlertModuleController.xib */,
 				071324551346363300F7EFD8 /* MainWindow.xib */,
-				5A7F71B513CF9DEF0063D2F1 /* bg-mnts1.png */,
-				5A238A4113D0119A008D79DB /* bg-mnts2.png */,
+				5A7F71B513CF9DEF0063D2F1 /* bg-mnts1@2x.png */,
+				5A6D503013D8D3AD00C9AB3E /* bg-mnts1.png */,
+				5A6D502E13D8D3A400C9AB3E /* bg-mnts2.png */,
+				5A238A4113D0119A008D79DB /* bg-mnts2@2x.png */,
 				5A7F71BA13CFA6D80063D2F1 /* Signupbtn@2x.png */,
 				07132452134635DC00F7EFD8 /* WelcomeController.xib */,
 				071323FF134633B800F7EFD8 /* CongratulationsController.xib */,
@@ -742,10 +751,13 @@
 				073CABDE1367731900821032 /* 57px.png in Resources */,
 				073CABDF1367731900821032 /* 114px.png in Resources */,
 				07EBB80D137C7D6200A46037 /* star_wars_battlefront.png in Resources */,
-				5A7F71B613CF9DEF0063D2F1 /* bg-mnts1.png in Resources */,
+				5A7F71B613CF9DEF0063D2F1 /* bg-mnts1@2x.png in Resources */,
 				5A7F71BB13CFA6D80063D2F1 /* Signupbtn@2x.png in Resources */,
 				5A238A3F13D00CB0008D79DB /* navbarbg@2x.png in Resources */,
-				5A238A4213D0119A008D79DB /* bg-mnts2.png in Resources */,
+				5A238A4213D0119A008D79DB /* bg-mnts2@2x.png in Resources */,
+				5A6D502D13D8D33400C9AB3E /* navbarbg.png in Resources */,
+				5A6D502F13D8D3A400C9AB3E /* bg-mnts2.png in Resources */,
+				5A6D503113D8D3AD00C9AB3E /* bg-mnts1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
