@@ -19,7 +19,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-		LogMessage(@"Prey SignificantLocationController", 5, @"Initializing Significant LocationManager...");
+		PreyLogMessage(@"Prey SignificantLocationController", 5, @"Initializing Significant LocationManager...");
 		self.significantLocationManager = [[CLLocationManager alloc] init];
 		self.significantLocationManager.delegate = self;		
     }

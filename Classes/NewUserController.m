@@ -119,7 +119,6 @@
 		label.font = [UIFont boldSystemFontOfSize:14];
 		[cell.contentView addSubview:label];
 		[label release];
-		
     }
     
 	UILabel *label = (UILabel *)[cell viewWithTag:kLabelTag];
@@ -163,7 +162,7 @@
 	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
 	switch ([indexPath section]) {
 		case 1:
-			if (enableToSubmit) {
+			//if (enableToSubmit) {
 				if (![email.text isMatchedByRegex:strEmailMatchstring]){
 					UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
 					[objAlert show];
@@ -177,7 +176,7 @@
 				HUD.labelText = NSLocalizedString(@"Creating account...",nil);
 				[self.navigationController.view addSubview:HUD];
 				[HUD showWhileExecuting:@selector(addNewUser) onTarget:self withObject:nil animated:YES];
-			}
+			//}
 			break;
 			
 		default:
@@ -190,13 +189,23 @@
 #pragma mark UITextField delegate methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
-	[textField resignFirstResponder];
-    return YES;
+        NSInteger nextTag = textField.tag + 1;
+        // Try to find next responder
+        UIResponder* nextResponder = (UITextField *)[self.view viewWithTag:nextTag];
+        if (nextResponder) {
+            // Found next responder, so set it.
+            [nextResponder becomeFirstResponder];
+        } else {
+            // Not found, so remove keyboard.
+            [textField resignFirstResponder];
+        }
+        return NO; // We do not want UITextField to insert line-breaks.
 }
 
 
 - (void)checkFieldsToEnableSendButton:(id)sender {
 	if (email.text != nil && 
+        [email.text isMatchedByRegex:strEmailMatchstring] &&
 		![email.text isEqualToString:@""] && 
 		name.text != nil && 
 		![name.text isEqualToString:@""] &&
@@ -207,7 +216,7 @@
 		buttonCell.selectionStyle = UITableViewCellSelectionStyleBlue;
 		buttonCell.textLabel.textColor = [UIColor blackColor];
 		enableToSubmit = YES;
-		[self hideKeyboard];
+		//[self hideKeyboard];
 	} else {
 		buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
 		buttonCell.textLabel.textColor = [UIColor grayColor];
@@ -232,44 +241,52 @@
 - (void)viewDidLoad {
 	name = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
 	name.clearsOnBeginEditing = NO;
-	name.returnKeyType = UIReturnKeyDone;
+	name.returnKeyType = UIReturnKeyNext;
+    name.tag = 28;
 	name.placeholder = NSLocalizedString(@"Your name",nil);
 	[name setDelegate:self];
-	[name addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
+	//[name addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
 	
 	email = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
 	email.clearsOnBeginEditing = NO;
-	email.returnKeyType = UIReturnKeyDone;
+	email.returnKeyType = UIReturnKeyNext;
+    email.tag = 29;
 	email.placeholder = NSLocalizedString(@"Your email",nil);
 	email.keyboardType = UIKeyboardTypeEmailAddress;
 	email.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	[email setDelegate:self];
-	[email addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
+	//[email addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
 	
 	password = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
 	password.clearsOnBeginEditing = NO;
-	password.returnKeyType = UIReturnKeyDone;
+	password.returnKeyType = UIReturnKeyNext;
+    password.tag = 30;
 	[password setSecureTextEntry:YES];
 	password.placeholder = NSLocalizedString(@"Choose a 6 characters password",nil);
 	[password setDelegate:self];
-	[password addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
+	//[password addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
 	
 	repassword = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
 	repassword.clearsOnBeginEditing = NO;
 	repassword.returnKeyType = UIReturnKeyDone;
+    repassword.tag = 31;
 	[repassword setSecureTextEntry:YES];
 	repassword.placeholder = NSLocalizedString(@"Repeat your password",nil);
 	[repassword setDelegate:self];
-	[repassword addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
+	//[repassword addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
 	
 	buttonCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"buttonCell"];
-	buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
-	buttonCell.textLabel.textColor = [UIColor grayColor];
+    buttonCell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    buttonCell.textLabel.textColor = [UIColor blackColor];
+	//buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
+	//buttonCell.textLabel.textColor = [UIColor grayColor];
 	buttonCell.textLabel.textAlignment = UITextAlignmentCenter;
 	buttonCell.textLabel.text = NSLocalizedString(@"Create my account!",nil);
 	
+    enableToSubmit = YES;
     [super viewDidLoad];
 }
+
 
 
 /*

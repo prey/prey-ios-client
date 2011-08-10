@@ -23,6 +23,7 @@
 	BOOL missing;
     BOOL askForPassword;
 	BOOL alertOnReport;
+    BOOL camouflageMode;
 	
 	
 }
@@ -36,6 +37,7 @@
 @property BOOL missing;
 @property BOOL askForPassword;
 @property BOOL alertOnReport;
+@property BOOL camouflageMode;
 
 + (PreyConfig*) instance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;

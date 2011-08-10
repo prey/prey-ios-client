@@ -41,7 +41,7 @@
 #pragma mark -
 #pragma mark Some useful stuff
 - (void)registerForRemoteNotifications {
-    LogMessage(@"App Delegate", 10, @"Registering for push notifications...");    
+    PreyLogMessage(@"App Delegate", 10, @"Registering for push notifications...");    
     [[UIApplication sharedApplication] 
 	 registerForRemoteNotificationTypes:
 	 (UIRemoteNotificationTypeAlert | 
@@ -50,7 +50,7 @@
 }
 
 - (void)showFakeScreen {
-    LogMessage(@"App Delegate", 20,  @"Showing the guy our fake screen at: %@", url );
+    PreyLogMessage(@"App Delegate", 20,  @"Showing the guy our fake screen at: %@", url );
     
     UIView *fake = [[UIView alloc] initWithFrame:CGRectMake(0,0,20,20)];
     fake.backgroundColor = [UIColor redColor];
@@ -91,7 +91,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
-	LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.2", 50000);
+	LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.3", 50000);
     //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"Prey");
 	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
     
@@ -125,7 +125,7 @@
         
         if (localNotif) {
             application.applicationIconBadgeNumber = localNotif.applicationIconBadgeNumber-1; 
-            LogMessage(@"App Delegate", 10, @"Prey local notification clicked... running!");
+            PreyLogMessage(@"App Delegate", 10, @"Prey local notification clicked... running!");
             [[PreyRunner instance] startPreyService];
         }
         
@@ -184,7 +184,7 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, called instead of applicationWillTerminate: when the user quits.
      */
-	LogMessage(@"App Delegate", 10, @"Prey is now running in the background");
+	PreyLogMessage(@"App Delegate", 10, @"Prey is now running in the background");
 	wentToBackground = [NSDate date];
 	for (UIView *view in [window subviews]) {
 		[view removeFromSuperview];
@@ -197,7 +197,7 @@
     /*
      Called as part of  transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
      */
-	LogMessage(@"App Delegate", 10, @"Prey is now entering to the foreground");
+	PreyLogMessage(@"App Delegate", 10, @"Prey is now entering to the foreground");
 }
 
 
@@ -205,7 +205,7 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-     LogMessage(@"App Delegate", 20,  @"DID BECOME ACTIVE!!");
+     PreyLogMessage(@"App Delegate", 20,  @"DID BECOME ACTIVE!!");
     if (showFakeScreen){
         [self showFakeScreen];
         return;
@@ -214,7 +214,7 @@
     PreyConfig *config = [PreyConfig instance];
 	
 	UIViewController *nextController = nil;
-	LogMessage(@"App Delegate", 10, @"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
+	PreyLogMessage(@"App Delegate", 10, @"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
 	if (config.alreadyRegistered)
 		if (config.askForPassword)
 			nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
@@ -245,7 +245,7 @@
 		minutes = floor(-inBg/60);
 		seconds = trunc(-inBg - minutes * 60);
 	}
-	LogMessage(@"App Delegate", 10, @"Application will terminate!. Time alive: %f minutes, %f seconds",minutes,seconds);
+	PreyLogMessage(@"App Delegate", 10, @"Application will terminate!. Time alive: %f minutes, %f seconds",minutes,seconds);
 	
 }
 
@@ -345,11 +345,11 @@
 #pragma mark -
 #pragma mark UINavigationController delegate methods
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)_viewController animated:(BOOL)animated {
-	LogMessage(@"App Delegate", 10, @"UINAV did show: %@", [_viewController class]);
+	PreyLogMessage(@"App Delegate", 10, @"UINAV did show: %@", [_viewController class]);
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)_viewController animated:(BOOL)animated {
-	LogMessage(@"App Delegate", 10, @"UINAV will show: %@", [_viewController class]);
+	PreyLogMessage(@"App Delegate", 10, @"UINAV will show: %@", [_viewController class]);
 }
 
 #pragma mark -

@@ -37,7 +37,7 @@
     return lastRunInterval > 60 ? nil : self.lastPictureTaken;
 }
 - (void) setLastPicture:(UIImage *) picture {
-    LogMessage(@"PicturesController", 10, @"Storing the picture that had been taken...");
+    PreyLogMessage(@"PicturesController", 10, @"Storing the picture that was taken...");
     self.lastPictureTaken = picture;
     [pictureTakenAt release];
     pictureTakenAt = [[NSDate date]retain];
@@ -46,7 +46,7 @@
 -(void) take:(NSNumber*)picturesToTake usingCamera:(NSString*)camera {
 
     // Create the session
-    LogMessage(@"PicturesController", 10, @"Creating the session...");
+    PreyLogMessage(@"PicturesController", 10, @"Creating the session...");
 
     session = [[AVCaptureSession alloc] init];
     // Configure the session to produce lower resolution video frames, if your 
@@ -59,7 +59,7 @@
     NSError *error = nil;
     
     // Find a suitable AVCaptureDevice
-    LogMessage(@"PicturesController", 10, @"Finding suitable camera device...");
+    PreyLogMessage(@"PicturesController", 10, @"Finding suitable camera device...");
     AVCaptureDevice *device = nil;
     //if (camera){
         
@@ -70,12 +70,12 @@
       //  device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     
     if (![device supportsAVCaptureSessionPreset:AVCaptureSessionPresetLow]){
-        LogMessage(@"PicturesController", 10, @"Device doesn't acceptp preset low. Can't take photo...");
+        PreyLogMessage(@"PicturesController", 10, @"Device doesn't acceptp preset low. Can't take photo...");
         return;
     }
     
     // Create a device input with the device and add it to the session.
-    LogMessage(@"PicturesController", 10, @"Creating the input device...");
+    PreyLogMessage(@"PicturesController", 10, @"Creating the input device...");
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device 
                                                                         error:&error];
     if (!input) {
@@ -84,18 +84,18 @@
     }
     
     
-    LogMessage(@"PicturesController", 10, @"Adding input device to the session...");
+    PreyLogMessage(@"PicturesController", 10, @"Adding input device to the session...");
     [session addInput:input];
     
     // Create a VideoDataOutput and add it to the session
-    LogMessage(@"PicturesController", 10, @"Creating the output device...");
+    PreyLogMessage(@"PicturesController", 10, @"Creating the output device...");
     AVCaptureVideoDataOutput *output = [[[AVCaptureVideoDataOutput alloc] init] autorelease];
     
-    LogMessage(@"PicturesController", 10, @"Adding output device to the session...");
+    PreyLogMessage(@"PicturesController", 10, @"Adding output device to the session...");
     [session addOutput:output];
     
     // Configure your output.
-    LogMessage(@"PicturesController", 10, @"Configuring the output device...");
+    PreyLogMessage(@"PicturesController", 10, @"Configuring the output device...");
     dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
     PicturesControllerDelegate *delegate = [PicturesControllerDelegate initWithSession:session AndWhenFinishSendImageTo:@selector(setLastPicture:) onTarget:self];
     
@@ -116,7 +116,7 @@
     output.minFrameDuration = CMTimeMake(1, 1);
     
     // Start the session running to start the flow of data
-    LogMessage(@"PicturesController", 10, @"Starting the session to run...");
+    PreyLogMessage(@"PicturesController", 10, @"Starting the session to run...");
     [session startRunning];
     
     // Assign session to an ivar.

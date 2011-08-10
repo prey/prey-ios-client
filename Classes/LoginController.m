@@ -22,6 +22,7 @@
 @implementation LoginController
 
 @synthesize loginPassword;
+@synthesize loginImage;
 
 - (void) checkPassword {
 	PreyConfig *config = [PreyConfig instance];
@@ -129,6 +130,14 @@
 
  // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
  - (void)viewDidLoad {
+     PreyConfig *config = [PreyConfig instance];
+     UIImage *img = nil;
+     if (config.camouflageMode)
+         img = [[UIImage imageNamed:@"star_wars_battlefront.png"] autorelease];
+     else
+         img = [[UIImage imageNamed:@"prey-iphone-login.png"] autorelease];
+     self.loginImage.image = img;
+     
      [self.loginPassword addTarget:self
                         action:@selector(textFieldFinished:)
               forControlEvents:UIControlEventEditingDidEndOnExit];

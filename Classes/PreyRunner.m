@@ -23,7 +23,7 @@
 	@synchronized(self) {
 		if(!instance) {
 			instance = [[PreyRunner alloc] init];
-			LogMessage(@"Prey Runner", 0,@"Registering PreyRunner to receive location updates notifications");
+			PreyLogMessage(@"Prey Runner", 0,@"Registering PreyRunner to receive location updates notifications");
 			[[NSNotificationCenter defaultCenter] addObserver:instance selector:@selector(locationUpdated:) name:@"locationUpdated" object:nil];
 			instance.http = [[PreyRestHttp alloc] init];
 		}
@@ -76,14 +76,14 @@
 	NSInvocationOperation* theOp = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(runPrey) object:nil] autorelease];
     if (lastExecution != nil) {
 		NSTimeInterval lastRunInterval = -[lastExecution timeIntervalSinceNow];
-		LogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", [PreyConfig instance].delay, lastRunInterval);
+		PreyLogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", [PreyConfig instance].delay, lastRunInterval);
 		if (lastRunInterval >= [PreyConfig instance].delay){
-			LogMessage(@"Prey Runner", 0, @"New location notification received. Delay expired (%f secs. since last execution), running Prey now!", lastRunInterval);
+			PreyLogMessage(@"Prey Runner", 0, @"New location notification received. Delay expired (%f secs. since last execution), running Prey now!", lastRunInterval);
 			
             [theOp start];
             //[self runPrey]; 
 		} else
-            LogMessage(@"Prey Runner", 5, @"Location updated notification received, but interval hasn't expired. (%f secs. since last execution)",lastRunInterval);
+            PreyLogMessage(@"Prey Runner", 5, @"Location updated notification received, but interval hasn't expired. (%f secs. since last execution)",lastRunInterval);
 	} else {
 		[theOp start];
 	}
@@ -100,7 +100,7 @@
         DeviceModulesConfig *modulesConfig = [[http getXMLforUser:[config apiKey] device:[config deviceKey]] retain];
         
         if (USE_CONTROL_PANEL_DELAY)
-            [PreyConfig instance].delay = [modulesConfig.delay intValue];
+            [PreyConfig instance].delay = [modulesConfig.delay intValue] * 60;
         
         if (!modulesConfig.missing){
             PreyLogMessageAndFile(@"Prey Runner", 5, @"Not missing anymore... stopping accurate location updates and Prey.");
@@ -166,7 +166,7 @@
         if ([reportQueue operationCount] == 0) {
             Report *report = (Report *)context;
 			[report send];
-            LogMessage(@"Prey Runner", 10, @"Queue has completed. Total modules in the report: %i", [report.modules count]);
+            PreyLogMessage(@"Prey Runner", 10, @"Queue has completed. Total modules in the report: %i", [report.modules count]);
         }
     }
     else {

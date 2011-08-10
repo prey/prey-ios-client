@@ -157,7 +157,7 @@
     switch ([indexPath section]) {
 		case 1:
             
-			if (enableToSubmit) {
+			//if (enableToSubmit) {
 				if (![email.text isMatchedByRegex:strEmailMatchstring]){
 					UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
 					[objAlert show];
@@ -172,7 +172,7 @@
 				HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
 				[self.navigationController.view addSubview:HUD];
 				[HUD showWhileExecuting:@selector(addDeviceForCurrentUser) onTarget:self withObject:nil animated:YES];
-			}
+			//}
                 	
 			break;
 
@@ -186,8 +186,17 @@
 #pragma mark UITextField delegate methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
-	[textField resignFirstResponder];
-    return YES;
+    NSInteger nextTag = textField.tag + 1;
+    // Try to find next responder
+    UIResponder* nextResponder = (UITextField *)[self.view viewWithTag:nextTag];
+    if (nextResponder) {
+        // Found next responder, so set it.
+        [nextResponder becomeFirstResponder];
+    } else {
+        // Not found, so remove keyboard.
+        [textField resignFirstResponder];
+    }
+    return NO; // We do not want UITextField to insert line-breaks.
 }
 
 
@@ -224,24 +233,28 @@
     
 	email = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
 	email.clearsOnBeginEditing = NO;
-	email.returnKeyType = UIReturnKeyDone;
+	email.returnKeyType = UIReturnKeyNext;
+    email.tag = 50;
 	email.placeholder = @"Your Prey account email";
 	email.keyboardType = UIKeyboardTypeEmailAddress;
 	email.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	[email setDelegate:self];
-	[email addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
+	//[email addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
 	
 	password = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
 	password.clearsOnBeginEditing = NO;
 	password.returnKeyType = UIReturnKeyDone;
+    password.tag = 51;
 	[password setSecureTextEntry:YES];
 	password.placeholder = @"Your Prey account password";
 	[password setDelegate:self];
-	[password addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
+	//[password addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
 	
 	buttonCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"buttonCell"];
-	buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
-	buttonCell.textLabel.textColor = [UIColor grayColor];
+    buttonCell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    buttonCell.textLabel.textColor = [UIColor blackColor];
+	//buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
+	//buttonCell.textLabel.textColor = [UIColor grayColor];
 	buttonCell.textLabel.textAlignment = UITextAlignmentCenter;
 	buttonCell.textLabel.text = NSLocalizedString(@"Add this device!",nil);
 	

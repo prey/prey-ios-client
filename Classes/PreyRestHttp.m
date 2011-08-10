@@ -39,7 +39,7 @@
 		[request startSynchronous];
 		NSError *error = [request error];
 		int statusCode = [request responseStatusCode];
-		LogMessage(@"PreyRestHttp", 10, @"GET profile.xml: %@",[request responseStatusMessage]);
+		PreyLogMessage(@"PreyRestHttp", 10, @"GET profile.xml: %@",[request responseStatusMessage]);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
 			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
@@ -138,7 +138,7 @@
 			
 			//NSString *statusMessage = [request responseStatusMessage];
 			NSString *response = [request responseString];
-			LogMessage(@"PreyRestHttp", 10, @"POST devices.xml: %@",response);
+			PreyLogMessage(@"PreyRestHttp", 10, @"POST devices.xml: %@",response);
 			KeyParserDelegate *keyParser = [[KeyParserDelegate alloc] init];
 			NSString *deviceKey = [keyParser parseKey:[request responseData] parseError:&error];
 			return deviceKey;
@@ -174,7 +174,7 @@
 		int statusCode = [request responseStatusCode];
 		//NSString *statusMessage = [request responseStatusMessage];
 		//NSString *response = [request responseString];
-		LogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",deviceKey,[request responseStatusMessage]);
+		PreyLogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",deviceKey,[request responseStatusMessage]);
         //LogMessage(@"PreyRestHttp", 20, @"GET devices/%@.xml response: %@",deviceKey,[request responseString]);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
@@ -223,9 +223,9 @@
 	
 	
 	@try {
-        LogMessage(@"PreyRestHttp", 10, @"Attempting to change status on Control Panel");
+        PreyLogMessage(@"PreyRestHttp", 10, @"Attempting to change status on Control Panel");
 		[request startSynchronous];
-        LogMessage(@"PreyRestHttp", 10, @"PUT devices/%@.xml [missing=%@] response: %@",deviceKey,missing?@"YES":@"NO",[request responseStatusMessage]);
+        PreyLogMessage(@"PreyRestHttp", 10, @"PUT devices/%@.xml [missing=%@] response: %@",deviceKey,missing?@"YES":@"NO",[request responseStatusMessage]);
 		NSError *error = [request error];
 		if (!error) {
 			/*
@@ -397,16 +397,16 @@
 
 +(BOOL)checkInternet{
 	//Test for Internet Connection
-	LogMessage(@"PreyRestHttp", 10, @"Checking for Internet connection.");
+	PreyLogMessage(@"PreyRestHttp", 10, @"Checking for Internet connection.");
 	Reachability *r = [Reachability reachabilityWithHostName:@"control.preyproject.com"];
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	BOOL internet;
 	if ((internetStatus != ReachableViaWiFi) && (internetStatus != ReachableViaWWAN)) {
 		internet = NO;
-		LogMessage(@"PreyRestHttp", 10, @"Internet connection NOT FOUND!");
+		PreyLogMessage(@"PreyRestHttp", 10, @"Internet connection NOT FOUND!");
 	} else {
 		internet = YES;
-		LogMessage(@"PreyRestHttp", 10, @"Internet connection FOUND!");
+		PreyLogMessage(@"PreyRestHttp", 10, @"Internet connection FOUND!");
 	}
 	return internet;
 }
@@ -432,10 +432,10 @@
 		NSError *error = [request error];
 		if (error)
 			@throw [NSException exceptionWithName:@"CouldntSetRegIdException" reason:[error localizedDescription] userInfo:nil];
-        LogMessage(@"PreyRestHttp", 10, @"Device notification_id updated OK on the Control Panel");
+        PreyLogMessage(@"PreyRestHttp", 10, @"Device notification_id updated OK on the Control Panel");
 	}
 	@catch (NSException * e) {
-		 LogMessage(@"PreyRestHttp", 10, @"ERROR Updating device reg_id on the Control Panel: %@", [e reason]);
+		 PreyLogMessage(@"PreyRestHttp", 10, @"ERROR Updating device reg_id on the Control Panel: %@", [e reason]);
 	}
 }
 

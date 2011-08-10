@@ -33,7 +33,7 @@
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     BOOL ok = [MBProgressHUD hideHUDForView:webView animated:YES];
-    LogMessage(@"FakeWebView", 10, @"Fake web did finish loading. Hidden?: %@", ok ? @"YES" : @"NO");
+    PreyLogMessage(@"FakeWebView", 10, @"Fake web did finish loading. Hidden?: %@", ok ? @"YES" : @"NO");
     [webView becomeFirstResponder];
 }
 
@@ -43,7 +43,7 @@
 
 - (void)hudWasHidden {
     // Remove HUD from screen when the HUD was hidded
-    LogMessage(@"FakeWebView", 10, @"HUB was hidden");
+    PreyLogMessage(@"FakeWebView", 10, @"HUB was hidden");
     //[HUD removeFromSuperview];
     //[HUD release];
 	

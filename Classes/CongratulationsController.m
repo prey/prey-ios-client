@@ -53,8 +53,9 @@
 	/*
     self.title = @"Congratulations";
     self.congratsTitle.text = NSLocalizedString(@"Congratulations!",nil);
-	self.congratsMsg.text = NSLocalizedString(@"You have successfully associated this phone with your Prey account. Now take a minute to set it up.",nil);
      */
+	self.congratsMsg.text = NSLocalizedString(@"You have successfully associated this device with your Prey Control Panel account.",nil);
+     
 	[self.ok setTitle:NSLocalizedString(@"OK",nil) forState:UIControlStateNormal];
 	[super viewWillAppear:animated];
     

@@ -15,12 +15,12 @@
 
 
 -(void)newUserClicked:(id)sender{
-    LogMessageCompat(@"New user clicked");
+    PreyLogMessage(@"welcome_controller", 10, @"New user clicked");
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate showNewUserWizard];
 }
 -(void)oldUserClicked:(id)sender{
-    LogMessageCompat(@"Already a Prey user clicked");
+    PreyLogMessage(@"welcome_controller", 10, @"Already a Prey user clicked");
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate showOldUserWizard];
 }
@@ -50,7 +50,8 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-
+    [self.newUser setTitle:NSLocalizedString(@"New user", nil) forState: UIControlStateNormal];
+    [self.oldUser setTitle:NSLocalizedString(@"Already a Prey user", nil) forState: UIControlStateNormal];
 	[super viewDidLoad];
 }
 

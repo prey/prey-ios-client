@@ -30,7 +30,7 @@
 	[[UIApplication sharedApplication] setStatusBarHidden:YES];
 	[preyName setFont:[UIFont fontWithName:@"large9" size:60]];
 	[text setText:textToShow];
-	LogMessageCompat(@"Text: %@",text.text);
+	PreyLogMessage(@"alert", 10, @"Text: %@",text.text);
 }
 
 

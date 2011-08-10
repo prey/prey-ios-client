@@ -53,13 +53,13 @@
 - (void) send {
     PreyLogMessage(@"Report", 5, @"Attempting to send the report.");
 	if (waitForLocation) {
-		LogMessage(@"Report", 5, @"Have to wait for a location before send the report.");
+		PreyLogMessage(@"Report", 5, @"Have to wait for a location before send the report.");
 		[[NSNotificationCenter defaultCenter] addObserver:self
 			selector:@selector(locationUpdated:)
 			name:@"locationUpdated" object:nil];
 	} 
     if (waitForPicture) {
-		LogMessage(@"Report", 5, @"Have to wait the picture be taken before send the report.");
+		PreyLogMessage(@"Report", 5, @"Have to wait the picture be taken before send the report.");
 		[[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(pictureReady:)
                                                      name:@"pictureReady" object:nil];
@@ -69,10 +69,20 @@
 
 - (void) alertReportSent {
 	if ([PreyConfig instance].alertOnReport){
-
+        
+        UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+        if (localNotif) {
+            localNotif.alertBody = NSLocalizedString(@"A new report has been sent to your Control Panel.", nil);
+            //localNotif.alertAction = NSLocalizedString(@"Prey alert", nil);
+            [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
+            [localNotif release];
+        
+        }
+        /*
 		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Prey" message:NSLocalizedString(@"A new report has been sent to your Control Panel",nil) delegate:self cancelButtonTitle:nil otherButtonTitles:nil] autorelease];
 		[alert addButtonWithTitle:@"OK"];
 		[alert show];		
+         */
 	}
 }
 

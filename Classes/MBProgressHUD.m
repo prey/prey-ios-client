@@ -496,7 +496,7 @@
     }
     
 	if (removeFromSuperViewOnHide) {
-		LogMessage(@"MBProgressHUD", 10, @"Removing HUD from superview.");
+		PreyLogMessage(@"MBProgressHUD", 10, @"Removing HUD from superview.");
         [self removeFromSuperview];
 	}
 }

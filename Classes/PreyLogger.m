@@ -7,35 +7,40 @@
 //
 
 #import "PreyLogger.h"
-
+#import "Constants.h"
 
 void PreyLogMessage(NSString *domain, int level, NSString *format, ...)
 {
-	va_list args;
-	va_start(args, format);
-    NSString *msgString = [[NSString alloc] initWithFormat:format arguments:args];
-    if (msgString != nil)
-    {
-        LogMessage(domain, level, msgString);
-        [msgString release];
+
+    if (SHOULD_LOG) {
+        va_list args;
+        va_start(args, format);
+        NSString *msgString = [[NSString alloc] initWithFormat:format arguments:args];
+        if (msgString != nil)
+        {
+            LogMessage(domain, level, msgString);
+            [msgString release];
+        }
+        
+        va_end(args);
     }
-	
-	va_end(args);
     
 }
 
 void PreyLogMessageAndFile(NSString *domain, int level, NSString *format, ...)
 {
-	va_list args;
-	va_start(args, format);
-    NSString *msgString = [[NSString alloc] initWithFormat:format arguments:args];
-    if (msgString != nil)
-    {
-        LogMessage(domain, level, msgString);
-        [PreyLogger LogToFile:msgString];
-        [msgString release];
+    if (SHOULD_LOG) {
+        va_list args;
+        va_start(args, format);
+        NSString *msgString = [[NSString alloc] initWithFormat:format arguments:args];
+        if (msgString != nil)
+        {
+            LogMessage(domain, level, msgString);
+            [PreyLogger LogToFile:msgString];
+            [msgString release];
+        }
+        va_end(args);
     }
-	va_end(args);
     
 }
 

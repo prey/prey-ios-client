@@ -16,7 +16,7 @@
 @synthesize backgroundMusicPlayer;
 
 - (void)main {
-    LogMessageCompat(@"Playing the alarm now!");
+    PreyLogMessage(@"alarm", 10, @"Playing the alarm now!");
     
     NSError *setCategoryError = nil;
 	[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&setCategoryError];

@@ -17,7 +17,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-		LogMessage(@"Prey Location Controller", 5, @"Initializing Accurate LocationManager...");
+		PreyLogMessage(@"Prey Location Controller", 5, @"Initializing Accurate LocationManager...");
 		PreyConfig *config = [PreyConfig instance];
 		self.accurateLocationManager = [[CLLocationManager alloc] init];
 		self.accurateLocationManager.delegate = self;
@@ -41,26 +41,26 @@
 - (void)startUpdatingLocation {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accuracyUpdated:) name:@"accuracyUpdated" object:nil];
 	[self.accurateLocationManager startUpdatingLocation];
-	LogMessage(@"Prey Location Controller", 5, @"Accurate location updating started.");
+	PreyLogMessage(@"Prey Location Controller", 5, @"Accurate location updating started.");
 }
 
 - (void)stopUpdatingLocation {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"accuracyUpdated" object:nil];
 	[self.accurateLocationManager stopUpdatingLocation];
-	LogMessage(@"Prey Location Controller", 5, @"Accurate location updating stopped.");
+	PreyLogMessage(@"Prey Location Controller", 5, @"Accurate location updating stopped.");
 }
 
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
 {
-	LogMessage(@"Prey Location Controller", 3, @"New location received[%@]: %@",[manager description], [newLocation description]);
+	PreyLogMessage(@"Prey Location Controller", 3, @"New location received[%@]: %@",[manager description], [newLocation description]);
 	NSDate* eventDate = newLocation.timestamp;
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
     if (abs(howRecent) < 15.0)
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"locationUpdated" object:newLocation];
 	else
-		LogMessage(@"Prey Location Controller", 10, @"Location received too old, discarded!");
+		PreyLogMessage(@"Prey Location Controller", 10, @"Location received too old, discarded!");
 }
 
 - (void)locationManager:(CLLocationManager *)manager

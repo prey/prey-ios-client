@@ -18,10 +18,11 @@ static NSString *const ACCURACY=@"accuracy";
 static NSString *const DELAY=@"delay";
 static NSString *const ALERT_ON_REPORT=@"alert_on_report";
 static NSString *const ASK_FOR_PASSWORD=@"ask_for_pass";
+static NSString *const CAMOUFLAGE_MODE=@"camouflage_mode";
 
 @implementation PreyConfig
 
-@synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing, alertOnReport, askForPassword;
+@synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing, alertOnReport, askForPassword, camouflageMode;
 static PreyConfig *_instance = nil;
 
 +(PreyConfig *)instance  {
@@ -35,6 +36,7 @@ static PreyConfig *_instance = nil;
 			_instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
 			_instance.checkUrl = [defaults stringForKey: CHECK_URL];
 			_instance.email = [defaults stringForKey: EMAIL];
+            _instance.camouflageMode = [defaults boolForKey:CAMOUFLAGE_MODE];
 			[_instance loadDefaultValues];
 		}
 	}
@@ -79,6 +81,7 @@ static PreyConfig *_instance = nil;
 	[defaults setDouble:[self desiredAccuracy] forKey:ACCURACY];
 	[defaults setInteger:[self delay] forKey:DELAY];
     [defaults setBool:[self askForPassword] forKey:ASK_FOR_PASSWORD];
+    [defaults setBool:[self camouflageMode] forKey:CAMOUFLAGE_MODE];
 	[defaults synchronize]; // this method is optional
 	
 }
@@ -94,6 +97,7 @@ static PreyConfig *_instance = nil;
 	[defaults removeObjectForKey:ALERT_ON_REPORT];
 	[defaults removeObjectForKey:ACCURACY];
 	[defaults removeObjectForKey:DELAY];
+    [defaults removeObjectForKey:CAMOUFLAGE_MODE];
 	[defaults synchronize]; // this method is optional
 
 }
@@ -101,7 +105,7 @@ static PreyConfig *_instance = nil;
 
 - (void) updateMissingStatus {
 	if (self.deviceKey != nil && ![self.deviceKey isEqualToString:@""]){
-		LogMessage(@"PreyConfig", 10, @"Updating missing status...");
+		PreyLogMessage(@"PreyConfig", 10, @"Updating missing status...");
 		PreyRestHttp *http = [[PreyRestHttp alloc] init];
 		self.missing = [http isMissingTheDevice:self.deviceKey ofTheUser:self.apiKey];
 		[http release];
@@ -150,12 +154,20 @@ static PreyConfig *_instance = nil;
 	[defaults synchronize]; // this method is optional
 }
 
+- (void) setCamouflageMode:(BOOL) isCamouflage { 
+	camouflageMode = isCamouflage;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults setBool:isCamouflage forKey:CAMOUFLAGE_MODE];
+	[defaults synchronize]; // this method is optional
+}
+
 - (void) dealloc {
 	[super dealloc];
 	[apiKey release];
 	[deviceKey release];
 	[checkUrl release];
 	[email release];
+    
 
 }
 @end

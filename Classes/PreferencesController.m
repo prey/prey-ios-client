@@ -77,7 +77,7 @@
             }
 			break;
 		case 1:
-			return 5;
+			return 3;
 			break;
 		case 2:
 			return 1;
@@ -100,7 +100,7 @@
 			label = NSLocalizedString(@"Execution control",nil);
 			break;
 		case 1:
-			label = NSLocalizedString(@"Control Panel information",nil);
+			label = NSLocalizedString(@"Settings",nil);
 			break;
 		case 2:
 			label = NSLocalizedString(@"About",nil);
@@ -138,40 +138,55 @@
 			}
 			break;
 		case 1:
-			if ([indexPath row] == 0){
+			/*
+            if ([indexPath row] == 0){
 				cell.textLabel.text = NSLocalizedString(@"Location accuracy",nil);
 				cell.detailTextLabel.text = [accManager currentlySelectedName];
 			}
 			else if ([indexPath row] == 1) {
 				cell.textLabel.text = NSLocalizedString(@"Delay",nil);
-				//cell.detailTextLabel.text = [delayManager currentDelay];
+				cell.detailTextLabel.text = [delayManager currentDelay];
                 cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Mins.",config.delay/60];
-			} else if ([indexPath row] == 2) {
+			} 
+             */
+             if ([indexPath row] == 0) {
 				cell.textLabel.text = NSLocalizedString(@"Alert on report sent",nil);
 				UISwitch *alert = [[UISwitch alloc]init];
 				[alert addTarget:self action: @selector(changeReportState:) forControlEvents:UIControlEventValueChanged];
 				[alert setOn:config.alertOnReport];
 				cell.accessoryView = alert;
-			} else if ([indexPath row] == 3) {
-				cell.textLabel.text = NSLocalizedString(@"Detach device",nil);
-				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-			/*} else if ([indexPath row] == 4) {
+			} 
+			/*
+              else if ([indexPath row] == 4) {
 				cell.textLabel.text = NSLocalizedString(@"Log",nil);
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-             */
-			} else if ([indexPath row] == 4) {
+              
+			 else if ([indexPath row] == 1) {
                 UISwitch *askForPassword = [[UISwitch alloc]init];
                 cell.textLabel.text = NSLocalizedString(@"Ask for password",nil);
 				[askForPassword addTarget: self action: @selector(changeAskForPasswordState:) forControlEvents:UIControlEventValueChanged];
 				[askForPassword setOn:config.askForPassword];
 				cell.accessoryView = askForPassword;
+                
+            }*/ 
+             
+             else if ([indexPath row] == 1) {
+                UISwitch *camouflageMode = [[UISwitch alloc]init];
+                cell.textLabel.text = NSLocalizedString(@"Camouflage mode",nil);
+                [camouflageMode addTarget: self action: @selector(camouflageModeState:) forControlEvents:UIControlEventValueChanged];
+                [camouflageMode setOn:config.camouflageMode];
+				cell.accessoryView = camouflageMode;
+            
+            } else if ([indexPath row] == 2) {
+				cell.textLabel.text = NSLocalizedString(@"Detach device",nil);
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             }
 			break;
 		case 2:
 			cell.detailTextLabel.text = PREY_VERSION;
-			cell.textLabel.text = NSLocalizedString(@"Current Prey version",nil);
+			cell.textLabel.text = NSLocalizedString(@"Version",nil);
 			break;
 
 		default:
@@ -211,23 +226,25 @@
 			}
 			break;
 		case 1:
-			if ([indexPath row] == 0){
-				/*
+			/*
+            if ([indexPath row] == 0){
+				
                 if (!pickerShowed){
 					[accManager showPickerOnView:self.view fromTableView:self.tableView];
 					[self setupNavigatorForPicker:YES withSelector:@selector(accuracyPickerSelected)];
 				}
-                */
+                
 			} 
 			else if ([indexPath row] == 1){
-				/*
+				
                 if (!pickerShowed) {
 					[delayManager showDelayPickerOnView:self.view fromTableView:self.tableView];
 					[self setupNavigatorForPicker:YES withSelector:@selector(delayPickerSelected)];
 				}
-                */
-			} else if ([indexPath row] == 3){
-				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) destructiveButtonTitle:@"No, don't delete" otherButtonTitles:nil];
+                
+			} else 
+             */if ([indexPath row] == 1){
+				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil) destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) otherButtonTitles:nil];
 				actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
 				[actionSheet release];
@@ -301,17 +318,17 @@
 	NSString *label = nil;
 	NSString *button = nil;
 	if (missingSwitch.on){
-		label = NSLocalizedString(@"You're attempting to mark this device as missing, and start sending reports to Control Panel.\n\nAre you sure?",nil);
-		button = NSLocalizedString(@"Set as missing",nil); 
+		label = NSLocalizedString(@"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?",nil);
+		button = NSLocalizedString(@"Mark as missing",nil); 
 	}
 	else {
-		label = NSLocalizedString(@"Prey will stop sending reports to Control Panel and your device will be mark as recovered.\n\nAre you sure?",nil);
-		button = NSLocalizedString(@"Set as recovered",nil); 
+		label = NSLocalizedString(@"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?",nil);
+		button = NSLocalizedString(@"Mark as recovered",nil); 
 	}
 	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:label
 															 delegate:self 
-													cancelButtonTitle:button
-													destructiveButtonTitle:@"Cancel" otherButtonTitles:nil];
+													cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+													destructiveButtonTitle:button otherButtonTitles:nil];
 	[actionSheet setTag:2];
     [actionSheet showInView:self.view];
 	[actionSheet release];
@@ -324,13 +341,20 @@
         [[PreyConfig instance] setAskForPassword:askForPassSwitch.on];
 }
 
+
+- (IBAction)camouflageModeState:(UISwitch*)camouflageModeSwitch{
+	//LogMessageCompat(@"Switch status on? %@", missingSwitch.on == YES? @"YES" : @"NO");
+    [[PreyConfig instance] setCamouflageMode:camouflageModeSwitch.on];
+}
+
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 
 	if (actionSheet.tag == 1){
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-		if (buttonIndex == 1){
+		if (buttonIndex == 0){
             //Dettaching device...
             HUD = [[MBProgressHUD alloc] initWithView:self.view];
             HUD.delegate = self;
@@ -341,7 +365,7 @@
 	}
 	else if (actionSheet.tag == 2)
 		if (missing.on)
-			if (buttonIndex == 1){
+			if (buttonIndex == 0){
                 HUD = [[MBProgressHUD alloc] initWithView:self.view];
                 HUD.delegate = self;
                 HUD.labelText = NSLocalizedString(@"Starting Prey...",nil);
@@ -351,7 +375,7 @@
 			else
 				[missing setOn:NO animated:YES];
 		else
-			if (buttonIndex == 1){
+			if (buttonIndex == 0){
 				HUD = [[MBProgressHUD alloc] initWithView:self.view];
                 HUD.delegate = self;
                 HUD.labelText = NSLocalizedString(@"Stopping Prey...",nil);

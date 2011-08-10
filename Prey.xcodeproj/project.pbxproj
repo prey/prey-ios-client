@@ -58,6 +58,8 @@
 		07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07178F2512675AD3007B290C /* CoreLocation.framework */; };
 		073CABDE1367731900821032 /* 57px.png in Resources */ = {isa = PBXBuildFile; fileRef = 073CABDC1367731900821032 /* 57px.png */; };
 		073CABDF1367731900821032 /* 114px.png in Resources */ = {isa = PBXBuildFile; fileRef = 073CABDD1367731900821032 /* 114px.png */; };
+		0741A56F13EB032A0064FDC3 /* signupbtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 0741A56D13EB032A0064FDC3 /* signupbtn.png */; };
+		0741A57013EB032A0064FDC3 /* signupbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0741A56E13EB032A0064FDC3 /* signupbtn@2x.png */; };
 		077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7A3B126E171300C713B7 /* AudioToolbox.framework */; };
 		077D7B2D126F3C8400C713B7 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7B2C126F3C8400C713B7 /* AddressBook.framework */; };
 		077D7BA21270D79700C713B7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7BA11270D79700C713B7 /* MapKit.framework */; };
@@ -100,7 +102,6 @@
 		5A6D502F13D8D3A400C9AB3E /* bg-mnts2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A6D502E13D8D3A400C9AB3E /* bg-mnts2.png */; };
 		5A6D503113D8D3AD00C9AB3E /* bg-mnts1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A6D503013D8D3AD00C9AB3E /* bg-mnts1.png */; };
 		5A7F71B613CF9DEF0063D2F1 /* bg-mnts1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A7F71B513CF9DEF0063D2F1 /* bg-mnts1@2x.png */; };
-		5A7F71BB13CFA6D80063D2F1 /* Signupbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A7F71BA13CFA6D80063D2F1 /* Signupbtn@2x.png */; };
 		5ACAB8F713D6931400101831 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACAB8F613D6931400101831 /* libz.1.2.3.dylib */; };
 /* End PBXBuildFile section */
 
@@ -188,6 +189,8 @@
 		07178F2512675AD3007B290C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		073CABDC1367731900821032 /* 57px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 57px.png; sourceTree = "<group>"; };
 		073CABDD1367731900821032 /* 114px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 114px.png; sourceTree = "<group>"; };
+		0741A56D13EB032A0064FDC3 /* signupbtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = signupbtn.png; sourceTree = "<group>"; };
+		0741A56E13EB032A0064FDC3 /* signupbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "signupbtn@2x.png"; sourceTree = "<group>"; };
 		077D7A3B126E171300C713B7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		077D7B2C126F3C8400C713B7 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		077D7BA11270D79700C713B7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -259,7 +262,6 @@
 		5A6D502E13D8D3A400C9AB3E /* bg-mnts2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts2.png"; sourceTree = "<group>"; };
 		5A6D503013D8D3AD00C9AB3E /* bg-mnts1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts1.png"; sourceTree = "<group>"; };
 		5A7F71B513CF9DEF0063D2F1 /* bg-mnts1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts1@2x.png"; sourceTree = "<group>"; };
-		5A7F71BA13CFA6D80063D2F1 /* Signupbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Signupbtn@2x.png"; path = "Classes/Signupbtn@2x.png"; sourceTree = "<group>"; };
 		5ACAB8F613D6931400101831 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Prey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Prey-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -629,6 +631,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0741A56D13EB032A0064FDC3 /* signupbtn.png */,
+				0741A56E13EB032A0064FDC3 /* signupbtn@2x.png */,
 				07EBB80C137C7D6200A46037 /* star_wars_battlefront.png */,
 				5A238A3E13D00CB0008D79DB /* navbarbg@2x.png */,
 				5A6D502C13D8D33400C9AB3E /* navbarbg.png */,
@@ -642,7 +646,6 @@
 				5A6D503013D8D3AD00C9AB3E /* bg-mnts1.png */,
 				5A6D502E13D8D3A400C9AB3E /* bg-mnts2.png */,
 				5A238A4113D0119A008D79DB /* bg-mnts2@2x.png */,
-				5A7F71BA13CFA6D80063D2F1 /* Signupbtn@2x.png */,
 				07132452134635DC00F7EFD8 /* WelcomeController.xib */,
 				071323FF134633B800F7EFD8 /* CongratulationsController.xib */,
 				07CD95F31253D99500590FCD /* PreferencesController.xib */,
@@ -752,12 +755,13 @@
 				073CABDF1367731900821032 /* 114px.png in Resources */,
 				07EBB80D137C7D6200A46037 /* star_wars_battlefront.png in Resources */,
 				5A7F71B613CF9DEF0063D2F1 /* bg-mnts1@2x.png in Resources */,
-				5A7F71BB13CFA6D80063D2F1 /* Signupbtn@2x.png in Resources */,
 				5A238A3F13D00CB0008D79DB /* navbarbg@2x.png in Resources */,
 				5A238A4213D0119A008D79DB /* bg-mnts2@2x.png in Resources */,
 				5A6D502D13D8D33400C9AB3E /* navbarbg.png in Resources */,
 				5A6D502F13D8D3A400C9AB3E /* bg-mnts2.png in Resources */,
 				5A6D503113D8D3AD00C9AB3E /* bg-mnts1.png in Resources */,
+				0741A56F13EB032A0064FDC3 /* signupbtn.png in Resources */,
+				0741A57013EB032A0064FDC3 /* signupbtn@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,7 +848,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fork Ltd.";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -852,7 +856,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D6A790FE-DC48-4981-9A88-1C3625FA6C99";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -891,6 +895,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = Prey;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -914,6 +919,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -922,6 +928,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-licucore";
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "60C20227-1918-41C3-8BF9-3885E49688CA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "60C20227-1918-41C3-8BF9-3885E49688CA";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -939,6 +947,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";
 				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "607B25CF-708F-4914-A07A-DCABF2E8F6C9";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

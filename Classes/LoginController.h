@@ -14,8 +14,10 @@
 	
 	UITextField *loginPassword;
 	MBProgressHUD *HUD;
+    UIImageView *loginImage;
 }
 
+@property (nonatomic, retain) IBOutlet UIImageView *loginImage;
 @property (nonatomic, retain) IBOutlet UITextField *loginPassword;
 
 - (IBAction) checkLoginPassword: (id) sender;
