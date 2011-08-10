@@ -56,7 +56,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">prey-iphone-ok.png</string>
+							<string key="NSResourceName">prey-allgood.png</string>
 						</object>
 					</object>
 					<object class="IBUITextView" id="966837789">
@@ -344,7 +344,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">prey-iphone-ok.png</string>
+			<string key="NS.key.0">prey-allgood.png</string>
 			<string key="NS.object.0">{320, 265}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">300</string>

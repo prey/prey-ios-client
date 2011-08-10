@@ -69,7 +69,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">prey-iphone-login.png</string>
+							<string key="NSResourceName">prey-logo.png</string>
 						</object>
 					</object>
 					<object class="IBUIButton" id="925612577">
@@ -105,10 +105,6 @@
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
-						<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="653626682">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">signupbtn.png</string>
-						</object>
 					</object>
 					<object class="IBUIButton" id="667578819">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -116,7 +112,6 @@
 						<string key="NSFrame">{{40, 393}, {238, 35}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -129,7 +124,6 @@
 							<bytes key="NSRGB">MC44NjI3NDUxNjU4IDAuOTA5ODAzOTg2NSAwLjkwOTgwMzk4NjUAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="745633081"/>
-						<reference key="IBUINormalBackgroundImage" ref="653626682"/>
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
@@ -389,14 +383,12 @@
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>bg-mnts1.png</string>
-				<string>prey-iphone-login.png</string>
-				<string>signupbtn.png</string>
+				<string>prey-logo.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{320, 99}</string>
 				<string>{280, 312}</string>
-				<string>{238, 35}</string>
 			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">300</string>

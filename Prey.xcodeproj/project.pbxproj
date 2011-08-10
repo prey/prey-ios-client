@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		070E7B2F13F31E160013C1F6 /* prey-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B2D13F31E160013C1F6 /* prey-logo.png */; };
+		070E7B3013F31E160013C1F6 /* prey-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B2E13F31E160013C1F6 /* prey-logo@2x.png */; };
+		070E7B3D13F321CA0013C1F6 /* 57px.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3113F321C40013C1F6 /* 57px.png */; };
+		070E7B3E13F321CA0013C1F6 /* 114px.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3213F321C40013C1F6 /* 114px.png */; };
+		070E7B3F13F321CA0013C1F6 /* bg-mnts1.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3313F321C40013C1F6 /* bg-mnts1.png */; };
+		070E7B4013F321CA0013C1F6 /* bg-mnts1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3413F321C40013C1F6 /* bg-mnts1@2x.png */; };
+		070E7B4113F321CA0013C1F6 /* bg-mnts2.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3513F321C40013C1F6 /* bg-mnts2.png */; };
+		070E7B4213F321CA0013C1F6 /* bg-mnts2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3613F321C50013C1F6 /* bg-mnts2@2x.png */; };
+		070E7B4313F321CA0013C1F6 /* botonmask.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3713F321C50013C1F6 /* botonmask.png */; };
+		070E7B4413F321CA0013C1F6 /* navbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3813F321C50013C1F6 /* navbarbg.png */; };
+		070E7B4513F321CA0013C1F6 /* navbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3913F321C50013C1F6 /* navbarbg@2x.png */; };
+		070E7B4713F321CA0013C1F6 /* signupbtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3B13F321C70013C1F6 /* signupbtn.png */; };
+		070E7B4813F321CA0013C1F6 /* signupbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3C13F321C80013C1F6 /* signupbtn@2x.png */; };
+		070E7B4B13F321E80013C1F6 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 070E7B4A13F321E80013C1F6 /* UIDevice-Hardware.m */; };
+		070E7B4E13F323200013C1F6 /* prey-allgood.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B4C13F3231F0013C1F6 /* prey-allgood.png */; };
+		070E7B4F13F323200013C1F6 /* prey-allgood@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B4D13F323200013C1F6 /* prey-allgood@2x.png */; };
 		071323F6134632C900F7EFD8 /* AlarmModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F1134632C900F7EFD8 /* AlarmModule.m */; };
 		071323F7134632C900F7EFD8 /* AlertModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F3134632C900F7EFD8 /* AlertModule.m */; };
 		071323F8134632C900F7EFD8 /* AlertModuleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F5134632C900F7EFD8 /* AlertModuleController.m */; };
@@ -44,9 +60,6 @@
 		071324581346363300F7EFD8 /* AlertModuleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071324541346363300F7EFD8 /* AlertModuleController.xib */; };
 		071324591346363300F7EFD8 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071324551346363300F7EFD8 /* MainWindow.xib */; };
 		071324621346368200F7EFD8 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0713245C1346368200F7EFD8 /* logo.png */; };
-		071324631346368200F7EFD8 /* prey-iphone-front.png in Resources */ = {isa = PBXBuildFile; fileRef = 0713245D1346368200F7EFD8 /* prey-iphone-front.png */; };
-		071324641346368200F7EFD8 /* prey-iphone-login.png in Resources */ = {isa = PBXBuildFile; fileRef = 0713245E1346368200F7EFD8 /* prey-iphone-login.png */; };
-		071324651346368200F7EFD8 /* prey-iphone-ok.png in Resources */ = {isa = PBXBuildFile; fileRef = 0713245F1346368200F7EFD8 /* prey-iphone-ok.png */; };
 		071324661346368200F7EFD8 /* recycle-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 071324601346368200F7EFD8 /* recycle-full.png */; };
 		071324671346368200F7EFD8 /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = 071324611346368200F7EFD8 /* reload.png */; };
 		0713246B1346369200F7EFD8 /* large9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 071324681346369200F7EFD8 /* large9.ttf */; };
@@ -56,10 +69,6 @@
 		07132472134639DF00F7EFD8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07132470134639DF00F7EFD8 /* Localizable.strings */; };
 		07132474134639E800F7EFD8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07132470134639DF00F7EFD8 /* Localizable.strings */; };
 		07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07178F2512675AD3007B290C /* CoreLocation.framework */; };
-		073CABDE1367731900821032 /* 57px.png in Resources */ = {isa = PBXBuildFile; fileRef = 073CABDC1367731900821032 /* 57px.png */; };
-		073CABDF1367731900821032 /* 114px.png in Resources */ = {isa = PBXBuildFile; fileRef = 073CABDD1367731900821032 /* 114px.png */; };
-		0741A56F13EB032A0064FDC3 /* signupbtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 0741A56D13EB032A0064FDC3 /* signupbtn.png */; };
-		0741A57013EB032A0064FDC3 /* signupbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0741A56E13EB032A0064FDC3 /* signupbtn@2x.png */; };
 		077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7A3B126E171300C713B7 /* AudioToolbox.framework */; };
 		077D7B2D126F3C8400C713B7 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7B2C126F3C8400C713B7 /* AddressBook.framework */; };
 		077D7BA21270D79700C713B7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7BA11270D79700C713B7 /* MapKit.framework */; };
@@ -75,7 +84,6 @@
 		078E136E132AB562004B7C60 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E1366132AB562004B7C60 /* ASINetworkQueue.m */; };
 		078E1372132AB584004B7C60 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E1371132AB584004B7C60 /* Reachability.m */; };
 		078E1375132ABC3C004B7C60 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E1374132ABC3C004B7C60 /* ASIAuthenticationDialog.m */; };
-		07CA9AA21355FADE00307314 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CA9AA11355FADE00307314 /* UIDevice-Hardware.m */; };
 		07CD95F51253D99500590FCD /* PreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD95F31253D99500590FCD /* PreferencesController.xib */; };
 		07CD96251253E13800590FCD /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96231253E13800590FCD /* LoginController.m */; };
 		07CD96261253E13800590FCD /* LoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD96241253E13800590FCD /* LoginController.xib */; };
@@ -96,16 +104,26 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
-		5A238A3F13D00CB0008D79DB /* navbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A238A3E13D00CB0008D79DB /* navbarbg@2x.png */; };
-		5A238A4213D0119A008D79DB /* bg-mnts2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A238A4113D0119A008D79DB /* bg-mnts2@2x.png */; };
-		5A6D502D13D8D33400C9AB3E /* navbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A6D502C13D8D33400C9AB3E /* navbarbg.png */; };
-		5A6D502F13D8D3A400C9AB3E /* bg-mnts2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A6D502E13D8D3A400C9AB3E /* bg-mnts2.png */; };
-		5A6D503113D8D3AD00C9AB3E /* bg-mnts1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A6D503013D8D3AD00C9AB3E /* bg-mnts1.png */; };
-		5A7F71B613CF9DEF0063D2F1 /* bg-mnts1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A7F71B513CF9DEF0063D2F1 /* bg-mnts1@2x.png */; };
-		5ACAB8F713D6931400101831 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACAB8F613D6931400101831 /* libz.1.2.3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		070E7B2D13F31E160013C1F6 /* prey-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-logo.png"; path = "Resources/prey-logo.png"; sourceTree = "<group>"; };
+		070E7B2E13F31E160013C1F6 /* prey-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-logo@2x.png"; path = "Resources/prey-logo@2x.png"; sourceTree = "<group>"; };
+		070E7B3113F321C40013C1F6 /* 57px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 57px.png; path = Resources/57px.png; sourceTree = "<group>"; };
+		070E7B3213F321C40013C1F6 /* 114px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 114px.png; path = Resources/114px.png; sourceTree = "<group>"; };
+		070E7B3313F321C40013C1F6 /* bg-mnts1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-mnts1.png"; path = "Resources/bg-mnts1.png"; sourceTree = "<group>"; };
+		070E7B3413F321C40013C1F6 /* bg-mnts1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-mnts1@2x.png"; path = "Resources/bg-mnts1@2x.png"; sourceTree = "<group>"; };
+		070E7B3513F321C40013C1F6 /* bg-mnts2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-mnts2.png"; path = "Resources/bg-mnts2.png"; sourceTree = "<group>"; };
+		070E7B3613F321C50013C1F6 /* bg-mnts2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-mnts2@2x.png"; path = "Resources/bg-mnts2@2x.png"; sourceTree = "<group>"; };
+		070E7B3713F321C50013C1F6 /* botonmask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = botonmask.png; path = Resources/botonmask.png; sourceTree = "<group>"; };
+		070E7B3813F321C50013C1F6 /* navbarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = navbarbg.png; path = Resources/navbarbg.png; sourceTree = "<group>"; };
+		070E7B3913F321C50013C1F6 /* navbarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "navbarbg@2x.png"; path = "Resources/navbarbg@2x.png"; sourceTree = "<group>"; };
+		070E7B3B13F321C70013C1F6 /* signupbtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signupbtn.png; path = Resources/signupbtn.png; sourceTree = "<group>"; };
+		070E7B3C13F321C80013C1F6 /* signupbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "signupbtn@2x.png"; path = "Resources/signupbtn@2x.png"; sourceTree = "<group>"; };
+		070E7B4913F321E80013C1F6 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice-Hardware.h"; path = "Classes/UIDevice-Hardware.h"; sourceTree = "<group>"; };
+		070E7B4A13F321E80013C1F6 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice-Hardware.m"; path = "Classes/UIDevice-Hardware.m"; sourceTree = "<group>"; };
+		070E7B4C13F3231F0013C1F6 /* prey-allgood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-allgood.png"; path = "Resources/prey-allgood.png"; sourceTree = "<group>"; };
+		070E7B4D13F323200013C1F6 /* prey-allgood@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-allgood@2x.png"; path = "Resources/prey-allgood@2x.png"; sourceTree = "<group>"; };
 		071323F0134632C900F7EFD8 /* AlarmModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlarmModule.h; path = Classes/AlarmModule.h; sourceTree = "<group>"; };
 		071323F1134632C900F7EFD8 /* AlarmModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlarmModule.m; path = Classes/AlarmModule.m; sourceTree = "<group>"; };
 		071323F2134632C900F7EFD8 /* AlertModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlertModule.h; path = Classes/AlertModule.h; sourceTree = "<group>"; };
@@ -175,9 +193,6 @@
 		071324541346363300F7EFD8 /* AlertModuleController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AlertModuleController.xib; path = Classes/AlertModuleController.xib; sourceTree = "<group>"; };
 		071324551346363300F7EFD8 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainWindow.xib; path = Classes/MainWindow.xib; sourceTree = "<group>"; };
 		0713245C1346368200F7EFD8 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Resources/logo.png; sourceTree = "<group>"; };
-		0713245D1346368200F7EFD8 /* prey-iphone-front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-iphone-front.png"; path = "Resources/prey-iphone-front.png"; sourceTree = "<group>"; };
-		0713245E1346368200F7EFD8 /* prey-iphone-login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-iphone-login.png"; path = "Resources/prey-iphone-login.png"; sourceTree = "<group>"; };
-		0713245F1346368200F7EFD8 /* prey-iphone-ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-iphone-ok.png"; path = "Resources/prey-iphone-ok.png"; sourceTree = "<group>"; };
 		071324601346368200F7EFD8 /* recycle-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "recycle-full.png"; path = "Resources/recycle-full.png"; sourceTree = "<group>"; };
 		071324611346368200F7EFD8 /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reload.png; path = Resources/reload.png; sourceTree = "<group>"; };
 		071324681346369200F7EFD8 /* large9.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = large9.ttf; path = Resources/large9.ttf; sourceTree = "<group>"; };
@@ -187,10 +202,6 @@
 		07132471134639DF00F7EFD8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07132473134639E800F7EFD8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07178F2512675AD3007B290C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		073CABDC1367731900821032 /* 57px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 57px.png; sourceTree = "<group>"; };
-		073CABDD1367731900821032 /* 114px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 114px.png; sourceTree = "<group>"; };
-		0741A56D13EB032A0064FDC3 /* signupbtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = signupbtn.png; sourceTree = "<group>"; };
-		0741A56E13EB032A0064FDC3 /* signupbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "signupbtn@2x.png"; sourceTree = "<group>"; };
 		077D7A3B126E171300C713B7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		077D7B2C126F3C8400C713B7 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		077D7BA11270D79700C713B7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -221,8 +232,6 @@
 		078E1373132ABC3C004B7C60 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		078E1374132ABC3C004B7C60 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		07ABF44E1344C8EB00370933 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		07CA9AA01355FADE00307314 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
-		07CA9AA11355FADE00307314 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Hardware.m"; sourceTree = "<group>"; };
 		07CD95F11253D99500590FCD /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesController.h; path = Classes/PreferencesController.h; sourceTree = "<group>"; };
 		07CD95F21253D99500590FCD /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesController.m; path = Classes/PreferencesController.m; sourceTree = "<group>"; };
 		07CD95F31253D99500590FCD /* PreferencesController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PreferencesController.xib; path = Classes/PreferencesController.xib; sourceTree = "<group>"; };
@@ -256,13 +265,6 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Prey_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prey_Prefix.pch; sourceTree = "<group>"; };
-		5A238A3E13D00CB0008D79DB /* navbarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navbarbg@2x.png"; sourceTree = "<group>"; };
-		5A238A4113D0119A008D79DB /* bg-mnts2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts2@2x.png"; sourceTree = "<group>"; };
-		5A6D502C13D8D33400C9AB3E /* navbarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navbarbg.png; sourceTree = "<group>"; };
-		5A6D502E13D8D3A400C9AB3E /* bg-mnts2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts2.png"; sourceTree = "<group>"; };
-		5A6D503013D8D3AD00C9AB3E /* bg-mnts1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts1.png"; sourceTree = "<group>"; };
-		5A7F71B513CF9DEF0063D2F1 /* bg-mnts1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts1@2x.png"; sourceTree = "<group>"; };
-		5ACAB8F613D6931400101831 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Prey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Prey-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -271,7 +273,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5ACAB8F713D6931400101831 /* libz.1.2.3.dylib in Frameworks */,
 				077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */,
 				07DF36E313413B6F00F0F218 /* MessageUI.framework in Frameworks */,
 				07D323A0133BC74B00841BFD /* CoreMedia.framework in Frameworks */,
@@ -313,13 +314,24 @@
 		07178976125B8498007B290C /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				073CABDC1367731900821032 /* 57px.png */,
-				073CABDD1367731900821032 /* 114px.png */,
+				070E7B4C13F3231F0013C1F6 /* prey-allgood.png */,
+				070E7B4D13F323200013C1F6 /* prey-allgood@2x.png */,
+				070E7B3113F321C40013C1F6 /* 57px.png */,
+				070E7B3213F321C40013C1F6 /* 114px.png */,
+				070E7B3313F321C40013C1F6 /* bg-mnts1.png */,
+				070E7B3413F321C40013C1F6 /* bg-mnts1@2x.png */,
+				070E7B3513F321C40013C1F6 /* bg-mnts2.png */,
+				070E7B3613F321C50013C1F6 /* bg-mnts2@2x.png */,
+				070E7B3713F321C50013C1F6 /* botonmask.png */,
+				070E7B3813F321C50013C1F6 /* navbarbg.png */,
+				070E7B3913F321C50013C1F6 /* navbarbg@2x.png */,
+				070E7B3B13F321C70013C1F6 /* signupbtn.png */,
+				070E7B3C13F321C80013C1F6 /* signupbtn@2x.png */,
+				07EBB80C137C7D6200A46037 /* star_wars_battlefront.png */,
+				070E7B2D13F31E160013C1F6 /* prey-logo.png */,
+				070E7B2E13F31E160013C1F6 /* prey-logo@2x.png */,
 				0713246E134636BB00F7EFD8 /* email.png */,
 				0713245C1346368200F7EFD8 /* logo.png */,
-				0713245D1346368200F7EFD8 /* prey-iphone-front.png */,
-				0713245E1346368200F7EFD8 /* prey-iphone-login.png */,
-				0713245F1346368200F7EFD8 /* prey-iphone-ok.png */,
 				071324601346368200F7EFD8 /* recycle-full.png */,
 				071324611346368200F7EFD8 /* reload.png */,
 			);
@@ -496,8 +508,8 @@
 		07805429125542EF00E4CCE5 /* Prey Utils */ = {
 			isa = PBXGroup;
 			children = (
-				07CA9AA01355FADE00307314 /* UIDevice-Hardware.h */,
-				07CA9AA11355FADE00307314 /* UIDevice-Hardware.m */,
+				070E7B4913F321E80013C1F6 /* UIDevice-Hardware.h */,
+				070E7B4A13F321E80013C1F6 /* UIDevice-Hardware.m */,
 				071324371346356300F7EFD8 /* PreyLogger.h */,
 				071324381346356300F7EFD8 /* PreyLogger.m */,
 				071324391346356300F7EFD8 /* RegexKitLite.h */,
@@ -608,7 +620,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				5ACAB8F613D6931400101831 /* libz.1.2.3.dylib */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -631,21 +642,12 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0741A56D13EB032A0064FDC3 /* signupbtn.png */,
-				0741A56E13EB032A0064FDC3 /* signupbtn@2x.png */,
-				07EBB80C137C7D6200A46037 /* star_wars_battlefront.png */,
-				5A238A3E13D00CB0008D79DB /* navbarbg@2x.png */,
-				5A6D502C13D8D33400C9AB3E /* navbarbg.png */,
 				07132470134639DF00F7EFD8 /* Localizable.strings */,
 				071324681346369200F7EFD8 /* large9.ttf */,
 				071324691346369200F7EFD8 /* NewJuneBold.otf */,
 				0713246A1346369200F7EFD8 /* siren.mp3 */,
 				071324541346363300F7EFD8 /* AlertModuleController.xib */,
 				071324551346363300F7EFD8 /* MainWindow.xib */,
-				5A7F71B513CF9DEF0063D2F1 /* bg-mnts1@2x.png */,
-				5A6D503013D8D3AD00C9AB3E /* bg-mnts1.png */,
-				5A6D502E13D8D3A400C9AB3E /* bg-mnts2.png */,
-				5A238A4113D0119A008D79DB /* bg-mnts2@2x.png */,
 				07132452134635DC00F7EFD8 /* WelcomeController.xib */,
 				071323FF134633B800F7EFD8 /* CongratulationsController.xib */,
 				07CD95F31253D99500590FCD /* PreferencesController.xib */,
@@ -740,9 +742,6 @@
 				071324581346363300F7EFD8 /* AlertModuleController.xib in Resources */,
 				071324591346363300F7EFD8 /* MainWindow.xib in Resources */,
 				071324621346368200F7EFD8 /* logo.png in Resources */,
-				071324631346368200F7EFD8 /* prey-iphone-front.png in Resources */,
-				071324641346368200F7EFD8 /* prey-iphone-login.png in Resources */,
-				071324651346368200F7EFD8 /* prey-iphone-ok.png in Resources */,
 				071324661346368200F7EFD8 /* recycle-full.png in Resources */,
 				071324671346368200F7EFD8 /* reload.png in Resources */,
 				0713246B1346369200F7EFD8 /* large9.ttf in Resources */,
@@ -751,17 +750,22 @@
 				0713246F134636BB00F7EFD8 /* email.png in Resources */,
 				07132472134639DF00F7EFD8 /* Localizable.strings in Resources */,
 				07132474134639E800F7EFD8 /* Localizable.strings in Resources */,
-				073CABDE1367731900821032 /* 57px.png in Resources */,
-				073CABDF1367731900821032 /* 114px.png in Resources */,
 				07EBB80D137C7D6200A46037 /* star_wars_battlefront.png in Resources */,
-				5A7F71B613CF9DEF0063D2F1 /* bg-mnts1@2x.png in Resources */,
-				5A238A3F13D00CB0008D79DB /* navbarbg@2x.png in Resources */,
-				5A238A4213D0119A008D79DB /* bg-mnts2@2x.png in Resources */,
-				5A6D502D13D8D33400C9AB3E /* navbarbg.png in Resources */,
-				5A6D502F13D8D3A400C9AB3E /* bg-mnts2.png in Resources */,
-				5A6D503113D8D3AD00C9AB3E /* bg-mnts1.png in Resources */,
-				0741A56F13EB032A0064FDC3 /* signupbtn.png in Resources */,
-				0741A57013EB032A0064FDC3 /* signupbtn@2x.png in Resources */,
+				070E7B2F13F31E160013C1F6 /* prey-logo.png in Resources */,
+				070E7B3013F31E160013C1F6 /* prey-logo@2x.png in Resources */,
+				070E7B3D13F321CA0013C1F6 /* 57px.png in Resources */,
+				070E7B3E13F321CA0013C1F6 /* 114px.png in Resources */,
+				070E7B3F13F321CA0013C1F6 /* bg-mnts1.png in Resources */,
+				070E7B4013F321CA0013C1F6 /* bg-mnts1@2x.png in Resources */,
+				070E7B4113F321CA0013C1F6 /* bg-mnts2.png in Resources */,
+				070E7B4213F321CA0013C1F6 /* bg-mnts2@2x.png in Resources */,
+				070E7B4313F321CA0013C1F6 /* botonmask.png in Resources */,
+				070E7B4413F321CA0013C1F6 /* navbarbg.png in Resources */,
+				070E7B4513F321CA0013C1F6 /* navbarbg@2x.png in Resources */,
+				070E7B4713F321CA0013C1F6 /* signupbtn.png in Resources */,
+				070E7B4813F321CA0013C1F6 /* signupbtn@2x.png in Resources */,
+				070E7B4E13F323200013C1F6 /* prey-allgood.png in Resources */,
+				070E7B4F13F323200013C1F6 /* prey-allgood@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -823,7 +827,7 @@
 				0713244B134635A100F7EFD8 /* User.m in Sources */,
 				07132450134635C400F7EFD8 /* PreyRestHttp.m in Sources */,
 				07132451134635C400F7EFD8 /* PreyRunner.m in Sources */,
-				07CA9AA21355FADE00307314 /* UIDevice-Hardware.m in Sources */,
+				070E7B4B13F321E80013C1F6 /* UIDevice-Hardware.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
