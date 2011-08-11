@@ -75,6 +75,7 @@
 		0780547D12554BDA00E4CCE5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0780547C12554BDA00E4CCE5 /* CFNetwork.framework */; };
 		0780547F12554BDA00E4CCE5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0780547E12554BDA00E4CCE5 /* MobileCoreServices.framework */; };
 		0780561D12564F1C00E4CCE5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0780561C12564F1C00E4CCE5 /* SystemConfiguration.framework */; };
+		0786C34113F4811E00EF0F95 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0786C34013F4811E00EF0F95 /* libz.1.2.3.dylib */; };
 		078E1368132AB562004B7C60 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E1358132AB562004B7C60 /* ASIDataCompressor.m */; };
 		078E1369132AB562004B7C60 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E135A132AB562004B7C60 /* ASIDataDecompressor.m */; };
 		078E136A132AB562004B7C60 /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 078E135C132AB562004B7C60 /* ASIDownloadCache.m */; };
@@ -207,8 +208,8 @@
 		077D7BA11270D79700C713B7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0780547C12554BDA00E4CCE5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		0780547E12554BDA00E4CCE5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		0780548012554BDA00E4CCE5 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		0780561C12564F1C00E4CCE5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		0786C34013F4811E00EF0F95 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		078E1356132AB562004B7C60 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
 		078E1357132AB562004B7C60 /* ASIDataCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDataCompressor.h; sourceTree = "<group>"; };
 		078E1358132AB562004B7C60 /* ASIDataCompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDataCompressor.m; sourceTree = "<group>"; };
@@ -273,6 +274,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0786C34113F4811E00EF0F95 /* libz.1.2.3.dylib in Frameworks */,
 				077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */,
 				07DF36E313413B6F00F0F218 /* MessageUI.framework in Frameworks */,
 				07D323A0133BC74B00841BFD /* CoreMedia.framework in Frameworks */,
@@ -661,6 +663,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0786C34013F4811E00EF0F95 /* libz.1.2.3.dylib */,
 				07ABF44E1344C8EB00370933 /* AudioToolbox.framework */,
 				07DF36E213413B6E00F0F218 /* MessageUI.framework */,
 				07D3239E133BC74A00841BFD /* CoreMedia.framework */,
@@ -672,7 +675,6 @@
 				0780561C12564F1C00E4CCE5 /* SystemConfiguration.framework */,
 				0780547C12554BDA00E4CCE5 /* CFNetwork.framework */,
 				0780547E12554BDA00E4CCE5 /* MobileCoreServices.framework */,
-				0780548012554BDA00E4CCE5 /* libz.1.2.3.dylib */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
