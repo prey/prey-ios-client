@@ -32,6 +32,16 @@
 	return instance;
 }
 
+
+- (void)playShutter {
+    NSURL* musicFile = [NSURL fileURLWithPath:[[NSBundle mainBundle] 
+                                               pathForResource:@"shutter"
+                                               ofType:@"wav"]];
+    AVAudioPlayer *click = [[AVAudioPlayer alloc] initWithContentsOfURL:musicFile error:nil];
+    [click setVolume:0.15f];
+    [click play];
+}
+
 - (UIImage*) lastPicture{
     NSTimeInterval lastRunInterval = -[pictureTakenAt timeIntervalSinceNow];
     return lastRunInterval > 60 ? nil : self.lastPictureTaken;
@@ -105,10 +115,7 @@
     dispatch_release(queue);
     
     // Specify the pixel format
-    output.videoSettings = 
-    [NSDictionary dictionaryWithObject:
-     [NSNumber numberWithInt:kCVPixelFormatType_32BGRA] 
-                                forKey:(id)kCVPixelBufferPixelFormatTypeKey];
+    output.videoSettings = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA] forKey:(id)kCVPixelBufferPixelFormatTypeKey];
     
     
     // If you wish to cap the frame rate to a known value, such as 15 fps, set 
@@ -121,6 +128,9 @@
     
     // Assign session to an ivar.
     [self setSession:session];
+    
+    //Finally, play a shuttet sound
+    [self playShutter];
     
 }
 

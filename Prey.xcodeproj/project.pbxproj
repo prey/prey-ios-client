@@ -100,6 +100,8 @@
 		07DF36E6134222BF00F0F218 /* PicturesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DF36E5134222BF00F0F218 /* PicturesController.m */; };
 		07DF36E91342389700F0F218 /* PicturesControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DF36E81342389600F0F218 /* PicturesControllerDelegate.m */; };
 		07EBB80D137C7D6200A46037 /* star_wars_battlefront.png in Resources */ = {isa = PBXBuildFile; fileRef = 07EBB80C137C7D6200A46037 /* star_wars_battlefront.png */; };
+		07ED2DDB141122E100EB912B /* shutter.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07ED2DDA141122E100EB912B /* shutter.wav */; };
+		07ED2DDD1411452B00EB912B /* shutter.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07ED2DDC1411452B00EB912B /* shutter.wav */; };
 		1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* PreyAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -258,6 +260,8 @@
 		07DF36E71342389600F0F218 /* PicturesControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PicturesControllerDelegate.h; sourceTree = "<group>"; };
 		07DF36E81342389600F0F218 /* PicturesControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PicturesControllerDelegate.m; sourceTree = "<group>"; };
 		07EBB80C137C7D6200A46037 /* star_wars_battlefront.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = star_wars_battlefront.png; path = Resources/star_wars_battlefront.png; sourceTree = "<group>"; };
+		07ED2DDA141122E100EB912B /* shutter.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = shutter.wav; path = ../../../Downloads/shutter.wav; sourceTree = "<group>"; };
+		07ED2DDC1411452B00EB912B /* shutter.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = shutter.wav; path = Resources/shutter.wav; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* PreyAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* PreyAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyAppDelegate.m; sourceTree = "<group>"; };
@@ -644,6 +648,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				07ED2DDA141122E100EB912B /* shutter.wav */,
+				07ED2DDC1411452B00EB912B /* shutter.wav */,
 				07132470134639DF00F7EFD8 /* Localizable.strings */,
 				071324681346369200F7EFD8 /* large9.ttf */,
 				071324691346369200F7EFD8 /* NewJuneBold.otf */,
@@ -768,6 +774,8 @@
 				070E7B4813F321CA0013C1F6 /* signupbtn@2x.png in Resources */,
 				070E7B4E13F323200013C1F6 /* prey-allgood.png in Resources */,
 				070E7B4F13F323200013C1F6 /* prey-allgood@2x.png in Resources */,
+				07ED2DDB141122E100EB912B /* shutter.wav in Resources */,
+				07ED2DDD1411452B00EB912B /* shutter.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
