@@ -15,9 +15,8 @@
     //NSString * const PREY_URL = @"http://unstable.share.cl/";
 	NSString * const PREY_SECURE_URL = @"https://control.preyproject.com/";
     //NSString * const PREY_SECURE_URL = @"https://unstable.share.cl/";
-	NSString * const PREY_USER_AGENT = @"Prey/0.5.3"; //could be linked with version constant. TODO!
+	NSString * const PREY_USER_AGENT = @"Prey/0.5.3 (iOS)"; //could be linked with version constant. TODO!
 	BOOL  const ASK_FOR_LOGIN = YES;
 	BOOL const	USE_CONTROL_PANEL_DELAY=YES; //use the preferences page's instead.
     BOOL const	SHOULD_LOG=NO;
-
 @end

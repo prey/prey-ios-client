@@ -14,26 +14,54 @@
 #import "PreyConfig.h"
 #import "Reachability.h"
 
-@implementation PreyRestHttp
 
+
+@interface PreyRestHttp()
+
+-(ASIHTTPRequest*)createGETrequestWithURL: (NSString*) url;
+-(ASIFormDataRequest*)createPOSTrequestWithURL: (NSString*) url;
+-(ASIFormDataRequest*)createPUTrequestWithURL: (NSString*) url;
+-(void)setupRequest: (ASIHTTPRequest*)request;
+
+@end
+
+@implementation PreyRestHttp
 @synthesize responseData;
 @synthesize baseURL;
 
-
-
-
-- (NSString *) getCurrentControlPanelApiKey: (User *) user
-{
-	
-	NSURL *url = [NSURL URLWithString:[PREY_SECURE_URL stringByAppendingFormat: @"profile.xml"]];
-	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
-	[request setUsername:[user email]];
-	[request setPassword: [user password]];
+-(void)setupRequest: (ASIHTTPRequest*)request{
+    [request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
     [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setUseSessionPersistence:NO];
 	[request setShouldRedirect:NO];
 	[request setValidatesSecureCertificate:NO];
+    [request setTimeOutSeconds:30];
+}
+
+-(ASIHTTPRequest*)createGETrequestWithURL: (NSString*) url {
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    [self setupRequest:request];
+    return request;
+}
+
+-(ASIFormDataRequest*)createPOSTrequestWithURL: (NSString*) url{
+	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+	[request setRequestMethod:@"POST"];
+	[self setupRequest:request];
+    return request;
+}
+
+-(ASIFormDataRequest*)createPUTrequestWithURL: (NSString*) url{
+	ASIFormDataRequest *request = [self createPOSTrequestWithURL:url];
+	[request setRequestMethod:@"PUT"];
+    return request;
+}
+
+- (NSString *) getCurrentControlPanelApiKey: (User *) user
+{
+    ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_SECURE_URL stringByAppendingFormat: @"profile.xml"]];
+    [request setUsername:[user email]];
+	[request setPassword: [user password]];
 	
 	@try {
 		[request startSynchronous];
@@ -44,9 +72,7 @@
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
 			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
 		}
-		
 		if (!error) {	
-			
 			KeyParserDelegate *keyParser = [[KeyParserDelegate alloc] init];
 			NSString *key = [keyParser parseKey:[request responseData] parseError:&error];
 			return key;
@@ -64,13 +90,7 @@
 
 - (NSString *) createApiKey: (User *) user
 {
-	NSURL *url = [NSURL URLWithString:[PREY_SECURE_URL stringByAppendingFormat: @"users.xml"]];
-	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
-	[request setRequestMethod:@"POST"];
-	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
-	[request setUseSessionPersistence:NO];
-	[request setShouldRedirect:NO];
-	[request setValidatesSecureCertificate:NO];
+	ASIFormDataRequest *request = [self createPOSTrequestWithURL:[PREY_SECURE_URL stringByAppendingFormat: @"users.xml"]];
 	[request setPostValue:[user name] forKey:@"user[name]"];
 	[request setPostValue:[user email] forKey:@"user[email]"];
 	[request setPostValue:[user country] forKey:@"user[country_name]"]; 
@@ -109,13 +129,9 @@
 
 - (NSString *) createDeviceKeyForDevice: (Device *) device usingApiKey: (NSString *) apiKey {
 	
-	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices.xml"]];
-	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	ASIFormDataRequest *request = [self createPOSTrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices.xml"]];
 	[request setUsername:apiKey];
 	[request setPassword: @"x"];
-    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
-	[request setRequestMethod:@"POST"];
-	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
 	[request setPostValue:[device name] forKey:@"device[title]"];
 	[request setPostValue:[device type] forKey:@"device[device_type]"];
 	[request setPostValue:[device version] forKey:@"device[os_version]"];
@@ -124,9 +140,6 @@
 	[request setPostValue:[device os] forKey:@"device[os]"];
 	[request setPostValue:[device macAddress] forKey:@"device[physical_address]"];
     [request setPostValue:[device uuid] forKey:@"device[uuid]"];
-	
-	[request setUseSessionPersistence:NO];
-	[request setShouldRedirect:NO];
 	
 	@try {
 		[request startSynchronous];
@@ -158,15 +171,10 @@
 
 - (DeviceModulesConfig *) getXMLforUser: (NSString *) apiKey device:(NSString *) deviceKey;
 {
-	
-	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", deviceKey]];
-	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
-	[request setUsername:apiKey];
+
+    ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", deviceKey]];
+    [request setUsername:apiKey];
 	[request setPassword: @"x"];
-    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
-	[request setUseSessionPersistence:NO];
-	[request setShouldRedirect:NO];
 	
 	@try {
 		[request startSynchronous];
@@ -206,21 +214,14 @@
 }
 
 - (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey {
-	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", deviceKey]];
-	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	ASIFormDataRequest *request = [self createPUTrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", deviceKey]];
     [request setShouldContinueWhenAppEntersBackground:YES];
 	[request setUsername:apiKey];
 	[request setPassword: @"x"];
-    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
-	[request setRequestMethod:@"PUT"];
 	if (missing)
 		[request setPostValue:@"1" forKey:@"device[missing]"];
 	else
 		[request setPostValue:@"0" forKey:@"device[missing]"];
-	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
-	[request setUseSessionPersistence:NO];
-	[request setShouldRedirect:NO];
-	
 	
 	@try {
         PreyLogMessage(@"PreyRestHttp", 10, @"Attempting to change status on Control Panel");
@@ -253,14 +254,9 @@
 - (BOOL) validateIfExistApiKey: (NSString *) apiKey andDeviceKey: (NSString *) deviceKey
 {
 	
-	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices.xml"]];
-	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
-	[request setUseSessionPersistence:NO];
-	[request setShouldRedirect:NO];
+	ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices.xml"]];
 	[request setUsername:apiKey];
 	[request setPassword:@"x"];
-    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	
 	@try {
 		[request startSynchronous];
@@ -291,15 +287,10 @@
 
 - (BOOL) deleteDevice: (Device*) device{
 	PreyConfig* preyConfig = [PreyConfig instance];
-	NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [device deviceKey]]];
-	__block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+	__block ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [device deviceKey]]];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
-    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setRequestMethod:@"DELETE"];
-	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
-	[request setUseSessionPersistence:NO];
-	[request setShouldRedirect:NO];
     
     @try {
 		[request startSynchronous];
@@ -323,15 +314,10 @@
 
 - (void) sendReport: (Report *) report {
 	PreyConfig *preyConfig = [PreyConfig instance];
-	//NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [preyConfig deviceKey]]];
-	NSURL *url = [NSURL URLWithString:report.url];
-	__block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	__block ASIFormDataRequest *request = [self createPOSTrequestWithURL:report.url];
     [request setShouldContinueWhenAppEntersBackground:YES];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
-    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
-	[request setRequestMethod:@"POST"];
-	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
 	
     /*
 	[[report getReportData] enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
@@ -340,9 +326,6 @@
 	}];
      */
     [report fillReportData:request];
-
-	[request setUseSessionPersistence:NO];
-	[request setShouldRedirect:NO];
     [request setNumberOfTimesToRetryOnTimeout:5];
     //[request setDelegate:self];
     
@@ -413,30 +396,24 @@
 
 - (void) setPushRegistrationId: (NSString *) id {
     PreyConfig *preyConfig = [PreyConfig instance];
-    NSURL *url = [NSURL URLWithString:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [preyConfig deviceKey]]];
-	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	__block ASIFormDataRequest *request = [self createPUTrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [preyConfig deviceKey]]];
     [request setShouldContinueWhenAppEntersBackground:YES];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
-    [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
-	[request setRequestMethod:@"PUT"];
 	[request setPostValue:id forKey:@"device[notification_id]"];
-	[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
-	[request setUseSessionPersistence:NO];
-	[request setShouldRedirect:NO];
-	
-	
-	@try {
-        
-		[request startSynchronous];
-		NSError *error = [request error];
-		if (error)
-			@throw [NSException exceptionWithName:@"CouldntSetRegIdException" reason:[error localizedDescription] userInfo:nil];
-        PreyLogMessage(@"PreyRestHttp", 10, @"Device notification_id updated OK on the Control Panel");
-	}
-	@catch (NSException * e) {
-		 PreyLogMessage(@"PreyRestHttp", 10, @"ERROR Updating device reg_id on the Control Panel: %@", [e reason]);
-	}
+    [request setNumberOfTimesToRetryOnTimeout:5];
+    
+    [request setCompletionBlock:^{
+        int statusCode = [request responseStatusCode];
+        if (statusCode != 200)
+            PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Device notification_id WASN't updated on the Control Panel: %@", [request responseStatusMessage]);
+        else
+            PreyLogMessageAndFile(@"PreyRestHttp", 10, @"Device notification_id updated OK on the Control Panel");
+    }];
+    [request setFailedBlock:^{
+        PreyLogMessageAndFile(@"PreyRestHttp", 0, @"ERROR Updating device reg_id on the Control Panel: %@", [[request error] localizedDescription]);
+    }];
+	[request startAsynchronous];
 }
 
 @end

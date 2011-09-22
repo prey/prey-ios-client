@@ -135,7 +135,7 @@
      if (config.camouflageMode)
          img = [[UIImage imageNamed:@"star_wars_battlefront.png"] autorelease];
      else
-         img = [[UIImage imageNamed:@"prey-iphone-login.png"] autorelease];
+         img = [[UIImage imageNamed:@"prey-logo.png"] autorelease];
      self.loginImage.image = img;
      
      [self.loginPassword addTarget:self

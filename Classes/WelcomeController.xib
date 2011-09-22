@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1056</int>
-		<string key="IBDocument.SystemVersion">10K540</string>
+		<string key="IBDocument.SystemVersion">10K549</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1305</string>
 		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
@@ -79,9 +79,9 @@
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="667578819"/>
-						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC45OTQ0NDQ0NDQ0IDEgMC45ODg4ODg4ODg5IDAAA</bytes>
+						<object class="NSColor" key="IBUIBackgroundColor" id="307281649">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MQA</bytes>
 						</object>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -93,10 +93,7 @@
 							<int key="NSfFlags">16</int>
 						</object>
 						<string key="IBUINormalTitle">New user</string>
-						<object class="NSColor" key="IBUIHighlightedTitleColor" id="307281649">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MQA</bytes>
-						</object>
+						<reference key="IBUIHighlightedTitleColor" ref="307281649"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC45MTQzMDg5MDU0IDAuOTY5Mzg3NzU1MSAwLjkzNTU0MTg5NTkAA</bytes>
@@ -104,6 +101,10 @@
 						<object class="NSColor" key="IBUINormalTitleShadowColor" id="745633081">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
+						</object>
+						<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="433189707">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">signupbtn.png</string>
 						</object>
 					</object>
 					<object class="IBUIButton" id="667578819">
@@ -124,6 +125,7 @@
 							<bytes key="NSRGB">MC44NjI3NDUxNjU4IDAuOTA5ODAzOTg2NSAwLjkwOTgwMzk4NjUAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="745633081"/>
+						<reference key="IBUINormalBackgroundImage" ref="433189707"/>
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
@@ -384,11 +386,13 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>bg-mnts1.png</string>
 				<string>prey-logo.png</string>
+				<string>signupbtn.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{320, 99}</string>
 				<string>{280, 312}</string>
+				<string>{238, 35}</string>
 			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">300</string>
