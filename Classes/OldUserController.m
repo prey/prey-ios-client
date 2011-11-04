@@ -155,7 +155,15 @@
 	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
 	//PreyLogMessageAndFile(@"Old user controller", 10, @"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
     switch ([indexPath section]) {
-		case 1:
+		case 0:
+			if ([indexPath row] == 0)
+				[email becomeFirstResponder];
+                
+			else if ([indexPath row] == 1)
+                [password becomeFirstResponder];
+            break;
+				
+        case 1:
             
 			//if (enableToSubmit) {
 				if (![email.text isMatchedByRegex:strEmailMatchstring]){
@@ -262,13 +270,13 @@
 }
 
 
-/*
+
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation ==UIInterfaceOrientationLandscapeRight);
 }
-*/
+
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

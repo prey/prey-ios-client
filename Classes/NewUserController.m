@@ -155,13 +155,28 @@
 }
 
 
+
 #pragma mark -
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
 	switch ([indexPath section]) {
-		case 1:
+		case 0:
+			if ([indexPath row] == 0){
+				[name becomeFirstResponder];
+			}
+			else if ([indexPath row] == 1){
+				[email becomeFirstResponder];
+			}
+			else if ([indexPath row] == 2){
+				[password becomeFirstResponder];
+			}
+			else if ([indexPath row] == 3){
+                [repassword becomeFirstResponder];
+			}
+			break;
+        case 1:
 			//if (enableToSubmit) {
 				if (![email.text isMatchedByRegex:strEmailMatchstring]){
 					UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
@@ -289,13 +304,12 @@
 
 
 
-/*
+
 // Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
+ - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ // Return YES for supported orientations
+ return (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation ==UIInterfaceOrientationLandscapeRight);
+ }
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

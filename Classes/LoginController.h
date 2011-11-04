@@ -10,8 +10,12 @@
 #import "PreferencesController.h"
 #import "MBProgressHUD.h"
 
+#define kOFFSET_FOR_KEYBOARD 150.0
+
 @interface LoginController : UIViewController <MBProgressHUDDelegate> {
-	
+@private
+    int movementDistance;
+
 	UITextField *loginPassword;
 	MBProgressHUD *HUD;
     UIImageView *loginImage;

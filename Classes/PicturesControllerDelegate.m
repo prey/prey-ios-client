@@ -37,7 +37,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     // Create a UIImage from the sample buffer data
     UIImage *image = [[self imageFromSampleBuffer:sampleBuffer] retain];
     
-    if ([pictures count] < 5){
+    if ([pictures count] < 1){
         //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
         PreyLogMessage(@"PicturesControllerDelegate", 10, @"Picture taken!");
         [pictures addObject:[self rotateImage:image]];

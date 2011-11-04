@@ -43,7 +43,7 @@
 - (void) showCongratsView:(id) congratsText {
 	
 	CongratulationsController *congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController" bundle:nil];
-    congratsController.congratsMsg.text = (NSString*) congratsText;
+    congratsController.txtToShow = (NSString*) congratsText;
 	[self.navigationController setNavigationBarHidden:YES animated:YES];
 	[[(PreyAppDelegate*)[UIApplication sharedApplication].delegate viewController] pushViewController:congratsController animated:YES];
 	[congratsController release];

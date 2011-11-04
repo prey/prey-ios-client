@@ -14,7 +14,7 @@
 
 @implementation CongratulationsController
 
-@synthesize congratsTitle, congratsMsg, ok;
+@synthesize congratsTitle, congratsMsg, ok, txtToShow;
 
 #pragma mark -
 #pragma mark IBActions
@@ -46,6 +46,7 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    self.congratsMsg.text = txtToShow;
 	[super viewDidLoad];
 }
 
@@ -54,7 +55,7 @@
     self.title = @"Congratulations";
     self.congratsTitle.text = NSLocalizedString(@"Congratulations!",nil);
      */
-	self.congratsMsg.text = NSLocalizedString(@"You have successfully associated this device with your Prey Control Panel account.",nil);
+	//self.congratsMsg.text = NSLocalizedString(@"You have successfully associated this device with your Prey Control Panel account.",nil);
      
 	[self.ok setTitle:NSLocalizedString(@"OK",nil) forState:UIControlStateNormal];
 	[super viewWillAppear:animated];

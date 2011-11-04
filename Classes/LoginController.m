@@ -15,14 +15,17 @@
 - (void) checkPassword;
 - (void) hideKeyboard;
 - (void) animateTextField: (UITextField*) textField up: (BOOL) up;
+- (void)setViewMovedUp:(BOOL)movedUp;
+
+@property int movementDistance; // tweak as needed
 
 @end
 
 
 @implementation LoginController
 
-@synthesize loginPassword;
-@synthesize loginImage;
+@synthesize loginPassword, loginImage, movementDistance;
+
 
 - (void) checkPassword {
 	PreyConfig *config = [PreyConfig instance];
@@ -59,7 +62,12 @@
 }
 
 - (IBAction) checkLoginPassword: (id) sender {
-	
+	if ([loginPassword.text length] <6){
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Denied",nil) message:NSLocalizedString(@"Wrong password. Try again.",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];		
+		[alertView show];
+		[alertView release];
+		return;
+	}
 	[self hideKeyboard];
 	HUD = [[MBProgressHUD alloc] initWithView:self.view];
     HUD.delegate = self;
@@ -97,7 +105,7 @@
 
 - (void) animateTextField: (UITextField*) textField up: (BOOL) up
 {
-    const int movementDistance = 140; // tweak as needed
+    
     const float movementDuration = 0.3f; // tweak as needed
 	
     int movement = (up ? -movementDistance : movementDistance);
@@ -114,6 +122,7 @@
 
 - (IBAction)textFieldFinished:(id)sender
 {
+    
     [self checkLoginPassword:sender];
 }
 
@@ -128,29 +137,85 @@
  */
 
 
- // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
- - (void)viewDidLoad {
-     PreyConfig *config = [PreyConfig instance];
-     UIImage *img = nil;
-     if (config.camouflageMode)
-         img = [[UIImage imageNamed:@"star_wars_battlefront.png"] autorelease];
-     else
-         img = [[UIImage imageNamed:@"prey-logo.png"] autorelease];
-     self.loginImage.image = img;
-     
-     [self.loginPassword addTarget:self
-                        action:@selector(textFieldFinished:)
-              forControlEvents:UIControlEventEditingDidEndOnExit];
-     [super viewDidLoad];
- }
 
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- 
+#pragma mark -
+#pragma mark screen rotation stuff
+
+-(void) detectOrientation {
+    movementDistance = 200;
+    if (([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeLeft) || 
+        ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeRight)) {
+        movementDistance = 160;
+        [self setViewMovedUp:YES];
+    } 
+    if ([loginPassword isFirstResponder])
+        [self textFieldDidBeginEditing:loginPassword];
+    /*
+    else if ([[UIDevice currentDevice] orientation] == UIDeviceOrientationPortrait) {
+        [self setViewMovedUp:NO];
+    } */  
+}
+
+-(void)setViewMovedUp:(BOOL)movedUp
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5]; // if you want to slide up the view
+    
+    CGRect rect = self.view.frame;
+    if (movedUp)
+    {
+        // 1. move the view's origin up so that the text field that will be hidden come above the keyboard 
+        // 2. increase the size of the view so that the area behind the keyboard is covered up.
+        rect.origin.y -= kOFFSET_FOR_KEYBOARD;
+        rect.size.height += kOFFSET_FOR_KEYBOARD;
+    }
+    else
+    {
+        // revert back to the normal state.
+        rect.origin.y += kOFFSET_FOR_KEYBOARD;
+        rect.size.height -= kOFFSET_FOR_KEYBOARD;
+    }
+    self.view.frame = rect;
+    
+    [UIView commitAnimations];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation ==UIInterfaceOrientationLandscapeRight);
+}
+
+#pragma mark -
+#pragma mark view methods
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+    movementDistance = 200;
+    PreyConfig *config = [PreyConfig instance];
+    UIImage *img = nil;
+    if (config.camouflageMode)
+        img = [[UIImage imageNamed:@"star_wars_battlefront.png"] autorelease];
+    else
+        img = [[UIImage imageNamed:@"prey-logo.png"] autorelease];
+    self.loginImage.image = img;
+    
+    [self.loginPassword addTarget:self
+                           action:@selector(textFieldFinished:)
+                 forControlEvents:UIControlEventEditingDidEndOnExit];
+    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(detectOrientation) name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    [super viewDidLoad];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    // unregister for keyboard notifications while not visible.
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil]; 
+}
+
+ /*
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
