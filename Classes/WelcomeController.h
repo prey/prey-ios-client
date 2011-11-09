@@ -10,13 +10,13 @@
 
 
 @interface WelcomeController : UIViewController {
-    UIButton *newUser;
-    UIButton *oldUser;
+    UIButton *buttnewUser;
+    UIButton *buttoldUser;
 }
 -(IBAction)newUserClicked:(id)sender;
 -(IBAction)oldUserClicked:(id)sender;
 
-@property (nonatomic, retain) IBOutlet UIButton *newUser;
-@property (nonatomic, retain) IBOutlet UIButton *oldUser;
+@property (nonatomic, retain) IBOutlet UIButton *buttnewUser;
+@property (nonatomic, retain) IBOutlet UIButton *buttoldUser;
 
 @end

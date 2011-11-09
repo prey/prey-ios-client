@@ -858,9 +858,9 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fork Ltd.";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Diego Torres (LGKVGKGE8E)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Diego Torres (LGKVGKGE8E)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -868,8 +868,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D6A790FE-DC48-4981-9A88-1C3625FA6C99";
+				PROVISIONING_PROFILE = "53047CE0-D588-40DA-A303-F9219A521489";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "53047CE0-D588-40DA-A303-F9219A521489";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -883,7 +883,6 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_ENTITLEMENTS = "~/Development/prey/prey-for-iphone/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
@@ -907,7 +906,6 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_ENTITLEMENTS = "~/Development/prey/prey-for-iphone/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -933,7 +931,6 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_ENTITLEMENTS = "~/Development/prey/prey-for-iphone/Entitlements.plist";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
@@ -957,16 +954,16 @@
 					armv6,
 				);
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Diego Torres (LGKVGKGE8E)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Diego Torres (LGKVGKGE8E)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-licucore";
-				PROVISIONING_PROFILE = "60C20227-1918-41C3-8BF9-3885E49688CA";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "60C20227-1918-41C3-8BF9-3885E49688CA";
+				PROVISIONING_PROFILE = "53047CE0-D588-40DA-A303-F9219A521489";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "53047CE0-D588-40DA-A303-F9219A521489";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -980,9 +977,9 @@
 					armv6,
 				);
 				"ARCHS[sdk=*]" = "armv6,armv7";
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Diego Torres (LGKVGKGE8E)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Diego Torres (LGKVGKGE8E)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -990,8 +987,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "53047CE0-D588-40DA-A303-F9219A521489";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "53047CE0-D588-40DA-A303-F9219A521489";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

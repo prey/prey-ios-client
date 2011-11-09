@@ -116,8 +116,10 @@
 		UILabel *label =[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 75, 25)];
 		label.textAlignment = UITextAlignmentLeft;
 		label.tag = kLabelTag;
+        label.backgroundColor = [UIColor clearColor];
 		label.font = [UIFont boldSystemFontOfSize:14];
 		[cell.contentView addSubview:label];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		[label release];
     }
     

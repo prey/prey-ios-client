@@ -11,7 +11,7 @@
 
 @implementation WelcomeController
 
-@synthesize newUser, oldUser;
+@synthesize buttnewUser, buttoldUser;
 
 
 -(void)newUserClicked:(id)sender{
@@ -50,8 +50,8 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    [self.newUser setTitle:NSLocalizedString(@"New user", nil) forState: UIControlStateNormal];
-    [self.oldUser setTitle:NSLocalizedString(@"Already a Prey user", nil) forState: UIControlStateNormal];
+    [self.buttnewUser setTitle:NSLocalizedString(@"New user", nil) forState: UIControlStateNormal];
+    [self.buttoldUser setTitle:NSLocalizedString(@"Already a Prey user", nil) forState: UIControlStateNormal];
 	[super viewDidLoad];
 }
 

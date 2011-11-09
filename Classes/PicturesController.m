@@ -9,6 +9,9 @@
 #import "PicturesController.h"
 #import "PicturesControllerDelegate.h"
 
+@interface PicturesController (privados)
+- (AVCaptureDevice *)frontFacingCameraIfAvailable;
+@end
 
 @implementation PicturesController
 @synthesize session,lastPictureTaken;

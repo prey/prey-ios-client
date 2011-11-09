@@ -14,7 +14,7 @@
 #define SEND_LOG_BUTTON 2
 #define REFRESH_LOG_BUTTON 3
 
-@interface LogController : UITableViewController<MFMailComposeViewControllerDelegate> {
+@interface LogController : UITableViewController<MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {
     UIToolbar *toolbar;
     NSArray *logArray;
 }

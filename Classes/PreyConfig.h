@@ -32,12 +32,12 @@
 @property (nonatomic,retain) NSString *checkUrl;
 @property (nonatomic,retain) NSString *email;
 @property BOOL alreadyRegistered;
-@property double desiredAccuracy;
-@property int delay;
+@property (nonatomic) double desiredAccuracy;
+@property (nonatomic) int delay;
 @property BOOL missing;
-@property BOOL askForPassword;
-@property BOOL alertOnReport;
-@property BOOL camouflageMode;
+@property (nonatomic) BOOL askForPassword;
+@property (nonatomic) BOOL alertOnReport;
+@property (nonatomic) BOOL camouflageMode;
 
 + (PreyConfig*) instance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;

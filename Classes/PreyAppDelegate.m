@@ -90,6 +90,15 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
+    
+    if ([[[[UINavigationController alloc] init] autorelease] respondsToSelector:@selector(addChildViewController:)]) {
+        //Soporta iOS5
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarbg.png"] forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.42f
+                    green: 0.42f
+                    blue:0.42f 
+                    alpha:1]];
+    }
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.5", 50000);
     //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"Prey");

@@ -14,8 +14,8 @@
 @interface SetupControllerTemplate () 
 
 - (void) hideKeyboard;
-- (void) showCongratsView;
-- (void) animateTextField: (UITextField*) textField up: (BOOL) up;
+- (void) showCongratsView:(id) congratsText;
+//- (void) animateTextField: (UITextField*) textField up: (BOOL) up;
 
 @end
 
@@ -39,7 +39,9 @@
 
 #pragma mark -
 #pragma mark Private methods
-
+-(void)hideKeyboard{
+    
+}
 - (void) showCongratsView:(id) congratsText {
 	
 	CongratulationsController *congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController" bundle:nil];
