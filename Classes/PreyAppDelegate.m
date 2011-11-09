@@ -91,7 +91,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
-    if ([[[[UINavigationController alloc] init] autorelease] respondsToSelector:@selector(addChildViewController:)]) {
+    if ([[[[UINavigationController alloc] init] autorelease] respondsToSelector:@selector(isBeingDismissed)]) {
         //Soporta iOS5
         [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarbg.png"] forBarMetrics:UIBarMetricsDefault];
         [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.42f
