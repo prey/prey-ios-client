@@ -82,7 +82,7 @@
 			return 3;
 			break;
 		case 2:
-			return 1;
+			return 3;
 			break;
 
 		default:
@@ -187,8 +187,17 @@
             }
 			break;
 		case 2:
-			cell.detailTextLabel.text = PREY_VERSION;
-			cell.textLabel.text = NSLocalizedString(@"Version",nil);
+            cell.detailTextLabel.text = @"";
+			if (indexPath.row == 0) {
+                cell.detailTextLabel.text = PREY_VERSION;
+                cell.textLabel.text = NSLocalizedString(@"Version",nil);
+            } else if (indexPath.row == 1) {
+                cell.textLabel.text = NSLocalizedString(@"Terms of Service", nil);
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            } else if (indexPath.row == 2) {
+                cell.textLabel.text = NSLocalizedString(@"Privacy Policy", nil);
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
 			break;
 
 		default:
@@ -261,6 +270,22 @@
             */
 			break;
 		case 2:
+            if (indexPath.row != 0) {
+                UIWebView *webView = [[[UIWebView alloc] initWithFrame:CGRectZero] autorelease];
+                UIViewController *moo = [[[UIViewController alloc] init] autorelease];
+                moo.view = webView;
+                NSURLRequest *req;
+                if (indexPath.row == 1) {
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com"]];
+                    moo.title = NSLocalizedString(@"Terms of Service", nil);
+                } else if (indexPath.row == 2) {
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com"]];
+                    moo.title = NSLocalizedString(@"Privacy Policy", nil);
+                }
+                [webView loadRequest:req];
+                [webView setScalesPageToFit:YES];
+                [self.navigationController pushViewController:moo animated:YES];
+            }
 			break;
 	
 		default:
@@ -422,7 +447,9 @@
 
 
 - (void)viewDidLoad {
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:[[[UIView alloc] initWithFrame:CGRectZero] autorelease]]autorelease];
     HUD = nil;
+    self.title = NSLocalizedString(@"Preferences", nil);
     [self.tableView setBackgroundColor:[UIColor whiteColor]];
     
 	accManager = [[AccuracyManager alloc] init];
@@ -437,7 +464,7 @@
 
  - (void)viewWillAppear:(BOOL)animated {
      [super viewWillAppear:animated];
-     [self.navigationController setNavigationBarHidden:YES animated:NO];
+     [self.navigationController setNavigationBarHidden:NO animated:NO];
      [self.navigationController setToolbarHidden:YES animated:NO];
      [[UIApplication sharedApplication] setStatusBarHidden:NO];
  }
