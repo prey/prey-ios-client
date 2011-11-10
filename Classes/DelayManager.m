@@ -1,9 +1,11 @@
 //
 //  DelayManager.m
-//  Prey
+//  Prey-iOS
 //
 //  Created by Carlos Yaconi on 01/03/2011.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Fork Ltd. All rights reserved.
+//  License: GPLv3
+//  Full license at "/LICENSE"
 //
 
 #import "DelayManager.h"

@@ -1,6 +1,6 @@
 //
 //  Config.m
-//  prey-installer-cocoa
+//  Prey-iOS
 //
 //  Created by Carlos Yaconi on 25-03-10.
 //  Copyright 2010 Fork Ltd.. All rights reserved.

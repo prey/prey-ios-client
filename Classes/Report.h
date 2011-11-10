@@ -1,9 +1,11 @@
 //
 //  Report.h
-//  Prey
+//  Prey-iOS
 //
 //  Created by Carlos Yaconi on 14/10/2010.
 //  Copyright 2010 Fork Ltd. All rights reserved.
+//  License: GPLv3
+//  Full license at "/LICENSE"
 //
 
 #import <Foundation/Foundation.h>
