@@ -362,8 +362,8 @@
 		07178E9B126641A0007B290C /* Setup Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				071324341346355000F7EFD8 /* SetupControllerTemplate.h */,
 				071324351346355000F7EFD8 /* SetupControllerTemplate.m */,
+				071324341346355000F7EFD8 /* SetupControllerTemplate.h */,
 				0717896C125A6779007B290C /* Congratulations Controller */,
 				078055A31256370300E4CCE5 /* OldUser Controller */,
 				07805591125636BB00E4CCE5 /* NewUser Controller */,

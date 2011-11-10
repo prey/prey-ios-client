@@ -175,8 +175,8 @@
 - (void)dealloc {
     [super dealloc];
 	[accuracyNames release];
-	[accuracyValues release];
-	[accuracyData release];
+	//[accuracyValues release];
+	//[accuracyData release];
 	[accPicker release];
 }
 @end

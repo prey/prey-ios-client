@@ -9,6 +9,8 @@
 //
 
 #import "WelcomeController.h"
+#import "NewUserController.h"
+#import "OldUserController.h"
 #import "PreyAppDelegate.h"
 
 @implementation WelcomeController
@@ -18,13 +20,17 @@
 
 -(void)newUserClicked:(id)sender{
     PreyLogMessage(@"welcome_controller", 10, @"New user clicked");
-    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-    [appDelegate showNewUserWizard];
+    NewUserController *nuController = [[NewUserController alloc] initWithStyle:UITableViewStyleGrouped];
+	nuController.title = NSLocalizedString(@"Create Prey account",nil);
+    
+	[self.navigationController pushViewController:nuController animated:YES];
+	[nuController release];
 }
 -(void)oldUserClicked:(id)sender{
-    PreyLogMessage(@"welcome_controller", 10, @"Already a Prey user clicked");
-    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-    [appDelegate showOldUserWizard];
+    OldUserController *ouController = [[OldUserController alloc] initWithStyle:UITableViewStyleGrouped];
+    ouController.title = NSLocalizedString(@"Log in to Prey",nil);
+	[self.navigationController pushViewController:ouController animated:YES];
+	[ouController release];
 }
 #pragma mark -
 #pragma mark Lifecycle
@@ -49,7 +55,11 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [super viewWillDisappear:animated];
 }
-
+-(void)viewDidAppear:(BOOL)animated {
+     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate.viewController popToRootViewControllerAnimated:NO];
+    [super viewDidAppear:animated];
+}
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [self.buttnewUser setTitle:NSLocalizedString(@"New user", nil) forState: UIControlStateNormal];

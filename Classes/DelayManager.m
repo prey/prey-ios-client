@@ -155,8 +155,8 @@
 - (void)dealloc {
     [super dealloc];
 	[delayValues release];
-	[delayNames release];
-	[delayKeys release];
+	//[delayNames release];
+	//[delayKeys release];
 	[delayPicker release];
 }
 

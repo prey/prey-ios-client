@@ -52,7 +52,7 @@
     // Remove HUD from screen when the HUD was hidded
     [HUD removeFromSuperview];
     [HUD release];
-	
+	HUD = nil;
 }
 
 
@@ -385,10 +385,13 @@
 - (void) detachDevice {
     [self stopPrey];
     [[PreyConfig instance] detachDevice];
-    WelcomeController *welcomeController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
-    [[self navigationController] pushViewController:welcomeController animated:YES];
-    [welcomeController release];
-
+    UIViewController *welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+    UINavigationController *navco = [[UINavigationController alloc] initWithRootViewController:welco];
+    
+    [[self navigationController] presentModalViewController:navco animated:YES];
+    
+    [welco release];
+    [navco release];
 }
 
 
@@ -419,6 +422,7 @@
 
 
 - (void)viewDidLoad {
+    HUD = nil;
     [self.tableView setBackgroundColor:[UIColor whiteColor]];
     
 	accManager = [[AccuracyManager alloc] init];
@@ -480,6 +484,11 @@
 
 
 - (void)dealloc {
+    if (HUD != nil) {
+        HUD.delegate = nil;
+        [HUD removeFromSuperview];
+        [HUD release];
+    }
 	[accManager release];
 	[delayManager release];
     [super dealloc];

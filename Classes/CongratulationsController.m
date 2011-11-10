@@ -21,19 +21,12 @@
 #pragma mark -
 #pragma mark IBActions
 - (IBAction) okPressed: (id) sender{
-	
-	PreferencesController *preferencesController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-//	[self.navigationController popToRootViewControllerAnimated:YES];
-	[self.navigationController setNavigationBarHidden:YES animated:YES];
-	
-	[self.navigationController pushViewController:preferencesController animated:YES];
-	[preferencesController release];
-	
-	/*
-	PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-	[self.navigationController dismissModalViewControllerAnimated:YES];
-	[appDelegate showPreferences];
-	*/
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    PreferencesController *preferencesController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
+    [appDelegate.viewController pushViewController:preferencesController animated:NO];
+    [preferencesController release];
+    [self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
 /*

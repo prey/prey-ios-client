@@ -225,6 +225,7 @@
     PreyConfig *config = [PreyConfig instance];
 	
 	UIViewController *nextController = nil;
+    UINavigationController *navco = nil;
 	PreyLogMessage(@"App Delegate", 10, @"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
 	if (config.alreadyRegistered)
 		if (config.askForPassword)
@@ -232,7 +233,9 @@
 		else
 			nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
 	else {
-		nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+        nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
+		UIViewController *welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+        navco = [[UINavigationController alloc] initWithRootViewController:welco];
 	}
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
 	//[viewController setTitle:NSLocalizedString(@"Welcome to Prey!",nil)];
@@ -241,6 +244,11 @@
 	
 	//window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [window addSubview:viewController.view];
+    if (navco != nil) {
+        NSLog(@"holiwi");
+        [nextController presentModalViewController:navco animated:NO];
+        [navco release];
+    }
     [window makeKeyAndVisible];
 	[nextController release];
 }
@@ -277,7 +285,6 @@
 }
 
 - (void)showNewUserWizard {
-	NSLog(@"DDD");  
 	NewUserController *nuController = [[NewUserController alloc] initWithStyle:UITableViewStyleGrouped];
 	nuController.title = NSLocalizedString(@"Create Prey account",nil);
     
