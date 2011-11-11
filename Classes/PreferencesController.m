@@ -188,6 +188,11 @@
 			break;
 		case 2:
             cell.detailTextLabel.text = @"";
+            if (cell.accessoryView) {
+                [cell.accessoryView removeFromSuperview];
+            }
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.accessoryView = nil;
 			if (indexPath.row == 0) {
                 cell.detailTextLabel.text = PREY_VERSION;
                 cell.textLabel.text = NSLocalizedString(@"Version",nil);
@@ -489,13 +494,11 @@
  [super viewDidDisappear:animated];
  }
  */
-/*
- // Override to allow orientations other than the default portrait orientation.
  - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
  // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
+ return (UIInterfaceOrientationIsLandscape(interfaceOrientation) || interfaceOrientation == UIInterfaceOrientationPortrait);
  }
- */
+ 
 
 #pragma mark -
 #pragma mark Memory management
