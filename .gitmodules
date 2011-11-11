@@ -1,0 +1,3 @@
+[submodule "Classes/asi-http-request"]
+	path = Classes/asi-http-request
+	url = git://github.com/pokeb/asi-http-request.git
