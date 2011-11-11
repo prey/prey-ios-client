@@ -17,7 +17,6 @@
 - (void) checkPassword;
 - (void) hideKeyboard;
 - (void) animateTextField: (UITextField*) textField up: (BOOL) up;
-- (void)setViewMovedUp:(BOOL)movedUp;
 
 @property int movementDistance; // tweak as needed
 
@@ -107,15 +106,49 @@
 
 - (void) animateTextField: (UITextField*) textField up: (BOOL) up
 {
-    
     const float movementDuration = 0.3f; // tweak as needed
-	
-    int movement = (up ? -movementDistance : movementDistance);
-	
+    UIDeviceOrientation ori = [[UIDevice currentDevice] orientation];
+    CGRect neueRect;
+    if (UIDeviceOrientationIsLandscape(ori)) {
+        NSLog(@"LAND");
+        if (up) {
+            neueRect = CGRectMake(0, -160, self.view.frame.size.width, self.view.frame.size.height);
+        } else {
+            neueRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        }
+    } else if (UIDeviceOrientationIsPortrait(ori)){
+        NSLog(@"PORT");
+        if (up) {
+            neueRect = CGRectMake(0, -200, self.view.frame.size.width, self.view.frame.size.height);
+        } else {
+            neueRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        }
+    } else {
+        //Chequear contra ancho de vista, si no, no funca. (FUCK YOU 5)
+        CGFloat ancho = self.view.frame.size.width;
+        if (ancho == 320) {
+            if (up) {
+                neueRect = CGRectMake(0, -200, self.view.frame.size.width, self.view.frame.size.height);
+            } else {
+                neueRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+            }
+        } else if (ancho == 480) {
+            if (up) {
+                neueRect = CGRectMake(0, -160, self.view.frame.size.width, self.view.frame.size.height);
+            } else {
+                neueRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+            }
+        }
+    }
+    
+    if ( CGRectEqualToRect(neueRect, self.view.frame)) {
+        return;
+    }
+	NSLog(@"%@ %@", NSStringFromCGRect(neueRect), NSStringFromCGRect(self.view.frame));	
     [UIView beginAnimations: @"anim" context: nil];
     [UIView setAnimationBeginsFromCurrentState: YES];
     [UIView setAnimationDuration: movementDuration];
-    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    self.view.frame = neueRect;
     [UIView commitAnimations];
 }
 
@@ -144,42 +177,7 @@
 #pragma mark screen rotation stuff
 
 -(void) detectOrientation {
-    movementDistance = 200;
-    if (([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeLeft) || 
-        ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeRight)) {
-        movementDistance = 160;
-        [self setViewMovedUp:YES];
-    } 
-    if ([loginPassword isFirstResponder])
-        [self textFieldDidBeginEditing:loginPassword];
-    /*
-    else if ([[UIDevice currentDevice] orientation] == UIDeviceOrientationPortrait) {
-        [self setViewMovedUp:NO];
-    } */  
-}
-
--(void)setViewMovedUp:(BOOL)movedUp
-{
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.5]; // if you want to slide up the view
-    
-    CGRect rect = self.view.frame;
-    if (movedUp)
-    {
-        // 1. move the view's origin up so that the text field that will be hidden come above the keyboard 
-        // 2. increase the size of the view so that the area behind the keyboard is covered up.
-        rect.origin.y -= kOFFSET_FOR_KEYBOARD;
-        rect.size.height += kOFFSET_FOR_KEYBOARD;
-    }
-    else
-    {
-        // revert back to the normal state.
-        rect.origin.y += kOFFSET_FOR_KEYBOARD;
-        rect.size.height -= kOFFSET_FOR_KEYBOARD;
-    }
-    self.view.frame = rect;
-    
-    [UIView commitAnimations];
+    [self animateTextField:loginPassword up:[loginPassword isFirstResponder]];  
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
