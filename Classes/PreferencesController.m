@@ -281,10 +281,10 @@
                 moo.view = webView;
                 NSURLRequest *req;
                 if (indexPath.row == 1) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com"]];
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com/terms"]];
                     moo.title = NSLocalizedString(@"Terms of Service", nil);
                 } else if (indexPath.row == 2) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com"]];
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com/privacy"]];
                     moo.title = NSLocalizedString(@"Privacy Policy", nil);
                 }
                 [webView loadRequest:req];
