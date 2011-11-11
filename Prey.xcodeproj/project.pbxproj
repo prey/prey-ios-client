@@ -20,7 +20,6 @@
 		070E7B4513F321CA0013C1F6 /* navbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3913F321C50013C1F6 /* navbarbg@2x.png */; };
 		070E7B4713F321CA0013C1F6 /* signupbtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3B13F321C70013C1F6 /* signupbtn.png */; };
 		070E7B4813F321CA0013C1F6 /* signupbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3C13F321C80013C1F6 /* signupbtn@2x.png */; };
-		070E7B4B13F321E80013C1F6 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 070E7B4A13F321E80013C1F6 /* UIDevice-Hardware.m */; };
 		070E7B4E13F323200013C1F6 /* prey-allgood.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B4C13F3231F0013C1F6 /* prey-allgood.png */; };
 		070E7B4F13F323200013C1F6 /* prey-allgood@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B4D13F323200013C1F6 /* prey-allgood@2x.png */; };
 		071323F6134632C900F7EFD8 /* AlarmModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F1134632C900F7EFD8 /* AlarmModule.m */; };
@@ -42,7 +41,6 @@
 		07132421134634CA00F7EFD8 /* LogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132420134634CA00F7EFD8 /* LogController.m */; };
 		07132424134634D900F7EFD8 /* OldUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132423134634D900F7EFD8 /* OldUserController.m */; };
 		07132427134634E600F7EFD8 /* NewUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132426134634E600F7EFD8 /* NewUserController.m */; };
-		0713242A134634F300F7EFD8 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132429134634F300F7EFD8 /* MBProgressHUD.m */; };
 		0713242F1346350100F7EFD8 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713242C1346350100F7EFD8 /* LocationController.m */; };
 		071324301346350100F7EFD8 /* LocationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713242E1346350100F7EFD8 /* LocationModule.m */; };
 		071324331346353C00F7EFD8 /* WelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324321346353C00F7EFD8 /* WelcomeController.m */; };
@@ -106,6 +104,8 @@
 		5A7A12A5146D70FF00B14176 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A1298146D70FF00B14176 /* ASIHTTPRequest.m */; };
 		5A7A12A6146D70FF00B14176 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A129C146D70FF00B14176 /* ASIInputStream.m */; };
 		5A7A12A7146D70FF00B14176 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A129E146D70FF00B14176 /* ASINetworkQueue.m */; };
+		5A7A12AA146D739100B14176 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12A9146D739100B14176 /* MBProgressHUD.m */; };
+		5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -122,8 +122,6 @@
 		070E7B3913F321C50013C1F6 /* navbarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "navbarbg@2x.png"; path = "Resources/navbarbg@2x.png"; sourceTree = "<group>"; };
 		070E7B3B13F321C70013C1F6 /* signupbtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = signupbtn.png; path = Resources/signupbtn.png; sourceTree = "<group>"; };
 		070E7B3C13F321C80013C1F6 /* signupbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "signupbtn@2x.png"; path = "Resources/signupbtn@2x.png"; sourceTree = "<group>"; };
-		070E7B4913F321E80013C1F6 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice-Hardware.h"; path = "Classes/UIDevice-Hardware.h"; sourceTree = "<group>"; };
-		070E7B4A13F321E80013C1F6 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice-Hardware.m"; path = "Classes/UIDevice-Hardware.m"; sourceTree = "<group>"; };
 		070E7B4C13F3231F0013C1F6 /* prey-allgood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-allgood.png"; path = "Resources/prey-allgood.png"; sourceTree = "<group>"; };
 		070E7B4D13F323200013C1F6 /* prey-allgood@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-allgood@2x.png"; path = "Resources/prey-allgood@2x.png"; sourceTree = "<group>"; };
 		071323F0134632C900F7EFD8 /* AlarmModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = AlarmModule.h; path = Classes/AlarmModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -163,8 +161,6 @@
 		07132423134634D900F7EFD8 /* OldUserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = OldUserController.m; path = Classes/OldUserController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07132425134634E600F7EFD8 /* NewUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = NewUserController.h; path = Classes/NewUserController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		07132426134634E600F7EFD8 /* NewUserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = NewUserController.m; path = Classes/NewUserController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		07132428134634F300F7EFD8 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Classes/MBProgressHUD.h; sourceTree = "<group>"; };
-		07132429134634F300F7EFD8 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Classes/MBProgressHUD.m; sourceTree = "<group>"; };
 		0713242B1346350100F7EFD8 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = LocationController.h; path = Classes/LocationController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0713242C1346350100F7EFD8 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = LocationController.m; path = Classes/LocationController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0713242D1346350100F7EFD8 /* LocationModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = LocationModule.h; path = Classes/LocationModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -269,6 +265,10 @@
 		5A7A129D146D70FF00B14176 /* ASINetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASINetworkQueue.h; path = "asi-http-request/Classes/ASINetworkQueue.h"; sourceTree = "<group>"; };
 		5A7A129E146D70FF00B14176 /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASINetworkQueue.m; path = "asi-http-request/Classes/ASINetworkQueue.m"; sourceTree = "<group>"; };
 		5A7A129F146D70FF00B14176 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIProgressDelegate.h; path = "asi-http-request/Classes/ASIProgressDelegate.h"; sourceTree = "<group>"; };
+		5A7A12A8146D739100B14176 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Classes/MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
+		5A7A12A9146D739100B14176 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Classes/MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
+		5A7A12AB146D74FB00B14176 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice-Hardware.h"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.h"; sourceTree = "<group>"; };
+		5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice-Hardware.m"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.m"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Prey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Prey-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -514,14 +514,14 @@
 		07805429125542EF00E4CCE5 /* Prey Utils */ = {
 			isa = PBXGroup;
 			children = (
-				070E7B4913F321E80013C1F6 /* UIDevice-Hardware.h */,
-				070E7B4A13F321E80013C1F6 /* UIDevice-Hardware.m */,
+				5A7A12AB146D74FB00B14176 /* UIDevice-Hardware.h */,
+				5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */,
 				071324371346356300F7EFD8 /* PreyLogger.h */,
 				071324381346356300F7EFD8 /* PreyLogger.m */,
 				071324391346356300F7EFD8 /* RegexKitLite.h */,
 				0713243A1346356300F7EFD8 /* RegexKitLite.m */,
-				07132428134634F300F7EFD8 /* MBProgressHUD.h */,
-				07132429134634F300F7EFD8 /* MBProgressHUD.m */,
+				5A7A12A8146D739100B14176 /* MBProgressHUD.h */,
+				5A7A12A9146D739100B14176 /* MBProgressHUD.m */,
 				071324131346346F00F7EFD8 /* IphoneInformationHelper.h */,
 				071324141346346F00F7EFD8 /* IphoneInformationHelper.m */,
 			);
@@ -814,7 +814,6 @@
 				07132421134634CA00F7EFD8 /* LogController.m in Sources */,
 				07132424134634D900F7EFD8 /* OldUserController.m in Sources */,
 				07132427134634E600F7EFD8 /* NewUserController.m in Sources */,
-				0713242A134634F300F7EFD8 /* MBProgressHUD.m in Sources */,
 				0713242F1346350100F7EFD8 /* LocationController.m in Sources */,
 				071324301346350100F7EFD8 /* LocationModule.m in Sources */,
 				071324331346353C00F7EFD8 /* WelcomeController.m in Sources */,
@@ -828,7 +827,6 @@
 				0713244B134635A100F7EFD8 /* User.m in Sources */,
 				07132450134635C400F7EFD8 /* PreyRestHttp.m in Sources */,
 				07132451134635C400F7EFD8 /* PreyRunner.m in Sources */,
-				070E7B4B13F321E80013C1F6 /* UIDevice-Hardware.m in Sources */,
 				5A7A12A0146D70FF00B14176 /* ASIAuthenticationDialog.m in Sources */,
 				5A7A12A1146D70FF00B14176 /* ASIDataCompressor.m in Sources */,
 				5A7A12A2146D70FF00B14176 /* ASIDataDecompressor.m in Sources */,
@@ -837,6 +835,8 @@
 				5A7A12A5146D70FF00B14176 /* ASIHTTPRequest.m in Sources */,
 				5A7A12A6146D70FF00B14176 /* ASIInputStream.m in Sources */,
 				5A7A12A7146D70FF00B14176 /* ASINetworkQueue.m in Sources */,
+				5A7A12AA146D739100B14176 /* MBProgressHUD.m in Sources */,
+				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

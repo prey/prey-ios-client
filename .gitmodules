@@ -1,3 +1,9 @@
 [submodule "Classes/asi-http-request"]
 	path = Classes/asi-http-request
 	url = git://github.com/pokeb/asi-http-request.git
+[submodule "Classes/MBProgressHUD"]
+	path = Classes/MBProgressHUD
+	url = git://github.com/jdg/MBProgressHUD.git
+[submodule "Classes/UIDevice-Extension"]
+	path = Classes/UIDevice-Extension
+	url = git://github.com/erica/uidevice-extension.git
