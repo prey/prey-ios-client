@@ -107,6 +107,7 @@
         if (!modulesConfig.missing){
             PreyLogMessageAndFile(@"Prey Runner", 5, @"Not missing anymore... stopping accurate location updates and Prey.");
             [[LocationController instance] stopUpdatingLocation]; //finishes Prey execution
+            NSLog(@"MIII");
             [modulesConfig release];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:[PreyConfig instance]];
             lastExecution=nil;

@@ -69,7 +69,7 @@
     //[fakeView openUrl:url showingLoadingText:@"Accessing your account..."];
     
     [window addSubview:fakeView];
-    showFakeScreen = NO;
+    //showFakeScreen = NO;
 }
 
 #pragma mark -
@@ -195,6 +195,7 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, called instead of applicationWillTerminate: when the user quits.
      */
+    showFakeScreen = NO;
 	PreyLogMessage(@"App Delegate", 10, @"Prey is now running in the background");
 	wentToBackground = [NSDate date];
 	for (UIView *view in [window subviews]) {
@@ -213,6 +214,8 @@
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    [self.window endEditing:YES];
+
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
@@ -245,7 +248,6 @@
 	//window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [window addSubview:viewController.view];
     if (navco != nil) {
-        NSLog(@"holiwi");
         [nextController presentModalViewController:navco animated:NO];
         [navco release];
     }

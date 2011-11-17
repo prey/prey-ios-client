@@ -7,3 +7,6 @@
 [submodule "Classes/UIDevice-Extension"]
 	path = Classes/UIDevice-Extension
 	url = git://github.com/erica/uidevice-extension.git
+[submodule "Classes/InAppSubscriptions"]
+	path = Classes/InAppSubscriptions
+	url = ./Classes/InAppSubscriptions
