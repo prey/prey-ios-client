@@ -224,12 +224,14 @@
         [self.detail setHidden:YES];
         [self.devReady setHidden:YES];
         [self.buttn setHidden:YES];
+        [self.preyLogo setHidden:YES];
     } else {
         [self.nonCamuflageImage setHidden:NO];
         [self.loginImage setHidden:YES];
         [self.detail setHidden:NO];
         [self.devReady setHidden:NO];
         [self.buttn setHidden:NO];
+        [self.preyLogo setHidden:NO];
     }
     
     [self.loginPassword addTarget:self
