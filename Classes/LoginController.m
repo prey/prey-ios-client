@@ -25,7 +25,7 @@
 
 @implementation LoginController
 
-@synthesize loginPassword, loginImage, movementDistance;
+@synthesize loginPassword, loginImage, movementDistance, nonCamuflageImage, buttn, detail, devReady, loginButton, preyLogo;
 
 
 - (void) checkPassword {
@@ -144,7 +144,7 @@
     if ( CGRectEqualToRect(neueRect, self.view.frame)) {
         return;
     }
-	NSLog(@"%@ %@", NSStringFromCGRect(neueRect), NSStringFromCGRect(self.view.frame));	
+	//NSLog(@"%@ %@", NSStringFromCGRect(neueRect), NSStringFromCGRect(self.view.frame));	
     [UIView beginAnimations: @"anim" context: nil];
     [UIView setAnimationBeginsFromCurrentState: YES];
     [UIView setAnimationDuration: movementDuration];
@@ -185,6 +185,32 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation ==UIInterfaceOrientationLandscapeRight);
 }
 
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+
+    [UIView animateWithDuration:duration animations:^(void) {
+        self.nonCamuflageImage.center = CGPointMake(76, 98);
+        self.preyLogo.center = CGPointMake(333, 56);
+        self.buttn.center = CGPointMake(237, 134);
+        self.devReady.center = CGPointMake(350, 118);
+        self.detail.center = CGPointMake(369, 143);
+        self.loginButton.center = CGPointMake(240, 268);
+        self.loginPassword.center = CGPointMake(238, 208);
+    }];
+    } else if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
+        [UIView animateWithDuration:duration animations:^(void) {
+            self.nonCamuflageImage.center = CGPointMake(123, 98);
+            self.preyLogo.center = CGPointMake(160, 210);
+            self.loginPassword.center = CGPointMake(160, 368);
+            self.loginButton.center = CGPointMake(160, 422);
+            self.buttn.center = CGPointMake(74, 290);
+            self.devReady.center = CGPointMake(186, 274);
+            self.detail.center = CGPointMake(206, 299);
+        }];
+    }
+}
+
 #pragma mark -
 #pragma mark view methods
 
@@ -192,12 +218,19 @@
 - (void)viewDidLoad {
     movementDistance = 200;
     PreyConfig *config = [PreyConfig instance];
-    UIImage *img = nil;
-    if (config.camouflageMode)
-        img = [[UIImage imageNamed:@"star_wars_battlefront.png"] autorelease];
-    else
-        img = [[UIImage imageNamed:@"prey-logo.png"] autorelease];
-    self.loginImage.image = img;
+    if (config.camouflageMode) {
+        [self.nonCamuflageImage setHidden:YES];
+        [self.loginImage setHidden:NO];
+        [self.detail setHidden:YES];
+        [self.devReady setHidden:YES];
+        [self.buttn setHidden:YES];
+    } else {
+        [self.nonCamuflageImage setHidden:NO];
+        [self.loginImage setHidden:YES];
+        [self.detail setHidden:NO];
+        [self.devReady setHidden:NO];
+        [self.buttn setHidden:NO];
+    }
     
     [self.loginPassword addTarget:self
                            action:@selector(textFieldFinished:)
