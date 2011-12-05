@@ -8,6 +8,7 @@
 //  Full license at "/LICENSE"
 //
 
+#import <CoreLocation/CoreLocation.h>
 #import "CongratulationsController.h"
 #import "PreyAppDelegate.h"
 #import "PreferencesController.h"
@@ -51,7 +52,10 @@
     self.congratsTitle.text = NSLocalizedString(@"Congratulations!",nil);
      */
 	//self.congratsMsg.text = NSLocalizedString(@"You have successfully associated this device with your Prey Control Panel account.",nil);
-     
+
+    CLLocationManager *tempCL = [[[CLLocationManager alloc] init] autorelease];
+    [tempCL  startUpdatingLocation];
+    [tempCL stopUpdatingLocation];
 	[self.ok setTitle:NSLocalizedString(@"OK",nil) forState:UIControlStateNormal];
 	[super viewWillAppear:animated];
     
@@ -73,7 +77,6 @@
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
     // Release any cached data, images, etc that aren't in use.
 }
 
