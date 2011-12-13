@@ -25,7 +25,7 @@
 
 @implementation LoginController
 
-@synthesize loginPassword, loginImage, movementDistance, nonCamuflageImage, buttn, detail, devReady, loginButton, preyLogo;
+@synthesize loginPassword, loginImage, movementDistance, nonCamuflageImage, buttn, detail, devReady, loginButton, preyLogo, scrollView, tableView, tipl;
 
 
 - (void) checkPassword {
@@ -186,27 +186,35 @@
 }
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    int page = floor(self.scrollView.contentOffset.x/self.scrollView.frame.size.width);
     
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
 
     [UIView animateWithDuration:duration animations:^(void) {
+        [self.scrollView setContentSize:CGSizeMake(960, 126)];
         self.nonCamuflageImage.center = CGPointMake(76, 98);
         self.preyLogo.center = CGPointMake(333, 56);
         self.buttn.center = CGPointMake(237, 134);
         self.devReady.center = CGPointMake(350, 118);
         self.detail.center = CGPointMake(369, 143);
-        self.loginButton.center = CGPointMake(240, 268);
-        self.loginPassword.center = CGPointMake(238, 208);
+        self.loginButton.center = CGPointMake(480+240, 76);
+        self.loginPassword.center = CGPointMake(480+240, 34);
+        self.tipl.center = CGPointMake(480+240, 112);
+        [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*page, 0) animated:NO];
     }];
     } else if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
         [UIView animateWithDuration:duration animations:^(void) {
+            [self.scrollView setContentSize:CGSizeMake(640, 126)];
+
             self.nonCamuflageImage.center = CGPointMake(123, 98);
             self.preyLogo.center = CGPointMake(160, 210);
-            self.loginPassword.center = CGPointMake(160, 368);
-            self.loginButton.center = CGPointMake(160, 422);
+            self.loginPassword.center = CGPointMake(480, 34);
+            self.loginButton.center = CGPointMake(480, 76);
+            self.tipl.center = CGPointMake(480, 112);
             self.buttn.center = CGPointMake(74, 290);
             self.devReady.center = CGPointMake(186, 274);
             self.detail.center = CGPointMake(206, 299);
+            [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*page, 0) animated:NO];
         }];
     }
 }
@@ -218,6 +226,7 @@
 - (void)viewDidLoad {
     movementDistance = 200;
     PreyConfig *config = [PreyConfig instance];
+    [self.scrollView setContentSize:CGSizeMake(640, 126)];
     if (config.camouflageMode) {
         [self.nonCamuflageImage setHidden:YES];
         [self.loginImage setHidden:NO];
@@ -272,5 +281,52 @@
     [super dealloc];
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    [tableView setScrollEnabled:NO];
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+	if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+    }
+    if (indexPath.row == 0) {
+         [cell.textLabel setText:@"Device Config"];
+    } else {
+         [cell.textLabel setText:@"Prey Control Panel"];
+    }
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == 0) {
+        [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width, 0) animated:YES];
+    } else if (indexPath.row == 1) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://panel.preyproject.com"]];
+    }
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    int page = floor(self.scrollView.contentOffset.x/self.scrollView.frame.size.width);
+    if (page != 0) {
+        [self.scrollView setScrollEnabled:YES];
+        [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO];
+        [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] animated:NO];
+    }
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (self.scrollView.contentOffset.x < 20) {
+        [self.scrollView setScrollEnabled:NO];
+        [self.view endEditing:YES];
+    }
+}
 
 @end
