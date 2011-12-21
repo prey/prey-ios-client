@@ -11,7 +11,7 @@
 #import "LoginController.h"
 #import "User.h"
 #import "PreyConfig.h"
-
+#import <CoreLocation/CoreLocation.h>
 @interface LoginController()
 
 - (void) checkPassword;
@@ -196,7 +196,7 @@
         self.preyLogo.center = CGPointMake(333, 56);
         self.buttn.center = CGPointMake(237, 134);
         self.devReady.center = CGPointMake(350, 118);
-        self.detail.center = CGPointMake(369, 143);
+        self.detail.center = CGPointMake(381, 143);
         self.loginButton.center = CGPointMake(480+240, 76);
         self.loginPassword.center = CGPointMake(480+240, 34);
         self.tipl.center = CGPointMake(480+240, 112);
@@ -213,7 +213,7 @@
             self.tipl.center = CGPointMake(480, 112);
             self.buttn.center = CGPointMake(74, 290);
             self.devReady.center = CGPointMake(186, 274);
-            self.detail.center = CGPointMake(206, 299);
+            self.detail.center = CGPointMake(217, 299);
             [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*page, 0) animated:NO];
         }];
     }
@@ -254,6 +254,15 @@
 }
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
+        [self.buttn setImage:[UIImage imageNamed:@"notokbutt.png"]];
+        [self.devReady setText:NSLocalizedString(@"Device Not Ready", nil)];
+        [self.detail setText:NSLocalizedString(@"Location services are disabled for Prey. Reports will not be sent.", nil)];
+    } else {
+        [self.buttn setImage:[UIImage imageNamed:@"okbutt.png"]];
+        [self.devReady setText:NSLocalizedString(@"Device Ready", nil)];
+        [self.detail setText:NSLocalizedString(@"Your device is protected and waiting for the activation signal", nil)];
+    }
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -282,7 +291,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    [tableView setScrollEnabled:NO];
+    [self.tableView setScrollEnabled:NO];
     return 2;
 }
 
@@ -290,7 +299,7 @@
     
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
 	if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
@@ -298,9 +307,9 @@
         
     }
     if (indexPath.row == 0) {
-         [cell.textLabel setText:@"Device Config"];
+         [cell.textLabel setText:@"Manage Prey settings"];
     } else {
-         [cell.textLabel setText:@"Prey Control Panel"];
+         [cell.textLabel setText:@"Log into the Control Panel"];
     }
     
     return cell;

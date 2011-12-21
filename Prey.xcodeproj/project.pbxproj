@@ -106,6 +106,8 @@
 		5A7A12A7146D70FF00B14176 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A129E146D70FF00B14176 /* ASINetworkQueue.m */; };
 		5A7A12AA146D739100B14176 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12A9146D739100B14176 /* MBProgressHUD.m */; };
 		5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */; };
+		5AC379AA14A2437100DF81C8 /* notokbutt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AC379A914A2437100DF81C8 /* notokbutt@2x.png */; };
+		5AC379AD14A2441300DF81C8 /* okbutt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AC379AC14A2441300DF81C8 /* okbutt@2x.png */; };
 		5ACABAA514801683002FA024 /* button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ACABAA414801680002FA024 /* button@2x.png */; };
 		5ADD6038148929A7000AB036 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ADD6037148929A7000AB036 /* button.png */; };
 		5AE64ED5148D329400A5B3D2 /* prey-iphone-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE64ED3148D329400A5B3D2 /* prey-iphone-logo@2x.png */; };
@@ -273,6 +275,8 @@
 		5A7A12A9146D739100B14176 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Classes/MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		5A7A12AB146D74FB00B14176 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice-Hardware.h"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.h"; sourceTree = "<group>"; };
 		5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice-Hardware.m"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.m"; sourceTree = "<group>"; };
+		5AC379A914A2437100DF81C8 /* notokbutt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notokbutt@2x.png"; sourceTree = "<group>"; };
+		5AC379AC14A2441300DF81C8 /* okbutt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "okbutt@2x.png"; sourceTree = "<group>"; };
 		5ACABAA414801680002FA024 /* button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button@2x.png"; sourceTree = "<group>"; };
 		5ADD6037148929A7000AB036 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		5AE64ED3148D329400A5B3D2 /* prey-iphone-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-iphone-logo@2x.png"; sourceTree = "<group>"; };
@@ -328,6 +332,8 @@
 		07178976125B8498007B290C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5AC379AC14A2441300DF81C8 /* okbutt@2x.png */,
+				5AC379A914A2437100DF81C8 /* notokbutt@2x.png */,
 				070E7B4C13F3231F0013C1F6 /* prey-allgood.png */,
 				070E7B4D13F323200013C1F6 /* prey-allgood@2x.png */,
 				5ACABAA414801680002FA024 /* button@2x.png */,
@@ -791,6 +797,8 @@
 				5ADD6038148929A7000AB036 /* button.png in Resources */,
 				5AE64ED5148D329400A5B3D2 /* prey-iphone-logo@2x.png in Resources */,
 				5AE64ED6148D329400A5B3D2 /* prey-iphone-sonar@2x.png in Resources */,
+				5AC379AA14A2437100DF81C8 /* notokbutt@2x.png in Resources */,
+				5AC379AD14A2441300DF81C8 /* okbutt@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
