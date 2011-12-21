@@ -28,6 +28,15 @@
 @synthesize loginPassword, loginImage, movementDistance, nonCamuflageImage, buttn, detail, devReady, loginButton, preyLogo, scrollView, tableView, tipl;
 
 
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	UITouch *touch = [touches anyObject];
+	if (touch.tapCount > 0) {
+        [self.view endEditing:YES];
+		[self becomeFirstResponder];
+	}
+}
+
 - (void) checkPassword {
 	PreyConfig *config = [PreyConfig instance];
     
@@ -186,8 +195,10 @@
 }
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    int page = floor(self.scrollView.contentOffset.x/self.scrollView.frame.size.width);
-    
+    int page = 0;
+    if (self.scrollView.contentOffset.x != 0) {
+        page = 1;
+    }    
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
 
     [UIView animateWithDuration:duration animations:^(void) {
@@ -234,7 +245,10 @@
         [self.devReady setHidden:YES];
         [self.buttn setHidden:YES];
         [self.preyLogo setHidden:YES];
+        [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*1, 0) animated:NO];
+        [self.tipl setHidden:YES];
     } else {
+        [self.tipl setHidden:NO];
         [self.nonCamuflageImage setHidden:NO];
         [self.loginImage setHidden:YES];
         [self.detail setHidden:NO];
@@ -256,12 +270,12 @@
     [super viewWillAppear:animated];
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
         [self.buttn setImage:[UIImage imageNamed:@"notokbutt.png"]];
-        [self.devReady setText:NSLocalizedString(@"Device Not Ready", nil)];
+        [self.devReady setText:NSLocalizedString(@"Device not ready!", nil)];
         [self.detail setText:NSLocalizedString(@"Location services are disabled for Prey. Reports will not be sent.", nil)];
     } else {
         [self.buttn setImage:[UIImage imageNamed:@"okbutt.png"]];
-        [self.devReady setText:NSLocalizedString(@"Device Ready", nil)];
-        [self.detail setText:NSLocalizedString(@"Your device is protected and waiting for the activation signal", nil)];
+        [self.devReady setText:NSLocalizedString(@"Device ready.", nil)];
+        [self.detail setText:NSLocalizedString(@"Your device is protected and waiting for the activation signal.", nil)];
     }
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
@@ -326,7 +340,10 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     int page = floor(self.scrollView.contentOffset.x/self.scrollView.frame.size.width);
     if (page != 0) {
-        [self.scrollView setScrollEnabled:YES];
+        PreyConfig *config = [PreyConfig instance];
+        if (!config.camouflageMode) {
+            [self.scrollView setScrollEnabled:YES];
+        }
         [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO];
         [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] animated:NO];
     }

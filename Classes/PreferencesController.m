@@ -63,7 +63,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 4;
+    return 2;
 }
 
 
@@ -71,24 +71,13 @@
     // Return the number of rows in the section.
 	switch (section) {
 		case 0:
-            if ([CLLocationManager locationServicesEnabled])
-                return 1;
-            else {
-                PreyLogMessageAndFile(@"Preferences controller", 0, @"Location services aren't enabled for Prey");
-                return 2;
-            }
+			return 3;
 			break;
 		case 1:
-			return 3;
-			break;
-		case 2:
-			return 3;
-			break;
-        case 3:
-            return 1;
-            break;
-		default:
 			return 4;
+			break;
+        default:
+        return 1;
 			break;
 	}
 
@@ -100,19 +89,11 @@
 	NSString *label = [[[NSString alloc] init] autorelease];
 
     switch (section) {
-		case 0:
-			label = NSLocalizedString(@"Execution control",nil);
-			break;
-		case 1:
+        case 0:
 			label = NSLocalizedString(@"Settings",nil);
 			break;
-		case 2:
+		case 1:
 			label = NSLocalizedString(@"About",nil);
-			break;
-        case 3:
-			label = NSLocalizedString(@"Store",nil);
-			break;
-		default:
 			break;
 	}	
     return label;
@@ -132,18 +113,6 @@
     PreyConfig *config = [PreyConfig instance];
     switch ([indexPath section]) {
 		case 0:
-			if ([indexPath row] == 0){
-				cell.textLabel.text = NSLocalizedString(@"Missing",nil);
-				missing = [[UISwitch alloc]init];
-				[missing addTarget: self action: @selector(changeMissingState:) forControlEvents:UIControlEventValueChanged];
-				[missing setOn:config.missing];
-				cell.accessoryView = missing;
-			} else if ([indexPath row] == 1){
-				cell.textLabel.text = NSLocalizedString(@"You have to enable Location Services",nil);
-				
-			}
-			break;
-		case 1:
 			/*
             if ([indexPath row] == 0){
 				cell.textLabel.text = NSLocalizedString(@"Location accuracy",nil);
@@ -190,7 +159,7 @@
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             }
 			break;
-		case 2:
+		case 1:
             cell.detailTextLabel.text = @"";
             if (cell.accessoryView) {
                 [cell.accessoryView removeFromSuperview];
@@ -200,25 +169,18 @@
 			if (indexPath.row == 0) {
                 cell.detailTextLabel.text = PREY_VERSION;
                 cell.textLabel.text = NSLocalizedString(@"Version",nil);
-            } else if (indexPath.row == 1) {
+            } else if (indexPath.row == 2) {
                 cell.textLabel.text = NSLocalizedString(@"Terms of Service", nil);
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            } else if (indexPath.row == 2) {
+            } else if (indexPath.row == 3) {
                 cell.textLabel.text = NSLocalizedString(@"Privacy Policy", nil);
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            } else if (indexPath.row == 1) {
+                cell.textLabel.text = NSLocalizedString(@"Help", nil);
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
 			break;
-        case 3:
-           cell.detailTextLabel.text = @""; 
-            if (cell.accessoryView) {
-                [cell.accessoryView removeFromSuperview];
-            }
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            cell.accessoryView = nil;
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.text = NSLocalizedString(@"Go Pro",nil);
-            break;
-		default:
+        default:
 		if ([indexPath row] == 0) {
 			cell.textLabel.text = @"Alert screen preview";
 		} else if ([indexPath row] == 1) {
@@ -232,7 +194,7 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
+/*- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
     switch ([indexPath section]) {
 		case 0:
 			if ([indexPath row] == 1){
@@ -240,7 +202,7 @@
 			}
         break;
 	}
-}
+}*/
 
 
 #pragma mark -
@@ -250,11 +212,6 @@
 	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
 	switch ([indexPath section]) {
 		case 0:
-			if ([indexPath row] == 0){
-				
-			}
-			break;
-		case 1:
 			/*
             if ([indexPath row] == 0){
 				
@@ -287,18 +244,21 @@
 			}
             */
 			break;
-		case 2:
+		case 1:
             if (indexPath.row != 0) {
                 UIWebView *webView = [[[UIWebView alloc] initWithFrame:CGRectZero] autorelease];
                 UIViewController *moo = [[[UIViewController alloc] init] autorelease];
                 moo.view = webView;
                 NSURLRequest *req;
-                if (indexPath.row == 1) {
+                if (indexPath.row == 2) {
                     req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com/terms"]];
                     moo.title = NSLocalizedString(@"Terms of Service", nil);
-                } else if (indexPath.row == 2) {
+                } else if (indexPath.row == 3) {
                     req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com/privacy"]];
                     moo.title = NSLocalizedString(@"Privacy Policy", nil);
+                } else if (indexPath.row == 1) {
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://support.preyproject.com/"]];
+                    moo.title = NSLocalizedString(@"Help", nil);
                 }
                 [webView loadRequest:req];
                 [webView setScalesPageToFit:YES];
