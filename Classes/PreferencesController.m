@@ -63,7 +63,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 3;
+    return 4;
 }
 
 
@@ -84,7 +84,9 @@
 		case 2:
 			return 3;
 			break;
-
+        case 3:
+            return 1;
+            break;
 		default:
 			return 4;
 			break;
@@ -107,7 +109,9 @@
 		case 2:
 			label = NSLocalizedString(@"About",nil);
 			break;
-
+        case 3:
+			label = NSLocalizedString(@"Store",nil);
+			break;
 		default:
 			break;
 	}	
@@ -204,7 +208,16 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
 			break;
-
+        case 3:
+           cell.detailTextLabel.text = @""; 
+            if (cell.accessoryView) {
+                [cell.accessoryView removeFromSuperview];
+            }
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.accessoryView = nil;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.textLabel.text = NSLocalizedString(@"Go Pro",nil);
+            break;
 		default:
 		if ([indexPath row] == 0) {
 			cell.textLabel.text = @"Alert screen preview";
@@ -281,10 +294,10 @@
                 moo.view = webView;
                 NSURLRequest *req;
                 if (indexPath.row == 1) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com"]];
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com/terms"]];
                     moo.title = NSLocalizedString(@"Terms of Service", nil);
                 } else if (indexPath.row == 2) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com"]];
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com/privacy"]];
                     moo.title = NSLocalizedString(@"Privacy Policy", nil);
                 }
                 [webView loadRequest:req];
@@ -415,6 +428,7 @@
 - (void) detachDevice {
     [self stopPrey];
     [[PreyConfig instance] detachDevice];
+    [[PreyRunner instance] stopOnIntervalChecking];
     UIViewController *welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
     UINavigationController *navco = [[UINavigationController alloc] initWithRootViewController:welco];
     

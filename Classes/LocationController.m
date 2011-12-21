@@ -49,6 +49,8 @@
 - (void)stopUpdatingLocation {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"accuracyUpdated" object:nil];
 	[self.accurateLocationManager stopUpdatingLocation];
+    [self.accurateLocationManager stopMonitoringSignificantLocationChanges];
+    NSLog(@"bleh");
 	PreyLogMessage(@"Prey Location Controller", 5, @"Accurate location updating stopped.");
 }
 
@@ -95,6 +97,7 @@
 
 - (void)accuracyUpdated:(NSNotification *)notification
 {
+    NSLog(@"Q VOLA");
     CLLocationAccuracy newAccuracy = ((PreyConfig*)[notification object]).desiredAccuracy;
 	PreyLogMessageAndFile(@"Prey Location Controller", 5, @"Accuracy has been modified. Updating location manager with new accuracy: %f", newAccuracy);
 	self.accurateLocationManager.desiredAccuracy =  newAccuracy;
