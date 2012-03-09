@@ -15,7 +15,7 @@
 #import "PreyRestHttp.h"
 #import "WelcomeController.h"
 #import "LogController.h"
-
+#import "DeviceMapController.h"
 
 @interface PreferencesController()
 
@@ -63,21 +63,24 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 2;
+    return 3;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
 	switch (section) {
-		case 0:
+        case 0:
+            return 2;
+            break;
+		case 1:
 			return 3;
 			break;
-		case 1:
+		case 2:
 			return 4;
 			break;
         default:
-        return 1;
+            return 1;
 			break;
 	}
 
@@ -86,17 +89,15 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
-	NSString *label = [[[NSString alloc] init] autorelease];
-
     switch (section) {
-        case 0:
-			label = NSLocalizedString(@"Settings",nil);
+        case 1:
+			return NSLocalizedString(@"Settings",nil);
 			break;
-		case 1:
-			label = NSLocalizedString(@"About",nil);
+		case 2:
+			return NSLocalizedString(@"About",nil);
 			break;
-	}	
-    return label;
+	}
+	return nil;
 }
 
 // Customize the appearance of table view cells.
@@ -112,7 +113,16 @@
     }
     PreyConfig *config = [PreyConfig instance];
     switch ([indexPath section]) {
-		case 0:
+        case 0:
+            if ([indexPath row] == 0) {
+                cell.textLabel.text = NSLocalizedString(@"Device Location",nil);
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            } else if ([indexPath row] == 1) {
+                cell.textLabel.text = NSLocalizedString(@"Upgrade to Pro",nil);
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+            break;
+		case 1:
 			/*
             if ([indexPath row] == 0){
 				cell.textLabel.text = NSLocalizedString(@"Location accuracy",nil);
@@ -159,7 +169,7 @@
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             }
 			break;
-		case 1:
+		case 2:
             cell.detailTextLabel.text = @"";
             if (cell.accessoryView) {
                 [cell.accessoryView removeFromSuperview];
@@ -181,14 +191,7 @@
             }
 			break;
         default:
-		if ([indexPath row] == 0) {
-			cell.textLabel.text = @"Alert screen preview";
-		} else if ([indexPath row] == 1) {
-			cell.textLabel.text = @"Detach phone";
-		} else if ([indexPath row] == 2) {
-			cell.textLabel.text = @"Change password";
-		} 
-		break;
+            break;
 	}
     
     return cell;
@@ -211,7 +214,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
 	switch ([indexPath section]) {
-		case 0:
+        case 0:
+            if ([indexPath row] == 0) {
+                [self.navigationController pushViewController:[[DeviceMapController alloc] init] animated:YES];
+            }
+		case 1:
 			/*
             if ([indexPath row] == 0){
 				
@@ -244,7 +251,7 @@
 			}
             */
 			break;
-		case 1:
+		case 2:
             if (indexPath.row != 0) {
                 UIWebView *webView = [[[UIWebView alloc] initWithFrame:CGRectZero] autorelease];
                 UIViewController *moo = [[[UIViewController alloc] init] autorelease];
