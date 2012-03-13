@@ -16,7 +16,7 @@
 #import "WelcomeController.h"
 #import "LogController.h"
 #import "DeviceMapController.h"
-
+#import "StoreControllerViewController.h"
 @interface PreferencesController()
 
 -(void) showAlert;
@@ -217,6 +217,8 @@
         case 0:
             if ([indexPath row] == 0) {
                 [self.navigationController pushViewController:[[DeviceMapController alloc] init] animated:YES];
+            } else if ([indexPath row] == 1) {
+                [self.navigationController pushViewController:[[StoreControllerViewController alloc] init] animated:YES];
             }
 		case 1:
 			/*
