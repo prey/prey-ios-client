@@ -214,6 +214,9 @@
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    if ([viewController.view superview] == self.window) {
+        return;
+    }
     [self.window endEditing:YES];
 
     /*
