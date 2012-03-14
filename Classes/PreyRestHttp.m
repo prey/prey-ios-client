@@ -9,6 +9,7 @@
 
 #import "PreyRestHttp.h"
 #import "KeyParserDelegate.h"
+#import "UserParserDelegate.h"
 #import "ErrorParserDelegate.h"
 #import "ConfigParserDelegate.h"
 #import "PreyConfig.h"
@@ -73,9 +74,9 @@
 			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
 		}
 		if (!error) {	
-			KeyParserDelegate *keyParser = [[KeyParserDelegate alloc] init];
-			NSString *key = [keyParser parseKey:[request responseData] parseError:&error];
-			return key;
+			UserParserDelegate *keyParser = [[UserParserDelegate alloc] init];
+			[keyParser parseRequest:[request responseData] forUser:user parseError:&error];
+			return user.apiKey;
 		}	
 		else {
 			@throw [NSException exceptionWithName:@"GetApiKeyUnknownException" reason:[error localizedDescription] userInfo:nil];

@@ -37,6 +37,7 @@
 @property (nonatomic) double desiredAccuracy;
 @property (nonatomic) int delay;
 @property BOOL missing;
+@property (getter = isPro) BOOL pro;
 @property (nonatomic) BOOL askForPassword;
 @property (nonatomic) BOOL alertOnReport;
 @property (nonatomic) BOOL camouflageMode;

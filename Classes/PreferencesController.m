@@ -71,6 +71,8 @@
     // Return the number of rows in the section.
 	switch (section) {
         case 0:
+            if ([[PreyConfig instance] isPro])
+                return 1;
             return 2;
             break;
 		case 1:

@@ -42,7 +42,7 @@
     
     @try {
         User *user = [User allocWithEmail: config.email password: loginPassword.text];
-        
+        [config setPro:user.isPro];
 		PreferencesController *preferencesViewController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
 		preferencesViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self.navigationController setNavigationBarHidden:NO animated:NO];

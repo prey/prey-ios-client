@@ -21,10 +21,11 @@ static NSString *const DELAY=@"delay";
 static NSString *const ALERT_ON_REPORT=@"alert_on_report";
 static NSString *const ASK_FOR_PASSWORD=@"ask_for_pass";
 static NSString *const CAMOUFLAGE_MODE=@"camouflage_mode";
+static NSString *const PRO_ACCOUNT=@"pro_account";
 
 @implementation PreyConfig
 
-@synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing, alertOnReport, askForPassword, camouflageMode;
+@synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing, alertOnReport, askForPassword, camouflageMode, pro;
 static PreyConfig *_instance = nil;
 
 +(PreyConfig *)instance  {
@@ -35,6 +36,7 @@ static PreyConfig *_instance = nil;
 			_instance = [[PreyConfig alloc] init];
 			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 			_instance.apiKey = [defaults stringForKey: API_KEY];
+            _instance.pro = [defaults boolForKey:PRO_ACCOUNT];
 			_instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
 			_instance.checkUrl = [defaults stringForKey: CHECK_URL];
 			_instance.email = [defaults stringForKey: EMAIL];
@@ -49,6 +51,7 @@ static PreyConfig *_instance = nil;
 {
 	PreyConfig *newConfig = [[PreyConfig alloc] init];
 	newConfig.apiKey = [user apiKey];
+    newConfig.pro = user.isPro;
 	newConfig.deviceKey = [device deviceKey];
 	newConfig.email = [user email];
 	[newConfig loadDefaultValues];
@@ -78,6 +81,7 @@ static PreyConfig *_instance = nil;
 	[defaults setObject:[self deviceKey] forKey:DEVICE_KEY];
 	[defaults setObject:[self email] forKey:EMAIL];
 	[defaults setObject:[self checkUrl] forKey:CHECK_URL];
+    [defaults setBool:[self isPro] forKey:PRO_ACCOUNT];
 	[defaults setBool:YES forKey:ALREADY_REGISTERED];
 	[defaults setBool:NO forKey:ALERT_ON_REPORT];
 	[defaults setDouble:[self desiredAccuracy] forKey:ACCURACY];
@@ -93,7 +97,8 @@ static PreyConfig *_instance = nil;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults removeObjectForKey:API_KEY];
 	[defaults removeObjectForKey:DEVICE_KEY];
-	[defaults removeObjectForKey:EMAIL];
+	[defaults removeObjectForKey:PRO_ACCOUNT];
+    [defaults removeObjectForKey:EMAIL];
 	[defaults removeObjectForKey:CHECK_URL];
 	[defaults removeObjectForKey:ALREADY_REGISTERED];
 	[defaults removeObjectForKey:ALERT_ON_REPORT];
@@ -103,7 +108,6 @@ static PreyConfig *_instance = nil;
 	[defaults synchronize]; // this method is optional
 
 }
-
 
 - (void) updateMissingStatus {
 	if (self.deviceKey != nil && ![self.deviceKey isEqualToString:@""]){
