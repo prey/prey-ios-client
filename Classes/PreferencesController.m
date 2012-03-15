@@ -117,7 +117,7 @@
     switch ([indexPath section]) {
         case 0:
             if ([indexPath row] == 0) {
-                cell.textLabel.text = NSLocalizedString(@"Device Location",nil);
+                cell.textLabel.text = NSLocalizedString(@"Current Location",nil);
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             } else if ([indexPath row] == 1) {
                 cell.textLabel.text = NSLocalizedString(@"Upgrade to Pro",nil);
@@ -454,6 +454,7 @@
 
  - (void)viewWillAppear:(BOOL)animated {
      [super viewWillAppear:animated];
+     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
      [self.navigationController setNavigationBarHidden:NO animated:NO];
      [self.navigationController setToolbarHidden:YES animated:NO];
      [[UIApplication sharedApplication] setStatusBarHidden:NO];

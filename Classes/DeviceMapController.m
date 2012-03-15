@@ -16,7 +16,7 @@
 {
     self = [super init];
     if (self) {
-        self.title = NSLocalizedString(@"Device Location", nil);
+        self.title = NSLocalizedString(@"Current Location", nil);
         self.mapa = [[MKMapView alloc] initWithFrame:CGRectZero];
         self.mapa.showsUserLocation = YES;
         self.view = self.mapa;

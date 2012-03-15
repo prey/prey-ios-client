@@ -220,6 +220,9 @@
     if ([viewController.view superview] == self.window) {
         return;
     }
+    if (viewController.modalViewController) {
+        return;
+    }
     [self.window endEditing:YES];
 
     /*
