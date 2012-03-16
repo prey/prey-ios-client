@@ -96,8 +96,8 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		5A1B7D3D150A896600371D13 /* DeviceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B7D3C150A896600371D13 /* DeviceMapController.m */; };
-		5A313789151292A800504BA8 /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A313787151292A800504BA8 /* GrettingsProViewController.m */; };
-		5A31378A151292A800504BA8 /* GrettingsProViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A313788151292A800504BA8 /* GrettingsProViewController.xib */; };
+		5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */; };
+		5A3137961512AB4E00504BA8 /* GrettingsProViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */; };
 		5A73C0FE146ADD5000AB32E9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */; };
 		5A7A12A0146D70FF00B14176 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A128D146D70FF00B14176 /* ASIAuthenticationDialog.m */; };
 		5A7A12A1146D70FF00B14176 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A1290146D70FF00B14176 /* ASIDataCompressor.m */; };
@@ -258,9 +258,9 @@
 		32CA4F630368D1EE00C91783 /* Prey_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prey_Prefix.pch; sourceTree = "<group>"; };
 		5A1B7D3B150A896600371D13 /* DeviceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceMapController.h; path = Classes/DeviceMapController.h; sourceTree = "<group>"; };
 		5A1B7D3C150A896600371D13 /* DeviceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceMapController.m; path = Classes/DeviceMapController.m; sourceTree = "<group>"; };
-		5A313786151292A800504BA8 /* GrettingsProViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrettingsProViewController.h; path = Classes/GrettingsProViewController.h; sourceTree = "<group>"; };
-		5A313787151292A800504BA8 /* GrettingsProViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrettingsProViewController.m; path = Classes/GrettingsProViewController.m; sourceTree = "<group>"; };
-		5A313788151292A800504BA8 /* GrettingsProViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GrettingsProViewController.xib; path = Classes/GrettingsProViewController.xib; sourceTree = "<group>"; };
+		5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrettingsProViewController.m; sourceTree = "<group>"; };
+		5A3137931512AB3F00504BA8 /* GrettingsProViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrettingsProViewController.h; sourceTree = "<group>"; };
+		5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GrettingsProViewController.xib; path = Classes/InAppSubscriptions/GrettingsProViewController.xib; sourceTree = "<group>"; };
 		5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		5A7A128C146D70FF00B14176 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIAuthenticationDialog.h; path = "asi-http-request/Classes/ASIAuthenticationDialog.h"; sourceTree = "<group>"; };
 		5A7A128D146D70FF00B14176 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASIAuthenticationDialog.m; path = "asi-http-request/Classes/ASIAuthenticationDialog.m"; sourceTree = "<group>"; };
@@ -290,8 +290,8 @@
 		5A867AA11510E1D600C4BBE3 /* UserParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserParserDelegate.m; path = Classes/UserParserDelegate.m; sourceTree = "<group>"; };
 		5A8DA67B150E4A3500A05BBD /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPHelper.h; sourceTree = "<group>"; };
 		5A8DA67C150E4A3500A05BBD /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
-		5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoreControllerViewController.m; path = Classes/InAppSubscriptions/StoreControllerViewController.m; sourceTree = "<group>"; };
-		5A8DA683150E4AC000A05BBD /* StoreControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreControllerViewController.h; path = Classes/InAppSubscriptions/StoreControllerViewController.h; sourceTree = "<group>"; };
+		5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreControllerViewController.m; sourceTree = "<group>"; };
+		5A8DA683150E4AC000A05BBD /* StoreControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreControllerViewController.h; sourceTree = "<group>"; };
 		5AC379A914A2437100DF81C8 /* notokbutt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notokbutt@2x.png"; sourceTree = "<group>"; };
 		5AC379AC14A2441300DF81C8 /* okbutt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "okbutt@2x.png"; sourceTree = "<group>"; };
 		5ACABAA414801680002FA024 /* button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button@2x.png"; sourceTree = "<group>"; };
@@ -382,10 +382,6 @@
 		07178DA5126605A0007B290C /* Preferences Controller */ = {
 			isa = PBXGroup;
 			children = (
-				5A313786151292A800504BA8 /* GrettingsProViewController.h */,
-				5A313787151292A800504BA8 /* GrettingsProViewController.m */,
-				5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */,
-				5A8DA683150E4AC000A05BBD /* StoreControllerViewController.h */,
 				0713241F134634CA00F7EFD8 /* LogController.h */,
 				07132420134634CA00F7EFD8 /* LogController.m */,
 				071324041346340500F7EFD8 /* DelayManager.h */,
@@ -694,11 +690,11 @@
 			isa = PBXGroup;
 			children = (
 				07ED2DDC1411452B00EB912B /* shutter.wav */,
-				5A313788151292A800504BA8 /* GrettingsProViewController.xib */,
 				07132470134639DF00F7EFD8 /* Localizable.strings */,
 				071324681346369200F7EFD8 /* large9.ttf */,
 				071324691346369200F7EFD8 /* NewJuneBold.otf */,
 				0713246A1346369200F7EFD8 /* siren.mp3 */,
+				5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */,
 				071324541346363300F7EFD8 /* AlertModuleController.xib */,
 				071324551346363300F7EFD8 /* MainWindow.xib */,
 				07132452134635DC00F7EFD8 /* WelcomeController.xib */,
@@ -739,6 +735,10 @@
 			children = (
 				5A8DA67B150E4A3500A05BBD /* IAPHelper.h */,
 				5A8DA67C150E4A3500A05BBD /* IAPHelper.m */,
+				5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */,
+				5A3137931512AB3F00504BA8 /* GrettingsProViewController.h */,
+				5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */,
+				5A8DA683150E4AC000A05BBD /* StoreControllerViewController.h */,
 			);
 			path = InAppSubscriptions;
 			sourceTree = "<group>";
@@ -835,7 +835,7 @@
 				5AE64ED6148D329400A5B3D2 /* prey-iphone-sonar@2x.png in Resources */,
 				5AC379AA14A2437100DF81C8 /* notokbutt@2x.png in Resources */,
 				5AC379AD14A2441300DF81C8 /* okbutt@2x.png in Resources */,
-				5A31378A151292A800504BA8 /* GrettingsProViewController.xib in Resources */,
+				5A3137961512AB4E00504BA8 /* GrettingsProViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -902,7 +902,7 @@
 				5A8DA67D150E4A3500A05BBD /* IAPHelper.m in Sources */,
 				5A8DA684150E4AC000A05BBD /* StoreControllerViewController.m in Sources */,
 				5A867AA21510E1D600C4BBE3 /* UserParserDelegate.m in Sources */,
-				5A313789151292A800504BA8 /* GrettingsProViewController.m in Sources */,
+				5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
