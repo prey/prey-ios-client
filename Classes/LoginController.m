@@ -42,7 +42,7 @@
     
     @try {
         User *user = [User allocWithEmail: config.email password: loginPassword.text];
-        
+        [config setPro:user.isPro];
 		PreferencesController *preferencesViewController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
 		preferencesViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self.navigationController setNavigationBarHidden:NO animated:NO];
@@ -208,8 +208,8 @@
         self.buttn.center = CGPointMake(237, 134);
         self.devReady.center = CGPointMake(350, 118);
         self.detail.center = CGPointMake(381, 143);
-        self.loginButton.center = CGPointMake(480+240, 76);
-        self.loginPassword.center = CGPointMake(480+240, 34);
+        self.loginButton.center = CGPointMake(480+240, 79);
+        self.loginPassword.center = CGPointMake(480+240, 29);
         self.tipl.center = CGPointMake(480+240, 112);
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*page, 0) animated:NO];
     }];
@@ -219,8 +219,8 @@
 
             self.nonCamuflageImage.center = CGPointMake(123, 98);
             self.preyLogo.center = CGPointMake(160, 210);
-            self.loginPassword.center = CGPointMake(480, 34);
-            self.loginButton.center = CGPointMake(480, 76);
+            self.loginPassword.center = CGPointMake(480, 29);
+            self.loginButton.center = CGPointMake(480, 79);
             self.tipl.center = CGPointMake(480, 112);
             self.buttn.center = CGPointMake(74, 290);
             self.devReady.center = CGPointMake(186, 274);
@@ -238,6 +238,7 @@
     movementDistance = 200;
     PreyConfig *config = [PreyConfig instance];
     [self.scrollView setContentSize:CGSizeMake(640, 126)];
+    [self.loginPassword setBorderStyle:UITextBorderStyleRoundedRect];
     if (config.camouflageMode) {
         [self.nonCamuflageImage setHidden:YES];
         [self.loginImage setHidden:NO];

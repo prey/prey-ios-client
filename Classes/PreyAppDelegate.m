@@ -20,7 +20,7 @@
 #import "PreyRunner.h"
 #import "FakeWebView.h"
 #import "PicturesController.h"
-
+#import "IAPHelper.h"
 
 
 
@@ -101,6 +101,9 @@
                     blue:0.42f 
                     alpha:1]];
     }
+    IAPHelper *IAP = [IAPHelper sharedHelper];
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:IAP];
+    [IAP initWithRemoteIdentifiers:nil];
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.5", 50000);
     //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"Prey");
@@ -214,6 +217,12 @@
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    if ([viewController.view superview] == self.window) {
+        return;
+    }
+    if (viewController.modalViewController) {
+        return;
+    }
     [self.window endEditing:YES];
 
     /*

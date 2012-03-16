@@ -28,6 +28,7 @@
 @property (nonatomic,retain) NSString *password;
 @property (nonatomic,retain) NSString *repassword;
 @property (nonatomic,retain) NSArray *devices;
+@property (nonatomic, getter = isPro) BOOL pro;
 
 +(User*) allocWithEmail: (NSString*) email password: (NSString*) password;
 +(User*) createNew: (NSString*) name email: (NSString*) email password: (NSString*) password repassword: (NSString*) repassword;

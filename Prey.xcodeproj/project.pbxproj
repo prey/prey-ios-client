@@ -95,6 +95,9 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		5A1B7D3D150A896600371D13 /* DeviceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B7D3C150A896600371D13 /* DeviceMapController.m */; };
+		5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */; };
+		5A3137961512AB4E00504BA8 /* GrettingsProViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */; };
 		5A73C0FE146ADD5000AB32E9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */; };
 		5A7A12A0146D70FF00B14176 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A128D146D70FF00B14176 /* ASIAuthenticationDialog.m */; };
 		5A7A12A1146D70FF00B14176 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A1290146D70FF00B14176 /* ASIDataCompressor.m */; };
@@ -106,6 +109,9 @@
 		5A7A12A7146D70FF00B14176 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A129E146D70FF00B14176 /* ASINetworkQueue.m */; };
 		5A7A12AA146D739100B14176 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12A9146D739100B14176 /* MBProgressHUD.m */; };
 		5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */; };
+		5A867AA21510E1D600C4BBE3 /* UserParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A867AA11510E1D600C4BBE3 /* UserParserDelegate.m */; };
+		5A8DA67D150E4A3500A05BBD /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8DA67C150E4A3500A05BBD /* IAPHelper.m */; };
+		5A8DA684150E4AC000A05BBD /* StoreControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */; };
 		5AC379AA14A2437100DF81C8 /* notokbutt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AC379A914A2437100DF81C8 /* notokbutt@2x.png */; };
 		5AC379AD14A2441300DF81C8 /* okbutt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AC379AC14A2441300DF81C8 /* okbutt@2x.png */; };
 		5ACABAA514801683002FA024 /* button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ACABAA414801680002FA024 /* button@2x.png */; };
@@ -250,6 +256,11 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		32CA4F630368D1EE00C91783 /* Prey_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prey_Prefix.pch; sourceTree = "<group>"; };
+		5A1B7D3B150A896600371D13 /* DeviceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceMapController.h; path = Classes/DeviceMapController.h; sourceTree = "<group>"; };
+		5A1B7D3C150A896600371D13 /* DeviceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceMapController.m; path = Classes/DeviceMapController.m; sourceTree = "<group>"; };
+		5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrettingsProViewController.m; sourceTree = "<group>"; };
+		5A3137931512AB3F00504BA8 /* GrettingsProViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrettingsProViewController.h; sourceTree = "<group>"; };
+		5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GrettingsProViewController.xib; path = Classes/InAppSubscriptions/GrettingsProViewController.xib; sourceTree = "<group>"; };
 		5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		5A7A128C146D70FF00B14176 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIAuthenticationDialog.h; path = "asi-http-request/Classes/ASIAuthenticationDialog.h"; sourceTree = "<group>"; };
 		5A7A128D146D70FF00B14176 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASIAuthenticationDialog.m; path = "asi-http-request/Classes/ASIAuthenticationDialog.m"; sourceTree = "<group>"; };
@@ -275,6 +286,12 @@
 		5A7A12A9146D739100B14176 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Classes/MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		5A7A12AB146D74FB00B14176 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice-Hardware.h"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.h"; sourceTree = "<group>"; };
 		5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice-Hardware.m"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.m"; sourceTree = "<group>"; };
+		5A867AA01510E1D600C4BBE3 /* UserParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserParserDelegate.h; path = Classes/UserParserDelegate.h; sourceTree = "<group>"; };
+		5A867AA11510E1D600C4BBE3 /* UserParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserParserDelegate.m; path = Classes/UserParserDelegate.m; sourceTree = "<group>"; };
+		5A8DA67B150E4A3500A05BBD /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPHelper.h; sourceTree = "<group>"; };
+		5A8DA67C150E4A3500A05BBD /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
+		5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreControllerViewController.m; sourceTree = "<group>"; };
+		5A8DA683150E4AC000A05BBD /* StoreControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreControllerViewController.h; sourceTree = "<group>"; };
 		5AC379A914A2437100DF81C8 /* notokbutt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notokbutt@2x.png"; sourceTree = "<group>"; };
 		5AC379AC14A2441300DF81C8 /* okbutt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "okbutt@2x.png"; sourceTree = "<group>"; };
 		5ACABAA414801680002FA024 /* button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button@2x.png"; sourceTree = "<group>"; };
@@ -373,6 +390,8 @@
 				071323FA1346332A00F7EFD8 /* AccuracyManager.m */,
 				07CD95F11253D99500590FCD /* PreferencesController.h */,
 				07CD95F21253D99500590FCD /* PreferencesController.m */,
+				5A1B7D3B150A896600371D13 /* DeviceMapController.h */,
+				5A1B7D3C150A896600371D13 /* DeviceMapController.m */,
 			);
 			name = "Preferences Controller";
 			sourceTree = "<group>";
@@ -556,6 +575,8 @@
 				0713241C1346349A00F7EFD8 /* KeyParserDelegate.m */,
 				071323FC1346339A00F7EFD8 /* ConfigParserDelegate.h */,
 				071323FD1346339A00F7EFD8 /* ConfigParserDelegate.m */,
+				5A867AA01510E1D600C4BBE3 /* UserParserDelegate.h */,
+				5A867AA11510E1D600C4BBE3 /* UserParserDelegate.m */,
 			);
 			name = "XML Parsers";
 			sourceTree = "<group>";
@@ -618,6 +639,7 @@
 			children = (
 				078E136F132AB583004B7C60 /* Reachability */,
 				07CEDA9812E9DD77002B4EB5 /* NSLogger */,
+				5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */,
 				07178F3B12675C2C007B290C /* Controllers */,
 				07805429125542EF00E4CCE5 /* Prey Utils */,
 				07783BC8126CE55D007BD409 /* Prey Modules */,
@@ -672,6 +694,7 @@
 				071324681346369200F7EFD8 /* large9.ttf */,
 				071324691346369200F7EFD8 /* NewJuneBold.otf */,
 				0713246A1346369200F7EFD8 /* siren.mp3 */,
+				5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */,
 				071324541346363300F7EFD8 /* AlertModuleController.xib */,
 				071324551346363300F7EFD8 /* MainWindow.xib */,
 				07132452134635DC00F7EFD8 /* WelcomeController.xib */,
@@ -705,6 +728,19 @@
 				077D7A3B126E171300C713B7 /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */ = {
+			isa = PBXGroup;
+			children = (
+				5A8DA67B150E4A3500A05BBD /* IAPHelper.h */,
+				5A8DA67C150E4A3500A05BBD /* IAPHelper.m */,
+				5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */,
+				5A3137931512AB3F00504BA8 /* GrettingsProViewController.h */,
+				5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */,
+				5A8DA683150E4AC000A05BBD /* StoreControllerViewController.h */,
+			);
+			path = InAppSubscriptions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -799,6 +835,7 @@
 				5AE64ED6148D329400A5B3D2 /* prey-iphone-sonar@2x.png in Resources */,
 				5AC379AA14A2437100DF81C8 /* notokbutt@2x.png in Resources */,
 				5AC379AD14A2441300DF81C8 /* okbutt@2x.png in Resources */,
+				5A3137961512AB4E00504BA8 /* GrettingsProViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -861,6 +898,11 @@
 				5A7A12A7146D70FF00B14176 /* ASINetworkQueue.m in Sources */,
 				5A7A12AA146D739100B14176 /* MBProgressHUD.m in Sources */,
 				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
+				5A1B7D3D150A896600371D13 /* DeviceMapController.m in Sources */,
+				5A8DA67D150E4A3500A05BBD /* IAPHelper.m in Sources */,
+				5A8DA684150E4AC000A05BBD /* StoreControllerViewController.m in Sources */,
+				5A867AA21510E1D600C4BBE3 /* UserParserDelegate.m in Sources */,
+				5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -911,16 +953,16 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Diego Torres (BUT4JLVN29)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Diego Torres (BUT4JLVN29)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "659438D0-DCD3-4CCE-A60E-30F23372B062";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "659438D0-DCD3-4CCE-A60E-30F23372B062";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -934,8 +976,8 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Diego Torres (BUT4JLVN29)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Diego Torres (BUT4JLVN29)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -944,8 +986,8 @@
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "659438D0-DCD3-4CCE-A60E-30F23372B062";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "659438D0-DCD3-4CCE-A60E-30F23372B062";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = NO;
 			};
@@ -959,16 +1001,16 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Diego Torres (BUT4JLVN29)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Diego Torres (BUT4JLVN29)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "659438D0-DCD3-4CCE-A60E-30F23372B062";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "659438D0-DCD3-4CCE-A60E-30F23372B062";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};

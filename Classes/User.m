@@ -19,12 +19,12 @@
 @synthesize password;
 @synthesize repassword;
 @synthesize devices;
-
+@synthesize pro;
 +(User*) allocWithEmail: (NSString*) _email password: (NSString*) _password {
 	User *newUser = [[User alloc] init];
 	newUser.email = _email;
 	newUser.password = _password;
-	
+    newUser.pro = NO;
 	PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
 	@try {
 		NSString *_apiKey = [userHttp getCurrentControlPanelApiKey: newUser];
@@ -40,7 +40,7 @@
 +(User*) createNew: (NSString*) _name email: (NSString*) _email password: (NSString*) _password repassword: (NSString*) _repassword {
 	
 	User *newUser = [[User alloc] init];
-	
+	newUser.pro = NO;
 	NSLocale *locale = [NSLocale currentLocale];
     NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
     NSString *countryName = [locale displayNameForKey:NSLocaleCountryCode value:countryCode];
