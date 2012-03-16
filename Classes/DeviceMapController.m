@@ -7,10 +7,13 @@
 //
 
 #import "DeviceMapController.h"
+@interface DeviceMapController() 
+@property (nonatomic) BOOL canUpdateUserLoc;
+@end
 
 @implementation DeviceMapController
 
-@synthesize mapa;
+@synthesize mapa, canUpdateUserLoc;
 
 - (id)init
 {
@@ -20,15 +23,14 @@
         self.mapa = [[MKMapView alloc] initWithFrame:CGRectZero];
         self.mapa.showsUserLocation = YES;
         self.view = self.mapa;
+        self.canUpdateUserLoc = NO;
+        [self.mapa setDelegate:self];
     }
     return self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(-33.44375, -70.650344);
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coords, 200, 200);
-    [mapa setRegion:region animated:YES];
     if (![CLLocationManager locationServicesEnabled]) {
         NSLog(@"noooo");
         return;
@@ -36,11 +38,27 @@
     CLLocationManager * MANG = [[[CLLocationManager alloc] init] autorelease];
     [MANG startMonitoringSignificantLocationChanges];
     if(MANG.location){
-        [mapa setCenterCoordinate:MANG.location.coordinate animated:NO];
+        [mapa setRegion:MKCoordinateRegionMakeWithDistance(MANG.location.coordinate, 2000, 2000)];
     }
     [MANG stopMonitoringSignificantLocationChanges];
     [MANG stopUpdatingLocation];
 	// Do any additional setup after loading the view.
+}
+
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+    if(!self.canUpdateUserLoc) return;
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 200, 200);
+    [mapa setRegion:region animated:YES];
+}
+
+-(void)goToUserLocation {
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(self.mapa.userLocation.coordinate, 200, 200);
+    [mapa setRegion:region animated:YES];
+    self.canUpdateUserLoc = YES;
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [NSTimer scheduledTimerWithTimeInterval:0.2f target:self selector:@selector(goToUserLocation) userInfo:nil repeats:NO];
 }
 
 - (void)viewDidUnload
