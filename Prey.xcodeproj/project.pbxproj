@@ -97,6 +97,10 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		5A0E50BC1517B1220032FBEE /* sucess@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E50BB1517B1220032FBEE /* sucess@2x.png */; };
+		5A0E50C11517B2F80032FBEE /* prey-pro-badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E50BE1517B2F80032FBEE /* prey-pro-badge.png */; };
+		5A0E50C31517B2F80032FBEE /* sucess.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E50C01517B2F80032FBEE /* sucess.png */; };
+		5A0E50C51517BA630032FBEE /* prey-pro-badge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E50C41517BA630032FBEE /* prey-pro-badge@2x.png */; };
 		5A1B7D3D150A896600371D13 /* DeviceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B7D3C150A896600371D13 /* DeviceMapController.m */; };
 		5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */; };
 		5A3137961512AB4E00504BA8 /* GrettingsProViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */; };
@@ -261,6 +265,10 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		32CA4F630368D1EE00C91783 /* Prey_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prey_Prefix.pch; sourceTree = "<group>"; };
+		5A0E50BB1517B1220032FBEE /* sucess@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sucess@2x.png"; path = "Resources/sucess@2x.png"; sourceTree = "<group>"; };
+		5A0E50BE1517B2F80032FBEE /* prey-pro-badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-pro-badge.png"; path = "Resources/prey-pro-badge.png"; sourceTree = "<group>"; };
+		5A0E50C01517B2F80032FBEE /* sucess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sucess.png; path = Resources/sucess.png; sourceTree = "<group>"; };
+		5A0E50C41517BA630032FBEE /* prey-pro-badge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-pro-badge@2x.png"; path = "Resources/prey-pro-badge@2x.png"; sourceTree = "<group>"; };
 		5A1B7D3B150A896600371D13 /* DeviceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceMapController.h; path = Classes/DeviceMapController.h; sourceTree = "<group>"; };
 		5A1B7D3C150A896600371D13 /* DeviceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceMapController.m; path = Classes/DeviceMapController.m; sourceTree = "<group>"; };
 		5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrettingsProViewController.m; sourceTree = "<group>"; };
@@ -699,6 +707,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5A0E50BE1517B2F80032FBEE /* prey-pro-badge.png */,
+				5A0E50C41517BA630032FBEE /* prey-pro-badge@2x.png */,
+				5A0E50C01517B2F80032FBEE /* sucess.png */,
+				5A0E50BB1517B1220032FBEE /* sucess@2x.png */,
 				07ED2DDC1411452B00EB912B /* shutter.wav */,
 				07132470134639DF00F7EFD8 /* Localizable.strings */,
 				071324681346369200F7EFD8 /* large9.ttf */,
@@ -848,6 +860,10 @@
 				5AC379AA14A2437100DF81C8 /* notokbutt@2x.png in Resources */,
 				5AC379AD14A2441300DF81C8 /* okbutt@2x.png in Resources */,
 				5A3137961512AB4E00504BA8 /* GrettingsProViewController.xib in Resources */,
+				5A0E50BC1517B1220032FBEE /* sucess@2x.png in Resources */,
+				5A0E50C11517B2F80032FBEE /* prey-pro-badge.png in Resources */,
+				5A0E50C31517B2F80032FBEE /* sucess.png in Resources */,
+				5A0E50C51517BA630032FBEE /* prey-pro-badge@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
