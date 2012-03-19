@@ -66,6 +66,8 @@
 		0713246F134636BB00F7EFD8 /* email.png in Resources */ = {isa = PBXBuildFile; fileRef = 0713246E134636BB00F7EFD8 /* email.png */; };
 		07132472134639DF00F7EFD8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07132470134639DF00F7EFD8 /* Localizable.strings */; };
 		07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07178F2512675AD3007B290C /* CoreLocation.framework */; };
+		0774BF181517B90D0016D3E6 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */; };
+		0774BF191517C2490016D3E6 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0774BF161517B7A00016D3E6 /* libGoogleAnalytics.a */; };
 		077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7A3B126E171300C713B7 /* AudioToolbox.framework */; };
 		077D7B2D126F3C8400C713B7 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7B2C126F3C8400C713B7 /* AddressBook.framework */; };
 		077D7BA21270D79700C713B7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7BA11270D79700C713B7 /* MapKit.framework */; };
@@ -212,6 +214,9 @@
 		07132471134639DF00F7EFD8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07132473134639E800F7EFD8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07178F2512675AD3007B290C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		0774BF151517B7A00016D3E6 /* GANTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GANTracker.h; sourceTree = "<group>"; };
+		0774BF161517B7A00016D3E6 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics.a; path = Classes/InAppSubscriptions/libGoogleAnalytics.a; sourceTree = "<group>"; };
+		0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		077D7A3B126E171300C713B7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		077D7B2C126F3C8400C713B7 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		077D7BA11270D79700C713B7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -307,6 +312,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0774BF191517C2490016D3E6 /* libGoogleAnalytics.a in Frameworks */,
+				0774BF181517B90D0016D3E6 /* libsqlite3.0.dylib in Frameworks */,
 				5A73C0FE146ADD5000AB32E9 /* StoreKit.framework in Frameworks */,
 				0797FC661459BBA5000DCA46 /* libz.1.2.5.dylib in Frameworks */,
 				077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */,
@@ -667,6 +674,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */,
+				0774BF161517B7A00016D3E6 /* libGoogleAnalytics.a */,
 				5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -734,6 +743,7 @@
 		5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */ = {
 			isa = PBXGroup;
 			children = (
+				0774BF151517B7A00016D3E6 /* GANTracker.h */,
 				5A8DA67B150E4A3500A05BBD /* IAPHelper.h */,
 				5A8DA67C150E4A3500A05BBD /* IAPHelper.m */,
 				5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */,
@@ -770,7 +780,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "Fork Ltd.";
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Prey" */;
@@ -935,6 +945,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
@@ -956,16 +967,21 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer: Diego Torres (BUT4JLVN29)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Diego Torres (BUT4JLVN29)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
+				);
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "659438D0-DCD3-4CCE-A60E-30F23372B062";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "659438D0-DCD3-4CCE-A60E-30F23372B062";
+				PROVISIONING_PROFILE = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -979,20 +995,25 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer: Diego Torres (BUT4JLVN29)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Diego Torres (BUT4JLVN29)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
+				);
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "659438D0-DCD3-4CCE-A60E-30F23372B062";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "659438D0-DCD3-4CCE-A60E-30F23372B062";
+				PROVISIONING_PROFILE = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
 				TARGETED_DEVICE_FAMILY = 1;
-				VALIDATE_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -1004,16 +1025,21 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer: Diego Torres (BUT4JLVN29)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Diego Torres (BUT4JLVN29)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
+				);
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "659438D0-DCD3-4CCE-A60E-30F23372B062";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "659438D0-DCD3-4CCE-A60E-30F23372B062";
+				PROVISIONING_PROFILE = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1030,6 +1056,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
@@ -1054,6 +1081,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;

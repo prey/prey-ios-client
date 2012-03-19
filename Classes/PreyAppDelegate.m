@@ -21,6 +21,7 @@
 #import "FakeWebView.h"
 #import "PicturesController.h"
 #import "IAPHelper.h"
+#import "GANTracker.h"
 
 
 
@@ -101,6 +102,9 @@
                     blue:0.42f 
                     alpha:1]];
     }
+    //Analytics singleton tracker.
+    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-8743344-1" Period:10 delegate:nil];
+    
     IAPHelper *IAP = [IAPHelper sharedHelper];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:IAP];
     [IAP initWithRemoteIdentifiers:nil];
@@ -393,6 +397,7 @@
 
 - (void)dealloc {
 	[super dealloc];
+    [[GANTracker sharedTracker] stopTracker];
     [window release];
 	[viewController release];
 }
