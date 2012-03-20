@@ -60,7 +60,7 @@
 
 - (NSString *) getCurrentControlPanelApiKey: (User *) user
 {
-    ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_SECURE_URL stringByAppendingFormat: @"profile.xml"]];
+    ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_API_URL stringByAppendingFormat: @"profile.xml"]];
     [request setUsername:[user email]];
 	[request setPassword: [user password]];
 	

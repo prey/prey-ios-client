@@ -101,6 +101,7 @@
 		5A0E50C11517B2F80032FBEE /* prey-pro-badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E50BE1517B2F80032FBEE /* prey-pro-badge.png */; };
 		5A0E50C31517B2F80032FBEE /* sucess.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E50C01517B2F80032FBEE /* sucess.png */; };
 		5A0E50C51517BA630032FBEE /* prey-pro-badge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E50C41517BA630032FBEE /* prey-pro-badge@2x.png */; };
+		5A14171115190E240005AE7D /* StoreParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A14171015190E230005AE7D /* StoreParserDelegate.m */; };
 		5A1B7D3D150A896600371D13 /* DeviceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B7D3C150A896600371D13 /* DeviceMapController.m */; };
 		5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */; };
 		5A3137961512AB4E00504BA8 /* GrettingsProViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */; };
@@ -269,6 +270,8 @@
 		5A0E50BE1517B2F80032FBEE /* prey-pro-badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-pro-badge.png"; path = "Resources/prey-pro-badge.png"; sourceTree = "<group>"; };
 		5A0E50C01517B2F80032FBEE /* sucess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sucess.png; path = Resources/sucess.png; sourceTree = "<group>"; };
 		5A0E50C41517BA630032FBEE /* prey-pro-badge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-pro-badge@2x.png"; path = "Resources/prey-pro-badge@2x.png"; sourceTree = "<group>"; };
+		5A14170F15190E230005AE7D /* StoreParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreParserDelegate.h; path = Classes/InAppSubscriptions/StoreParserDelegate.h; sourceTree = "<group>"; };
+		5A14171015190E230005AE7D /* StoreParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoreParserDelegate.m; path = Classes/InAppSubscriptions/StoreParserDelegate.m; sourceTree = "<group>"; };
 		5A1B7D3B150A896600371D13 /* DeviceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceMapController.h; path = Classes/DeviceMapController.h; sourceTree = "<group>"; };
 		5A1B7D3C150A896600371D13 /* DeviceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceMapController.m; path = Classes/DeviceMapController.m; sourceTree = "<group>"; };
 		5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrettingsProViewController.m; sourceTree = "<group>"; };
@@ -585,6 +588,8 @@
 		078054CB1255537800E4CCE5 /* XML Parsers */ = {
 			isa = PBXGroup;
 			children = (
+				5A14170F15190E230005AE7D /* StoreParserDelegate.h */,
+				5A14171015190E230005AE7D /* StoreParserDelegate.m */,
 				071324191346349A00F7EFD8 /* ErrorParserDelegate.h */,
 				0713241A1346349A00F7EFD8 /* ErrorParserDelegate.m */,
 				0713241B1346349A00F7EFD8 /* KeyParserDelegate.h */,
@@ -931,6 +936,7 @@
 				5A8DA684150E4AC000A05BBD /* StoreControllerViewController.m in Sources */,
 				5A867AA21510E1D600C4BBE3 /* UserParserDelegate.m in Sources */,
 				5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */,
+				5A14171115190E240005AE7D /* StoreParserDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -983,8 +989,8 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
@@ -996,8 +1002,8 @@
 					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
 				);
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1011,8 +1017,8 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1026,8 +1032,8 @@
 					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
 				);
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1041,8 +1047,8 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Carlos Hitschfeld (557PC8PTLT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
@@ -1054,8 +1060,8 @@
 					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
 				);
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9842D691-C582-4F5E-8AEA-AEBAE21573CE";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};

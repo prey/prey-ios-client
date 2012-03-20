@@ -19,8 +19,8 @@
 @synthesize currentNode, user;
 
 
-- (NSString*)parseRequest:(NSData *)request forUser:(User*)user parseError:(NSError **)err {
-    self.user = user;
+- (NSString*)parseRequest:(NSData *)request forUser:(User*)useri parseError:(NSError **)err {
+    self.user = useri;
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:request];
 	
 	[parser setDelegate:self];

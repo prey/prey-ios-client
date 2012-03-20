@@ -103,11 +103,11 @@
                     alpha:1]];
     }
     //Analytics singleton tracker.
-    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-8743344-1" Period:10 delegate:nil];
+    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-8743344-1" dispatchPeriod:10 delegate:nil];
     
     IAPHelper *IAP = [IAPHelper sharedHelper];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:IAP];
-    [IAP initWithRemoteIdentifiers:nil];
+    [IAP initWithRemoteIdentifiers:[NSURL URLWithString:[PREY_SECURE_URL stringByAppendingString:@"subscriptions/store.xml"]]];
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.5", 50000);
     //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"Prey");
