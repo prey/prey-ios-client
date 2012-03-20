@@ -107,7 +107,7 @@
     
     IAPHelper *IAP = [IAPHelper sharedHelper];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:IAP];
-    [IAP initWithRemoteIdentifiers:[NSURL URLWithString:[PREY_SECURE_URL stringByAppendingString:@"subscriptions/store.xml"]]];
+    [IAP initWithRemoteIdentifiers:[NSURL URLWithString:[PREY_API_URL stringByAppendingString:@"subscriptions/store.xml"]]];
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.5", 50000);
     //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"Prey");
