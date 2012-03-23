@@ -20,6 +20,7 @@
 @synthesize repassword;
 @synthesize devices;
 @synthesize pro;
+
 +(User*) allocWithEmail: (NSString*) _email password: (NSString*) _password {
 	User *newUser = [[User alloc] init];
 	newUser.email = _email;

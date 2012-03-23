@@ -32,7 +32,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     if (![CLLocationManager locationServicesEnabled]) {
-        NSLog(@"noooo");
         return;
     }
     CLLocationManager * MANG = [[[CLLocationManager alloc] init] autorelease];

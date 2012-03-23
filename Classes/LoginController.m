@@ -119,14 +119,12 @@
     UIDeviceOrientation ori = [[UIDevice currentDevice] orientation];
     CGRect neueRect;
     if (UIDeviceOrientationIsLandscape(ori)) {
-        NSLog(@"LAND");
         if (up) {
             neueRect = CGRectMake(0, -160, self.view.frame.size.width, self.view.frame.size.height);
         } else {
             neueRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
         }
     } else if (UIDeviceOrientationIsPortrait(ori)){
-        NSLog(@"PORT");
         if (up) {
             neueRect = CGRectMake(0, -200, self.view.frame.size.width, self.view.frame.size.height);
         } else {

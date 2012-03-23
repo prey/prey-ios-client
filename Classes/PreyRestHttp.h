@@ -29,6 +29,7 @@
 
 
 - (NSString *) getCurrentControlPanelApiKey: (User *) user;
+- (NSString *) userAgent;
 - (NSString *) createApiKey: (User *) user;
 - (NSString *) createDeviceKeyForDevice: (Device*) device usingApiKey: (NSString *) apiKey;
 - (BOOL) deleteDevice: (Device*) device;
@@ -39,6 +40,7 @@
 - (BOOL) isMissingTheDevice: (NSString *) device ofTheUser: (NSString *) apiKey;
 - (void) sendReport: (Report *) report;
 + (BOOL) checkInternet;
+- (void) getAppstoreConfig: (id) delegate inURL: (NSString *) URL;
 - (void) setPushRegistrationId: (NSString *) id;
 
 @end

@@ -31,12 +31,29 @@
 @synthesize baseURL;
 
 -(void)setupRequest: (ASIHTTPRequest*)request{
-    [request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
+    //[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
+    [request setUserAgentString:[self userAgent]];
     [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setUseSessionPersistence:NO];
 	[request setShouldRedirect:NO];
 	[request setValidatesSecureCertificate:NO];
     [request setTimeOutSeconds:30];
+}
+
+-(NSString *)userAgent {
+    NSString *deviceName;
+    NSString *OSName;
+    NSString *OSVersion;
+    NSString *locale = [[NSLocale currentLocale] localeIdentifier];
+    
+    UIDevice *device = [UIDevice currentDevice];
+    deviceName = [device model];
+    OSName = [device systemName];
+    OSVersion = [device systemVersion];
+
+    // Takes the form "My Application 1.0 (Macintosh; Mac OS X 10.5.7; en_GB)"
+    return [NSString stringWithFormat:@"Prey/%@ (%@; %@ %@; %@)", PREY_VERSION, deviceName, OSName, OSVersion, locale];	
+    
 }
 
 -(ASIHTTPRequest*)createGETrequestWithURL: (NSString*) url {
@@ -366,6 +383,13 @@
 	}
      */
 	
+}
+
+- (void) getAppstoreConfig: (id) delegate inURL: (NSString *) URL {
+    ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_API_URL stringByAppendingFormat: URL]];
+    [request setDelegate:delegate];
+    [request setDidFinishSelector:@selector(receivedData:)];
+    [request startAsynchronous];
 }
 
 

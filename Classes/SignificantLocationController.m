@@ -41,12 +41,10 @@
 
 - (void)startMonitoringSignificantLocationChanges {
 	[self.significantLocationManager startMonitoringSignificantLocationChanges];
-    NSLog(@"OHH");
 	PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"Significant location updating started.");
 }
 
 - (void)stopMonitoringSignificantLocationChanges {
-    NSLog(@"MEH");
 	[self.significantLocationManager stopMonitoringSignificantLocationChanges];
     [self.significantLocationManager stopUpdatingLocation];
 	PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"Significant location updating stopped.");
