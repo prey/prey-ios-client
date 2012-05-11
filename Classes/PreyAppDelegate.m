@@ -20,9 +20,7 @@
 #import "PreyRunner.h"
 #import "FakeWebView.h"
 #import "PicturesController.h"
-#import "IAPHelper.h"
-#import "GANTracker.h"
-
+	
 
 
 @interface PreyAppDelegate()
@@ -103,11 +101,7 @@
                     alpha:1]];
     }
     //Analytics singleton tracker.
-    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-8743344-1" dispatchPeriod:10 delegate:nil];
     
-    IAPHelper *IAP = [IAPHelper sharedHelper];
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:IAP];
-    [IAP initWithRemoteIdentifiers];
     
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.5", 50000);
@@ -398,7 +392,6 @@
 
 - (void)dealloc {
 	[super dealloc];
-    [[GANTracker sharedTracker] stopTracker];
     [window release];
 	[viewController release];
 }
