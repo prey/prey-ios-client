@@ -16,8 +16,6 @@
 #import "WelcomeController.h"
 #import "LogController.h"
 #import "DeviceMapController.h"
-#import "IAPHelper.h"
-#import "StoreControllerViewController.h"
 @interface PreferencesController()
 
 -(void) showAlert;
@@ -72,12 +70,7 @@
     // Return the number of rows in the section.
 	switch (section) {
         case 0:
-            if ([[PreyConfig instance] isPro])
-                return 1;
-            if ([[[IAPHelper sharedHelper] products] count] == 0) {
-                return 1;
-            }
-            return 2;
+            return 1;
             break;
 		case 1:
 			return 3;
@@ -223,9 +216,8 @@
         case 0:
             if ([indexPath row] == 0) {
                 [self.navigationController pushViewController:[[DeviceMapController alloc] init] animated:YES];
-            } else if ([indexPath row] == 1) {
-                [self.navigationController pushViewController:[[StoreControllerViewController alloc] init] animated:YES];
             }
+            break;
 		case 1:
 			/*
             if ([indexPath row] == 0){
@@ -448,7 +440,6 @@
     
 	accManager = [[AccuracyManager alloc] init];
 	delayManager = [[DelayManager alloc] init];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:kProductsLoadedNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
