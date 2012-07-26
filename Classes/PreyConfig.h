@@ -26,7 +26,7 @@
     BOOL askForPassword;
 	BOOL alertOnReport;
     BOOL camouflageMode;
-	
+    BOOL intervalMode;
 	
 }
 @property (nonatomic,retain) NSString *apiKey;
@@ -41,6 +41,7 @@
 @property (nonatomic) BOOL askForPassword;
 @property (nonatomic) BOOL alertOnReport;
 @property (nonatomic) BOOL camouflageMode;
+@property (nonatomic) BOOL intervalMode;
 
 + (PreyConfig*) instance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;

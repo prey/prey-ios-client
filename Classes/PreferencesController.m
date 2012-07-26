@@ -18,6 +18,8 @@
 #import "DeviceMapController.h"
 #import "IAPHelper.h"
 #import "StoreControllerViewController.h"
+#import "SignificantLocationController.h"
+
 @interface PreferencesController()
 
 -(void) showAlert;
@@ -80,7 +82,7 @@
             return 2;
             break;
 		case 1:
-			return 3;
+			return 4;
 			break;
 		case 2:
 			return 4;
@@ -163,13 +165,21 @@
             }*/ 
              
              else if ([indexPath row] == 1) {
-                UISwitch *camouflageMode = [[UISwitch alloc]init];
-                cell.textLabel.text = NSLocalizedString(@"Camouflage mode",nil);
-                [camouflageMode addTarget: self action: @selector(camouflageModeState:) forControlEvents:UIControlEventValueChanged];
-                [camouflageMode setOn:config.camouflageMode];
-				cell.accessoryView = camouflageMode;
-            
-            } else if ([indexPath row] == 2) {
+                 UISwitch *camouflageMode = [[UISwitch alloc]init];
+                 cell.textLabel.text = NSLocalizedString(@"Camouflage mode",nil);
+                 [camouflageMode addTarget: self action: @selector(camouflageModeState:) forControlEvents:UIControlEventValueChanged];
+                 [camouflageMode setOn:config.camouflageMode];
+                 cell.accessoryView = camouflageMode;
+                 
+             }
+             else if ([indexPath row] == 2) {
+                 UISwitch *intervalCheckin = [[UISwitch alloc]init];
+                 cell.textLabel.text = NSLocalizedString(@"Interval check-in",nil);
+                 [intervalCheckin addTarget: self action: @selector(intervalModeState:) forControlEvents:UIControlEventValueChanged];
+                 [intervalCheckin setOn:config.intervalMode];
+                 cell.accessoryView = intervalCheckin;
+                 
+             } else if ([indexPath row] == 3) {
 				cell.textLabel.text = NSLocalizedString(@"Detach device",nil);
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -358,6 +368,16 @@
 - (IBAction)camouflageModeState:(UISwitch*)camouflageModeSwitch{
 	//LogMessageCompat(@"Switch status on? %@", missingSwitch.on == YES? @"YES" : @"NO");
     [[PreyConfig instance] setCamouflageMode:camouflageModeSwitch.on];
+}
+
+- (IBAction)intervalModeState:(UISwitch*)intervalModeSwitch{
+    [[PreyConfig instance] setIntervalMode:intervalModeSwitch.on];
+    if (intervalModeSwitch.on){
+        [[SignificantLocationController instance] startMonitoringSignificantLocationChanges];
+    }
+    else {
+        [[SignificantLocationController instance] stopMonitoringSignificantLocationChanges];        
+    }
 }
 
 

@@ -21,11 +21,12 @@ static NSString *const DELAY=@"delay";
 static NSString *const ALERT_ON_REPORT=@"alert_on_report";
 static NSString *const ASK_FOR_PASSWORD=@"ask_for_pass";
 static NSString *const CAMOUFLAGE_MODE=@"camouflage_mode";
+static NSString *const INTERVAL_MODE=@"interval_mode";
 static NSString *const PRO_ACCOUNT=@"pro_account";
 
 @implementation PreyConfig
 
-@synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing, alertOnReport, askForPassword, camouflageMode, pro;
+@synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing, alertOnReport, askForPassword, camouflageMode, intervalMode, pro;
 static PreyConfig *_instance = nil;
 
 +(PreyConfig *)instance  {
@@ -41,6 +42,7 @@ static PreyConfig *_instance = nil;
 			_instance.checkUrl = [defaults stringForKey: CHECK_URL];
 			_instance.email = [defaults stringForKey: EMAIL];
             _instance.camouflageMode = [defaults boolForKey:CAMOUFLAGE_MODE];
+            _instance.intervalMode = [defaults boolForKey:INTERVAL_MODE];
 			[_instance loadDefaultValues];
 		}
 	}
@@ -88,6 +90,7 @@ static PreyConfig *_instance = nil;
 	[defaults setInteger:[self delay] forKey:DELAY];
     [defaults setBool:[self askForPassword] forKey:ASK_FOR_PASSWORD];
     [defaults setBool:[self camouflageMode] forKey:CAMOUFLAGE_MODE];
+    [defaults setBool:[self intervalMode] forKey:INTERVAL_MODE];
 	[defaults synchronize]; // this method is optional
 	
 }
@@ -105,6 +108,7 @@ static PreyConfig *_instance = nil;
 	[defaults removeObjectForKey:ACCURACY];
 	[defaults removeObjectForKey:DELAY];
     [defaults removeObjectForKey:CAMOUFLAGE_MODE];
+    [defaults removeObjectForKey:INTERVAL_MODE];
 	[defaults synchronize]; // this method is optional
 
 }
@@ -165,6 +169,13 @@ static PreyConfig *_instance = nil;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setBool:isCamouflage forKey:CAMOUFLAGE_MODE];
 	[defaults synchronize]; // this method is optional
+}
+
+- (void) setIntervalMode:(BOOL) isInterval { 
+	intervalMode = isInterval;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults setBool:isInterval forKey:INTERVAL_MODE];
+	[defaults synchronize];
 }
 
 - (void) dealloc {

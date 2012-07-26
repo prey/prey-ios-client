@@ -40,8 +40,13 @@
 
 
 - (void)startMonitoringSignificantLocationChanges {
-	[self.significantLocationManager startMonitoringSignificantLocationChanges];
-	PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"Significant location updating started.");
+    if ([[PreyConfig instance] intervalMode]){
+        [self.significantLocationManager startMonitoringSignificantLocationChanges];
+        PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"Significant location updating started.");
+    } else {
+        PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"Significant location not started because user disabled it.");
+    }
+    
 }
 
 - (void)stopMonitoringSignificantLocationChanges {
