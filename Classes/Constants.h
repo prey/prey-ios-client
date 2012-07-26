@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface Constants : NSObject {
+    
 	
 }
-extern NSString * const PREY_VERSION;
+//extern NSString * const PREY_VERSION;
 extern NSString * const PREY_SECURE_URL;
 extern NSString * const PREY_URL;
 extern NSString * const PREY_API_URL;
@@ -19,4 +20,10 @@ extern NSString * const PREY_API_URL;
 extern BOOL  const ASK_FOR_LOGIN;
 extern BOOL const USE_CONTROL_PANEL_DELAY;
 extern BOOL const SHOULD_LOG;
+
++(NSString *) appName;
++(NSString *) appVersion;
++(NSString *) appBuildVersion;
++(NSString *) appLabel;
+
 @end

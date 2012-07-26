@@ -52,7 +52,7 @@
     OSVersion = [device systemVersion];
 
     // Takes the form "My Application 1.0 (Macintosh; Mac OS X 10.5.7; en_GB)"
-    return [NSString stringWithFormat:@"Prey/%@ (%@; %@ %@; %@)", PREY_VERSION, deviceName, OSName, OSVersion, locale];	
+    return [NSString stringWithFormat:@"Prey/%@ (%@; %@ %@; %@)", [Constants appVersion], deviceName, OSName, OSVersion, locale];	
     
 }
 

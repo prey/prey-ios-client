@@ -183,7 +183,7 @@
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.accessoryView = nil;
 			if (indexPath.row == 0) {
-                cell.detailTextLabel.text = PREY_VERSION;
+                cell.detailTextLabel.text = [Constants appVersion];
                 cell.textLabel.text = NSLocalizedString(@"Version",nil);
             } else if (indexPath.row == 2) {
                 cell.textLabel.text = NSLocalizedString(@"Terms of Service", nil);

@@ -107,11 +107,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/User.m"
-         timestampString = "326921629.073298"
+         timestampString = "354225088.215679"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "35"
-         endingLineNumber = "35"
+         startingLineNumber = "36"
+         endingLineNumber = "36"
          landmarkName = "+allocWithEmail:password:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -154,7 +154,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "159"
          endingLineNumber = "159"
-         landmarkName = "-setCamouflageMode:"
+         landmarkName = "-setAlertOnReport:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -163,11 +163,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/PreyRestHttp.m"
-         timestampString = "341942332.641422"
+         timestampString = "354225088.215679"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "373"
-         endingLineNumber = "373"
+         startingLineNumber = "397"
+         endingLineNumber = "397"
          landmarkName = "-getErrorMessageFromXML:"
          landmarkType = "5">
       </FileBreakpoint>
