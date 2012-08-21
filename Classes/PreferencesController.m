@@ -173,8 +173,8 @@
                  
              }
              else if ([indexPath row] == 2) {
-                 UISwitch *intervalCheckin = [[UISwitch alloc]init];
-                 cell.textLabel.text = NSLocalizedString(@"Interval check-in",nil);
+                 intervalCheckin = [[UISwitch alloc]init];
+                 cell.textLabel.text = NSLocalizedString(@"Use Location Listener",nil);
                  [intervalCheckin addTarget: self action: @selector(intervalModeState:) forControlEvents:UIControlEventValueChanged];
                  [intervalCheckin setOn:config.intervalMode];
                  cell.accessoryView = intervalCheckin;
@@ -254,7 +254,7 @@
 				}
                 
 			} else 
-             */if ([indexPath row] == 2){
+             */if ([indexPath row] == 3){
 				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil) destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) otherButtonTitles:nil];
 				actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
@@ -371,13 +371,25 @@
 }
 
 - (IBAction)intervalModeState:(UISwitch*)intervalModeSwitch{
-    [[PreyConfig instance] setIntervalMode:intervalModeSwitch.on];
-    if (intervalModeSwitch.on){
-        [[SignificantLocationController instance] startMonitoringSignificantLocationChanges];
-    }
-    else {
-        [[SignificantLocationController instance] stopMonitoringSignificantLocationChanges];        
-    }
+    NSString *label = nil;
+	NSString *button = nil;
+	if (intervalModeSwitch.on){
+		label = NSLocalizedString(@"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery",nil);
+		button = NSLocalizedString(@"Enable it!",nil);
+	}
+	else {
+		label = NSLocalizedString(@"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel",nil);
+		button = NSLocalizedString(@"Disable it!",nil);
+	}
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:label
+															 delegate:self
+													cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                               destructiveButtonTitle:button otherButtonTitles:nil];
+	[actionSheet setTag:3];
+    [actionSheet showInView:self.view];
+	[actionSheet release];
+    
+    
 }
 
 
@@ -396,7 +408,7 @@
             [HUD showWhileExecuting:@selector(detachDevice) onTarget:self withObject:nil animated:YES];
         }
 	}
-	else if (actionSheet.tag == 2)
+	else if (actionSheet.tag == 2){
 		if (missing.on)
 			if (buttonIndex == 0){
                 HUD = [[MBProgressHUD alloc] initWithView:self.view];
@@ -417,7 +429,22 @@
             }
 			else
 				[missing setOn:YES animated:YES];
-
+    } else  if (actionSheet.tag == 3){
+        if (intervalCheckin.on)
+			if (buttonIndex == 0){
+                [[SignificantLocationController instance] startMonitoringSignificantLocationChanges];
+                [[PreyConfig instance] setIntervalMode:intervalCheckin.on];
+            }
+			else
+				[intervalCheckin setOn:NO animated:YES];
+        else
+            if (buttonIndex == 0){
+                [[SignificantLocationController instance] stopMonitoringSignificantLocationChanges];
+                [[PreyConfig instance] setIntervalMode:intervalCheckin.on];
+            }
+            else
+                [intervalCheckin setOn:YES animated:YES];
+        }
 }
 
 - (void) detachDevice {
