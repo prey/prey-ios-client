@@ -1,4 +1,3 @@
-﻿/* No comment provided by engineer. */
 "10 mins." = "10 mins.";
 
 /* No comment provided by engineer. */
@@ -84,10 +83,12 @@
 "Congrats Pro Title" = "Congrats,\nyou're now Pro";
 
 
-/* No comment provided by engineer. */
-"Congratulations! You have successfully associated this phone with your Prey account." = "¡Felicitaciones! Tu dispositivo fue configurado exitósamente. Ahora puedes rastrearlo desde preyproject.com.\nDescansa tranquilo!";
+"Congratulations! You have successfully associated this iOS device with your Prey account." = "Felicitaciones! Tu dispositivo fue exitosamente configurado. Desde ahora puedes monitorearlo remotamente desde preyproject.com.\nDescansa tranquilo!";
 
-/* No comment provided by engineer. */
+"Couldn't add your device" = "No pudimos agregar tu dispositivo.";
+
+"Couldn't check your password" = "No pudimos confirmar tu contraseña";
+
 "Create my account!" = "Crear mi cuenta";
 
 /* No comment provided by engineer. */
@@ -114,8 +115,7 @@
 /* No comment provided by engineer. */
 "Execution control" = "Control de ejecución";
 
-/* No comment provided by engineer. */
-"Hundred of Meters" = "Cientos de metros";
+"Hundreds of Meters" = "Cientos de metros";
 
 /* No comment provided by engineer. */
 "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "No tienes capacidad para agregar más dispositivos en tu cuenta Prey.\n\nPuedes aumentar la capacidad disponible si contratas una cuenta Prey Pro.";
@@ -170,17 +170,17 @@
 /* No comment provided by engineer. */
 "Password" = "Contraseña";
 
-/* No comment provided by engineer. */
+"Password must be at least 6 characters" = "Contraseña debe tener al menos 6 caracteres";
+
 "Passwords do not match" = "Contraseñas no coinciden";
 
-/* No comment provided by engineer. */
-"Passwords must be at least 6 characters" = "Contraseña debe contener al menos 6 caracteres";
+"Please wait" = "Espera un segundo";
 
-/* No comment provided by engineer. */
+"Prey alert" = "Alerta de Prey";
+
 "Prey next execution in %i minutes." = "Próxima ejecución de Prey en %i minutos.";
 
-/* No comment provided by engineer. */
-"Prey will stop sending reports to Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey dejará de enviar reportes al Panel de Control y tu dispositivo será marcado como recuperado.\n\n¿Estás seguro?";
+"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey dejará de enviar reportes al Panel de Control y tu dispositivo quedará marcado como no desaparecido.\n\nEstás seguro?";
 
 /* No comment provided by engineer. */
 "Quite accurate" = "Muy preciso";
