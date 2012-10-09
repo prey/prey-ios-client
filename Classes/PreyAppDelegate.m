@@ -206,9 +206,6 @@
     showFakeScreen = NO;
 	PreyLogMessage(@"App Delegate", 10, @"Prey is now running in the background");
 	wentToBackground = [NSDate date];
-	for (UIView *view in [window subviews]) {
-		[view removeFromSuperview];
-	}
 	
 }
 
@@ -260,7 +257,7 @@
 	[viewController setNavigationBarHidden:YES animated:NO];
 	
 	//window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [window addSubview:viewController.view];
+    [window setRootViewController:viewController];
     if (navco != nil) {
         [nextController presentModalViewController:navco animated:NO];
         [navco release];
