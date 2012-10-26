@@ -1,89 +1,54 @@
 "10 mins." = "10 mins.";
 
-/* No comment provided by engineer. */
 "15 mins." = "15 mins.";
 
-/* No comment provided by engineer. */
 "2 mins." = "2 mins.";
 
-/* No comment provided by engineer. */
 "20 mins." = "20 mins.";
 
-/* No comment provided by engineer. */
 "30 mins." = "30 mins.";
 
-/* No comment provided by engineer. */
 "30 secs." = "30 segs.";
 
-/* No comment provided by engineer. */
 "40 mins." = "40 mins.";
 
-/* No comment provided by engineer. */
 "5 mins." = "5 mins.";
 
-/* No comment provided by engineer. */
 "A new report has been sent to your Control Panel" = "Un nuevo reporte ha sido enviado al Panel de Control";
 
-/* No comment provided by engineer. */
 "About" = "Acerca de";
 
-/* No comment provided by engineer. */
 "Access Denied" = "Acceso denegado";
 
-/* No comment provided by engineer. */
 "Accessing your account..." = "Accediendo a tu cuenta...";
 
-/* No comment provided by engineer. */
-"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address." = "¡Cuenta exitosamente creada! Para verificar tu email deberás abrir el link que enviamos a tu casilla.";
+"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address." = "¡Cuenta creada! Recuerda verificar tu email abriendo el link que enviamos a tu casilla.";
 
-/* No comment provided by engineer. */
 "Add this device!" = "¡Agregar este dispositivo!";
 
-/* No comment provided by engineer. */
 "Alert on report sent" = "Alertar al enviar reporte";
 
-/* No comment provided by engineer. */
 "Already a Prey user" = "Ya soy usuario";
 
-/* Regarding getting the device's location */
 "An unknown error has occurred" = "Ha ocurrido un error desconocido";
 
-/* No comment provided by engineer. */
 "Ask for password" = "Pedir contraseña";
 
-/* No comment provided by engineer. */
 "Attaching device..." = "Agregando dispositivo...";
 
-/* No comment provided by engineer. */
 "Best possible" = "Mejor posible";
 
-/* No comment provided by engineer. */
-"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Al desactivar esta opción, Prey no podrá comprobar automáticamente su estado con el Panel de Control Web, y la única forma de activarlo será mediante el mismo Panel de Control.";
-
-/* No comment provided by engineer. */
-"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Al activar esta opción, el indicador de ubicación se activará en la esquina superior. Esto no significa que el GPS se encienda, pero sí Prey podría utilizar un poco más de batería.";
-
-/* No comment provided by engineer. */
 "Camouflage mode" = "Modo camuflado";
 
-/* No comment provided by engineer. */
 "Cancel" = "Cancelar";
 
-/* No comment provided by engineer. */
 "Checking your password..." = "Comprobando contraseña...";
 
-/* No comment provided by engineer. */
 "Choose a 6 characters password" = "Elije una contraseña de al menos 6 caracteres";
 
-/* No comment provided by engineer. */
 "Congratulations!" = "Felicitaciones!";
 
-"Congrats Pro Message" = "Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team.";
-
-"Congrats Pro Title" = "Congrats,\nyou're now Pro";
-
-
-"Congratulations! You have successfully associated this iOS device with your Prey account." = "Felicitaciones! Tu dispositivo fue exitosamente configurado. Desde ahora puedes monitorearlo remotamente desde preyproject.com.\nDescansa tranquilo!";
+"Congratulations! You have successfully associated this iOS device with your Prey account." = "¡Felicitaciones! Tu dispositivo ha sido registrado bajo tu cuenta Prey. Desde ahora puedes monitorearlo remotamente desde preyproject.com.\nDescansa tranquilo!";
 
 "Couldn't add your device" = "No pudimos agregar tu dispositivo.";
 
@@ -91,83 +56,54 @@
 
 "Create my account!" = "Crear mi cuenta";
 
-/* No comment provided by engineer. */
 "Create Prey account" = "Crear una cuenta Prey";
 
-/* No comment provided by engineer. */
 "Creating account..." = "Creando cuenta...";
 
-/* No comment provided by engineer. */
 "Delay" = "Intervalo";
 
-/* No comment provided by engineer. */
 "Delete log" = "Eliminar log";
 
-/* No comment provided by engineer. */
 "Detach device" = "Eliminar dispositivo";
 
-/* No comment provided by engineer. */
 "Email" = "Email";
 
-/* No comment provided by engineer. */
 "Enter a valid e-mail address" = "Ingresa un e-mail válido";
-
-/* No comment provided by engineer. */
-"Execution control" = "Control de ejecución";
 
 "Hundreds of Meters" = "Cientos de metros";
 
-/* No comment provided by engineer. */
-"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "No tienes capacidad para agregar más dispositivos en tu cuenta Prey.\n\nPuedes aumentar la capacidad disponible si contratas una cuenta Prey Pro.";
-/* No comment provided by engineer. */
+"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "No tienes capacidad para agregar más dispositivos en tu cuenta Prey.\n\Para aumentar la capacidad disponible, puedes contratar una cuenta Prey Pro.";
+
 "Location accuracy" = "Precisión de ubicación";
 
-/* No comment provided by engineer. */
 "Log" = "Log";
 
-/* No comment provided by engineer. */
 "Log in to Prey" = "Ingresa a Prey";
 
-/* No comment provided by engineer. */
 "Log records will be deleted.\n\nAre you sure?" = "Log records will be deleted.\n\nAre you sure?";
 
-/* No comment provided by engineer. */
 "Log records will be sent to developers. You'll be able to check the email body before proceed." = "Log records will be sent to developers. You'll be able to check the email body before proceed.";
 
-/* No comment provided by engineer. */
 "Mark as missing" = "Marcar como desaparecido";
 
-/* No comment provided by engineer. */
 "Mark as recovered" = "Marcar como recuperado";
 
-/* No comment provided by engineer. */
-"Missing" = "Desaparecido";
-
-/* No comment provided by engineer. */
 "Name" = "Nombre";
 
-/* No comment provided by engineer. */
 "Nearest 10 meters" = "Cercano a 10 metros";
 
-/* No comment provided by engineer. */
 "Nearest 3 kilometers" = "Cercano a 3 kilómetros";
 
-/* No comment provided by engineer. */
 "New user" = "Nuevo usuario";
 
-/* No comment provided by engineer. */
 "No, don't delete" = "No borrar";
 
-/* No comment provided by engineer. */
 "None: Send everything." = "Ninguno: Enviar todo.";
 
-/* No comment provided by engineer. */
 "OK" = "OK";
 
-/* No comment provided by engineer. */
 "One kilometer" = "Un kilómetro";
 
-/* No comment provided by engineer. */
 "Password" = "Contraseña";
 
 "Password must be at least 6 characters" = "Contraseña debe tener al menos 6 caracteres";
@@ -180,83 +116,86 @@
 
 "Prey next execution in %i minutes." = "Próxima ejecución de Prey en %i minutos.";
 
-"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey dejará de enviar reportes al Panel de Control y tu dispositivo quedará marcado como no desaparecido.\n\nEstás seguro?";
+"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey dejará de enviar reportes al Panel de Control, y tu dispositivo quedará marcado como no desaparecido.\n\n¿Estás seguro?";
 
-/* No comment provided by engineer. */
 "Quite accurate" = "Muy preciso";
 
-/* No comment provided by engineer. */
 "Read Message" = "Leer mensaje";
 
-/* No comment provided by engineer. */
 "Removing device..." = "Eliminando dispositivo...";
 
-/* No comment provided by engineer. */
 "Repeat your password" = "Repite tu contraseña";
 
-/* No comment provided by engineer. */
 "Report couldn't be sent" = "El reporte no pudo ser enviado";
 
-/* No comment provided by engineer. */
 "Send log" = "Enviar log";
 
-/* No comment provided by engineer. */
 "Settings" = "Preferencias";
 
-/* No comment provided by engineer. */
 "Starting Prey..." = "Iniciando Prey...";
 
-/* No comment provided by engineer. */
 "Stopping Prey..." = "Deteniendo Prey...";
 
-/* No comment provided by engineer. */
 "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password." = "Hubo un problema obteniendo la información de tu cuenta. Por favor asegúrate que tanto el email como la contraseña ingresada son válidas.";
 
-/* No comment provided by engineer. */
 "Unable to access Location Services.\n You need to grant Prey access if you wish to track your device." = "No pudimos acceder a los servicios de localización.\n Necesitas darle acceso a Prey si deseas localizar el dispositivo.";
 
-/* No comment provided by engineer. */
 "Unable to fetch location data. Is this device on airplane mode?" = "No fue posible obtener información de localización. ¿Está el dispositivo en modo avión?";
 
-/* No comment provided by engineer. */
 "User couldn't be created" = "El usuario no pudo ser creado";
 
-/* No comment provided by engineer. */
 "Version" = "Versión";
 
-/* No comment provided by engineer. */
 "View Details" = "Ver detalles";
 
-/* No comment provided by engineer. */
 "Warning" = "Advertencia";
 
-/* No comment provided by engineer. */
 "We have a situation!" = "¡Tenemos un problema!";
 
-/* No comment provided by engineer. */
 "Welcome to Prey!" = "¡Bienvenido a Prey!";
 
-/* No comment provided by engineer. */
-"Wrong password. Try again." = "Contraseña incorrecta. Recuerda que tienes que verificar tu email antes de poder ingresar.";
+"Wrong password. Try again." = "Contraseña incorrecta. Recuerda que tienes que verificar tu email para poder ingresar.";
 
-/* No comment provided by engineer. */
-"Yes, remove from my account" = "Sí, eliminar de mi cuenta.";
+"Yes, remove from my account" = "Sí, remover de mi cuenta";
 
-/* No comment provided by engineer. */
 "You have successfully associated this device with your Prey Control Panel account." = "Has asociado exitosamente el dispositivo con tu cuenta del Panel de Control de Prey";
 
-/* No comment provided by engineer. */
-"You have to enable Location Services" = "Tienes que habilitar los servicios de localización del dispositivo";
+"You're about to delete this device from the Control Panel.\n Are you sure?" = "Vas a remover este dispositivo del Panel de Control. ¿Estás seguro?";
 
-/* No comment provided by engineer. */
-"You're about to delete this device from the Control Panel.\n Are you sure?" = "Vas a eliminar este dispositivo del Panel de Control. ¿Estás seguro?";
+"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Al marcar el dispositivo como desaparecido, comenzará a enviar reportes con su ubicación al Panel de Control.\n\n¿Estás seguro?";
 
-/* No comment provided by engineer. */
-"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Vas a marcar el dispositivo como desaparecido, y comenzar a enviar reportes al Panel de Control.\n\n¿Estás seguro?";
-
-
-/* No comment provided by engineer. */
 "Your email" = "Tu email";
 
-/* No comment provided by engineer. */
 "Your name" = "Tu nombre";
+
+"A new report has been sent to your Control Panel." = "Un nuevo reporte ha sido enviado al Panel de Control.";
+
+"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Al deshabilitar esto, Prey no consumirá batería pero al marcarlo como desaparecido el usuario verá un mensaje en pantalla.";
+
+"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Al habilitar esto, el ícono de localización se mostrará en la barra de estado de tu dispositivo. Esto no quiere decir que el GPS está encendido, pero sí consumirá un poco más de batería.";
+
+"Current Location" = "Ubicación actual";
+
+"Device not ready!" = "Dispositivo no protegido";
+
+"Device ready." = "Dispositivo protegido";
+
+"Disable it!" = "Deshabilitarlo!";
+
+"Enable it!" = "Habilitarlo!";
+
+"Help" = "Ayuda";
+
+"Location services are disabled for Prey. Reports will not be sent." = "Servicio de localización para Prey on está activo. No se podrán enviar reportes.";
+
+"Preferences" = "Preferencias";
+
+"Privacy Policy" = "Política de privacidad";
+
+"Terms of Service" = "Términos del servicio";
+
+"Upgrade to Pro" = "Cámbiate a Pro";
+
+"Use Location Listener" = "Usar Servicio de Localización";
+
+"Your device is protected and waiting for the activation signal." = "Tu dispositivo está protegido y a la espera de la señal de activación.";
