@@ -34,7 +34,6 @@
 @implementation PreyAppDelegate
 
 @synthesize window,viewController;
-//@synthesize viewController;
 
 -(void)renderFirstScreen{
 
@@ -66,11 +65,8 @@
     
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [fakeView loadRequest:requestObj];
-
-    //[fakeView openUrl:url showingLoadingText:@"Accessing your account..."];
     
     [window addSubview:fakeView];
-    //showFakeScreen = NO;
 }
 
 #pragma mark -
@@ -95,7 +91,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
     if ([[[[UINavigationController alloc] init] autorelease] respondsToSelector:@selector(isBeingDismissed)]) {
-        //Soporta iOS5
+        //Supports iOS5
         [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarbg.png"] forBarMetrics:UIBarMetricsDefault];
         [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.42f
                     green: 0.42f
@@ -125,9 +121,9 @@
     PreyLogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS %@!!", [launchOptions description]);
     */
     id locationValue = [launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey];
-	if (locationValue) //Significant location change received while app being closed.
+	if (locationValue) //Significant location change received when app was closed.
 	{
-        PreyLogMessageAndFile(@"App Delegate", 0, @"[PreyAppDelegate] Significant location change received while app was closed!!");
+        PreyLogMessageAndFile(@"App Delegate", 0, @"[PreyAppDelegate] Significant location change received when app was closed!!");
         [[PreyRunner instance] startOnIntervalChecking];
     }
     else {        
@@ -135,11 +131,9 @@
         id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (remoteNotification) {
             PreyLogMessageAndFile(@"App Delegate", 10, @"Prey remote notification received while not running!");	
-            //[[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
             url = [remoteNotification objectForKey:@"url"];
             [[PreyRunner instance] startPreyService];
             showFakeScreen = YES;
-            //[self showAlert: @"Remote notification received. Here we can send the app to the background or show a customized message."];	
         }
         
         if (localNotif) {
@@ -162,22 +156,7 @@
              */
         }
     }
-     
-	/*
-	LoginController *loginController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
-    [window addSubview:loginController.view];
-    [window makeKeyAndVisible];
-    */
-	/*
-	OldUserController *ouController = [[OldUserController alloc] initWithNibName:@"OldUserController" bundle:nil];
-	
-	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
-    ouController.view.frame = applicationFrame;
-	
-    [window addSubview:ouController.view];
-    [window makeKeyAndVisible];
-	*/
-	
+  
 	return YES;
 }
 
@@ -252,7 +231,6 @@
         navco = [[UINavigationController alloc] initWithRootViewController:welco];
 	}
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
-	//[viewController setTitle:NSLocalizedString(@"Welcome to Prey!",nil)];
 	[viewController setToolbarHidden:YES animated:NO];
 	[viewController setNavigationBarHidden:YES animated:NO];
 	
