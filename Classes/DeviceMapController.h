@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/Mapkit.h>
-@interface DeviceMapController : UIViewController {
+@interface DeviceMapController : UIViewController <MKMapViewDelegate> {
     MKMapView *mapa;
 }
 

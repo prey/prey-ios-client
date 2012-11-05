@@ -47,7 +47,11 @@
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
     if(!self.canUpdateUserLoc) return;
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 200, 200);
-    [mapa setRegion:region animated:YES];
+    @try {
+        [mapa setRegion:region animated:YES];
+    } @catch (NSException *e) {
+        //Strange exception happens sometimes. This blank catch solves it.
+    }
 }
 
 -(void)goToUserLocation {
