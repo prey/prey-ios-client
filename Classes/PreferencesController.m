@@ -131,40 +131,7 @@
             }
             break;
 		case 1:
-			/*
-            if ([indexPath row] == 0){
-				cell.textLabel.text = NSLocalizedString(@"Location accuracy",nil);
-				cell.detailTextLabel.text = [accManager currentlySelectedName];
-			}
-			else if ([indexPath row] == 1) {
-				cell.textLabel.text = NSLocalizedString(@"Delay",nil);
-				cell.detailTextLabel.text = [delayManager currentDelay];
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Mins.",config.delay/60];
-			} 
-             */
              if ([indexPath row] == 0) {
-				cell.textLabel.text = NSLocalizedString(@"Alert on report sent",nil);
-				UISwitch *alert = [[UISwitch alloc]init];
-				[alert addTarget:self action: @selector(changeReportState:) forControlEvents:UIControlEventValueChanged];
-				[alert setOn:config.alertOnReport];
-				cell.accessoryView = alert;
-			} 
-			/*
-              else if ([indexPath row] == 4) {
-				cell.textLabel.text = NSLocalizedString(@"Log",nil);
-				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-              
-			 else if ([indexPath row] == 1) {
-                UISwitch *askForPassword = [[UISwitch alloc]init];
-                cell.textLabel.text = NSLocalizedString(@"Ask for password",nil);
-				[askForPassword addTarget: self action: @selector(changeAskForPasswordState:) forControlEvents:UIControlEventValueChanged];
-				[askForPassword setOn:config.askForPassword];
-				cell.accessoryView = askForPassword;
-                
-            }*/ 
-             
-             else if ([indexPath row] == 1) {
                  UISwitch *camouflageMode = [[UISwitch alloc]init];
                  cell.textLabel.text = NSLocalizedString(@"Camouflage mode",nil);
                  [camouflageMode addTarget: self action: @selector(camouflageModeState:) forControlEvents:UIControlEventValueChanged];
@@ -213,17 +180,6 @@
     return cell;
 }
 
-/*- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
-    switch ([indexPath section]) {
-		case 0:
-			if ([indexPath row] == 1){
-				[cell setBackgroundColor:[UIColor redColor]];
-			}
-        break;
-	}
-}*/
-
-
 #pragma mark -
 #pragma mark Table view delegate
 
@@ -237,24 +193,6 @@
                 [self.navigationController pushViewController:[[StoreControllerViewController alloc] init] animated:YES];
             }
 		case 1:
-			/*
-            if ([indexPath row] == 0){
-				
-                if (!pickerShowed){
-					[accManager showPickerOnView:self.view fromTableView:self.tableView];
-					[self setupNavigatorForPicker:YES withSelector:@selector(accuracyPickerSelected)];
-				}
-                
-			} 
-			else if ([indexPath row] == 1){
-				
-                if (!pickerShowed) {
-					[delayManager showDelayPickerOnView:self.view fromTableView:self.tableView];
-					[self setupNavigatorForPicker:YES withSelector:@selector(delayPickerSelected)];
-				}
-                
-			} else 
-             */if ([indexPath row] == 3){
 				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil) destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) otherButtonTitles:nil];
 				actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
