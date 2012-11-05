@@ -107,7 +107,7 @@
     
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.5", 50000);
-    //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"Prey");
+    //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"cyh");
 	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
     
     /*
@@ -185,7 +185,9 @@
     showFakeScreen = NO;
 	PreyLogMessage(@"App Delegate", 10, @"Prey is now running in the background");
 	wentToBackground = [NSDate date];
-	
+    for (UIView *view in [window subviews]) {
+        [view removeFromSuperview];
+    }
 }
 
 
@@ -194,6 +196,7 @@
      Called as part of  transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
      */
 	PreyLogMessage(@"App Delegate", 10, @"Prey is now entering to the foreground");
+    [self displayScreen];
 }
 
 
@@ -214,7 +217,12 @@
         [self showFakeScreen];
         return;
 	}
+    [self displayScreen];
 	
+}
+
+- (void)displayScreen {
+    
     PreyConfig *config = [PreyConfig instance];
 	
 	UIViewController *nextController = nil;
@@ -225,11 +233,11 @@
 			nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
 		else
 			nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-	else {
-        nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
-		UIViewController *welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
-        navco = [[UINavigationController alloc] initWithRootViewController:welco];
-	}
+        else {
+            nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
+            UIViewController *welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+            navco = [[UINavigationController alloc] initWithRootViewController:welco];
+        }
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
 	[viewController setToolbarHidden:YES animated:NO];
 	[viewController setNavigationBarHidden:YES animated:NO];
@@ -242,6 +250,7 @@
     }
     [window makeKeyAndVisible];
 	[nextController release];
+
 }
 - (void)updateMissingStatus:(id)data {
     [(PreyConfig*)data updateMissingStatus];
