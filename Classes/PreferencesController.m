@@ -82,7 +82,7 @@
             return 2;
             break;
 		case 1:
-			return 4;
+			return 3;
 			break;
 		case 2:
 			return 4;
@@ -131,6 +131,7 @@
             }
             break;
 		case 1:
+            
              if ([indexPath row] == 0) {
                  UISwitch *camouflageMode = [[UISwitch alloc]init];
                  cell.textLabel.text = NSLocalizedString(@"Camouflage mode",nil);
@@ -139,14 +140,14 @@
                  cell.accessoryView = camouflageMode;
                  
              }
-             else if ([indexPath row] == 2) {
+             else if ([indexPath row] == 1) {
                  intervalCheckin = [[UISwitch alloc]init];
                  cell.textLabel.text = NSLocalizedString(@"Use Location Listener",nil);
                  [intervalCheckin addTarget: self action: @selector(intervalModeState:) forControlEvents:UIControlEventValueChanged];
                  [intervalCheckin setOn:config.intervalMode];
                  cell.accessoryView = intervalCheckin;
                  
-             } else if ([indexPath row] == 3) {
+             } else if ([indexPath row] == 2) {
 				cell.textLabel.text = NSLocalizedString(@"Detach device",nil);
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -193,6 +194,7 @@
                 [self.navigationController pushViewController:[[StoreControllerViewController alloc] init] animated:YES];
             }
 		case 1:
+            if ([indexPath row] == 2){
 				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil) destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) otherButtonTitles:nil];
 				actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
@@ -312,7 +314,7 @@
     NSString *label = nil;
 	NSString *button = nil;
 	if (intervalModeSwitch.on){
-		label = NSLocalizedString(@"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery",nil);
+		label = NSLocalizedString(@"By enabling this, the arrow location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery",nil);
 		button = NSLocalizedString(@"Enable it!",nil);
 	}
 	else {
@@ -370,15 +372,15 @@
     } else  if (actionSheet.tag == 3){
         if (intervalCheckin.on)
 			if (buttonIndex == 0){
-                [[SignificantLocationController instance] startMonitoringSignificantLocationChanges];
                 [[PreyConfig instance] setIntervalMode:intervalCheckin.on];
+                [[SignificantLocationController instance] startMonitoringSignificantLocationChanges];
             }
 			else
 				[intervalCheckin setOn:NO animated:YES];
         else
             if (buttonIndex == 0){
-                [[SignificantLocationController instance] stopMonitoringSignificantLocationChanges];
                 [[PreyConfig instance] setIntervalMode:intervalCheckin.on];
+                [[SignificantLocationController instance] stopMonitoringSignificantLocationChanges];
             }
             else
                 [intervalCheckin setOn:YES animated:YES];
