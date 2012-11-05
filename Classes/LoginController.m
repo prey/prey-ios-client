@@ -64,7 +64,7 @@
             message = NSLocalizedString(@"Wrong password. Try again.",nil);
             title = NSLocalizedString(@"Access Denied",nil);
         }
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alertView show];
 		[alertView release];
 	} 
@@ -73,7 +73,7 @@
 
 - (IBAction) checkLoginPassword: (id) sender {
 	if ([loginPassword.text length] <6){
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Denied",nil) message:NSLocalizedString(@"Wrong password. Try again.",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];		
+		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Denied",nil) message:NSLocalizedString(@"Wrong password. Try again.",nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alertView show];
 		[alertView release];
 		return;
@@ -267,6 +267,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
         [self.buttn setImage:[UIImage imageNamed:@"notokbutt.png"]];
         [self.devReady setText:NSLocalizedString(@"Device not ready!", nil)];
@@ -277,7 +278,29 @@
         [self.detail setText:NSLocalizedString(@"Your device is protected and waiting for the activation signal.", nil)];
     }
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    
 }
+
+-(void)viewDidAppear:(BOOL)animated {
+    UIRemoteNotificationType notificationTypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+
+    if (notificationTypes & UIRemoteNotificationTypeAlert)
+        PreyLogMessage(@"App Delegate", 10, @"Alert notification set. Good!");
+    else
+    {
+        PreyLogMessage(@"App Delegate", 10, @"User has disabled alert notifications");
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert notification disabled",nil)
+                                                            message:NSLocalizedString(@"You need to grant Prey access to show alert notifications in order to remotely mark it as missing.",nil)
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"OK",nil)
+                                                  otherButtonTitles:nil];
+		[alertView show];
+		[alertView release];
+    }
+
+}
+
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     // unregister for keyboard notifications while not visible.

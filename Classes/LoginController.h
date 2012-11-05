@@ -14,7 +14,7 @@
 
 #define kOFFSET_FOR_KEYBOARD 150.0
 
-@interface LoginController : UIViewController <MBProgressHUDDelegate> {
+@interface LoginController : UIViewController <MBProgressHUDDelegate, UIAlertViewDelegate> {
 @private
     int movementDistance;
 
