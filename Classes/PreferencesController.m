@@ -138,7 +138,7 @@
                  [camouflageMode addTarget: self action: @selector(camouflageModeState:) forControlEvents:UIControlEventValueChanged];
                  [camouflageMode setOn:config.camouflageMode];
                  cell.accessoryView = camouflageMode;
-                 
+                 [camouflageMode release];                 
              }
              else if ([indexPath row] == 1) {
                  intervalCheckin = [[UISwitch alloc]init];

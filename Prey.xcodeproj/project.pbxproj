@@ -208,7 +208,7 @@
 		0713244F134635C400F7EFD8 /* PreyRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PreyRunner.m; path = Classes/PreyRunner.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07132452134635DC00F7EFD8 /* WelcomeController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WelcomeController.xib; path = Classes/WelcomeController.xib; sourceTree = "<group>"; };
 		071324541346363300F7EFD8 /* AlertModuleController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AlertModuleController.xib; path = Classes/AlertModuleController.xib; sourceTree = "<group>"; };
-		071324551346363300F7EFD8 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainWindow.xib; path = Classes/MainWindow.xib; sourceTree = "<group>"; };
+		071324551346363300F7EFD8 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		0713245C1346368200F7EFD8 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Resources/logo.png; sourceTree = "<group>"; };
 		071324601346368200F7EFD8 /* recycle-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "recycle-full.png"; path = "Resources/recycle-full.png"; sourceTree = "<group>"; };
 		071324611346368200F7EFD8 /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reload.png; path = Resources/reload.png; sourceTree = "<group>"; };
@@ -276,7 +276,7 @@
 		5A1B7D3C150A896600371D13 /* DeviceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceMapController.m; path = Classes/DeviceMapController.m; sourceTree = "<group>"; };
 		5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrettingsProViewController.m; sourceTree = "<group>"; };
 		5A3137931512AB3F00504BA8 /* GrettingsProViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrettingsProViewController.h; sourceTree = "<group>"; };
-		5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GrettingsProViewController.xib; path = Classes/InAppSubscriptions/GrettingsProViewController.xib; sourceTree = "<group>"; };
+		5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GrettingsProViewController.xib; sourceTree = "<group>"; };
 		5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		5A76D80B1513E90A009D778B /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5A7A128C146D70FF00B14176 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIAuthenticationDialog.h; path = "asi-http-request/Classes/ASIAuthenticationDialog.h"; sourceTree = "<group>"; };
@@ -352,6 +352,7 @@
 			children = (
 				071324311346353C00F7EFD8 /* WelcomeController.h */,
 				071324321346353C00F7EFD8 /* WelcomeController.m */,
+				07132452134635DC00F7EFD8 /* WelcomeController.xib */,
 			);
 			name = "Welcome Controller";
 			sourceTree = "<group>";
@@ -361,6 +362,7 @@
 			children = (
 				07132401134633EA00F7EFD8 /* CongratulationsController.h */,
 				07132402134633EA00F7EFD8 /* CongratulationsController.m */,
+				071323FF134633B800F7EFD8 /* CongratulationsController.xib */,
 			);
 			name = "Congratulations Controller";
 			sourceTree = "<group>";
@@ -368,6 +370,10 @@
 		07178976125B8498007B290C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5A0E50BE1517B2F80032FBEE /* prey-pro-badge.png */,
+				5A0E50C41517BA630032FBEE /* prey-pro-badge@2x.png */,
+				5A0E50C01517B2F80032FBEE /* sucess.png */,
+				5A0E50BB1517B1220032FBEE /* sucess@2x.png */,
 				5AC379AC14A2441300DF81C8 /* okbutt@2x.png */,
 				5AC379A914A2437100DF81C8 /* notokbutt@2x.png */,
 				070E7B4C13F3231F0013C1F6 /* prey-allgood.png */,
@@ -409,6 +415,7 @@
 				071323FA1346332A00F7EFD8 /* AccuracyManager.m */,
 				07CD95F11253D99500590FCD /* PreferencesController.h */,
 				07CD95F21253D99500590FCD /* PreferencesController.m */,
+				07CD95F31253D99500590FCD /* PreferencesController.xib */,
 				5A1B7D3B150A896600371D13 /* DeviceMapController.h */,
 				5A1B7D3C150A896600371D13 /* DeviceMapController.m */,
 			);
@@ -418,8 +425,8 @@
 		07178E9B126641A0007B290C /* Setup Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				071324351346355000F7EFD8 /* SetupControllerTemplate.m */,
 				071324341346355000F7EFD8 /* SetupControllerTemplate.h */,
+				071324351346355000F7EFD8 /* SetupControllerTemplate.m */,
 				0717896C125A6779007B290C /* Congratulations Controller */,
 				078055A31256370300E4CCE5 /* OldUser Controller */,
 				07805591125636BB00E4CCE5 /* NewUser Controller */,
@@ -446,6 +453,7 @@
 			children = (
 				07CD96221253E13800590FCD /* LoginController.h */,
 				07CD96231253E13800590FCD /* LoginController.m */,
+				07CD96241253E13800590FCD /* LoginController.xib */,
 			);
 			name = "Login Controller";
 			sourceTree = "<group>";
@@ -483,6 +491,7 @@
 				071323F3134632C900F7EFD8 /* AlertModule.m */,
 				071323F4134632C900F7EFD8 /* AlertModuleController.h */,
 				071323F5134632C900F7EFD8 /* AlertModuleController.m */,
+				071324541346363300F7EFD8 /* AlertModuleController.xib */,
 			);
 			name = "Alert Module";
 			sourceTree = "<group>";
@@ -658,8 +667,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				078E136F132AB583004B7C60 /* Reachability */,
-				07CEDA9812E9DD77002B4EB5 /* NSLogger */,
+				3BCD1C5516693E9600D609D9 /* External */,
 				5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */,
 				07178F3B12675C2C007B290C /* Controllers */,
 				07805429125542EF00E4CCE5 /* Prey Utils */,
@@ -667,9 +675,9 @@
 				078054221255425800E4CCE5 /* Prey Model */,
 				07783BA2126CDDEE007BD409 /* Prey Runner */,
 				0780541E1255421800E4CCE5 /* Prey Http */,
-				078053FE125541DE00E4CCE5 /* ASIHttp */,
 				1D3623240D0F684500981E51 /* PreyAppDelegate.h */,
 				1D3623250D0F684500981E51 /* PreyAppDelegate.m */,
+				071324551346363300F7EFD8 /* MainWindow.xib */,
 				07CD96C91254017500590FCD /* RootController.h */,
 				07CD96CA1254017500590FCD /* RootController.m */,
 			);
@@ -687,15 +695,11 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */,
-				0774BF161517B7A00016D3E6 /* libGoogleAnalytics.a */,
-				5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				07DA04B013216E3A00FECCAD /* Entitlements.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -712,24 +716,14 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5A0E50BE1517B2F80032FBEE /* prey-pro-badge.png */,
-				5A0E50C41517BA630032FBEE /* prey-pro-badge@2x.png */,
-				5A0E50C01517B2F80032FBEE /* sucess.png */,
-				5A0E50BB1517B1220032FBEE /* sucess@2x.png */,
-				07ED2DDC1411452B00EB912B /* shutter.wav */,
+				07178976125B8498007B290C /* Images */,
 				07132470134639DF00F7EFD8 /* Localizable.strings */,
 				071324681346369200F7EFD8 /* large9.ttf */,
 				071324691346369200F7EFD8 /* NewJuneBold.otf */,
+				07ED2DDC1411452B00EB912B /* shutter.wav */,
 				0713246A1346369200F7EFD8 /* siren.mp3 */,
-				5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */,
-				071324541346363300F7EFD8 /* AlertModuleController.xib */,
-				071324551346363300F7EFD8 /* MainWindow.xib */,
-				07132452134635DC00F7EFD8 /* WelcomeController.xib */,
-				071323FF134633B800F7EFD8 /* CongratulationsController.xib */,
-				07CD95F31253D99500590FCD /* PreferencesController.xib */,
-				07CD96241253E13800590FCD /* LoginController.xib */,
-				07178976125B8498007B290C /* Images */,
 				8D1107310486CEB800E47090 /* Prey-Info.plist */,
+				07DA04B013216E3A00FECCAD /* Entitlements.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -738,6 +732,9 @@
 			isa = PBXGroup;
 			children = (
 				0797FC651459BBA5000DCA46 /* libz.1.2.5.dylib */,
+				0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */,
+				0774BF161517B7A00016D3E6 /* libGoogleAnalytics.a */,
+				5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */,
 				07ABF44E1344C8EB00370933 /* AudioToolbox.framework */,
 				07DF36E213413B6E00F0F218 /* MessageUI.framework */,
 				07D3239E133BC74A00841BFD /* CoreMedia.framework */,
@@ -757,16 +754,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3BCD1C5516693E9600D609D9 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				078053FE125541DE00E4CCE5 /* ASIHttp */,
+				078E136F132AB583004B7C60 /* Reachability */,
+				07CEDA9812E9DD77002B4EB5 /* NSLogger */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
 		5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */ = {
 			isa = PBXGroup;
 			children = (
 				0774BF151517B7A00016D3E6 /* GANTracker.h */,
 				5A8DA67B150E4A3500A05BBD /* IAPHelper.h */,
 				5A8DA67C150E4A3500A05BBD /* IAPHelper.m */,
-				5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */,
 				5A3137931512AB3F00504BA8 /* GrettingsProViewController.h */,
-				5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */,
+				5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */,
+				5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */,
 				5A8DA683150E4AC000A05BBD /* StoreControllerViewController.h */,
+				5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */,
 			);
 			path = InAppSubscriptions;
 			sourceTree = "<group>";
@@ -1018,7 +1026,7 @@
 					armv6,
 				);
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jorge Cala Gomez (UUTWJ8FWA2)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1033,7 +1041,7 @@
 				);
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "40FC5FDE-4B4F-45D3-9A12-B215995945BE";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};

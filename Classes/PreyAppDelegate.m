@@ -58,6 +58,7 @@
     fake.backgroundColor = [UIColor redColor];
     [window addSubview:fake];
     [window makeKeyAndVisible];
+    [fake release];
     
     CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
     UIWebView *fakeView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 20, appFrame.size.width, appFrame.size.height)] autorelease];
@@ -237,6 +238,7 @@
             nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
             UIViewController *welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
             navco = [[UINavigationController alloc] initWithRootViewController:welco];
+            [welco release];
         }
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
 	[viewController setToolbarHidden:YES animated:NO];
@@ -305,8 +307,7 @@
 	[UIView setAnimationDuration:1];
 	
 	// Set function to be called when animation is complete
-	[UIView setAnimationDidStopSelector: @selector(animDone:finished:context:)];
-	
+	[UIView setAnimationDidStopSelector: @selector(animDone:finished:context:)];	
 	// Set the delegate (This object must have the function animDone)
 	[UIView setAnimationDelegate:self];
 	

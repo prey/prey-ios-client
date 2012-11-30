@@ -16,7 +16,6 @@
 #import "Reachability.h"
 
 
-
 @interface PreyRestHttp()
 
 -(ASIHTTPRequest*)createGETrequestWithURL: (NSString*) url;
@@ -386,7 +385,7 @@
 }
 
 - (void) getAppstoreConfig: (id) delegate inURL: (NSString *) URL {
-    ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_API_URL stringByAppendingFormat: URL]];
+    ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_API_URL stringByAppendingFormat:@"%@",URL]];
     [request setDelegate:delegate];
     [request setDidFinishSelector:@selector(receivedData:)];
     [request startAsynchronous];

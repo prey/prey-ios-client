@@ -9,7 +9,7 @@
 //
 
 #import "IphoneInformationHelper.h"
-
+#import "UIDevice-Hardware.h"
 
 @implementation IphoneInformationHelper
 

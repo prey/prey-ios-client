@@ -91,15 +91,23 @@
     }*/
     
     
-    strEmailMatchstring=@"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
+    strEmailMatchstring =   @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
+
     [self.tableView setBackgroundColor:[UIColor clearColor]];
-    UIView *fondo = [[[UIView alloc] initWithFrame:self.tableView.frame] autorelease];
+    
+    UIView *fondo = [[UIView alloc] initWithFrame:self.tableView.frame];
     [fondo setBackgroundColor:[UIColor whiteColor]];
-    UIImage *btm = [[UIImage imageNamed:@"bg-mnts2.png"] autorelease];
+    
+    UIImage *btm     = [UIImage imageNamed:@"bg-mnts2.png"];
     UIImageView *imv = [[UIImageView alloc] initWithImage:btm];
-    imv.frame = CGRectMake(0, fondo.frame.size.height-143, 320, 99);
+    imv.frame        = CGRectMake(0, fondo.frame.size.height-143, 320, 99);
+
     [fondo addSubview:imv];
+    
     [self.tableView setBackgroundView:fondo];
+    [imv release];
+    [fondo release];
+    
 	[super viewDidLoad];
 }
 
