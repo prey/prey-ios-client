@@ -36,6 +36,7 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>location</string>
 	</array>
 	<key>UIPrerenderedIcon</key>

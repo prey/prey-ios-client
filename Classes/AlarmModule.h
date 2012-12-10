@@ -17,9 +17,8 @@
 
 {
     
-    AVAudioPlayer *backgroundMusicPlayer;
 }
 
-@property (nonatomic,retain) AVAudioPlayer *backgroundMusicPlayer;
+@property (nonatomic,retain) AVAudioPlayer *audioPlayer;
 
 @end
