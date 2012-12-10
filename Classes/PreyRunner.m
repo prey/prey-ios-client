@@ -72,10 +72,19 @@
     PreyLogMessageAndFile(@"Prey Runner", 0,@"Interval checking has been stopped.");
 }
 
+-(void) runPreyNow {
+    lastExecution = nil;
+    NSInvocationOperation* theOp = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(runPrey) object:nil] autorelease];
+    [theOp start];
+}
+
 
 - (void)locationUpdated:(NSNotification *)notification
 {
 	NSInvocationOperation* theOp = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(runPrey) object:nil] autorelease];
+    [theOp start];
+    
+    /*
     if (lastExecution != nil) {
 		NSTimeInterval lastRunInterval = -[lastExecution timeIntervalSinceNow];
 		PreyLogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", [PreyConfig instance].delay, lastRunInterval);
@@ -88,12 +97,21 @@
             PreyLogMessage(@"Prey Runner", 5, @"Location updated notification received, but interval hasn't expired. (%f secs. since last execution)",lastRunInterval);
 	} else {
 		[theOp start];
-	}
+	}*/
 }
 
 
 -(void) runPrey{
     @try {
+        if (lastExecution != nil) {
+            NSTimeInterval lastRunInterval = -[lastExecution timeIntervalSinceNow];
+            PreyLogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", [PreyConfig instance].delay, lastRunInterval);
+            if (lastRunInterval < [PreyConfig instance].delay){
+                PreyLogMessage(@"Prey Runner", 0, @"Trying to get device's status but interval hasn't expired. (%f secs. since last execution). Aborting!", lastRunInterval);
+                return;
+            }
+        }
+        
         lastExecution = [[NSDate date] retain];
         if (![PreyRestHttp checkInternet])
             return;

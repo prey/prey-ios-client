@@ -362,9 +362,11 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);    
-    url = [userInfo objectForKey:@"url"];
+    self.url = [userInfo objectForKey:@"url"];
+    [[PreyRunner instance] runPreyNow];
     [[PreyRunner instance] startPreyService];
-	showFakeScreen = YES;
+    //[self showFakeScreen];
+    showFakeScreen = YES;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:[PreyConfig instance]];
 }
 

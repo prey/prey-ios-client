@@ -33,6 +33,7 @@
 -(void)stopPreyService;
 -(void) startOnIntervalChecking;
 -(void) stopOnIntervalChecking;
--(void)runPrey;
+-(void) runPrey;
+-(void) runPreyNow;
 
 @end
