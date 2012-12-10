@@ -13,6 +13,7 @@
 #import "AlarmModule.h"
 #import "AlertModule.h"
 #import "PictureModule.h"
+#import "GeofencingModule.h"
 
 @implementation PreyModule
 
@@ -28,6 +29,9 @@
 + (PreyModule *) newModuleForName: (NSString *) moduleName {
 	if ([moduleName isEqualToString:@"geo"]) {
 		return [[[LocationModule alloc] init] autorelease];
+	}
+    if ([moduleName isEqualToString:@"geofencing"]) {
+		return [[[GeofencingModule alloc] init] autorelease];
 	}
 	if ([moduleName isEqualToString:@"alarm"]) {
 		return [[[AlarmModule alloc] init] autorelease];
