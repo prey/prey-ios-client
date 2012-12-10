@@ -52,22 +52,36 @@
 }
 
 - (void)showFakeScreen {
-    PreyLogMessage(@"App Delegate", 20,  @"Showing the guy our fake screen at: %@", url );
-    
-    UIView *fake = [[UIView alloc] initWithFrame:CGRectMake(0,0,20,20)];
-    fake.backgroundColor = [UIColor redColor];
-    [window addSubview:fake];
-    [window makeKeyAndVisible];
-    [fake release];
+    PreyLogMessage(@"App Delegate", 20,  @"Showing the guy our fake screen at: %@", self.url );
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
-    UIWebView *fakeView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 20, appFrame.size.width, appFrame.size.height)] autorelease];
+    fakeView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 20, appFrame.size.width, appFrame.size.height)] autorelease];
     [fakeView setDelegate:self];
     
-    NSURLRequest *requestObj = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
     [fakeView loadRequest:requestObj];
     
     [window addSubview:fakeView];
+    [window makeKeyAndVisible];
+}
+
+- (void) displayAlert {
+    if (showAlert){
+        AlertModuleController *alertController = [[AlertModuleController alloc] init];
+        [alertController setTextToShow:self.alertMessage];
+        PreyLogMessage(@"App Delegate", 20, @"Displaying the alert message");
+        [window addSubview:alertController.view];
+        [window makeKeyAndVisible];
+        [alertController release];
+        showAlert = NO;
+    }
+}
+
+
+- (void)showAlert: (NSString *) textToShow {
+    self.alertMessage = textToShow;
+	showAlert = YES;
 }
 
 #pragma mark -
@@ -75,6 +89,7 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     PreyLogMessage(@"App Delegate", 20,  @"Attempting to show the HUD");
+    [[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
     MBProgressHUD *HUD2 = [MBProgressHUD showHUDAddedTo:webView animated:YES];
     HUD2.labelText = NSLocalizedString(@"Accessing your account...",nil);
     HUD2.removeFromSuperViewOnHide=YES;
@@ -83,7 +98,11 @@
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [MBProgressHUD hideHUDForView:webView animated:YES];
-    [[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
+    if (showAlert){
+        [self displayAlert];
+        return;
+    }
+
 }
 
 #pragma mark -
@@ -197,59 +216,54 @@
      Called as part of  transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
      */
 	PreyLogMessage(@"App Delegate", 10, @"Prey is now entering to the foreground");
-    [self displayScreen];
 }
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    PreyLogMessage(@"App Delegate", 20,  @"DID BECOME ACTIVE!!");
     if ([viewController.view superview] == self.window) {
         return;
     }
-    if (viewController.modalViewController) {
+    /*if (viewController.modalViewController) {
         return;
-    }
+    }*/
     [self.window endEditing:YES];
 
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-     PreyLogMessage(@"App Delegate", 20,  @"DID BECOME ACTIVE!!");
-    if (showFakeScreen){
-        [self showFakeScreen];
-        return;
-	}
     [self displayScreen];
 	
 }
 
 - (void)displayScreen {
     
+    if (showAlert){
+        [self displayAlert];
+        return;
+    }
+    if (showFakeScreen){
+        [self showFakeScreen];
+        return;
+	}
+
     PreyConfig *config = [PreyConfig instance];
 	
 	UIViewController *nextController = nil;
-    UINavigationController *navco = nil;
 	PreyLogMessage(@"App Delegate", 10, @"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
 	if (config.alreadyRegistered)
 		if (config.askForPassword)
 			nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
 		else
 			nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-        else {
-            nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
-            UIViewController *welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
-            navco = [[UINavigationController alloc] initWithRootViewController:welco];
-            [welco release];
-        }
+    else {
+        nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+    }
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
 	[viewController setToolbarHidden:YES animated:NO];
 	[viewController setNavigationBarHidden:YES animated:NO];
-	
-	//window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
     [window setRootViewController:viewController];
-    if (navco != nil) {
-        [nextController presentModalViewController:navco animated:NO];
-        [navco release];
-    }
     [window makeKeyAndVisible];
 	[nextController release];
 
@@ -326,13 +340,6 @@
 	
 }
 
-- (void)showAlert: (NSString *) textToShow {
-	AlertModuleController *alertController = [[AlertModuleController alloc] init];
-    [alertController setTextToShow:textToShow];
-    [viewController pushViewController:alertController animated:NO];
-    [alertController release];
-	
-}
 
 #pragma mark -
 #pragma mark Push notifications delegate

@@ -13,7 +13,7 @@
 
 @interface AlertModuleController : UIViewController {
 
-	UILabel *preyName;
+    UILabel *preyName;
 	UILabel *text;
 	NSString *textToShow;
 }

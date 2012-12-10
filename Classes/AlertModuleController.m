@@ -29,7 +29,9 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[[UIApplication sharedApplication] setStatusBarHidden:YES];
+    CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
+    self.view.frame = CGRectMake(0, 20, appFrame.size.width, appFrame.size.height);
+	//[[UIApplication sharedApplication] setStatusBarHidden:YES];
 	[preyName setFont:[UIFont fontWithName:@"large9" size:60]];
 	[text setText:textToShow];
 	PreyLogMessage(@"alert", 10, @"Text: %@",text.text);

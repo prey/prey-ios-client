@@ -28,8 +28,10 @@
             [localNotif release];
         }
     } else {
-         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-         [appDelegate showAlert:alertMessage];
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        //SEL s = NSSelectorFromString(@"showAlert");
+        //[appDelegate performSelector:s withObject:alertMessage afterDelay:2];
+        [appDelegate showAlert:alertMessage];
     }
 }
 
