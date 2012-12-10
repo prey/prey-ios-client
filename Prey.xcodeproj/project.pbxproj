@@ -86,6 +86,8 @@
 		07D3239D133BC6B100841BFD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D3239C133BC6B100841BFD /* AVFoundation.framework */; };
 		07D323A0133BC74B00841BFD /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D3239E133BC74A00841BFD /* CoreMedia.framework */; };
 		07D323A1133BC74B00841BFD /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D3239F133BC74A00841BFD /* CoreVideo.framework */; };
+		07D4CBB81670EDE100DD1CB9 /* GeofencingModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D4CBB71670EDE100DD1CB9 /* GeofencingModule.m */; };
+		07D4CBBB1670FA2400DD1CB9 /* PreyGeofencingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D4CBBA1670FA2400DD1CB9 /* PreyGeofencingController.m */; };
 		07DA037E132013D900FECCAD /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD95F21253D99500590FCD /* PreferencesController.m */; };
 		07DF36E313413B6F00F0F218 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07DF36E213413B6E00F0F218 /* MessageUI.framework */; };
 		07DF36E6134222BF00F0F218 /* PicturesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DF36E5134222BF00F0F218 /* PicturesController.m */; };
@@ -250,6 +252,10 @@
 		07D3239C133BC6B100841BFD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		07D3239E133BC74A00841BFD /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		07D3239F133BC74A00841BFD /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		07D4CBB61670EDE100DD1CB9 /* GeofencingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeofencingModule.h; path = Classes/GeofencingModule.h; sourceTree = "<group>"; };
+		07D4CBB71670EDE100DD1CB9 /* GeofencingModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeofencingModule.m; path = Classes/GeofencingModule.m; sourceTree = "<group>"; };
+		07D4CBB91670FA2400DD1CB9 /* PreyGeofencingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyGeofencingController.h; path = Classes/PreyGeofencingController.h; sourceTree = "<group>"; };
+		07D4CBBA1670FA2400DD1CB9 /* PreyGeofencingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyGeofencingController.m; path = Classes/PreyGeofencingController.m; sourceTree = "<group>"; };
 		07DA04B013216E3A00FECCAD /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		07DF36E213413B6E00F0F218 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		07DF36E4134222BF00F0F218 /* PicturesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PicturesController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -478,6 +484,7 @@
 				07D32395133BB6F400841BFD /* Session Module */,
 				077D7B24126F3BE000C713B7 /* Contacts Module */,
 				077D7B23126F3B6E00C713B7 /* Geo Module */,
+				07D4CBB51670ED8500DD1CB9 /* Geofencing */,
 				077D7A66126E296400C713B7 /* Alert Module */,
 			);
 			name = "Prey Modules";
@@ -662,6 +669,17 @@
 			);
 			name = "Session Module";
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		07D4CBB51670ED8500DD1CB9 /* Geofencing */ = {
+			isa = PBXGroup;
+			children = (
+				07D4CBB61670EDE100DD1CB9 /* GeofencingModule.h */,
+				07D4CBB71670EDE100DD1CB9 /* GeofencingModule.m */,
+				07D4CBB91670FA2400DD1CB9 /* PreyGeofencingController.h */,
+				07D4CBBA1670FA2400DD1CB9 /* PreyGeofencingController.m */,
+			);
+			name = Geofencing;
 			sourceTree = "<group>";
 		};
 		080E96DDFE201D6D7F000001 /* Classes */ = {
@@ -945,6 +963,8 @@
 				5A867AA21510E1D600C4BBE3 /* UserParserDelegate.m in Sources */,
 				5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */,
 				5A14171115190E240005AE7D /* StoreParserDelegate.m in Sources */,
+				07D4CBB81670EDE100DD1CB9 /* GeofencingModule.m in Sources */,
+				07D4CBBB1670FA2400DD1CB9 /* PreyGeofencingController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -972,7 +992,7 @@
 					armv6,
 				);
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
@@ -997,7 +1017,7 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1026,7 +1046,7 @@
 					armv6,
 				);
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jorge Cala Gomez (UUTWJ8FWA2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1041,7 +1061,7 @@
 				);
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "40FC5FDE-4B4F-45D3-9A12-B215995945BE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1055,7 +1075,7 @@
 					armv7,
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1083,7 +1103,7 @@
 					armv6,
 				);
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
@@ -1108,7 +1128,7 @@
 				);
 				"ARCHS[sdk=*]" = "armv6,armv7";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
