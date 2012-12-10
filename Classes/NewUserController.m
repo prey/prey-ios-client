@@ -49,7 +49,8 @@
 	
 #if (TARGET_IPHONE_SIMULATOR)
 	sleep(1);
-	[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:@"congrats dummy text" waitUntilDone:NO];
+    NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
+	[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
 #else
 	User *user = nil;
 	Device *device = nil;
