@@ -126,20 +126,12 @@
     [IAP initWithRemoteIdentifiers];
     
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
-	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.5", 50000);
+	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.105", 50000);
     //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"cyh");
 	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
-    
-    /*
-    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] systemName]);
-    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] systemVersion]);
-    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] localizedModel]);
-    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] name]);
-    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] macaddress]);
-    PreyLogMessage(@"App Delegate", 20,[[UIDevice currentDevice] platformString]);
-    
+  
     PreyLogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS %@!!", [launchOptions description]);
-    */
+    
     id locationValue = [launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey];
 	if (locationValue) //Significant location change received when app was closed.
 	{
@@ -151,7 +143,7 @@
         id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (remoteNotification) {
             PreyLogMessageAndFile(@"App Delegate", 10, @"Prey remote notification received while not running!");	
-            url = [remoteNotification objectForKey:@"url"];
+            self.url = [remoteNotification objectForKey:@"url"];
             [[PreyRunner instance] startPreyService];
             showFakeScreen = YES;
         }
@@ -181,11 +173,11 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif {
-	/*
+	
     LogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
-	PreyRunner *runner = [PreyRunner instance];
-	[runner startPreyService];
-     */
+	//PreyRunner *runner = [PreyRunner instance];
+	//[runner startPreyService];
+    
 }
 
 
@@ -246,7 +238,7 @@
         [self showFakeScreen];
         return;
 	}
-
+    
     PreyConfig *config = [PreyConfig instance];
 	
 	UIViewController *nextController = nil;

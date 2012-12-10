@@ -131,7 +131,6 @@
 	[data setValue:[NSString stringWithFormat:@"%f",newLocation.altitude] forKey:[NSString stringWithFormat:@"%@[%@]",@"geo",@"alt"]];
 	[data setValue:[NSString stringWithFormat:@"%f",newLocation.horizontalAccuracy] forKey:[NSString stringWithFormat:@"%@[%@]",@"geo",@"acc"]];
 	[reportData addEntriesFromDictionary:data];
-	waitForLocation = NO;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"locationUpdated" object:nil];
     waitForLocation = NO;
 	[self sendIfConditionsMatch];

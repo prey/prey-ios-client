@@ -15,11 +15,15 @@
 @interface PreyAppDelegate : NSObject <UIApplicationDelegate, UINavigationControllerDelegate, UIWebViewDelegate> {
     UIWindow *window;
 	UINavigationController *viewController;
+    UIWebView *fakeView;
 	NSDate *wentToBackground;
 	BOOL showFakeScreen;
-    NSString *url;
+    BOOL screenLoaded;
+    BOOL showAlert;
 }
 
+@property (nonatomic, retain) NSString *url;
+@property (nonatomic, retain) NSString *alertMessage;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *viewController;
 

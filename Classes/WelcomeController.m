@@ -26,12 +26,14 @@
 	[self.navigationController pushViewController:nuController animated:YES];
 	[nuController release];
 }
+
 -(void)oldUserClicked:(id)sender{
     OldUserController *ouController = [[OldUserController alloc] initWithStyle:UITableViewStyleGrouped];
     ouController.title = NSLocalizedString(@"Log in to Prey",nil);
 	[self.navigationController pushViewController:ouController animated:YES];
 	[ouController release];
 }
+
 #pragma mark -
 #pragma mark Lifecycle
 /*
