@@ -44,9 +44,15 @@
 -(void)hideKeyboard{
     
 }
-- (void) showCongratsView:(id) congratsText {
-	
-	CongratulationsController *congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController" bundle:nil];
+- (void) showCongratsView:(id) congratsText
+{
+    CongratulationsController *congratsController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone" bundle:nil];
+    else
+        congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPad" bundle:nil];
+    
     congratsController.txtToShow = (NSString*) congratsText;
 	[self.navigationController setNavigationBarHidden:YES animated:YES];
 	[self.navigationController pushViewController:congratsController animated:YES];

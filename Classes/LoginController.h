@@ -11,13 +11,12 @@
 #import <UIKit/UIKit.h>
 #import "PreferencesController.h"
 #import "MBProgressHUD.h"
+#import "UIWebViewController.h"
 
 #define kOFFSET_FOR_KEYBOARD 150.0
 
-@interface LoginController : UIViewController <MBProgressHUDDelegate, UIAlertViewDelegate> {
+@interface LoginController : UIViewController <UIWebViewControllerDelegate,MBProgressHUDDelegate, UIAlertViewDelegate> {
 @private
-    int movementDistance;
-
 	UITextField *loginPassword;
 	MBProgressHUD *HUD;
     UIImageView *loginImage;

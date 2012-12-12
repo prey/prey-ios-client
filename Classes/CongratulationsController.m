@@ -41,8 +41,15 @@
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    self.congratsMsg.text = txtToShow;
+- (void)viewDidLoad
+{
+    congratsMsg.font             = [UIFont fontWithName:@"Helvetica" size:20];
+    congratsMsg.numberOfLines    = 5;
+    congratsMsg.textColor        = [UIColor colorWithWhite:0.200 alpha:1.000];
+    congratsMsg.textAlignment    = UITextAlignmentCenter;
+    congratsMsg.backgroundColor  = [UIColor clearColor];
+    congratsMsg.text             = txtToShow;
+
 	[super viewDidLoad];
 }
 
@@ -66,13 +73,12 @@
     [[PreyRunner instance] startOnIntervalChecking];
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
 }
-*/
+
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
