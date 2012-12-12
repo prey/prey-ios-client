@@ -20,6 +20,8 @@
 #import "StoreControllerViewController.h"
 #import "SignificantLocationController.h"
 
+#import "ReviewRequest.h"
+
 @interface PreferencesController()
 
 -(void) showAlert;
@@ -391,7 +393,14 @@
     [self stopPrey];
     [[PreyConfig instance] detachDevice];
     [[PreyRunner instance] stopOnIntervalChecking];
-    UIViewController *welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+    
+    UIViewController *welco;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
+    else
+        welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
+    
     UINavigationController *navco = [[UINavigationController alloc] initWithRootViewController:welco];
     
     [[self navigationController] presentModalViewController:navco animated:YES];
@@ -427,7 +436,12 @@
 #pragma mark View lifecycle
 
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
+    if (ReviewRequest::ShouldAskForReview())
+		ReviewRequest::AskForReview();
+
+    
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:[[[UIView alloc] initWithFrame:CGRectZero] autorelease]]autorelease];
     HUD = nil;
     self.title = NSLocalizedString(@"Preferences", nil);
@@ -472,10 +486,10 @@
  [super viewDidDisappear:animated];
  }
  */
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (UIInterfaceOrientationIsLandscape(interfaceOrientation) || interfaceOrientation == UIInterfaceOrientationPortrait);
- }
+ - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
  
 
 #pragma mark -
