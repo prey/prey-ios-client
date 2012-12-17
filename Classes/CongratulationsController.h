@@ -14,13 +14,13 @@
 @interface CongratulationsController : UIViewController {
 
 	UILabel *congratsTitle;
-	UITextView *congratsMsg;
+	UILabel *congratsMsg;
 	UIButton *ok;
     NSString *txtToShow;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *congratsTitle;
-@property (nonatomic, retain) IBOutlet UITextView *congratsMsg;
+@property (nonatomic, retain) IBOutlet UILabel *congratsMsg;
 @property (nonatomic, retain) IBOutlet UIButton *ok;
 @property (nonatomic, retain) NSString *txtToShow;
 

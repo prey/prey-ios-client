@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		070E7B2F13F31E160013C1F6 /* prey-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B2D13F31E160013C1F6 /* prey-logo.png */; };
 		070E7B3013F31E160013C1F6 /* prey-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B2E13F31E160013C1F6 /* prey-logo@2x.png */; };
-		070E7B3D13F321CA0013C1F6 /* 57px.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3113F321C40013C1F6 /* 57px.png */; };
-		070E7B3E13F321CA0013C1F6 /* 114px.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3213F321C40013C1F6 /* 114px.png */; };
 		070E7B3F13F321CA0013C1F6 /* bg-mnts1.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3313F321C40013C1F6 /* bg-mnts1.png */; };
 		070E7B4013F321CA0013C1F6 /* bg-mnts1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3413F321C40013C1F6 /* bg-mnts1@2x.png */; };
 		070E7B4113F321CA0013C1F6 /* bg-mnts2.png in Resources */ = {isa = PBXBuildFile; fileRef = 070E7B3513F321C40013C1F6 /* bg-mnts2.png */; };
@@ -27,7 +25,7 @@
 		071323F8134632C900F7EFD8 /* AlertModuleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F5134632C900F7EFD8 /* AlertModuleController.m */; };
 		071323FB1346332A00F7EFD8 /* AccuracyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323FA1346332A00F7EFD8 /* AccuracyManager.m */; };
 		071323FE1346339A00F7EFD8 /* ConfigParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323FD1346339A00F7EFD8 /* ConfigParserDelegate.m */; };
-		07132400134633B800F7EFD8 /* CongratulationsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071323FF134633B800F7EFD8 /* CongratulationsController.xib */; };
+		07132400134633B800F7EFD8 /* CongratulationsController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071323FF134633B800F7EFD8 /* CongratulationsController-iPhone.xib */; };
 		07132403134633EA00F7EFD8 /* CongratulationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132402134633EA00F7EFD8 /* CongratulationsController.m */; };
 		071324061346340500F7EFD8 /* DelayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324051346340500F7EFD8 /* DelayManager.m */; };
 		071324091346342700F7EFD8 /* ContactsModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324081346342700F7EFD8 /* ContactsModule.m */; };
@@ -54,9 +52,9 @@
 		0713244B134635A100F7EFD8 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132448134635A100F7EFD8 /* User.m */; };
 		07132450134635C400F7EFD8 /* PreyRestHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713244D134635C400F7EFD8 /* PreyRestHttp.m */; };
 		07132451134635C400F7EFD8 /* PreyRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713244F134635C400F7EFD8 /* PreyRunner.m */; };
-		07132453134635DC00F7EFD8 /* WelcomeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07132452134635DC00F7EFD8 /* WelcomeController.xib */; };
+		07132453134635DC00F7EFD8 /* WelcomeController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07132452134635DC00F7EFD8 /* WelcomeController-iPhone.xib */; };
 		071324581346363300F7EFD8 /* AlertModuleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071324541346363300F7EFD8 /* AlertModuleController.xib */; };
-		071324591346363300F7EFD8 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071324551346363300F7EFD8 /* MainWindow.xib */; };
+		071324591346363300F7EFD8 /* MainWindow-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071324551346363300F7EFD8 /* MainWindow-iPhone.xib */; };
 		071324621346368200F7EFD8 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0713245C1346368200F7EFD8 /* logo.png */; };
 		071324661346368200F7EFD8 /* recycle-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 071324601346368200F7EFD8 /* recycle-full.png */; };
 		071324671346368200F7EFD8 /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = 071324611346368200F7EFD8 /* reload.png */; };
@@ -78,8 +76,7 @@
 		0797FC661459BBA5000DCA46 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0797FC651459BBA5000DCA46 /* libz.1.2.5.dylib */; };
 		07CD95F51253D99500590FCD /* PreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD95F31253D99500590FCD /* PreferencesController.xib */; };
 		07CD96251253E13800590FCD /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96231253E13800590FCD /* LoginController.m */; };
-		07CD96261253E13800590FCD /* LoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD96241253E13800590FCD /* LoginController.xib */; };
-		07CD96CB1254017500590FCD /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96CA1254017500590FCD /* RootController.m */; };
+		07CD96261253E13800590FCD /* LoginController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD96241253E13800590FCD /* LoginController-iPhone.xib */; };
 		07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */; };
 		07D32398133BB74A00841BFD /* ScreenshotModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D32397133BB74A00841BFD /* ScreenshotModule.m */; };
 		07D3239B133BC32D00841BFD /* PictureModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D3239A133BC32D00841BFD /* PictureModule.m */; };
@@ -88,7 +85,7 @@
 		07D323A1133BC74B00841BFD /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D3239F133BC74A00841BFD /* CoreVideo.framework */; };
 		07D4CBB81670EDE100DD1CB9 /* GeofencingModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D4CBB71670EDE100DD1CB9 /* GeofencingModule.m */; };
 		07D4CBBB1670FA2400DD1CB9 /* PreyGeofencingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D4CBBA1670FA2400DD1CB9 /* PreyGeofencingController.m */; };
-		07DA037E132013D900FECCAD /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD95F21253D99500590FCD /* PreferencesController.m */; };
+		07DA037E132013D900FECCAD /* PreferencesController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 07CD95F21253D99500590FCD /* PreferencesController.mm */; };
 		07DF36E313413B6F00F0F218 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07DF36E213413B6E00F0F218 /* MessageUI.framework */; };
 		07DF36E6134222BF00F0F218 /* PicturesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DF36E5134222BF00F0F218 /* PicturesController.m */; };
 		07DF36E91342389700F0F218 /* PicturesControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DF36E81342389600F0F218 /* PicturesControllerDelegate.m */; };
@@ -99,6 +96,22 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		3BA6A22F16769566005323EB /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A22E16769566005323EB /* MainWindow-iPad.xib */; };
+		3BA6A26A1676A2BA005323EB /* WelcomeController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A2691676A2BA005323EB /* WelcomeController-iPad.xib */; };
+		3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */; };
+		3BA6A26E1676A754005323EB /* LoginController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A26D1676A754005323EB /* LoginController-iPad.xib */; };
+		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
+		3BF03704167835CD0086A7A7 /* GrettingsProViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */; };
+		3BF0371016783C790086A7A7 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370716783C790086A7A7 /* Default-Portrait.png */; };
+		3BF0371116783C790086A7A7 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370816783C790086A7A7 /* Default.png */; };
+		3BF0371216783C790086A7A7 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370916783C790086A7A7 /* Default@2x.png */; };
+		3BF0371316783C790086A7A7 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370A16783C790086A7A7 /* Icon-72.png */; };
+		3BF0371416783C790086A7A7 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370B16783C790086A7A7 /* Icon-Small-50.png */; };
+		3BF0371516783C790086A7A7 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370C16783C790086A7A7 /* Icon-Small.png */; };
+		3BF0371616783C790086A7A7 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370D16783C790086A7A7 /* Icon-Small@2x.png */; };
+		3BF0371716783C790086A7A7 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370E16783C790086A7A7 /* Icon.png */; };
+		3BF0371816783C790086A7A7 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370F16783C790086A7A7 /* Icon@2x.png */; };
+		3BF0371F167847920086A7A7 /* ReviewRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.mm */; };
 		5A0E50BC1517B1220032FBEE /* sucess@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E50BB1517B1220032FBEE /* sucess@2x.png */; };
 		5A0E50C11517B2F80032FBEE /* prey-pro-badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E50BE1517B2F80032FBEE /* prey-pro-badge.png */; };
 		5A0E50C31517B2F80032FBEE /* sucess.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E50C01517B2F80032FBEE /* sucess.png */; };
@@ -106,7 +119,7 @@
 		5A14171115190E240005AE7D /* StoreParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A14171015190E230005AE7D /* StoreParserDelegate.m */; };
 		5A1B7D3D150A896600371D13 /* DeviceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B7D3C150A896600371D13 /* DeviceMapController.m */; };
 		5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */; };
-		5A3137961512AB4E00504BA8 /* GrettingsProViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */; };
+		5A3137961512AB4E00504BA8 /* GrettingsProViewController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A3137951512AB4E00504BA8 /* GrettingsProViewController-iPhone.xib */; };
 		5A73C0FE146ADD5000AB32E9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */; };
 		5A7A12A0146D70FF00B14176 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A128D146D70FF00B14176 /* ASIAuthenticationDialog.m */; };
 		5A7A12A1146D70FF00B14176 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A1290146D70FF00B14176 /* ASIDataCompressor.m */; };
@@ -132,8 +145,6 @@
 /* Begin PBXFileReference section */
 		070E7B2D13F31E160013C1F6 /* prey-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-logo.png"; path = "Resources/prey-logo.png"; sourceTree = "<group>"; };
 		070E7B2E13F31E160013C1F6 /* prey-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-logo@2x.png"; path = "Resources/prey-logo@2x.png"; sourceTree = "<group>"; };
-		070E7B3113F321C40013C1F6 /* 57px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 57px.png; path = Resources/57px.png; sourceTree = "<group>"; };
-		070E7B3213F321C40013C1F6 /* 114px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 114px.png; path = Resources/114px.png; sourceTree = "<group>"; };
 		070E7B3313F321C40013C1F6 /* bg-mnts1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-mnts1.png"; path = "Resources/bg-mnts1.png"; sourceTree = "<group>"; };
 		070E7B3413F321C40013C1F6 /* bg-mnts1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-mnts1@2x.png"; path = "Resources/bg-mnts1@2x.png"; sourceTree = "<group>"; };
 		070E7B3513F321C40013C1F6 /* bg-mnts2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-mnts2.png"; path = "Resources/bg-mnts2.png"; sourceTree = "<group>"; };
@@ -155,7 +166,7 @@
 		071323FA1346332A00F7EFD8 /* AccuracyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AccuracyManager.m; path = Classes/AccuracyManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071323FC1346339A00F7EFD8 /* ConfigParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ConfigParserDelegate.h; path = Classes/ConfigParserDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071323FD1346339A00F7EFD8 /* ConfigParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ConfigParserDelegate.m; path = Classes/ConfigParserDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		071323FF134633B800F7EFD8 /* CongratulationsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CongratulationsController.xib; path = Classes/CongratulationsController.xib; sourceTree = "<group>"; };
+		071323FF134633B800F7EFD8 /* CongratulationsController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "CongratulationsController-iPhone.xib"; path = "Classes/CongratulationsController-iPhone.xib"; sourceTree = "<group>"; };
 		07132401134633EA00F7EFD8 /* CongratulationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = CongratulationsController.h; path = Classes/CongratulationsController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		07132402134633EA00F7EFD8 /* CongratulationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = CongratulationsController.m; path = Classes/CongratulationsController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324041346340500F7EFD8 /* DelayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DelayManager.h; path = Classes/DelayManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -208,9 +219,9 @@
 		0713244D134635C400F7EFD8 /* PreyRestHttp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyRestHttp.m; path = Classes/PreyRestHttp.m; sourceTree = "<group>"; };
 		0713244E134635C400F7EFD8 /* PreyRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PreyRunner.h; path = Classes/PreyRunner.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0713244F134635C400F7EFD8 /* PreyRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PreyRunner.m; path = Classes/PreyRunner.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		07132452134635DC00F7EFD8 /* WelcomeController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WelcomeController.xib; path = Classes/WelcomeController.xib; sourceTree = "<group>"; };
+		07132452134635DC00F7EFD8 /* WelcomeController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPhone.xib"; path = "Classes/WelcomeController-iPhone.xib"; sourceTree = "<group>"; };
 		071324541346363300F7EFD8 /* AlertModuleController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AlertModuleController.xib; path = Classes/AlertModuleController.xib; sourceTree = "<group>"; };
-		071324551346363300F7EFD8 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		071324551346363300F7EFD8 /* MainWindow-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPhone.xib"; sourceTree = "<group>"; };
 		0713245C1346368200F7EFD8 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Resources/logo.png; sourceTree = "<group>"; };
 		071324601346368200F7EFD8 /* recycle-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "recycle-full.png"; path = "Resources/recycle-full.png"; sourceTree = "<group>"; };
 		071324611346368200F7EFD8 /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reload.png; path = Resources/reload.png; sourceTree = "<group>"; };
@@ -235,13 +246,11 @@
 		0797FC651459BBA5000DCA46 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		07ABF44E1344C8EB00370933 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		07CD95F11253D99500590FCD /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PreferencesController.h; path = Classes/PreferencesController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		07CD95F21253D99500590FCD /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PreferencesController.m; path = Classes/PreferencesController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		07CD95F21253D99500590FCD /* PreferencesController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; name = PreferencesController.mm; path = Classes/PreferencesController.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07CD95F31253D99500590FCD /* PreferencesController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PreferencesController.xib; path = Classes/PreferencesController.xib; sourceTree = "<group>"; };
 		07CD96221253E13800590FCD /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = LoginController.h; path = Classes/LoginController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		07CD96231253E13800590FCD /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = LoginController.m; path = Classes/LoginController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		07CD96241253E13800590FCD /* LoginController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LoginController.xib; path = Classes/LoginController.xib; sourceTree = "<group>"; };
-		07CD96C91254017500590FCD /* RootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RootController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		07CD96CA1254017500590FCD /* RootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RootController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		07CD96241253E13800590FCD /* LoginController-iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "LoginController-iPhone.xib"; path = "Classes/LoginController-iPhone.xib"; sourceTree = "<group>"; };
 		07CEDA9912E9DD9E002B4EB5 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
 		07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
 		07CEDA9B12E9DD9E002B4EB5 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
@@ -272,6 +281,24 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		32CA4F630368D1EE00C91783 /* Prey_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prey_Prefix.pch; sourceTree = "<group>"; };
+		3BA6A22E16769566005323EB /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		3BA6A2691676A2BA005323EB /* WelcomeController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPad.xib"; path = "Classes/WelcomeController-iPad.xib"; sourceTree = "<group>"; };
+		3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "CongratulationsController-iPad.xib"; path = "Classes/CongratulationsController-iPad.xib"; sourceTree = "<group>"; };
+		3BA6A26D1676A754005323EB /* LoginController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPad.xib"; path = "Classes/LoginController-iPad.xib"; sourceTree = "<group>"; };
+		3BD482E31678CAE300F25DC8 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewController.h; path = Classes/UIWebViewController.h; sourceTree = "<group>"; };
+		3BD482E41678CAE300F25DC8 /* UIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewController.m; path = Classes/UIWebViewController.m; sourceTree = "<group>"; };
+		3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPad.xib"; sourceTree = "<group>"; };
+		3BF0370716783C790086A7A7 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
+		3BF0370816783C790086A7A7 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		3BF0370916783C790086A7A7 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		3BF0370A16783C790086A7A7 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		3BF0370B16783C790086A7A7 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		3BF0370C16783C790086A7A7 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		3BF0370D16783C790086A7A7 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		3BF0370E16783C790086A7A7 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		3BF0370F16783C790086A7A7 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		3BF0371D167847920086A7A7 /* ReviewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReviewRequest.h; path = Classes/ReviewRequest.h; sourceTree = "<group>"; };
+		3BF0371E167847920086A7A7 /* ReviewRequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ReviewRequest.mm; path = Classes/ReviewRequest.mm; sourceTree = "<group>"; };
 		5A0E50BB1517B1220032FBEE /* sucess@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sucess@2x.png"; path = "Resources/sucess@2x.png"; sourceTree = "<group>"; };
 		5A0E50BE1517B2F80032FBEE /* prey-pro-badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-pro-badge.png"; path = "Resources/prey-pro-badge.png"; sourceTree = "<group>"; };
 		5A0E50C01517B2F80032FBEE /* sucess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sucess.png; path = Resources/sucess.png; sourceTree = "<group>"; };
@@ -282,7 +309,7 @@
 		5A1B7D3C150A896600371D13 /* DeviceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceMapController.m; path = Classes/DeviceMapController.m; sourceTree = "<group>"; };
 		5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrettingsProViewController.m; sourceTree = "<group>"; };
 		5A3137931512AB3F00504BA8 /* GrettingsProViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrettingsProViewController.h; sourceTree = "<group>"; };
-		5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GrettingsProViewController.xib; sourceTree = "<group>"; };
+		5A3137951512AB4E00504BA8 /* GrettingsProViewController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPhone.xib"; sourceTree = "<group>"; };
 		5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		5A76D80B1513E90A009D778B /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5A7A128C146D70FF00B14176 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIAuthenticationDialog.h; path = "asi-http-request/Classes/ASIAuthenticationDialog.h"; sourceTree = "<group>"; };
@@ -358,24 +385,16 @@
 			children = (
 				071324311346353C00F7EFD8 /* WelcomeController.h */,
 				071324321346353C00F7EFD8 /* WelcomeController.m */,
-				07132452134635DC00F7EFD8 /* WelcomeController.xib */,
+				07132452134635DC00F7EFD8 /* WelcomeController-iPhone.xib */,
+				3BA6A2691676A2BA005323EB /* WelcomeController-iPad.xib */,
 			);
 			name = "Welcome Controller";
-			sourceTree = "<group>";
-		};
-		0717896C125A6779007B290C /* Congratulations Controller */ = {
-			isa = PBXGroup;
-			children = (
-				07132401134633EA00F7EFD8 /* CongratulationsController.h */,
-				07132402134633EA00F7EFD8 /* CongratulationsController.m */,
-				071323FF134633B800F7EFD8 /* CongratulationsController.xib */,
-			);
-			name = "Congratulations Controller";
 			sourceTree = "<group>";
 		};
 		07178976125B8498007B290C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				3BF0370616783C760086A7A7 /* Iconos */,
 				5A0E50BE1517B2F80032FBEE /* prey-pro-badge.png */,
 				5A0E50C41517BA630032FBEE /* prey-pro-badge@2x.png */,
 				5A0E50C01517B2F80032FBEE /* sucess.png */,
@@ -386,8 +405,6 @@
 				070E7B4D13F323200013C1F6 /* prey-allgood@2x.png */,
 				5ACABAA414801680002FA024 /* button@2x.png */,
 				5ADD6037148929A7000AB036 /* button.png */,
-				070E7B3113F321C40013C1F6 /* 57px.png */,
-				070E7B3213F321C40013C1F6 /* 114px.png */,
 				070E7B3313F321C40013C1F6 /* bg-mnts1.png */,
 				070E7B3413F321C40013C1F6 /* bg-mnts1@2x.png */,
 				070E7B3513F321C40013C1F6 /* bg-mnts2.png */,
@@ -420,7 +437,7 @@
 				071323F91346332A00F7EFD8 /* AccuracyManager.h */,
 				071323FA1346332A00F7EFD8 /* AccuracyManager.m */,
 				07CD95F11253D99500590FCD /* PreferencesController.h */,
-				07CD95F21253D99500590FCD /* PreferencesController.m */,
+				07CD95F21253D99500590FCD /* PreferencesController.mm */,
 				07CD95F31253D99500590FCD /* PreferencesController.xib */,
 				5A1B7D3B150A896600371D13 /* DeviceMapController.h */,
 				5A1B7D3C150A896600371D13 /* DeviceMapController.m */,
@@ -433,9 +450,14 @@
 			children = (
 				071324341346355000F7EFD8 /* SetupControllerTemplate.h */,
 				071324351346355000F7EFD8 /* SetupControllerTemplate.m */,
-				0717896C125A6779007B290C /* Congratulations Controller */,
-				078055A31256370300E4CCE5 /* OldUser Controller */,
-				07805591125636BB00E4CCE5 /* NewUser Controller */,
+				07132401134633EA00F7EFD8 /* CongratulationsController.h */,
+				07132402134633EA00F7EFD8 /* CongratulationsController.m */,
+				071323FF134633B800F7EFD8 /* CongratulationsController-iPhone.xib */,
+				3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */,
+				07132422134634D900F7EFD8 /* OldUserController.h */,
+				07132423134634D900F7EFD8 /* OldUserController.m */,
+				07132425134634E600F7EFD8 /* NewUserController.h */,
+				07132426134634E600F7EFD8 /* NewUserController.m */,
 			);
 			name = "Setup Controllers";
 			sourceTree = "<group>";
@@ -459,7 +481,8 @@
 			children = (
 				07CD96221253E13800590FCD /* LoginController.h */,
 				07CD96231253E13800590FCD /* LoginController.m */,
-				07CD96241253E13800590FCD /* LoginController.xib */,
+				07CD96241253E13800590FCD /* LoginController-iPhone.xib */,
+				3BA6A26D1676A754005323EB /* LoginController-iPad.xib */,
 			);
 			name = "Login Controller";
 			sourceTree = "<group>";
@@ -588,6 +611,10 @@
 			children = (
 				5A7A12AB146D74FB00B14176 /* UIDevice-Hardware.h */,
 				5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */,
+				3BF0371D167847920086A7A7 /* ReviewRequest.h */,
+				3BF0371E167847920086A7A7 /* ReviewRequest.mm */,
+				3BD482E31678CAE300F25DC8 /* UIWebViewController.h */,
+				3BD482E41678CAE300F25DC8 /* UIWebViewController.m */,
 				071324371346356300F7EFD8 /* PreyLogger.h */,
 				071324381346356300F7EFD8 /* PreyLogger.m */,
 				071324391346356300F7EFD8 /* RegexKitLite.h */,
@@ -616,24 +643,6 @@
 				5A867AA11510E1D600C4BBE3 /* UserParserDelegate.m */,
 			);
 			name = "XML Parsers";
-			sourceTree = "<group>";
-		};
-		07805591125636BB00E4CCE5 /* NewUser Controller */ = {
-			isa = PBXGroup;
-			children = (
-				07132425134634E600F7EFD8 /* NewUserController.h */,
-				07132426134634E600F7EFD8 /* NewUserController.m */,
-			);
-			name = "NewUser Controller";
-			sourceTree = "<group>";
-		};
-		078055A31256370300E4CCE5 /* OldUser Controller */ = {
-			isa = PBXGroup;
-			children = (
-				07132422134634D900F7EFD8 /* OldUserController.h */,
-				07132423134634D900F7EFD8 /* OldUserController.m */,
-			);
-			name = "OldUser Controller";
 			sourceTree = "<group>";
 		};
 		078E136F132AB583004B7C60 /* Reachability */ = {
@@ -695,9 +704,8 @@
 				0780541E1255421800E4CCE5 /* Prey Http */,
 				1D3623240D0F684500981E51 /* PreyAppDelegate.h */,
 				1D3623250D0F684500981E51 /* PreyAppDelegate.m */,
-				071324551346363300F7EFD8 /* MainWindow.xib */,
-				07CD96C91254017500590FCD /* RootController.h */,
-				07CD96CA1254017500590FCD /* RootController.m */,
+				071324551346363300F7EFD8 /* MainWindow-iPhone.xib */,
+				3BA6A22E16769566005323EB /* MainWindow-iPad.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -782,6 +790,23 @@
 			name = External;
 			sourceTree = "<group>";
 		};
+		3BF0370616783C760086A7A7 /* Iconos */ = {
+			isa = PBXGroup;
+			children = (
+				3BF0370716783C790086A7A7 /* Default-Portrait.png */,
+				3BF0370816783C790086A7A7 /* Default.png */,
+				3BF0370916783C790086A7A7 /* Default@2x.png */,
+				3BF0370A16783C790086A7A7 /* Icon-72.png */,
+				3BF0370B16783C790086A7A7 /* Icon-Small-50.png */,
+				3BF0370C16783C790086A7A7 /* Icon-Small.png */,
+				3BF0370D16783C790086A7A7 /* Icon-Small@2x.png */,
+				3BF0370E16783C790086A7A7 /* Icon.png */,
+				3BF0370F16783C790086A7A7 /* Icon@2x.png */,
+			);
+			name = Iconos;
+			path = Resources/Iconos;
+			sourceTree = "<group>";
+		};
 		5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */ = {
 			isa = PBXGroup;
 			children = (
@@ -790,7 +815,8 @@
 				5A8DA67C150E4A3500A05BBD /* IAPHelper.m */,
 				5A3137931512AB3F00504BA8 /* GrettingsProViewController.h */,
 				5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */,
-				5A3137951512AB4E00504BA8 /* GrettingsProViewController.xib */,
+				5A3137951512AB4E00504BA8 /* GrettingsProViewController-iPhone.xib */,
+				3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */,
 				5A8DA683150E4AC000A05BBD /* StoreControllerViewController.h */,
 				5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */,
 			);
@@ -854,11 +880,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				07CD95F51253D99500590FCD /* PreferencesController.xib in Resources */,
-				07CD96261253E13800590FCD /* LoginController.xib in Resources */,
-				07132400134633B800F7EFD8 /* CongratulationsController.xib in Resources */,
-				07132453134635DC00F7EFD8 /* WelcomeController.xib in Resources */,
+				07CD96261253E13800590FCD /* LoginController-iPhone.xib in Resources */,
+				07132400134633B800F7EFD8 /* CongratulationsController-iPhone.xib in Resources */,
+				07132453134635DC00F7EFD8 /* WelcomeController-iPhone.xib in Resources */,
 				071324581346363300F7EFD8 /* AlertModuleController.xib in Resources */,
-				071324591346363300F7EFD8 /* MainWindow.xib in Resources */,
+				071324591346363300F7EFD8 /* MainWindow-iPhone.xib in Resources */,
 				071324621346368200F7EFD8 /* logo.png in Resources */,
 				071324661346368200F7EFD8 /* recycle-full.png in Resources */,
 				071324671346368200F7EFD8 /* reload.png in Resources */,
@@ -870,8 +896,6 @@
 				07EBB80D137C7D6200A46037 /* star_wars_battlefront.png in Resources */,
 				070E7B2F13F31E160013C1F6 /* prey-logo.png in Resources */,
 				070E7B3013F31E160013C1F6 /* prey-logo@2x.png in Resources */,
-				070E7B3D13F321CA0013C1F6 /* 57px.png in Resources */,
-				070E7B3E13F321CA0013C1F6 /* 114px.png in Resources */,
 				070E7B3F13F321CA0013C1F6 /* bg-mnts1.png in Resources */,
 				070E7B4013F321CA0013C1F6 /* bg-mnts1@2x.png in Resources */,
 				070E7B4113F321CA0013C1F6 /* bg-mnts2.png in Resources */,
@@ -890,11 +914,25 @@
 				5AE64ED6148D329400A5B3D2 /* prey-iphone-sonar@2x.png in Resources */,
 				5AC379AA14A2437100DF81C8 /* notokbutt@2x.png in Resources */,
 				5AC379AD14A2441300DF81C8 /* okbutt@2x.png in Resources */,
-				5A3137961512AB4E00504BA8 /* GrettingsProViewController.xib in Resources */,
+				5A3137961512AB4E00504BA8 /* GrettingsProViewController-iPhone.xib in Resources */,
 				5A0E50BC1517B1220032FBEE /* sucess@2x.png in Resources */,
 				5A0E50C11517B2F80032FBEE /* prey-pro-badge.png in Resources */,
 				5A0E50C31517B2F80032FBEE /* sucess.png in Resources */,
 				5A0E50C51517BA630032FBEE /* prey-pro-badge@2x.png in Resources */,
+				3BA6A22F16769566005323EB /* MainWindow-iPad.xib in Resources */,
+				3BA6A26A1676A2BA005323EB /* WelcomeController-iPad.xib in Resources */,
+				3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */,
+				3BA6A26E1676A754005323EB /* LoginController-iPad.xib in Resources */,
+				3BF03704167835CD0086A7A7 /* GrettingsProViewController-iPad.xib in Resources */,
+				3BF0371016783C790086A7A7 /* Default-Portrait.png in Resources */,
+				3BF0371116783C790086A7A7 /* Default.png in Resources */,
+				3BF0371216783C790086A7A7 /* Default@2x.png in Resources */,
+				3BF0371316783C790086A7A7 /* Icon-72.png in Resources */,
+				3BF0371416783C790086A7A7 /* Icon-Small-50.png in Resources */,
+				3BF0371516783C790086A7A7 /* Icon-Small.png in Resources */,
+				3BF0371616783C790086A7A7 /* Icon-Small@2x.png in Resources */,
+				3BF0371716783C790086A7A7 /* Icon.png in Resources */,
+				3BF0371816783C790086A7A7 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -908,9 +946,8 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */,
 				07CD96251253E13800590FCD /* LoginController.m in Sources */,
-				07CD96CB1254017500590FCD /* RootController.m in Sources */,
 				07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */,
-				07DA037E132013D900FECCAD /* PreferencesController.m in Sources */,
+				07DA037E132013D900FECCAD /* PreferencesController.mm in Sources */,
 				078E1372132AB584004B7C60 /* Reachability.m in Sources */,
 				07D32398133BB74A00841BFD /* ScreenshotModule.m in Sources */,
 				07D3239B133BC32D00841BFD /* PictureModule.m in Sources */,
@@ -965,6 +1002,8 @@
 				5A14171115190E240005AE7D /* StoreParserDelegate.m in Sources */,
 				07D4CBB81670EDE100DD1CB9 /* GeofencingModule.m in Sources */,
 				07D4CBBB1670FA2400DD1CB9 /* PreyGeofencingController.m in Sources */,
+				3BF0371F167847920086A7A7 /* ReviewRequest.mm in Sources */,
+				3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1032,7 +1071,7 @@
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = "Ad Hoc";
@@ -1062,7 +1101,7 @@
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
@@ -1090,7 +1129,7 @@
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

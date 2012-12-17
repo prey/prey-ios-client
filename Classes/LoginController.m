@@ -12,20 +12,19 @@
 #import "User.h"
 #import "PreyConfig.h"
 #import <CoreLocation/CoreLocation.h>
+
 @interface LoginController()
 
 - (void) checkPassword;
 - (void) hideKeyboard;
 - (void) animateTextField: (UITextField*) textField up: (BOOL) up;
 
-@property int movementDistance; // tweak as needed
-
 @end
 
 
 @implementation LoginController
 
-@synthesize loginPassword, loginImage, movementDistance, nonCamuflageImage, buttn, detail, devReady, loginButton, preyLogo, scrollView, tableView, tipl;
+@synthesize loginPassword, loginImage, nonCamuflageImage, buttn, detail, devReady, loginButton, preyLogo, scrollView, tableView, tipl;
 
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -115,6 +114,37 @@
 
 - (void) animateTextField: (UITextField*) textField up: (BOOL) up
 {
+    const float movementDuration = 0.3f;
+    int movementDistanceY;
+    
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        // Configuracion iPhone
+        if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]))
+            movementDistanceY = 160;
+        else
+            movementDistanceY = 200;
+    }
+    else
+    {
+        // Configuracion iPad
+        if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]))
+            movementDistanceY = 340;
+        else
+            movementDistanceY = 240;
+    }
+    
+    
+    int movement = (up ? -movementDistanceY : movementDistanceY);
+    
+    [UIView beginAnimations: @"anim" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    [UIView commitAnimations];
+    
+    /*
     const float movementDuration = 0.3f; // tweak as needed
     UIDeviceOrientation ori = [[UIDevice currentDevice] orientation];
     CGRect neueRect;
@@ -157,6 +187,7 @@
     [UIView setAnimationDuration: movementDuration];
     self.view.frame = neueRect;
     [UIView commitAnimations];
+    */
 }
 
 
@@ -168,61 +199,71 @@
     [self checkLoginPassword:sender];
 }
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
- - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
- if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
- // Custom initialization
- }
- return self;
- }
- */
-
-
 
 #pragma mark -
 #pragma mark screen rotation stuff
 
--(void) detectOrientation {
-    [self animateTextField:loginPassword up:[loginPassword isFirstResponder]];  
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation ==UIInterfaceOrientationLandscapeRight);
-}
-
--(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (loginPassword.editing)
+        [self animateTextField:loginPassword up:[loginPassword isFirstResponder]];
+    
+    
     int page = 0;
-    if (self.scrollView.contentOffset.x != 0) {
+    if (self.scrollView.contentOffset.x != 0)
         page = 1;
-    }    
-    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-
-    [UIView animateWithDuration:duration animations:^(void) {
-        [self.scrollView setContentSize:CGSizeMake(960, 126)];
-        self.nonCamuflageImage.center = CGPointMake(76, 98);
-        self.preyLogo.center = CGPointMake(333, 56);
-        self.buttn.center = CGPointMake(237, 134);
-        self.devReady.center = CGPointMake(350, 118);
-        self.detail.center = CGPointMake(381, 143);
-        self.loginButton.center = CGPointMake(480+240, 79);
-        self.loginPassword.center = CGPointMake(480+240, 29);
-        self.tipl.center = CGPointMake(480+240, 112);
-        [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*page, 0) animated:NO];
-    }];
-    } else if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
+        
+    CGFloat ancho = self.view.frame.size.width;
+    CGFloat alto  = self.view.frame.size.height;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        // Configuracion iPhone
+        if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+        {
+            [UIView animateWithDuration:duration animations:^(void) {
+                [self.scrollView setContentSize:CGSizeMake(ancho*2, scrollView.frame.size.height)];
+                self.nonCamuflageImage.center   = CGPointMake(76, 98);
+                self.preyLogo.center            = CGPointMake(333, 56);
+                self.buttn.center               = CGPointMake(237, 134);
+                self.devReady.center            = CGPointMake(350, 118);
+                self.detail.center              = CGPointMake(381, 143);
+                self.loginButton.center         = CGPointMake(ancho*1.5, 79);
+                self.loginPassword.center       = CGPointMake(ancho*1.5, 29);
+                self.tipl.center                = CGPointMake(ancho*1.5, 112);
+                [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*page, 0) animated:NO];
+            }];
+        }
+        else if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
+        {
+            [UIView animateWithDuration:duration animations:^(void) {
+                [self.scrollView setContentSize:CGSizeMake(ancho*2, scrollView.frame.size.height)];
+                self.nonCamuflageImage.center   = CGPointMake(123, 98);
+                self.preyLogo.center            = CGPointMake(160, 210);
+                self.buttn.center               = CGPointMake(74, 290);
+                self.devReady.center            = CGPointMake(186, 274);
+                self.detail.center              = CGPointMake(217, 299);
+                self.loginButton.center         = CGPointMake(ancho*1.5, 79);
+                self.loginPassword.center       = CGPointMake(ancho*1.5, 29);
+                self.tipl.center                = CGPointMake(ancho*1.5, 112);
+                [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*page, 0) animated:NO];
+            }];
+        }
+    }
+    else
+    {
+        // Configuracion iPad
         [UIView animateWithDuration:duration animations:^(void) {
-            [self.scrollView setContentSize:CGSizeMake(640, 126)];
-
-            self.nonCamuflageImage.center = CGPointMake(123, 98);
-            self.preyLogo.center = CGPointMake(160, 210);
-            self.loginPassword.center = CGPointMake(480, 29);
-            self.loginButton.center = CGPointMake(480, 79);
-            self.tipl.center = CGPointMake(480, 112);
-            self.buttn.center = CGPointMake(74, 290);
-            self.devReady.center = CGPointMake(186, 274);
-            self.detail.center = CGPointMake(217, 299);
+            [self.scrollView setContentSize:CGSizeMake(ancho*2, scrollView.frame.size.height)];
+            self.nonCamuflageImage.center   = CGPointMake(alto*0.2,200);
+            self.loginButton.center         = CGPointMake(ancho*1.5, 100);
+            self.loginPassword.center       = CGPointMake(ancho*1.5, 50);
+            self.tipl.center                = CGPointMake(ancho*1.5, 135);
             [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*page, 0) animated:NO];
         }];
     }
@@ -232,10 +273,10 @@
 #pragma mark view methods
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    movementDistance = 200;
+- (void)viewDidLoad
+{
     PreyConfig *config = [PreyConfig instance];
-    [self.scrollView setContentSize:CGSizeMake(640, 126)];
+    [self.scrollView setContentSize:CGSizeMake(scrollView.frame.size.width*2, scrollView.frame.size.height)];
     [self.loginPassword setBorderStyle:UITextBorderStyleRoundedRect];
     if (config.camouflageMode) {
         [self.nonCamuflageImage setHidden:YES];
@@ -259,9 +300,6 @@
     [self.loginPassword addTarget:self
                            action:@selector(textFieldFinished:)
                  forControlEvents:UIControlEventEditingDidEndOnExit];
-    
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(detectOrientation) name:UIDeviceOrientationDidChangeNotification object:nil];
     
     [super viewDidLoad];
 }
@@ -303,8 +341,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    // unregister for keyboard notifications while not visible.
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil]; 
+    
 }
 
 - (void)dealloc {
@@ -338,10 +375,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.row == 0) {
+    if (indexPath.row == 0)
+    {
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width, 0) animated:YES];
-    } else if (indexPath.row == 1) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://panel.preyproject.com"]];
+    }
+    else if (indexPath.row == 1)
+    {
+        //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://panel.preyproject.com"]];
+        
+        UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self forOrientation:UIInterfaceOrientationPortrait setURL:@"http://panel.preyproject.com"];
+        
+        if (controller)
+            [self.navigationController presentModalViewController:controller animated:YES];
+        
     }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

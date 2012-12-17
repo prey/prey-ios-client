@@ -23,8 +23,6 @@
 #import "IAPHelper.h"
 #import "GANTracker.h"
 
-
-
 @interface PreyAppDelegate()
 
 -(void)renderFirstScreen;
@@ -228,8 +226,8 @@
 	
 }
 
-- (void)displayScreen {
-    
+- (void)displayScreen
+{
     if (showAlert){
         [self displayAlert];
         return;
@@ -245,11 +243,20 @@
 	PreyLogMessage(@"App Delegate", 10, @"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
 	if (config.alreadyRegistered)
 		if (config.askForPassword)
-			nextController = [[LoginController alloc] initWithNibName:@"LoginController" bundle:nil];
+        {
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+                nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+            else
+                nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
+        }
 		else
 			nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-    else {
-        nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController" bundle:nil];
+    else
+    {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
+        else
+            nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
     }
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
 	[viewController setToolbarHidden:YES animated:NO];
