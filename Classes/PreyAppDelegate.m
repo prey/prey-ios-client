@@ -361,6 +361,13 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);    
+    
+    //TESTING PURPOSES
+    PreyRestHttp *http = [[PreyRestHttp alloc] init];
+    [http checkStatusForDevice:@"abcdef" andApiKey:@"0lnpal2yga0h"];
+    
+    //****//
+    
     self.url = [userInfo objectForKey:@"url"];
     [[PreyRunner instance] runPreyNow];
     [[PreyRunner instance] startPreyService];

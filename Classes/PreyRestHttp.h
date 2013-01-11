@@ -16,6 +16,13 @@
 #import "Constants.h"
 #import "Device.h"
 #import "DeviceModulesConfig.h"
+#import "KeyParserDelegate.h"
+#import "UserParserDelegate.h"
+#import "ErrorParserDelegate.h"
+#import "JsonConfigParser.h"
+#import "PreyConfig.h"
+#import "Reachability.h"
+#import "SBJson.h"
 
 
 
@@ -42,5 +49,11 @@
 + (BOOL) checkInternet;
 - (void) getAppstoreConfig: (id) delegate inURL: (NSString *) URL;
 - (void) setPushRegistrationId: (NSString *) id;
+
+#pragma mark -
+#pragma mark New panel API
+
+- (DeviceModulesConfig *) checkStatusForDevice: (NSString *) deviceKey andApiKey: (NSString *) apiKey;
+- (void) sendData: (NSDictionary*) data toEndpoint: (NSString *) url;
 
 @end

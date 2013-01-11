@@ -7,14 +7,8 @@
 //
 //
 
-#import "PreyRestHttp.h"
-#import "KeyParserDelegate.h"
-#import "UserParserDelegate.h"
-#import "ErrorParserDelegate.h"
-#import "ConfigParserDelegate.h"
-#import "PreyConfig.h"
-#import "Reachability.h"
 
+#import "PreyRestHttp.h"
 
 @interface PreyRestHttp()
 
@@ -207,12 +201,17 @@
 		}
 		
 		if (!error) {
-			NSError *error = nil;
+            
+            /*** Commented because this generates a compiling problem **/
+			/*
+            NSError *error = nil;
 			ConfigParserDelegate *configParser = [[ConfigParserDelegate alloc] init];
 			NSData *respData = [request responseData];
 			DeviceModulesConfig *modulesConfig = [configParser parseModulesConfig:respData parseError:&error];
 			[configParser release];			
 			return modulesConfig;
+             */
+            return nil;
 		}	
 		else {
 			@throw [NSException exceptionWithName:@"GetXMLforDeviceException" reason:[error localizedDescription] userInfo:nil];
@@ -439,5 +438,69 @@
     }];
 	[request startAsynchronous];
 }
+
+
+#pragma mark -
+#pragma mark New panel API
+
+- (DeviceModulesConfig *) checkStatusForDevice: (NSString *) deviceKey andApiKey: (NSString *) apiKey {
+    
+    ASIHTTPRequest *request = [self createGETrequestWithURL:[NEW_PANEL_URL stringByAppendingFormat: @"devices/%@.xml", deviceKey]];
+    [request setUsername:apiKey];
+	[request setPassword: @"x"];
+	
+	@try {
+		[request startSynchronous];
+		NSError *error = [request error];
+		int statusCode = [request responseStatusCode];
+		PreyLogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",deviceKey,[request responseStatusMessage]);
+        //LogMessage(@"PreyRestHttp", 20, @"GET devices/%@.xml response: %@",deviceKey,[request responseString]);
+		if (statusCode == 401){
+			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
+			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
+		}
+		
+		if (!error) {
+            NSError *error = nil;
+			JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
+			NSData *respData = [request responseData];
+			DeviceModulesConfig *modulesConfig = [configParser parseModulesConfig:respData parseError:&error];
+			[configParser release];
+			return modulesConfig;
+        }
+		else {
+			@throw [NSException exceptionWithName:@"GetXMLforDeviceException" reason:[error localizedDescription] userInfo:nil];
+		}
+	}
+	@catch (NSException * e) {
+		@throw;
+	}
+	return nil;
+}
+
+- (void) sendData: (NSDictionary*) data toEndpoint: (NSString *) url {
+    PreyConfig *preyConfig = [PreyConfig instance];
+	__block ASIFormDataRequest *request = [self createPOSTrequestWithURL:url];
+    [request setShouldContinueWhenAppEntersBackground:YES];
+	[request setUsername:[preyConfig apiKey]];
+	[request setPassword: @"x"];
+    [request setNumberOfTimesToRetryOnTimeout:5];
+    [request addRequestHeader:@"Content-Type" value:@"application/json"];
+    [request appendPostData:[[SBJsonWriter new] dataWithObject:data]];
+    
+    [request setCompletionBlock:^{
+        int statusCode = [request responseStatusCode];
+        if (statusCode != 200)
+            PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Couldn't send data: %@", [request responseStatusMessage]);
+        else
+            PreyLogMessageAndFile(@"PreyRestHttp", 10, @"Data sent successfully");
+    }];
+    [request setFailedBlock:^{
+        PreyLogMessageAndFile(@"PreyRestHttp", 0, @"ERROR sending data: %@", [[request error] localizedDescription]);
+    }];
+	[request startAsynchronous];
+}
+
+
 
 @end

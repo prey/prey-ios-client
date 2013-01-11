@@ -10,3 +10,6 @@
 [submodule "Classes/InAppSubscriptions"]
 	path = Classes/InAppSubscriptions
 	url = git@github.com:prey/prey-ios-inapppurchase.git
+[submodule "Classes/json-framework"]
+	path = Classes/json-framework
+	url = git://github.com/stig/json-framework.git

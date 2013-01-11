@@ -11,6 +11,8 @@
 
 @implementation Constants
 	NSString * const PREY_URL = @"http://control.preyproject.com/";
+    NSString * const NEW_PANEL_URL = @"http://newpanel.share.cl:3000/";
+    int const NEW_PANEL_PORT = 3000;
 	NSString * const PREY_SECURE_URL = @"https://control.preyproject.com/";
     NSString * const PREY_API_URL = @"https://panel.preyproject.com/";
 	BOOL  const ASK_FOR_LOGIN = YES;
