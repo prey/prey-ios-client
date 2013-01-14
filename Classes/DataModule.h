@@ -9,14 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "PreyRestHttp.h"
 #import "PreyConfig.h"
+#import "PreyModule.h"
 
-
-@interface DataModule : NSObject {
+@interface DataModule : PreyModule {
 
     NSString* endpoint;
 }
-
-extern NSString * const DATA_URL;
 
 - (void) get;
 - (void) sendData: (NSString*) data;

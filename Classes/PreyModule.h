@@ -9,19 +9,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Report.h"
 
-enum _ModuleType {ReportModuleType = 0, ActionModuleType};
+enum _ModuleType {DataModuleType = 0, ActionModuleType, SettingModuleType};
 typedef NSInteger ModuleType;
 
 @interface PreyModule : NSOperation {
-	NSMutableDictionary *configParms;
-	Report *reportToFill;
-	ModuleType type;
+	NSDictionary *options;
+    NSString *command;
+    ModuleType type;
 }
-@property (nonatomic, retain) NSMutableDictionary *configParms;
-@property (nonatomic, retain) Report *reportToFill;
+
+@property (nonatomic, retain) NSDictionary *options;
+@property (nonatomic, retain) NSString *command;
 @property (nonatomic) ModuleType type;
+
 
 + (PreyModule *) newModuleForName: (NSString *) moduleName;
 - (NSString *) getName;

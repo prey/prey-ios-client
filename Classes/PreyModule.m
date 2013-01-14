@@ -17,12 +17,12 @@
 
 @implementation PreyModule
 
-@synthesize configParms, reportToFill, type;
+@synthesize options, type;
 
 - (id) init {
 	self = [super init];
 	if(self != nil)
-		configParms = [[NSMutableDictionary alloc] init];
+		options = [[NSMutableDictionary alloc] init];
 	return self;
 }
 
@@ -49,18 +49,12 @@
 	return nil; //must be overriden;
 }
 
-- (NSMutableDictionary *) reportData {
-	return nil; //must be overriden;
-}
 
-- (void) fillReportData:(ASIFormDataRequest*) request {
-    //must be overriden;
-}
+
 
 -(void)dealloc {
     [super dealloc];
-    [reportToFill release];
-    [configParms release];
+    [options release];
 }
 
 @end

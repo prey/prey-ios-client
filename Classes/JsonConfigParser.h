@@ -7,22 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DeviceModulesConfig.h"
+#import "NewModulesConfig.h"
 #import "SBJsonParser.h"
 
 @interface JsonConfigParser : NSObject {
     
-    BOOL inMissing;
-    BOOL inDelay;
-    BOOL inPostUrl;
-    BOOL inModules;
-    BOOL inModule;
-    BOOL inCameraToUse;
-    BOOL inAccuracy;
-    DeviceModulesConfig *modulesConfig;
     
 }
 
-- (DeviceModulesConfig*) parseModulesConfig:(NSData *)request parseError:(NSError **)err;
+- (NewModulesConfig*) parseModulesConfig:(NSString *)request parseError:(NSError **)err;
 
 @end

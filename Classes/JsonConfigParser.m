@@ -7,20 +7,24 @@
 //
 
 #import "JsonConfigParser.h"
-
+#import "NewModulesConfig.h"
 
 @implementation JsonConfigParser
 
 
-- (DeviceModulesConfig*) parseModulesConfig:(NSData *)request parseError:(NSError **)err {
+- (NewModulesConfig*) parseModulesConfig:(NSString*)requestString parseError:(NSError **)err {
     
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-    NSArray *jsonObjects = (NSArray*)[jsonParser objectWithData:[request responseData] error:&err];
+    NewModulesConfig *modulesConfig = [[NewModulesConfig alloc] init];
+    
+    NSArray *jsonObjects = (NSArray*)[jsonParser objectWithString:requestString error:err];
     for (NSDictionary *dict in jsonObjects)
     {
-        //Every json array element
+        [modulesConfig addModule:dict];
     }
     [jsonParser release], jsonParser = nil;
+    return modulesConfig;
 }
+
 
 @end
