@@ -10,15 +10,15 @@
 
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import "PreyModule.h"
+#import <AVFoundation/AVFoundation.h>
+#import "ActionModule.h"
 
 @class AVAudioPlayer;
-@interface AlarmModule : PreyModule 
-
+@interface AlarmModule : ActionModule <AVAudioPlayerDelegate>
 {
-    
+    AVAudioPlayer *audioPlayer;
 }
 
-@property (nonatomic,retain) AVAudioPlayer *audioPlayer;
+
 
 @end
