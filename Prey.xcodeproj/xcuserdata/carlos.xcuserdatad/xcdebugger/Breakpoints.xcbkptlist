@@ -23,11 +23,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/PictureModule.m"
-         timestampString = "323378813.737861"
+         timestampString = "379631548.045311"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "21"
-         endingLineNumber = "21"
+         startingLineNumber = "23"
+         endingLineNumber = "23"
          landmarkName = "-main"
          landmarkType = "5">
       </FileBreakpoint>
@@ -121,11 +121,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/LoginController.m"
-         timestampString = "342137923.508085"
+         timestampString = "379619818.683808"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "48"
-         endingLineNumber = "48"
+         startingLineNumber = "49"
+         endingLineNumber = "49"
          landmarkName = "-checkPassword"
          landmarkType = "5">
       </FileBreakpoint>
@@ -135,11 +135,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/PreyConfig.m"
-         timestampString = "334189033.417917"
+         timestampString = "379955758.618761"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "159"
-         endingLineNumber = "159"
+         startingLineNumber = "188"
+         endingLineNumber = "188"
          landmarkName = "@implementation PreyConfig"
          landmarkType = "3">
       </FileBreakpoint>
@@ -175,26 +175,13 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Classes/PreyRestHttp.m"
-         timestampString = "378327456.174737"
+         filePath = "Classes/AlarmModule.m"
+         timestampString = "379884291.47711"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "448"
-         endingLineNumber = "448"
-         landmarkName = "-checkStatusForDevice:andApiKey:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Classes/JsonConfigParser.m"
-         timestampString = "378929467.967962"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "17"
-         endingLineNumber = "17"
-         landmarkName = "-parseModulesConfig:parseError:"
+         startingLineNumber = "18"
+         endingLineNumber = "18"
+         landmarkName = "-start"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

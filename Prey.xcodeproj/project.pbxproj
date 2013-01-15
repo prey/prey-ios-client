@@ -23,7 +23,6 @@
 		071323F6134632C900F7EFD8 /* AlarmModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F1134632C900F7EFD8 /* AlarmModule.m */; };
 		071323F7134632C900F7EFD8 /* AlertModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F3134632C900F7EFD8 /* AlertModule.m */; };
 		071323F8134632C900F7EFD8 /* AlertModuleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F5134632C900F7EFD8 /* AlertModuleController.m */; };
-		071323FB1346332A00F7EFD8 /* AccuracyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323FA1346332A00F7EFD8 /* AccuracyManager.m */; };
 		071323FE1346339A00F7EFD8 /* ConfigParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323FD1346339A00F7EFD8 /* ConfigParserDelegate.m */; };
 		07132400134633B800F7EFD8 /* CongratulationsController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071323FF134633B800F7EFD8 /* CongratulationsController-iPhone.xib */; };
 		07132403134633EA00F7EFD8 /* CongratulationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132402134633EA00F7EFD8 /* CongratulationsController.m */; };
@@ -104,6 +103,14 @@
 		07DF36E313413B6F00F0F218 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07DF36E213413B6E00F0F218 /* MessageUI.framework */; };
 		07DF36E6134222BF00F0F218 /* PicturesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DF36E5134222BF00F0F218 /* PicturesController.m */; };
 		07DF36E91342389700F0F218 /* PicturesControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DF36E81342389600F0F218 /* PicturesControllerDelegate.m */; };
+		07E1ABEB16A090F200803187 /* NewModulesConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABEA16A090F200803187 /* NewModulesConfig.m */; };
+		07E1ABF316A0A02C00803187 /* ActionModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABF216A0A02C00803187 /* ActionModule.m */; };
+		07E1ABF816A4975C00803187 /* SettingModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABF716A4975B00803187 /* SettingModule.m */; };
+		07E1ABFB16A5FE2700803187 /* PublicIp.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABFA16A5FE2700803187 /* PublicIp.m */; };
+		07E1ABFE16A5FF2E00803187 /* UIDevice-Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABFD16A5FF2E00803187 /* UIDevice-Reachability.m */; };
+		07E1AC0216A600DE00803187 /* PrivateIp.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1AC0116A600DE00803187 /* PrivateIp.m */; };
+		07E1AC0516A6014D00803187 /* wwanconnect.c in Sources */ = {isa = PBXBuildFile; fileRef = 07E1AC0316A6014D00803187 /* wwanconnect.c */; };
+		07E1AC0816A601AB00803187 /* FirmwareInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1AC0716A601AB00803187 /* FirmwareInfo.m */; };
 		07EBB80D137C7D6200A46037 /* star_wars_battlefront.png in Resources */ = {isa = PBXBuildFile; fileRef = 07EBB80C137C7D6200A46037 /* star_wars_battlefront.png */; };
 		07ED2DDD1411452B00EB912B /* shutter.wav in Resources */ = {isa = PBXBuildFile; fileRef = 07ED2DDC1411452B00EB912B /* shutter.wav */; };
 		1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* PreyAppDelegate.m */; };
@@ -171,14 +178,12 @@
 		070E7B3C13F321C80013C1F6 /* signupbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "signupbtn@2x.png"; path = "Resources/signupbtn@2x.png"; sourceTree = "<group>"; };
 		070E7B4C13F3231F0013C1F6 /* prey-allgood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-allgood.png"; path = "Resources/prey-allgood.png"; sourceTree = "<group>"; };
 		070E7B4D13F323200013C1F6 /* prey-allgood@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-allgood@2x.png"; path = "Resources/prey-allgood@2x.png"; sourceTree = "<group>"; };
-		071323F0134632C900F7EFD8 /* AlarmModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = AlarmModule.h; path = Classes/AlarmModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		071323F1134632C900F7EFD8 /* AlarmModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AlarmModule.m; path = Classes/AlarmModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		071323F0134632C900F7EFD8 /* AlarmModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AlarmModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		071323F1134632C900F7EFD8 /* AlarmModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AlarmModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071323F2134632C900F7EFD8 /* AlertModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = AlertModule.h; path = Classes/AlertModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071323F3134632C900F7EFD8 /* AlertModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AlertModule.m; path = Classes/AlertModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071323F4134632C900F7EFD8 /* AlertModuleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = AlertModuleController.h; path = Classes/AlertModuleController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071323F5134632C900F7EFD8 /* AlertModuleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AlertModuleController.m; path = Classes/AlertModuleController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		071323F91346332A00F7EFD8 /* AccuracyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = AccuracyManager.h; path = Classes/AccuracyManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		071323FA1346332A00F7EFD8 /* AccuracyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AccuracyManager.m; path = Classes/AccuracyManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071323FC1346339A00F7EFD8 /* ConfigParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ConfigParserDelegate.h; path = Classes/ConfigParserDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071323FD1346339A00F7EFD8 /* ConfigParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ConfigParserDelegate.m; path = Classes/ConfigParserDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071323FF134633B800F7EFD8 /* CongratulationsController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "CongratulationsController-iPhone.xib"; path = "Classes/CongratulationsController-iPhone.xib"; sourceTree = "<group>"; };
@@ -222,8 +227,8 @@
 		0713243A1346356300F7EFD8 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegexKitLite.m; path = Classes/RegexKitLite.m; sourceTree = "<group>"; };
 		0713243D1346357500F7EFD8 /* SignificantLocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SignificantLocationController.h; path = Classes/SignificantLocationController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0713243E1346357500F7EFD8 /* SignificantLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = SignificantLocationController.m; path = Classes/SignificantLocationController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		071324401346358600F7EFD8 /* PreyModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PreyModule.h; path = Classes/PreyModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		071324411346358600F7EFD8 /* PreyModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PreyModule.m; path = Classes/PreyModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		071324401346358600F7EFD8 /* PreyModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PreyModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		071324411346358600F7EFD8 /* PreyModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PreyModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07132443134635A100F7EFD8 /* PreyConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PreyConfig.h; path = Classes/PreyConfig.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		07132444134635A100F7EFD8 /* PreyConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PreyConfig.m; path = Classes/PreyConfig.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07132445134635A100F7EFD8 /* Report.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = Report.h; path = Classes/Report.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -317,6 +322,22 @@
 		07DF36E5134222BF00F0F218 /* PicturesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PicturesController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07DF36E71342389600F0F218 /* PicturesControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PicturesControllerDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		07DF36E81342389600F0F218 /* PicturesControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PicturesControllerDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		07E1ABE916A090F200803187 /* NewModulesConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewModulesConfig.h; sourceTree = "<group>"; };
+		07E1ABEA16A090F200803187 /* NewModulesConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewModulesConfig.m; sourceTree = "<group>"; };
+		07E1ABF116A0A02C00803187 /* ActionModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionModule.h; sourceTree = "<group>"; };
+		07E1ABF216A0A02C00803187 /* ActionModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionModule.m; sourceTree = "<group>"; };
+		07E1ABF616A4975B00803187 /* SettingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingModule.h; sourceTree = "<group>"; };
+		07E1ABF716A4975B00803187 /* SettingModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingModule.m; sourceTree = "<group>"; };
+		07E1ABF916A5FE2700803187 /* PublicIp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicIp.h; sourceTree = "<group>"; };
+		07E1ABFA16A5FE2700803187 /* PublicIp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicIp.m; sourceTree = "<group>"; };
+		07E1ABFC16A5FF2E00803187 /* UIDevice-Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice-Reachability.h"; path = "Classes/UIDevice-Extension/UIDevice-Reachability.h"; sourceTree = "<group>"; };
+		07E1ABFD16A5FF2E00803187 /* UIDevice-Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice-Reachability.m"; path = "Classes/UIDevice-Extension/UIDevice-Reachability.m"; sourceTree = "<group>"; };
+		07E1AC0016A600DD00803187 /* PrivateIp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateIp.h; sourceTree = "<group>"; };
+		07E1AC0116A600DE00803187 /* PrivateIp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateIp.m; sourceTree = "<group>"; };
+		07E1AC0316A6014D00803187 /* wwanconnect.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = wwanconnect.c; path = "Classes/UIDevice-Extension/Apple Sample Code/wwanconnect.c"; sourceTree = "<group>"; };
+		07E1AC0416A6014D00803187 /* wwanconnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wwanconnect.h; path = "Classes/UIDevice-Extension/Apple Sample Code/wwanconnect.h"; sourceTree = "<group>"; };
+		07E1AC0616A601AA00803187 /* FirmwareInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirmwareInfo.h; sourceTree = "<group>"; };
+		07E1AC0716A601AB00803187 /* FirmwareInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirmwareInfo.m; sourceTree = "<group>"; };
 		07EBB80C137C7D6200A46037 /* star_wars_battlefront.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = star_wars_battlefront.png; path = Resources/star_wars_battlefront.png; sourceTree = "<group>"; };
 		07ED2DDC1411452B00EB912B /* shutter.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = shutter.wav; path = Resources/shutter.wav; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -480,8 +501,6 @@
 				07132420134634CA00F7EFD8 /* LogController.m */,
 				071324041346340500F7EFD8 /* DelayManager.h */,
 				071324051346340500F7EFD8 /* DelayManager.m */,
-				071323F91346332A00F7EFD8 /* AccuracyManager.h */,
-				071323FA1346332A00F7EFD8 /* AccuracyManager.m */,
 				07CD95F11253D99500590FCD /* PreferencesController.h */,
 				07CD95F21253D99500590FCD /* PreferencesController.mm */,
 				07CD95F31253D99500590FCD /* PreferencesController.xib */,
@@ -545,7 +564,14 @@
 		07435EF51681021C00FBD54B /* Prey new modules */ = {
 			isa = PBXGroup;
 			children = (
+				07E1ABF016A09C4100803187 /* Action Modules */,
 				07435EF61681025B00FBD54B /* Data modules */,
+				071324401346358600F7EFD8 /* PreyModule.h */,
+				071324411346358600F7EFD8 /* PreyModule.m */,
+				07E1ABE916A090F200803187 /* NewModulesConfig.h */,
+				07E1ABEA16A090F200803187 /* NewModulesConfig.m */,
+				07E1ABF616A4975B00803187 /* SettingModule.h */,
+				07E1ABF716A4975B00803187 /* SettingModule.m */,
 			);
 			name = "Prey new modules";
 			sourceTree = "<group>";
@@ -557,6 +583,12 @@
 				07435EF8168102AB00FBD54B /* MacAddress.m */,
 				07435EFA1681031300FBD54B /* DataModule.h */,
 				07435EFB1681031300FBD54B /* DataModule.m */,
+				07E1ABF916A5FE2700803187 /* PublicIp.h */,
+				07E1ABFA16A5FE2700803187 /* PublicIp.m */,
+				07E1AC0016A600DD00803187 /* PrivateIp.h */,
+				07E1AC0116A600DE00803187 /* PrivateIp.m */,
+				07E1AC0616A601AA00803187 /* FirmwareInfo.h */,
+				07E1AC0716A601AB00803187 /* FirmwareInfo.m */,
 			);
 			name = "Data modules";
 			sourceTree = "<group>";
@@ -574,15 +606,10 @@
 		07783BC8126CE55D007BD409 /* Prey Modules */ = {
 			isa = PBXGroup;
 			children = (
-				071324401346358600F7EFD8 /* PreyModule.h */,
-				071324411346358600F7EFD8 /* PreyModule.m */,
-				071323F0134632C900F7EFD8 /* AlarmModule.h */,
-				071323F1134632C900F7EFD8 /* AlarmModule.m */,
 				07D32395133BB6F400841BFD /* Session Module */,
 				077D7B24126F3BE000C713B7 /* Contacts Module */,
 				077D7B23126F3B6E00C713B7 /* Geo Module */,
 				07D4CBB51670ED8500DD1CB9 /* Geofencing */,
-				077D7A66126E296400C713B7 /* Alert Module */,
 			);
 			name = "Prey Modules";
 			path = ..;
@@ -598,6 +625,7 @@
 				071324541346363300F7EFD8 /* AlertModuleController.xib */,
 			);
 			name = "Alert Module";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		077D7B23126F3B6E00C713B7 /* Geo Module */ = {
@@ -684,8 +712,6 @@
 		07805429125542EF00E4CCE5 /* Prey Utils */ = {
 			isa = PBXGroup;
 			children = (
-				5A7A12AB146D74FB00B14176 /* UIDevice-Hardware.h */,
-				5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */,
 				3BF0371D167847920086A7A7 /* ReviewRequest.h */,
 				3BF0371E167847920086A7A7 /* ReviewRequest.mm */,
 				3BD482E31678CAE300F25DC8 /* UIWebViewController.h */,
@@ -798,6 +824,40 @@
 			name = Geofencing;
 			sourceTree = "<group>";
 		};
+		07E1ABF016A09C4100803187 /* Action Modules */ = {
+			isa = PBXGroup;
+			children = (
+				077D7A66126E296400C713B7 /* Alert Module */,
+				07E1ABF416A0AAE500803187 /* Alarm */,
+				07E1ABF116A0A02C00803187 /* ActionModule.h */,
+				07E1ABF216A0A02C00803187 /* ActionModule.m */,
+			);
+			name = "Action Modules";
+			sourceTree = "<group>";
+		};
+		07E1ABF416A0AAE500803187 /* Alarm */ = {
+			isa = PBXGroup;
+			children = (
+				071323F0134632C900F7EFD8 /* AlarmModule.h */,
+				071323F1134632C900F7EFD8 /* AlarmModule.m */,
+			);
+			name = Alarm;
+			sourceTree = "<group>";
+		};
+		07E1ABFF16A5FF3A00803187 /* UIDevice */ = {
+			isa = PBXGroup;
+			children = (
+				07E1AC0316A6014D00803187 /* wwanconnect.c */,
+				07E1AC0416A6014D00803187 /* wwanconnect.h */,
+				07E1ABFC16A5FF2E00803187 /* UIDevice-Reachability.h */,
+				07E1ABFD16A5FF2E00803187 /* UIDevice-Reachability.m */,
+				5A7A12AB146D74FB00B14176 /* UIDevice-Hardware.h */,
+				5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */,
+			);
+			name = UIDevice;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -891,6 +951,7 @@
 		3BCD1C5516693E9600D609D9 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				07E1ABFF16A5FF3A00803187 /* UIDevice */,
 				079DEACB167FA93E0098493A /* Json-framework */,
 				078053FE125541DE00E4CCE5 /* ASIHttp */,
 				078E136F132AB583004B7C60 /* Reachability */,
@@ -1065,7 +1126,6 @@
 				071323F6134632C900F7EFD8 /* AlarmModule.m in Sources */,
 				071323F7134632C900F7EFD8 /* AlertModule.m in Sources */,
 				071323F8134632C900F7EFD8 /* AlertModuleController.m in Sources */,
-				071323FB1346332A00F7EFD8 /* AccuracyManager.m in Sources */,
 				071323FE1346339A00F7EFD8 /* ConfigParserDelegate.m in Sources */,
 				07132403134633EA00F7EFD8 /* CongratulationsController.m in Sources */,
 				071324061346340500F7EFD8 /* DelayManager.m in Sources */,
@@ -1128,6 +1188,14 @@
 				07435EF41680FDA000FBD54B /* JsonConfigParser.m in Sources */,
 				07435EF9168102AB00FBD54B /* MacAddress.m in Sources */,
 				07435EFC1681031300FBD54B /* DataModule.m in Sources */,
+				07E1ABEB16A090F200803187 /* NewModulesConfig.m in Sources */,
+				07E1ABF316A0A02C00803187 /* ActionModule.m in Sources */,
+				07E1ABF816A4975C00803187 /* SettingModule.m in Sources */,
+				07E1ABFB16A5FE2700803187 /* PublicIp.m in Sources */,
+				07E1ABFE16A5FF2E00803187 /* UIDevice-Reachability.m in Sources */,
+				07E1AC0216A600DE00803187 /* PrivateIp.m in Sources */,
+				07E1AC0516A6014D00803187 /* wwanconnect.c in Sources */,
+				07E1AC0816A601AB00803187 /* FirmwareInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
