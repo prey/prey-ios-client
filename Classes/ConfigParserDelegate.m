@@ -129,17 +129,8 @@
 		[self.modulesConfig addConfigValue:string withKey:@"alert_message" forModuleName:@"alert"];
     else if (self.inCameraToUse)
 		[self.modulesConfig addConfigValue:string withKey:@"camera" forModuleName:@"webcam"];
-    else if (self.inAccuracy){
-        PreyConfig *config = [PreyConfig instance];
-        if ([string isEqualToString:@"min"])
-            config.desiredAccuracy = [[NSNumber numberWithDouble:kCLLocationAccuracyThreeKilometers] doubleValue];
-        if ([string isEqualToString:@"med"])
-            config.desiredAccuracy = [[NSNumber numberWithDouble:kCLLocationAccuracyNearestTenMeters] doubleValue];
-        if ([string isEqualToString:@"max"])
-            config.desiredAccuracy = [[NSNumber numberWithDouble:kCLLocationAccuracyBestForNavigation] doubleValue];
-    }
-	
 }
+
 
 
 - (void)dealloc {
