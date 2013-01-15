@@ -31,7 +31,7 @@
 		PreyModule *module = [[PreyModule newModuleForName:name] retain];
 		if (module != nil){
 			if ([type isEqualToString:@"report"]){
-				module.type = ReportModuleType;
+				//module.type = ReportModuleType; //WIP
 				[self.reportModules addObject:module];
 			}
 			else if ([type isEqualToString:@"action"]){
@@ -47,14 +47,14 @@
 
 - (void) addConfigValue: (NSString *) value withKey: (NSString *) key forModuleName: (NSString *) name {
 	PreyModule *module;
-	for (module in reportModules){
+	/*for (module in reportModules){
         if ([[module getName] isEqualToString:name])
-			[module.configParms setObject:value forKey:key];
+			[module.configParms setObject:value forKey:key]; //WIP
 	}
 	for (module in actionModules){
         if ([[module getName] isEqualToString:name])
-			[module.configParms setObject:value forKey:key];
-	}
+			[module.configParms setObject:value forKey:key]; //WIP
+	}*/
 }
 
 - (BOOL) willRequireLocation{

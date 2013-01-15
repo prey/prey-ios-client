@@ -12,12 +12,11 @@
 @implementation GeofencingModule
 
 - (void)main {
-	reportToFill.waitForLocation = NO;
-    NSString *action = [self.configParms objectForKey:@"action"];
-    NSString *region_id = [self.configParms objectForKey:@"region_id"];
-    CLLocationDegrees center_lat = [[self.configParms objectForKey:@"center_lat"] doubleValue];
-    CLLocationDegrees center_lon = [[self.configParms objectForKey:@"center_lon"] doubleValue];
-    CLLocationDistance radius = [[self.configParms objectForKey:@"radius"] doubleValue];
+    NSString *action = [self.options objectForKey:@"action"];
+    NSString *region_id = [self.options objectForKey:@"region_id"];
+    CLLocationDegrees center_lat = [[self.options objectForKey:@"center_lat"] doubleValue];
+    CLLocationDegrees center_lon = [[self.options objectForKey:@"center_lon"] doubleValue];
+    CLLocationDistance radius = [[self.options objectForKey:@"radius"] doubleValue];
     CLLocationCoordinate2D center = CLLocationCoordinate2DMake(center_lat, center_lon);
     
     CLRegion *region = [[CLRegion alloc] initCircularRegionWithCenter:center radius:radius identifier:region_id];

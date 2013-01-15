@@ -69,24 +69,6 @@
     [self sendIfConditionsMatch];
 }
 
-- (void) alertReportSent {
-	if ([PreyConfig instance].alertOnReport){
-        
-        UILocalNotification *localNotif = [[UILocalNotification alloc] init];
-        if (localNotif) {
-            localNotif.alertBody = NSLocalizedString(@"A new report has been sent to your Control Panel.", nil);
-            //localNotif.alertAction = NSLocalizedString(@"Prey alert", nil);
-            [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
-            [localNotif release];
-        
-        }
-        /*
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Prey" message:NSLocalizedString(@"A new report has been sent to your Control Panel",nil) delegate:self cancelButtonTitle:nil otherButtonTitles:nil] autorelease];
-		[alert addButtonWithTitle:@"OK"];
-		[alert show];		
-         */
-	}
-}
 
 //parameters: {geo[lng]=-122.084095, geo[alt]=0.0, geo[lat]=37.422006, geo[acc]=0.0, api_key=rod8vlf13jco}
 

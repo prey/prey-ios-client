@@ -16,8 +16,10 @@
 
 
 -(void) main {
+    /* WIP
     reportToFill.waitForPicture = YES;
     camera = [self.configParms objectForKey:@"camera"];
+     */
     [[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:camera];
 }
 
