@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Fork Ltd. All rights reserved.
 //
 
-#import "PreyModule.h"
+#import "DataModule.h"
 
-@interface PublicIp : PreyModule
+@interface PublicIp : DataModule
 
 @end
