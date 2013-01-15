@@ -13,11 +13,10 @@
 
 @interface DataModule : PreyModule {
 
-    NSString* endpoint;
 }
 
 - (void) get;
-- (void) sendData: (NSString*) data;
-- (void) setEndpoint: (NSString*) url;
+- (void) sendData: (NSString*) value forKey: (NSString*) key;
+
 
 @end

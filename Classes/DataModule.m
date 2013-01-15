@@ -11,21 +11,24 @@
 
 @implementation DataModule
 
-NSString * const DATA_URL = @"http://newpanel.share.cl:3000/devices/%@/data";
+- (id) init {
+	self = [super init];
+	if (self != nil)
+		self.type = DataModuleType;
+	return self;
+}
 
-- (void) get {/* To be overriden */}
+- (void) get {/* To be overriden by each data modules */}
 
-- (void) sendData: (NSDictionary*) data {
-    if (endpoint == nil){
-        PreyConfig* preyConfig = [PreyConfig instance];
-        endpoint = [NSString stringWithFormat:DATA_URL, [preyConfig deviceKey]];
-    }
+- (void) sendData: (NSString*) value forKey: (NSString*) key {
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [data setObject:value forKey:key];
+    [dict setObject:data forKey:@"data"];
+
     PreyRestHttp* http = [[PreyRestHttp alloc] init];
-    [http sendData:data toEndpoint:endpoint];
+    [http sendData:dict];
 }
 
-- (void) setEndpoint: (NSString*) url {
-    endpoint = url;
-}
 
 @end

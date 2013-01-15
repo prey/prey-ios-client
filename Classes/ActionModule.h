@@ -10,9 +10,8 @@
 
 @interface ActionModule : PreyModule{
 
-     NSString* endpoint;
 }
 
-- (void) notifyExecutionOfAction: (NSString *) action wasSuccessfully: (BOOL) executionResult;
+- (void) notifyEvent:(NSString *) name withInfo: (NSString*) info;
 
 @end

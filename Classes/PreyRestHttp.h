@@ -42,7 +42,7 @@
 - (BOOL) deleteDevice: (Device*) device;
 - (BOOL) validateIfExistApiKey: (NSString *) apiKey andDeviceKey: (NSString *) deviceKey;
 - (NSString *) getErrorMessageFromXML: (NSData *) response;
-- (DeviceModulesConfig *) getXMLforUser: (NSString *) apiKey device:(NSString *) deviceKey;
+- (DeviceModulesConfig *) getXMLforUser;
 - (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey;
 - (BOOL) isMissingTheDevice: (NSString *) device ofTheUser: (NSString *) apiKey;
 - (void) sendReport: (Report *) report;
@@ -54,6 +54,8 @@
 #pragma mark New panel API
 
 - (DeviceModulesConfig *) checkStatusForDevice: (NSString *) deviceKey andApiKey: (NSString *) apiKey;
-- (void) sendData: (NSDictionary*) data toEndpoint: (NSString *) url;
+- (void) notifyEvent: (NSDictionary*) data;
+- (void) sendSetting: (NSDictionary*) data;
+- (void) sendData: (NSDictionary*) data;
 
 @end

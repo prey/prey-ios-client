@@ -28,6 +28,7 @@
     [audioPlayer prepareToPlay];
     [audioPlayer setVolume:1.0f];
     [audioPlayer play];
+    [super notifyEvent:@"action_started" withInfo:[self getName]];
     
 }
 
@@ -45,12 +46,12 @@
 
 - (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error
 {
-    [super notifyExecutionOfAction:[self getName] wasSuccessfully:NO];
+    [super notifyEvent:@"action_stopped" withInfo:[self getName]];
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
-    [super notifyExecutionOfAction:[self getName] wasSuccessfully:flag];
+    [super notifyEvent:@"action_stopped" withInfo:[self getName]];
 }
 
 @end

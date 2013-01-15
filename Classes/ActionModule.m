@@ -12,8 +12,6 @@
 
 @implementation ActionModule
 
-NSString * const POST_ACTION_URL = @"http://newpanel.share.cl:3000/devices/%@/action";
-
 - (id) init {
 	self = [super init];
 	if (self != nil)
@@ -21,17 +19,15 @@ NSString * const POST_ACTION_URL = @"http://newpanel.share.cl:3000/devices/%@/ac
 	return self;
 }
 
-- (void) notifyExecutionOfAction: (NSString *) action wasSuccessfully: (BOOL) executionResult  {
-    if (endpoint == nil){
-        PreyConfig* preyConfig = [PreyConfig instance];
-        endpoint = [NSString stringWithFormat:POST_ACTION_URL, [preyConfig deviceKey]];
-    }
-    PreyRestHttp* http = [[PreyRestHttp alloc] init];
+- (void) notifyEvent:(NSString *) name withInfo: (NSString*) info  {
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:action forKey:@"target"];
-    [dict setObject:executionResult ? @"True" : @"False" forKey:@"exec_result"];
+    [data setObject:name forKey:@"name"];
+    [data setObject:info forKey:@"info"];
+    [dict setObject:data forKey:@"event"];
     
-    [http sendData:dict toEndpoint:endpoint];
+    PreyRestHttp* http = [[PreyRestHttp alloc] init];
+    [http notifyEvent:dict];
 }
 
 @end

@@ -12,7 +12,11 @@
 
 - (void) get {
     NSString* macAddress = [[UIDevice currentDevice] macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
-//    return macAddress;
+    [super sendData:macAddress forKey:[self getName]];
+}
+
+- (NSString *) getName {
+	return @"first_mac_address";
 }
 
 @end

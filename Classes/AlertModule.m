@@ -33,7 +33,7 @@
         //[appDelegate performSelector:s withObject:alertMessage afterDelay:2];
         [appDelegate showAlert:alertMessage];
     }
-    [super notifyExecutionOfAction:[self getName] wasSuccessfully:YES];
+    [super notifyEvent:@"action_started" withInfo:[self getName]];
 }
 
 - (NSString *) getName {

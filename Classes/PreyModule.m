@@ -14,10 +14,11 @@
 #import "AlertModule.h"
 #import "PictureModule.h"
 #import "GeofencingModule.h"
+#import "SettingModule.h"
 
 @implementation PreyModule
 
-@synthesize options, type;
+@synthesize options, type, command;
 
 - (id) init {
 	self = [super init];
@@ -26,7 +27,7 @@
 	return self;
 }
 
-+ (PreyModule *) newModuleForName: (NSString *) moduleName {
++ (PreyModule *) newModuleForName: (NSString *) moduleName andCommand: (NSString *) command{
 	if ([moduleName isEqualToString:@"geo"]) {
 		return [[[LocationModule alloc] init] autorelease];
 	}
@@ -42,6 +43,10 @@
     if ([moduleName isEqualToString:@"webcam"]) {
 		return [[[PictureModule alloc] init] autorelease];
 	}
+    if ([command isEqualToString:@"read"] || [command isEqualToString:@"update"] || [command isEqualToString:@"toggle"]) { //Setting Module
+        SettingModule *settingModule = [[[SettingModule alloc]init] autorelease];
+        settingModule.setting = moduleName;
+    }
 	return nil;
 }
 
