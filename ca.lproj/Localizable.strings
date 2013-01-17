@@ -170,7 +170,7 @@
 
 "A new report has been sent to your Control Panel." = "S'ha enviat un nou informe al vostre panell de control.";
 
-"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Deshabilitant aquesta opció, Prey no podrà verificar l'estat del dispoditiu i l'única manera de rebre informes serà mitjançant el panell de control";
+"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Inhabilitant aquesta opció, Prey no podrà verificar l'estat del dispoditiu i l'única manera de rebre informes serà mitjançant el panell de control";
 
 "By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Habilitant aquesta opció, es mostrarà la icona al costat de l'estat de la bateria. Això no significa que s'estigui utilitzant el GPS, però pot consumir una mica més de bateria";
 
@@ -180,7 +180,7 @@
 
 "Device ready." = "Dispositiu preparat.";
 
-"Disable it!" = "Deshabilita-ho!";
+"Disable it!" = "Inhabilita-ho!";
 
 "Enable it!" = "Habilita-ho!";
 
