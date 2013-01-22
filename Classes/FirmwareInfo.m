@@ -7,17 +7,17 @@
 //
 
 #import "FirmwareInfo.h"
-#import "IphoneInformationHelper.h"
+
 
 @implementation FirmwareInfo
 
 - (void) get {
-    NSString* localWiFiIPAddress = [[UIDevice currentDevice] localWiFiIPAddress] != NULL ? [[UIDevice currentDevice] localWiFiIPAddress] :@"0.0.0.0";
-    [super sendData:localWiFiIPAddress forKey:[self getName]];
+    NSString* uuid = [[UIDevice currentDevice] uniqueIdentifier] != NULL ? [[UIDevice currentDevice] uniqueIdentifier] :@"";
+    [super sendData:uuid forKey:@"uuid"];
 }
 
 - (NSString *) getName {
-	return @"private_ip";
+	return @"firmware_info";
 }
 
 @end

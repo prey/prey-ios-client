@@ -7,11 +7,12 @@
 //
 
 #import "MacAddress.h"
+#import "UIDevice-Hardware.h"
 
 @implementation MacAddress
 
 - (void) get {
-    NSString* macAddress = [[UIDevice currentDevice] macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
+    NSString* macAddress = [[UIDevice currentDevice]  macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
     [super sendData:macAddress forKey:[self getName]];
 }
 

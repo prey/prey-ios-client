@@ -66,6 +66,9 @@
 		07435EF41680FDA000FBD54B /* JsonConfigParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 07435EF31680FDA000FBD54B /* JsonConfigParser.m */; };
 		07435EF9168102AB00FBD54B /* MacAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 07435EF8168102AB00FBD54B /* MacAddress.m */; };
 		07435EFC1681031300FBD54B /* DataModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07435EFB1681031300FBD54B /* DataModule.m */; };
+		075E6D3016AEF2F100F5DB91 /* BatteryStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 075E6D2F16AEF2F000F5DB91 /* BatteryStatus.m */; };
+		075E6D3316AEFA6300F5DB91 /* ProcessorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 075E6D3216AEFA6300F5DB91 /* ProcessorInfo.m */; };
+		075E6D3616AEFD8E00F5DB91 /* Uptime.m in Sources */ = {isa = PBXBuildFile; fileRef = 075E6D3516AEFD8E00F5DB91 /* Uptime.m */; };
 		0774BF181517B90D0016D3E6 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */; };
 		0774BF191517C2490016D3E6 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0774BF161517B7A00016D3E6 /* libGoogleAnalytics.a */; };
 		077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7A3B126E171300C713B7 /* AudioToolbox.framework */; };
@@ -258,6 +261,12 @@
 		07435EF8168102AB00FBD54B /* MacAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacAddress.m; sourceTree = "<group>"; };
 		07435EFA1681031300FBD54B /* DataModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModule.h; sourceTree = "<group>"; };
 		07435EFB1681031300FBD54B /* DataModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataModule.m; sourceTree = "<group>"; };
+		075E6D2E16AEF2EF00F5DB91 /* BatteryStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatteryStatus.h; sourceTree = "<group>"; };
+		075E6D2F16AEF2F000F5DB91 /* BatteryStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BatteryStatus.m; sourceTree = "<group>"; };
+		075E6D3116AEFA6300F5DB91 /* ProcessorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessorInfo.h; sourceTree = "<group>"; };
+		075E6D3216AEFA6300F5DB91 /* ProcessorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessorInfo.m; sourceTree = "<group>"; };
+		075E6D3416AEFD8E00F5DB91 /* Uptime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uptime.h; sourceTree = "<group>"; };
+		075E6D3516AEFD8E00F5DB91 /* Uptime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Uptime.m; sourceTree = "<group>"; };
 		0774BF151517B7A00016D3E6 /* GANTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GANTracker.h; sourceTree = "<group>"; };
 		0774BF161517B7A00016D3E6 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics.a; path = Classes/InAppSubscriptions/libGoogleAnalytics.a; sourceTree = "<group>"; };
 		0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -589,6 +598,12 @@
 				07E1AC0116A600DE00803187 /* PrivateIp.m */,
 				07E1AC0616A601AA00803187 /* FirmwareInfo.h */,
 				07E1AC0716A601AB00803187 /* FirmwareInfo.m */,
+				075E6D2E16AEF2EF00F5DB91 /* BatteryStatus.h */,
+				075E6D2F16AEF2F000F5DB91 /* BatteryStatus.m */,
+				075E6D3116AEFA6300F5DB91 /* ProcessorInfo.h */,
+				075E6D3216AEFA6300F5DB91 /* ProcessorInfo.m */,
+				075E6D3416AEFD8E00F5DB91 /* Uptime.h */,
+				075E6D3516AEFD8E00F5DB91 /* Uptime.m */,
 			);
 			name = "Data modules";
 			sourceTree = "<group>";
@@ -1196,6 +1211,9 @@
 				07E1AC0216A600DE00803187 /* PrivateIp.m in Sources */,
 				07E1AC0516A6014D00803187 /* wwanconnect.c in Sources */,
 				07E1AC0816A601AB00803187 /* FirmwareInfo.m in Sources */,
+				075E6D3016AEF2F100F5DB91 /* BatteryStatus.m in Sources */,
+				075E6D3316AEFA6300F5DB91 /* ProcessorInfo.m in Sources */,
+				075E6D3616AEFD8E00F5DB91 /* Uptime.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

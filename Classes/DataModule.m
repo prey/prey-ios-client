@@ -30,5 +30,12 @@
     [http sendData:dict];
 }
 
+- (void) sendData: (NSDictionary*) dict {
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setObject:dict forKey:@"data"];
+    
+    PreyRestHttp* http = [[PreyRestHttp alloc] init];
+    [http sendData:data];
+}
 
 @end

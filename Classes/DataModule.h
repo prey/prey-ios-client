@@ -17,6 +17,6 @@
 
 - (void) get;
 - (void) sendData: (NSString*) value forKey: (NSString*) key;
-
+- (void) sendData: (NSDictionary*) dict;
 
 @end
