@@ -1,0 +1,203 @@
+"10 mins." = "10 min";
+
+"15 mins." = "15 min";
+
+"2 mins." = "2 min";
+
+"20 mins." = "20 min";
+
+"30 mins." = "30 min";
+
+"30 secs." = "30 sec";
+
+"40 mins." = "40 min";
+
+"5 mins." = "5 min";
+
+"A new report has been sent to your Control Panel" = "Er is een nieuw rapport verstuurd naar je controlepaneel";
+
+"About" = "Over";
+
+"Access Denied" = "Toegang geweigerd";
+
+"Accessing your account..." = "Inloggen...";
+
+"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address." = "Account gemaakt! Verifieer je account door op de link te klikken in de e-mail die we naar je hebben gestuurd.";
+
+"Add this device!" = "Voeg dit apparaat toe!";
+
+"Alert on report sent" = "Melding bij sturen rapport";
+
+"Already a Prey user" = "Bestaande Prey-gebruiker";
+
+"An unknown error has occurred" = "Er is een onbekende fout opgetreden";
+
+"Ask for password" = "Vraag naar wachtwoord";
+
+"Attaching device..." = "Apparaat koppelen...";
+
+"Best possible" = "Optimaal";
+
+"Camouflage mode" = "Camouflagemodus";
+
+"Cancel" = "Annuleer";
+
+"Checking your password..." = "Wachtwoord controleren...";
+
+"Choose a 6 characters password" = "Kies een wachtwoord met 6 tekens";
+
+"Congratulations!" = "Gefeliciteerd!";
+
+"Congratulations! You have successfully associated this iOS device with your Prey account." = "Gefeliciteerd! Je hebt dit iOS-apparaat succesvol gekoppeld aan je Prey-account.";
+
+"Couldn't add your device" = "Kan je apparaat niet toevoegen";
+
+"Couldn't check your password" = "Kan je wachtwoord niet controleren";
+
+"Create my account!" = "Maak mijn account!";
+
+"Create Prey account" = "Maak Pray-account";
+
+"Creating account..." = "Account maken...";
+
+"Delay" = "Vertraging";
+
+"Delete log" = "Verwijder logbestand";
+
+"Detach device" = "Ontkoppel apparaat";
+
+"Email" = "E-mailadres";
+
+"Enter a valid e-mail address" = "Vul een geldig e-mailadres in";
+
+"Hundreds of Meters" = "Honderden meters";
+
+"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "Het lijkt erop dat je de limiet voor het aantal apparaten hebt bereikt. Verwijder dit apparaat eerst als je deze al had toegevoegd.";
+
+"Location accuracy" = "Nauwkeurigheid locatie";
+
+"Log" = "Logbestand";
+
+"Log in to Prey" = "Log in bij Prey";
+
+"Log records will be deleted.\n\nAre you sure?" = "Logbestanden zullen worden verwijderd.\n\nWeet je het zeker?";
+
+"Log records will be sent to developers. You'll be able to check the email body before proceed." = "De logbestanden zullen worden verstuurd naar de ontwikkelaars. Je kunt de inhoud van de e-mail bekijken voordat je doorgaat.";
+
+"Mark as missing" = "Markeer als vermist";
+
+"Mark as recovered" = "Markeer als gevonden";
+
+"Name" = "Naam";
+
+"Nearest 10 meters" = "10 meter";
+
+"Nearest 3 kilometers" = "3 kilometer";
+
+"New user" = "Nieuwe gebruiker";
+
+"No, don't delete" = "Verwijder niet";
+
+"None: Send everything." = "Geen: stuur alles.";
+
+"OK" = "OK";
+
+"One kilometer" = "1 kilometer";
+
+"Password" = "Wachtwoord";
+
+"Password must be at least 6 characters" = "Wachtwoord met ten minste 6 tekens lang zijn";
+
+"Passwords do not match" = "Wachtwoorden komen niet overeen";
+
+"Please wait" = "Even geduld";
+
+"Prey alert" = "Prey-melding";
+
+"Prey next execution in %i minutes." = "Volgende uitvoering van Prey over %i minuten.";
+
+"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey zal geen rapporten meer sturen naar het controlepaneel en je apparaat zal worden gemarkeerd als gevonden.\n\nWeet je het zeker?";
+
+"Quite accurate" = "Enigszins nauwkeurig";
+
+"Read Message" = "Lees bericht";
+
+"Removing device..." = "Apparaat verwijderen...";
+
+"Repeat your password" = "Herhaal je wachtwoord";
+
+"Report couldn't be sent" = "Rapport kan niet worden verstuurd";
+
+"Send log" = "Stuur logbestand";
+
+"Settings" = "Instellingen";
+
+"Starting Prey..." = "Prey starten...";
+
+"Stopping Prey..." = "Prey stoppen...";
+
+"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password." = "Er is een fout opgetreden bij het ophalen van je accountinformatie. Zorg ervoor dat je e-mailadres en je wachtwoord geldig zijn.";
+
+"Unable to access Location Services.\n You need to grant Prey access if you wish to track your device." = "Geen locatiediensten.\nJe moet Prey toegang verlenen als je je apparaat wilt traceren.";
+
+"Unable to fetch location data. Is this device on airplane mode?" = "Kan locatiegegevens niet ophalen. Is de vliegtuigstand ingeschakeld?";
+
+"User couldn't be created" = "Gebruiker kan niet worden aangemaakt";
+
+"Version" = "Versie";
+
+"View Details" = "Bekijk details";
+
+"Warning" = "Waarschuwing";
+
+"We have a situation!" = "We hebben een situatie!";
+
+"Welcome to Prey!" = "Welkom bij Prey!";
+
+"Wrong password. Try again." = "Verkeerd wachtwoord. Probeer het opnieuw.";
+
+"Yes, remove from my account" = "Ja, verwijder mijn account";
+
+"You have successfully associated this device with your Prey Control Panel account." = "Je hebt dit apparaat succesvol gekoppeld aan je Prey-account.";
+
+"You're about to delete this device from the Control Panel.\n Are you sure?" = "Je wilt dit apparaat verwijderen uit je controlepaneel.\n\nWeet je het zeker?";
+
+"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Je wilt dit apparaat markeren als vermist, waarna er rapporten zullen worden verstuurd naar het controlepaneel.\n\nWeet je het zeker?";
+
+"Your email" = "Je e-mailadres";
+
+"Your name" = "Je naam";
+
+"A new report has been sent to your Control Panel." = "Er is een nieuw rapport verstuurd naar je controlepaneel.";
+
+"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Als je dit uitschakelt, zal Prey de status niet meer kunnen controleren. Je moet het versturen van rapporten dan starten via het online controlepaneel.";
+
+"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Als je dit inschakelt, zal het paarse locatiepictogram naast de batterijstatus bovenin worden getoond. Dit geeft aan dat GPS is ingeschakeld. Dit verbruikt mogelijk extra batterij.";
+
+"Current Location" = "Huidige locatie";
+
+"Device not ready!" = "Apparaat niet gereed!";
+
+"Device ready." = "Apparaat gereed.";
+
+"Disable it!" = "Zet uit";
+
+"Enable it!" = "Zet aan";
+
+"Help" = "Help";
+
+"Location services are disabled for Prey. Reports will not be sent." = "Locatiediensten zijn uitgeschakeld voor Prey. Rapporten zullen niet worden verstuurd.";
+
+"Preferences" = "Voorkeuren";
+
+"Privacy Policy" = "Privacybeleid";
+
+"Terms of Service" = "Algemene voorwaarden";
+
+"Upgrade to Pro" = "Upgrade naar Pro";
+
+"Use Location Listener" = "Gebruik locatie-listener";
+
+"Your device is protected and waiting for the activation signal." = "Je apparaat is beveiligd en wacht op het activatiesignaal.";
+
+"Missing" = "Vermist";
