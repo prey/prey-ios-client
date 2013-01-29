@@ -1,0 +1,205 @@
+"10 mins." = "10 min.";
+
+"15 mins." = "15 min.";
+
+"2 mins." = "2 min.";
+
+"20 mins." = "20 min.";
+
+"30 mins." = "30 min.";
+
+"30 secs." = "30 seg.";
+
+"40 mins." = "40 min.";
+
+"5 mins." = "5 min.";
+
+"A new report has been sent to your Control Panel" = "Um novo relatório foi enviado para o seu Painel de Controle";
+
+"About" = "Sobre";
+
+"Access Denied" = "Acesso Negado";
+
+"Accessing your account..." = "Acessando sua conta...";
+
+"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address." = "Conta criada! Lembre-se de verificar sua conta por abrir sua Caixa de Entrada e clicar no link que enviamos para seu endereço de email.";
+
+"Add this device!" = "Adicionar este dispositivo!";
+
+"Alert on report sent" = "Alertar ao enviar relatório";
+
+"Already a Prey user" = "Já é usuário do Prey";
+
+"An unknown error has occurred" = "Ocorreu um erro desconhecido";
+
+"Ask for password" = "Perguntar a senha";
+
+"Attaching device..." = "Anexando dispositivo...";
+
+"Best possible" = "O melhor possível";
+
+"Camouflage mode" = "Modo camuflagem";
+
+"Cancel" = "Cancelar";
+
+"Checking your password..." = "Verificando sua senha...";
+
+"Choose a 6 characters password" = "Escolha uma senha com 6 caracteres";
+
+"Congratulations!" = "Parabéns!";
+
+"Congratulations! You have successfully associated this iOS device with your Prey account." = "Parabéns! Você associou este dispositivo iOS à sua conta no Prey com sucesso.";
+
+"Couldn't add your device" = "Não foi possível adicionar seu dispositivo.";
+
+"Couldn't check your password" = "Não foi possível conferir sua senha";
+
+"Create my account!" = "Criar minha conta!";
+
+"Create Prey account" = "Criar uma conta no Prey";
+
+"Creating account..." = "Criando conta...";
+
+"Delay" = "Atraso";
+
+"Delete log" = "Remover log";
+
+"Detach device" = "Remover dispositivo";
+
+"Email" = "Email";
+
+"Enter a valid e-mail address" = "Digite um endereço de e-mail válido";
+
+"Hundreds of Meters" = "Centenas de Metros";
+
+"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "Parece que você alcançou o limite de dispositivos em seu Painel de Controle. Tente remover este dispositivo de sua conta se por acaso você já o tenha adicionado.";
+
+"Location accuracy" = "Precisão da localização";
+
+"Log" = "Log";
+
+"Log in to Prey" = "Entrar no Prey";
+
+"Log records will be deleted.\n\nAre you sure?" = "Registros de log serão removidos.\n\nTem certeza?";
+
+"Log records will be sent to developers. You'll be able to check the email body before proceed." = "Registros de log serão enviados para os desenvolvedores. Você poderá ver o corpo do email antes de enviar.";
+
+"Mark as missing" = "Marcar como perdido";
+
+"Mark as recovered" = "Marcar como recuperado";
+
+"Name" = "Nome";
+
+"Nearest 10 meters" = "Em 10 metros";
+
+"Nearest 3 kilometers" = "Em 3 quilômetros";
+
+"New user" = "Novo usuário";
+
+"No, don't delete" = "Não, não apague";
+
+"None: Send everything." = "Nenhum: Enviando tudo.";
+
+"OK" = "OK";
+
+"One kilometer" = "Um quilômetro";
+
+"Password" = "Senha";
+
+"Password must be at least 6 characters" = "Sua senha precisa ter pelo menos 6 caracteres";
+
+"Passwords do not match" = "As senhas não combinam";
+
+"Please wait" = "Por favor aguarde";
+
+"Prey alert" = "Alerta do Prey";
+
+"Prey next execution in %i minutes." = "Próxima execução do Prey em %i minutos.";
+
+"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey irá parar de enviar relatórios para o Painel de Controle e o seu dispositivo será marcado como recuperado.\n\nVocê tem certeza?";
+
+"Quite accurate" = "Bastante preciso";
+
+"Read Message" = "Ler Mensagem";
+
+"Removing device..." = "Removendo dispositivo...";
+
+"Repeat your password" = "Repita sua senha";
+
+"Report couldn't be sent" = "Relatório não pôde ser enviado";
+
+"Send log" = "Enviando log";
+
+"Settings" = "Configurações";
+
+"Starting Prey..." = "Iniciando o Prey...";
+
+"Stopping Prey..." = "Parando o Prey...";
+
+"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password." = "Houve um problema ao tentar obter as informações da sua conta. Por favor certifique-se que o endereço de email é válido, assim como sua senha.";
+
+"Unable to access Location Services.\n You need to grant Prey access if you wish to track your device." = "Não foi possível acessar o Serviço de Localização.\nVocê precisa dar ao Prey permissão de acesso se você deseja rastrear seu dispositivo.";
+
+"Unable to fetch location data. Is this device on airplane mode?" = "Não foi possível obter dados de localização. Por acaso o dispositivo está em Modo Avião?";
+
+"User couldn't be created" = "O usuário não pôde ser criado";
+
+"Version" = "Versão";
+
+"View Details" = "Ver detalhes";
+
+"Warning" = "Aviso";
+
+"We have a situation!" = "Temos um problema!";
+
+"Welcome to Prey!" = "bem vindo ao Prey!";
+
+"Wrong password. Try again." = "Senha errada. Tente novamente.";
+
+"Yes, remove from my account" = "Sim, remova da minha conta";
+
+"You have successfully associated this device with your Prey Control Panel account." = "Você associou este dispositivo ao seu Painel de Controle do Prey com sucesso.";
+
+"You're about to delete this device from the Control Panel.\n Are you sure?" = "Você está prestes a remover este dispositivo de seu Painel de Controle.\nTem certeza?";
+
+"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Você está prestes a marcar este dispositivo como Perdido, e começará a enviar relatórios para o Painel de Controle.\n\nTem certeza?";
+
+"Your email" = "Seu email";
+
+"Your name" = "Seu nome";
+
+"A new report has been sent to your Control Panel." = "Um novo relatório foi enviado para o seu Painel de Controle.";
+
+"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Ao desabilitar esta opção, o Prey não vai conseguir verificar se está marcado como Perdido, e a única maneira de iniciar o envio de relatórios será ativando o Prey através do Painel de Controle";
+
+"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Ao habilitar esta opção, o ícone roxo de Localização será exibido ao lado do status da bateria, no topo da tela. Isto não significa que o GPS está ligado, mas pode acabar usando um pouco da bateria do seu telefone";
+
+"Current Location" = "Localização Atual";
+
+"Device not ready!" = "Dispositivo não está pronto!";
+
+"Device ready." = "Dispositivo está pronto.";
+
+"Disable it!" = "Desabilite!";
+
+"Enable it!" = "Habilite!";
+
+"Help" = "Ajuda";
+
+"Location services are disabled for Prey. Reports will not be sent." = "Serviço de localicação está desabilitado para o Prey. Não serão enviados relatórios.";
+
+"Preferences" = "Preferências";
+
+"Privacy Policy" = "Política de Privacidade";
+
+"Terms of Service" = "Termos de uso";
+
+"Upgrade to Pro" = "Atualize para o Pro";
+
+"Use Location Listener" = "Use o Listener de Localização";
+
+"Your device is protected and waiting for the activation signal." = "Seu dispositivo está protegido e esperando pelo sinal de ativação.";
+
+"Missing" = "Desaparecido";
+
+"Execution control" = "Controle de execução";
