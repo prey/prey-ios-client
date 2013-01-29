@@ -1,0 +1,201 @@
+"10 mins." = "10分钟";
+
+"15 mins." = "15分钟";
+
+"2 mins." = "2分钟";
+
+"20 mins." = "20分钟";
+
+"30 mins." = "30分钟";
+
+"30 secs." = "30秒";
+
+"40 mins." = "40分钟";
+
+"5 mins." = "5分钟";
+
+"A new report has been sent to your Control Panel" = "一份新报告已经发到您的控制面板";
+
+"About" = "关于";
+
+"Access Denied" = "拒绝访问";
+
+"Accessing your account..." = "访问您的账户";
+
+"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address." = "帐户已创建！不要忘了打开您的收件箱点击我们发给您的链接来验证您的帐户。";
+
+"Add this device!" = "添加此设备！";
+
+"Alert on report sent" = "发送报告时警报";
+
+"Already a Prey user" = "已经是一个Prey用户";
+
+"An unknown error has occurred" = "发生了一个未知错误";
+
+"Ask for password" = "要求密码";
+
+"Attaching device..." = "附加设备……";
+
+"Best possible" = "最大可能";
+
+"Camouflage mode" = "隐身模式";
+
+"Cancel" = "取消";
+
+"Checking your password..." = "检查您的密码……";
+
+"Choose a 6 characters password" = "选择一个6位字符的密码";
+
+"Congratulations!" = "恭喜！";
+
+"Congratulations! You have successfully associated this iOS device with your Prey account." = "恭喜！您已经成功将此IOS设备和Prey帐户关联。";
+
+"Couldn't add your device" = "无法添加您的设备";
+
+"Couldn't check your password" = "无法检查您的密码";
+
+"Create my account!" = "创建我的帐户！";
+
+"Create Prey account" = "创建Prey帐户";
+
+"Creating account..." = "创建帐户……";
+
+"Delay" = "延期";
+
+"Delete log" = "删除记录";
+
+"Detach device" = "分离设备";
+
+"Email" = "Email";
+
+"Enter a valid e-mail address" = "输入了一个无效的e-mail地址";
+
+"Hundreds of Meters" = "几百米";
+
+"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "看来您的设备数已满，请移除此设备。";
+
+"Location accuracy" = "位置精度";
+
+"Log" = "记录";
+
+"Log in to Prey" = "登陆到Prey";
+
+"Log records will be deleted.\n\nAre you sure?" = "日志记录将被删除。\n\n您确定吗？";
+
+"Log records will be sent to developers. You'll be able to check the email body before proceed." = "日志记录将被发送给开发者，您可以在发送前检查邮件正文。";
+
+"Mark as missing" = "标记为遗失";
+
+"Mark as recovered" = "标记为已找回";
+
+"Name" = "名字";
+
+"Nearest 10 meters" = "最近的10米";
+
+"Nearest 3 kilometers" = "最近的3公里";
+
+"New user" = "新用户";
+
+"No, don't delete" = "不，不要删除";
+
+"None: Send everything." = "默认值：发送所有东西。";
+
+"OK" = "确定";
+
+"One kilometer" = "一公里";
+
+"Password" = "密码";
+
+"Password must be at least 6 characters" = "密码必须至少6个字符";
+
+"Passwords do not match" = "密码不匹配";
+
+"Please wait" = "请等待";
+
+"Prey alert" = "Prey警告";
+
+"Prey next execution in %i minutes." = "Prey在 %i 分钟内再次执行。";
+
+"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey 将会停止发送报告到控制面板并且您的设备会被标记为已发现,\n您确认么?";
+
+"Quite accurate" = "相当精确";
+
+"Read Message" = "阅读消息";
+
+"Removing device..." = "移除设备……";
+
+"Repeat your password" = "重复您的密码";
+
+"Report couldn't be sent" = "报告无法被发送";
+
+"Send log" = "发送记录";
+
+"Settings" = "设置";
+
+"Starting Prey..." = "启动Prey……";
+
+"Stopping Prey..." = "停止Prey……";
+
+"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password." = "获取您的帐户信息时出错，请确定email地址还有密码有效。";
+
+"Unable to access Location Services.\n You need to grant Prey access if you wish to track your device." = "无法访问位置服务。\n 如果您想追踪您的设备，要授权Prey访问。";
+
+"Unable to fetch location data. Is this device on airplane mode?" = "无法获取位置数据，设备处于飞行模式吗？";
+
+"User couldn't be created" = "用户无法被创建";
+
+"Version" = "版本";
+
+"View Details" = "查看详情";
+
+"Warning" = "警告";
+
+"We have a situation!" = "我们遇到了问题!";
+
+"Welcome to Prey!" = "欢迎来到Prey！";
+
+"Wrong password. Try again." = "密码错误。请重试。";
+
+"Yes, remove from my account" = "是的，从我的帐户移除";
+
+"You have successfully associated this device with your Prey Control Panel account." = "您已成功管理此设备和您的Prey控制面板帐户。";
+
+"You're about to delete this device from the Control Panel.\n Are you sure?" = "您将从控制面板删除此设备。\n 确定吗？";
+
+"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "您正试图将此设备标记为遗失，开始发送报告到控制面板。\n\n确定吗？";
+
+"Your email" = "您的邮箱";
+
+"Your name" = "您的名字";
+
+"A new report has been sent to your Control Panel." = "一份新报告已发到您的控制面板。";
+
+"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "关闭后Prey将不能检查它的遗失状态，唯一启动发送报告的方式将从网页控制面板激活Prey";
+
+"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "开启后紫色的位置图标将在顶部电池状态旁边显示。这不代表GPS已开启，但它会消耗少许电量";
+
+"Current Location" = "当前位置";
+
+"Device not ready!" = "设备未准备好！";
+
+"Device ready." = "设备已准备好。";
+
+"Disable it!" = "关闭！";
+
+"Enable it!" = "开启！";
+
+"Help" = "帮助";
+
+"Location services are disabled for Prey. Reports will not be sent." = "位置服务不可用，将不会发送报告。";
+
+"Preferences" = "首选项";
+
+"Privacy Policy" = "隐私策略";
+
+"Terms of Service" = "服务条款";
+
+"Upgrade to Pro" = "升级到专业版";
+
+"Use Location Listener" = "使用位置侦听器";
+
+"Your device is protected and waiting for the activation signal." = "您的设备已被保护，正在等待激活信号。";
