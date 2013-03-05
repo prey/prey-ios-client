@@ -25,7 +25,8 @@
 
 -(void)setupRequest: (ASIHTTPRequest*)request{
     //[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
-    [request setUserAgentString:[self userAgent]];
+    //[request setUserAgentString:[self userAgent]];
+    [request setUserAgentString:@"TEST"];//testing
     [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setUseSessionPersistence:NO];
 	[request setShouldRedirect:NO];
@@ -464,8 +465,19 @@
 		if (!error) {
             NSError *error = nil;
 			JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
-			//NSString *respString = [request responseString];
-            NSString *respString =@"[{\"command\":\"start\",\"target\":\"alert\",\"options\":{\"message\":\"asdasd\"}},{\"command\":\"start\",\"target\":\"alarm\",\"options\":null}]";
+			//NSString *respString = [request responseString]; 
+            NSString *respString =@"[{\"command\":\"get\",\"target\":\"picture\"}]";
+           // NSString *respString =@"[{\"command\":\"get\",\"target\":\"public_ip\"},\
+            {\"command\":\"get\",\"target\":\"private_ip\"},\
+            {\"command\":\"get\",\"target\":\"first_mac_address\"},\
+            {\"command\":\"get\",\"target\":\"firmware_info\"},\
+            {\"command\":\"get\",\"target\":\"battery_status\"},\
+            {\"command\":\"get\",\"target\":\"processor_info\"},\
+            {\"command\":\"get\",\"target\":\"uptime\"},\
+            {\"command\":\"get\",\"target\":\"remaining_storage\"}\
+            ]";
+//          NSString *respString =@"[{\"command\":\"start\",\"target\":\"alert\",\"options\":{\"message\":\"asdasd\"}},{\"command\":\"start\",\"target\":\"alarm\",\"options\":null}]";
+            
             //NSString *respString =@"[ {\"command\": \"start\",\"target\": \"geofencing\",\"options\": {\"origin\": \"-70.60713481,-36.42372147\",\"radius\":\"100\" }}]";
 			NewModulesConfig *modulesConfig = [configParser parseModulesConfig:respString parseError:&error];
 			[modulesConfig runAllModules];
@@ -482,15 +494,20 @@
 	return nil;
 }
 
-- (void) sendData: (NSDictionary*) data toEndpoint: (NSString *) url {
+- (void) sendJsonData: (NSDictionary*) jsonData andRawData: (NSDictionary*) rawData toEndpoint: (NSString *) url {
     PreyConfig *preyConfig = [PreyConfig instance];
-	__block ASIFormDataRequest *request = [self createPOSTrequestWithURL:url];
+    
+    NSString *testURL = @"http://posttestserver.com/post.php?dir=cyh";
+	__block ASIFormDataRequest *request = [self createPOSTrequestWithURL:testURL];
     [request setShouldContinueWhenAppEntersBackground:YES];
-	[request setUsername:[preyConfig apiKey]];
-	[request setPassword: @"x"];
+	//[request setUsername:[preyConfig apiKey]];
+	//[request setPassword: @"x"];
     [request setNumberOfTimesToRetryOnTimeout:5];
-    [request addRequestHeader:@"Content-Type" value:@"application/json"];
-    [request appendPostData:[[SBJsonWriter new] dataWithObject:data]];
+    //[request addRequestHeader:@"Content-Type" value:@"application/json"];
+    if (jsonData != nil)
+        [request appendPostData:[[SBJsonWriter new] dataWithObject:jsonData]];
+    if (rawData != nil)
+        [request addData:[rawData objectForKey:@"data"] withFileName:@"picture.jpg" andContentType:@"image/png" forKey:[rawData objectForKey:@"key"]];
     
     [request setCompletionBlock:^{
         int statusCode = [request responseStatusCode];
@@ -507,17 +524,22 @@
 
 - (void) notifyEvent: (NSDictionary*) data {
     PreyConfig *preyConfig = [PreyConfig instance];
-    [self sendData:data toEndpoint:[[preyConfig deviceCheckPathWithExtension:@""] stringByAppendingString:@"/events"]];
+    [self sendJsonData:data andRawData:nil toEndpoint:[[preyConfig deviceCheckPathWithExtension:@""] stringByAppendingString:@"/events"]];
 }
 
 - (void) sendSetting: (NSDictionary*) data {
     PreyConfig *preyConfig = [PreyConfig instance];
-    [self sendData:data toEndpoint:[[preyConfig deviceCheckPathWithExtension:@""] stringByAppendingString:@"/settings"]];
+    [self sendJsonData:data andRawData:nil toEndpoint:[[preyConfig deviceCheckPathWithExtension:@""] stringByAppendingString:@"/settings"]];
 }
 
 - (void) sendData: (NSDictionary*) data {
     PreyConfig *preyConfig = [PreyConfig instance];
-    [self sendData:data toEndpoint:[[preyConfig deviceCheckPathWithExtension:@""] stringByAppendingString:@"/data"]];
+    [self sendJsonData:data andRawData:nil toEndpoint:[[preyConfig deviceCheckPathWithExtension:@""] stringByAppendingString:@"/data"]];
+}
+
+- (void) sendData: (NSDictionary*) data andRaw: (NSDictionary*) rawData {
+    PreyConfig *preyConfig = [PreyConfig instance];
+    [self sendJsonData:data andRawData:rawData toEndpoint:[[preyConfig deviceCheckPathWithExtension:@""] stringByAppendingString:@"/data"]];
 }
 
 

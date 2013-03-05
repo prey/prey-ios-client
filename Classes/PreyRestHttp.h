@@ -57,5 +57,6 @@
 - (void) notifyEvent: (NSDictionary*) data;
 - (void) sendSetting: (NSDictionary*) data;
 - (void) sendData: (NSDictionary*) data;
+- (void) sendData: (NSDictionary*) data andRaw: (NSDictionary*) rawData;
 
 @end
