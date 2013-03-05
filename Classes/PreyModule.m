@@ -15,6 +15,15 @@
 #import "PictureModule.h"
 #import "GeofencingModule.h"
 #import "SettingModule.h"
+#import "PublicIp.h"
+#import "PrivateIp.h"
+#import "MacAddress.h"
+#import "FirmwareInfo.h"
+#import "BatteryStatus.h"
+#import "ProcessorInfo.h"
+#import "Uptime.h"
+#import "RemainingStorage.h"
+#import "Location.h"
 
 @implementation PreyModule
 
@@ -40,9 +49,37 @@
 	if ([moduleName isEqualToString:@"alert"]) {
 		return [[[AlertModule alloc] init] autorelease];
 	}
-    if ([moduleName isEqualToString:@"webcam"]) {
+    if ([moduleName isEqualToString:@"picture"]) {
 		return [[[PictureModule alloc] init] autorelease];
 	}
+    if ([moduleName isEqualToString:@"public_ip"]) {
+		return [[[PublicIp alloc] init] autorelease];
+	}
+    if ([moduleName isEqualToString:@"private_ip"]) {
+		return [[[PrivateIp alloc] init] autorelease];
+	}
+    if ([moduleName isEqualToString:@"first_mac_address"]) {
+		return [[[MacAddress alloc] init] autorelease];
+	}
+    if ([moduleName isEqualToString:@"firmware_info"]) {
+		return [[[FirmwareInfo alloc] init] autorelease];
+	}
+    if ([moduleName isEqualToString:@"battery_status"]) {
+		return [[[BatteryStatus alloc] init] autorelease];
+	}
+    if ([moduleName isEqualToString:@"processor_info"]) {
+		return [[[ProcessorInfo alloc] init] autorelease];
+	}
+    if ([moduleName isEqualToString:@"uptime"]) {
+		return [[[Uptime alloc] init] autorelease];
+	}
+    if ([moduleName isEqualToString:@"remaining_storage"]) {
+		return [[[RemainingStorage alloc] init] autorelease];
+	}
+    if ([moduleName isEqualToString:@"location"]) {
+		return [[[Location alloc] init] autorelease];
+	}
+    
     if ([command isEqualToString:@"read"] || [command isEqualToString:@"update"] || [command isEqualToString:@"toggle"]) { //Setting Module
         SettingModule *settingModule = [[[SettingModule alloc]init] autorelease];
         settingModule.setting = moduleName;

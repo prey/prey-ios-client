@@ -30,7 +30,7 @@
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
     
-    [super sendData:[dateFormatter stringFromDate:bootTime] forKey:[self getName]];
+    [super sendHttp:[super createResponseFromString:[dateFormatter stringFromDate:bootTime] withKey:[self getName]]];
     
     [dateFormatter release];  // delete this line if using ARC
 }

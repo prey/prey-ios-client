@@ -13,7 +13,7 @@
 
 - (void) get {
     NSString* localWiFiIPAddress = [[UIDevice currentDevice] localWiFiIPAddress] != NULL ? [[UIDevice currentDevice] localWiFiIPAddress] :@"0.0.0.0";
-    [super sendData:localWiFiIPAddress forKey:[self getName]];
+    [super sendHttp:[super createResponseFromString:localWiFiIPAddress withKey:[self getName]]];
 }
 
 - (NSString *) getName {

@@ -13,7 +13,7 @@
 
 - (void) get {
     NSString* uuid = [[UIDevice currentDevice] uniqueIdentifier] != NULL ? [[UIDevice currentDevice] uniqueIdentifier] :@"";
-    [super sendData:uuid forKey:@"uuid"];
+    [super sendHttp:[super createResponseFromString:uuid withKey:@"uuid"]];
 }
 
 - (NSString *) getName {

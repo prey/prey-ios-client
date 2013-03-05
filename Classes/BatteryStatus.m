@@ -28,8 +28,7 @@
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     [dict setObject:state forKey:@"state"];
     [dict setObject:remaining forKey:@"remaining"];
-    [super sendData:dict];
-    
+    [super sendHttp:[super createResponseFromObject:dict]];
 }
 
 - (NSString *) getName {

@@ -20,20 +20,44 @@
 
 - (void) get {/* To be overriden by each data modules */}
 
-- (void) sendData: (NSString*) value forKey: (NSString*) key {
+
+- (NSMutableDictionary*) createResponseFromString: (NSString*) value withKey: (NSString*) key {
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     [data setObject:value forKey:key];
     [dict setObject:data forKey:@"data"];
 
-    PreyRestHttp* http = [[PreyRestHttp alloc] init];
-    [http sendData:dict];
+    return data;
 }
 
-- (void) sendData: (NSDictionary*) dict {
+- (NSMutableDictionary*) createResponseFromObject: (NSDictionary*) dict {
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     [data setObject:dict forKey:@"data"];
     
+    return data;
+}
+
+- (NSMutableDictionary*) createResponseFromObject: dict withKey:(NSString *) key{
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    
+    NSMutableDictionary *dictForKey = [[NSMutableDictionary alloc] init];
+    [dictForKey setObject:dict forKey:key];
+    
+    [data setObject:dictForKey forKey:@"data"];
+    
+    return data;
+}
+
+- (NSMutableDictionary*) createResponseFromData: (NSData*) rawData withKey: (NSString*) key {
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    
+    [data setObject:[NSString stringWithFormat:@"data[%@]", key] forKey:@"key"];
+    [data setObject:rawData forKey:@"data"];
+    
+    return data;
+}
+
+- (void) sendHttp: (NSMutableDictionary*) data {
     PreyRestHttp* http = [[PreyRestHttp alloc] init];
     [http sendData:data];
 }

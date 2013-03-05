@@ -20,7 +20,7 @@
     [dict setObject:[NSString stringWithFormat:@"%d",speed] forKey:@"speed"];
     [dict setObject:[NSString stringWithFormat:@"%d",cores] forKey:@"cores"];
     [dict setObject:model forKey:@"model"];
-    [super sendData:dict];
+    [super sendHttp:[super createResponseFromObject:dict]];
     
 }
 

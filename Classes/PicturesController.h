@@ -21,6 +21,6 @@
 @property (nonatomic,retain) UIImage *lastPictureTaken;
 
 +(PicturesController *)instance;
--(void) take:(NSNumber*)picturesToTake usingCamera:(NSString*)camera;
+-(void) takePictureAndNotifyTo:(SEL)method onTarget:(id)target;
 - (UIImage*) lastPicture;
 @end

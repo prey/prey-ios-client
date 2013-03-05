@@ -13,7 +13,7 @@
 
 - (void) get {
     NSString* macAddress = [[UIDevice currentDevice]  macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
-    [super sendData:macAddress forKey:[self getName]];
+    [super sendHttp:[super createResponseFromString:macAddress withKey:[self getName]]];
 }
 
 - (NSString *) getName {

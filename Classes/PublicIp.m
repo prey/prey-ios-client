@@ -12,12 +12,20 @@
 @implementation PublicIp
 
 - (void) get {
-    NSString* publicIp = [[UIDevice currentDevice] whatismyipdotcom] != NULL ? [[UIDevice currentDevice] whatismyipdotcom] :@"0.0.0.0";
-    [super sendData:publicIp forKey:[self getName]];
+    NSString* publicIp = [self whatismyipdotcom];
+    [super sendHttp:[super createResponseFromString:publicIp withKey:[self getName]]];
 }
 
 - (NSString *) getName {
 	return @"public_ip";
+}
+
+- (NSString *) whatismyipdotcom
+{
+	NSError *error;
+    NSURL *ipURL = [NSURL URLWithString:@"http://ifconfig.me/ip"];
+    NSString *ip = [NSString stringWithContentsOfURL:ipURL encoding:1 error:&error];
+	return ip ? ip : [error localizedDescription];
 }
 
 @end

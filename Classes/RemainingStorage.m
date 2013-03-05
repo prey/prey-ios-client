@@ -22,7 +22,7 @@
     [dict setObject:[NSString stringWithFormat:@"\n\n%.2f GB",[freeDiskSpace floatValue] / 1024 / 1024 / 1024] forKey:@"free"];
     [dict setObject:[NSString stringWithFormat:@"\n\n%.2f GB",[usedDiskSpace floatValue] / 1024 / 1024 / 1024] forKey:@"used"];
 
-    [super sendData:dict];
+    [super sendHttp:[super createResponseFromObject:dict]];
     
 }
 

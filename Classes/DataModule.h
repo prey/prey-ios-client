@@ -16,7 +16,10 @@
 }
 
 - (void) get;
-- (void) sendData: (NSString*) value forKey: (NSString*) key;
-- (void) sendData: (NSDictionary*) dict;
+- (NSMutableDictionary*) createResponseFromString: (NSString*) value withKey: (NSString*) key;
+- (NSMutableDictionary*) createResponseFromObject: (NSDictionary*) dict;
+- (NSMutableDictionary*) createResponseFromObject: dict withKey:(NSString *) key;
+- (NSMutableDictionary*) createResponseFromData: (NSData*) rawData withKey: (NSString*) key;
+- (void) sendHttp: (NSMutableDictionary*) data;
 
 @end
