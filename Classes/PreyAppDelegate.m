@@ -106,22 +106,14 @@
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-    
-    if ([[[[UINavigationController alloc] init] autorelease] respondsToSelector:@selector(isBeingDismissed)]) {
-        //Supports iOS5
-        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarbg.png"] forBarMetrics:UIBarMetricsDefault];
-        [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.42f
-                    green: 0.42f
-                    blue:0.42f 
-                    alpha:1]];
-    }
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{    
     //Analytics singleton tracker.
     [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-8743344-1" dispatchPeriod:10 delegate:nil];
     
-    IAPHelper *IAP = [IAPHelper sharedHelper];
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:IAP];
-    [IAP initWithRemoteIdentifiers];
+    //IAPHelper *IAP = [IAPHelper sharedHelper];
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[IAPHelper sharedHelper]];
+    //[IAPHelper initWithRemoteIdentifiers];
     
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.105", 50000);
@@ -262,6 +254,15 @@
 	[viewController setToolbarHidden:YES animated:NO];
 	[viewController setNavigationBarHidden:YES animated:NO];
 
+    if ([viewController respondsToSelector:@selector(isBeingDismissed)])  // Supports iOS5 or later
+    {
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarbg.png"] forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.42f
+                                                                   green: 0.42f
+                                                                    blue:0.42f
+                                                                   alpha:1]];
+    }
+    
     [window setRootViewController:viewController];
     [window makeKeyAndVisible];
 	[nextController release];

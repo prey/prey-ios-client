@@ -26,6 +26,9 @@ UIActivityIndicatorView *cLoadingView;
 	
 }
 
+@property (nonatomic, retain) AccuracyManager *accManager;
+@property (nonatomic, retain) DelayManager *delayManager;
+
 - (void) setupNavigatorForPicker:(BOOL)showed withSelector:(SEL)action;
 
 @end

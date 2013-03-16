@@ -32,6 +32,7 @@
 
 @implementation PreferencesController
 
+@synthesize accManager,delayManager;
 
 #pragma mark -
 #pragma mark Private Methods
@@ -111,6 +112,7 @@
 }
 
 // Customize the appearance of table view cells.
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
@@ -190,10 +192,17 @@
 	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
 	switch ([indexPath section]) {
         case 0:
-            if ([indexPath row] == 0) {
-                [self.navigationController pushViewController:[[DeviceMapController alloc] init] animated:YES];
-            } else if ([indexPath row] == 1) {
-                [self.navigationController pushViewController:[[StoreControllerViewController alloc] init] animated:YES];
+            if ([indexPath row] == 0)
+            {
+                DeviceMapController *deviceMapController = [[DeviceMapController alloc] init];
+                [self.navigationController pushViewController:deviceMapController animated:YES];
+                [deviceMapController release];
+            }
+            else if ([indexPath row] == 1)
+            {
+                StoreControllerViewController *viewController = [[StoreControllerViewController alloc] init];
+                [self.navigationController pushViewController:viewController animated:YES];
+                [viewController release];
             }
 		case 1:
             if ([indexPath row] == 2){
@@ -213,10 +222,10 @@
 			break;
 		case 2:
             if (indexPath.row != 0) {
-                UIWebView *webView = [[[UIWebView alloc] initWithFrame:CGRectZero] autorelease];
-                UIViewController *moo = [[[UIViewController alloc] init] autorelease];
+                UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+                UIViewController *moo = [[UIViewController alloc] init];
                 moo.view = webView;
-                NSURLRequest *req;
+                NSURLRequest *req = nil;
                 if (indexPath.row == 2) {
                     req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com/terms"]];
                     moo.title = NSLocalizedString(@"Terms of Service", nil);
@@ -230,6 +239,8 @@
                 [webView loadRequest:req];
                 [webView setScalesPageToFit:YES];
                 [self.navigationController pushViewController:moo animated:YES];
+                [webView release];
+                [moo release];
             }
 			break;
 	
@@ -244,6 +255,7 @@
         self.navigationItem.hidesBackButton=YES;
 		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self	action:action];
 		self.navigationItem.rightBarButtonItem = doneButton;
+        [doneButton release];
 		pickerShowed = YES;
 	} else {
 		// remove the "Done" button in the nav bar
@@ -343,11 +355,14 @@
 
 		if (buttonIndex == 0){
             //Dettaching device...
+            /*
             HUD = [[MBProgressHUD alloc] initWithView:self.view];
             HUD.delegate = self;
             HUD.labelText = NSLocalizedString(@"Removing device...",nil);
             [self.navigationController.view addSubview:HUD];
-            [HUD showWhileExecuting:@selector(detachDevice) onTarget:self withObject:nil animated:YES];
+            [HUD showWhileExecuting:@selector(detachDevice) onTarget:self withObject:nil animated:NO];
+            */
+            [self detachDevice];
         }
 	}
 	else if (actionSheet.tag == 2){
@@ -401,12 +416,9 @@
     else
         welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
     
-    UINavigationController *navco = [[UINavigationController alloc] initWithRootViewController:welco];
-    
-    [[self navigationController] presentModalViewController:navco animated:YES];
-    
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate.viewController setViewControllers:[NSArray arrayWithObject:welco] animated:NO];
     [welco release];
-    [navco release];
 }
 
 
@@ -436,57 +448,32 @@
 #pragma mark View lifecycle
 
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-    if (ReviewRequest::ShouldAskForReview())
-		ReviewRequest::AskForReview();
+     if (ReviewRequest::ShouldAskForReview())
+         ReviewRequest::AskForReview();
+     
+     
+     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:[[[UIView alloc] initWithFrame:CGRectZero] autorelease]]autorelease];
+     HUD = nil;
+     self.title = NSLocalizedString(@"Preferences", nil);
+     [self.tableView setBackgroundColor:[UIColor whiteColor]];
+     
+     accManager = [[AccuracyManager alloc] init];
+     delayManager = [[DelayManager alloc] init];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:kProductsLoadedNotification object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
 
-    
-    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:[[[UIView alloc] initWithFrame:CGRectZero] autorelease]]autorelease];
-    HUD = nil;
-    self.title = NSLocalizedString(@"Preferences", nil);
-    [self.tableView setBackgroundColor:[UIColor whiteColor]];
-    
-	accManager = [[AccuracyManager alloc] init];
-	delayManager = [[DelayManager alloc] init];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:kProductsLoadedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
-    [super viewDidLoad];
-}
-
-
-
- - (void)viewWillAppear:(BOOL)animated {
-     [super viewWillAppear:animated];
+     
      [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
      [self.navigationController setNavigationBarHidden:NO animated:NO];
      [self.navigationController setToolbarHidden:YES animated:NO];
      [[UIApplication sharedApplication] setStatusBarHidden:NO];
  }
 
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
-}
-
-/*
- - (void)viewDidAppear:(BOOL)animated {
- [super viewDidAppear:animated];
- }
- */
-/*
- - (void)viewWillDisappear:(BOOL)animated {
- [super viewWillDisappear:animated];
- }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- [super viewDidDisappear:animated];
- }
- */
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
 }
@@ -496,14 +483,8 @@
 #pragma mark Memory management
 
 - (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc that aren't in use.
 }
-
-
-
 
 - (void)dealloc {
     if (HUD != nil) {
@@ -513,9 +494,11 @@
     }
 	[accManager release];
 	[delayManager release];
+    
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    
     [super dealloc];
 }
 
-
 @end
-
