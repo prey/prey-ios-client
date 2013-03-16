@@ -74,12 +74,18 @@ static NSString* const kGGTwitterLoadingBackgroundImage = @"sumerceWait.png";
 #pragma mark Actions
 - (void) denied
 {
-	[self performSelector: @selector(dismissModalViewControllerAnimated:) withObject: (id) kCFBooleanTrue afterDelay: 1.0];
+    if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) // Check iOS 5.0 or later
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    else
+        [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void) cancel: (id) sender
 {
-	[self performSelector: @selector(dismissModalViewControllerAnimated:) withObject: (id) kCFBooleanTrue afterDelay: 0.0];
+    if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) // Check iOS 5.0 or later
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    else
+        [self dismissModalViewControllerAnimated:YES];
 }
 
 //=============================================================================================================================

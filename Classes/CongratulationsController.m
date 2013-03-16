@@ -27,7 +27,12 @@
     PreferencesController *preferencesController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
     [appDelegate.viewController pushViewController:preferencesController animated:NO];
     [preferencesController release];
-    [self.parentViewController dismissModalViewControllerAnimated:YES];
+    
+    if ([self.parentViewController respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) // Check iOS 5.0 or later
+        [self.parentViewController dismissViewControllerAnimated:YES completion:NULL];
+    else
+        [self.parentViewController dismissModalViewControllerAnimated:YES];
+    
 }
 
 /*

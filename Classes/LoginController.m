@@ -386,8 +386,12 @@
         UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self forOrientation:UIInterfaceOrientationPortrait setURL:@"http://panel.preyproject.com"];
         
         if (controller)
-            [self.navigationController presentModalViewController:controller animated:YES];
-        
+        {
+            if ([self.navigationController respondsToSelector:@selector(presentViewController:animated:completion:)]) // Check iOS 5.0 or later
+                [self.navigationController presentViewController:controller animated:YES completion:NULL];
+            else
+                [self.navigationController presentModalViewController:controller animated:YES];
+        }
     }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

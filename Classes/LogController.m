@@ -144,7 +144,12 @@
                 [mailViewController setSubject:@"Prey iOS Log"];
                 [mailViewController setMessageBody:[PreyLogger logAsText] isHTML:NO];
                 [mailViewController setToRecipients:[NSArray arrayWithObject:@"prey-ios-devs@usefork.com"]];
-                [self presentModalViewController:mailViewController animated:YES];
+                
+                if ([self respondsToSelector:@selector(presentViewController:animated:completion:)]) // Check iOS 5.0 or later
+                    [self presentViewController:mailViewController animated:YES completion:NULL];
+                else
+                    [self presentModalViewController:mailViewController animated:YES];
+                
                 [mailViewController release];
             }
             else
@@ -157,8 +162,12 @@
 
 #pragma mark -
 #pragma mark MFMailComposeViewController delegate
--(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-    [self dismissModalViewControllerAnimated:YES];
+-(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    if ([self respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) // Check iOS 5.0 or later
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    else
+        [self dismissModalViewControllerAnimated:YES];
 }
 
 
