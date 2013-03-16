@@ -10,16 +10,24 @@
 
 @implementation PreyGeofencingController
 
+@synthesize geofencingManager;
 
 - (id) init {
     self = [super init];
     if (self != nil) {
 		PreyLogMessage(@"Prey PreyGeofencingController", 5, @"Initializing PreyGeofencingController...");
-		self.geofencingManager = [[CLLocationManager alloc] init];
-		self.geofencingManager.delegate = self;
+		geofencingManager = [[CLLocationManager alloc] init];
+		geofencingManager.delegate = self;
     }
     return self;
 }
+
+- (void)dealloc
+{
+    [super dealloc];
+    [geofencingManager release];
+}
+
 
 +(PreyGeofencingController *)instance  {
 	static PreyGeofencingController *instance;
@@ -31,13 +39,13 @@
 }
 
 - (void)addNewregion: (CLRegion *) region {
-    [self.geofencingManager startMonitoringForRegion:region];
+    [geofencingManager startMonitoringForRegion:region];
 }
 
 - (void)removeRegion: (NSString *) id {
-    [self.geofencingManager.monitoredRegions enumerateObjectsUsingBlock:^(CLRegion *obj, BOOL *stop) {
+    [geofencingManager.monitoredRegions enumerateObjectsUsingBlock:^(CLRegion *obj, BOOL *stop) {
         if ([obj.identifier localizedCaseInsensitiveCompare:id] == NSOrderedSame) {
-            [self.geofencingManager stopMonitoringForRegion:obj];
+            [geofencingManager stopMonitoringForRegion:obj];
             *stop = YES;
         }
     }];

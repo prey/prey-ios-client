@@ -20,11 +20,11 @@
     self = [super init];
     if (self) {
         self.title = NSLocalizedString(@"Current Location", nil);
-        self.mapa = [[MKMapView alloc] initWithFrame:CGRectZero];
-        self.mapa.showsUserLocation = YES;
-        self.view = self.mapa;
+        mapa = [[MKMapView alloc] initWithFrame:CGRectZero];
+        mapa.showsUserLocation = YES;
+        self.view = mapa;
         self.canUpdateUserLoc = NO;
-        [self.mapa setDelegate:self];
+        [mapa setDelegate:self];
     }
     return self;
 }

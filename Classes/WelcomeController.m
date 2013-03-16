@@ -58,9 +58,9 @@
     [super viewWillDisappear:animated];
 }
 -(void)viewDidAppear:(BOOL)animated {
-     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+     /*PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate.viewController popToRootViewControllerAnimated:NO];
-    [super viewDidAppear:animated];
+    [super viewDidAppear:animated];*/
 }
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {

@@ -25,6 +25,7 @@
 
 @implementation OldUserController
 
+@synthesize email, password;
 
 - (void) addDeviceForCurrentUser {
 /*

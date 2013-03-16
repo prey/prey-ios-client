@@ -22,8 +22,8 @@
     self = [super init];
     if (self != nil) {
 		PreyLogMessage(@"Prey SignificantLocationController", 5, @"Initializing Significant LocationManager...");
-		self.significantLocationManager = [[CLLocationManager alloc] init];
-		self.significantLocationManager.delegate = self;		
+		significantLocationManager = [[CLLocationManager alloc] init];
+		significantLocationManager.delegate = self;
     }
     return self;
 }
@@ -41,7 +41,7 @@
 
 - (void)startMonitoringSignificantLocationChanges {
     if ([[PreyConfig instance] intervalMode]){
-        [self.significantLocationManager startMonitoringSignificantLocationChanges];
+        [significantLocationManager startMonitoringSignificantLocationChanges];
         PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"Significant location updating started.");
     } else {
         PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"Significant location not started because user disabled it.");
@@ -50,8 +50,8 @@
 }
 
 - (void)stopMonitoringSignificantLocationChanges {
-	[self.significantLocationManager stopMonitoringSignificantLocationChanges];
-    [self.significantLocationManager stopUpdatingLocation];
+	[significantLocationManager stopMonitoringSignificantLocationChanges];
+    [significantLocationManager stopUpdatingLocation];
 	PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"Significant location updating stopped.");
 }
 
@@ -128,7 +128,7 @@
 
 
 - (void)dealloc {
-	[self.significantLocationManager release];
+	[significantLocationManager release];
     [super dealloc];
 }
 

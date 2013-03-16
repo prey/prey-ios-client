@@ -27,10 +27,14 @@
 			instance = [[PreyRunner alloc] init];
 			PreyLogMessage(@"Prey Runner", 0,@"Registering PreyRunner to receive location updates notifications");
 			[[NSNotificationCenter defaultCenter] addObserver:instance selector:@selector(locationUpdated:) name:@"locationUpdated" object:nil];
-			instance.http = [[PreyRestHttp alloc] init];
+            
+            PreyRestHttp *preyRestHttp = [[PreyRestHttp alloc] init];
+			instance.http              = preyRestHttp;
+            [preyRestHttp release];
 		}
 	}
-	instance.config = [PreyConfig instance];
+	instance.config        = [PreyConfig instance];
+    
 	return instance;
 }
 

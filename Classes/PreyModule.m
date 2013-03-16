@@ -28,19 +28,19 @@
 
 + (PreyModule *) newModuleForName: (NSString *) moduleName {
 	if ([moduleName isEqualToString:@"geo"]) {
-		return [[[LocationModule alloc] init] autorelease];
+		return [[LocationModule alloc] init];
 	}
     if ([moduleName isEqualToString:@"geofencing"]) {
-		return [[[GeofencingModule alloc] init] autorelease];
+		return [[GeofencingModule alloc] init];
 	}
 	if ([moduleName isEqualToString:@"alarm"]) {
-		return [[[AlarmModule alloc] init] autorelease];
+		return [[AlarmModule alloc] init];
 	}
 	if ([moduleName isEqualToString:@"alert"]) {
-		return [[[AlertModule alloc] init] autorelease];
+		return [[AlertModule alloc] init];
 	}
     if ([moduleName isEqualToString:@"webcam"]) {
-		return [[[PictureModule alloc] init] autorelease];
+		return [[PictureModule alloc] init];
 	}
 	return nil;
 }

@@ -24,6 +24,7 @@
     
     SEL s = NSSelectorFromString(action);
     [self performSelector:s withObject:region];
+    [region release];
 }
 
 - (void)start: (CLRegion *)region {

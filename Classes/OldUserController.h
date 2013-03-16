@@ -22,4 +22,7 @@
 
 }
 
+@property (nonatomic, retain) UITextField *email;
+@property (nonatomic, retain) UITextField *password;
+
 @end

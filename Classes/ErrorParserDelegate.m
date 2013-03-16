@@ -17,7 +17,7 @@
 
 - (NSMutableArray*) parseErrors:(NSData *)request parseError:(NSError **)err
 {
-	self.errors = [[NSMutableArray alloc] init];
+	errors = [[NSMutableArray alloc] init];
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:request];
 	
 	[parser setDelegate:self];
@@ -33,7 +33,7 @@
 	}
 
 	[parser release];
-	return self.errors;
+	return errors;
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict 

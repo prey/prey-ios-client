@@ -31,7 +31,7 @@
 - (id) init {
 	self = [super init];
 	if (self != nil){
-        self.modulesConfig = [[DeviceModulesConfig alloc] init];    
+        modulesConfig = [[DeviceModulesConfig alloc] init];    
 		inMissing=NO;
 		inDelay=NO;
 		inPostUrl=NO;
@@ -144,6 +144,7 @@
 
 - (void)dealloc {
 	[super dealloc];
+    [modulesConfig release];
 }
 
 @end

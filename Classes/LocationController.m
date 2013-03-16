@@ -21,9 +21,9 @@
     if (self != nil) {
 		PreyLogMessage(@"Prey Location Controller", 5, @"Initializing Accurate LocationManager...");
 		PreyConfig *config = [PreyConfig instance];
-		self.accurateLocationManager = [[CLLocationManager alloc] init];
-		self.accurateLocationManager.delegate = self;
-		self.accurateLocationManager.desiredAccuracy = config.desiredAccuracy;
+		accurateLocationManager = [[CLLocationManager alloc] init];
+		accurateLocationManager.delegate = self;
+		accurateLocationManager.desiredAccuracy = config.desiredAccuracy;
 		
 		//self.locationManager.distanceFilter = 1;	
     }
@@ -42,14 +42,14 @@
 
 - (void)startUpdatingLocation {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accuracyUpdated:) name:@"accuracyUpdated" object:nil];
-	[self.accurateLocationManager startUpdatingLocation];
+	[accurateLocationManager startUpdatingLocation];
 	PreyLogMessage(@"Prey Location Controller", 5, @"Accurate location updating started.");
 }
 
 - (void)stopUpdatingLocation {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"accuracyUpdated" object:nil];
-	[self.accurateLocationManager stopUpdatingLocation];
-    [self.accurateLocationManager stopMonitoringSignificantLocationChanges];
+	[accurateLocationManager stopUpdatingLocation];
+    [accurateLocationManager stopMonitoringSignificantLocationChanges];
 	PreyLogMessage(@"Prey Location Controller", 5, @"Accurate location updating stopped.");
 }
 
@@ -97,13 +97,13 @@
 {
     CLLocationAccuracy newAccuracy = ((PreyConfig*)[notification object]).desiredAccuracy;
 	PreyLogMessageAndFile(@"Prey Location Controller", 5, @"Accuracy has been modified. Updating location manager with new accuracy: %f", newAccuracy);
-	self.accurateLocationManager.desiredAccuracy =  newAccuracy;
-	[self.accurateLocationManager stopUpdatingLocation];
-	[self.accurateLocationManager startUpdatingLocation];
+	accurateLocationManager.desiredAccuracy =  newAccuracy;
+	[accurateLocationManager stopUpdatingLocation];
+	[accurateLocationManager startUpdatingLocation];
 }
 
 - (void)dealloc {
-    [self.accurateLocationManager release];
+    [accurateLocationManager release];
     [super dealloc];
 }
 @end

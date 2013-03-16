@@ -24,7 +24,7 @@
 }
 
 + (id) initWithSession:(AVCaptureSession*)session AndWhenFinishSendImageTo:(SEL)method onTarget:(id)target {
-    PicturesControllerDelegate *delegate = [[PicturesControllerDelegate alloc] init] ;
+    PicturesControllerDelegate *delegate = [[[PicturesControllerDelegate alloc] init] autorelease];
     delegate.methodToInvoke = method;
     delegate.targetObject = target;
     delegate.session = session;
@@ -75,7 +75,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     int orient = image.imageOrientation;
     
-    UIImageView *imageView = [[UIImageView alloc] init];
+    UIImageView *imageView = [[[UIImageView alloc] init] autorelease];
     
     UIImage *imageCopy = [[UIImage alloc] initWithCGImage:image.CGImage];
     
@@ -94,6 +94,8 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     }
     
     imageView.image = imageCopy;
+    [imageCopy release];
+    
     return (imageView.image);
 }
 

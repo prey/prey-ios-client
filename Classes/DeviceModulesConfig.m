@@ -19,26 +19,26 @@
 - (id) init {
 	self = [super init];
 	if (self != nil) {
-		self.reportModules = [[NSMutableArray alloc] init];
-		self.actionModules = [[NSMutableArray alloc] init];
-		self.reportToFill = [[Report alloc] init];
+		reportModules = [[NSMutableArray alloc] init];
+		actionModules = [[NSMutableArray alloc] init];
+		reportToFill  = [[Report alloc] init];
 	}
 	return self;
 }
 - (void) addModuleName: (NSString *) name ifActive: (NSString *) isActive ofType: (NSString *) type {
 
 	if ([isActive isEqualToString:@"true"]) {
-		PreyModule *module = [[PreyModule newModuleForName:name] retain];
+		PreyModule *module = [PreyModule newModuleForName:name];
 		if (module != nil){
 			if ([type isEqualToString:@"report"]){
 				module.type = ReportModuleType;
-				[self.reportModules addObject:module];
+				[reportModules addObject:module];
 			}
 			else if ([type isEqualToString:@"action"]){
 				module.type = ActionModuleType;
-				[self.actionModules addObject:module];
+				[actionModules addObject:module];
 			}
-			[module setReportToFill:self.reportToFill];
+			[module setReportToFill:reportToFill];
 			
 		}
         [module release];
@@ -71,7 +71,7 @@
 }
 - (void) setPostUrl: (NSString *) newUrl{
 	postUrl = newUrl;
-	self.reportToFill.url = newUrl;
+	reportToFill.url = newUrl;
 }
 
 -(void) dealloc {
