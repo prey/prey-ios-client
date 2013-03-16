@@ -103,9 +103,14 @@ bool ReviewRequest::ShouldAskForReviewAtLaunch()
 void ReviewRequest::AskForReview()
 {
 	ReviewRequestDelegate* delegate = [[ReviewRequestDelegate alloc] init];
-	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Enjoying Prey?" 
-					message:@"If so, please rate this update with 5 stars on the App Store so we can keep the free updates coming."						  
-					delegate:delegate cancelButtonTitle:@"Remind me later" otherButtonTitles:@"Yes, rate it!", @"Don't ask again", nil];
+    
+
+    
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Your mission, should you decide to accept it", nil)
+                                                    message:NSLocalizedString(@"Rate this update with ★★★★★ on the App Store then await further instructions.", nil)
+                                                   delegate:delegate
+                                          cancelButtonTitle:NSLocalizedString(@"Remind me later", nil)
+                                          otherButtonTitles:NSLocalizedString(@"Yes, accept it!", nil), nil];
 	[alert show];
 	[alert release];
 }
