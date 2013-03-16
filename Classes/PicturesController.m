@@ -42,7 +42,7 @@
     NSURL* musicFile = [NSURL fileURLWithPath:[[NSBundle mainBundle] 
                                                pathForResource:@"shutter"
                                                ofType:@"wav"]];
-    AVAudioPlayer *click = [[AVAudioPlayer alloc] initWithContentsOfURL:musicFile error:nil];
+    AVAudioPlayer *click = [[[AVAudioPlayer alloc] initWithContentsOfURL:musicFile error:nil] autorelease];
     [click setVolume:0.15f];
     [click play];
 }
@@ -125,8 +125,21 @@
     
     // If you wish to cap the frame rate to a known value, such as 15 fps, set 
     // minFrameDuration.
-    output.minFrameDuration = CMTimeMake(1, 1);
     
+    
+    // (Javier) 2013.03.14: The Pink photos issue
+    
+    if ([output respondsToSelector:@selector(connectionWithMediaType:)]) // Check iOS 5.0 or later
+    {
+        AVCaptureConnection *connection = [output connectionWithMediaType:AVMediaTypeVideo];
+        [connection setVideoMinFrameDuration:CMTimeMake(1, 2)];
+    }
+    else
+    {
+        output.minFrameDuration = CMTimeMake(1, 2);
+    }
+    
+      
     // Start the session running to start the flow of data
     PreyLogMessage(@"PicturesController", 10, @"Starting the session to run...");
     [session startRunning];
