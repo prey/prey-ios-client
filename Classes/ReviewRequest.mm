@@ -106,11 +106,11 @@ void ReviewRequest::AskForReview()
     
 
     
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Your mission, should you decide to accept it", nil)
-                                                    message:NSLocalizedString(@"Rate this update with ★★★★★ on the App Store then await further instructions.", nil)
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rate us", nil)
+                                                    message:NSLocalizedString(@"Give us ★★★★★ on the App Store if you like Prey.", nil)
                                                    delegate:delegate
                                           cancelButtonTitle:NSLocalizedString(@"Remind me later", nil)
-                                          otherButtonTitles:NSLocalizedString(@"Yes, accept it!", nil), nil];
+                                          otherButtonTitles:NSLocalizedString(@"Yes, rate Prey!", nil), nil];
 	[alert show];
 	[alert release];
 }
