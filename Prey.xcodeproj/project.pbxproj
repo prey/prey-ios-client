@@ -53,7 +53,7 @@
 		07132450134635C400F7EFD8 /* PreyRestHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713244D134635C400F7EFD8 /* PreyRestHttp.m */; };
 		07132451134635C400F7EFD8 /* PreyRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713244F134635C400F7EFD8 /* PreyRunner.m */; };
 		07132453134635DC00F7EFD8 /* WelcomeController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07132452134635DC00F7EFD8 /* WelcomeController-iPhone.xib */; };
-		071324581346363300F7EFD8 /* AlertModuleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071324541346363300F7EFD8 /* AlertModuleController.xib */; };
+		071324581346363300F7EFD8 /* AlertModuleController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071324541346363300F7EFD8 /* AlertModuleController-iPhone.xib */; };
 		071324591346363300F7EFD8 /* MainWindow-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071324551346363300F7EFD8 /* MainWindow-iPhone.xib */; };
 		071324621346368200F7EFD8 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0713245C1346368200F7EFD8 /* logo.png */; };
 		071324661346368200F7EFD8 /* recycle-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 071324601346368200F7EFD8 /* recycle-full.png */; };
@@ -97,6 +97,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		3B5F266116F405FA00A1A27F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B5F266016F405FA00A1A27F /* Default-568h@2x.png */; };
+		3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */; };
 		3BA6A22F16769566005323EB /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A22E16769566005323EB /* MainWindow-iPad.xib */; };
 		3BA6A26A1676A2BA005323EB /* WelcomeController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A2691676A2BA005323EB /* WelcomeController-iPad.xib */; };
 		3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */; };
@@ -221,7 +222,7 @@
 		0713244E134635C400F7EFD8 /* PreyRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PreyRunner.h; path = Classes/PreyRunner.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0713244F134635C400F7EFD8 /* PreyRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PreyRunner.m; path = Classes/PreyRunner.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07132452134635DC00F7EFD8 /* WelcomeController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPhone.xib"; path = "Classes/WelcomeController-iPhone.xib"; sourceTree = "<group>"; };
-		071324541346363300F7EFD8 /* AlertModuleController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AlertModuleController.xib; path = Classes/AlertModuleController.xib; sourceTree = "<group>"; };
+		071324541346363300F7EFD8 /* AlertModuleController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPhone.xib"; path = "Classes/AlertModuleController-iPhone.xib"; sourceTree = "<group>"; };
 		071324551346363300F7EFD8 /* MainWindow-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPhone.xib"; sourceTree = "<group>"; };
 		0713245C1346368200F7EFD8 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Resources/logo.png; sourceTree = "<group>"; };
 		071324601346368200F7EFD8 /* recycle-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "recycle-full.png"; path = "Resources/recycle-full.png"; sourceTree = "<group>"; };
@@ -283,6 +284,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		32CA4F630368D1EE00C91783 /* Prey_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prey_Prefix.pch; sourceTree = "<group>"; };
 		3B5F266016F405FA00A1A27F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPad.xib"; path = "Classes/AlertModuleController-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A22E16769566005323EB /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A2691676A2BA005323EB /* WelcomeController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPad.xib"; path = "Classes/WelcomeController-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "CongratulationsController-iPad.xib"; path = "Classes/CongratulationsController-iPad.xib"; sourceTree = "<group>"; };
@@ -523,7 +525,8 @@
 				071323F3134632C900F7EFD8 /* AlertModule.m */,
 				071323F4134632C900F7EFD8 /* AlertModuleController.h */,
 				071323F5134632C900F7EFD8 /* AlertModuleController.m */,
-				071324541346363300F7EFD8 /* AlertModuleController.xib */,
+				071324541346363300F7EFD8 /* AlertModuleController-iPhone.xib */,
+				3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */,
 			);
 			name = "Alert Module";
 			sourceTree = "<group>";
@@ -886,7 +889,7 @@
 				07CD96261253E13800590FCD /* LoginController-iPhone.xib in Resources */,
 				07132400134633B800F7EFD8 /* CongratulationsController-iPhone.xib in Resources */,
 				07132453134635DC00F7EFD8 /* WelcomeController-iPhone.xib in Resources */,
-				071324581346363300F7EFD8 /* AlertModuleController.xib in Resources */,
+				071324581346363300F7EFD8 /* AlertModuleController-iPhone.xib in Resources */,
 				071324591346363300F7EFD8 /* MainWindow-iPhone.xib in Resources */,
 				071324621346368200F7EFD8 /* logo.png in Resources */,
 				071324661346368200F7EFD8 /* recycle-full.png in Resources */,
@@ -937,6 +940,7 @@
 				3BF0371716783C790086A7A7 /* Icon.png in Resources */,
 				3BF0371816783C790086A7A7 /* Icon@2x.png in Resources */,
 				3B5F266116F405FA00A1A27F /* Default-568h@2x.png in Resources */,
+				3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1067,7 +1071,7 @@
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
@@ -1097,7 +1101,7 @@
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
@@ -1125,7 +1129,7 @@
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",

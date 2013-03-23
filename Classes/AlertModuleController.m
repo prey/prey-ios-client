@@ -62,6 +62,8 @@
 
 - (void)dealloc {
     [super dealloc];
+    [preyName release];
+    [text release];
 }
 
 

@@ -66,9 +66,17 @@
 
 - (void) displayAlert {
     if (showAlert){
-        AlertModuleController *alertController = [[AlertModuleController alloc] init];
+        
+        AlertModuleController *alertController;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            alertController = [[AlertModuleController alloc] initWithNibName:@"AlertModuleController-iPhone" bundle:nil];
+        else
+            alertController = [[AlertModuleController alloc] initWithNibName:@"AlertModuleController-iPad" bundle:nil];
+        
         [alertController setTextToShow:self.alertMessage];
         PreyLogMessage(@"App Delegate", 20, @"Displaying the alert message");
+        
         [window addSubview:alertController.view];
         [window makeKeyAndVisible];
         [alertController release];
@@ -203,13 +211,13 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     PreyLogMessage(@"App Delegate", 20,  @"DID BECOME ACTIVE!!");
-    if ([viewController.view superview] == self.window) {
+    if ([viewController.view superview] == window) {
         return;
     }
     /*if (viewController.modalViewController) {
         return;
     }*/
-    [self.window endEditing:YES];
+    [window endEditing:YES];
 
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
