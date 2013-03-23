@@ -211,7 +211,7 @@
 			ConfigParserDelegate *configParser = [[ConfigParserDelegate alloc] init];
 			NSData *respData = [request responseData];
 			DeviceModulesConfig *modulesConfig = [configParser parseModulesConfig:respData parseError:&error];
-			[configParser release];			
+			//[configParser release];
 			return modulesConfig;
 		}	
 		else {

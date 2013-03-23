@@ -13,28 +13,25 @@
 
 @implementation DeviceMapController
 
-@synthesize mapa, canUpdateUserLoc;
+@synthesize mapa, canUpdateUserLoc, MANG;
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        self.title = NSLocalizedString(@"Current Location", nil);
-        mapa = [[MKMapView alloc] initWithFrame:CGRectZero];
-        mapa.showsUserLocation = YES;
-        self.view = mapa;
-        self.canUpdateUserLoc = NO;
-        [mapa setDelegate:self];
-    }
-    return self;
-}
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidLoad
 {
+    [super viewDidLoad];
+    self.title = NSLocalizedString(@"Current Location", nil);
+    mapa = [[MKMapView alloc] initWithFrame:self.view.bounds];
+    //mapa.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    mapa.showsUserLocation = YES;
+    [self.view addSubview:mapa];
+    canUpdateUserLoc = NO;
+    [mapa setDelegate:self];
+    
+    
     if (![CLLocationManager locationServicesEnabled]) {
         return;
     }
-    CLLocationManager * MANG = [[[CLLocationManager alloc] init] autorelease];
+    MANG = [[CLLocationManager alloc] init];
     [MANG startMonitoringSignificantLocationChanges];
     if(MANG.location){
         [mapa setRegion:MKCoordinateRegionMakeWithDistance(MANG.location.coordinate, 2000, 2000)];
@@ -42,10 +39,13 @@
     [MANG stopMonitoringSignificantLocationChanges];
     [MANG stopUpdatingLocation];
 	// Do any additional setup after loading the view.
+    
+    [self goToUserLocation];
+
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
-    if(!self.canUpdateUserLoc) return;
+    if(!canUpdateUserLoc) return;
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 200, 200);
     @try {
         [mapa setRegion:region animated:YES];
@@ -55,13 +55,13 @@
 }
 
 -(void)goToUserLocation {
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(self.mapa.userLocation.coordinate, 200, 200);
-    [mapa setRegion:region animated:YES];
-    self.canUpdateUserLoc = YES;
-}
-
--(void)viewDidAppear:(BOOL)animated {
-    [NSTimer scheduledTimerWithTimeInterval:0.2f target:self selector:@selector(goToUserLocation) userInfo:nil repeats:NO];
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(mapa.userLocation.coordinate, 200, 200);
+    @try {
+        [mapa setRegion:region animated:YES];
+        canUpdateUserLoc = YES;
+    } @catch (NSException *e) {
+        //Strange exception happens sometimes. This blank catch solves it.
+    }
 }
 
 - (void)viewDidUnload
@@ -75,7 +75,8 @@
     return YES;
 }
 -(void)dealloc {
-    [mapa release];
+    [mapa release], mapa = nil;
+    [MANG release], MANG = nil;
     [super dealloc];
 }
 @end

@@ -26,7 +26,7 @@
 @end
 
 @implementation ConfigParserDelegate
-@synthesize inMissing,inDelay,inPostUrl,inModules,inModule,inAlertMessage,modulesConfig,inCameraToUse,inAccuracy;
+@synthesize inMissing,inDelay,inPostUrl,inModules,inModule,inAlertMessage,inCameraToUse,inAccuracy,modulesConfig;
 
 - (id) init {
 	self = [super init];
@@ -60,7 +60,7 @@
 	}
 	
 	[parser release];		
-	return self.modulesConfig;
+	return modulesConfig;
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict 
@@ -80,7 +80,7 @@
 			NSString *name = [attributeDict objectForKey:@"name"];
 			NSString *active = [attributeDict objectForKey:@"active"];	
 			NSString *type = [attributeDict objectForKey:@"type"];	
-			[self.modulesConfig addModuleName:name ifActive:active ofType:type];
+			[modulesConfig addModuleName:name ifActive:active ofType:type];
 		}
 	}
 	if (self.inModule) {
@@ -118,17 +118,17 @@
 {
 	if (self.inMissing){
 		PreyConfig *config = [PreyConfig instance];
-		self.modulesConfig.missing = [string isEqualToString:@"true"];
+		modulesConfig.missing = [string isEqualToString:@"true"];
 		config.missing = [string isEqualToString:@"true"];							
 	}
 	else if (self.inDelay)
-		self.modulesConfig.delay=[NSNumber numberWithInt:[string intValue]];
+		modulesConfig.delay=[NSNumber numberWithInt:[string intValue]];
 	else if (self.inPostUrl)
-		self.modulesConfig.postUrl = string;
+		modulesConfig.postUrl = string;
 	else if (self.inAlertMessage)
-		[self.modulesConfig addConfigValue:string withKey:@"alert_message" forModuleName:@"alert"];
+		[modulesConfig addConfigValue:string withKey:@"alert_message" forModuleName:@"alert"];
     else if (self.inCameraToUse)
-		[self.modulesConfig addConfigValue:string withKey:@"camera" forModuleName:@"webcam"];
+		[modulesConfig addConfigValue:string withKey:@"camera" forModuleName:@"webcam"];
     else if (self.inAccuracy){
         PreyConfig *config = [PreyConfig instance];
         if ([string isEqualToString:@"min"])

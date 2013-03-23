@@ -16,7 +16,7 @@
 
 @implementation Report
 
-@synthesize modules,waitForLocation,waitForPicture,url, picture;
+@synthesize modules,waitForLocation,waitForPicture,url, picture, reportData;
 
 - (id) init {
     self = [super init];

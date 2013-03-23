@@ -22,6 +22,7 @@
 @property BOOL waitForLocation, waitForPicture;
 @property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) UIImage *picture;
+@property (nonatomic, retain) NSMutableDictionary *reportData;
 
 - (void) send;
 - (NSMutableDictionary *) getReportData;
