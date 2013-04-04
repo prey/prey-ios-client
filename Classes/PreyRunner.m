@@ -144,7 +144,7 @@
             //[reportQueue  addOperation:module];
             PreyLogMessage(@"Prey Runner", 5, @"Executing module: %@.", [module getName]);
             [module main];
-            report = module.reportToFill;
+            //report = module.reportToFill; //WIP
         }
         [report send];
         

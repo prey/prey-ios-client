@@ -11,14 +11,25 @@
 #import "PreyConfig.h"
 #import "PreyRestHttp.h"
 
+//deprecated
+static NSString *const CHECK_URL = @"check_url";
+
+
+//
+//Settings (can be updated by SettingModule)
+static NSString *const CONTROL_PANEL_HOST = @"control_panel_host";
+static NSString *const CHECK_PATH = @"check_path";
+static NSString *const SEND_CRASH_REPORTS = @"send_crash_reports";
+static NSString *const EXCEPTIONS_ENDPOINT = @"exceptions_endpoint";
+static NSString *const DATA_ENDPOINT_LOCATION = @"data_endpoint_location";
+//
+
 static NSString *const API_KEY = @"api_key";
 static NSString *const DEVICE_KEY = @"device_key";
 static NSString *const EMAIL = @"email";
-static NSString *const CHECK_URL = @"check_url";
 static NSString *const ALREADY_REGISTERED = @"already_registered";
 static NSString *const ACCURACY=@"accuracy";
 static NSString *const DELAY=@"delay";
-static NSString *const ALERT_ON_REPORT=@"alert_on_report";
 static NSString *const ASK_FOR_PASSWORD=@"ask_for_pass";
 static NSString *const CAMOUFLAGE_MODE=@"camouflage_mode";
 static NSString *const INTERVAL_MODE=@"interval_mode";
@@ -26,23 +37,27 @@ static NSString *const PRO_ACCOUNT=@"pro_account";
 
 @implementation PreyConfig
 
-@synthesize apiKey, deviceKey, checkUrl, email, alreadyRegistered, desiredAccuracy, delay, missing, alertOnReport, askForPassword, camouflageMode, intervalMode, pro;
+@synthesize controlPanelHost,checkPath,sendCrashReports,exceptionsEndpoint,dataEndpoint,apiKey,deviceKey,email,alreadyRegistered,delay,missing,askForPassword,camouflageMode,intervalMode,pro;
 static PreyConfig *_instance = nil;
 
-+(PreyConfig *)instance  {
-	
++(PreyConfig *)instance {
 	
 	@synchronized([PreyConfig class]) {
 		if(!_instance) {
 			_instance = [[PreyConfig alloc] init];
 			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            _instance.controlPanelHost = [defaults stringForKey: CONTROL_PANEL_HOST];
+            _instance.checkPath = [defaults stringForKey: CHECK_PATH];
+            _instance.sendCrashReports = [defaults boolForKey: SEND_CRASH_REPORTS];
+            _instance.exceptionsEndpoint = [defaults stringForKey: EXCEPTIONS_ENDPOINT];
+            _instance.dataEndpoint = [defaults stringForKey: DATA_ENDPOINT_LOCATION];
+            
 			_instance.apiKey = [defaults stringForKey: API_KEY];
-            _instance.pro = [defaults boolForKey:PRO_ACCOUNT];
 			_instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
-			_instance.checkUrl = [defaults stringForKey: CHECK_URL];
 			_instance.email = [defaults stringForKey: EMAIL];
             _instance.camouflageMode = [defaults boolForKey:CAMOUFLAGE_MODE];
             _instance.intervalMode = [defaults boolForKey:INTERVAL_MODE];
+            _instance.pro = [defaults boolForKey:PRO_ACCOUNT];
 			[_instance loadDefaultValues];
 		}
 	}
@@ -52,6 +67,12 @@ static PreyConfig *_instance = nil;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device
 {
 	PreyConfig *newConfig = [[PreyConfig alloc] init];
+    newConfig.controlPanelHost = DEFAULT_CONTROL_PANEL_HOST;
+    newConfig.checkPath = DEFAULT_CHECK_PATH;
+    newConfig.sendCrashReports = DEFAULT_SEND_CRASH_REPORTS;
+    newConfig.exceptionsEndpoint = DEFAULT_EXCEPTIONS_ENDPOINT;
+    newConfig.dataEndpoint = DEFAULT_DATA_ENDPOINT_LOCATION;
+    
 	newConfig.apiKey = [user apiKey];
     newConfig.pro = user.isPro;
 	newConfig.deviceKey = [device deviceKey];
@@ -65,12 +86,9 @@ static PreyConfig *_instance = nil;
 
 - (void) loadDefaultValues {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	double accSet = [defaults doubleForKey:ACCURACY];
-	self.desiredAccuracy = accSet != 0 ? accSet : kCLLocationAccuracyHundredMeters; 
-	int delaySet = [defaults integerForKey:DELAY];
+	int delaySet = [defaults integerForKey:DELAY];    
 	self.delay = delaySet > 0 ? delaySet : 20*60;
 	self.alreadyRegistered =[defaults boolForKey:ALREADY_REGISTERED];
-	self.alertOnReport = [defaults boolForKey:ALERT_ON_REPORT];
 	self.missing = NO;
     self.askForPassword = YES;
 	
@@ -79,38 +97,57 @@ static PreyConfig *_instance = nil;
 - (void) saveValues
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[self controlPanelHost] forKey:CONTROL_PANEL_HOST];
+    [defaults setObject:[self checkPath] forKey:CHECK_PATH];
+    [defaults setBool:[self sendCrashReports] forKey:SEND_CRASH_REPORTS];
+    [defaults setObject:[self exceptionsEndpoint] forKey:EXCEPTIONS_ENDPOINT];
+    [defaults setObject:[self dataEndpoint] forKey:DATA_ENDPOINT_LOCATION];
+    
 	[defaults setObject:[self apiKey] forKey:API_KEY];
 	[defaults setObject:[self deviceKey] forKey:DEVICE_KEY];
 	[defaults setObject:[self email] forKey:EMAIL];
-	[defaults setObject:[self checkUrl] forKey:CHECK_URL];
     [defaults setBool:[self isPro] forKey:PRO_ACCOUNT];
 	[defaults setBool:YES forKey:ALREADY_REGISTERED];
-	[defaults setBool:NO forKey:ALERT_ON_REPORT];
-	[defaults setDouble:[self desiredAccuracy] forKey:ACCURACY];
 	[defaults setInteger:[self delay] forKey:DELAY];
     [defaults setBool:[self askForPassword] forKey:ASK_FOR_PASSWORD];
     [defaults setBool:[self camouflageMode] forKey:CAMOUFLAGE_MODE];
     [defaults setBool:[self intervalMode] forKey:INTERVAL_MODE];
 	[defaults synchronize]; // this method is optional
-	
 }
 
 -(void)resetValues
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:CONTROL_PANEL_HOST];
+    [defaults removeObjectForKey:CHECK_PATH];
+    [defaults removeObjectForKey:SEND_CRASH_REPORTS];
+    [defaults removeObjectForKey:EXCEPTIONS_ENDPOINT];
+    [defaults removeObjectForKey:DATA_ENDPOINT_LOCATION];
+    
 	[defaults removeObjectForKey:API_KEY];
 	[defaults removeObjectForKey:DEVICE_KEY];
 	[defaults removeObjectForKey:PRO_ACCOUNT];
     [defaults removeObjectForKey:EMAIL];
 	[defaults removeObjectForKey:CHECK_URL];
 	[defaults removeObjectForKey:ALREADY_REGISTERED];
-	[defaults removeObjectForKey:ALERT_ON_REPORT];
-	[defaults removeObjectForKey:ACCURACY];
 	[defaults removeObjectForKey:DELAY];
     [defaults removeObjectForKey:CAMOUFLAGE_MODE];
     [defaults removeObjectForKey:INTERVAL_MODE];
 	[defaults synchronize]; // this method is optional
 
+}
+
+- (NSString *) deviceCheckPathWithExtension: (NSString *) extension {
+    return [self.controlPanelHost stringByAppendingFormat: self.checkPath , self.deviceKey, extension];
+}
+
+- (NSString *) readConfigValueForKey: (NSString *) key{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSObject *value = [defaults objectForKey: key];
+    if ([value isKindOfClass:[NSString class]])
+        return (NSString*)value;
+    else
+        return (BOOL)value ? @"True" : @"False";
 }
 
 - (void) updateMissingStatus {
@@ -124,7 +161,6 @@ static PreyConfig *_instance = nil;
 }
 
 
-
 - (void) detachDevice {
     [self resetValues];
 	Device *dev = [Device allocInstance];
@@ -134,13 +170,6 @@ static PreyConfig *_instance = nil;
 	[dev release];
 }
 
-- (void) setDesiredAccuracy:(double) acc { 
-	desiredAccuracy = acc;
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setDouble:acc forKey:ACCURACY];
-	[defaults synchronize]; // this method is optional
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"accuracyUpdated" object:self];
-}
 
 - (void) setAskForPassword:(BOOL)askForPass { 
 	askForPassword = askForPass;
@@ -157,12 +186,6 @@ static PreyConfig *_instance = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"delayUpdated" object:self];
 }
 
-- (void) setAlertOnReport:(BOOL) isAlertOnReport { 
-	alertOnReport = isAlertOnReport;
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setBool:isAlertOnReport forKey:ALERT_ON_REPORT];
-	[defaults synchronize]; // this method is optional
-}
 
 - (void) setCamouflageMode:(BOOL) isCamouflage { 
 	camouflageMode = isCamouflage;
@@ -180,11 +203,13 @@ static PreyConfig *_instance = nil;
 
 - (void) dealloc {
 	[super dealloc];
+    [controlPanelHost release];
+    [checkPath release];
+    [exceptionsEndpoint release];
+    [dataEndpoint release];
+    
 	[apiKey release];
 	[deviceKey release];
-	[checkUrl release];
 	[email release];
-    
-
 }
 @end

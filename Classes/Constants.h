@@ -12,14 +12,18 @@
     
 	
 }
-//extern NSString * const PREY_VERSION;
-extern NSString * const PREY_SECURE_URL;
-extern NSString * const PREY_URL;
-extern NSString * const PREY_API_URL;
-//extern NSString * const PREY_USER_AGENT;
-extern BOOL  const ASK_FOR_LOGIN;
+extern NSString * const DEFAULT_CONTROL_PANEL_HOST;
+extern NSString * const DEFAULT_CHECK_PATH;
+extern BOOL const DEFAULT_SEND_CRASH_REPORTS;
+extern NSString * const DEFAULT_EXCEPTIONS_ENDPOINT;
+extern NSString * const DEFAULT_DATA_ENDPOINT_LOCATION;
+
+extern NSString * const PREY_PANEL_URL;
+extern BOOL const ASK_FOR_LOGIN;
 extern BOOL const USE_CONTROL_PANEL_DELAY;
 extern BOOL const SHOULD_LOG;
+
+
 
 +(NSString *) appName;
 +(NSString *) appVersion;

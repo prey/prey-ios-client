@@ -11,6 +11,7 @@
 #import "LoginController.h"
 #import "User.h"
 #import "PreyConfig.h"
+#import "PreyRestHttp.h"
 #import <CoreLocation/CoreLocation.h>
 
 @interface LoginController()
@@ -378,9 +379,19 @@
     if (indexPath.row == 0)
     {
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width, 0) animated:YES];
+        
     }
     else if (indexPath.row == 1)
     {
+        //TESTING PURPOSES
+        
+        PreyRestHttp *http = [[PreyRestHttp alloc] init];
+        [http checkStatusForDevice:@"abcdef" andApiKey:@"0lnpal2yga0h"];
+        return;
+        
+        //****//
+
+        
         //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://panel.preyproject.com"]];
         
         UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self forOrientation:UIInterfaceOrientationPortrait setURL:@"http://panel.preyproject.com"];

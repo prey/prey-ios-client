@@ -15,7 +15,7 @@
 
 
 - (void)main {
-	reportToFill.waitForLocation = YES;
+	//reportToFill.waitForLocation = YES; //WIP
 }
 
 - (NSString *) getName {

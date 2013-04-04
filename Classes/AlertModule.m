@@ -15,7 +15,7 @@
 @implementation AlertModule
 
 - (void)main {
-    NSString *alertMessage = [self.configParms objectForKey:@"alert_message"];
+    NSString *alertMessage = [super.options objectForKey:@"message"];
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];
         if (localNotif) {
@@ -33,6 +33,7 @@
         //[appDelegate performSelector:s withObject:alertMessage afterDelay:2];
         [appDelegate showAlert:alertMessage];
     }
+    [super notifyEvent:@"action_started" withInfo:[self getName]];
 }
 
 - (NSString *) getName {

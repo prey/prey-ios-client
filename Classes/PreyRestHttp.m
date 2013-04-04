@@ -7,14 +7,8 @@
 //
 //
 
-#import "PreyRestHttp.h"
-#import "KeyParserDelegate.h"
-#import "UserParserDelegate.h"
-#import "ErrorParserDelegate.h"
-#import "ConfigParserDelegate.h"
-#import "PreyConfig.h"
-#import "Reachability.h"
 
+#import "PreyRestHttp.h"
 
 @interface PreyRestHttp()
 
@@ -31,7 +25,8 @@
 
 -(void)setupRequest: (ASIHTTPRequest*)request{
     //[request addRequestHeader:@"User-Agent" value:PREY_USER_AGENT];
-    [request setUserAgentString:[self userAgent]];
+    //[request setUserAgentString:[self userAgent]];
+    [request setUserAgentString:@"TEST"];//testing
     [request setAuthenticationScheme:(NSString *)kCFHTTPAuthenticationSchemeBasic];
 	[request setUseSessionPersistence:NO];
 	[request setShouldRedirect:NO];
@@ -76,7 +71,7 @@
 
 - (NSString *) getCurrentControlPanelApiKey: (User *) user
 {
-    ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_API_URL stringByAppendingFormat: @"profile.xml"]];
+    ASIHTTPRequest *request = [self createGETrequestWithURL:[[[PreyConfig instance] controlPanelHost] stringByAppendingFormat: @"/profile.xml"]];
     [request setUsername:[user email]];
 	[request setPassword: [user password]];
 	
@@ -107,7 +102,7 @@
 
 - (NSString *) createApiKey: (User *) user
 {
-	ASIFormDataRequest *request = [self createPOSTrequestWithURL:[PREY_SECURE_URL stringByAppendingFormat: @"users.xml"]];
+	ASIFormDataRequest *request = [self createPOSTrequestWithURL:[[[PreyConfig instance] controlPanelHost] stringByAppendingFormat: @"/users.xml"]];
 	[request setPostValue:[user name] forKey:@"user[name]"];
 	[request setPostValue:[user email] forKey:@"user[email]"];
 	[request setPostValue:[user country] forKey:@"user[country_name]"]; 
@@ -146,7 +141,7 @@
 
 - (NSString *) createDeviceKeyForDevice: (Device *) device usingApiKey: (NSString *) apiKey {
 	
-	ASIFormDataRequest *request = [self createPOSTrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices.xml"]];
+	ASIFormDataRequest *request = [self createPOSTrequestWithURL:[[[PreyConfig instance] controlPanelHost] stringByAppendingFormat: @"/devices.xml"]];
 	[request setUsername:apiKey];
 	[request setPassword: @"x"];
 	[request setPostValue:[device name] forKey:@"device[title]"];
@@ -186,11 +181,11 @@
 	
 }
 
-- (DeviceModulesConfig *) getXMLforUser: (NSString *) apiKey device:(NSString *) deviceKey;
+- (DeviceModulesConfig *) getXMLforUser
 {
 
-    ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", deviceKey]];
-    [request setUsername:apiKey];
+    ASIHTTPRequest *request = [self createGETrequestWithURL:[[PreyConfig instance] deviceCheckPathWithExtension:@".xml"]];
+    [request setUsername:[[PreyConfig instance] apiKey]];
 	[request setPassword: @"x"];
 	
 	@try {
@@ -199,7 +194,7 @@
 		int statusCode = [request responseStatusCode];
 		//NSString *statusMessage = [request responseStatusMessage];
 		//NSString *response = [request responseString];
-		PreyLogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",deviceKey,[request responseStatusMessage]);
+		PreyLogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",[[PreyConfig instance] deviceKey],[request responseStatusMessage]);
         //LogMessage(@"PreyRestHttp", 20, @"GET devices/%@.xml response: %@",deviceKey,[request responseString]);
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
@@ -207,12 +202,17 @@
 		}
 		
 		if (!error) {
-			NSError *error = nil;
+            
+            /*** Commented because this generates a compiling problem **/
+			/*
+            NSError *error = nil;
 			ConfigParserDelegate *configParser = [[ConfigParserDelegate alloc] init];
 			NSData *respData = [request responseData];
 			DeviceModulesConfig *modulesConfig = [configParser parseModulesConfig:respData parseError:&error];
 			//[configParser release];
 			return modulesConfig;
+             */
+            return nil;
 		}	
 		else {
 			@throw [NSException exceptionWithName:@"GetXMLforDeviceException" reason:[error localizedDescription] userInfo:nil];
@@ -227,11 +227,11 @@
 }
 
 - (BOOL) isMissingTheDevice: (NSString *) device ofTheUser: (NSString *) apiKey{
-	return [self getXMLforUser:apiKey device:device].missing;
+	return [self getXMLforUser].missing;
 }
 
 - (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey {
-	ASIFormDataRequest *request = [self createPUTrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", deviceKey]];
+	ASIFormDataRequest *request = [self createPUTrequestWithURL:[[PreyConfig instance] deviceCheckPathWithExtension:@".xml"]];
     [request setShouldContinueWhenAppEntersBackground:YES];
 	[request setUsername:apiKey];
 	[request setPassword: @"x"];
@@ -271,7 +271,7 @@
 - (BOOL) validateIfExistApiKey: (NSString *) apiKey andDeviceKey: (NSString *) deviceKey
 {
 	
-	ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices.xml"]];
+	ASIHTTPRequest *request = [self createGETrequestWithURL:[[[PreyConfig instance] controlPanelHost] stringByAppendingFormat: @"/devices.xml"]];
 	[request setUsername:apiKey];
 	[request setPassword:@"x"];
 	
@@ -304,7 +304,7 @@
 
 - (BOOL) deleteDevice: (Device*) device{
 	PreyConfig* preyConfig = [PreyConfig instance];
-	__block ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [device deviceKey]]];
+	__block ASIHTTPRequest *request = [self createGETrequestWithURL:[preyConfig deviceCheckPathWithExtension:@".xml"]];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
 	[request setRequestMethod:@"DELETE"];
@@ -385,7 +385,7 @@
 }
 
 - (void) getAppstoreConfig: (id) delegate inURL: (NSString *) URL {
-    ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_API_URL stringByAppendingFormat:@"%@",URL]];
+    ASIHTTPRequest *request = [self createGETrequestWithURL:[PREY_PANEL_URL stringByAppendingFormat:@"%@",URL]];
     [request setDelegate:delegate];
     [request setDidFinishSelector:@selector(receivedData:)];
     [request startAsynchronous];
@@ -420,7 +420,7 @@
 
 - (void) setPushRegistrationId: (NSString *) id {
     PreyConfig *preyConfig = [PreyConfig instance];
-	__block ASIFormDataRequest *request = [self createPUTrequestWithURL:[PREY_URL stringByAppendingFormat: @"devices/%@.xml", [preyConfig deviceKey]]];
+	__block ASIFormDataRequest *request = [self createPUTrequestWithURL:[preyConfig deviceCheckPathWithExtension:@""]];
     [request setShouldContinueWhenAppEntersBackground:YES];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
@@ -439,5 +439,109 @@
     }];
 	[request startAsynchronous];
 }
+
+
+#pragma mark -
+#pragma mark New panel API
+
+- (NewModulesConfig *) checkStatusForDevice: (NSString *) deviceKey andApiKey: (NSString *) apiKey {
+    
+    //ASIHTTPRequest *request = [self createGETrequestWithURL:[NEW_PANEL_URL stringByAppendingFormat: @"devices/%@.json", deviceKey]];
+    ASIHTTPRequest *request = [self createGETrequestWithURL:@"http://psicologiauc.cl/exalumnos/json/json3.json"];
+    [request setUsername:apiKey];
+	[request setPassword: @"x"];
+	
+	@try {
+		[request startSynchronous];
+		NSError *error = [request error];
+		int statusCode = [request responseStatusCode];
+		PreyLogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",deviceKey,[request responseStatusMessage]);
+        //LogMessage(@"PreyRestHttp", 20, @"GET devices/%@.xml response: %@",deviceKey,[request responseString]);
+		if (statusCode == 401){
+			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
+			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
+		}
+		
+		if (!error) {
+            NSError *error = nil;
+			JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
+			//NSString *respString = [request responseString]; 
+            NSString *respString =@"[{\"command\":\"get\",\"target\":\"picture\"}]";
+           // NSString *respString =@"[{\"command\":\"get\",\"target\":\"public_ip\"},\
+            {\"command\":\"get\",\"target\":\"private_ip\"},\
+            {\"command\":\"get\",\"target\":\"first_mac_address\"},\
+            {\"command\":\"get\",\"target\":\"firmware_info\"},\
+            {\"command\":\"get\",\"target\":\"battery_status\"},\
+            {\"command\":\"get\",\"target\":\"processor_info\"},\
+            {\"command\":\"get\",\"target\":\"uptime\"},\
+            {\"command\":\"get\",\"target\":\"remaining_storage\"}\
+            ]";
+//          NSString *respString =@"[{\"command\":\"start\",\"target\":\"alert\",\"options\":{\"message\":\"asdasd\"}},{\"command\":\"start\",\"target\":\"alarm\",\"options\":null}]";
+            
+            //NSString *respString =@"[ {\"command\": \"start\",\"target\": \"geofencing\",\"options\": {\"origin\": \"-70.60713481,-36.42372147\",\"radius\":\"100\" }}]";
+			NewModulesConfig *modulesConfig = [configParser parseModulesConfig:respString parseError:&error];
+			[modulesConfig runAllModules];
+            [configParser release];
+			return modulesConfig;
+        }
+		else {
+			@throw [NSException exceptionWithName:@"GetXMLforDeviceException" reason:[error localizedDescription] userInfo:nil];
+		}
+	}
+	@catch (NSException * e) {
+		@throw;
+	}
+	return nil;
+}
+
+- (void) sendJsonData: (NSDictionary*) jsonData andRawData: (NSDictionary*) rawData toEndpoint: (NSString *) url {
+    PreyConfig *preyConfig = [PreyConfig instance];
+    
+    NSString *testURL = @"http://posttestserver.com/post.php?dir=cyh";
+	__block ASIFormDataRequest *request = [self createPOSTrequestWithURL:testURL];
+    [request setShouldContinueWhenAppEntersBackground:YES];
+	//[request setUsername:[preyConfig apiKey]];
+	//[request setPassword: @"x"];
+    [request setNumberOfTimesToRetryOnTimeout:5];
+    //[request addRequestHeader:@"Content-Type" value:@"application/json"];
+    if (jsonData != nil)
+        [request appendPostData:[[SBJsonWriter new] dataWithObject:jsonData]];
+    if (rawData != nil)
+        [request addData:[rawData objectForKey:@"data"] withFileName:@"picture.jpg" andContentType:@"image/png" forKey:[rawData objectForKey:@"key"]];
+    
+    [request setCompletionBlock:^{
+        int statusCode = [request responseStatusCode];
+        if (statusCode != 200)
+            PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Couldn't send data: %@", [request responseStatusMessage]);
+        else
+            PreyLogMessageAndFile(@"PreyRestHttp", 10, @"Data sent successfully");
+    }];
+    [request setFailedBlock:^{
+        PreyLogMessageAndFile(@"PreyRestHttp", 0, @"ERROR sending data: %@", [[request error] localizedDescription]);
+    }];
+	[request startAsynchronous];
+}
+
+- (void) notifyEvent: (NSDictionary*) data {
+    PreyConfig *preyConfig = [PreyConfig instance];
+    [self sendJsonData:data andRawData:nil toEndpoint:[[preyConfig deviceCheckPathWithExtension:@""] stringByAppendingString:@"/events"]];
+}
+
+- (void) sendSetting: (NSDictionary*) data {
+    PreyConfig *preyConfig = [PreyConfig instance];
+    [self sendJsonData:data andRawData:nil toEndpoint:[[preyConfig deviceCheckPathWithExtension:@""] stringByAppendingString:@"/settings"]];
+}
+
+- (void) sendData: (NSDictionary*) data {
+    PreyConfig *preyConfig = [PreyConfig instance];
+    [self sendJsonData:data andRawData:nil toEndpoint:[[preyConfig deviceCheckPathWithExtension:@""] stringByAppendingString:@"/data"]];
+}
+
+- (void) sendData: (NSDictionary*) data andRaw: (NSDictionary*) rawData {
+    PreyConfig *preyConfig = [PreyConfig instance];
+    [self sendJsonData:data andRawData:rawData toEndpoint:[[preyConfig deviceCheckPathWithExtension:@""] stringByAppendingString:@"/data"]];
+}
+
+
 
 @end

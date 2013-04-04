@@ -8,11 +8,8 @@
 //  Full license at "/LICENSE"
 //
 #import <Foundation/Foundation.h>
-#import "PreyModule.h"
+#import "DataModule.h"
 
-@interface PictureModule : PreyModule {
-    int frame;
-    NSString *camera;
-}
+@interface PictureModule : DataModule
 
 @end
