@@ -94,7 +94,6 @@
 		07CD95F51253D99500590FCD /* PreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD95F31253D99500590FCD /* PreferencesController.xib */; };
 		07CD96251253E13800590FCD /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96231253E13800590FCD /* LoginController.m */; };
 		07CD96261253E13800590FCD /* LoginController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07CD96241253E13800590FCD /* LoginController-iPhone.xib */; };
-		07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */; };
 		07D32398133BB74A00841BFD /* ScreenshotModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D32397133BB74A00841BFD /* ScreenshotModule.m */; };
 		07D3239B133BC32D00841BFD /* PictureModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D3239A133BC32D00841BFD /* PictureModule.m */; };
 		07D3239D133BC6B100841BFD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D3239C133BC6B100841BFD /* AVFoundation.framework */; };
@@ -313,9 +312,6 @@
 		07CD96221253E13800590FCD /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = LoginController.h; path = Classes/LoginController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		07CD96231253E13800590FCD /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = LoginController.m; path = Classes/LoginController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07CD96241253E13800590FCD /* LoginController-iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "LoginController-iPhone.xib"; path = "Classes/LoginController-iPhone.xib"; sourceTree = "<group>"; };
-		07CEDA9912E9DD9E002B4EB5 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
-		07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
-		07CEDA9B12E9DD9E002B4EB5 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
 		07D32396133BB74A00841BFD /* ScreenshotModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ScreenshotModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		07D32397133BB74A00841BFD /* ScreenshotModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ScreenshotModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07D32399133BC32C00841BFD /* PictureModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PictureModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -373,6 +369,9 @@
 		3BA6A2691676A2BA005323EB /* WelcomeController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPad.xib"; path = "Classes/WelcomeController-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "CongratulationsController-iPad.xib"; path = "Classes/CongratulationsController-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A26D1676A754005323EB /* LoginController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPad.xib"; path = "Classes/LoginController-iPad.xib"; sourceTree = "<group>"; };
+		3BBC70B1170E18E000357AED /* LoggerClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
+		3BBC70B2170E18E000357AED /* LoggerClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = "NSLogger/Client Logger/iOS/LoggerClient.m"; sourceTree = "<group>"; };
+		3BBC70B3170E18E000357AED /* LoggerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
 		3BD482E31678CAE300F25DC8 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewController.h; path = Classes/UIWebViewController.h; sourceTree = "<group>"; };
 		3BD482E41678CAE300F25DC8 /* UIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewController.m; path = Classes/UIWebViewController.m; sourceTree = "<group>"; };
 		3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPad.xib"; sourceTree = "<group>"; };
@@ -818,9 +817,9 @@
 		07CEDA9812E9DD77002B4EB5 /* NSLogger */ = {
 			isa = PBXGroup;
 			children = (
-				07CEDA9912E9DD9E002B4EB5 /* LoggerClient.h */,
-				07CEDA9A12E9DD9E002B4EB5 /* LoggerClient.m */,
-				07CEDA9B12E9DD9E002B4EB5 /* LoggerCommon.h */,
+				3BBC70B1170E18E000357AED /* LoggerClient.h */,
+				3BBC70B2170E18E000357AED /* LoggerClient.m */,
+				3BBC70B3170E18E000357AED /* LoggerCommon.h */,
 			);
 			name = NSLogger;
 			sourceTree = "<group>";
@@ -1155,7 +1154,6 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */,
 				07CD96251253E13800590FCD /* LoginController.m in Sources */,
-				07CEDA9C12E9DD9E002B4EB5 /* LoggerClient.m in Sources */,
 				07DA037E132013D900FECCAD /* PreferencesController.mm in Sources */,
 				078E1372132AB584004B7C60 /* Reachability.m in Sources */,
 				07D32398133BB74A00841BFD /* ScreenshotModule.m in Sources */,

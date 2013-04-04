@@ -32,7 +32,7 @@
 
 @implementation PreferencesController
 
-@synthesize accManager,delayManager;
+@synthesize delayManager;
 
 #pragma mark -
 #pragma mark Private Methods
@@ -275,7 +275,6 @@
 
 - (void)accuracyPickerSelected 
 {
-	[accManager hidePickerOnView:self.view fromTableView:self.tableView];
 	[self setupNavigatorForPicker:NO withSelector:nil];
 
 }
@@ -422,10 +421,6 @@
 }
 
 
-- (IBAction)changeReportState:(UISwitch*)missingSwitch{
-	[PreyConfig instance].alertOnReport = missingSwitch.on;	
-}
-
 #pragma mark -
 #pragma mark Events received
 - (void)missingStateUpdated:(NSNotification *)notification
@@ -459,13 +454,11 @@
      self.title = NSLocalizedString(@"Preferences", nil);
      [self.tableView setBackgroundColor:[UIColor whiteColor]];
      
-     accManager = [[AccuracyManager alloc] init];
      delayManager = [[DelayManager alloc] init];
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:kProductsLoadedNotification object:nil];
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
-
      
      [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
      [self.navigationController setNavigationBarHidden:NO animated:NO];
@@ -492,7 +485,6 @@
         [HUD removeFromSuperview];
         [HUD release];
     }
-	[accManager release];
 	[delayManager release];
     
     self.tableView.delegate = nil;

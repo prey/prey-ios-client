@@ -20,10 +20,10 @@
     self = [super init];
     if (self != nil) {
 		PreyLogMessage(@"Prey Location Controller", 5, @"Initializing Accurate LocationManager...");
-		PreyConfig *config = [PreyConfig instance];
+		//PreyConfig *config = [PreyConfig instance];
 		accurateLocationManager = [[CLLocationManager alloc] init];
 		accurateLocationManager.delegate = self;
-		accurateLocationManager.desiredAccuracy = config.desiredAccuracy;
+		accurateLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
 		
 		//self.locationManager.distanceFilter = 1;	
     }
@@ -93,6 +93,7 @@
     PreyLogMessageAndFile(@"Prey SignificantLocationController", 0, @"Error getting location: %@", [error description]);
 }
 
+/* JavierCode
 - (void)accuracyUpdated:(NSNotification *)notification
 {
     CLLocationAccuracy newAccuracy = ((PreyConfig*)[notification object]).desiredAccuracy;
@@ -101,7 +102,7 @@
 	[accurateLocationManager stopUpdatingLocation];
 	[accurateLocationManager startUpdatingLocation];
 }
-
+*/
 - (void)dealloc {
     [accurateLocationManager release];
     [super dealloc];

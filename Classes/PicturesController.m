@@ -51,14 +51,9 @@
     NSTimeInterval lastRunInterval = -[pictureTakenAt timeIntervalSinceNow];
     return lastRunInterval > 60 ? nil : self.lastPictureTaken;
 }
-- (void) setLastPicture:(UIImage *) picture {
-    PreyLogMessage(@"PicturesController", 10, @"Storing the picture that was taken...");
-    self.lastPictureTaken = picture;
-    [pictureTakenAt release];
-    pictureTakenAt = [[NSDate date]retain];
-}
 
--(void) take:(NSNumber*)picturesToTake usingCamera:(NSString*)camera {
+
+-(void) takePictureAndNotifyTo:(SEL)method onTarget:(id)target {
 
     // Create the session
     PreyLogMessage(@"PicturesController", 10, @"Creating the session...");
@@ -112,7 +107,7 @@
     // Configure your output.
     PreyLogMessage(@"PicturesController", 10, @"Configuring the output device...");
     dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
-    PicturesControllerDelegate *delegate = [PicturesControllerDelegate initWithSession:session AndWhenFinishSendImageTo:@selector(setLastPicture:) onTarget:self];
+    PicturesControllerDelegate *delegate = [PicturesControllerDelegate initWithSession:session AndWhenFinishSendImageTo:method onTarget:target];
     
     [output setSampleBufferDelegate:delegate queue:queue];
     //[delegate release];
@@ -126,7 +121,6 @@
     // If you wish to cap the frame rate to a known value, such as 15 fps, set 
     // minFrameDuration.
     
-    
     // (Javier) 2013.03.14: The Pink photos issue
     
     if ([output respondsToSelector:@selector(connectionWithMediaType:)]) // Check iOS 5.0 or later
@@ -139,7 +133,10 @@
         output.minFrameDuration = CMTimeMake(1, 2);
     }
     
-      
+    //CarlosCode
+    //[output setAlwaysDiscardsLateVideoFrames:YES];
+    
+    
     // Start the session running to start the flow of data
     PreyLogMessage(@"PicturesController", 10, @"Starting the session to run...");
     [session startRunning];
