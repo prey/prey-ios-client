@@ -93,16 +93,6 @@
     PreyLogMessageAndFile(@"Prey SignificantLocationController", 0, @"Error getting location: %@", [error description]);
 }
 
-/* JavierCode
-- (void)accuracyUpdated:(NSNotification *)notification
-{
-    CLLocationAccuracy newAccuracy = ((PreyConfig*)[notification object]).desiredAccuracy;
-	PreyLogMessageAndFile(@"Prey Location Controller", 5, @"Accuracy has been modified. Updating location manager with new accuracy: %f", newAccuracy);
-	accurateLocationManager.desiredAccuracy =  newAccuracy;
-	[accurateLocationManager stopUpdatingLocation];
-	[accurateLocationManager startUpdatingLocation];
-}
-*/
 - (void)dealloc {
     [accurateLocationManager release];
     [super dealloc];
