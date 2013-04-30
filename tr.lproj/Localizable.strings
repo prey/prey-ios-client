@@ -1,0 +1,217 @@
+"10 mins." = "10 dakika";
+
+"15 mins." = "15 dakika.";
+
+"2 mins." = "2 dakika";
+
+"20 mins." = "20 dakika";
+
+"30 mins." = "30 dakika";
+
+"30 secs." = "30 saniye";
+
+"40 mins." = "40 dakika";
+
+"5 mins." = "5 dakika";
+
+"A new report has been sent to your Control Panel" = "Yeni rapor kontrol panelinize gönderildi.";
+
+"About" = "Hakkında";
+
+"Access Denied" = "Giriş Engellendi.";
+
+"Accessing your account..." = "Hesabınıza giriliyor...";
+
+"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address." = "Hesap Oluşturuldu! Mail adresinize gönderdiğimiz maildeki linki tıklayarak hesabınızı onaylamayı unutmayınız.";
+
+"Add this device!" = "Bu cihazı ekle!";
+
+"Alert on report sent" = "gönderilen rapor uyarıları";
+
+"Already a Prey user" = "Zaten Prey kullanıcısı";
+
+"An unknown error has occurred" = "Bilinmeyen hata oluştu";
+
+"Ask for password" = "Şifre için sor";
+
+"Attaching device..." = "Cihaz ekleniyor...";
+
+"Best possible" = "En iyi olasılık";
+
+"Camouflage mode" = "Kamuflaj modu";
+
+"Cancel" = "İptal";
+
+"Checking your password..." = "Şifreniz kontrol ediliyor...";
+
+"Choose a 6 characters password" = "Şifreniz için 6 karekter kullanılız";
+
+"Congratulations!" = "Tebrikler!";
+
+"Congratulations! You have successfully associated this iOS device with your Prey account." = "Tebrikler! Prey hesabınıza başarıyla İOS yüklü cihazınızı kaydettiniz.";
+
+"Couldn't add your device" = "Cihaz eklenemedi";
+
+"Couldn't check your password" = "Şifreniz kontrol edilemedi";
+
+"Create my account!" = "Hesabımı oluştur!";
+
+"Create Prey account" = "Prey Hesabı oluştur";
+
+"Creating account..." = "Hesap oluşturuluyor...";
+
+"Delay" = "Erteleme";
+
+"Delete log" = "Log sil";
+
+"Detach device" = "Cihazı çıkar";
+
+"Email" = "Email";
+
+"Enter a valid e-mail address" = "Kullandığınız mail adresinizi giriniz";
+
+"Hundreds of Meters" = "Yüzlerce metre";
+
+"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "Bu Denetim Masası aygıtları için sınıra ulaştınız görünüyor. Eğer bu aygıt önceden eklenmişse hesabınızdan bu aygıtı çıkarmayı deneyin.";
+
+"Location accuracy" = "Konum doğruluğu";
+
+"Log" = "Log";
+
+"Log in to Prey" = "Prey içindeki Log";
+
+"Log records will be deleted.\n\nAre you sure?" = "Log kayıtları silinecek.\n\nEmin misiniz?";
+
+"Log records will be sent to developers. You'll be able to check the email body before proceed." = "Log kayıtları geliştiricilere gönderilecektir. Devam etmeden önce e-postanın nasıl göründüğünü kontrol edebilirsiniz.";
+
+"Mark as missing" = "Kayıp olarak işaretle";
+
+"Mark as recovered" = "Bulundu olarak işaretle";
+
+"Name" = "Adı";
+
+"Nearest 10 meters" = "10 metre yakınlarda";
+
+"Nearest 3 kilometers" = "3 kilometre yakınlarda";
+
+"New user" = "Yeni kullanıcı";
+
+"No, don't delete" = "Hayır, silme";
+
+"None: Send everything." = "Hiçbiri: Herşeyi gönder.";
+
+"OK" = "Tamam";
+
+"One kilometer" = "Bir kilometre";
+
+"Password" = "Şifre";
+
+"Password must be at least 6 characters" = "Şifre 6 karekterli olmalıdır.";
+
+"Passwords do not match" = "Şifreler birbirini tutmuyor";
+
+"Please wait" = "Lütfen bekleyin";
+
+"Prey alert" = "Prey uyarılar";
+
+"Prey next execution in %i minutes." = "Prey bir sonraki eylemi %i dakika içinde olacak.";
+
+"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Cihazınız bulundu olarak işaretlenecek ve Prey rapor göndermeyi durduracak.\n\nEmin misiniz?";
+
+"Quite accurate" = "Oldukça hassas";
+
+"Read Message" = "Mesaj oku";
+
+"Removing device..." = "Cihaz kaldırılıyor...";
+
+"Repeat your password" = "Şifreni tekrarla";
+
+"Report couldn't be sent" = "Rapor gönderilemedi";
+
+"Send log" = "Gönderim Logları";
+
+"Settings" = "Ayarlar";
+
+"Starting Prey..." = "Prey'i başlat...";
+
+"Stopping Prey..." = "Prey'i durdur...";
+
+"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password." = "Hesap bilgilerinizde sorun var. Mail adresinizi kontrol edin veya şifrenizi yeniden girin.";
+
+"Unable to access Location Services.\n You need to grant Prey access if you wish to track your device." = "Yer hizmetlerine erişilemiyor. \n Cihazınıza izlemek istiyorsanız, Prey'e erişim vermeniz gerekir.";
+
+"Unable to fetch location data. Is this device on airplane mode?" = "Konum verileri alınamadı. Cihazınız uçak modunda mı?";
+
+"User couldn't be created" = "Kullanıcı oluşturulamadı";
+
+"Version" = "Versiyon";
+
+"View Details" = "Detaylara bak";
+
+"Warning" = "Dikkat";
+
+"We have a situation!" = "Bir durum var!";
+
+"Welcome to Prey!" = "Prey'e hoşgelnizi!";
+
+"Wrong password. Try again." = "Yanlış şifre, yeniden deneyin";
+
+"Yes, remove from my account" = "Evet, hesabı kapat";
+
+"You have successfully associated this device with your Prey Control Panel account." = "Cihaz başarıyla Prey Kontrol Paneline eklendi.";
+
+"You're about to delete this device from the Control Panel.\n Are you sure?" = "Bu cihaz Prey Kontrol Panelinden silecek.\nEmin misiniz?";
+
+"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Cihaz kayıp olarak işaretlendiğinde raporlar gönderilmeye başlayacak.\nEmin misin?";
+
+"Your email" = "Mail adresiniz";
+
+"Your name" = "İsminiz";
+
+"A new report has been sent to your Control Panel." = "Yeni rapor kontrol panelinize gönderildi.";
+
+"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Bunu devredışı bırakırsanız Prey cihazın kayıp olma durumunu kontrol etmeyecektir ve raporlar göndermeye başlamak için tek yol Web Kontrol Panelinden Prey aktive ettirmektir.";
+
+"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Bu etkinleştirildiğinde, sağ sütte pil durumu yanında mor konum simgesi görünecek. Bu GPS'in açık olduğu anlamına gelmez ama cihaz arjının çabuk bitmesine sebep olabilir.";
+
+"Current Location" = "Şuandaki konum";
+
+"Device not ready!" = "Cihaz hazır değil!";
+
+"Device ready." = "Cihaz hazır.";
+
+"Disable it!" = "Pasif yap!";
+
+"Enable it!" = "Aktif yap!";
+
+"Help" = "Sorun giderme";
+
+"Location services are disabled for Prey. Reports will not be sent." = "Yer hizmetleri Prey için devre dışı bırakılır. Raporlar gönderilmeyecektir.";
+
+"Preferences" = "Tercihler";
+
+"Privacy Policy" = "Gizlilik Politikası";
+
+"Terms of Service" = "Hizmet Koşulları";
+
+"Upgrade to Pro" = "Pro'ya geç";
+
+"Use Location Listener" = "Yer bildirimini kullan";
+
+"Your device is protected and waiting for the activation signal." = "Cihazınız korumalı ve aktivasyon sinyali bekliyor.";
+
+"Remind me later" = "Sonra hatırlat";
+
+"Rate us" = "Bize oy verin";
+
+"Give us ★★★★★ on the App Store if you like Prey." = "Beğendiyseniz App Store'den bize ★★★★★ oy vermeyi unutmayın.";
+
+"Yes, rate Prey!" = "Evet, Prey'e oyumu kullanmak istiyorum!";
+
+"Yes, accept it!" = "Evet, kabul et!";
+
+"Rate this update with ★★★★★ on the App Store then await further instructions." = "Bu güncelleme için App Store'den ★★★★★ oy veriniz.";
+
+"Your mission, should you decide to accept it" = "Görevin, ki eğer kabul edersen";
+
+"Missing" = "Kayıp";
