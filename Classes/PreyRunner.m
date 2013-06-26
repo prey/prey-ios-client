@@ -17,7 +17,7 @@
 
 @implementation PreyRunner
 
-@synthesize lastLocation,config,http;
+@synthesize lastLocation,config,preyRestHttp;
 
 +(PreyRunner *)instance  {
 	static PreyRunner *instance;
@@ -29,7 +29,7 @@
 			[[NSNotificationCenter defaultCenter] addObserver:instance selector:@selector(locationUpdated:) name:@"locationUpdated" object:nil];
             
             PreyRestHttp *preyRestHttp = [[PreyRestHttp alloc] init];
-			instance.http              = preyRestHttp;
+			instance.preyRestHttp      = preyRestHttp;
             [preyRestHttp release];
 		}
 	}
@@ -44,7 +44,7 @@
 	[locController startUpdatingLocation];
 	if (![PreyRestHttp checkInternet])
 		return;
-	[http changeStatusToMissing:YES forDevice:[config deviceKey] fromUser:[config apiKey]];
+	[preyRestHttp changeStatusToMissing:YES forDevice:[config deviceKey] fromUser:[config apiKey]];
     config.missing=YES;
     PreyLogMessageAndFile(@"Prey Runner", 0,@"Prey service has been started.");
 
@@ -59,7 +59,7 @@
 	[locController stopUpdatingLocation];
 	if (![PreyRestHttp checkInternet])
 		return;
-	[http changeStatusToMissing:NO forDevice:[config deviceKey] fromUser:[config apiKey]];
+	[preyRestHttp changeStatusToMissing:NO forDevice:[config deviceKey] fromUser:[config apiKey]];
     config.missing=NO;
     lastExecution = nil;
     PreyLogMessageAndFile(@"Prey Runner", 0,@"Prey service has been stopped.");
@@ -121,7 +121,8 @@
             return;
         UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication]
                                              beginBackgroundTaskWithExpirationHandler:^{}];
-        DeviceModulesConfig *modulesConfig = [[http getXMLforUser:[config apiKey] device:[config deviceKey]] retain];
+        //DeviceModulesConfig *modulesConfig = [[preyRestHttp getXMLforUser:[config apiKey] device:[config deviceKey]] retain];
+        DeviceModulesConfig *modulesConfig = [[preyRestHttp getXMLforUser] retain];
         
         if (USE_CONTROL_PANEL_DELAY)
             [PreyConfig instance].delay = [modulesConfig.delay intValue] * 60;
@@ -184,6 +185,13 @@
 	
 }
 
+#warning Revisar si se usa
+/*
+ NotaJavierCalaUribe
+ Metodo no utilizado, aparentemente.
+ encargado de invocarlo-> addObserver:forKeyPath:options:context:
+ Revisar atributo->  reportQueue
+ 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if (object == reportQueue && [keyPath isEqual:@"operationCount"]) {
@@ -197,11 +205,12 @@
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
+*/
 
 - (void)dealloc {
 	[reportQueue release], reportQueue = nil;
 	[actionQueue release], actionQueue = nil;
-	[http release];
+	[preyRestHttp release];
 	[lastExecution release];
     [super dealloc];
 }

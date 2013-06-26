@@ -19,14 +19,14 @@
 	NSOperationQueue *reportQueue;
 	NSOperationQueue *actionQueue;
 	PreyConfig *config;
-	PreyRestHttp *http;
+	PreyRestHttp *preyRestHttp;
 	NSDate *lastExecution;
 	
 }
 @property (nonatomic, retain) CLLocation *lastLocation;
 //@property (nonatomic, retain) NSDate *lastExecution;
 @property (nonatomic, retain) PreyConfig *config;
-@property (nonatomic, retain) PreyRestHttp *http;
+@property (nonatomic, retain) PreyRestHttp *preyRestHttp;
 
 +(PreyRunner *) instance;
 -(void)startPreyService;

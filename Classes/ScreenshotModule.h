@@ -9,9 +9,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PreyModule.h"
+#import "DataModule.h"
 
-@interface ScreenshotModule : PreyModule {
+@interface ScreenshotModule : DataModule {
     
 }
 

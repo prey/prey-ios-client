@@ -14,7 +14,7 @@
 
 @implementation ContactsModule
 
-- (void)main {
+- (void)get {
 	// AddressBook
 	ABAddressBookRef ab;
 	ab = ABAddressBookCreate();
