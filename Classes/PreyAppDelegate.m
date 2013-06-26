@@ -22,6 +22,8 @@
 #import "PicturesController.h"
 #import "IAPHelper.h"
 #import "GANTracker.h"
+#import "PictureModule.h"
+#import "PreyPhone.h"
 
 @interface PreyAppDelegate()
 
@@ -32,6 +34,7 @@
 @implementation PreyAppDelegate
 
 @synthesize window,viewController;
+@synthesize preyPhone = _preyPhone;
 
 -(void)renderFirstScreen{
 
@@ -96,7 +99,11 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     PreyLogMessage(@"App Delegate", 20,  @"Attempting to show the HUD");
-    [[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
+#warning Check: method changes in PictureController
+    
+    [[PictureModule newModuleForName:@"picture" andCommand:nil] get];
+    //[[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
+    
     MBProgressHUD *HUD2 = [MBProgressHUD showHUDAddedTo:webView animated:YES];
     HUD2.labelText = NSLocalizedString(@"Accessing your account...",nil);
     HUD2.removeFromSuperViewOnHide=YES;
@@ -120,6 +127,7 @@
     //Analytics singleton tracker.
     [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-8743344-1" dispatchPeriod:10 delegate:nil];
     
+        
     //IAPHelper *IAP = [IAPHelper sharedHelper];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[IAPHelper sharedHelper]];
     //[IAPHelper initWithRemoteIdentifiers];
@@ -173,7 +181,7 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif {
 	
-    LogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
+    PreyLogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
 	//PreyRunner *runner = [PreyRunner instance];
 	//[runner startPreyService];
     
@@ -373,9 +381,9 @@
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);    
     
     //TESTING PURPOSES
-    
-    PreyRestHttp *http = [[PreyRestHttp alloc] init];
-    [http checkStatusForDevice:@"abcdef" andApiKey:@"0lnpal2yga0h"];
+#warning Testing
+    //PreyRestHttp *http = [[PreyRestHttp alloc] init];
+    //[http checkStatusForDevice:@"abcdef" andApiKey:@"0lnpal2yga0h"];
     
     //****//
     
@@ -412,6 +420,7 @@
     [[GANTracker sharedTracker] stopTracker];
     [window release];
 	[viewController release];
+    [_preyPhone release];
 }
 
 

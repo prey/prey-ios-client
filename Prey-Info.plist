@@ -44,6 +44,7 @@
 	<array>
 		<string>audio</string>
 		<string>location</string>
+		<string>voip</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

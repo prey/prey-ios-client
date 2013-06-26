@@ -120,6 +120,13 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		3B1BA22017271C8500200251 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7B0C8D17171CAD002B6E2D /* Location.m */; };
+		3B1BA22117271C8500200251 /* RemainingStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7B0C8F17171CAD002B6E2D /* RemainingStorage.m */; };
+		3B1BA22217271C8500200251 /* ReportModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7B0C9117171CAD002B6E2D /* ReportModule.m */; };
+		3B52984D176A253800CCA39C /* PreyPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B52984C176A253800CCA39C /* PreyPhone.m */; };
+		3B529851176A263D00CCA39C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B52984E176A263D00CCA39C /* libcrypto.a */; };
+		3B529852176A263D00CCA39C /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B52984F176A263D00CCA39C /* libssl.a */; };
+		3B529853176A263D00CCA39C /* libTwilioClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B529850176A263D00CCA39C /* libTwilioClient.a */; };
 		3B5F266116F405FA00A1A27F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B5F266016F405FA00A1A27F /* Default-568h@2x.png */; };
 		3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */; };
 		3BA6A22F16769566005323EB /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A22E16769566005323EB /* MainWindow-iPad.xib */; };
@@ -127,6 +134,7 @@
 		3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */; };
 		3BA6A26E1676A754005323EB /* LoginController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A26D1676A754005323EB /* LoginController-iPad.xib */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
+		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
 		3BF03704167835CD0086A7A7 /* GrettingsProViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */; };
 		3BF0371016783C790086A7A7 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370716783C790086A7A7 /* Default-Portrait.png */; };
 		3BF0371116783C790086A7A7 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370816783C790086A7A7 /* Default.png */; };
@@ -184,8 +192,8 @@
 		070E7B4D13F323200013C1F6 /* prey-allgood@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-allgood@2x.png"; path = "Resources/prey-allgood@2x.png"; sourceTree = "<group>"; };
 		071323F0134632C900F7EFD8 /* AlarmModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AlarmModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071323F1134632C900F7EFD8 /* AlarmModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AlarmModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		071323F2134632C900F7EFD8 /* AlertModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = AlertModule.h; path = Classes/AlertModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		071323F3134632C900F7EFD8 /* AlertModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AlertModule.m; path = Classes/AlertModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		071323F2134632C900F7EFD8 /* AlertModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AlertModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		071323F3134632C900F7EFD8 /* AlertModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AlertModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071323F4134632C900F7EFD8 /* AlertModuleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = AlertModuleController.h; path = Classes/AlertModuleController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071323F5134632C900F7EFD8 /* AlertModuleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = AlertModuleController.m; path = Classes/AlertModuleController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071323FC1346339A00F7EFD8 /* ConfigParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ConfigParserDelegate.h; path = Classes/ConfigParserDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -195,14 +203,14 @@
 		07132402134633EA00F7EFD8 /* CongratulationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = CongratulationsController.m; path = Classes/CongratulationsController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324041346340500F7EFD8 /* DelayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DelayManager.h; path = Classes/DelayManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071324051346340500F7EFD8 /* DelayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = DelayManager.m; path = Classes/DelayManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		071324071346342700F7EFD8 /* ContactsModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ContactsModule.h; path = Classes/ContactsModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		071324081346342700F7EFD8 /* ContactsModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ContactsModule.m; path = Classes/ContactsModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		071324071346342700F7EFD8 /* ContactsModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ContactsModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		071324081346342700F7EFD8 /* ContactsModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ContactsModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0713240A1346343C00F7EFD8 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Classes/Constants.h; sourceTree = "<group>"; };
 		0713240B1346343C00F7EFD8 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = Classes/Constants.m; sourceTree = "<group>"; };
 		0713240C1346343C00F7EFD8 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = Classes/Device.h; sourceTree = "<group>"; };
 		0713240D1346343C00F7EFD8 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = Classes/Device.m; sourceTree = "<group>"; };
-		0713240E1346343C00F7EFD8 /* DeviceModulesConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DeviceModulesConfig.h; path = Classes/DeviceModulesConfig.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		0713240F1346343C00F7EFD8 /* DeviceModulesConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = DeviceModulesConfig.m; path = Classes/DeviceModulesConfig.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0713240E1346343C00F7EFD8 /* DeviceModulesConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DeviceModulesConfig.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		0713240F1346343C00F7EFD8 /* DeviceModulesConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DeviceModulesConfig.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324131346346F00F7EFD8 /* IphoneInformationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = IphoneInformationHelper.h; path = Classes/IphoneInformationHelper.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071324141346346F00F7EFD8 /* IphoneInformationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = IphoneInformationHelper.m; path = Classes/IphoneInformationHelper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324161346348400F7EFD8 /* FakeWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = FakeWebView.h; path = Classes/FakeWebView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -219,8 +227,8 @@
 		07132426134634E600F7EFD8 /* NewUserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = NewUserController.m; path = Classes/NewUserController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0713242B1346350100F7EFD8 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = LocationController.h; path = Classes/LocationController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0713242C1346350100F7EFD8 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = LocationController.m; path = Classes/LocationController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		0713242D1346350100F7EFD8 /* LocationModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = LocationModule.h; path = Classes/LocationModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		0713242E1346350100F7EFD8 /* LocationModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = LocationModule.m; path = Classes/LocationModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0713242D1346350100F7EFD8 /* LocationModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LocationModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		0713242E1346350100F7EFD8 /* LocationModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LocationModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324311346353C00F7EFD8 /* WelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = WelcomeController.h; path = Classes/WelcomeController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071324321346353C00F7EFD8 /* WelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = WelcomeController.m; path = Classes/WelcomeController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324341346355000F7EFD8 /* SetupControllerTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SetupControllerTemplate.h; path = Classes/SetupControllerTemplate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -233,16 +241,16 @@
 		0713243E1346357500F7EFD8 /* SignificantLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = SignificantLocationController.m; path = Classes/SignificantLocationController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324401346358600F7EFD8 /* PreyModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PreyModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071324411346358600F7EFD8 /* PreyModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PreyModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		07132443134635A100F7EFD8 /* PreyConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PreyConfig.h; path = Classes/PreyConfig.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		07132444134635A100F7EFD8 /* PreyConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PreyConfig.m; path = Classes/PreyConfig.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		07132445134635A100F7EFD8 /* Report.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = Report.h; path = Classes/Report.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		07132446134635A100F7EFD8 /* Report.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = Report.m; path = Classes/Report.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		07132443134635A100F7EFD8 /* PreyConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PreyConfig.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		07132444134635A100F7EFD8 /* PreyConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PreyConfig.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		07132445134635A100F7EFD8 /* Report.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Report.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		07132446134635A100F7EFD8 /* Report.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Report.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07132447134635A100F7EFD8 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = Classes/User.h; sourceTree = "<group>"; };
 		07132448134635A100F7EFD8 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = Classes/User.m; sourceTree = "<group>"; };
-		0713244C134635C400F7EFD8 /* PreyRestHttp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyRestHttp.h; path = Classes/PreyRestHttp.h; sourceTree = "<group>"; };
-		0713244D134635C400F7EFD8 /* PreyRestHttp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyRestHttp.m; path = Classes/PreyRestHttp.m; sourceTree = "<group>"; };
-		0713244E134635C400F7EFD8 /* PreyRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PreyRunner.h; path = Classes/PreyRunner.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		0713244F134635C400F7EFD8 /* PreyRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PreyRunner.m; path = Classes/PreyRunner.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0713244C134635C400F7EFD8 /* PreyRestHttp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyRestHttp.h; sourceTree = "<group>"; };
+		0713244D134635C400F7EFD8 /* PreyRestHttp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyRestHttp.m; sourceTree = "<group>"; };
+		0713244E134635C400F7EFD8 /* PreyRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PreyRunner.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		0713244F134635C400F7EFD8 /* PreyRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PreyRunner.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07132452134635DC00F7EFD8 /* WelcomeController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPhone.xib"; path = "Classes/WelcomeController-iPhone.xib"; sourceTree = "<group>"; };
 		071324541346363300F7EFD8 /* AlertModuleController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPhone.xib"; path = "Classes/AlertModuleController-iPhone.xib"; sourceTree = "<group>"; };
 		071324551346363300F7EFD8 /* MainWindow-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPhone.xib"; sourceTree = "<group>"; };
@@ -319,8 +327,8 @@
 		07D3239C133BC6B100841BFD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		07D3239E133BC74A00841BFD /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		07D3239F133BC74A00841BFD /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		07D4CBB61670EDE100DD1CB9 /* GeofencingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeofencingModule.h; path = Classes/GeofencingModule.h; sourceTree = "<group>"; };
-		07D4CBB71670EDE100DD1CB9 /* GeofencingModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeofencingModule.m; path = Classes/GeofencingModule.m; sourceTree = "<group>"; };
+		07D4CBB61670EDE100DD1CB9 /* GeofencingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeofencingModule.h; sourceTree = "<group>"; };
+		07D4CBB71670EDE100DD1CB9 /* GeofencingModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeofencingModule.m; sourceTree = "<group>"; };
 		07D4CBB91670FA2400DD1CB9 /* PreyGeofencingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyGeofencingController.h; path = Classes/PreyGeofencingController.h; sourceTree = "<group>"; };
 		07D4CBBA1670FA2400DD1CB9 /* PreyGeofencingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyGeofencingController.m; path = Classes/PreyGeofencingController.m; sourceTree = "<group>"; };
 		07DA04B013216E3A00FECCAD /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
@@ -363,17 +371,28 @@
 		3B0DBF9C17039D6900AA8A3B /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		3B0DBF9D17039D7400AA8A3B /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3B0DBF9E17039D7B00AA8A3B /* zh-CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-CN"; path = "zh-CN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		3B52984B176A253800CCA39C /* PreyPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyPhone.h; sourceTree = "<group>"; };
+		3B52984C176A253800CCA39C /* PreyPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyPhone.m; sourceTree = "<group>"; };
+		3B52984E176A263D00CCA39C /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = Classes/Twilio/Libraries/libcrypto.a; sourceTree = "<group>"; };
+		3B52984F176A263D00CCA39C /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = Classes/Twilio/Libraries/libssl.a; sourceTree = "<group>"; };
+		3B529850176A263D00CCA39C /* libTwilioClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTwilioClient.a; path = Classes/Twilio/Libraries/libTwilioClient.a; sourceTree = "<group>"; };
 		3B5F266016F405FA00A1A27F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPad.xib"; path = "Classes/AlertModuleController-iPad.xib"; sourceTree = "<group>"; };
+		3B7B0C8C17171CAD002B6E2D /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		3B7B0C8D17171CAD002B6E2D /* Location.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		3B7B0C8E17171CAD002B6E2D /* RemainingStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RemainingStorage.h; sourceTree = "<group>"; };
+		3B7B0C8F17171CAD002B6E2D /* RemainingStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemainingStorage.m; sourceTree = "<group>"; };
+		3B7B0C9017171CAD002B6E2D /* ReportModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportModule.h; sourceTree = "<group>"; };
+		3B7B0C9117171CAD002B6E2D /* ReportModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportModule.m; sourceTree = "<group>"; };
 		3BA6A22E16769566005323EB /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A2691676A2BA005323EB /* WelcomeController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPad.xib"; path = "Classes/WelcomeController-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "CongratulationsController-iPad.xib"; path = "Classes/CongratulationsController-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A26D1676A754005323EB /* LoginController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPad.xib"; path = "Classes/LoginController-iPad.xib"; sourceTree = "<group>"; };
-		3BBC70B1170E18E000357AED /* LoggerClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
-		3BBC70B2170E18E000357AED /* LoggerClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = "NSLogger/Client Logger/iOS/LoggerClient.m"; sourceTree = "<group>"; };
-		3BBC70B3170E18E000357AED /* LoggerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
 		3BD482E31678CAE300F25DC8 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewController.h; path = Classes/UIWebViewController.h; sourceTree = "<group>"; };
 		3BD482E41678CAE300F25DC8 /* UIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewController.m; path = Classes/UIWebViewController.m; sourceTree = "<group>"; };
+		3BD74797170F7EFB00F44E2C /* LoggerClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
+		3BD74798170F7EFB00F44E2C /* LoggerClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = "NSLogger/Client Logger/iOS/LoggerClient.m"; sourceTree = "<group>"; };
+		3BD74799170F7EFB00F44E2C /* LoggerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
 		3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPad.xib"; sourceTree = "<group>"; };
 		3BF0370716783C790086A7A7 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		3BF0370816783C790086A7A7 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -461,6 +480,9 @@
 				07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */,
 				077D7B2D126F3C8400C713B7 /* AddressBook.framework in Frameworks */,
 				077D7BA21270D79700C713B7 /* MapKit.framework in Frameworks */,
+				3B529851176A263D00CCA39C /* libcrypto.a in Frameworks */,
+				3B529852176A263D00CCA39C /* libssl.a in Frameworks */,
+				3B529853176A263D00CCA39C /* libTwilioClient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,10 +574,14 @@
 			children = (
 				071324161346348400F7EFD8 /* FakeWebView.h */,
 				071324171346348400F7EFD8 /* FakeWebView.m */,
+				3B3B2FC91714B63C00BABCAE /* Location Controller */,
+				3BF862B31714ACDF00BA27F0 /* Picture Controller */,
+				3BF862B21714A89300BA27F0 /* Alert Controller */,
 				07178FA81268A47F007B290C /* Login Controller */,
 				07178928125A4600007B290C /* Welcome Controller */,
 				07178DA5126605A0007B290C /* Preferences Controller */,
 				07178E9B126641A0007B290C /* Setup Controllers */,
+				3B3B2FCA1714BEE700BABCAE /* Main Windows Xib */,
 			);
 			name = Controllers;
 			path = ..;
@@ -581,7 +607,7 @@
 			name = "Json Parsers";
 			sourceTree = "<group>";
 		};
-		07435EF51681021C00FBD54B /* Prey new modules */ = {
+		07435EF51681021C00FBD54B /* Prey Modules */ = {
 			isa = PBXGroup;
 			children = (
 				07E1ABF016A09C4100803187 /* Action Modules */,
@@ -592,17 +618,21 @@
 				07E1ABEA16A090F200803187 /* NewModulesConfig.m */,
 				07E1ABF616A4975B00803187 /* SettingModule.h */,
 				07E1ABF716A4975B00803187 /* SettingModule.m */,
+				07132445134635A100F7EFD8 /* Report.h */,
+				07132446134635A100F7EFD8 /* Report.m */,
+				0713240E1346343C00F7EFD8 /* DeviceModulesConfig.h */,
+				0713240F1346343C00F7EFD8 /* DeviceModulesConfig.m */,
 			);
-			name = "Prey new modules";
+			name = "Prey Modules";
 			sourceTree = "<group>";
 		};
 		07435EF61681025B00FBD54B /* Data modules */ = {
 			isa = PBXGroup;
 			children = (
-				07435EF7168102AB00FBD54B /* MacAddress.h */,
-				07435EF8168102AB00FBD54B /* MacAddress.m */,
 				07435EFA1681031300FBD54B /* DataModule.h */,
 				07435EFB1681031300FBD54B /* DataModule.m */,
+				07435EF7168102AB00FBD54B /* MacAddress.h */,
+				07435EF8168102AB00FBD54B /* MacAddress.m */,
 				07E1ABF916A5FE2700803187 /* PublicIp.h */,
 				07E1ABFA16A5FE2700803187 /* PublicIp.m */,
 				07E1AC0016A600DD00803187 /* PrivateIp.h */,
@@ -615,66 +645,24 @@
 				075E6D3216AEFA6300F5DB91 /* ProcessorInfo.m */,
 				075E6D3416AEFD8E00F5DB91 /* Uptime.h */,
 				075E6D3516AEFD8E00F5DB91 /* Uptime.m */,
-			);
-			name = "Data modules";
-			sourceTree = "<group>";
-		};
-		07783BA2126CDDEE007BD409 /* Prey Runner */ = {
-			isa = PBXGroup;
-			children = (
-				0713244E134635C400F7EFD8 /* PreyRunner.h */,
-				0713244F134635C400F7EFD8 /* PreyRunner.m */,
-			);
-			name = "Prey Runner";
-			path = ..;
-			sourceTree = "<group>";
-		};
-		07783BC8126CE55D007BD409 /* Prey Modules */ = {
-			isa = PBXGroup;
-			children = (
-				07D32395133BB6F400841BFD /* Session Module */,
-				077D7B24126F3BE000C713B7 /* Contacts Module */,
-				077D7B23126F3B6E00C713B7 /* Geo Module */,
-				07D4CBB51670ED8500DD1CB9 /* Geofencing */,
-			);
-			name = "Prey Modules";
-			path = ..;
-			sourceTree = "<group>";
-		};
-		077D7A66126E296400C713B7 /* Alert Module */ = {
-			isa = PBXGroup;
-			children = (
-				071323F2134632C900F7EFD8 /* AlertModule.h */,
-				071323F3134632C900F7EFD8 /* AlertModule.m */,
-				071323F4134632C900F7EFD8 /* AlertModuleController.h */,
-				071323F5134632C900F7EFD8 /* AlertModuleController.m */,
-				071324541346363300F7EFD8 /* AlertModuleController-iPhone.xib */,
-				3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */,
-			);
-			name = "Alert Module";
-			path = ..;
-			sourceTree = "<group>";
-		};
-		077D7B23126F3B6E00C713B7 /* Geo Module */ = {
-			isa = PBXGroup;
-			children = (
-				0713243D1346357500F7EFD8 /* SignificantLocationController.h */,
-				0713243E1346357500F7EFD8 /* SignificantLocationController.m */,
-				0713242B1346350100F7EFD8 /* LocationController.h */,
-				0713242C1346350100F7EFD8 /* LocationController.m */,
-				0713242D1346350100F7EFD8 /* LocationModule.h */,
-				0713242E1346350100F7EFD8 /* LocationModule.m */,
-			);
-			name = "Geo Module";
-			sourceTree = "<group>";
-		};
-		077D7B24126F3BE000C713B7 /* Contacts Module */ = {
-			isa = PBXGroup;
-			children = (
+				07D32399133BC32C00841BFD /* PictureModule.h */,
+				07D3239A133BC32D00841BFD /* PictureModule.m */,
+				07D32396133BB74A00841BFD /* ScreenshotModule.h */,
+				07D32397133BB74A00841BFD /* ScreenshotModule.m */,
 				071324071346342700F7EFD8 /* ContactsModule.h */,
 				071324081346342700F7EFD8 /* ContactsModule.m */,
+				0713242D1346350100F7EFD8 /* LocationModule.h */,
+				0713242E1346350100F7EFD8 /* LocationModule.m */,
+				07D4CBB61670EDE100DD1CB9 /* GeofencingModule.h */,
+				07D4CBB71670EDE100DD1CB9 /* GeofencingModule.m */,
+				3B7B0C8C17171CAD002B6E2D /* Location.h */,
+				3B7B0C8D17171CAD002B6E2D /* Location.m */,
+				3B7B0C8E17171CAD002B6E2D /* RemainingStorage.h */,
+				3B7B0C8F17171CAD002B6E2D /* RemainingStorage.m */,
+				3B7B0C9017171CAD002B6E2D /* ReportModule.h */,
+				3B7B0C9117171CAD002B6E2D /* ReportModule.m */,
 			);
-			name = "Contacts Module";
+			name = "Data modules";
 			sourceTree = "<group>";
 		};
 		078053FE125541DE00E4CCE5 /* ASIHttp */ = {
@@ -709,36 +697,20 @@
 			children = (
 				07435EF11680FD3A00FBD54B /* Json Parsers */,
 				078054CB1255537800E4CCE5 /* XML Parsers */,
-				0713244C134635C400F7EFD8 /* PreyRestHttp.h */,
-				0713244D134635C400F7EFD8 /* PreyRestHttp.m */,
-			);
-			name = "Prey Http";
-			path = ..;
-			sourceTree = "<group>";
-		};
-		078054221255425800E4CCE5 /* Prey Model */ = {
-			isa = PBXGroup;
-			children = (
-				07132443134635A100F7EFD8 /* PreyConfig.h */,
-				07132444134635A100F7EFD8 /* PreyConfig.m */,
-				07132445134635A100F7EFD8 /* Report.h */,
-				07132446134635A100F7EFD8 /* Report.m */,
 				07132447134635A100F7EFD8 /* User.h */,
 				07132448134635A100F7EFD8 /* User.m */,
-				0713240A1346343C00F7EFD8 /* Constants.h */,
-				0713240B1346343C00F7EFD8 /* Constants.m */,
 				0713240C1346343C00F7EFD8 /* Device.h */,
 				0713240D1346343C00F7EFD8 /* Device.m */,
-				0713240E1346343C00F7EFD8 /* DeviceModulesConfig.h */,
-				0713240F1346343C00F7EFD8 /* DeviceModulesConfig.m */,
 			);
-			name = "Prey Model";
+			name = "Prey Http";
 			path = ..;
 			sourceTree = "<group>";
 		};
 		07805429125542EF00E4CCE5 /* Prey Utils */ = {
 			isa = PBXGroup;
 			children = (
+				0713240A1346343C00F7EFD8 /* Constants.h */,
+				0713240B1346343C00F7EFD8 /* Constants.m */,
 				3BF0371D167847920086A7A7 /* ReviewRequest.h */,
 				3BF0371E167847920086A7A7 /* ReviewRequest.mm */,
 				3BD482E31678CAE300F25DC8 /* UIWebViewController.h */,
@@ -817,58 +789,24 @@
 		07CEDA9812E9DD77002B4EB5 /* NSLogger */ = {
 			isa = PBXGroup;
 			children = (
-				3BBC70B1170E18E000357AED /* LoggerClient.h */,
-				3BBC70B2170E18E000357AED /* LoggerClient.m */,
-				3BBC70B3170E18E000357AED /* LoggerCommon.h */,
+				3BD74797170F7EFB00F44E2C /* LoggerClient.h */,
+				3BD74798170F7EFB00F44E2C /* LoggerClient.m */,
+				3BD74799170F7EFB00F44E2C /* LoggerCommon.h */,
 			);
 			name = NSLogger;
-			sourceTree = "<group>";
-		};
-		07D32395133BB6F400841BFD /* Session Module */ = {
-			isa = PBXGroup;
-			children = (
-				07D32396133BB74A00841BFD /* ScreenshotModule.h */,
-				07D32397133BB74A00841BFD /* ScreenshotModule.m */,
-				07D32399133BC32C00841BFD /* PictureModule.h */,
-				07D3239A133BC32D00841BFD /* PictureModule.m */,
-				07DF36E4134222BF00F0F218 /* PicturesController.h */,
-				07DF36E5134222BF00F0F218 /* PicturesController.m */,
-				07DF36E71342389600F0F218 /* PicturesControllerDelegate.h */,
-				07DF36E81342389600F0F218 /* PicturesControllerDelegate.m */,
-			);
-			name = "Session Module";
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		07D4CBB51670ED8500DD1CB9 /* Geofencing */ = {
-			isa = PBXGroup;
-			children = (
-				07D4CBB61670EDE100DD1CB9 /* GeofencingModule.h */,
-				07D4CBB71670EDE100DD1CB9 /* GeofencingModule.m */,
-				07D4CBB91670FA2400DD1CB9 /* PreyGeofencingController.h */,
-				07D4CBBA1670FA2400DD1CB9 /* PreyGeofencingController.m */,
-			);
-			name = Geofencing;
 			sourceTree = "<group>";
 		};
 		07E1ABF016A09C4100803187 /* Action Modules */ = {
 			isa = PBXGroup;
 			children = (
-				077D7A66126E296400C713B7 /* Alert Module */,
-				07E1ABF416A0AAE500803187 /* Alarm */,
 				07E1ABF116A0A02C00803187 /* ActionModule.h */,
 				07E1ABF216A0A02C00803187 /* ActionModule.m */,
-			);
-			name = "Action Modules";
-			sourceTree = "<group>";
-		};
-		07E1ABF416A0AAE500803187 /* Alarm */ = {
-			isa = PBXGroup;
-			children = (
 				071323F0134632C900F7EFD8 /* AlarmModule.h */,
 				071323F1134632C900F7EFD8 /* AlarmModule.m */,
+				071323F2134632C900F7EFD8 /* AlertModule.h */,
+				071323F3134632C900F7EFD8 /* AlertModule.m */,
 			);
-			name = Alarm;
+			name = "Action Modules";
 			sourceTree = "<group>";
 		};
 		07E1ABFF16A5FF3A00803187 /* UIDevice */ = {
@@ -888,19 +826,22 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				07435EF51681021C00FBD54B /* Prey new modules */,
 				3BCD1C5516693E9600D609D9 /* External */,
 				5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */,
 				07178F3B12675C2C007B290C /* Controllers */,
 				07805429125542EF00E4CCE5 /* Prey Utils */,
-				07783BC8126CE55D007BD409 /* Prey Modules */,
-				078054221255425800E4CCE5 /* Prey Model */,
-				07783BA2126CDDEE007BD409 /* Prey Runner */,
 				0780541E1255421800E4CCE5 /* Prey Http */,
+				07435EF51681021C00FBD54B /* Prey Modules */,
 				1D3623240D0F684500981E51 /* PreyAppDelegate.h */,
 				1D3623250D0F684500981E51 /* PreyAppDelegate.m */,
-				071324551346363300F7EFD8 /* MainWindow-iPhone.xib */,
-				3BA6A22E16769566005323EB /* MainWindow-iPad.xib */,
+				0713244E134635C400F7EFD8 /* PreyRunner.h */,
+				0713244F134635C400F7EFD8 /* PreyRunner.m */,
+				07132443134635A100F7EFD8 /* PreyConfig.h */,
+				07132444134635A100F7EFD8 /* PreyConfig.m */,
+				0713244C134635C400F7EFD8 /* PreyRestHttp.h */,
+				0713244D134635C400F7EFD8 /* PreyRestHttp.m */,
+				3B52984B176A253800CCA39C /* PreyPhone.h */,
+				3B52984C176A253800CCA39C /* PreyPhone.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -952,6 +893,9 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3B52984E176A263D00CCA39C /* libcrypto.a */,
+				3B52984F176A263D00CCA39C /* libssl.a */,
+				3B529850176A263D00CCA39C /* libTwilioClient.a */,
 				0797FC651459BBA5000DCA46 /* libz.1.2.5.dylib */,
 				0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */,
 				0774BF161517B7A00016D3E6 /* libGoogleAnalytics.a */,
@@ -973,6 +917,29 @@
 				077D7A3B126E171300C713B7 /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3B3B2FC91714B63C00BABCAE /* Location Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0713243D1346357500F7EFD8 /* SignificantLocationController.h */,
+				0713243E1346357500F7EFD8 /* SignificantLocationController.m */,
+				0713242B1346350100F7EFD8 /* LocationController.h */,
+				0713242C1346350100F7EFD8 /* LocationController.m */,
+				07D4CBB91670FA2400DD1CB9 /* PreyGeofencingController.h */,
+				07D4CBBA1670FA2400DD1CB9 /* PreyGeofencingController.m */,
+			);
+			name = "Location Controller";
+			sourceTree = "<group>";
+		};
+		3B3B2FCA1714BEE700BABCAE /* Main Windows Xib */ = {
+			isa = PBXGroup;
+			children = (
+				071324551346363300F7EFD8 /* MainWindow-iPhone.xib */,
+				3BA6A22E16769566005323EB /* MainWindow-iPad.xib */,
+			);
+			name = "Main Windows Xib";
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		3BCD1C5516693E9600D609D9 /* External */ = {
@@ -1003,6 +970,29 @@
 			);
 			name = Iconos;
 			path = Resources/Iconos;
+			sourceTree = "<group>";
+		};
+		3BF862B21714A89300BA27F0 /* Alert Controller */ = {
+			isa = PBXGroup;
+			children = (
+				071323F4134632C900F7EFD8 /* AlertModuleController.h */,
+				071323F5134632C900F7EFD8 /* AlertModuleController.m */,
+				071324541346363300F7EFD8 /* AlertModuleController-iPhone.xib */,
+				3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */,
+			);
+			name = "Alert Controller";
+			sourceTree = "<group>";
+		};
+		3BF862B31714ACDF00BA27F0 /* Picture Controller */ = {
+			isa = PBXGroup;
+			children = (
+				07DF36E4134222BF00F0F218 /* PicturesController.h */,
+				07DF36E5134222BF00F0F218 /* PicturesController.m */,
+				07DF36E71342389600F0F218 /* PicturesControllerDelegate.h */,
+				07DF36E81342389600F0F218 /* PicturesControllerDelegate.m */,
+			);
+			name = "Picture Controller";
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */ = {
@@ -1151,6 +1141,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B1BA22017271C8500200251 /* Location.m in Sources */,
+				3B1BA22117271C8500200251 /* RemainingStorage.m in Sources */,
+				3B1BA22217271C8500200251 /* ReportModule.m in Sources */,
+				3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */,
 				07CD96251253E13800590FCD /* LoginController.m in Sources */,
@@ -1236,6 +1230,7 @@
 				075E6D3016AEF2F100F5DB91 /* BatteryStatus.m in Sources */,
 				075E6D3316AEFA6300F5DB91 /* ProcessorInfo.m in Sources */,
 				075E6D3616AEFD8E00F5DB91 /* Uptime.m in Sources */,
+				3B52984D176A253800CCA39C /* PreyPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1277,7 +1272,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";
@@ -1302,11 +1297,18 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Classes/Twilio/Headers\"";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
+					"\"$(SRCROOT)/Classes/Twilio/Libraries\"",
+				);
+				OTHER_LDFLAGS = (
+					"-licucore",
+					"-all_load",
+					"-ObjC",
 				);
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
@@ -1325,22 +1327,29 @@
 					armv6,
 				);
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Javier Cala (2N74KP79VB)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Classes/Twilio/Headers\"";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
+					"\"$(SRCROOT)/Classes/Twilio/Libraries\"",
+				);
+				OTHER_LDFLAGS = (
+					"-licucore",
+					"-all_load",
+					"-ObjC",
 				);
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9522414D-CE72-4105-8615-064C46123D14";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1360,11 +1369,18 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Classes/Twilio/Headers\"";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
+					"\"$(SRCROOT)/Classes/Twilio/Libraries\"",
+				);
+				OTHER_LDFLAGS = (
+					"-licucore",
+					"-all_load",
+					"-ObjC",
 				);
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
@@ -1388,7 +1404,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-licucore";
 				PROVISIONING_PROFILE = "";
@@ -1413,7 +1429,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";

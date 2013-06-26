@@ -13,6 +13,8 @@
 #import "PreyConfig.h"
 #import "PreyRestHttp.h"
 #import <CoreLocation/CoreLocation.h>
+#import "PreyAppDelegate.h"
+#import "PreyPhone.h"
 
 @interface LoginController()
 
@@ -53,6 +55,11 @@
 		
          */
 		[user release];
+        
+#warning Beta: Twilio Test init
+        PreyAppDelegate* appDelegate = (PreyAppDelegate*)[UIApplication sharedApplication].delegate;
+        appDelegate.preyPhone = [[[PreyPhone alloc] init] autorelease];
+        
 	} @catch (NSException *e)  {
         NSString *title = nil;
         NSString *message = nil;
@@ -383,10 +390,12 @@
     }
     else if (indexPath.row == 1)
     {
+        
+#warning Testing WIP
         //TESTING PURPOSES
         
         PreyRestHttp *http = [[PreyRestHttp alloc] init];
-        [http checkStatusForDevice:@"abcdef" andApiKey:@"0lnpal2yga0h"];
+        [http checkStatusForDevice:@"v6unwd" andApiKey:@"7x433o2omlnq"];
         return;
         
         //****//

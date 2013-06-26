@@ -14,7 +14,7 @@
 #import "Device.h"
 #import "PreyConfig.h"
 #import "PreyAppDelegate.h"
-
+#import "PreyPhone.h"
 
 
 @interface OldUserController () 
@@ -46,6 +46,10 @@
             NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
             [super activatePreyService];
 			[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
+
+#warning Beta: Twilio Test init
+            PreyAppDelegate* appDelegate = (PreyAppDelegate*)[UIApplication sharedApplication].delegate;
+            appDelegate.preyPhone = [[[PreyPhone alloc] init] autorelease];
         }
 
 	}
