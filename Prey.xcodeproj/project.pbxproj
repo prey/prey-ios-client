@@ -311,6 +311,7 @@
 		3BF0370F16783C790086A7A7 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		3BF0371D167847920086A7A7 /* ReviewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReviewRequest.h; path = Classes/ReviewRequest.h; sourceTree = "<group>"; };
 		3BF0371E167847920086A7A7 /* ReviewRequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ReviewRequest.mm; path = Classes/ReviewRequest.mm; sourceTree = "<group>"; };
+		3BF375171786786100C5D0AC /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5A0E50BB1517B1220032FBEE /* sucess@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sucess@2x.png"; path = "Resources/sucess@2x.png"; sourceTree = "<group>"; };
 		5A0E50BE1517B2F80032FBEE /* prey-pro-badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prey-pro-badge.png"; path = "Resources/prey-pro-badge.png"; sourceTree = "<group>"; };
 		5A0E50C01517B2F80032FBEE /* sucess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sucess.png; path = Resources/sucess.png; sourceTree = "<group>"; };
@@ -886,6 +887,7 @@
 				"pt-BR",
 				sv,
 				"zh-CN",
+				tr,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -1048,6 +1050,7 @@
 				3B0DBF9C17039D6900AA8A3B /* pt-BR */,
 				3B0DBF9D17039D7400AA8A3B /* sv */,
 				3B0DBF9E17039D7B00AA8A3B /* zh-CN */,
+				3BF375171786786100C5D0AC /* tr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

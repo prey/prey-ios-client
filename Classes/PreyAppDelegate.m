@@ -117,7 +117,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
     //Analytics singleton tracker.
-    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-8743344-1" dispatchPeriod:10 delegate:nil];
+    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-8743344-7" dispatchPeriod:10 delegate:nil];
     
     //IAPHelper *IAP = [IAPHelper sharedHelper];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[IAPHelper sharedHelper]];
