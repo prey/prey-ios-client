@@ -12,6 +12,6 @@
 
 }
 
-- (void) notifyEvent:(NSString *) name withInfo: (NSString*) info;
+- (void) notifyCommandResponse:(NSString *)target withStatus: (NSString*)status;
 
 @end

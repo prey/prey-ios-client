@@ -15,6 +15,7 @@
 @implementation AlertModule
 
 - (void)main {
+#warning Revisar Beta
     NSString *alertMessage = [super.options objectForKey:@"message"];
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];
@@ -33,7 +34,7 @@
         //[appDelegate performSelector:s withObject:alertMessage afterDelay:2];
         [appDelegate showAlert:alertMessage];
     }
-    [super notifyEvent:@"action_started" withInfo:[self getName]];
+    [super notifyCommandResponse:[self getName] withStatus:@"started"];
 }
 
 - (NSString *) getName {

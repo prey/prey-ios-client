@@ -19,15 +19,15 @@
 	return self;
 }
 
-- (void) notifyEvent:(NSString *) name withInfo: (NSString*) info  {
+- (void) notifyCommandResponse:(NSString *)target withStatus: (NSString*)status
+{
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [data setObject:name forKey:@"name"];
-    [data setObject:info forKey:@"info"];
-    [dict setObject:data forKey:@"event"];
+    [data setObject:status forKey:@"status"];
+    [data setObject:target forKey:@"target"];
+    [data setObject:@"start" forKey:@"command"];
     
     PreyRestHttp* http = [[PreyRestHttp alloc] init];
-    [http notifyEvent:dict];
+    [http notifyCommandResponse:data];
 }
 
 @end
