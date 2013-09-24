@@ -23,7 +23,6 @@
 #import "IAPHelper.h"
 #import "GAI.h"
 #import "PictureModule.h"
-#import "PreyPhone.h"
 #import "WizardController.h"
 
 #warning Beta TestFlight
@@ -38,7 +37,6 @@
 @implementation PreyAppDelegate
 
 @synthesize window,viewController;
-@synthesize preyPhone = _preyPhone;
 
 -(void)renderFirstScreen{
 
@@ -472,7 +470,6 @@
 	[super dealloc];
     [window release];
 	[viewController release];
-    [_preyPhone release];
 }
 
 

@@ -12,7 +12,6 @@
 #import "User.h"
 #import "Device.h"
 #import "PreyConfig.h"
-#import "PreyPhone.h"
 
 #import "Location.h"
 
@@ -132,10 +131,6 @@
 		[alertView show];
 		[alertView release];
     }
-
-#warning Beta: Twilio Test init
-    PreyAppDelegate* appDelegate = (PreyAppDelegate*)[UIApplication sharedApplication].delegate;
-    appDelegate.preyPhone = [[[PreyPhone alloc] init] autorelease];
 
 }
 

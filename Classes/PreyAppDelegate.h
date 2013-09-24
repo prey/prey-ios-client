@@ -11,8 +11,6 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 
-@class PreyPhone;
-
 @interface PreyAppDelegate : NSObject <UIApplicationDelegate, UINavigationControllerDelegate, UIWebViewDelegate> {
     UIWindow *window;
 	UINavigationController *viewController;
@@ -21,15 +19,12 @@
 	BOOL showFakeScreen;
     BOOL screenLoaded;
     BOOL showAlert;
-    
-    PreyPhone*  _preyPhone;
 }
 
 @property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) NSString *alertMessage;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *viewController;
-@property (nonatomic, retain) PreyPhone* preyPhone;
 
 - (void)showOldUserWizard;
 - (void)showNewUserWizard;

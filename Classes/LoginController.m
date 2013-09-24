@@ -14,7 +14,6 @@
 #import "PreyRestHttp.h"
 #import <CoreLocation/CoreLocation.h>
 #import "PreyAppDelegate.h"
-#import "PreyPhone.h"
 
 @interface LoginController()
 
@@ -304,13 +303,7 @@
     [self.loginPassword addTarget:self
                            action:@selector(textFieldFinished:)
                  forControlEvents:UIControlEventEditingDidEndOnExit];
-    
-
-#warning Beta: Twilio Test init
-    PreyAppDelegate* appDelegate = (PreyAppDelegate*)[UIApplication sharedApplication].delegate;
-    appDelegate.preyPhone = [[[PreyPhone alloc] init] autorelease];
-
-    
+        
     self.scrollView.hidden = YES;
     
     [super viewDidLoad];
