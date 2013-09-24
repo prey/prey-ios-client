@@ -20,7 +20,7 @@
 }
 
 - (void) pictureReady:(UIImage *) picture {
-    UIImageWriteToSavedPhotosAlbum(picture, nil, nil, nil);
+    //UIImageWriteToSavedPhotosAlbum(picture, nil, nil, nil);
     [super createResponseFromData:UIImagePNGRepresentation(picture) withKey:[self getName]];
 }
 

@@ -1,13 +1,36 @@
 //
 //  ReportModule.h
-//  Prey
+//  Prey-iOS
 //
-//  Created by Carlos Yaconi on 05-03-13.
-//  Copyright (c) 2013 Fork Ltd. All rights reserved.
+//  Created by Carlos Yaconi on 14/10/2010.
+//  Copyright 2010 Fork Ltd. All rights reserved.
+//  License: GPLv3
+//  Full license at "/LICENSE"
 //
+
+#import "ASIFormDataRequest.h"
 
 #import "DataModule.h"
+#import "Location.h"
 
-@interface ReportModule : DataModule
+@interface ReportModule : DataModule{
 
+	NSMutableArray *modules;
+	NSMutableDictionary *reportData;
+    UIImage *picture;
+    
+    Location *location;
+}
+
+@property (nonatomic, retain) NSMutableArray *modules;
+@property BOOL waitForLocation, waitForPicture;
+@property (nonatomic, retain) NSString *url;
+@property (nonatomic, retain) UIImage *picture;
+@property (nonatomic, retain) NSMutableDictionary *reportData;
+
+@property (nonatomic, retain) Location *location;
+
+- (void) send;
+- (NSMutableDictionary *) getReportData;
+- (void) fillReportData:(ASIFormDataRequest*) request;
 @end

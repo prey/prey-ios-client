@@ -9,11 +9,9 @@
 //
 
 #import "PreyRunner.h"
-#import "LocationModule.h"
 #import "DeviceModulesConfig.h"
-#import "Report.h"
 #import "SignificantLocationController.h"
-
+#import "PreyModule.h"
 
 @implementation PreyRunner
 
@@ -121,12 +119,15 @@
             return;
         UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication]
                                              beginBackgroundTaskWithExpirationHandler:^{}];
+
         //DeviceModulesConfig *modulesConfig = [[preyRestHttp getXMLforUser:[config apiKey] device:[config deviceKey]] retain];
         DeviceModulesConfig *modulesConfig = [[preyRestHttp getXMLforUser] retain];
         
         if (USE_CONTROL_PANEL_DELAY)
             [PreyConfig instance].delay = [modulesConfig.delay intValue] * 60;
         
+#warning Beta: Test modulesConfig.missing Revisar
+        /*
         if (!modulesConfig.missing){
             PreyLogMessageAndFile(@"Prey Runner", 5, @"Not missing anymore... stopping accurate location updates and Prey.");
             [[LocationController instance] stopUpdatingLocation]; //finishes Prey execution
@@ -135,25 +136,15 @@
             lastExecution=nil;
             return;
         }
+        */
         
-        reportQueue = [[NSOperationQueue alloc] init];
-        //[reportQueue addObserver:self forKeyPath:@"operationCount" options:0 context:modulesConfig.reportToFill];
         
-        PreyModule *module;
-        Report *report = nil;
-        for (module in modulesConfig.reportModules){
-            //[reportQueue  addOperation:module];
-            PreyLogMessage(@"Prey Runner", 5, @"Executing module: %@.", [module getName]);
-            [module main];
-            //report = module.reportToFill; //WIP
-        }
-        [report send];
+        PreyModule *preyModule;
         
         actionQueue = [[NSOperationQueue alloc] init];
-        for (module in modulesConfig.actionModules){
-            [actionQueue  addOperation:module];
-        }
-        
+        for (preyModule in modulesConfig.actionModules){
+            [actionQueue  addOperation:preyModule];
+        }        
         
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         
@@ -163,52 +154,10 @@
         PreyLogMessageAndFile(@"Prey Runner", 0, @"Exception catched while running Prey: %@", [exception reason]);
     }
 	
-	/*
-	
-	UILocalNotification *localNotif = [[UILocalNotification alloc] init];
-	
-    localNotif.fireDate = [NSDate dateWithTimeIntervalSinceNow:[modulesConfig.delay intValue]*60/4];
-    localNotif.timeZone = [NSTimeZone defaultTimeZone];
-	
-    localNotif.alertBody = [NSString stringWithFormat:NSLocalizedString(@"Prey next execution in %i minutes.", nil), [modulesConfig.delay intValue]/4*60];
-    localNotif.alertAction = NSLocalizedString(@"View Details", nil);
-	
-    localNotif.soundName = UILocalNotificationDefaultSoundName;
-    //localNotif.applicationIconBadgeNumber = 1;
-	
-	
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
-    [localNotif release];
-	*/
-	
-	
 	
 }
-
-#warning Revisar si se usa
-/*
- NotaJavierCalaUribe
- Metodo no utilizado, aparentemente.
- encargado de invocarlo-> addObserver:forKeyPath:options:context:
- Revisar atributo->  reportQueue
- 
-- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-	if (object == reportQueue && [keyPath isEqual:@"operationCount"]) {
-        if ([reportQueue operationCount] == 0) {
-            Report *report = (Report *)context;
-			[report send];
-            PreyLogMessage(@"Prey Runner", 10, @"Queue has completed. Total modules in the report: %i", [report.modules count]);
-        }
-    }
-    else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-*/
 
 - (void)dealloc {
-	[reportQueue release], reportQueue = nil;
 	[actionQueue release], actionQueue = nil;
 	[preyRestHttp release];
 	[lastExecution release];

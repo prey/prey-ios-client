@@ -55,11 +55,7 @@
 		
          */
 		[user release];
-        
-#warning Beta: Twilio Test init
-        PreyAppDelegate* appDelegate = (PreyAppDelegate*)[UIApplication sharedApplication].delegate;
-        appDelegate.preyPhone = [[[PreyPhone alloc] init] autorelease];
-        
+                
 	} @catch (NSException *e)  {
         NSString *title = nil;
         NSString *message = nil;
@@ -215,7 +211,7 @@
 {
     return YES;
 }
-
+/*
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     if (loginPassword.editing)
@@ -276,7 +272,7 @@
         }];
     }
 }
-
+*/
 #pragma mark -
 #pragma mark view methods
 
@@ -308,6 +304,14 @@
     [self.loginPassword addTarget:self
                            action:@selector(textFieldFinished:)
                  forControlEvents:UIControlEventEditingDidEndOnExit];
+    
+
+#warning Beta: Twilio Test init
+    PreyAppDelegate* appDelegate = (PreyAppDelegate*)[UIApplication sharedApplication].delegate;
+    appDelegate.preyPhone = [[[PreyPhone alloc] init] autorelease];
+
+    
+    self.scrollView.hidden = YES;
     
     [super viewDidLoad];
 }
@@ -390,19 +394,6 @@
     }
     else if (indexPath.row == 1)
     {
-        
-#warning Testing WIP
-        //TESTING PURPOSES
-        
-        PreyRestHttp *http = [[PreyRestHttp alloc] init];
-        [http checkStatusForDevice:@"v6unwd" andApiKey:@"7x433o2omlnq"];
-        return;
-        
-        //****//
-
-        
-        //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://panel.preyproject.com"]];
-        
         UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self forOrientation:UIInterfaceOrientationPortrait setURL:@"http://panel.preyproject.com"];
         
         if (controller)

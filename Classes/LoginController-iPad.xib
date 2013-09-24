@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1296</int>
-		<string key="IBDocument.SystemVersion">11G63</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
-		<string key="IBDocument.AppKitVersion">1138.51</string>
-		<string key="IBDocument.HIToolboxVersion">569.00</string>
+		<int key="IBDocument.SystemTarget">1552</int>
+		<string key="IBDocument.SystemVersion">12E55</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1498</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -46,7 +46,7 @@
 						<string key="NSFrameSize">{768, 670}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="545169088"/>
+						<reference key="NSNextKeyView" ref="391708773"/>
 						<int key="IBUIContentMode">1</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -57,25 +57,25 @@
 					</object>
 					<object class="IBUIImageView" id="545169088">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrameSize">{500, 400}</string>
+						<int key="NSvFlags">269</int>
+						<string key="NSFrame">{{0, 572}, {768, 432}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="391708773"/>
+						<reference key="NSNextKeyView" ref="798238280"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">prey-iphone-sonar.png</string>
+							<string key="NSResourceName">preyCarlos.png</string>
 						</object>
 					</object>
 					<object class="IBUIImageView" id="897262176">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{110, 612}, {160, 120}}</string>
+						<int key="NSvFlags">300</int>
+						<string key="NSFrame">{{115, 344}, {160, 120}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="42967654"/>
+						<reference key="NSNextKeyView" ref="424333763"/>
 						<int key="IBUIContentMode">1</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -86,11 +86,11 @@
 					</object>
 					<object class="IBUILabel" id="424333763">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{283, 618}, {260, 40}}</string>
+						<int key="NSvFlags">300</int>
+						<string key="NSFrame">{{288, 350}, {260, 40}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="798238280"/>
+						<reference key="NSNextKeyView" ref="42967654"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -100,6 +100,7 @@
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
+							<string key="IBUIColorCocoaTouchKeyPath">darkTextColor</string>
 						</object>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
@@ -118,11 +119,11 @@
 					</object>
 					<object class="IBUILabel" id="42967654">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{283, 652}, {380, 80}}</string>
+						<int key="NSvFlags">300</int>
+						<string key="NSFrame">{{288, 384}, {380, 80}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="424333763"/>
+						<reference key="NSNextKeyView" ref="545169088"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -146,11 +147,12 @@
 							<double key="NSSize">21</double>
 							<int key="NSfFlags">16</int>
 						</object>
+						<double key="preferredMaxLayoutWidth">380</double>
 					</object>
 					<object class="IBUIImageView" id="391708773">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{134, 400}, {500, 100}}</string>
+						<int key="NSvFlags">300</int>
+						<string key="NSFrame">{{134, 133}, {500, 100}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="897262176"/>
@@ -158,7 +160,7 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">prey-iphone-logo.png</string>
+							<string key="NSResourceName">prey-iphone-logo@2x.png</string>
 						</object>
 					</object>
 					<object class="IBUIScrollView" id="798238280">
@@ -274,6 +276,7 @@
 								<string key="NSFrame">{{768, 120}, {768, 18}}</string>
 								<reference key="NSSuperview" ref="798238280"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
@@ -293,6 +296,7 @@
 								<object class="NSColor" key="IBUIShadowColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC45Njg2Mjc0NTEgMC45Njg2Mjc0NTEgMC45Njg2Mjc0NTEAA</bytes>
+									<string key="IBUIColorCocoaTouchKeyPath">tableCellGroupedBackgroundColor</string>
 								</object>
 								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">1</int>
@@ -492,8 +496,8 @@
 						<reference key="object" ref="191373211"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="403859604"/>
-							<reference ref="545169088"/>
 							<reference ref="798238280"/>
+							<reference ref="545169088"/>
 							<reference ref="391708773"/>
 							<reference ref="897262176"/>
 							<reference ref="424333763"/>
@@ -695,16 +699,16 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1296" key="NS.object.0"/>
+			<real value="1552" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="okbutt.png">{16, 16}</string>
-			<string key="prey-iphone-logo.png">{16, 16}</string>
-			<string key="prey-iphone-sonar.png">{16, 16}</string>
+			<string key="prey-iphone-logo@2x.png">{509, 102}</string>
+			<string key="preyCarlos.png">{320, 180}</string>
 			<string key="star_wars_battlefront.png">{320, 332}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1498</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

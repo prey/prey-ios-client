@@ -21,9 +21,13 @@
 #import "FakeWebView.h"
 #import "PicturesController.h"
 #import "IAPHelper.h"
-#import "GANTracker.h"
+#import "GAI.h"
 #import "PictureModule.h"
 #import "PreyPhone.h"
+#import "WizardController.h"
+
+#warning Beta TestFlight
+#import "TestFlight.h"
 
 @interface PreyAppDelegate()
 
@@ -123,9 +127,21 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{    
-    //Analytics singleton tracker.
-    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-8743344-1" dispatchPeriod:10 delegate:nil];
+{
+#warning Beta: TestFlight
+    // !!!: Use the next line only during beta
+    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];    
+    [TestFlight takeOff:@"994afc49-5f4c-4d74-9f36-b5592d0a3f54"];
+    
+    
+    // Google Analytics: Create tracker instance.
+    // Optional: automatically send uncaught exceptions to Google Analytics.
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+    [GAI sharedInstance].dispatchInterval = 20;
+    // Optional: set debug to YES for extra debugging information.
+    [GAI sharedInstance].debug = YES;
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
     
         
     //IAPHelper *IAP = [IAPHelper sharedHelper];
@@ -134,7 +150,7 @@
     
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.105", 50000);
-    //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"cyh");
+    LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"cyh");
 	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
   
     PreyLogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS %@!!", [launchOptions description]);
@@ -251,21 +267,41 @@
 	UIViewController *nextController = nil;
 	PreyLogMessage(@"App Delegate", 10, @"Already registered?: %@", ([config alreadyRegistered] ? @"YES" : @"NO"));
 	if (config.alreadyRegistered)
+    {
 		if (config.askForPassword)
         {
+#warning Beta: Wizard Test
+            
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+                nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
+            else
+                nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+
+            /*
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
                 nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
             else
                 nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
+            */
         }
-		else
-			nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
+		//else
+		//	nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
+    }
     else
     {
+#warning Beta: Wizard Test
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
+        else
+            nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+        
+        /*
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
         else
-            nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
+            nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];        
+        */
     }
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
 	[viewController setToolbarHidden:YES animated:NO];
@@ -357,7 +393,6 @@
 	
 }
 
-
 #pragma mark -
 #pragma mark Push notifications delegate
 
@@ -382,18 +417,36 @@
     
     //TESTING PURPOSES
 #warning Testing
-    //PreyRestHttp *http = [[PreyRestHttp alloc] init];
-    //[http checkStatusForDevice:@"abcdef" andApiKey:@"0lnpal2yga0h"];
     
-    //****//
-    
+    PreyRestHttp *http = [[PreyRestHttp alloc] init];
+    PreyConfig *preyConfig = [PreyConfig instance];
+    [http checkStatusForDevice:[preyConfig deviceKey] andApiKey:[preyConfig apiKey]];
+    /*
     self.url = [userInfo objectForKey:@"url"];
     [[PreyRunner instance] runPreyNow];
     [[PreyRunner instance] startPreyService];
     //[self showFakeScreen];
     showFakeScreen = YES;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:[PreyConfig instance]];
+    */
 }
+
+#warning Testing BackgroundPushNotification Remote
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result)  )handler
+{
+    PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received in Background! : %@", [userInfo description]);
+        
+    PreyRestHttp *http = [[PreyRestHttp alloc] init];
+    PreyConfig *preyConfig = [PreyConfig instance];
+    [http checkStatusForDevice:[preyConfig deviceKey] andApiKey:[preyConfig apiKey]];
+    
+    // Llamar solo para terminar proceso en background !!!
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+
 
 #pragma mark -
 #pragma mark UINavigationController delegate methods
@@ -417,7 +470,6 @@
 
 - (void)dealloc {
 	[super dealloc];
-    [[GANTracker sharedTracker] stopTracker];
     [window release];
 	[viewController release];
     [_preyPhone release];

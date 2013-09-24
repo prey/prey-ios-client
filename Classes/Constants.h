@@ -18,7 +18,6 @@ extern BOOL const DEFAULT_SEND_CRASH_REPORTS;
 extern NSString * const DEFAULT_EXCEPTIONS_ENDPOINT;
 extern NSString * const DEFAULT_DATA_ENDPOINT_LOCATION;
 
-extern NSString * const PREY_PANEL_URL;
 extern BOOL const ASK_FOR_LOGIN;
 extern BOOL const USE_CONTROL_PANEL_DELAY;
 extern BOOL const SHOULD_LOG;

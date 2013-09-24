@@ -11,7 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "CongratulationsController.h"
 #import "PreyAppDelegate.h"
-#import "PreferencesController.h"
+#import "LoginController.h"
 #import "PreyRunner.h"
 
 
@@ -24,9 +24,15 @@
 - (IBAction) okPressed: (id) sender{
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     
-    PreferencesController *preferencesController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-    [appDelegate.viewController pushViewController:preferencesController animated:NO];
-    [preferencesController release];
+    LoginController *loginController;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+    else
+        loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
+    
+    [appDelegate.viewController pushViewController:loginController animated:NO];
+    [loginController release];
+    
     
     if ([self.parentViewController respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) // Check iOS 5.0 or later
         [self.parentViewController dismissViewControllerAnimated:YES completion:NULL];

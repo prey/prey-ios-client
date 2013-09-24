@@ -76,10 +76,10 @@
 	else if ([elementName isEqualToString:@"module"]) {
 		self.inModule = YES;
 		if (self.inModules) {
-			
+#warning Revisar :  Name:  ->  alarm, system, network			
 			NSString *name = [attributeDict objectForKey:@"name"];
 			NSString *active = [attributeDict objectForKey:@"active"];	
-			NSString *type = [attributeDict objectForKey:@"type"];	
+			NSString *type = [attributeDict objectForKey:@"type"];
 			[modulesConfig addModuleName:name ifActive:active ofType:type];
 		}
 	}
@@ -128,7 +128,7 @@
     else if (self.inAlertMessage)
         [self.modulesConfig addConfigValue:string withKey:@"alert_message" forModuleName:@"alert"];
     else if (self.inCameraToUse)
-        [self.modulesConfig addConfigValue:string withKey:@"camera" forModuleName:@"webcam"];
+        [self.modulesConfig addConfigValue:string withKey:@"camera" forModuleName:@"picture"];
 }
 
 - (void)dealloc {

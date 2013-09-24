@@ -16,7 +16,11 @@
 	if ( self = [super init] )
 	{
         // Replace the URL with your Capabilities Token URL
-		NSURL* url = [NSURL URLWithString:@"http://arkelao.co/twilio/auth.php?clientName=javier"];
+        
+#warning Beta change clientName
+        NSString *urlConnection = [NSString stringWithFormat:@"http://arkelao.co/twilio/auth.php?clientName=%@",[[PreyConfig instance] deviceKey]];
+        
+		NSURL* url = [NSURL URLWithString:urlConnection];
 		NSURLResponse*  response = nil;
 		NSError*  	error = nil;
 		NSData* data = [NSURLConnection sendSynchronousRequest:
@@ -88,7 +92,7 @@
     
     PreyRestHttp *http = [[PreyRestHttp alloc] init];
     PreyConfig *preyConfig = [PreyConfig instance];
-    [http checkStatusForDevice:[preyConfig deviceKey] andApiKey:@"7x433o2omlnq"];
+    [http checkStatusForDevice:[preyConfig deviceKey] andApiKey:[preyConfig apiKey]];
     
     // END TEsting
     

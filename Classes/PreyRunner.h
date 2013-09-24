@@ -16,7 +16,6 @@
 
 @interface PreyRunner : NSObject {
 	CLLocation *lastLocation;
-	NSOperationQueue *reportQueue;
 	NSOperationQueue *actionQueue;
 	PreyConfig *config;
 	PreyRestHttp *preyRestHttp;

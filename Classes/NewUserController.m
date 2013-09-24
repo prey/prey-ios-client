@@ -13,7 +13,6 @@
 #import "Device.h"
 #import "PreyConfig.h"
 #import "PreyAppDelegate.h"
-#import "PreyPhone.h"
 
 @interface NewUserController () 
 
@@ -63,11 +62,7 @@
 		if (config != nil){
 			NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
             [super activatePreyService];
-			[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
-            
-#warning Beta: Twilio Test init
-            PreyAppDelegate* appDelegate = (PreyAppDelegate*)[UIApplication sharedApplication].delegate;
-            appDelegate.preyPhone = [[[PreyPhone alloc] init] autorelease];
+			[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];            
 		}
 	}
 	@catch (NSException * e) {

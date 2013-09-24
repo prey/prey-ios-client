@@ -24,7 +24,7 @@
 #import "Reachability.h"
 #import "SBJson.h"
 
-
+@class ReportModule;
 
 @interface PreyRestHttp : NSObject {
 	NSMutableData *responseData;
@@ -45,7 +45,7 @@
 - (DeviceModulesConfig *) getXMLforUser;
 - (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey;
 - (BOOL) isMissingTheDevice: (NSString *) device ofTheUser: (NSString *) apiKey;
-- (void) sendReport: (Report *) report;
+- (void) sendReport: (ReportModule *) report;
 + (BOOL) checkInternet;
 - (void) getAppstoreConfig: (id) delegate inURL: (NSString *) URL;
 - (void) setPushRegistrationId: (NSString *) id;
@@ -55,6 +55,7 @@
 
 - (DeviceModulesConfig *) checkStatusForDevice: (NSString *) deviceKey andApiKey: (NSString *) apiKey;
 - (void) notifyEvent: (NSDictionary*) data;
+- (void) notifyCommandResponse: (NSDictionary*) data;
 - (void) sendSetting: (NSDictionary*) data;
 - (void) sendData: (NSDictionary*) data;
 - (void) sendData: (NSDictionary*) data andRaw: (NSDictionary*) rawData;
