@@ -22,6 +22,10 @@
 }
 
 - (void) addModule: (NSDictionary *) jsonModuleConfig {
+    
+    PreyLogMessage(@"NewModulesConfig", 10, @"target: %@",[jsonModuleConfig objectForKey:@"target"]);
+    PreyLogMessage(@"NewModulesConfig", 10, @"command: %@",[jsonModuleConfig objectForKey:@"command"]);
+    
     PreyModule *module = [[PreyModule newModuleForName:[jsonModuleConfig objectForKey:@"target"] andCommand:[jsonModuleConfig objectForKey:@"command"]] retain] ;
     if (module != nil){
         module.command = [jsonModuleConfig objectForKey:@"command"];

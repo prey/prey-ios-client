@@ -18,10 +18,12 @@
     NewModulesConfig *modulesConfig = [[NewModulesConfig alloc] init];
     
     NSArray *jsonObjects = (NSArray*)[jsonParser objectWithString:requestString error:err];
+    
     for (NSDictionary *dict in jsonObjects)
     {
         [modulesConfig addModule:dict];
     }
+    
     [jsonParser release], jsonParser = nil;
     return modulesConfig;
 }

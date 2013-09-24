@@ -10,10 +10,19 @@
 
 @interface Location : DataModule <CLLocationManagerDelegate>{
 
-    CLLocationManager* locManager;
-    SEL methodToInvoke;
-    NSObject *targetObject;
-    CLLocation *bestEffortAtLocation;
+    CLLocationManager  *locManager;
+    SEL                 methodToInvoke;
+    NSObject            *targetObject;
+    CLLocation          *bestEffortAtLocation;
+    
+    BOOL                isForReport;
 }
+
+@property (nonatomic, retain) CLLocationManager *locManager;
+@property (nonatomic, retain) CLLocation        *bestEffortAtLocation;
+
+- (void)getLocationForReport;
+
+- (void)testLocation;
 
 @end

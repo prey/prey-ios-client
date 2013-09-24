@@ -9,7 +9,6 @@
 //
 
 #import "PreyModule.h"
-#import "LocationModule.h"
 #import "AlarmModule.h"
 #import "AlertModule.h"
 #import "PictureModule.h"
@@ -23,6 +22,7 @@
 #import "ProcessorInfo.h"
 #import "Uptime.h"
 #import "RemainingStorage.h"
+#import "ReportModule.h"
 #import "Location.h"
 
 @implementation PreyModule
@@ -37,9 +37,6 @@
 }
 
 + (PreyModule *) newModuleForName: (NSString *) moduleName andCommand: (NSString *) command{
-	if ([moduleName isEqualToString:@"geo"]) {
-		return [[LocationModule alloc] init];
-	}
     if ([moduleName isEqualToString:@"geofencing"]) {
 		return [[GeofencingModule alloc] init];
 	}
@@ -49,9 +46,9 @@
 	if ([moduleName isEqualToString:@"alert"]) {
 		return [[AlertModule alloc] init];
 	}
-    // JavierCode
-    //if ([moduleName isEqualToString:@"webcam"]) {
-	//	return [[PictureModule alloc] init];
+    if ([moduleName isEqualToString:@"report"]) {
+		return [[[ReportModule alloc] init] autorelease];
+	}
     if ([moduleName isEqualToString:@"picture"]) {
 		return [[[PictureModule alloc] init] autorelease];
 	}
@@ -75,7 +72,8 @@
 	}
     if ([moduleName isEqualToString:@"uptime"]) {
 		return [[[Uptime alloc] init] autorelease];
-	}
+	}    
+
     if ([moduleName isEqualToString:@"remaining_storage"]) {
 		return [[[RemainingStorage alloc] init] autorelease];
 	}

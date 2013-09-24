@@ -10,7 +10,33 @@
 
 @implementation Location
 
-- (void) get {
+@synthesize locManager;
+@synthesize bestEffortAtLocation;
+
+
+- (void)testLocation
+{
+    locManager = [[CLLocationManager alloc] init];
+    locManager.delegate = self;
+	locManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [locManager startUpdatingLocation ];
+    [locManager stopUpdatingLocation];    
+}
+
+- (void) get
+{
+    isForReport = NO;
+    [self initLocation];
+}
+
+- (void)getLocationForReport
+{
+    isForReport = YES;
+    [self initLocation];
+}
+
+- (void)initLocation
+{
     bestEffortAtLocation = nil;
 	locManager = [[CLLocationManager alloc] init];
     locManager.delegate = self;
@@ -28,10 +54,7 @@
     [super sendHttp:[super createResponseFromObject:dict withKey:[self getName]]];
 }
 
-
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
 	PreyLogMessage(@"Prey location module", 3, @"New location received[%@]: %@",[manager description], [newLocation description]);
     
@@ -56,10 +79,15 @@
         // accuracy because it is a negative value. Instead, compare against some predetermined "real" measure of
         // acceptable accuracy, or depend on the timeout to stop updating. This sample depends on the timeout.
         //
-        if (newLocation.horizontalAccuracy <= 500) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"locationUpdated" object:newLocation];
-            [self performSelector:@selector(locationReceived:) withObject:newLocation];
+        if (newLocation.horizontalAccuracy <= 500)
+        {
+            if (isForReport)
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"locationUpdated" object:newLocation];
+            else
+                [self performSelector:@selector(locationReceived:) withObject:newLocation];
+            
             [locManager stopUpdatingLocation];
+            locManager.delegate = nil;
         }
     }
     
@@ -107,6 +135,8 @@
 }
 
 - (void)dealloc {
+    [locManager release];
+    [bestEffortAtLocation release];
     [super dealloc];
 }
 

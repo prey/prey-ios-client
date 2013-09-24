@@ -39,11 +39,7 @@
 
 - (NSMutableDictionary*) createResponseFromObject: dict withKey:(NSString *) key{
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    
-    NSMutableDictionary *dictForKey = [[NSMutableDictionary alloc] init];
-    [dictForKey setObject:dict forKey:key];
-    
-    [data setObject:dictForKey forKey:@"data"];
+    [data setObject:dict forKey:key];
     
     return data;
 }
