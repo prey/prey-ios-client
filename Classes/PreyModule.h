@@ -26,6 +26,5 @@ typedef NSInteger ModuleType;
 
 + (PreyModule *) newModuleForName: (NSString *) moduleName andCommand: (NSString *) command;
 - (NSString *) getName;
-- (NSMutableDictionary *) reportData;
 
 @end
