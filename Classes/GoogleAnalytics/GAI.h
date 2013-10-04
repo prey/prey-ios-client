@@ -1,11 +1,12 @@
 /*!
  @header    GAI.h
  @abstract  Google Analytics iOS SDK Header
- @version   2.0
- @copyright Copyright 2011 Google Inc. All rights reserved.
+ @version   3.0
+ @copyright Copyright 2013 Google Inc. All rights reserved.
  */
 
 #import <Foundation/Foundation.h>
+#import "GAILogger.h"
 #import "GAITracker.h"
 #import "GAITrackedViewController.h"
 
@@ -49,11 +50,9 @@ typedef enum {
 @property(nonatomic, assign) id<GAITracker> defaultTracker;
 
 /*!
- If true, Google Analytics debug messages will be logged with `NSLog()`. This is
- useful for debugging calls to the Google Analytics SDK.
-
- By default, this flag is set to `NO`. */
-@property(nonatomic, assign) BOOL debug;
+ The GAILogger to use.
+ */
+@property(nonatomic, retain) id<GAILogger> logger;
 
 /*!
  When this is true, no tracking information will be gathered; tracking calls
@@ -69,14 +68,9 @@ typedef enum {
 @property(nonatomic, assign) BOOL optOut;
 
 /*!
- If this value is negative, tracking information must be sent manually by
- calling dispatch. If this value is zero, tracking information will
- automatically be sent as soon as possible (usually immediately if the device
- has Internet connectivity). If this value is positive, tracking information
- will be automatically dispatched every dispatchInterval seconds.
-
- When the dispatchInterval is non-zero, setting it to zero will cause any queued
- tracking information to be sent immediately.
+ If this value is positive, tracking information will be automatically
+ dispatched every dispatchInterval seconds. Otherwise, tracking information must
+ be sent manually by calling dispatch.
 
  By default, this is set to `120`, which indicates tracking information should
  be dispatched automatically every 120 seconds.
@@ -94,30 +88,71 @@ typedef enum {
  */
 @property(nonatomic, assign) BOOL trackUncaughtExceptions;
 
+/*!
+ When this is 'YES', no tracking information will be sent. Defaults to 'NO'.
+ */
+@property(nonatomic, assign) BOOL dryRun;
+
 /*! Get the shared instance of the Google Analytics for iOS class. */
 + (GAI *)sharedInstance;
 
 /*!
- Create or retrieve a GAITracker implementation with the specified tracking
- ID. If the tracker for the specified tracking ID does not already exist, then
+ Creates or retrieves a GAITracker implementation with the specified name and
+ tracking ID. If the tracker for the specified name does not already exist, then
  it will be created and returned; otherwise, the existing tracker will be
- returned. If defaultTracker is not set, it will be set to the tracker instance
- returned here.
+ returned. If the existing tracker for the respective name has a different
+ tracking ID, that tracking ID is not changed by this method. If defaultTracker
+ is not set, it will be set to the tracker instance returned here.
 
- @param trackingId The tracking ID (a string that begins with "UA-"). Must not
- be `nil` or empty.
+ @param name The name of this tracker. Must not be `nil` or empty.
 
- @return A GAITracker associated with the specified tracking ID. The tracker
+ @param trackingID The tracking ID to use for this tracker.  It should be of
+ the form `UA-xxxxx-y`.
+
+ @return A GAITracker associated with the specified name. The tracker
  can be used to send tracking data to Google Analytics. The first time this
- method is called with a particular tracking ID, the tracker for that tracking
- ID will be returned, and subsequent calls with the same tracking ID will return
- the same instance. It is not necessary to retain the tracker because the
- tracker will be retained internally by the library.
+ method is called with a particular name, the tracker for that name will be
+ returned, and subsequent calls with the same name will return the same
+ instance. It is not necessary to retain the tracker because the tracker will be
+ retained internally by the library.
 
- If an error occurs or the tracker ID is not valid, this method will return
+ If an error occurs or the name is not valid, this method will return
+ `nil`.
+ */
+- (id<GAITracker>)trackerWithName:(NSString *)name
+                       trackingId:(NSString *)trackingId;
+
+/*!
+ Creates or retrieves a GAITracker implementation with name equal to
+ the specified tracking ID. If the tracker for the respective name does not
+ already exist, it is created, has it's tracking ID set to |trackingId|,
+ and is returned; otherwise, the existing tracker is returned. If the existing
+ tracker for the respective name has a different tracking ID, that tracking ID
+ is not changed by this method. If defaultTracker is not set, it is set to the
+ tracker instance returned here.
+
+ @param trackingID The tracking ID to use for this tracker.  It should be of
+ the form `UA-xxxxx-y`. The name of the tracker will be the same as trackingID.
+
+ @return A GAITracker associated with the specified trackingID. The tracker
+ can be used to send tracking data to Google Analytics. The first time this
+ method is called with a particular trackingID, the tracker for the respective
+ name will be returned, and subsequent calls with the same trackingID
+ will return the same instance. It is not necessary to retain the tracker
+ because the tracker will be retained internally by the library.
+
+ If an error occurs or the trackingId is not valid, this method will return
  `nil`.
  */
 - (id<GAITracker>)trackerWithTrackingId:(NSString *)trackingId;
+
+/*!
+ Remove a tracker from the trackers dictionary. If it is the default tracker,
+ clears the default tracker as well.
+
+ @param name The name of the tracker.
+ */
+- (void)removeTrackerByName:(NSString *)name;
 
 /*!
  Dispatches any pending tracking information.
