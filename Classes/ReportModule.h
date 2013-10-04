@@ -19,7 +19,9 @@
 	NSMutableDictionary *reportData;
     UIImage *picture;
     
-    Location *location;
+    Location    *location;
+    NSTimer     *runReportTimer;
+    NSDate      *lastExecution;
 }
 
 @property (nonatomic, retain) NSMutableArray *modules;
@@ -28,7 +30,8 @@
 @property (nonatomic, retain) UIImage *picture;
 @property (nonatomic, retain) NSMutableDictionary *reportData;
 
-@property (nonatomic, retain) Location *location;
+@property (nonatomic, retain) Location  *location;
+@property (nonatomic, retain) NSTimer   *runReportTimer;
 
 - (void) send;
 - (NSMutableDictionary *) getReportData;

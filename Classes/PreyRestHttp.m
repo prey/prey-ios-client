@@ -88,6 +88,10 @@
 		if (!error) {	
 			UserParserDelegate *keyParser = [[UserParserDelegate alloc] init];
 			[keyParser parseRequest:[request responseData] forUser:user parseError:&error];
+            
+            NSString *strData = [[NSString alloc]initWithData:[request responseData] encoding:NSUTF8StringEncoding];
+            PreyLogMessage(@"PreyRestHttp", 10, @"Info profile.xml: %@",strData);
+            
 			return user.apiKey;
 		}	
 		else {
@@ -141,23 +145,11 @@
 	return nil;
 }
 
-- (NSString *) createDeviceKeyForDevice: (Device *) device usingApiKey: (NSString *) apiKey {
-	
-	//ASIFormDataRequest *request = [self createPOSTrequestWithURL:[[[PreyConfig instance] controlPanelHost] stringByAppendingFormat: @"/devices.xml"]];
-    
-  	ASIFormDataRequest *request = [self createPOSTrequestWithURL:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices.xml"]];    
+- (NSString *) createDeviceKeyForDevice: (Device *) device usingApiKey: (NSString *) apiKey
+{
+  	ASIFormDataRequest *request = [self createPOSTrequestWithURL:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices.xml"]];
 	[request setUsername:apiKey];
 	[request setPassword: @"x"];
-	/*
-    [request setPostValue:[device name] forKey:@"device[title]"];
-	[request setPostValue:[device type] forKey:@"device[device_type]"];
-	[request setPostValue:[device version] forKey:@"device[os_version]"];
-    [request setPostValue:[device model] forKey:@"device[model_name]"];
-    [request setPostValue:[device vendor] forKey:@"device[vendor_name]"];
-	[request setPostValue:[device os] forKey:@"device[os]"];
-	[request setPostValue:[device macAddress] forKey:@"device[physical_address]"];
-    [request setPostValue:[device uuid] forKey:@"device[uuid]"];
-	*/
     
     [request setPostValue:[device name] forKey:@"name"];
 	[request setPostValue:[device type] forKey:@"device_type"];
@@ -167,25 +159,21 @@
 	[request setPostValue:[device os] forKey:@"os"];
 	[request setPostValue:[device macAddress] forKey:@"physical_address"];
     [request setPostValue:[device uuid] forKey:@"uuid"];
-
     
-    //NSString *stringRequest = @"{device[title]=iPod, device[device_type]=Phone, device[os_version]=7.0, device[model_name]=iPod, device[vendor_name]=Apple, device[os]=iOS, device[physical_address]=F4:1B:A1:C6:50:E8, device[uuid]=133f48f96b69108e8ee4ad398db2494830bb35f4}";
-    //[request appendPostData:[stringRequest dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    //PreyLogMessage(@"PreyRestHttp", 10, @"RequestData: %@",[[request postData] description]);
-    //PreyLogMessage(@"PreyRestHttp", 10, @"RequestBody: %@",[[request postBody] description]);
-    
-	@try {
+	@try
+    {
 		[request startSynchronous];
 		NSError *error = [request error];
-		if (!error) {
+		if (!error)
+        {
 			int statusCode = [request responseStatusCode];
-			if (statusCode == 302)
-				@throw [NSException exceptionWithName:@"NoMoreDevicesAllowed" reason:NSLocalizedString(@"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.",nil) userInfo:nil];
-			
-			//NSString *statusMessage = [request responseStatusMessage];
+			if ((statusCode == 302) || (statusCode == 403))
+				@throw [NSException exceptionWithName:@"NoMoreDevicesAllowed"
+                                               reason:NSLocalizedString(@"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.",nil)
+                                             userInfo:nil];
+			NSString *statusMessage = [request responseStatusMessage];
 			NSString *response = [request responseString];
-			PreyLogMessage(@"PreyRestHttp", 10, @"POST devices.xml: %@",response);
+			PreyLogMessage(@"PreyRestHttp", 10, @"POST devices.xml: %@ :: %@",statusMessage, response);
 			KeyParserDelegate *keyParser = [[KeyParserDelegate alloc] init];
 			NSString *deviceKey = [keyParser parseKey:[request responseData] parseError:&error];
 			return deviceKey;
@@ -205,7 +193,6 @@
 
 - (DeviceModulesConfig *) getXMLforUser
 {
-
     ASIHTTPRequest *request = [self createGETrequestWithURL:[[PreyConfig instance] deviceCheckPathWithExtension:@".xml"]];
     [request setUsername:[[PreyConfig instance] apiKey]];
 	[request setPassword: @"x"];
@@ -371,8 +358,12 @@
     [request setCompletionBlock:^{
         int statusCode = [request responseStatusCode];
         if (statusCode != 200)
+        {
             PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Report wasn't sent: %@", [request responseStatusMessage]);
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SendReport"];
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"lastExecutionKey"];
             //@throw [NSException exceptionWithName:@"ReportNotSentException" reason:NSLocalizedString(@"Report couldn't be sent",nil) userInfo:nil];
+        }
         else
             PreyLogMessageAndFile(@"PreyRestHttp", 10, @"Report: POST response: %@",[request responseStatusMessage]);
     }];
@@ -485,7 +476,7 @@
 		[request startSynchronous];
 		NSError *error = [request error];
 		int statusCode = [request responseStatusCode];
-		PreyLogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",deviceKey,[request responseStatusMessage]);
+		PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.xml: %@",deviceKey,[request responseStatusMessage]);
         
 		if (statusCode == 401){
 			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);

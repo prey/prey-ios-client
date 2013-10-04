@@ -22,8 +22,8 @@
 #import "PicturesController.h"
 #import "IAPHelper.h"
 #import "GAI.h"
-#import "PictureModule.h"
 #import "WizardController.h"
+#import "ReportModule.h"
 
 #warning Beta TestFlight
 #import "TestFlight.h"
@@ -101,16 +101,10 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     PreyLogMessage(@"App Delegate", 20,  @"Attempting to show the HUD");
-#warning Check: method changes in PictureController
-    
-    [[PictureModule newModuleForName:@"picture" andCommand:nil] get];
-    //[[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:@"front"];
     
     MBProgressHUD *HUD2 = [MBProgressHUD showHUDAddedTo:webView animated:YES];
     HUD2.labelText = NSLocalizedString(@"Accessing your account...",nil);
     HUD2.removeFromSuperViewOnHide=YES;
-    
-
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [MBProgressHUD hideHUDForView:webView animated:YES];
@@ -126,6 +120,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
 #warning Beta: TestFlight
     // !!!: Use the next line only during beta
     [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];    
@@ -135,10 +130,13 @@
     // Google Analytics: Create tracker instance.
     // Optional: automatically send uncaught exceptions to Google Analytics.
     [GAI sharedInstance].trackUncaughtExceptions = YES;
+    
     // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
     [GAI sharedInstance].dispatchInterval = 20;
-    // Optional: set debug to YES for extra debugging information.
-    [GAI sharedInstance].debug = YES;
+    
+    // Optional: set Logger to VERBOSE for debug information.
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
     
         
@@ -157,29 +155,31 @@
 	if (locationValue) //Significant location change received when app was closed.
 	{
         PreyLogMessageAndFile(@"App Delegate", 0, @"[PreyAppDelegate] Significant location change received when app was closed!!");
-        [[PreyRunner instance] startOnIntervalChecking];
+        //[[PreyRunner instance] startOnIntervalChecking];
     }
     else {        
         UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
         id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (remoteNotification) {
-            PreyLogMessageAndFile(@"App Delegate", 10, @"Prey remote notification received while not running!");	
-            self.url = [remoteNotification objectForKey:@"url"];
-            [[PreyRunner instance] startPreyService];
-            showFakeScreen = YES;
+            PreyLogMessageAndFile(@"App Delegate", 10, @"Prey remote notification received while not running!");
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+            {
+                self.url = [remoteNotification objectForKey:@"url"];
+                showFakeScreen = YES;
+            }
         }
         
         if (localNotif) {
             application.applicationIconBadgeNumber = localNotif.applicationIconBadgeNumber-1; 
             PreyLogMessage(@"App Delegate", 10, @"Prey local notification clicked... running!");
-            [[PreyRunner instance] startPreyService];
+            //[[PreyRunner instance] startPreyService];
         }
         
         PreyConfig *config = [PreyConfig instance];
         if (config.alreadyRegistered) {
             
             [self registerForRemoteNotifications];
-            [[PreyRunner instance] startOnIntervalChecking];
+            //[[PreyRunner instance] startOnIntervalChecking];
      
             /*
             NSOperationQueue *bgQueue = [[NSOperationQueue alloc] init];
@@ -260,6 +260,13 @@
         return;
 	}
     
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+    {
+        ReportModule *reportModule = [[[ReportModule alloc] init] autorelease];
+        [reportModule get];
+    }
+
+    
     PreyConfig *config = [PreyConfig instance];
 	
 	UIViewController *nextController = nil;
@@ -268,12 +275,22 @@
     {
 		if (config.askForPassword)
         {
-#warning Beta: Wizard Test
+#warning Beta: Wizard :: Logged Test
             
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-                nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
+            if (config.camouflageMode)
+            {
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+                    nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+                else
+                    nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
+            }
             else
-                nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+            {
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+                    nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
+                else
+                    nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+            }
 
             /*
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
@@ -287,7 +304,7 @@
     }
     else
     {
-#warning Beta: Wizard Test
+#warning Beta: Wizard :: Welcome Test
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
@@ -313,6 +330,7 @@
                                                                     blue:0.42f
                                                                    alpha:1]];
     }
+    
     
     [window setRootViewController:viewController];
     [window makeKeyAndVisible];
@@ -413,26 +431,21 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);    
     
-    //TESTING PURPOSES
-#warning Testing
-    
     PreyRestHttp *http = [[PreyRestHttp alloc] init];
     PreyConfig *preyConfig = [PreyConfig instance];
     [http checkStatusForDevice:[preyConfig deviceKey] andApiKey:[preyConfig apiKey]];
-    /*
-    self.url = [userInfo objectForKey:@"url"];
-    [[PreyRunner instance] runPreyNow];
-    [[PreyRunner instance] startPreyService];
-    //[self showFakeScreen];
-    showFakeScreen = YES;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:[PreyConfig instance]];
-    */
+
+
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+    {
+        self.url = [userInfo objectForKey:@"url"];
+        showFakeScreen = YES;
+    }
 }
 
 #warning Testing BackgroundPushNotification Remote
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result)  )handler
 {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received in Background! : %@", [userInfo description]);
         
@@ -441,10 +454,29 @@
     [http checkStatusForDevice:[preyConfig deviceKey] andApiKey:[preyConfig apiKey]];
     
     // Llamar solo para terminar proceso en background !!!
-    completionHandler(UIBackgroundFetchResultNewData);
+    [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:9];
+    //completionHandler(UIBackgroundFetchResultNewData);
 }
 
+- (void) waitNotificationProcess:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    completionHandler(UIBackgroundFetchResultNewData);
+    //PreyLogMessage(@"PreyRestHttp", 10, @"==== Finished Background Notifications =======");
+}
 
+#warning Testing Backgroundfetch SendReport
+-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    PreyLogMessageAndFile(@"App Delegate", 10, @"Init Background Fetch");
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+    {
+        ReportModule *reportModule = [[[ReportModule alloc] init] autorelease];
+        [reportModule get];
+    }
+    
+    [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:9];
+}
 
 #pragma mark -
 #pragma mark UINavigationController delegate methods

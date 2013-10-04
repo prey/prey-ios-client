@@ -46,13 +46,16 @@
     PreyModule *module;
     
 	for (module in dataModules){
-        [module performSelector:NSSelectorFromString(module.command)];
+        [module performSelectorOnMainThread:NSSelectorFromString(module.command) withObject:nil waitUntilDone:YES];
+        //[module performSelector:NSSelectorFromString(module.command)];
 	}
     for (module in actionModules){
-        [module performSelector:NSSelectorFromString(module.command)];
+        [module performSelectorOnMainThread:NSSelectorFromString(module.command) withObject:nil waitUntilDone:YES];
+        //[module performSelector:NSSelectorFromString(module.command)];
 	}
     for (module in settingModules){
-        [module performSelector:NSSelectorFromString(module.command)];
+        [module performSelectorOnMainThread:NSSelectorFromString(module.command) withObject:nil waitUntilDone:YES];
+        //[module performSelector:NSSelectorFromString(module.command)];
 	}
 }
 

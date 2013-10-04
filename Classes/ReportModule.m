@@ -11,26 +11,76 @@
 #import "ReportModule.h"
 #import "PreyModule.h"
 #import "PreyRestHttp.h"
-#import "PreyConfig.h"
 #import "PicturesController.h"
 
 #import "Location.h"
 
 @implementation ReportModule
 
-@synthesize modules,waitForLocation,waitForPicture,url, picture, reportData, location;
+@synthesize modules,waitForLocation,waitForPicture,url, picture, reportData, location, runReportTimer;
 
 - (void) get
 {
+    lastExecution = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastExecutionKey"];
+    
+    if (lastExecution != nil)
+    {
+        NSInteger delayReport = [[NSUserDefaults standardUserDefaults] integerForKey:@"delayReport"];
+        NSTimeInterval lastRunInterval = -[lastExecution timeIntervalSinceNow];
+        PreyLogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", delayReport, lastRunInterval);
+        if (lastRunInterval < delayReport)
+        {
+            PreyLogMessage(@"Prey Runner", 0, @"Trying to get device's status but interval hasn't expired. (%f secs. since last execution). Aborting!", lastRunInterval);
+            return;
+        }
+    }
+    lastExecution = [[NSDate date] retain];
+    [[NSUserDefaults standardUserDefaults] setObject:lastExecution forKey:@"lastExecutionKey"];
+    
+    
     waitForLocation = YES;
     waitForPicture  = YES;
     reportData = [[NSMutableDictionary alloc] init];
 
+    if (!runReportTimer)
+    {
+        NSInteger interval = [[super.options objectForKey:@"interval"] intValue]*60;
+        
+        if (interval == 0)
+            interval = [[NSUserDefaults standardUserDefaults] integerForKey:@"delayReport"];
+        else
+            [[NSUserDefaults standardUserDefaults] setInteger:interval forKey:@"delayReport"];
+        
+        PreyLogMessage(@"Report", 10, @"Intervalo = %d",interval);
+
+        runReportTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(runReportModule:) userInfo:nil repeats:YES];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SendReport"];
+        
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:interval];
+    }
+    
     [self send];
 }
 
 - (NSString *) getName {
 	return @"report";
+}
+
+
+- (void)runReportModule:(NSTimer *)timer
+{
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+        [self get];
+    else
+    {
+        [runReportTimer invalidate];
+        runReportTimer = nil;
+        
+        lastExecution = nil;
+        [[NSUserDefaults standardUserDefaults] setObject:lastExecution forKey:@"lastExecutionKey"];
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
+    }
 }
 
 
@@ -101,7 +151,6 @@
     [self sendIfConditionsMatch];
 }
 
-//parameters: {geo[lng]=-122.084095, geo[alt]=0.0, geo[lat]=37.422006, geo[acc]=0.0, api_key=rod8vlf13jco}
 - (void)locationUpdated:(NSNotification *)notification
 {
     CLLocation *newLocation = (CLLocation*)[notification object];
@@ -151,5 +200,6 @@
     [url release];
     [picture release];
     [location release];
+    [runReportTimer release];
 }
 @end

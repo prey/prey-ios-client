@@ -84,6 +84,17 @@
         return;
     }
     
+    
+    // (Javier) 2013.09.30: The Black photos issue iOS 7.0 :: AVCaptureDevice setActiveVideoMinFrameDuration
+    NSError *errorVideoMinFrame = nil;
+    if ([device lockForConfiguration:&errorVideoMinFrame]) {
+        [device setActiveVideoMinFrameDuration:CMTimeMake(1, 2)];
+        [device unlockForConfiguration];
+    } else {
+        PreyLogMessage(@"PicturesController", 10, @"Error taking picture: %@",errorVideoMinFrame);
+    }
+    
+    
     // Create a device input with the device and add it to the session.
     PreyLogMessage(@"PicturesController", 10, @"Creating the input device...");
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device 
@@ -125,8 +136,8 @@
     
     if ([output respondsToSelector:@selector(connectionWithMediaType:)]) // Check iOS 5.0 or later
     {
-        AVCaptureConnection *connection = [output connectionWithMediaType:AVMediaTypeVideo];
-        [connection setVideoMinFrameDuration:CMTimeMake(1, 2)];
+        //AVCaptureConnection *connection = [output connectionWithMediaType:AVMediaTypeVideo];
+        //[connection setVideoMinFrameDuration:CMTimeMake(1, 2)];
     }
     else
     {
