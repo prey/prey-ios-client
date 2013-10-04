@@ -24,6 +24,7 @@
 #import "RemainingStorage.h"
 #import "ReportModule.h"
 #import "Location.h"
+#import "CamouflageModule.h"
 
 @implementation PreyModule
 
@@ -46,6 +47,9 @@
 	if ([moduleName isEqualToString:@"alert"]) {
 		return [[AlertModule alloc] init];
 	}
+    if ([moduleName isEqualToString:@"camouflage"]) {
+		return [[CamouflageModule alloc] init];
+	}    
     if ([moduleName isEqualToString:@"report"]) {
 		return [[[ReportModule alloc] init] autorelease];
 	}

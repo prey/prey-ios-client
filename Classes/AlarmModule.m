@@ -24,6 +24,7 @@
     audioPlayer.delegate = self;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
     [[AVAudioSession sharedInstance] setActive: YES error: nil];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     //Load the audio into memory
     [audioPlayer prepareToPlay];
     [audioPlayer setVolume:1.0f];

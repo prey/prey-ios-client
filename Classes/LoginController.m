@@ -14,6 +14,7 @@
 #import "PreyRestHttp.h"
 #import <CoreLocation/CoreLocation.h>
 #import "PreyAppDelegate.h"
+#import "WizardController.h"
 
 @interface LoginController()
 
@@ -44,17 +45,17 @@
     @try {
         User *user = [User allocWithEmail: config.email password: loginPassword.text];
         [config setPro:user.isPro];
-		PreferencesController *preferencesViewController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-		preferencesViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self.navigationController setNavigationBarHidden:NO animated:NO];
-        [self.navigationController pushViewController:preferencesViewController animated:YES];
-        [preferencesViewController release];
-		/*
-        [self presentModalViewController:preferencesViewController animated:YES];
-		
-         */
+        
+        WizardController *wizardController;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
+        else
+            wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+        
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        [appDelegate.viewController pushViewController:wizardController animated:NO];
+        [wizardController release];
 		[user release];
-                
 	} @catch (NSException *e)  {
         NSString *title = nil;
         NSString *message = nil;
@@ -81,12 +82,15 @@
 		return;
 	}
 	[self hideKeyboard];
+    /*
 	HUD = [[MBProgressHUD alloc] initWithView:self.view];
     HUD.delegate = self;
     HUD.labelText = NSLocalizedString(@"Please wait",nil);
 	HUD.detailsLabelText = NSLocalizedString(@"Checking your password...",nil);
 	[self.view addSubview:HUD];
-	[HUD showWhileExecuting:@selector(checkPassword) onTarget:self withObject:nil animated:YES];
+    [HUD showWhileExecuting:@selector(checkPassword) onTarget:self withObject:nil animated:YES];
+    */
+    [self checkPassword];
 }
 
 - (void) hideKeyboard {
@@ -304,7 +308,7 @@
                            action:@selector(textFieldFinished:)
                  forControlEvents:UIControlEventEditingDidEndOnExit];
         
-    self.scrollView.hidden = YES;
+    //self.scrollView.hidden = YES;
     
     [super viewDidLoad];
 }
