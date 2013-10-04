@@ -52,7 +52,7 @@
     wizardWebView = [[UIWebView alloc] initWithFrame:appDelegate.window.frame];
     [wizardWebView loadRequest:[NSURLRequest requestWithURL:url]];
     [wizardWebView setDelegate:self];
-    
+
     [self.view addSubview:wizardWebView];
 }
 
@@ -185,7 +185,13 @@
     }
 
     else if ([[userInfo host] isEqualToString:@"signup"])
-        [wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.load('error')"];
+    {
+        //[wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.load('error')"];
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Denied",nil) message:@"Only registered users"delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		[alertView show];
+		[alertView release];
+        
+    }
     
 }
 

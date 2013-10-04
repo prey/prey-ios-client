@@ -103,7 +103,6 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		3B1BA22017271C8500200251 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7B0C8D17171CAD002B6E2D /* Location.m */; };
 		3B1BA22117271C8500200251 /* RemainingStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7B0C8F17171CAD002B6E2D /* RemainingStorage.m */; };
-		3B1C977E17B3171B00D9FD1E /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C977C17B3171B00D9FD1E /* libGoogleAnalytics.a */; };
 		3B1C978117B3177400D9FD1E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C978017B3177400D9FD1E /* CoreData.framework */; };
 		3B2A3BB317CE59A2000D5B9D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BAF17CE599E000D5B9D /* Default-568h@2x.png */; };
 		3B2A3BB417CE59A2000D5B9D /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BB017CE599E000D5B9D /* Default@2x~iphone.png */; };
@@ -120,8 +119,8 @@
 		3B2A3BCA17CE61F6000D5B9D /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BC017CE61F6000D5B9D /* iTunesArtwork@2x */; };
 		3B2A3BCE17CE6307000D5B9D /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BCD17CE6307000D5B9D /* Icon-72@2x.png */; };
 		3B2A3BD017CE68B3000D5B9D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */; };
-		3B5F537B17E7BB2300D2E1AA /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5F537717E7BB2300D2E1AA /* libTestFlight.a */; };
 		3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */; };
+		3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71AB1417FA215D0091FE14 /* CamouflageModule.m */; };
 		3B81A347178B1B62009296E1 /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B81A345178B1B62009296E1 /* WizardController.m */; };
 		3B81A348178B1B62009296E1 /* WizardController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B81A346178B1B62009296E1 /* WizardController-iPhone.xib */; };
 		3B81A34B178B1E1C009296E1 /* WizardController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B81A34A178B1E1C009296E1 /* WizardController-iPad.xib */; };
@@ -130,7 +129,10 @@
 		3BA6A26A1676A2BA005323EB /* WelcomeController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A2691676A2BA005323EB /* WelcomeController-iPad.xib */; };
 		3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */; };
 		3BA6A26E1676A754005323EB /* LoginController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A26D1676A754005323EB /* LoginController-iPad.xib */; };
+		3BCF228617F22F520076AB95 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BCF228217F22F520076AB95 /* libTestFlight.a */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
+		3BD546CF17FE102400ABFDBC /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD546CE17FE102400ABFDBC /* libGoogleAnalyticsServices.a */; };
+		3BD546D117FE10CF00ABFDBC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD546D017FE10CF00ABFDBC /* AdSupport.framework */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
 		3BF03704167835CD0086A7A7 /* GrettingsProViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */; };
 		3BF0371F167847920086A7A7 /* ReviewRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.mm */; };
@@ -328,12 +330,6 @@
 		3B0DBF9C17039D6900AA8A3B /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		3B0DBF9D17039D7400AA8A3B /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3B0DBF9E17039D7B00AA8A3B /* zh-CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-CN"; path = "zh-CN.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		3B1C977717B3171B00D9FD1E /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
-		3B1C977817B3171B00D9FD1E /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
-		3B1C977917B3171B00D9FD1E /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
-		3B1C977A17B3171B00D9FD1E /* GAITransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransaction.h; sourceTree = "<group>"; };
-		3B1C977B17B3171B00D9FD1E /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransactionItem.h; sourceTree = "<group>"; };
-		3B1C977C17B3171B00D9FD1E /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
 		3B1C978017B3177400D9FD1E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3B2A3BAF17CE599E000D5B9D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3B2A3BB017CE599E000D5B9D /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
@@ -350,11 +346,9 @@
 		3B2A3BC017CE61F6000D5B9D /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		3B2A3BCD17CE6307000D5B9D /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		3B5F537717E7BB2300D2E1AA /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		3B5F537817E7BB2300D2E1AA /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
-		3B5F537917E7BB2300D2E1AA /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
-		3B5F537A17E7BB2300D2E1AA /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPad.xib"; path = "Classes/AlertModuleController-iPad.xib"; sourceTree = "<group>"; };
+		3B71AB1317FA215D0091FE14 /* CamouflageModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamouflageModule.h; sourceTree = "<group>"; };
+		3B71AB1417FA215D0091FE14 /* CamouflageModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CamouflageModule.m; sourceTree = "<group>"; };
 		3B7B0C8C17171CAD002B6E2D /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		3B7B0C8D17171CAD002B6E2D /* Location.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		3B7B0C8E17171CAD002B6E2D /* RemainingStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RemainingStorage.h; sourceTree = "<group>"; };
@@ -368,8 +362,20 @@
 		3BA6A2691676A2BA005323EB /* WelcomeController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPad.xib"; path = "Classes/WelcomeController-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "CongratulationsController-iPad.xib"; path = "Classes/CongratulationsController-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A26D1676A754005323EB /* LoginController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPad.xib"; path = "Classes/LoginController-iPad.xib"; sourceTree = "<group>"; };
+		3BCF228217F22F520076AB95 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		3BCF228317F22F520076AB95 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		3BCF228417F22F520076AB95 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		3BCF228517F22F520076AB95 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
 		3BD482E31678CAE300F25DC8 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewController.h; path = Classes/UIWebViewController.h; sourceTree = "<group>"; };
 		3BD482E41678CAE300F25DC8 /* UIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewController.m; path = Classes/UIWebViewController.m; sourceTree = "<group>"; };
+		3BD546C817FE102400ABFDBC /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		3BD546C917FE102400ABFDBC /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		3BD546CA17FE102400ABFDBC /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		3BD546CB17FE102400ABFDBC /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		3BD546CC17FE102400ABFDBC /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		3BD546CD17FE102400ABFDBC /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		3BD546CE17FE102400ABFDBC /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		3BD546D017FE10CF00ABFDBC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		3BD74797170F7EFB00F44E2C /* LoggerClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
 		3BD74798170F7EFB00F44E2C /* LoggerClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = "NSLogger/Client Logger/iOS/LoggerClient.m"; sourceTree = "<group>"; };
 		3BD74799170F7EFB00F44E2C /* LoggerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
@@ -423,9 +429,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BD546D117FE10CF00ABFDBC /* AdSupport.framework in Frameworks */,
 				3B1C978117B3177400D9FD1E /* CoreData.framework in Frameworks */,
 				0774BF181517B90D0016D3E6 /* libsqlite3.0.dylib in Frameworks */,
 				5A73C0FE146ADD5000AB32E9 /* StoreKit.framework in Frameworks */,
+				3BD546CF17FE102400ABFDBC /* libGoogleAnalyticsServices.a in Frameworks */,
 				0797FC661459BBA5000DCA46 /* libz.1.2.5.dylib in Frameworks */,
 				077D7A3C126E171300C713B7 /* AudioToolbox.framework in Frameworks */,
 				07DF36E313413B6F00F0F218 /* MessageUI.framework in Frameworks */,
@@ -438,11 +446,10 @@
 				0780547D12554BDA00E4CCE5 /* CFNetwork.framework in Frameworks */,
 				0780547F12554BDA00E4CCE5 /* MobileCoreServices.framework in Frameworks */,
 				0780561D12564F1C00E4CCE5 /* SystemConfiguration.framework in Frameworks */,
+				3BCF228617F22F520076AB95 /* libTestFlight.a in Frameworks */,
 				07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */,
 				077D7B2D126F3C8400C713B7 /* AddressBook.framework in Frameworks */,
 				077D7BA21270D79700C713B7 /* MapKit.framework in Frameworks */,
-				3B1C977E17B3171B00D9FD1E /* libGoogleAnalytics.a in Frameworks */,
-				3B5F537B17E7BB2300D2E1AA /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -735,6 +742,8 @@
 				071323F1134632C900F7EFD8 /* AlarmModule.m */,
 				071323F2134632C900F7EFD8 /* AlertModule.h */,
 				071323F3134632C900F7EFD8 /* AlertModule.m */,
+				3B71AB1317FA215D0091FE14 /* CamouflageModule.h */,
+				3B71AB1417FA215D0091FE14 /* CamouflageModule.m */,
 			);
 			name = "Action Modules";
 			sourceTree = "<group>";
@@ -756,7 +765,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				3B1C977617B3171B00D9FD1E /* GoogleAnalytics */,
+				3BD546C717FE102400ABFDBC /* GoogleAnalytics */,
 				3B5F537617E7BB2300D2E1AA /* TestFlightSDK2.0.0 */,
 				3BCD1C5516693E9600D609D9 /* External */,
 				5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */,
@@ -825,6 +834,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3BD546D017FE10CF00ABFDBC /* AdSupport.framework */,
 				0797FC651459BBA5000DCA46 /* libz.1.2.5.dylib */,
 				0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */,
 				3B1C978017B3177400D9FD1E /* CoreData.framework */,
@@ -846,19 +856,6 @@
 				077D7A3B126E171300C713B7 /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		3B1C977617B3171B00D9FD1E /* GoogleAnalytics */ = {
-			isa = PBXGroup;
-			children = (
-				3B1C977717B3171B00D9FD1E /* GAI.h */,
-				3B1C977817B3171B00D9FD1E /* GAITrackedViewController.h */,
-				3B1C977917B3171B00D9FD1E /* GAITracker.h */,
-				3B1C977A17B3171B00D9FD1E /* GAITransaction.h */,
-				3B1C977B17B3171B00D9FD1E /* GAITransactionItem.h */,
-				3B1C977C17B3171B00D9FD1E /* libGoogleAnalytics.a */,
-			);
-			path = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
 		3B3B2FC91714B63C00BABCAE /* Location Controller */ = {
@@ -887,10 +884,10 @@
 		3B5F537617E7BB2300D2E1AA /* TestFlightSDK2.0.0 */ = {
 			isa = PBXGroup;
 			children = (
-				3B5F537717E7BB2300D2E1AA /* libTestFlight.a */,
-				3B5F537817E7BB2300D2E1AA /* TestFlight+AsyncLogging.h */,
-				3B5F537917E7BB2300D2E1AA /* TestFlight+ManualSessions.h */,
-				3B5F537A17E7BB2300D2E1AA /* TestFlight.h */,
+				3BCF228217F22F520076AB95 /* libTestFlight.a */,
+				3BCF228317F22F520076AB95 /* TestFlight.h */,
+				3BCF228417F22F520076AB95 /* TestFlight+AsyncLogging.h */,
+				3BCF228517F22F520076AB95 /* TestFlight+ManualSessions.h */,
 			);
 			path = TestFlightSDK2.0.0;
 			sourceTree = "<group>";
@@ -916,6 +913,20 @@
 				07CEDA9812E9DD77002B4EB5 /* NSLogger */,
 			);
 			name = External;
+			sourceTree = "<group>";
+		};
+		3BD546C717FE102400ABFDBC /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				3BD546C817FE102400ABFDBC /* GAI.h */,
+				3BD546C917FE102400ABFDBC /* GAIDictionaryBuilder.h */,
+				3BD546CA17FE102400ABFDBC /* GAIFields.h */,
+				3BD546CB17FE102400ABFDBC /* GAILogger.h */,
+				3BD546CC17FE102400ABFDBC /* GAITrackedViewController.h */,
+				3BD546CD17FE102400ABFDBC /* GAITracker.h */,
+				3BD546CE17FE102400ABFDBC /* libGoogleAnalyticsServices.a */,
+			);
+			path = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
 		3BF0370616783C760086A7A7 /* Iconos */ = {
@@ -1110,6 +1121,7 @@
 				071324091346342700F7EFD8 /* ContactsModule.m in Sources */,
 				071324101346343C00F7EFD8 /* Constants.m in Sources */,
 				071324111346343C00F7EFD8 /* Device.m in Sources */,
+				3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */,
 				071324121346343C00F7EFD8 /* DeviceModulesConfig.m in Sources */,
 				071324151346346F00F7EFD8 /* IphoneInformationHelper.m in Sources */,
 				071324181346348400F7EFD8 /* FakeWebView.m in Sources */,
@@ -1237,17 +1249,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fork Ltd.";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
-					"\"$(SRCROOT)/Classes/GoogleAnalytics\"",
-					"\"$(SRCROOT)/Classes/TestFlightSDK2.0.0\"",
+					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/TestFlightSDK2.0.0",
+					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-licucore",
@@ -1270,6 +1282,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Javier Cala (2N74KP79VB)";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1277,12 +1290,11 @@
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
-					"\"$(SRCROOT)/Classes/GoogleAnalytics\"",
-					"\"$(SRCROOT)/Classes/TestFlightSDK2.0.0\"",
+					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/TestFlightSDK2.0.0",
+					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-licucore",
@@ -1306,17 +1318,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fork Ltd.";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Classes/InAppSubscriptions\"",
-					"\"$(SRCROOT)/Classes/GoogleAnalytics\"",
-					"\"$(SRCROOT)/Classes/TestFlightSDK2.0.0\"",
+					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/TestFlightSDK2.0.0",
+					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-licucore",

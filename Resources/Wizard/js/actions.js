@@ -3,17 +3,22 @@ $(function(){
   // enable touch events only if not viewing a specific page
   if (!window.location.hash.match('#')) {
 
+
    var opts = {}; // { drag: true, transform: true };
 
     $('#main').hammer(opts)
       .on("swipeleft", function() {
-        Wizard.toggle(+1);
+          if (current != "ok")
+            Wizard.toggle(+1);
       })
       .on("swiperight", function() {
-        var dir = current == 5 ? -2 : -1; // back two if on signup page
-        Wizard.toggle(dir);
+          if (current != "ok")
+          {
+            var dir = current == 5 ? -2 : -1; // back two if on signup page
+            Wizard.toggle(dir);
+          }
       });
-
+  
   }
 
   $('#signup').live('submit', function(e){

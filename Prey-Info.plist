@@ -47,7 +47,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.0</string>
 	<key>CFBundleVersion</key>
-	<string>20130917</string>
+	<string>20131003</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
@@ -65,7 +65,6 @@
 		<string>fetch</string>
 		<string>location</string>
 		<string>remote-notification</string>
-		<string>voip</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>
