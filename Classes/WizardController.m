@@ -63,6 +63,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
 #pragma mark Old User
 
 
@@ -80,8 +82,7 @@
             
             [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
             
-            [self performSelectorOnMainThread:@selector(test) withObject:nil waitUntilDone:YES];
-            
+            [self deviceAddedSuccessfully];
         }
         
 	}
@@ -99,19 +100,18 @@
 	}
 }
 
-- (void)test
+- (void)deviceAddedSuccessfully
 {
     [wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.load('ok')"];
     
-    [self performSelectorOnMainThread:@selector(test2) withObject:nil waitUntilDone:YES];
+    [self enableLocationManager];
     [self enablePrey];
 }
 
-- (void)test2
+- (void)enableLocationManager
 {
     location = [[Location alloc] init];
     [location testLocation];
-    
 }
 
 - (void)enablePrey
@@ -135,18 +135,6 @@
 }
 
 
-#pragma mark MBProgressHUDDelegate methods
-
-- (void)hudWasHidden
-{
-    // Remove HUD from screen when the HUD was hidded
-    [HUD removeFromSuperview];
-    [HUD release];
-    
-    //[wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.load('ok')"];
-}
-
-
 #pragma mark UIWebViewDelegate
 
 
@@ -154,9 +142,6 @@
 {    
     if ([[userInfo host] isEqualToString:@"index"])
     {
-        
-        //[[wizardWebView windowScriptObject] evaluateWebScript:@"location.href"];
-
         PreyConfig *config = [PreyConfig instance];
         
         if (config.alreadyRegistered)
@@ -168,19 +153,50 @@
             }
         }
         else
+        {
+            NSInteger currentPage = [[NSUserDefaults standardUserDefaults] integerForKey:@"currentViewWizard"];
+            if (currentPage == 0)
+                currentPage = 1;
+            
+            NSString *loadString = [NSString stringWithFormat:@"Wizard.load('%d')",currentPage];
+            
             [wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.start(4)"];
+            [wizardWebView stringByEvaluatingJavaScriptFromString:loadString];
+        }
     }
     
     else if ([[userInfo host] isEqualToString:@"signin"])
     {
-        NSArray *userData = [userInfo pathComponents];
+        NSArray     *userData = [userInfo pathComponents];
+        NSString    *strEmailMatchstring =   @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
         
-        HUD = [[MBProgressHUD alloc] initWithView:self.view];
-        HUD.delegate = self;
-        HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
-        [self.navigationController.view addSubview:HUD];
-        [HUD showWhileExecuting:@selector(addDeviceForCurrentUser:) onTarget:self withObject:userData animated:YES];
-        
+        if ([userData count] == 3)
+        {
+            if (![userData[1] isMatchedByRegex:strEmailMatchstring])
+            {
+                UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
+                [objAlert show];
+                [objAlert release];
+            }
+            else
+            {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.labelText = NSLocalizedString(@"Attaching device...",nil);
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
+                {
+                    [self addDeviceForCurrentUser:userData];
+                    
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                });
+            }
+        }
+        else
+        {
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Enter a valid e-mail/password" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
+            [objAlert show];
+            [objAlert release];
+        }
         
     }
 
@@ -193,8 +209,12 @@
         
     }
     
+    else if ([[userInfo host] isEqualToString:@"activeView"])
+    {
+        NSArray     *userData = [userInfo pathComponents];
+        [[NSUserDefaults standardUserDefaults] setInteger:[userData[1] intValue] forKey:@"currentViewWizard"];
+    }
 }
-
 
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
 {

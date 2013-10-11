@@ -40,7 +40,7 @@ $(function(){
   })
 
   $('#login').live('submit', function(e){
-
+                   
     var data = {
       email: this.email.value,
       password: this.password.value

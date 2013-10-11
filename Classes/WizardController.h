@@ -13,7 +13,6 @@
 @interface WizardController : UIViewController <UIWebViewDelegate, MBProgressHUDDelegate>
 {
     UIWebView *wizardWebView;
-    MBProgressHUD *HUD;
     Location *location;
 }
 

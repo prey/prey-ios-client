@@ -119,12 +119,12 @@
 		3B2A3BCA17CE61F6000D5B9D /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BC017CE61F6000D5B9D /* iTunesArtwork@2x */; };
 		3B2A3BCE17CE6307000D5B9D /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BCD17CE6307000D5B9D /* Icon-72@2x.png */; };
 		3B2A3BD017CE68B3000D5B9D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */; };
+		3B65EE2A1805E358008EB7CF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65EE291805E358008EB7CF /* MBProgressHUD.m */; };
 		3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */; };
 		3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71AB1417FA215D0091FE14 /* CamouflageModule.m */; };
 		3B81A347178B1B62009296E1 /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B81A345178B1B62009296E1 /* WizardController.m */; };
 		3B81A348178B1B62009296E1 /* WizardController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B81A346178B1B62009296E1 /* WizardController-iPhone.xib */; };
 		3B81A34B178B1E1C009296E1 /* WizardController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B81A34A178B1E1C009296E1 /* WizardController-iPad.xib */; };
-		3B81A34D178B20B1009296E1 /* Wizard in Resources */ = {isa = PBXBuildFile; fileRef = 3B81A34C178B20B1009296E1 /* Wizard */; };
 		3BA6A22F16769566005323EB /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A22E16769566005323EB /* MainWindow-iPad.xib */; };
 		3BA6A26A1676A2BA005323EB /* WelcomeController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A2691676A2BA005323EB /* WelcomeController-iPad.xib */; };
 		3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */; };
@@ -134,6 +134,7 @@
 		3BD546CF17FE102400ABFDBC /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD546CE17FE102400ABFDBC /* libGoogleAnalyticsServices.a */; };
 		3BD546D117FE10CF00ABFDBC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD546D017FE10CF00ABFDBC /* AdSupport.framework */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
+		3BEEAB7E1806F87A00849B2B /* Wizard in Resources */ = {isa = PBXBuildFile; fileRef = 3BEEAB7D1806F87A00849B2B /* Wizard */; };
 		3BF03704167835CD0086A7A7 /* GrettingsProViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */; };
 		3BF0371F167847920086A7A7 /* ReviewRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.mm */; };
 		5A14171115190E240005AE7D /* StoreParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A14171015190E230005AE7D /* StoreParserDelegate.m */; };
@@ -149,7 +150,6 @@
 		5A7A12A5146D70FF00B14176 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A1298146D70FF00B14176 /* ASIHTTPRequest.m */; };
 		5A7A12A6146D70FF00B14176 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A129C146D70FF00B14176 /* ASIInputStream.m */; };
 		5A7A12A7146D70FF00B14176 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A129E146D70FF00B14176 /* ASINetworkQueue.m */; };
-		5A7A12AA146D739100B14176 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12A9146D739100B14176 /* MBProgressHUD.m */; };
 		5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */; };
 		5A867AA21510E1D600C4BBE3 /* UserParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A867AA11510E1D600C4BBE3 /* UserParserDelegate.m */; };
 		5A8DA67D150E4A3500A05BBD /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8DA67C150E4A3500A05BBD /* IAPHelper.m */; };
@@ -346,6 +346,8 @@
 		3B2A3BC017CE61F6000D5B9D /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		3B2A3BCD17CE6307000D5B9D /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		3B65EE281805E358008EB7CF /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Classes/MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
+		3B65EE291805E358008EB7CF /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Classes/MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPad.xib"; path = "Classes/AlertModuleController-iPad.xib"; sourceTree = "<group>"; };
 		3B71AB1317FA215D0091FE14 /* CamouflageModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamouflageModule.h; sourceTree = "<group>"; };
 		3B71AB1417FA215D0091FE14 /* CamouflageModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CamouflageModule.m; sourceTree = "<group>"; };
@@ -357,7 +359,6 @@
 		3B81A345178B1B62009296E1 /* WizardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizardController.m; path = Classes/WizardController.m; sourceTree = "<group>"; };
 		3B81A346178B1B62009296E1 /* WizardController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WizardController-iPhone.xib"; path = "Classes/WizardController-iPhone.xib"; sourceTree = "<group>"; };
 		3B81A34A178B1E1C009296E1 /* WizardController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WizardController-iPad.xib"; path = "Classes/WizardController-iPad.xib"; sourceTree = "<group>"; };
-		3B81A34C178B20B1009296E1 /* Wizard */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Wizard; path = Resources/Wizard; sourceTree = "<group>"; };
 		3BA6A22E16769566005323EB /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A2691676A2BA005323EB /* WelcomeController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPad.xib"; path = "Classes/WelcomeController-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "CongratulationsController-iPad.xib"; path = "Classes/CongratulationsController-iPad.xib"; sourceTree = "<group>"; };
@@ -379,6 +380,7 @@
 		3BD74797170F7EFB00F44E2C /* LoggerClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
 		3BD74798170F7EFB00F44E2C /* LoggerClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = "NSLogger/Client Logger/iOS/LoggerClient.m"; sourceTree = "<group>"; };
 		3BD74799170F7EFB00F44E2C /* LoggerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
+		3BEEAB7D1806F87A00849B2B /* Wizard */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Wizard; path = Resources/Wizard; sourceTree = "<group>"; };
 		3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPad.xib"; sourceTree = "<group>"; };
 		3BF0371D167847920086A7A7 /* ReviewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReviewRequest.h; path = Classes/ReviewRequest.h; sourceTree = "<group>"; };
 		3BF0371E167847920086A7A7 /* ReviewRequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ReviewRequest.mm; path = Classes/ReviewRequest.mm; sourceTree = "<group>"; };
@@ -411,8 +413,6 @@
 		5A7A129D146D70FF00B14176 /* ASINetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASINetworkQueue.h; path = "asi-http-request/Classes/ASINetworkQueue.h"; sourceTree = "<group>"; };
 		5A7A129E146D70FF00B14176 /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASINetworkQueue.m; path = "asi-http-request/Classes/ASINetworkQueue.m"; sourceTree = "<group>"; };
 		5A7A129F146D70FF00B14176 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIProgressDelegate.h; path = "asi-http-request/Classes/ASIProgressDelegate.h"; sourceTree = "<group>"; };
-		5A7A12A8146D739100B14176 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Classes/MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
-		5A7A12A9146D739100B14176 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Classes/MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		5A7A12AB146D74FB00B14176 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice-Hardware.h"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.h"; sourceTree = "<group>"; };
 		5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice-Hardware.m"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.m"; sourceTree = "<group>"; };
 		5A867AA01510E1D600C4BBE3 /* UserParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserParserDelegate.h; path = Classes/UserParserDelegate.h; sourceTree = "<group>"; };
@@ -656,8 +656,8 @@
 				071324381346356300F7EFD8 /* PreyLogger.m */,
 				071324391346356300F7EFD8 /* RegexKitLite.h */,
 				0713243A1346356300F7EFD8 /* RegexKitLite.m */,
-				5A7A12A8146D739100B14176 /* MBProgressHUD.h */,
-				5A7A12A9146D739100B14176 /* MBProgressHUD.m */,
+				3B65EE281805E358008EB7CF /* MBProgressHUD.h */,
+				3B65EE291805E358008EB7CF /* MBProgressHUD.m */,
 				071324131346346F00F7EFD8 /* IphoneInformationHelper.h */,
 				071324141346346F00F7EFD8 /* IphoneInformationHelper.m */,
 			);
@@ -817,7 +817,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3B81A34C178B20B1009296E1 /* Wizard */,
+				3BEEAB7D1806F87A00849B2B /* Wizard */,
 				07178976125B8498007B290C /* Images */,
 				07132470134639DF00F7EFD8 /* Localizable.strings */,
 				071324681346369200F7EFD8 /* large9.ttf */,
@@ -999,6 +999,7 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				3BC641FD1806500500C460D6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1059,6 +1060,7 @@
 				07132453134635DC00F7EFD8 /* WelcomeController-iPhone.xib in Resources */,
 				071324581346363300F7EFD8 /* AlertModuleController-iPhone.xib in Resources */,
 				071324591346363300F7EFD8 /* MainWindow-iPhone.xib in Resources */,
+				3BEEAB7E1806F87A00849B2B /* Wizard in Resources */,
 				0713246B1346369200F7EFD8 /* large9.ttf in Resources */,
 				0713246C1346369200F7EFD8 /* NewJuneBold.otf in Resources */,
 				0713246D1346369200F7EFD8 /* siren.mp3 in Resources */,
@@ -1074,7 +1076,6 @@
 				3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */,
 				3B81A348178B1B62009296E1 /* WizardController-iPhone.xib in Resources */,
 				3B81A34B178B1E1C009296E1 /* WizardController-iPad.xib in Resources */,
-				3B81A34D178B20B1009296E1 /* Wizard in Resources */,
 				3B2A3BB317CE59A2000D5B9D /* Default-568h@2x.png in Resources */,
 				3B2A3BB417CE59A2000D5B9D /* Default@2x~iphone.png in Resources */,
 				3B2A3BB517CE59A2000D5B9D /* Default-Portrait~ipad.png in Resources */,
@@ -1094,6 +1095,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3BC641FD1806500500C460D6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/tcsh;
+			shellScript = "touch -cm ${SRCROOT}/Resources/Wizard";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
@@ -1150,7 +1167,6 @@
 				5A7A12A5146D70FF00B14176 /* ASIHTTPRequest.m in Sources */,
 				5A7A12A6146D70FF00B14176 /* ASIInputStream.m in Sources */,
 				5A7A12A7146D70FF00B14176 /* ASINetworkQueue.m in Sources */,
-				5A7A12AA146D739100B14176 /* MBProgressHUD.m in Sources */,
 				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
 				5A1B7D3D150A896600371D13 /* DeviceMapController.m in Sources */,
 				5A8DA67D150E4A3500A05BBD /* IAPHelper.m in Sources */,
@@ -1173,6 +1189,7 @@
 				079DEAC7167FA9290098493A /* SBJsonStreamWriterState.m in Sources */,
 				079DEAC8167FA9290098493A /* SBJsonTokeniser.m in Sources */,
 				079DEAC9167FA9290098493A /* SBJsonUTF8Stream.m in Sources */,
+				3B65EE2A1805E358008EB7CF /* MBProgressHUD.m in Sources */,
 				079DEACA167FA9290098493A /* SBJsonWriter.m in Sources */,
 				07435EF41680FDA000FBD54B /* JsonConfigParser.m in Sources */,
 				07435EF9168102AB00FBD54B /* MacAddress.m in Sources */,

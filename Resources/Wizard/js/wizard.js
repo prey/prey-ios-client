@@ -61,6 +61,9 @@ Wizard.load = function(page){
 
   this.updateCircles(page);
   current = page;
+    
+    window.location.href = "command://activeView/"+current;
+
 };
 
 Wizard.toggle = function(dir){

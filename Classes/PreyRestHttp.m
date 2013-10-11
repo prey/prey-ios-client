@@ -166,17 +166,21 @@
 		NSError *error = [request error];
 		if (!error)
         {
+            NSString *statusMessage = [request responseStatusMessage];
+			NSString *response = [request responseString];
+			PreyLogMessage(@"PreyRestHttp", 10, @"POST devices.xml: %@ :: %@",statusMessage, response);
+            
 			int statusCode = [request responseStatusCode];
+            
 			if ((statusCode == 302) || (statusCode == 403))
 				@throw [NSException exceptionWithName:@"NoMoreDevicesAllowed"
                                                reason:NSLocalizedString(@"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.",nil)
                                              userInfo:nil];
-			NSString *statusMessage = [request responseStatusMessage];
-			NSString *response = [request responseString];
-			PreyLogMessage(@"PreyRestHttp", 10, @"POST devices.xml: %@ :: %@",statusMessage, response);
+            
 			KeyParserDelegate *keyParser = [[KeyParserDelegate alloc] init];
 			NSString *deviceKey = [keyParser parseKey:[request responseData] parseError:&error];
-			return deviceKey;
+			
+            return deviceKey;
 		}	
 		else {
 			@throw [NSException exceptionWithName:@"CreateDeviceKeyException" reason:[error localizedDescription] userInfo:nil];

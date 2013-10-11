@@ -160,6 +160,7 @@
     else {        
         UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
         id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        
         if (remoteNotification) {
             PreyLogMessageAndFile(@"App Delegate", 10, @"Prey remote notification received while not running!");
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
@@ -207,6 +208,8 @@
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
+    
+    PreyLogMessage(@"App Delegate", 20,  @"Will Resign Active");
 }
 
 
@@ -353,60 +356,15 @@
 	
 }
 
-// Function to be called when the animation is complete
--(void)animDone:(NSString*) animationID finished:(BOOL) finished context:(void*) context
-{
-	// Add code here to be executed when the animation is done
-}
 
 #pragma mark -
-#pragma mark Wizards and preferences delegate methods
+#pragma mark Prey Config
 
-- (void)showOldUserWizard {
-	OldUserController *ouController = [[OldUserController alloc] initWithStyle:UITableViewStyleGrouped];
-    ouController.title = NSLocalizedString(@"Log in to Prey",nil);
-	[viewController pushViewController:ouController animated:YES];
-	[ouController release];
-}
-
-- (void)showNewUserWizard {
-	NewUserController *nuController = [[NewUserController alloc] initWithStyle:UITableViewStyleGrouped];
-	nuController.title = NSLocalizedString(@"Create Prey account",nil);
-    
-	[viewController pushViewController:nuController animated:YES];
-	[nuController release];
-}
-
-- (void)showPreferences {
-
-	PreferencesController *preferencesController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
-	preferencesController.view.frame = applicationFrame;
-	
-	// Begin animation setup
-	[UIView beginAnimations:nil context:NULL];
-	
-	// Set duration for animation
-	[UIView setAnimationDuration:1];
-	
-	// Set function to be called when animation is complete
-	[UIView setAnimationDidStopSelector: @selector(animDone:finished:context:)];	
-	// Set the delegate (This object must have the function animDone)
-	[UIView setAnimationDelegate:self];
-	
-	// Set Animation type and which UIView should animate
-	[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
-	
-	for (UIView *subview in window.subviews)
-		[subview removeFromSuperview];
-
-	// Add subview to the UIView set in the previous line
-	[window addSubview:preferencesController.view];
-	
-	//Start the animation
-	[UIView commitAnimations];
-	[preferencesController release];
-	
+- (void)checkStatusInPreyPanel
+{
+    PreyRestHttp *http = [[PreyRestHttp alloc] init];
+    PreyConfig *preyConfig = [PreyConfig instance];
+    [http checkStatusForDevice:[preyConfig deviceKey] andApiKey:[preyConfig apiKey]];
 }
 
 #pragma mark -
@@ -427,14 +385,11 @@
     PreyLogMessageAndFile(@"App Delegate", 10,  @"Failed to register for remote notifications - Error: %@", err);    
 	
 }
-
+/*
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);    
     
-    PreyRestHttp *http = [[PreyRestHttp alloc] init];
-    PreyConfig *preyConfig = [PreyConfig instance];
-    [http checkStatusForDevice:[preyConfig deviceKey] andApiKey:[preyConfig apiKey]];
-
+    [self checkStatusInPreyPanel];
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
     {
@@ -442,16 +397,21 @@
         showFakeScreen = YES;
     }
 }
-
+*/
 #warning Testing BackgroundPushNotification Remote
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received in Background! : %@", [userInfo description]);
-        
-    PreyRestHttp *http = [[PreyRestHttp alloc] init];
-    PreyConfig *preyConfig = [PreyConfig instance];
-    [http checkStatusForDevice:[preyConfig deviceKey] andApiKey:[preyConfig apiKey]];
+    
+    [self checkStatusInPreyPanel];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+    {
+        self.url = [userInfo objectForKey:@"url"];
+        showFakeScreen = YES;
+    }
+
     
     // Llamar solo para terminar proceso en background !!!
     [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:9];
