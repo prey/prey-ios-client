@@ -16,9 +16,3 @@
 [submodule "Classes/NSLogger"]
 	path = Classes/NSLogger
 	url = git://github.com/fpillet/NSLogger.git
-[submodule "json-framework"]
-	path = json-framework
-	url = git://github.com/stig/json-framework.git
-[submodule "NSLogger"]
-	path = NSLogger
-	url = git://github.com/fpillet/NSLogger.git
