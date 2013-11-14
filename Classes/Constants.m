@@ -10,6 +10,7 @@
 
 
 @implementation Constants
+	NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://panel.preyproject.com/";
 	NSString * const PREY_URL = @"http://control.preyproject.com/";
 	NSString * const PREY_SECURE_URL = @"https://control.preyproject.com/";
     NSString * const PREY_API_URL = @"https://panel.preyproject.com/";

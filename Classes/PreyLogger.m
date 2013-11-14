@@ -10,6 +10,8 @@
 
 #import "PreyLogger.h"
 #import "Constants.h"
+#import "LoggerClient.h"
+
 
 void PreyLogMessage(NSString *domain, int level, NSString *format, ...)
 {

@@ -10,7 +10,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern void PreyLogMessage(NSString *domain, int level, NSString *format, ...);
+extern void PreyLogMessage(NSString *domain, int level, NSString *format, ...) NS_FORMAT_FUNCTION(3,4);
 extern void PreyLogMessageAndFile(NSString *domain, int level, NSString *format, ...);
 
 @interface PreyLogger : NSObject {

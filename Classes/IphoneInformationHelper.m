@@ -28,7 +28,7 @@
     iphoneInfo.model = [[UIDevice currentDevice] platformString];
 	iphoneInfo.version = [[UIDevice currentDevice] systemVersion];
 	iphoneInfo.macAddress = [[UIDevice currentDevice] macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
-	iphoneInfo.uuid = [[UIDevice currentDevice] uniqueIdentifier];
+	iphoneInfo.uuid = [[UIDevice currentDevice] name];
 	return iphoneInfo;
 }
 

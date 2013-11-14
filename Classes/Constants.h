@@ -13,6 +13,7 @@
 	
 }
 //extern NSString * const PREY_VERSION;
+extern NSString * const DEFAULT_CONTROL_PANEL_HOST;
 extern NSString * const PREY_SECURE_URL;
 extern NSString * const PREY_URL;
 extern NSString * const PREY_API_URL;
