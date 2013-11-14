@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
+
 
 @class UIWebViewController;
 
@@ -14,7 +16,7 @@
 
 @end
     
-@interface UIWebViewController : UIViewController <UIWebViewDelegate> 
+@interface UIWebViewController : GAITrackedViewController <UIWebViewDelegate>
 {
     
 	UIWebView									*_webView;

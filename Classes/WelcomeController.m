@@ -64,6 +64,9 @@
 }
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    
+    self.screenName = @"Welcome";
+    
     [self.buttnewUser setTitle:NSLocalizedString(@"New user", nil) forState: UIControlStateNormal];
     [self.buttoldUser setTitle:NSLocalizedString(@"Already a Prey user", nil) forState: UIControlStateNormal];
 	[super viewDidLoad];

@@ -18,6 +18,8 @@
 
 - (void)viewDidLoad
 {
+    self.screenName = @"Device Map";
+    
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Current Location", nil);
     mapa = [[MKMapView alloc] initWithFrame:self.view.bounds];

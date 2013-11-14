@@ -12,10 +12,12 @@
 #import "PreferencesController.h"
 #import "MBProgressHUD.h"
 #import "UIWebViewController.h"
+#import "GAITrackedViewController.h"
+
 
 #define kOFFSET_FOR_KEYBOARD 150.0
 
-@interface LoginController : UIViewController <UIWebViewControllerDelegate,MBProgressHUDDelegate, UIAlertViewDelegate> {
+@interface LoginController : GAITrackedViewController <UIWebViewControllerDelegate,MBProgressHUDDelegate, UIAlertViewDelegate> {
 @private
 	UITextField *loginPassword;
 	MBProgressHUD *HUD;

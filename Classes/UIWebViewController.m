@@ -92,6 +92,8 @@ static NSString* const kGGTwitterLoadingBackgroundImage = @"sumerceWait.png";
 #pragma mark View Controller Stuff
 - (void) loadView
 {
+    self.screenName = @"Control Panel Web";
+    
 	[super loadView];
     
 	if ( UIInterfaceOrientationIsLandscape( self.orientation ) ) 

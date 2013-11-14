@@ -9,9 +9,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
 
-@interface WelcomeController : UIViewController {
+@interface WelcomeController : GAITrackedViewController {
     UIButton *buttnewUser;
     UIButton *buttoldUser;
 }

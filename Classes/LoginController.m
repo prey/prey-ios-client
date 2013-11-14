@@ -275,6 +275,8 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    self.screenName = @"Login";
+    
     PreyConfig *config = [PreyConfig instance];
     [self.scrollView setContentSize:CGSizeMake(scrollView.frame.size.width*2, scrollView.frame.size.height)];
     [self.loginPassword setBorderStyle:UITextBorderStyleRoundedRect];

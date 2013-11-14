@@ -21,7 +21,7 @@
 #import "FakeWebView.h"
 #import "PicturesController.h"
 #import "IAPHelper.h"
-#import "GANTracker.h"
+#import "GAI.h"
 
 @interface PreyAppDelegate()
 
@@ -115,9 +115,15 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{    
-    //Analytics singleton tracker.
-    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-8743344-7" dispatchPeriod:10 delegate:nil];
+{
+    // Google Analytics config
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    [GAI sharedInstance].dispatchInterval = 20;
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    
+    //id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
+    [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
+    
     
     //IAPHelper *IAP = [IAPHelper sharedHelper];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[IAPHelper sharedHelper]];
@@ -172,7 +178,7 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif {
 	
-    LogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
+    PreyLogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
 	//PreyRunner *runner = [PreyRunner instance];
 	//[runner startPreyService];
     
@@ -288,7 +294,7 @@
 		minutes = floor(-inBg/60);
 		seconds = trunc(-inBg - minutes * 60);
 	}
-	PreyLogMessage(@"App Delegate", 10, @"Application will terminate!. Time alive: %f minutes, %f seconds",minutes,seconds);
+	PreyLogMessage(@"App Delegate", 10, @"Application will terminate!. Time alive: %d minutes, %d seconds",minutes,seconds);
 	
 }
 
@@ -400,7 +406,6 @@
 
 - (void)dealloc {
 	[super dealloc];
-    [[GANTracker sharedTracker] stopTracker];
     [window release];
 	[viewController release];
 }

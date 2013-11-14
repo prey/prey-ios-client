@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/Mapkit.h>
-@interface DeviceMapController : UIViewController <MKMapViewDelegate> {
+#import "GAITrackedViewController.h"
+
+@interface DeviceMapController : GAITrackedViewController <MKMapViewDelegate> {
     MKMapView *mapa;
     CLLocationManager * MANG;
 }

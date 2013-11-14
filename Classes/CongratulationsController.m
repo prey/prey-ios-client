@@ -48,6 +48,8 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    self.screenName = @"Congratulations";
+    
     congratsMsg.font             = [UIFont fontWithName:@"Helvetica" size:20];
     congratsMsg.numberOfLines    = 5;
     congratsMsg.textColor        = [UIColor colorWithWhite:0.200 alpha:1.000];

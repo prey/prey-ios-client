@@ -9,9 +9,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-
-@interface CongratulationsController : UIViewController {
+@interface CongratulationsController : GAITrackedViewController {
 
 	UILabel *congratsTitle;
 	UILabel *congratsMsg;

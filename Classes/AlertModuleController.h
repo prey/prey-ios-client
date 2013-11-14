@@ -9,9 +9,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-
-@interface AlertModuleController : UIViewController {
+@interface AlertModuleController : GAITrackedViewController {
 
     UILabel *preyName;
 	UILabel *text;
