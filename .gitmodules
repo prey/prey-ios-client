@@ -11,8 +11,14 @@
 	path = Classes/InAppSubscriptions
 	url = git@github.com:prey/prey-ios-inapppurchase.git
 [submodule "Classes/json-framework"]
-        path = Classes/json-framework
-        url = git://github.com/stig/json-framework.git
+	path = Classes/json-framework
+	url = git://github.com/stig/json-framework.git
 [submodule "Classes/NSLogger"]
-        path = Classes/NSLogger
-        url = git://github.com/fpillet/NSLogger.git
+	path = Classes/NSLogger
+	url = git://github.com/fpillet/NSLogger.git
+[submodule "json-framework"]
+	path = json-framework
+	url = git://github.com/stig/json-framework.git
+[submodule "NSLogger"]
+	path = NSLogger
+	url = git://github.com/fpillet/NSLogger.git
