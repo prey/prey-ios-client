@@ -9,7 +9,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PreferencesController.h"
 #import "MBProgressHUD.h"
 #import "UIWebViewController.h"
 #import "GAITrackedViewController.h"

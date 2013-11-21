@@ -27,9 +27,6 @@
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *viewController;
 
-- (void)showOldUserWizard;
-- (void)showNewUserWizard;
-- (void)showPreferences;
 - (void)showAlert: (NSString *) textToShow;
 - (void)showFakeScreen;
 - (void)registerForRemoteNotifications;

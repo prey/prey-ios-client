@@ -12,6 +12,7 @@
 #import "CongratulationsController.h"
 #import "PreyAppDelegate.h"
 #import "PreyRunner.h"
+#import "Constants.h"
 
 @interface SetupControllerTemplate () 
 
@@ -24,14 +25,11 @@
 
 @implementation UINavigationBar (UINavigationBarCustomDraw)
 
-- (void) drawRect:(CGRect)rect {
+- (void) drawRect:(CGRect)rect
+{
+    [self setTintColor:[UIColor colorWithRed:0.42f green:0.42f blue:0.42f alpha:1]];
     
-    [self setTintColor:[UIColor colorWithRed:0.42f
-                                       green: 0.42f
-                                        blue:0.42f 
-                                       alpha:1]];
-    
-        [[UIImage imageNamed:@"navbarbg.png"] drawInRect:rect];
+    [[UIImage imageNamed:@"navbarbg.png"] drawInRect:rect];
 }
 
 @end
@@ -88,25 +86,26 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {	
     
-    /*if ([[[UIDevice currentDevice] systemVersion] isEqualToString:@"5.0"]) {
-        [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:0.42f
-                                                                              green: 0.42f
-                                                                               blue:0.42f 
-                                                                              alpha:1]];
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navbarbg.png"] forBarMetrics:UIBarMetricsDefault];
-    }*/
-    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
     
     strEmailMatchstring =   @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
 
     [self.tableView setBackgroundColor:[UIColor clearColor]];
     
-    UIView *fondo = [[UIView alloc] initWithFrame:self.tableView.frame];
+    UIView *fondo = [[UIView alloc] initWithFrame:screenRect];
     [fondo setBackgroundColor:[UIColor whiteColor]];
     
     UIImage *btm     = [UIImage imageNamed:@"bg-mnts2.png"];
     UIImageView *imv = [[UIImageView alloc] initWithImage:btm];
-    imv.frame        = CGRectMake(0, fondo.frame.size.height-143, 320, 99);
+    
+    if (IS_OS_7_OR_LATER)
+    {
+        imv.frame        = CGRectMake(0, screenHeight-99, 320, 99);
+    }
+    else
+        imv.frame        = CGRectMake(0, screenHeight-143, 320, 99); // 143
+
 
     [fondo addSubview:imv];
     
@@ -116,7 +115,6 @@
     
 	[super viewDidLoad];
 }
-
 
 /*
 // Override to allow orientations other than the default portrait orientation.

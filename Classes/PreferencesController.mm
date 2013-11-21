@@ -19,6 +19,7 @@
 #import "IAPHelper.h"
 #import "StoreControllerViewController.h"
 #import "SignificantLocationController.h"
+#import "Constants.h"
 
 #import "ReviewRequest.h"
 
@@ -97,10 +98,33 @@
 
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    if (IS_OS_7_OR_LATER)
+    {
+        if (section == 0)
+            return 35;
+        else
+            return nil;
+    }
+    else
+        return -1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (IS_OS_7_OR_LATER)
+        return nil;
+    else
+        return -1;
+}
+
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	
     switch (section) {
+        case 0:
+            return NSLocalizedString(@"Information",nil);;
+            break;
         case 1:
 			return NSLocalizedString(@"Settings",nil);
 			break;
@@ -447,31 +471,33 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidLoad
 {
-     if (ReviewRequest::ShouldAskForReview())
-         ReviewRequest::AskForReview();
-     
-     
-     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:[[[UIView alloc] initWithFrame:CGRectZero] autorelease]]autorelease];
-     HUD = nil;
-     self.title = NSLocalizedString(@"Preferences", nil);
-     [self.tableView setBackgroundColor:[UIColor whiteColor]];
-     
-     accManager = [[AccuracyManager alloc] init];
-     delayManager = [[DelayManager alloc] init];
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:kProductsLoadedNotification object:nil];
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
+    if (ReviewRequest::ShouldAskForReview())
+        ReviewRequest::AskForReview();
+    
+    HUD = nil;
+    self.title = NSLocalizedString(@"Preferences", nil);
+    [self.tableView setBackgroundView: nil];
+    [self.tableView setBackgroundColor:[UIColor whiteColor]];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    accManager = [[AccuracyManager alloc] init];
+    delayManager = [[DelayManager alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:kProductsLoadedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
+    
+    
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    [self.navigationController setToolbarHidden:YES animated:NO];
+    
+}
 
-     
-     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-     [self.navigationController setNavigationBarHidden:NO animated:NO];
-     [self.navigationController setToolbarHidden:YES animated:NO];
-     [[UIApplication sharedApplication] setStatusBarHidden:NO];
- }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

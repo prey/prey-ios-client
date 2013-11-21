@@ -24,8 +24,8 @@
 - (IBAction) okPressed: (id) sender{
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     
-    PreferencesController *preferencesController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-    [appDelegate.viewController pushViewController:preferencesController animated:NO];
+    PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
+    [appDelegate.viewController setViewControllers:[NSArray arrayWithObject:preferencesController] animated:NO];
     [preferencesController release];
     
     if ([self.parentViewController respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) // Check iOS 5.0 or later

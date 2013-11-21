@@ -12,6 +12,8 @@
 #import "User.h"
 #import "PreyConfig.h"
 #import <CoreLocation/CoreLocation.h>
+#import "PreferencesController.h"
+#import "Constants.h"
 
 @interface LoginController()
 
@@ -42,16 +44,14 @@
     @try {
         User *user = [User allocWithEmail: config.email password: loginPassword.text];
         [config setPro:user.isPro];
-		PreferencesController *preferencesViewController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-		preferencesViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        
+        PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
+        preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         [self.navigationController setNavigationBarHidden:NO animated:NO];
-        [self.navigationController pushViewController:preferencesViewController animated:YES];
-        [preferencesViewController release];
-		/*
-        [self presentModalViewController:preferencesViewController animated:YES];
-		
-         */
+        [self.navigationController pushViewController:preferencesController animated:YES];
+        [preferencesController release];
 		[user release];
+        
 	} @catch (NSException *e)  {
         NSString *title = nil;
         NSString *message = nil;
@@ -319,6 +319,15 @@
     }
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
+    
+    if (IS_OS_7_OR_LATER)
+    {
+        CGRect screenRect    = [[UIScreen mainScreen] bounds];
+        CGFloat screenWidth  = screenRect.size.width;
+        
+        UITableView *tmpTableView = (UITableView*)[scrollView viewWithTag:10];
+        tmpTableView.center = CGPointMake(screenWidth/2, 40);
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -396,6 +405,8 @@
         }
     }
 }
+
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     int page = floor(self.scrollView.contentOffset.x/self.scrollView.frame.size.width);
     if (page != 0) {

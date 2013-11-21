@@ -256,7 +256,9 @@
                 nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
         }
 		else
-			nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
+        {
+            nextController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
+        }
     else
     {
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
@@ -267,7 +269,7 @@
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
 	[viewController setToolbarHidden:YES animated:NO];
 	[viewController setNavigationBarHidden:YES animated:NO];
-
+    
     if ([viewController respondsToSelector:@selector(isBeingDismissed)])  // Supports iOS5 or later
     {
         [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarbg.png"] forBarMetrics:UIBarMetricsDefault];
@@ -302,56 +304,6 @@
 -(void)animDone:(NSString*) animationID finished:(BOOL) finished context:(void*) context
 {
 	// Add code here to be executed when the animation is done
-}
-
-#pragma mark -
-#pragma mark Wizards and preferences delegate methods
-
-- (void)showOldUserWizard {
-	OldUserController *ouController = [[OldUserController alloc] initWithStyle:UITableViewStyleGrouped];
-    ouController.title = NSLocalizedString(@"Log in to Prey",nil);
-	[viewController pushViewController:ouController animated:YES];
-	[ouController release];
-}
-
-- (void)showNewUserWizard {
-	NewUserController *nuController = [[NewUserController alloc] initWithStyle:UITableViewStyleGrouped];
-	nuController.title = NSLocalizedString(@"Create Prey account",nil);
-    
-	[viewController pushViewController:nuController animated:YES];
-	[nuController release];
-}
-
-- (void)showPreferences {
-
-	PreferencesController *preferencesController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
-	CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
-	preferencesController.view.frame = applicationFrame;
-	
-	// Begin animation setup
-	[UIView beginAnimations:nil context:NULL];
-	
-	// Set duration for animation
-	[UIView setAnimationDuration:1];
-	
-	// Set function to be called when animation is complete
-	[UIView setAnimationDidStopSelector: @selector(animDone:finished:context:)];	
-	// Set the delegate (This object must have the function animDone)
-	[UIView setAnimationDelegate:self];
-	
-	// Set Animation type and which UIView should animate
-	[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
-	
-	for (UIView *subview in window.subviews)
-		[subview removeFromSuperview];
-
-	// Add subview to the UIView set in the previous line
-	[window addSubview:preferencesController.view];
-	
-	//Start the animation
-	[UIView commitAnimations];
-	[preferencesController release];
-	
 }
 
 
