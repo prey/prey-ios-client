@@ -12,6 +12,10 @@
 #import "User.h"
 #import "Device.h"
 #import "PreyConfig.h"
+#import "GAITrackedViewController.h"
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
+#import "GAIFields.h"
 
 
 @interface NewUserController () 
@@ -21,6 +25,8 @@
 @end
 
 @implementation NewUserController
+
+@synthesize name, email, password, repassword;
 
 #pragma mark -
 #pragma mark Private methods
@@ -259,6 +265,12 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"New User"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+
+    
 	name = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
 	name.clearsOnBeginEditing = NO;
 	name.returnKeyType = UIReturnKeyNext;

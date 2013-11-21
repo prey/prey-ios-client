@@ -19,4 +19,10 @@
 	UITextField *repassword;
 }
 
+@property (nonatomic, retain) UITextField *name;
+@property (nonatomic, retain) UITextField *email;
+@property (nonatomic, retain) UITextField *password;
+@property (nonatomic, retain) UITextField *repassword;
+
+
 @end

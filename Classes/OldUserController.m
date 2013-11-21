@@ -14,8 +14,10 @@
 #import "Device.h"
 #import "PreyConfig.h"
 #import "PreyAppDelegate.h"
-
-
+#import "GAITrackedViewController.h"
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
+#import "GAIFields.h"
 
 @interface OldUserController () 
 
@@ -116,6 +118,7 @@
     
 	if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        
 		UILabel *label =[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 75, 25)];
 		label.textAlignment = UITextAlignmentLeft;
 		label.tag = kLabelTag;
@@ -243,6 +246,11 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Old User"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+    
     
 	email = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
 	email.clearsOnBeginEditing = NO;
