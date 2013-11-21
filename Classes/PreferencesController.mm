@@ -20,7 +20,7 @@
 #import "StoreControllerViewController.h"
 #import "SignificantLocationController.h"
 #import "Constants.h"
-
+#import <Social/Social.h>
 #import "ReviewRequest.h"
 
 @interface PreferencesController()
@@ -76,14 +76,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-	switch (section) {
+    int numberRow = 1;
+	switch (section)
+    {
         case 0:
-            if ([[PreyConfig instance] isPro])
-                return 1;
-            if ([[[IAPHelper sharedHelper] products] count] == 0) {
-                return 1;
-            }
-            return 2;
+            if (![[PreyConfig instance] isPro])
+                numberRow++;
+            
+            if ([self isSocialFrameworkAvailable])
+                numberRow+=2;
+            
+            return numberRow;
             break;
 		case 1:
 			return 3;
@@ -153,7 +156,16 @@
             if ([indexPath row] == 0) {
                 cell.textLabel.text = NSLocalizedString(@"Current Location",nil);
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            } else if ([indexPath row] == 1) {
+            }
+            else if ([indexPath row] == 1) {
+                cell.textLabel.text = NSLocalizedString(@"Share on Facebook",nil);
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+            else if ([indexPath row] == 2) {
+                cell.textLabel.text = NSLocalizedString(@"Share on Twitter",nil);
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+            else if ([indexPath row] == 3) {
                 cell.textLabel.text = NSLocalizedString(@"Upgrade to Pro",nil);
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
@@ -222,12 +234,19 @@
                 [self.navigationController pushViewController:deviceMapController animated:YES];
                 [deviceMapController release];
             }
-            else if ([indexPath row] == 1)
+            else if ([indexPath row] == 1) {
+                [self postToSocialFramework:SLServiceTypeFacebook];
+            }
+            else if ([indexPath row] == 2) {
+                [self postToSocialFramework:SLServiceTypeTwitter];
+            }
+            else if ([indexPath row] == 3)
             {
                 StoreControllerViewController *viewController = [[StoreControllerViewController alloc] init];
                 [self.navigationController pushViewController:viewController animated:YES];
                 [viewController release];
             }
+            break;
 		case 1:
             if ([indexPath row] == 2){
 				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil) destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) otherButtonTitles:nil];
@@ -503,7 +522,55 @@
 {
     return YES;
 }
- 
+
+
+#pragma mark -
+#pragma mark Social Framework
+
+- (BOOL)isSocialFrameworkAvailable
+{
+    if([SLComposeViewController class])
+        return YES;
+    else
+        return NO;
+}
+
+- (void)postToSocialFramework:(NSString *)socialNetwork
+{
+    BOOL isAvailable = [SLComposeViewController isAvailableForServiceType:socialNetwork];
+    if(isAvailable)
+    {
+        SLComposeViewController * composeVC = [SLComposeViewController composeViewControllerForServiceType:socialNetwork];
+        if(composeVC)
+        {
+            SLComposeViewControllerCompletionHandler myBlock = ^(SLComposeViewControllerResult result)
+            {
+                if (result == SLComposeViewControllerResultCancelled)
+                    NSLog(@"Cancelled");
+                else
+                    [self displayErrorAlert:@"Thanks, you have made the world a better and safer place." title:@"Message"];
+                
+                [composeVC dismissViewControllerAnimated:YES completion:Nil];
+            };
+            
+            composeVC.completionHandler =myBlock;
+            [composeVC setInitialText:[NSString stringWithFormat:@"I just protected my %@ from loss and theft with Prey. You can also protect yours for free.", [UIDevice currentDevice].model]];
+            [composeVC addURL:[NSURL URLWithString:@"http://preyproject.com/download?utm_source=iOS"]];
+            
+            [self presentViewController: composeVC animated: YES completion: nil];
+        }
+    }
+    else
+        [self displayErrorAlert:@"Is not available" title:NSLocalizedString(@"Access Denied",nil)];
+}
+
+- (void)displayErrorAlert: (NSString *)alertMessage title:(NSString*)titleMessage
+{
+    UIAlertView * anAlert = [[UIAlertView alloc] initWithTitle:titleMessage message: alertMessage delegate:self cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+    
+    [anAlert show];
+}
+
 
 #pragma mark -
 #pragma mark Memory management

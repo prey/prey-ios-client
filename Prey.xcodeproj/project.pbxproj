@@ -104,6 +104,7 @@
 		3BDDA8BE183561360024AEE9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDDA8BC183561360024AEE9 /* CoreData.framework */; };
 		3BDDA8BF183561360024AEE9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDDA8BD183561360024AEE9 /* libz.dylib */; };
 		3BDDA8C8183561960024AEE9 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDDA8C7183561960024AEE9 /* libGoogleAnalyticsServices.a */; };
+		3BE6EE20183E9204007FBE3A /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE6EE1F183E9204007FBE3A /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3BF03704167835CD0086A7A7 /* GrettingsProViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */; };
 		3BF0371016783C790086A7A7 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370716783C790086A7A7 /* Default-Portrait.png */; };
 		3BF0371116783C790086A7A7 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370816783C790086A7A7 /* Default.png */; };
@@ -306,6 +307,7 @@
 		3BDDA8C5183561960024AEE9 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
 		3BDDA8C6183561960024AEE9 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
 		3BDDA8C7183561960024AEE9 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		3BE6EE1F183E9204007FBE3A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPad.xib"; sourceTree = "<group>"; };
 		3BF0370716783C790086A7A7 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		3BF0370816783C790086A7A7 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE6EE20183E9204007FBE3A /* Social.framework in Frameworks */,
 				3BDDA8BE183561360024AEE9 /* CoreData.framework in Frameworks */,
 				3BDDA8BF183561360024AEE9 /* libz.dylib in Frameworks */,
 				0774BF181517B90D0016D3E6 /* libsqlite3.0.dylib in Frameworks */,
@@ -769,6 +772,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3BE6EE1F183E9204007FBE3A /* Social.framework */,
 				3BDDA8BD183561360024AEE9 /* libz.dylib */,
 				0797FC651459BBA5000DCA46 /* libz.1.2.5.dylib */,
 				0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */,
@@ -887,7 +891,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Fork Ltd.";
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Prey" */;
@@ -1083,18 +1087,15 @@
 		07DA04A613213F2200FECCAD /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7,
-					armv6,
-				);
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";
@@ -1109,15 +1110,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv7,
-					armv6,
-				);
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -1137,10 +1135,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv7,
-					armv6,
-				);
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1148,6 +1142,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -1167,15 +1162,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv7,
-					armv6,
-				);
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -1194,19 +1186,16 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7,
-					armv6,
-				);
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				ONLY_ACTIVE_ARCH = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-licucore";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1218,19 +1207,16 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7,
-					armv6,
-				);
 				"ARCHS[sdk=*]" = "armv6,armv7";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";

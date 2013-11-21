@@ -266,6 +266,7 @@
         else
             nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
     }
+    
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
 	[viewController setToolbarHidden:YES animated:NO];
 	[viewController setNavigationBarHidden:YES animated:NO];
@@ -284,6 +285,9 @@
 	[nextController release];
 
 }
+
+
+
 - (void)updateMissingStatus:(id)data {
     [(PreyConfig*)data updateMissingStatus];
 }
