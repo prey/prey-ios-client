@@ -105,6 +105,7 @@
 		3BDDA8BF183561360024AEE9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDDA8BD183561360024AEE9 /* libz.dylib */; };
 		3BDDA8C8183561960024AEE9 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BDDA8C7183561960024AEE9 /* libGoogleAnalyticsServices.a */; };
 		3BE6EE20183E9204007FBE3A /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE6EE1F183E9204007FBE3A /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3BE6EE26183EEAD2007FBE3A /* PreyDeployment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE6EE25183EEAD2007FBE3A /* PreyDeployment.m */; };
 		3BF03704167835CD0086A7A7 /* GrettingsProViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */; };
 		3BF0371016783C790086A7A7 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370716783C790086A7A7 /* Default-Portrait.png */; };
 		3BF0371116783C790086A7A7 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF0370816783C790086A7A7 /* Default.png */; };
@@ -308,6 +309,8 @@
 		3BDDA8C6183561960024AEE9 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
 		3BDDA8C7183561960024AEE9 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		3BE6EE1F183E9204007FBE3A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		3BE6EE24183EEAD2007FBE3A /* PreyDeployment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyDeployment.h; path = Classes/PreyDeployment.h; sourceTree = "<group>"; };
+		3BE6EE25183EEAD2007FBE3A /* PreyDeployment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyDeployment.m; path = Classes/PreyDeployment.m; sourceTree = "<group>"; };
 		3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPad.xib"; sourceTree = "<group>"; };
 		3BF0370716783C790086A7A7 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		3BF0370816783C790086A7A7 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -615,6 +618,8 @@
 			children = (
 				07132443134635A100F7EFD8 /* PreyConfig.h */,
 				07132444134635A100F7EFD8 /* PreyConfig.m */,
+				3BE6EE24183EEAD2007FBE3A /* PreyDeployment.h */,
+				3BE6EE25183EEAD2007FBE3A /* PreyDeployment.m */,
 				07132445134635A100F7EFD8 /* Report.h */,
 				07132446134635A100F7EFD8 /* Report.m */,
 				07132447134635A100F7EFD8 /* User.h */,
@@ -1045,6 +1050,7 @@
 				5A7A12A7146D70FF00B14176 /* ASINetworkQueue.m in Sources */,
 				5A7A12AA146D739100B14176 /* MBProgressHUD.m in Sources */,
 				3B2A5BAA183BB325009ABA04 /* Reachability.m in Sources */,
+				3BE6EE26183EEAD2007FBE3A /* PreyDeployment.m in Sources */,
 				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
 				5A1B7D3D150A896600371D13 /* DeviceMapController.m in Sources */,
 				5A8DA67D150E4A3500A05BBD /* IAPHelper.m in Sources */,
@@ -1123,6 +1129,7 @@
 					"$(inherited)",
 					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/GoogleAnalytics",
 				);
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1150,6 +1157,7 @@
 					"$(inherited)",
 					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/GoogleAnalytics",
 				);
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1175,6 +1183,7 @@
 					"$(inherited)",
 					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/GoogleAnalytics",
 				);
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

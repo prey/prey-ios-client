@@ -22,6 +22,7 @@
 #import "PicturesController.h"
 #import "IAPHelper.h"
 #import "GAI.h"
+#import "PreyDeployment.h"
 
 @interface PreyAppDelegate()
 
@@ -261,10 +262,19 @@
         }
     else
     {
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
+        PreyDeployment *preyDeployment = [[PreyDeployment alloc] init];
+        if ([preyDeployment isCorrect])
+        {
+            nextController = [preyDeployment returnViewController];
+        }
         else
-            nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
+        {
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+                nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
+            else
+                nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
+        }
+        [preyDeployment release];
     }
     
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
@@ -283,7 +293,6 @@
     [window setRootViewController:viewController];
     [window makeKeyAndVisible];
 	[nextController release];
-
 }
 
 

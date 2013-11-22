@@ -45,6 +45,7 @@
 
 + (PreyConfig*) instance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;
++ (PreyConfig*) initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device;
 - (void) updateMissingStatus; //get status from Control Panel
 - (void) loadDefaultValues;
 - (void) saveValues;

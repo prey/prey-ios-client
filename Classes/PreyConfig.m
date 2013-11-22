@@ -63,6 +63,22 @@ static PreyConfig *_instance = nil;
 	return [newConfig autorelease];
 }
 
++ (PreyConfig*) initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device
+{
+	PreyConfig *newConfig = [[PreyConfig alloc] init];
+	newConfig.apiKey = apiKeyUser;
+    newConfig.pro = NO;
+	newConfig.deviceKey = [device deviceKey];
+#warning != ¿? falta el email con el apiKey para el Deployment
+	newConfig.email = nil;
+	[newConfig loadDefaultValues];
+    [newConfig saveValues];
+    newConfig.alreadyRegistered = YES;
+    _instance = nil; //to force config reload on next +instance call.
+	return [newConfig autorelease];
+}
+
+
 - (void) loadDefaultValues {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	double accSet = [defaults doubleForKey:ACCURACY];
