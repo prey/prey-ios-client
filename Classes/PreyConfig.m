@@ -69,8 +69,7 @@ static PreyConfig *_instance = nil;
 	newConfig.apiKey = apiKeyUser;
     newConfig.pro = NO;
 	newConfig.deviceKey = [device deviceKey];
-#warning != ¿? falta el email con el apiKey para el Deployment
-	newConfig.email = nil;
+	newConfig.email = apiKeyUser;
 	[newConfig loadDefaultValues];
     [newConfig saveValues];
     newConfig.alreadyRegistered = YES;
