@@ -208,6 +208,8 @@
 
 "Yes, rate Prey!" = "Sim, avaliar o Prey!";
 
+"Information" = "Informação";
+
 "Yes, accept it!" = "Sim, aceito!";
 
 "Rate this update with ★★★★★ on the App Store then await further instructions." = "Avalie esta atualização com ★ ★ ★ ★ ★ na App Store, em seguida, aguardar mais instruções.";
@@ -217,5 +219,3 @@
 "Missing" = "Desaparecido";
 
 "Execution control" = "Controle de execução";
-
-"Information" = "Informação";
