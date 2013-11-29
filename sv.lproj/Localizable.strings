@@ -208,6 +208,8 @@
 
 "Yes, rate Prey!" = "Ja, betygsätt Prey!";
 
+"Information" = "Uppgifter";
+
 "Yes, accept it!" = "Jag accepterar!";
 
 "Rate this update with ★★★★★ on the App Store then await further instructions." = "Ge den här uppdateringen betyget ★★★★★ i App Store och invänta därefter vidare instruktioner.";
@@ -215,5 +217,3 @@
 "Your mission, should you decide to accept it" = "Ditt uppdrag, om du väljer att acceptera det";
 
 "Missing" = "Saknas";
-
-"Information" = "Uppgifter";
