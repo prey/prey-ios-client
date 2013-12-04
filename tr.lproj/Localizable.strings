@@ -208,6 +208,8 @@
 
 "Yes, rate Prey!" = "Evet, Prey'e oyumu kullanmak istiyorum!";
 
+"Information" = "Bilgi";
+
 "Yes, accept it!" = "Evet, kabul et!";
 
 "Rate this update with ★★★★★ on the App Store then await further instructions." = "Bu güncelleme için App Store'den ★★★★★ oy veriniz.";
@@ -215,5 +217,3 @@
 "Your mission, should you decide to accept it" = "Görevin, ki eğer kabul edersen";
 
 "Missing" = "Kayıp";
-
-"Information" = "Bilgi";
