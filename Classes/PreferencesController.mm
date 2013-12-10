@@ -22,6 +22,9 @@
 #import "Constants.h"
 #import <Social/Social.h>
 #import "ReviewRequest.h"
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
+#import "GAIFields.h"
 
 @interface PreferencesController()
 
@@ -492,6 +495,11 @@
 
 - (void)viewDidLoad
 {
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Preferences"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+
+    
     if (ReviewRequest::ShouldAskForReview())
         ReviewRequest::AskForReview();
     
