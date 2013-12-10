@@ -42,7 +42,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.6.3</string>
 	<key>CFBundleVersion</key>
-	<string>20131128</string>
+	<string>20131210</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>

@@ -26,7 +26,7 @@
 
 @implementation NewUserController
 
-@synthesize name, email, password, repassword;
+@synthesize name, email, password, repassword, buttonCell;
 
 #pragma mark -
 #pragma mark Private methods
@@ -348,6 +348,7 @@
 	[email release];
 	[password release];
 	[repassword release];
+    [buttonCell release];
 }
 
 

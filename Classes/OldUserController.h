@@ -18,11 +18,11 @@
 	
 	UITextField *email;
 	UITextField *password;
-
-
+    UITableViewCell *buttonCell;
 }
 
 @property (nonatomic, retain) UITextField *email;
 @property (nonatomic, retain) UITextField *password;
+@property (nonatomic, retain) UITableViewCell *buttonCell;
 
 @end

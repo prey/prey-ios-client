@@ -27,7 +27,7 @@
 
 @implementation OldUserController
 
-@synthesize email, password;
+@synthesize email, password, buttonCell;
 
 - (void) addDeviceForCurrentUser {
 /*
@@ -314,8 +314,7 @@
     [super dealloc];
 	[email release];
 	[password release];
-	//[buttonCell release];
-
+	[buttonCell release];
 }
 
 

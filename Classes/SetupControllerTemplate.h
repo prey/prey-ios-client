@@ -17,7 +17,6 @@
 @interface SetupControllerTemplate : UITableViewController <MBProgressHUDDelegate> {
 	
 	MBProgressHUD *HUD;
-	UITableViewCell *buttonCell;
 	NSString *strEmailMatchstring;
 	BOOL enableToSubmit;
 }
