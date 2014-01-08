@@ -15,7 +15,7 @@
 #import "PreyRestHttp.h"
 #import "WelcomeController.h"
 #import "LogController.h"
-#import "DeviceMapController.h"
+//#import "DeviceMapController.h"
 #import "IAPHelper.h"
 #import "StoreControllerViewController.h"
 #import "SignificantLocationController.h"
@@ -36,7 +36,7 @@
 
 @implementation PreferencesController
 
-@synthesize accManager,delayManager;
+@synthesize delayManager;
 
 #pragma mark -
 #pragma mark Private Methods
@@ -233,9 +233,11 @@
         case 0:
             if ([indexPath row] == 0)
             {
+                /*
                 DeviceMapController *deviceMapController = [[DeviceMapController alloc] init];
                 [self.navigationController pushViewController:deviceMapController animated:YES];
                 [deviceMapController release];
+                */
             }
             else if ([indexPath row] == 1) {
                 [self postToSocialFramework:SLServiceTypeFacebook];
@@ -321,7 +323,6 @@
 
 - (void)accuracyPickerSelected 
 {
-	[accManager hidePickerOnView:self.view fromTableView:self.tableView];
 	[self setupNavigatorForPicker:NO withSelector:nil];
 
 }
@@ -468,10 +469,6 @@
 }
 
 
-- (IBAction)changeReportState:(UISwitch*)missingSwitch{
-	[PreyConfig instance].alertOnReport = missingSwitch.on;	
-}
-
 #pragma mark -
 #pragma mark Events received
 - (void)missingStateUpdated:(NSNotification *)notification
@@ -495,36 +492,26 @@
 
 - (void)viewDidLoad
 {
-    id tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:@"Preferences"];
-    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
-
-    
-    if (ReviewRequest::ShouldAskForReview())
-        ReviewRequest::AskForReview();
-    
-    HUD = nil;
-    self.title = NSLocalizedString(@"Preferences", nil);
-    [self.tableView setBackgroundView: nil];
-    [self.tableView setBackgroundColor:[UIColor whiteColor]];
-    
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    
-    accManager = [[AccuracyManager alloc] init];
-    delayManager = [[DelayManager alloc] init];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:kProductsLoadedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
-    
-    
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
-    [self.navigationController setToolbarHidden:YES animated:NO];
-    
-}
-
+     if (ReviewRequest::ShouldAskForReview())
+         ReviewRequest::AskForReview();
+     
+     
+     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:[[[UIView alloc] initWithFrame:CGRectZero] autorelease]]autorelease];
+     HUD = nil;
+     self.title = NSLocalizedString(@"Preferences", nil);
+     [self.tableView setBackgroundColor:[UIColor whiteColor]];
+     
+     delayManager = [[DelayManager alloc] init];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:kProductsLoadedNotification object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
+     
+     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+     [self.navigationController setNavigationBarHidden:NO animated:NO];
+     [self.navigationController setToolbarHidden:YES animated:NO];
+     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+ }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -593,7 +580,6 @@
         [HUD removeFromSuperview];
         [HUD release];
     }
-	[accManager release];
 	[delayManager release];
     
     self.tableView.delegate = nil;

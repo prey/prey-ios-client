@@ -11,9 +11,10 @@
 #import "LoginController.h"
 #import "User.h"
 #import "PreyConfig.h"
+#import "PreyRestHttp.h"
 #import <CoreLocation/CoreLocation.h>
-#import "PreferencesController.h"
-#import "Constants.h"
+#import "PreyAppDelegate.h"
+#import "WizardController.h"
 
 @interface LoginController()
 
@@ -45,11 +46,15 @@
         User *user = [User allocWithEmail: config.email password: loginPassword.text];
         [config setPro:user.isPro];
         
-        PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
-        preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self.navigationController setNavigationBarHidden:NO animated:NO];
-        [self.navigationController pushViewController:preferencesController animated:YES];
-        [preferencesController release];
+        WizardController *wizardController;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
+        else
+            wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+        
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        [appDelegate.viewController pushViewController:wizardController animated:NO];
+        [wizardController release];
 		[user release];
         
 	} @catch (NSException *e)  {
@@ -78,12 +83,15 @@
 		return;
 	}
 	[self hideKeyboard];
+    /*
 	HUD = [[MBProgressHUD alloc] initWithView:self.view];
     HUD.delegate = self;
     HUD.labelText = NSLocalizedString(@"Please wait",nil);
 	HUD.detailsLabelText = NSLocalizedString(@"Checking your password...",nil);
 	[self.view addSubview:HUD];
-	[HUD showWhileExecuting:@selector(checkPassword) onTarget:self withObject:nil animated:YES];
+    [HUD showWhileExecuting:@selector(checkPassword) onTarget:self withObject:nil animated:YES];
+    */
+    [self checkPassword];
 }
 
 - (void) hideKeyboard {
@@ -207,7 +215,7 @@
 {
     return YES;
 }
-
+/*
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     if (loginPassword.editing)
@@ -268,7 +276,7 @@
         }];
     }
 }
-
+*/
 #pragma mark -
 #pragma mark view methods
 
@@ -302,6 +310,8 @@
     [self.loginPassword addTarget:self
                            action:@selector(textFieldFinished:)
                  forControlEvents:UIControlEventEditingDidEndOnExit];
+        
+    //self.scrollView.hidden = YES;
     
     [super viewDidLoad];
 }
@@ -389,11 +399,10 @@
     if (indexPath.row == 0)
     {
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width, 0) animated:YES];
+        
     }
     else if (indexPath.row == 1)
     {
-        //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://panel.preyproject.com"]];
-        
         UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self forOrientation:UIInterfaceOrientationPortrait setURL:@"http://panel.preyproject.com"];
         
         if (controller)

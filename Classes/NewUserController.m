@@ -12,11 +12,7 @@
 #import "User.h"
 #import "Device.h"
 #import "PreyConfig.h"
-#import "GAITrackedViewController.h"
-#import "GAI.h"
-#import "GAIDictionaryBuilder.h"
-#import "GAIFields.h"
-
+#import "PreyAppDelegate.h"
 
 @interface NewUserController () 
 
@@ -68,7 +64,7 @@
 		if (config != nil){
 			NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
             [super activatePreyService];
-			[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
+			[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];            
 		}
 	}
 	@catch (NSException * e) {
