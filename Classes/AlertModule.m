@@ -14,24 +14,21 @@
 
 @implementation AlertModule
 
-- (void)main {
-    NSString *alertMessage = [self.configParms objectForKey:@"alert_message"];
+- (void)start {
+    [super notifyCommandResponse:[self getName] withStatus:@"started"];
+    NSString *alertMessage = [super.options objectForKey:@"alert_message"];
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];
         if (localNotif) {
             localNotif.alertBody = alertMessage;
             localNotif.hasAction = NO;
-            //localNotif.alertAction = NSLocalizedString(@"Read Message", nil);
-            //localNotif.soundName = @"alarmsound.caf";
-            //localNotif.applicationIconBadgeNumber = 1;
             [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
             [localNotif release];
         }
     } else {
         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-        //SEL s = NSSelectorFromString(@"showAlert");
-        //[appDelegate performSelector:s withObject:alertMessage afterDelay:2];
         [appDelegate showAlert:alertMessage];
+        [super notifyCommandResponse:[self getName] withStatus:@"stopped"];
     }
 }
 

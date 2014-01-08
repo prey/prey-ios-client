@@ -11,7 +11,6 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 
-
 @interface PreyAppDelegate : NSObject <UIApplicationDelegate, UINavigationControllerDelegate, UIWebViewDelegate> {
     UIWindow *window;
 	UINavigationController *viewController;

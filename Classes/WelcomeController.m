@@ -13,6 +13,9 @@
 #import "OldUserController.h"
 #import "PreyAppDelegate.h"
 
+#import "PreyRestHttp.h"
+#import "PreyConfig.h"
+
 @implementation WelcomeController
 
 @synthesize buttnewUser, buttoldUser;
@@ -50,6 +53,7 @@
 {
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
+
 }
 
 - (void) viewWillDisappear:(BOOL)animated

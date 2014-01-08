@@ -65,14 +65,15 @@
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
     if (abs(howRecent) < 15.0){
 		PreyLogMessageAndFile(@"Prey SignificantLocationController", 3, @"New location received. Checking device's missing status on the control panel");
-        PreyRestHttp *http = [[PreyRestHttp alloc] init];
+        PreyRestHttp *preyRestHttp = [[PreyRestHttp alloc] init];
         PreyConfig *config = [PreyConfig instance];
         DeviceModulesConfig *modulesConfig = nil;
         //if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
             UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication]
                                                  beginBackgroundTaskWithExpirationHandler:^{}];
-            
-            modulesConfig = [[http getXMLforUser:[config apiKey] device:[config deviceKey]] retain]; 
+        
+        modulesConfig = [[preyRestHttp getXMLforUser] retain];
+            //modulesConfig = [[preyRestHttp getXMLforUser:[config apiKey] device:[config deviceKey]] retain];
             if (modulesConfig.missing){
                 PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"[bg task] Missing device! Starting Prey service now!");
                 [[PreyRunner instance] startPreyService];                  
@@ -91,7 +92,7 @@
         }*/
         
         [modulesConfig release];
-        [http release];
+        [preyRestHttp release];
     }
 	else
 		PreyLogMessageAndFile(@"Prey SignificantLocationController", 10, @"Location received too old, discarded!");

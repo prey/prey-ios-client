@@ -15,24 +15,21 @@
 @implementation PictureModule
 
 
--(void) main {
-    reportToFill.waitForPicture = YES;
-    camera = [self.configParms objectForKey:@"camera"];
-    [[PicturesController instance]take:[NSNumber numberWithInt:5] usingCamera:camera];
+-(void) get {
+    [[PicturesController instance]takePictureAndNotifyTo:@selector(pictureReady:) onTarget:self];
+}
+
+- (void) pictureReady:(UIImage *) picture {
+    //UIImageWriteToSavedPhotosAlbum(picture, nil, nil, nil);
+    [super createResponseFromData:UIImagePNGRepresentation(picture) withKey:[self getName]];
 }
 
 - (NSString *) getName {
-	return @"webcam";
+	return @"picture";
 }
 
-
-- (NSMutableDictionary *) reportData {
-    //parameters: {geo[lng]=-122.084095, geo[alt]=0.0, geo[lat]=37.422006, geo[acc]=0.0, api_key=rod8vlf13jco}
-    return nil;
-}
 
 - (void)dealloc {
-    [camera release];
 	[super dealloc];
 }
 

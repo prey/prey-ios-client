@@ -76,10 +76,10 @@
 	else if ([elementName isEqualToString:@"module"]) {
 		self.inModule = YES;
 		if (self.inModules) {
-			
+#warning Revisar :  Name:  ->  alarm, system, network			
 			NSString *name = [attributeDict objectForKey:@"name"];
 			NSString *active = [attributeDict objectForKey:@"active"];	
-			NSString *type = [attributeDict objectForKey:@"type"];	
+			NSString *type = [attributeDict objectForKey:@"type"];
 			[modulesConfig addModuleName:name ifActive:active ofType:type];
 		}
 	}
@@ -116,31 +116,20 @@
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {
-	if (self.inMissing){
-		PreyConfig *config = [PreyConfig instance];
-		modulesConfig.missing = [string isEqualToString:@"true"];
-		config.missing = [string isEqualToString:@"true"];							
-	}
-	else if (self.inDelay)
-		modulesConfig.delay=[NSNumber numberWithInt:[string intValue]];
-	else if (self.inPostUrl)
-		modulesConfig.postUrl = string;
-	else if (self.inAlertMessage)
-		[modulesConfig addConfigValue:string withKey:@"alert_message" forModuleName:@"alert"];
-    else if (self.inCameraToUse)
-		[modulesConfig addConfigValue:string withKey:@"camera" forModuleName:@"webcam"];
-    else if (self.inAccuracy){
+    if (self.inMissing){
         PreyConfig *config = [PreyConfig instance];
-        if ([string isEqualToString:@"min"])
-            config.desiredAccuracy = [[NSNumber numberWithDouble:kCLLocationAccuracyThreeKilometers] doubleValue];
-        if ([string isEqualToString:@"med"])
-            config.desiredAccuracy = [[NSNumber numberWithDouble:kCLLocationAccuracyNearestTenMeters] doubleValue];
-        if ([string isEqualToString:@"max"])
-            config.desiredAccuracy = [[NSNumber numberWithDouble:kCLLocationAccuracyBestForNavigation] doubleValue];
+        self.modulesConfig.missing = [string isEqualToString:@"true"];
+        config.missing = [string isEqualToString:@"true"];
     }
-	
+    else if (self.inDelay)
+        self.modulesConfig.delay=[NSNumber numberWithInt:[string intValue]];
+    else if (self.inPostUrl)
+        self.modulesConfig.postUrl = string;
+    else if (self.inAlertMessage)
+        [self.modulesConfig addConfigValue:string withKey:@"alert_message" forModuleName:@"alert"];
+    else if (self.inCameraToUse)
+        [self.modulesConfig addConfigValue:string withKey:@"camera" forModuleName:@"picture"];
 }
-
 
 - (void)dealloc {
 	[super dealloc];

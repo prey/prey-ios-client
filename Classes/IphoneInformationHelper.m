@@ -23,7 +23,7 @@
     else
         iphoneInfo.type = @"Phone";
 	
-	iphoneInfo.os = @"Ios"; //change to iOS
+	iphoneInfo.os = @"iOS";
     iphoneInfo.vendor = @"Apple";
     iphoneInfo.model = [[UIDevice currentDevice] platformString];
 	iphoneInfo.version = [[UIDevice currentDevice] systemVersion];
