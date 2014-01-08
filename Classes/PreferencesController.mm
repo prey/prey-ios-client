@@ -15,7 +15,7 @@
 #import "PreyRestHttp.h"
 #import "WelcomeController.h"
 #import "LogController.h"
-#import "DeviceMapController.h"
+//#import "DeviceMapController.h"
 #import "IAPHelper.h"
 #import "StoreControllerViewController.h"
 #import "SignificantLocationController.h"
@@ -194,9 +194,11 @@
         case 0:
             if ([indexPath row] == 0)
             {
+                /*
                 DeviceMapController *deviceMapController = [[DeviceMapController alloc] init];
                 [self.navigationController pushViewController:deviceMapController animated:YES];
                 [deviceMapController release];
+                */
             }
             else if ([indexPath row] == 1)
             {

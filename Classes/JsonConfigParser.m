@@ -17,7 +17,7 @@
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     NewModulesConfig *modulesConfig = [[NewModulesConfig alloc] init];
     
-    NSArray *jsonObjects = (NSArray*)[jsonParser objectWithString:requestString error:err];
+    NSArray *jsonObjects = (NSArray*)[jsonParser objectWithString:requestString];
     
     for (NSDictionary *dict in jsonObjects)
     {
