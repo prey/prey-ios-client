@@ -10,6 +10,7 @@
 
 #import "PicturesController.h"
 #import "PicturesControllerDelegate.h"
+#import "Constants.h"
 
 @interface PicturesController (privados)
 - (AVCaptureDevice *)frontFacingCameraIfAvailable;
@@ -88,14 +89,19 @@
         PreyLogMessage(@"PicturesController", 10, @"Device doesn't acceptp preset low. Can't take photo...");
         return;
     }
+    
     // (Javier) 2013.09.30: The Black photos issue iOS 7.0 :: AVCaptureDevice setActiveVideoMinFrameDuration
-    NSError *errorVideoMinFrame = nil;
-    if ([device lockForConfiguration:&errorVideoMinFrame]) {
-        [device setActiveVideoMinFrameDuration:CMTimeMake(1, 2)];
-        [device unlockForConfiguration];
-    } else {
-        PreyLogMessage(@"PicturesController", 10, @"Error taking picture: %@",errorVideoMinFrame);
+    if (IS_OS_7_OR_LATER)
+    {
+        NSError *errorVideoMinFrame = nil;
+        if ([device lockForConfiguration:&errorVideoMinFrame]) {
+            [device setActiveVideoMinFrameDuration:CMTimeMake(1, 2)];
+            [device unlockForConfiguration];
+        } else {
+            PreyLogMessage(@"PicturesController", 10, @"Error taking picture: %@",errorVideoMinFrame);
+        }
     }
+    
     
     // Create a device input with the device and add it to the session.
     PreyLogMessage(@"PicturesController", 10, @"Creating the input device...");
@@ -137,12 +143,14 @@
     
     // (Javier) 2013.03.14: The Pink photos issue
     
-    if ([output respondsToSelector:@selector(connectionWithMediaType:)]) // Check iOS 5.0 or later
+    float systemVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
+    
+    if ( (systemVersion >= 5.0) && (systemVersion < 7.0) )
     {
-        //AVCaptureConnection *connection = [output connectionWithMediaType:AVMediaTypeVideo];
-        //[connection setVideoMinFrameDuration:CMTimeMake(1, 2)];
+        AVCaptureConnection *connection = [output connectionWithMediaType:AVMediaTypeVideo];
+        [connection setVideoMinFrameDuration:CMTimeMake(1, 2)];
     }
-    else
+    else if (systemVersion < 5.0)
     {
         output.minFrameDuration = CMTimeMake(1, 2);
     }

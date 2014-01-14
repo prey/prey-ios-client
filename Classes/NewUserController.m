@@ -16,6 +16,10 @@
 #import "GAI.h"
 #import "GAIDictionaryBuilder.h"
 #import "GAIFields.h"
+#import "CongratulationsController.h"
+#import "PreyAppDelegate.h"
+#import "PreyRunner.h"
+#import "Constants.h"
 
 
 @interface NewUserController () 
@@ -26,7 +30,7 @@
 
 @implementation NewUserController
 
-@synthesize name, email, password, repassword, buttonCell;
+@synthesize name, email, password, repassword, buttonCell, strEmailMatchstring;
 
 #pragma mark -
 #pragma mark Private methods
@@ -67,7 +71,7 @@
 		config = [PreyConfig initWithUser: user andDevice:device];
 		if (config != nil){
 			NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
-            [super activatePreyService];
+            [self activatePreyService];
 			[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
 		}
 	}
@@ -251,24 +255,39 @@
 }
 
 
-#pragma mark -
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    
+- (void)viewDidLoad
+{
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"New User"];
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+
+
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    
+    strEmailMatchstring =   @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
+    
+    [self.tableView setBackgroundColor:[UIColor clearColor]];
+    
+    UIView *fondo = [[UIView alloc] initWithFrame:screenRect];
+    [fondo setBackgroundColor:[UIColor whiteColor]];
+    
+    UIImage *btm     = [UIImage imageNamed:@"bg-mnts2.png"];
+    UIImageView *imv = [[UIImageView alloc] initWithImage:btm];
+    
+    if (IS_OS_7_OR_LATER)
+    {
+        imv.frame        = CGRectMake(0, screenHeight-99, 320, 99);
+    }
+    else
+        imv.frame        = CGRectMake(0, screenHeight-143, 320, 99); // 143
+    
+    
+    [fondo addSubview:imv];
+    
+    [self.tableView setBackgroundView:fondo];
+    [imv release];
+    [fondo release];
 
     
 	name = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
@@ -349,6 +368,41 @@
 	[password release];
 	[repassword release];
     [buttonCell release];
+    [strEmailMatchstring release];
+}
+
+#pragma mark -
+#pragma mark Private methods
+
+- (void) showCongratsView:(id) congratsText
+{
+    CongratulationsController *congratsController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone" bundle:nil];
+    else
+        congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPad" bundle:nil];
+    
+    congratsController.txtToShow = (NSString*) congratsText;
+	[self.navigationController setNavigationBarHidden:YES animated:YES];
+	[self.navigationController pushViewController:congratsController animated:YES];
+	[congratsController release];
+}
+
+#pragma mark -
+#pragma mark MBProgressHUDDelegate methods
+
+- (void)hudWasHidden {
+    // Remove HUD from screen when the HUD was hidded
+    [HUD removeFromSuperview];
+    [HUD release];
+	
+}
+#pragma mark -
+
+- (void) activatePreyService {
+    [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
+    [[PreyRunner instance] startOnIntervalChecking];
 }
 
 

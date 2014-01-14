@@ -42,7 +42,6 @@
 		0713242F1346350100F7EFD8 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713242C1346350100F7EFD8 /* LocationController.m */; };
 		071324301346350100F7EFD8 /* LocationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713242E1346350100F7EFD8 /* LocationModule.m */; };
 		071324331346353C00F7EFD8 /* WelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324321346353C00F7EFD8 /* WelcomeController.m */; };
-		071324361346355000F7EFD8 /* SetupControllerTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324351346355000F7EFD8 /* SetupControllerTemplate.m */; };
 		0713243B1346356300F7EFD8 /* PreyLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324381346356300F7EFD8 /* PreyLogger.m */; };
 		0713243C1346356300F7EFD8 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243A1346356300F7EFD8 /* RegexKitLite.m */; };
 		0713243F1346357500F7EFD8 /* SignificantLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243E1346357500F7EFD8 /* SignificantLocationController.m */; };
@@ -213,8 +212,6 @@
 		0713242E1346350100F7EFD8 /* LocationModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = LocationModule.m; path = Classes/LocationModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324311346353C00F7EFD8 /* WelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = WelcomeController.h; path = Classes/WelcomeController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071324321346353C00F7EFD8 /* WelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = WelcomeController.m; path = Classes/WelcomeController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		071324341346355000F7EFD8 /* SetupControllerTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SetupControllerTemplate.h; path = Classes/SetupControllerTemplate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		071324351346355000F7EFD8 /* SetupControllerTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = SetupControllerTemplate.m; path = Classes/SetupControllerTemplate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324371346356300F7EFD8 /* PreyLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PreyLogger.h; path = Classes/PreyLogger.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071324381346356300F7EFD8 /* PreyLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PreyLogger.m; path = Classes/PreyLogger.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324391346356300F7EFD8 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegexKitLite.h; path = Classes/RegexKitLite.h; sourceTree = "<group>"; };
@@ -493,8 +490,6 @@
 		07178E9B126641A0007B290C /* Setup Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				071324341346355000F7EFD8 /* SetupControllerTemplate.h */,
-				071324351346355000F7EFD8 /* SetupControllerTemplate.m */,
 				07132422134634D900F7EFD8 /* OldUserController.h */,
 				07132423134634D900F7EFD8 /* OldUserController.m */,
 				07132425134634E600F7EFD8 /* NewUserController.h */,
@@ -1066,7 +1061,6 @@
 				0713242F1346350100F7EFD8 /* LocationController.m in Sources */,
 				071324301346350100F7EFD8 /* LocationModule.m in Sources */,
 				071324331346353C00F7EFD8 /* WelcomeController.m in Sources */,
-				071324361346355000F7EFD8 /* SetupControllerTemplate.m in Sources */,
 				0713243B1346356300F7EFD8 /* PreyLogger.m in Sources */,
 				0713243C1346356300F7EFD8 /* RegexKitLite.m in Sources */,
 				0713243F1346357500F7EFD8 /* SignificantLocationController.m in Sources */,

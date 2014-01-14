@@ -9,20 +9,29 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SetupControllerTemplate.h"
+#import "MBProgressHUD.h"
+#import "RegexKitLite.h"
 
 
-
-//@interface OldUserController : SetupControllerTemplate < UITableViewDelegate, UITableViewDataSource > {
-@interface OldUserController : SetupControllerTemplate <UITextFieldDelegate>{
+@interface OldUserController : UITableViewController <UITextFieldDelegate, MBProgressHUDDelegate>{
 	
 	UITextField *email;
 	UITextField *password;
     UITableViewCell *buttonCell;
+    
+    MBProgressHUD *HUD;
+	NSString *strEmailMatchstring;
+	BOOL enableToSubmit;
+
 }
 
 @property (nonatomic, retain) UITextField *email;
 @property (nonatomic, retain) UITextField *password;
 @property (nonatomic, retain) UITableViewCell *buttonCell;
+@property (nonatomic, retain) NSString *strEmailMatchstring;
+
+- (void) activatePreyService;
+- (void) showCongratsView:(id) congratsText;
+
 
 @end
