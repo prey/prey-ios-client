@@ -38,7 +38,7 @@
 
 "Best possible" = "Paras mahdollinen";
 
-"Camouflage mode" = "Naamiotila";
+"Camouflage mode" = "Naamiointitila";
 
 "Cancel" = "Peruuta";
 
@@ -84,7 +84,7 @@
 
 "Log records will be sent to developers. You'll be able to check the email body before proceed." = "Lokitiedot lähetetään kehittäjille. Voit tutustua sähköpostiviestiin ennen jatkamista.";
 
-"Mark as missing" = "Merkitse hävinneeksi";
+"Mark as missing" = "Merkitse kadonneeksi";
 
 "Mark as recovered" = "Merkitse löydetyksi";
 
@@ -162,7 +162,7 @@
 
 "You're about to delete this device from the Control Panel.\n Are you sure?" = "Olet aikeissa poistaa tämän laitteen ohjauspaneelistasi.\nOletko varma?";
 
-"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Olet aikeissa merkitä tämän laitteen hävinneeksi ja käynnistää raporttien lähetyksen ohjauspaneeliin,\n\nOletko varma?";
+"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Olet aikeissa merkitä tämän laitteen kadonneeksi ja käynnistää raporttien lähetyksen ohjauspaneeliin,\n\nOletko varma?";
 
 "Your email" = "Sähköpostisi";
 
@@ -190,7 +190,7 @@
 
 "Preferences" = "Ominaisuudet";
 
-"Privacy Policy" = "Yksityisyyden suoja";
+"Privacy Policy" = "Yksityisyydensuoja";
 
 "Terms of Service" = "Käyttöehdot";
 
@@ -200,18 +200,12 @@
 
 "Your device is protected and waiting for the activation signal." = "Laitteesi on suojattu ja se odottaa aktivointisignaalia.";
 
-"Remind me later" = "Muistuta minua myöhrmmin";
+"Remind me later" = "Muistuta minua myöhemmin";
 
 "Rate us" = "Arvostele Prey";
 
-"Give us ★★★★★ on the App Store if you like Prey." = "Anna meille viisi tähteä App Storessa jos pidät Preystä.";
+"Give us ★★★★★ on the App Store if you like Prey." = "Anna meille ★★★★★ App Storessa jos pidät Preystä.";
 
 "Yes, rate Prey!" = "Kyllä, arvostele Prey!";
 
 "Information" = "Tiedot";
-
-"Yes, accept it!" = "Kyllä, hyväksy se!";
-
-"Rate this update with ★★★★★ on the App Store then await further instructions." = "Arvostele tämä päivitys viidellä tähdellä App Storessa, jonka jälkeen odota tarkempia ohjeita.";
-
-"Your mission, should you decide to accept it" = "Sinun missiosi, sinun pitäisi päättää sen hyväksyminen";
