@@ -14,8 +14,18 @@
 #import "Device.h"
 #import "PreyConfig.h"
 #import "PreyAppDelegate.h"
+#import "GAITrackedViewController.h"
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
+#import "GAIFields.h"
+#import "CongratulationsController.h"
+#import "PreyAppDelegate.h"
+#import "PreyRunner.h"
+#import "Constants.h"
 
-@interface OldUserController () 
+
+
+@interface OldUserController ()
 
 - (void) addDeviceForCurrentUser;
 
@@ -23,43 +33,43 @@
 
 @implementation OldUserController
 
-@synthesize email, password, buttonCell;
+@synthesize email, password, buttonCell, strEmailMatchstring;
 
 - (void) addDeviceForCurrentUser {
-/*
-#if (TARGET_IPHONE_SIMULATOR)
-	sleep(1);
-	[self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
-#else
-*/	
-	
-	User *user = nil;
-	Device *device = nil;
-	PreyConfig *config = nil;
-	@try {
-		user = [User allocWithEmail:[email text] password:[password text]];
-		device = [Device newDeviceForApiKey:[user apiKey]];
-		config = [[PreyConfig initWithUser:user andDevice:device] retain];
-		if (config != nil){
+    /*
+     #if (TARGET_IPHONE_SIMULATOR)
+     sleep(1);
+     [self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
+     #else
+     */
+    
+    User *user = nil;
+    Device *device = nil;
+    PreyConfig *config = nil;
+    @try {
+        user = [User allocWithEmail:[email text] password:[password text]];
+        device = [Device newDeviceForApiKey:[user apiKey]];
+        config = [[PreyConfig initWithUser:user andDevice:device] retain];
+        if (config != nil){
             NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
-            [super activatePreyService];
-			[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
+            [self activatePreyService];
+            [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
         }
-
-	}
-	@catch (NSException * e) {		
-		if (device != nil)
-			[user deleteDevice:device];
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Couldn't add your device",nil) message:[e reason] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		
-		[alertView show];
-		[alertView release];
-	} @finally {
+        
+    }
+    @catch (NSException * e) {
+        if (device != nil)
+            [user deleteDevice:device];
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Couldn't add your device",nil) message:[e reason] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alertView show];
+        [alertView release];
+    } @finally {
         [config release];
-		[user release];
-		[device release];
-	}
-//#endif
+        [user release];
+        [device release];
+    }
+    //#endif
 }
 
 
@@ -70,14 +80,14 @@
 
 - (IBAction) next: (id) sender
 {
-	/*
-	[self hideKeyboard];
-	HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    HUD.delegate = self;
-    HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
-	[self.navigationController.view addSubview:HUD];
-	[HUD showWhileExecuting:@selector(addDeviceForCurrentUser) onTarget:self withObject:nil animated:YES];
-	*/
+    /*
+     [self hideKeyboard];
+     HUD = [[MBProgressHUD alloc] initWithView:self.view];
+     HUD.delegate = self;
+     HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
+     [self.navigationController.view addSubview:HUD];
+     [HUD showWhileExecuting:@selector(addDeviceForCurrentUser) onTarget:self withObject:nil animated:YES];
+     */
 }
 
 
@@ -92,16 +102,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-	switch (section) {
-		case 0:
-			return 2;
-			break;
-
-		default:
-			return 1;
-			break;
-	}
-	
+    switch (section) {
+        case 0:
+            return 2;
+            break;
+            
+        default:
+            return 1;
+            break;
+    }
+    
 }
 
 
@@ -112,41 +122,41 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-	if (cell == nil) {
+    if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         
-		UILabel *label =[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 75, 25)];
-		label.textAlignment = UITextAlignmentLeft;
-		label.tag = kLabelTag;
+        UILabel *label =[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 75, 25)];
+        label.textAlignment = UITextAlignmentLeft;
+        label.tag = kLabelTag;
         label.backgroundColor = [UIColor clearColor];
-		label.font = [UIFont boldSystemFontOfSize:14];
-		[cell.contentView addSubview:label];
+        label.font = [UIFont boldSystemFontOfSize:14];
+        [cell.contentView addSubview:label];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		[label release];
-		
+        [label release];
+        
     }
     
-	UILabel *label = (UILabel *)[cell viewWithTag:kLabelTag];
-	
+    UILabel *label = (UILabel *)[cell viewWithTag:kLabelTag];
+    
     switch ([indexPath section]) {
-		case 0:
-			if ([indexPath row] == 0){
-				label.text = NSLocalizedString(@"Email",nil);
-				[cell.contentView addSubview:email];
-				
-			}
-			else if ([indexPath row] == 1){
-				label.text = NSLocalizedString(@"Password",nil);
-				[cell.contentView addSubview:password];
-			}
-			break;
-		case 1:
-			return buttonCell;
-			break;
-
-		default:
-			break;
-	}
+        case 0:
+            if ([indexPath row] == 0){
+                label.text = NSLocalizedString(@"Email",nil);
+                [cell.contentView addSubview:email];
+                
+            }
+            else if ([indexPath row] == 1){
+                label.text = NSLocalizedString(@"Password",nil);
+                [cell.contentView addSubview:password];
+            }
+            break;
+        case 1:
+            return buttonCell;
+            break;
+            
+        default:
+            break;
+    }
     
     return cell;
 }
@@ -156,42 +166,42 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
-	//PreyLogMessageAndFile(@"Old user controller", 10, @"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
+    //LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
+    //PreyLogMessageAndFile(@"Old user controller", 10, @"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
     switch ([indexPath section]) {
-		case 0:
-			if ([indexPath row] == 0)
-				[email becomeFirstResponder];
-                
-			else if ([indexPath row] == 1)
+        case 0:
+            if ([indexPath row] == 0)
+                [email becomeFirstResponder];
+            
+            else if ([indexPath row] == 1)
                 [password becomeFirstResponder];
             break;
-				
+            
         case 1:
             
-			//if (enableToSubmit) {
-				if (![email.text isMatchedByRegex:strEmailMatchstring]){
-					UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
-					[objAlert show];
-					[objAlert release];
-					[email becomeFirstResponder];
-					return;
-				}
-				[email resignFirstResponder];
-				[password resignFirstResponder];
-				HUD = [[MBProgressHUD alloc] initWithView:self.view];
-				HUD.delegate = self;
-				HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
-				[self.navigationController.view addSubview:HUD];
-				[HUD showWhileExecuting:@selector(addDeviceForCurrentUser) onTarget:self withObject:nil animated:YES];
-			//}
-                	
-			break;
-
-		default:
-			break;
-	}
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+            //if (enableToSubmit) {
+            if (![email.text isMatchedByRegex:strEmailMatchstring]){
+                UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
+                [objAlert show];
+                [objAlert release];
+                [email becomeFirstResponder];
+                return;
+            }
+            [email resignFirstResponder];
+            [password resignFirstResponder];
+            HUD = [[MBProgressHUD alloc] initWithView:self.view];
+            HUD.delegate = self;
+            HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
+            [self.navigationController.view addSubview:HUD];
+            [HUD showWhileExecuting:@selector(addDeviceForCurrentUser) onTarget:self withObject:nil animated:YES];
+            //}
+            
+            break;
+            
+        default:
+            break;
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark -
@@ -213,69 +223,88 @@
 
 
 - (void)checkFieldsToEnableSendButton:(id)sender {
-	if (email.text != nil && 
-		![email.text isEqualToString:@""] && 
-		password.text != nil && 
-		![password.text isEqualToString:@""]) {
-			buttonCell.selectionStyle = UITableViewCellSelectionStyleBlue;
-			buttonCell.textLabel.textColor = [UIColor blackColor];
-			enableToSubmit = YES;
-	} else {
-		buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
-		buttonCell.textLabel.textColor = [UIColor grayColor];
-		enableToSubmit = NO;
-	}
+    if (email.text != nil &&
+        ![email.text isEqualToString:@""] &&
+        password.text != nil &&
+        ![password.text isEqualToString:@""]) {
+        buttonCell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        buttonCell.textLabel.textColor = [UIColor blackColor];
+        enableToSubmit = YES;
+    } else {
+        buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        buttonCell.textLabel.textColor = [UIColor grayColor];
+        enableToSubmit = NO;
+    }
 }
 
 #pragma mark -
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    
+- (void)viewDidLoad
+{
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"Old User"];
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
     
     
-	email = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
-	email.clearsOnBeginEditing = NO;
-	email.returnKeyType = UIReturnKeyNext;
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    
+    strEmailMatchstring =   @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
+    
+    [self.tableView setBackgroundColor:[UIColor clearColor]];
+    
+    UIView *fondo = [[UIView alloc] initWithFrame:screenRect];
+    [fondo setBackgroundColor:[UIColor whiteColor]];
+    
+    UIImage *btm     = [UIImage imageNamed:@"bg-mnts2.png"];
+    UIImageView *imv = [[UIImageView alloc] initWithImage:btm];
+    
+    if (IS_OS_7_OR_LATER)
+    {
+        imv.frame        = CGRectMake(0, screenHeight-99, 320, 99);
+    }
+    else
+        imv.frame        = CGRectMake(0, screenHeight-143, 320, 99); // 143
+    
+    
+    [fondo addSubview:imv];
+    
+    [self.tableView setBackgroundView:fondo];
+    [imv release];
+    [fondo release];
+    
+    
+    
+    
+    email = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
+    email.clearsOnBeginEditing = NO;
+    email.returnKeyType = UIReturnKeyNext;
     email.tag = 50;
-	email.placeholder = @"Your Prey account email";
-	email.keyboardType = UIKeyboardTypeEmailAddress;
-	email.autocapitalizationType = UITextAutocapitalizationTypeNone;
-	[email setDelegate:self];
-	//[email addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
-	
-	password = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
-	password.clearsOnBeginEditing = NO;
-	password.returnKeyType = UIReturnKeyDone;
+    email.placeholder = @"Your Prey account email";
+    email.keyboardType = UIKeyboardTypeEmailAddress;
+    email.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    [email setDelegate:self];
+    //[email addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
+    
+    password = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
+    password.clearsOnBeginEditing = NO;
+    password.returnKeyType = UIReturnKeyDone;
     password.tag = 51;
-	[password setSecureTextEntry:YES];
-	password.placeholder = @"Your Prey account password";
-	[password setDelegate:self];
-	//[password addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
-	
-	buttonCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"buttonCell"];
+    [password setSecureTextEntry:YES];
+    password.placeholder = @"Your Prey account password";
+    [password setDelegate:self];
+    //[password addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
+    
+    buttonCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"buttonCell"];
     buttonCell.selectionStyle = UITableViewCellSelectionStyleBlue;
     buttonCell.textLabel.textColor = [UIColor blackColor];
-	//buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
-	//buttonCell.textLabel.textColor = [UIColor grayColor];
-	buttonCell.textLabel.textAlignment = UITextAlignmentCenter;
-	buttonCell.textLabel.text = NSLocalizedString(@"Add this device!",nil);
-	
-	[super viewDidLoad];
+    //buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    //buttonCell.textLabel.textColor = [UIColor grayColor];
+    buttonCell.textLabel.textAlignment = UITextAlignmentCenter;
+    buttonCell.textLabel.text = NSLocalizedString(@"Add this device!",nil);
+    
+    [super viewDidLoad];
 }
 
 
@@ -303,16 +332,50 @@
 
 
 - (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
+    [super viewDidAppear:animated];
 }
 
 - (void)dealloc {
     [super dealloc];
-	[email release];
-	[password release];
-	[buttonCell release];
+    [email release];
+    [password release];
+    [buttonCell release];
+    [strEmailMatchstring release];
 }
 
 
+#pragma mark -
+#pragma mark Private methods
+
+- (void) showCongratsView:(id) congratsText
+{
+    CongratulationsController *congratsController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone" bundle:nil];
+    else
+        congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPad" bundle:nil];
+    
+    congratsController.txtToShow = (NSString*) congratsText;
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.navigationController pushViewController:congratsController animated:YES];
+    [congratsController release];
+}
+
+#pragma mark -
+#pragma mark MBProgressHUDDelegate methods
+
+- (void)hudWasHidden {
+    // Remove HUD from screen when the HUD was hidded
+    [HUD removeFromSuperview];
+    [HUD release];
+    
+}
+#pragma mark -
+
+- (void) activatePreyService {
+    [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
+    [[PreyRunner instance] startOnIntervalChecking];
+}
 
 @end

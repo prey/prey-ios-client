@@ -8,16 +8,23 @@
 //  Full license at "/LICENSE"
 //
 
+
 #import <UIKit/UIKit.h>
-#import "SetupControllerTemplate.h"
+#import "MBProgressHUD.h"
+#import "RegexKitLite.h"
 
 
-@interface NewUserController : SetupControllerTemplate <UITextFieldDelegate> {
-	UITextField *name;
-	UITextField *email;
-	UITextField *password;
-	UITextField *repassword;
+@interface NewUserController : UITableViewController <UITextFieldDelegate, MBProgressHUDDelegate>
+{
+    UITextField *name;
+    UITextField *email;
+    UITextField *password;
+    UITextField *repassword;
     UITableViewCell *buttonCell;
+    
+    MBProgressHUD *HUD;
+    NSString *strEmailMatchstring;
+    BOOL enableToSubmit;
 }
 
 @property (nonatomic, retain) UITextField *name;
@@ -25,6 +32,10 @@
 @property (nonatomic, retain) UITextField *password;
 @property (nonatomic, retain) UITextField *repassword;
 @property (nonatomic, retain) UITableViewCell *buttonCell;
+@property (nonatomic, retain) NSString *strEmailMatchstring;
+
+- (void) activatePreyService;
+- (void) showCongratsView:(id) congratsText;
 
 
 @end
