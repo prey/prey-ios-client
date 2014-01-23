@@ -77,6 +77,9 @@ extern NSString *const kGAIExFatal;
 
 extern NSString *const kGAISampleRate;
 
+extern NSString *const kGAIIdfa;
+extern NSString *const kGAIAdTargetingEnabled;
+
 // hit types
 extern NSString *const kGAIAppView;
 extern NSString *const kGAIEvent;
