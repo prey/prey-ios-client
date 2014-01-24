@@ -489,9 +489,12 @@
 		
 		if (!error) {
             NSError *error = nil;
+            NSData *respData = [request responseData];
+            NSString *respString = [request responseString];
 			JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
-			NSString *respString = [request responseString];
 
+            
+            
             //NSString *respString =@"[{\"command\":\"get\",\"target\":\"report\",\"options\":{\"include\":[\"picture\",\"location\",\"screenshot\",\"access_points_list\"],\"interval\":\"5\"}}]";
             
             //NSString *respString =@"[{\"command\":\"get\",\"target\":\"report\"}]";
@@ -508,7 +511,6 @@
 //          NSString *respString =@"[{\"command\":\"start\",\"target\":\"alert\",\"options\":{\"message\":\"asdasd\"}},{\"command\":\"start\",\"target\":\"alarm\",\"options\":null}]";
             
             //NSString *respString =@"[ {\"command\": \"start\",\"target\": \"geofencing\",\"options\": {\"origin\": \"-70.60713481,-36.42372147\",\"radius\":\"100\" }}]";
-            
             
 			NewModulesConfig *modulesConfig = [configParser parseModulesConfig:respString parseError:&error];
 			[modulesConfig runAllModules];
@@ -541,7 +543,7 @@
     PreyLogMessageAndFile(@"PreyRestHttp", 0, @"RawData: %@",[rawData description]);
     
     if (jsonData != nil)
-        [request appendPostData:[[SBJsonWriter new] dataWithObject:jsonData]];
+        [request appendPostData:[NSJSONSerialization dataWithJSONObject:jsonData options:0 error:nil ]];
     if (rawData != nil)
         [request addData:[rawData objectForKey:@"data"] withFileName:@"picture.jpg" andContentType:@"image/png" forKey:[rawData objectForKey:@"key"]];
     

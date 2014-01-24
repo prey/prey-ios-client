@@ -12,19 +12,19 @@
 @implementation JsonConfigParser
 
 
-- (NewModulesConfig*) parseModulesConfig:(NSString*)requestString parseError:(NSError **)err {
+- (NewModulesConfig*) parseModulesConfig:(NSString*)request parseError:(NSError **)err
+{
+    NSError *error = nil;
+    NSData *jsonData = [request dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
     
-    SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     NewModulesConfig *modulesConfig = [[NewModulesConfig alloc] init];
-    
-    NSArray *jsonObjects = (NSArray*)[jsonParser objectWithString:requestString];
     
     for (NSDictionary *dict in jsonObjects)
     {
         [modulesConfig addModule:dict];
     }
     
-    [jsonParser release], jsonParser = nil;
     return modulesConfig;
 }
 

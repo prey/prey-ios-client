@@ -22,7 +22,6 @@
 #import "JsonConfigParser.h"
 #import "PreyConfig.h"
 #import "Reachability.h"
-#import "SBJson.h"
 
 @class ReportModule;
 

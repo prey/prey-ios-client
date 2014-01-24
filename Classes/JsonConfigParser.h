@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "NewModulesConfig.h"
-#import "SBJsonParser.h"
 
 @interface JsonConfigParser : NSObject {
     
