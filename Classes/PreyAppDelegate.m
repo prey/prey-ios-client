@@ -149,7 +149,7 @@
     
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.105", 50000);
-    LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"cyh");
+    //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"cyh");
 	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
   
     PreyLogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS %@!!", [launchOptions description]);
@@ -297,7 +297,7 @@
                 else
                     nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
             }
-
+        }
             /*
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
                 nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];

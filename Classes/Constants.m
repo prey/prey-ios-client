@@ -20,9 +20,11 @@
     BOOL const	SHOULD_LOG=NO;
 */
 
-NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://solid.preyproject.com/api/v2";  // Beta
-//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"http://beta.preyproject.com:8888/api/v2";  // Beta
-//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://control.preyproject.com";
+
+//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://control.preyapp.com/api/v2";  // STG
+//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://solid.preyproject.com/api/v2";  // PRD
+NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://panel.preyproject.com/api/v2";  // PRD
+
 
 NSString * const DEFAULT_CHECK_PATH = @"/devices/%@%@"; // /devices/abc123.xml
 BOOL const DEFAULT_SEND_CRASH_REPORTS = true;

@@ -122,10 +122,11 @@
     // Configure your output.
     PreyLogMessage(@"PicturesController", 10, @"Configuring the output device...");
     dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
-    PicturesControllerDelegate *delegate = [PicturesControllerDelegate initWithSession:session AndWhenFinishSendImageTo:@selector(setLastPicture:) onTarget:self];
+    PicturesControllerDelegate *delegate = [PicturesControllerDelegate initWithSession:session AndWhenFinishSendImageTo:method onTarget:target];
     
     [output setSampleBufferDelegate:delegate queue:queue];
     //[delegate release];
+    
     
     dispatch_release(queue);
     

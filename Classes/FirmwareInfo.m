@@ -12,7 +12,7 @@
 @implementation FirmwareInfo
 
 - (void) get {
-    NSString* uuid = [[UIDevice currentDevice] uniqueIdentifier] != NULL ? [[UIDevice currentDevice] uniqueIdentifier] :@"";
+    NSString* uuid = [[UIDevice currentDevice] name] != NULL ? [[UIDevice currentDevice] name] :@"";
     [super sendHttp:[super createResponseFromString:uuid withKey:@"uuid"]];
 }
 
