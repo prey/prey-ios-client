@@ -13,6 +13,7 @@
 #import "PreyConfig.h"
 #import "LoginController.h"
 #import "WizardController.h"
+#import "PreferencesController.h"
 
 @implementation CamouflageModule
 
@@ -41,6 +42,13 @@
     
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
     {
+        PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
+        preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
+        [appDelegate.viewController pushViewController:preferencesController animated:YES];
+        [preferencesController release];
+        /*
         WizardController *wizardController;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
@@ -50,6 +58,7 @@
         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
         [appDelegate.viewController pushViewController:wizardController animated:NO];
         [wizardController release];
+        */
     }
     
     [super notifyCommandResponse:[self getName] withStatus:@"stopped"];

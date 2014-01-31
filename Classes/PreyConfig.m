@@ -30,12 +30,15 @@ static NSString *const EMAIL = @"email";
 static NSString *const ALREADY_REGISTERED = @"already_registered";
 static NSString *const ACCURACY=@"accuracy";
 static NSString *const DELAY=@"delay";
+static NSString *const ALERT_ON_REPORT=@"alert_on_report";
 static NSString *const ASK_FOR_PASSWORD=@"ask_for_pass";
 static NSString *const CAMOUFLAGE_MODE=@"camouflage_mode";
 static NSString *const INTERVAL_MODE=@"interval_mode";
 static NSString *const PRO_ACCOUNT=@"pro_account";
 
 @implementation PreyConfig
+
+@synthesize checkUrl, desiredAccuracy, alertOnReport;
 
 @synthesize controlPanelHost,checkPath,sendCrashReports,exceptionsEndpoint,dataEndpoint,apiKey,deviceKey,email,alreadyRegistered,delay,missing,askForPassword,camouflageMode,intervalMode,pro;
 static PreyConfig *_instance = nil;

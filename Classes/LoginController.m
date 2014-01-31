@@ -15,6 +15,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "PreyAppDelegate.h"
 #import "WizardController.h"
+#import "PreferencesController.h"
 
 @interface LoginController()
 
@@ -46,6 +47,14 @@
         User *user = [User allocWithEmail: config.email password: loginPassword.text];
         [config setPro:user.isPro];
         
+        PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
+        preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
+        [appDelegate.viewController pushViewController:preferencesController animated:YES];
+        [preferencesController release];
+
+        /*
         WizardController *wizardController;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
@@ -55,6 +64,7 @@
         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
         [appDelegate.viewController pushViewController:wizardController animated:NO];
         [wizardController release];
+        */
 		[user release];
         
 	} @catch (NSException *e)  {

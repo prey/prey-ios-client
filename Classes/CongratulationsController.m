@@ -13,7 +13,7 @@
 #import "PreyAppDelegate.h"
 #import "LoginController.h"
 #import "PreyRunner.h"
-
+#import "PreferencesController.h"
 
 @implementation CongratulationsController
 
@@ -30,8 +30,10 @@
     else
         loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
     
-    [appDelegate.viewController pushViewController:loginController animated:NO];
-    [loginController release];
+    PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
+    
+    [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, preferencesController, nil] animated:NO];
+    [preferencesController release];
         
     if ([self.parentViewController respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) // Check iOS 5.0 or later
         [self.parentViewController dismissViewControllerAnimated:YES completion:NULL];

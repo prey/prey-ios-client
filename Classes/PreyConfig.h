@@ -14,9 +14,23 @@
 
 
 @interface PreyConfig : NSObject {
-
+    NSString *apiKey;
+	NSString *deviceKey;
+	NSString *checkUrl;
+	NSString *email;
+	double desiredAccuracy;
+	int	delay;
+	BOOL alreadyRegistered;
+	BOOL missing;
+    BOOL askForPassword;
+	BOOL alertOnReport;
+    BOOL camouflageMode;
+    BOOL intervalMode;
 	
 }
+
+@property (nonatomic,retain) NSString *checkUrl;
+@property (nonatomic) double desiredAccuracy;
 
 @property (nonatomic,retain) NSString *controlPanelHost;
 @property (nonatomic,retain) NSString *checkPath;
@@ -34,6 +48,7 @@
 @property (nonatomic) BOOL askForPassword;
 @property (nonatomic) BOOL camouflageMode;
 @property (nonatomic) BOOL intervalMode;
+@property (nonatomic) BOOL alertOnReport;
 
 + (PreyConfig*) instance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;

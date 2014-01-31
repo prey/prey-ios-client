@@ -290,6 +290,7 @@
                 else
                     nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
             }
+            /*
             else
             {
                 if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
@@ -298,13 +299,17 @@
                     nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
             }
         }
-            /*
+             */
+            else
+            {
+            
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
                 nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
             else
                 nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
-            */
-            
+            }
+        }
+        
 #warning Prey Deployment 
         /*
         PreyDeployment *preyDeployment = [[PreyDeployment alloc] init];
@@ -315,26 +320,22 @@
         else ...
         [preyDeployment release];
         */
-            
-            
-		//else
-		//	nextController = [[PreferencesController alloc] initWithNibName:@"PreferencesController" bundle:nil];
     }
     else
     {
 #warning Beta: Wizard :: Welcome Test
-        
+        /*
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
         else
             nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+        */
         
-        /*
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
         else
             nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];        
-        */
+        
     }
     
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
