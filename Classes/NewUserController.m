@@ -18,7 +18,6 @@
 #import "GAIFields.h"
 #import "CongratulationsController.h"
 #import "PreyAppDelegate.h"
-#import "PreyRunner.h"
 #import "Constants.h"
 
 
@@ -71,7 +70,7 @@
         config = [PreyConfig initWithUser: user andDevice:device];
         if (config != nil){
             NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
-            [self activatePreyService];
+            [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
             [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
         }
     }
@@ -397,12 +396,6 @@
     [HUD removeFromSuperview];
     [HUD release];
     
-}
-#pragma mark -
-
-- (void) activatePreyService {
-    [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
-    [[PreyRunner instance] startOnIntervalChecking];
 }
 
 @end

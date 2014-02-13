@@ -9,7 +9,6 @@
 //
 
 #import "PreferencesController.h"
-#import "PreyRunner.h"
 #import "PreyAppDelegate.h"
 #import "PreyConfig.h"
 #import "PreyRestHttp.h"
@@ -29,8 +28,6 @@
 @interface PreferencesController()
 
 -(void) showAlert;
--(void) startPrey;
--(void) stopPrey;
 
 @end
 
@@ -45,14 +42,6 @@
 - (void)showAlert{
 	PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
 	[appDelegate showAlert:@"This is a stolen computer, and is being tracked by Prey. Please contact the owner at (INSERT_MAIL_HERE) to resolve the situation."];
-}
-
--(void) startPrey {
-    [[PreyRunner instance] startPreyService];
-}
-
--(void) stopPrey {
-    [[PreyRunner instance] stopPreyService];
 }
 
 #pragma mark -
@@ -414,11 +403,12 @@
 	else if (actionSheet.tag == 2){
 		if (missing.on)
 			if (buttonIndex == 0){
+#warning REvisar missing.on
                 HUD = [[MBProgressHUD alloc] initWithView:self.view];
                 HUD.delegate = self;
                 HUD.labelText = NSLocalizedString(@"Starting Prey...",nil);
                 [self.navigationController.view addSubview:HUD];
-                [HUD showWhileExecuting:@selector(startPrey) onTarget:self withObject:nil animated:YES];
+                //[HUD showWhileExecuting:@selector(startPrey) onTarget:self withObject:nil animated:YES];
             }
 			else
 				[missing setOn:NO animated:YES];
@@ -428,7 +418,7 @@
                     HUD.delegate = self;
                     HUD.labelText = NSLocalizedString(@"Stopping Prey...",nil);
                     [self.navigationController.view addSubview:HUD];
-                    [HUD showWhileExecuting:@selector(stopPrey) onTarget:self withObject:nil animated:YES];
+                    //[HUD showWhileExecuting:@selector(stopPrey) onTarget:self withObject:nil animated:YES];
                 }
                 else
                     [missing setOn:YES animated:YES];
@@ -451,9 +441,7 @@
 }
 
 - (void) detachDevice {
-    [self stopPrey];
     [[PreyConfig instance] detachDevice];
-    [[PreyRunner instance] stopOnIntervalChecking];
     
     UIViewController *welco;
     

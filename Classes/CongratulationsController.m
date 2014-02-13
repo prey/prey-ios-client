@@ -12,12 +12,11 @@
 #import "CongratulationsController.h"
 #import "PreyAppDelegate.h"
 #import "LoginController.h"
-#import "PreyRunner.h"
 #import "PreferencesController.h"
 
 @implementation CongratulationsController
 
-@synthesize congratsTitle, congratsMsg, ok, txtToShow;
+@synthesize congratsTitle, congratsMsg, ok, txtToShow, authLocation;
 
 #pragma mark -
 #pragma mark IBActions
@@ -63,7 +62,12 @@
     congratsMsg.textAlignment    = UITextAlignmentCenter;
     congratsMsg.backgroundColor  = [UIColor clearColor];
     congratsMsg.text             = txtToShow;
-
+    
+    authLocation = [[CLLocationManager alloc] init];
+    [authLocation  startUpdatingLocation];
+    [authLocation stopUpdatingLocation];
+	[self.ok setTitle:NSLocalizedString(@"OK",nil) forState:UIControlStateNormal];
+    
 	[super viewDidLoad];
 }
 
@@ -74,17 +78,7 @@
      */
 	//self.congratsMsg.text = NSLocalizedString(@"You have successfully associated this device with your Prey Control Panel account.",nil);
 
-    CLLocationManager *tempCL = [[[CLLocationManager alloc] init] autorelease];
-    [tempCL  startUpdatingLocation];
-    [tempCL stopUpdatingLocation];
-	[self.ok setTitle:NSLocalizedString(@"OK",nil) forState:UIControlStateNormal];
 	[super viewWillAppear:animated];
-    
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-    [[PreyRunner instance] startOnIntervalChecking];
 }
 
 
@@ -111,6 +105,7 @@
 	[congratsMsg release];
 	[congratsTitle release];
 	[ok release];
+    [authLocation release];
 	[super dealloc];
 }
 

@@ -20,7 +20,6 @@
 #import "GAIFields.h"
 #import "CongratulationsController.h"
 #import "PreyAppDelegate.h"
-#import "PreyRunner.h"
 #import "Constants.h"
 
 
@@ -52,7 +51,7 @@
         config = [[PreyConfig initWithUser:user andDevice:device] retain];
         if (config != nil){
             NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
-            [self activatePreyService];
+            [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
             [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
         }
         
@@ -370,12 +369,6 @@
     [HUD removeFromSuperview];
     [HUD release];
     
-}
-#pragma mark -
-
-- (void) activatePreyService {
-    [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
-    [[PreyRunner instance] startOnIntervalChecking];
 }
 
 @end

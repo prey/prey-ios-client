@@ -17,12 +17,14 @@
 	UILabel *congratsMsg;
 	UIButton *ok;
     NSString *txtToShow;
+    CLLocationManager *authLocation;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *congratsTitle;
 @property (nonatomic, retain) IBOutlet UILabel *congratsMsg;
 @property (nonatomic, retain) IBOutlet UIButton *ok;
 @property (nonatomic, retain) NSString *txtToShow;
+@property (nonatomic, retain) CLLocationManager *authLocation;
 
 - (IBAction) okPressed: (id) sender;
 

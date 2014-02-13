@@ -34,7 +34,6 @@
 @property (nonatomic, retain) UITableViewCell *buttonCell;
 @property (nonatomic, retain) NSString *strEmailMatchstring;
 
-- (void) activatePreyService;
 - (void) showCongratsView:(id) congratsText;
 
 

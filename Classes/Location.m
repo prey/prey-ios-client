@@ -127,7 +127,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:errorString delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alert show];
     [alert release];
-    PreyLogMessageAndFile(@"Prey SignificantLocationController", 0, @"Error getting location: %@", [error description]);
+    PreyLogMessageAndFile(@"Prey Location", 0, @"Error getting location: %@", [error description]);
 }
 
 - (NSString *) getName {
