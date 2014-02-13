@@ -17,7 +17,6 @@
 #import "PreferencesController.h"
 #import "Constants.h"
 #import "AlertModuleController.h"
-#import "PreyRunner.h"
 #import "FakeWebView.h"
 #import "PicturesController.h"
 #import "IAPHelper.h"
@@ -123,26 +122,17 @@
 {
     // Google Analytics config
     [GAI sharedInstance].trackUncaughtExceptions = YES;
-    [GAI sharedInstance].dispatchInterval = 20;
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
-    
-    //id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
+    [GAI sharedInstance].dispatchInterval = 120;
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelNone];
     [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
-    
+ 
     
 #warning Beta: TestFlight
     // !!!: Use the next line only during beta
-    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];    
-    [TestFlight takeOff:@"994afc49-5f4c-4d74-9f36-b5592d0a3f54"];
+    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
+    [TestFlight setOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:@"logToConsole"]];
+    [TestFlight takeOff:@"18dd420a-1b00-462a-84e0-140293f3628a"];
     
-    
-    
-    // Optional: set Logger to VERBOSE for debug information.
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
-    
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
-    
-        
     //IAPHelper *IAP = [IAPHelper sharedHelper];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[IAPHelper sharedHelper]];
     //[IAPHelper initWithRemoteIdentifiers];

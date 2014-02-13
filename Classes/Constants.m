@@ -22,8 +22,10 @@
 
 
 //NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://control.preyapp.com/api/v2";  // STG
-//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://solid.preyproject.com/api/v2";  // PRD
-NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://panel.preyproject.com/api/v2";  // PRD
+//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://panel.preyproject.com/api/v2";  // PRD
+
+NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://solid.preyproject.com/api/v2";  // PRD
+//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://panel.preyproject.com";  // PRD
 
 
 NSString * const DEFAULT_CHECK_PATH = @"/devices/%@%@"; // /devices/abc123.xml

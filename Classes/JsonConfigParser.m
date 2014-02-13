@@ -9,6 +9,7 @@
 #import "JsonConfigParser.h"
 #import "NewModulesConfig.h"
 
+
 @implementation JsonConfigParser
 
 
@@ -28,5 +29,27 @@
     return modulesConfig;
 }
 
+
+- (void)parseRequest:(NSString *)request forUser:(User *)user parseError:(NSError **)err
+{
+    NSError *error = nil;
+    NSData *jsonData = [request dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+
+    if (jsonObjects != nil)
+    {
+        user.apiKey = [jsonObjects objectForKey:@"key"];
+        user.pro    = [jsonObjects objectForKey:@"pro_account"];
+    }
+}
+
+- (NSString*)parseKey:(NSString *)request parseError:(NSError **)err
+{
+    NSError *error = nil;
+    NSData *jsonData = [request dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    
+    return [jsonObjects objectForKey:@"key"];
+}
 
 @end

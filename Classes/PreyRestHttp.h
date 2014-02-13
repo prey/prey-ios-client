@@ -16,9 +16,6 @@
 #import "Constants.h"
 #import "Device.h"
 #import "DeviceModulesConfig.h"
-#import "KeyParserDelegate.h"
-#import "UserParserDelegate.h"
-#import "ErrorParserDelegate.h"
 #import "JsonConfigParser.h"
 #import "PreyConfig.h"
 #import "Reachability.h"
@@ -40,7 +37,6 @@
 - (NSString *) createDeviceKeyForDevice: (Device*) device usingApiKey: (NSString *) apiKey;
 - (BOOL) deleteDevice: (Device*) device;
 - (BOOL) validateIfExistApiKey: (NSString *) apiKey andDeviceKey: (NSString *) deviceKey;
-- (NSString *) getErrorMessageFromXML: (NSData *) response;
 - (DeviceModulesConfig *) getXMLforUser;
 - (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey;
 - (BOOL) isMissingTheDevice: (NSString *) device ofTheUser: (NSString *) apiKey;

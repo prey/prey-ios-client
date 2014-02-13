@@ -20,8 +20,6 @@
 		071324121346343C00F7EFD8 /* DeviceModulesConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713240F1346343C00F7EFD8 /* DeviceModulesConfig.m */; };
 		071324151346346F00F7EFD8 /* IphoneInformationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324141346346F00F7EFD8 /* IphoneInformationHelper.m */; };
 		071324181346348400F7EFD8 /* FakeWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324171346348400F7EFD8 /* FakeWebView.m */; };
-		0713241D1346349A00F7EFD8 /* ErrorParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713241A1346349A00F7EFD8 /* ErrorParserDelegate.m */; };
-		0713241E1346349A00F7EFD8 /* KeyParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713241C1346349A00F7EFD8 /* KeyParserDelegate.m */; };
 		07132421134634CA00F7EFD8 /* LogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132420134634CA00F7EFD8 /* LogController.m */; };
 		07132424134634D900F7EFD8 /* OldUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132423134634D900F7EFD8 /* OldUserController.m */; };
 		07132427134634E600F7EFD8 /* NewUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132426134634E600F7EFD8 /* NewUserController.m */; };
@@ -143,7 +141,6 @@
 		3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */; };
 		3BCF228617F22F520076AB95 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BCF228217F22F520076AB95 /* libTestFlight.a */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
-		3BD546D117FE10CF00ABFDBC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD546D017FE10CF00ABFDBC /* AdSupport.framework */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
 		3BEEAB7E1806F87A00849B2B /* Wizard in Resources */ = {isa = PBXBuildFile; fileRef = 3BEEAB7D1806F87A00849B2B /* Wizard */; };
 		3BF03704167835CD0086A7A7 /* GrettingsProViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */; };
@@ -163,7 +160,6 @@
 		5A7A12A6146D70FF00B14176 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A129C146D70FF00B14176 /* ASIInputStream.m */; };
 		5A7A12A7146D70FF00B14176 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A129E146D70FF00B14176 /* ASINetworkQueue.m */; };
 		5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */; };
-		5A867AA21510E1D600C4BBE3 /* UserParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A867AA11510E1D600C4BBE3 /* UserParserDelegate.m */; };
 		5A8DA67D150E4A3500A05BBD /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8DA67C150E4A3500A05BBD /* IAPHelper.m */; };
 		5A8DA684150E4AC000A05BBD /* StoreControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */; };
 /* End PBXBuildFile section */
@@ -194,10 +190,6 @@
 		071324141346346F00F7EFD8 /* IphoneInformationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = IphoneInformationHelper.m; path = Classes/IphoneInformationHelper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324161346348400F7EFD8 /* FakeWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = FakeWebView.h; path = Classes/FakeWebView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071324171346348400F7EFD8 /* FakeWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = FakeWebView.m; path = Classes/FakeWebView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		071324191346349A00F7EFD8 /* ErrorParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ErrorParserDelegate.h; path = Classes/ErrorParserDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		0713241A1346349A00F7EFD8 /* ErrorParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ErrorParserDelegate.m; path = Classes/ErrorParserDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		0713241B1346349A00F7EFD8 /* KeyParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = KeyParserDelegate.h; path = Classes/KeyParserDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		0713241C1346349A00F7EFD8 /* KeyParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = KeyParserDelegate.m; path = Classes/KeyParserDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0713241F134634CA00F7EFD8 /* LogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = LogController.h; path = Classes/LogController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		07132420134634CA00F7EFD8 /* LogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = LogController.m; path = Classes/LogController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07132422134634D900F7EFD8 /* OldUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = OldUserController.h; path = Classes/OldUserController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -426,8 +418,6 @@
 		5A7A129F146D70FF00B14176 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIProgressDelegate.h; path = "asi-http-request/Classes/ASIProgressDelegate.h"; sourceTree = "<group>"; };
 		5A7A12AB146D74FB00B14176 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice-Hardware.h"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.h"; sourceTree = "<group>"; };
 		5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice-Hardware.m"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.m"; sourceTree = "<group>"; };
-		5A867AA01510E1D600C4BBE3 /* UserParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserParserDelegate.h; path = Classes/UserParserDelegate.h; sourceTree = "<group>"; };
-		5A867AA11510E1D600C4BBE3 /* UserParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserParserDelegate.m; path = Classes/UserParserDelegate.m; sourceTree = "<group>"; };
 		5A8DA67B150E4A3500A05BBD /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPHelper.h; sourceTree = "<group>"; };
 		5A8DA67C150E4A3500A05BBD /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
 		5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreControllerViewController.m; sourceTree = "<group>"; };
@@ -441,7 +431,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B675EFA18918C6E00CE3D0D /* Social.framework in Frameworks */,
-				3BD546D117FE10CF00ABFDBC /* AdSupport.framework in Frameworks */,
 				3B1C978117B3177400D9FD1E /* CoreData.framework in Frameworks */,
 				0774BF181517B90D0016D3E6 /* libsqlite3.0.dylib in Frameworks */,
 				5A73C0FE146ADD5000AB32E9 /* StoreKit.framework in Frameworks */,
@@ -683,14 +672,8 @@
 			children = (
 				5A14170F15190E230005AE7D /* StoreParserDelegate.h */,
 				5A14171015190E230005AE7D /* StoreParserDelegate.m */,
-				071324191346349A00F7EFD8 /* ErrorParserDelegate.h */,
-				0713241A1346349A00F7EFD8 /* ErrorParserDelegate.m */,
-				0713241B1346349A00F7EFD8 /* KeyParserDelegate.h */,
-				0713241C1346349A00F7EFD8 /* KeyParserDelegate.m */,
 				071323FC1346339A00F7EFD8 /* ConfigParserDelegate.h */,
 				071323FD1346339A00F7EFD8 /* ConfigParserDelegate.m */,
-				5A867AA01510E1D600C4BBE3 /* UserParserDelegate.h */,
-				5A867AA11510E1D600C4BBE3 /* UserParserDelegate.m */,
 			);
 			name = "XML Parsers";
 			sourceTree = "<group>";
@@ -1170,8 +1153,6 @@
 				071324151346346F00F7EFD8 /* IphoneInformationHelper.m in Sources */,
 				3BFF783F189C592500694625 /* DeviceMapController.m in Sources */,
 				071324181346348400F7EFD8 /* FakeWebView.m in Sources */,
-				0713241D1346349A00F7EFD8 /* ErrorParserDelegate.m in Sources */,
-				0713241E1346349A00F7EFD8 /* KeyParserDelegate.m in Sources */,
 				07132421134634CA00F7EFD8 /* LogController.m in Sources */,
 				07132424134634D900F7EFD8 /* OldUserController.m in Sources */,
 				07132427134634E600F7EFD8 /* NewUserController.m in Sources */,
@@ -1198,7 +1179,6 @@
 				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
 				5A8DA67D150E4A3500A05BBD /* IAPHelper.m in Sources */,
 				5A8DA684150E4AC000A05BBD /* StoreControllerViewController.m in Sources */,
-				5A867AA21510E1D600C4BBE3 /* UserParserDelegate.m in Sources */,
 				5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */,
 				3B675EF01891837B00CE3D0D /* Reachability.m in Sources */,
 				5A14171115190E240005AE7D /* StoreParserDelegate.m in Sources */,
@@ -1290,13 +1270,13 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/TestFlightSDK2.0.0",
-					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/GoogleAnalytics",
+					"./Classes/TestFlightSDK2.0.0/**",
+					"./Classes/GoogleAnalytics/**",
 				);
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "778B2172-B1C9-4D66-9081-AEDBEA9BEEA2";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BED4CC68-D15E-4D59-ADAF-0B74DC866B6A";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1309,7 +1289,6 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Javier Cala (2N74KP79VB)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1323,14 +1302,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/TestFlightSDK2.0.0",
-					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/GoogleAnalytics",
+					"./Classes/TestFlightSDK2.0.0/**",
+					"./Classes/GoogleAnalytics/**",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5A9586EC-2595-46F7-B899-A1FE295EEA2A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9EB91967-1F83-42BD-AE3A-D16508BDDBEF";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1356,8 +1335,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/TestFlightSDK2.0.0",
-					"/Volumes/Musashi/Documents/10-DevResources/50-iOSdev/prey-ios-client/Classes/GoogleAnalytics",
+					"./Classes/TestFlightSDK2.0.0/**",
+					"./Classes/GoogleAnalytics/**",
 				);
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
