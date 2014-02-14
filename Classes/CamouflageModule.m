@@ -23,6 +23,18 @@
 
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
     {
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        
+        LoginController *loginController;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+        else
+            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
+        
+        [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, nil] animated:NO];
+        [loginController release];
+        
+        /*
         LoginController *loginController;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
@@ -32,6 +44,7 @@
         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
         [appDelegate.viewController pushViewController:loginController animated:NO];
         [loginController release];
+        */
     }
     [super notifyCommandResponse:[self getName] withStatus:@"started"];
 }
@@ -42,12 +55,16 @@
     
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
     {
-        PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
-        preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-        [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
-        [appDelegate.viewController pushViewController:preferencesController animated:YES];
-        [preferencesController release];
+        
+        LoginController *loginController;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+        else
+            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
+        
+        [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, nil] animated:NO];
+        [loginController release];
         /*
         WizardController *wizardController;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
