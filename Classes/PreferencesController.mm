@@ -25,24 +25,11 @@
 #import "GAIDictionaryBuilder.h"
 #import "GAIFields.h"
 
-@interface PreferencesController()
-
--(void) showAlert;
-
-@end
 
 @implementation PreferencesController
 
 @synthesize accManager,delayManager;
 
-#pragma mark -
-#pragma mark Private Methods
-
-
-- (void)showAlert{
-	PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-	[appDelegate showAlert:@"This is a stolen computer, and is being tracked by Prey. Please contact the owner at (INSERT_MAIL_HERE) to resolve the situation."];
-}
 
 #pragma mark -
 #pragma mark MBProgressHUDDelegate methods

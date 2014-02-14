@@ -15,4 +15,6 @@
 
 }
 
+- (void)showAlertModule:(NSString*)message;
+
 @end

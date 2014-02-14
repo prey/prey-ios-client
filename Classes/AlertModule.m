@@ -14,22 +14,47 @@
 
 @implementation AlertModule
 
-- (void)start {
-    [super notifyCommandResponse:[self getName] withStatus:@"started"];
+- (void)start
+{
     NSString *alertMessage = [super.options objectForKey:@"alert_message"];
-    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground){
+
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground)
+    {
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];
-        if (localNotif) {
+        if (localNotif)
+        {
             localNotif.alertBody = alertMessage;
             localNotif.hasAction = NO;
             [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
             [localNotif release];
         }
-    } else {
-        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-        [appDelegate showAlert:alertMessage];
+    }
+    else
+    {
+        [super notifyCommandResponse:[self getName] withStatus:@"started"];
+
+        [self showAlertModule:alertMessage];
+        
         [super notifyCommandResponse:[self getName] withStatus:@"stopped"];
     }
+}
+
+- (void)showAlertModule:(NSString*)message
+{
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    AlertModuleController *alertController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        alertController = [[AlertModuleController alloc] initWithNibName:@"AlertModuleController-iPhone" bundle:nil];
+    else
+        alertController = [[AlertModuleController alloc] initWithNibName:@"AlertModuleController-iPad" bundle:nil];
+    
+    [alertController setTextToShow:message];
+    PreyLogMessage(@"App Delegate", 20, @"Displaying the alert message");
+    
+    [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:alertController, nil] animated:NO];
+    [alertController release];
 }
 
 - (NSString *) getName {
