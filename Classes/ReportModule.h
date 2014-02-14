@@ -9,9 +9,7 @@
 //
 
 #import "ASIFormDataRequest.h"
-
 #import "DataModule.h"
-#import "Location.h"
 
 @interface ReportModule : DataModule{
 
@@ -19,7 +17,6 @@
 	NSMutableDictionary *reportData;
     UIImage *picture;
     
-    Location    *location;
     NSTimer     *runReportTimer;
     NSDate      *lastExecution;
 }
@@ -30,7 +27,6 @@
 @property (nonatomic, retain) UIImage *picture;
 @property (nonatomic, retain) NSMutableDictionary *reportData;
 
-@property (nonatomic, retain) Location  *location;
 @property (nonatomic, retain) NSTimer   *runReportTimer;
 
 - (void) send;

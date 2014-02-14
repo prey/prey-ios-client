@@ -25,13 +25,6 @@
 
 - (void) get
 {
-    isForReport = NO;
-    [self initLocation];
-}
-
-- (void)getLocationForReport
-{
-    isForReport = YES;
     [self initLocation];
 }
 
@@ -81,10 +74,7 @@
         //
         if (newLocation.horizontalAccuracy <= 500)
         {
-            if (isForReport)
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"locationUpdated" object:newLocation];
-            else
-                [self performSelector:@selector(locationReceived:) withObject:newLocation];
+            [self performSelector:@selector(locationReceived:) withObject:newLocation];
             
             [locManager stopUpdatingLocation];
             locManager.delegate = nil;

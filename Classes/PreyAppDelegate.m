@@ -24,6 +24,7 @@
 #import "PreyDeployment.h"
 #import "WizardController.h"
 #import "ReportModule.h"
+#import "AlertModule.h"
 
 #warning Beta TestFlight
 #import "TestFlight.h"
@@ -54,46 +55,52 @@
 	  UIRemoteNotificationTypeSound)];
 }
 
-- (void)showFakeScreen {
+- (void)showFakeScreen
+{
     PreyLogMessage(@"App Delegate", 20,  @"Showing the guy our fake screen at: %@", self.url );
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
-    fakeView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 20, appFrame.size.width, appFrame.size.height)] autorelease];
+    fakeView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, appFrame.size.width, appFrame.size.height)] autorelease];
     [fakeView setDelegate:self];
     
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
     [fakeView loadRequest:requestObj];
     
-    [window addSubview:fakeView];
+    UIViewController *fakeViewController = [[UIViewController alloc] init];
+    [fakeViewController.view addSubview:fakeView];
+    
+    [window setRootViewController:fakeViewController];
     [window makeKeyAndVisible];
 }
 
-- (void) displayAlert {
-    if (showAlert){
-        
-        AlertModuleController *alertController;
-        
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            alertController = [[AlertModuleController alloc] initWithNibName:@"AlertModuleController-iPhone" bundle:nil];
-        else
-            alertController = [[AlertModuleController alloc] initWithNibName:@"AlertModuleController-iPad" bundle:nil];
-        
-        [alertController setTextToShow:self.alertMessage];
-        PreyLogMessage(@"App Delegate", 20, @"Displaying the alert message");
-        
-        [window addSubview:alertController.view];
-        [window makeKeyAndVisible];
-        [alertController release];
-        showAlert = NO;
-    }
+- (void) displayAlert
+{
+    AlertModuleController *alertController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        alertController = [[AlertModuleController alloc] initWithNibName:@"AlertModuleController-iPhone" bundle:nil];
+    else
+        alertController = [[AlertModuleController alloc] initWithNibName:@"AlertModuleController-iPad" bundle:nil];
+    
+    [alertController setTextToShow:self.alertMessage];
+    PreyLogMessage(@"App Delegate", 20, @"Displaying the alert message");
+    
+    [window setRootViewController:alertController];
+    [window makeKeyAndVisible];
+    
+    [alertController release];
+    
+    AlertModule *alertModule = [[[AlertModule alloc] init] autorelease];
+    [alertModule notifyCommandResponse:[alertModule getName] withStatus:@"started"];
+    
+    
+    showAlert = NO;
 }
 
 
 - (void)showAlert: (NSString *) textToShow {
     self.alertMessage = textToShow;
 	showAlert = YES;
-    [self displayAlert]; //WIP Added this line for test purposes
 }
 
 #pragma mark -
@@ -190,9 +197,8 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif {
 	
     PreyLogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
-	//PreyRunner *runner = [PreyRunner instance];
-	//[runner startPreyService];
     
+    [self showAlert:notif.alertBody];
 }
 
 
@@ -247,6 +253,12 @@
 
 - (void)displayScreen
 {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+    {
+        ReportModule *reportModule = [[[ReportModule alloc] init] autorelease];
+        [reportModule get];
+    }
+
     if (showAlert){
         [self displayAlert];
         return;
@@ -255,13 +267,6 @@
         [self showFakeScreen];
         return;
 	}
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
-    {
-        ReportModule *reportModule = [[[ReportModule alloc] init] autorelease];
-        [reportModule get];
-    }
-
     
     PreyConfig *config = [PreyConfig instance];
 	
@@ -394,8 +399,9 @@
     PreyLogMessageAndFile(@"App Delegate", 10,  @"Failed to register for remote notifications - Error: %@", err);    
 	
 }
-/*
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);    
     
     [self checkStatusInPreyPanel];
@@ -406,8 +412,6 @@
         showFakeScreen = YES;
     }
 }
-*/
-#warning Testing BackgroundPushNotification Remote
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
@@ -433,7 +437,6 @@
     //PreyLogMessage(@"PreyRestHttp", 10, @"==== Finished Background Notifications =======");
 }
 
-#warning Testing Backgroundfetch SendReport
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Init Background Fetch");

@@ -41,13 +41,11 @@
 }
 
 - (void)startUpdatingLocation {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accuracyUpdated:) name:@"accuracyUpdated" object:nil];
 	[accurateLocationManager startUpdatingLocation];
 	PreyLogMessage(@"Prey Location Controller", 5, @"Accurate location updating started.");
 }
 
 - (void)stopUpdatingLocation {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"accuracyUpdated" object:nil];
 	[accurateLocationManager stopUpdatingLocation];
     [accurateLocationManager stopMonitoringSignificantLocationChanges];
 	PreyLogMessage(@"Prey Location Controller", 5, @"Accurate location updating stopped.");

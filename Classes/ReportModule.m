@@ -13,11 +13,13 @@
 #import "PreyRestHttp.h"
 #import "PicturesController.h"
 
-#import "Location.h"
+#import "LocationController.h"
+#import "SignificantLocationController.h"
+
 
 @implementation ReportModule
 
-@synthesize modules,waitForLocation,waitForPicture,url, picture, reportData, location, runReportTimer;
+@synthesize modules,waitForLocation,waitForPicture,url, picture, reportData, runReportTimer;
 
 - (void) get
 {
@@ -26,11 +28,12 @@
     if (lastExecution != nil)
     {
         NSInteger delayReport = [[NSUserDefaults standardUserDefaults] integerForKey:@"delayReport"];
-        NSTimeInterval lastRunInterval = -[lastExecution timeIntervalSinceNow];
-        PreyLogMessage(@"Prey Runner", 0, @"Checking if delay of %i secs. is less than last running interval: %f secs.", delayReport, lastRunInterval);
+        NSInteger lastRunInterval = ceil(-[lastExecution timeIntervalSinceNow]) ;
+        
+        PreyLogMessage(@"Report Module", 0, @"Checking if delay of %i secs. is less than last running interval: %i secs.", delayReport, lastRunInterval);
         if (lastRunInterval < delayReport)
         {
-            PreyLogMessage(@"Prey Runner", 0, @"Trying to get device's status but interval hasn't expired. (%f secs. since last execution). Aborting!", lastRunInterval);
+            PreyLogMessage(@"Report Module", 0, @"Trying to get device's status but interval hasn't expired. (%i secs. since last execution). Aborting!", lastRunInterval);
             return;
         }
     }
@@ -58,6 +61,16 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SendReport"];
         
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:interval];
+        
+        PreyLogMessage(@"Report", 5, @"Have to wait for a location before send the report.");
+		[[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(locationUpdated:)
+                                                     name:@"locationUpdated"
+                                                   object:nil];
+        [[LocationController instance] startUpdatingLocation];
+
+        
+        [[SignificantLocationController instance] startMonitoringSignificantLocationChanges];
     }
     
     [self send];
@@ -80,6 +93,12 @@
         lastExecution = nil;
         [[NSUserDefaults standardUserDefaults] setObject:lastExecution forKey:@"lastExecutionKey"];
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
+
+        
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"locationUpdated" object:nil];
+        [[LocationController instance] stopUpdatingLocation];
+
+        [[SignificantLocationController instance] stopMonitoringSignificantLocationChanges];
     }
 }
 
@@ -87,17 +106,6 @@
 - (void) send
 {
     PreyLogMessage(@"Report", 5, @"Attempting to send the report.");
-    
-	if (waitForLocation) {
-		PreyLogMessage(@"Report", 5, @"Have to wait for a location before send the report.");
-        
-		[[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(locationUpdated:)
-                                                     name:@"locationUpdated"
-                                                   object:nil];
-        location = [[Location alloc] init];
-        [location getLocationForReport];
-	}
     
     if (waitForPicture) {
 		PreyLogMessage(@"Report", 5, @"Have to wait the picture be taken before send the report.");
@@ -122,6 +130,8 @@
             [userHttp sendReport:self];
             
             self.picture = nil;
+            waitForLocation = YES;
+            waitForPicture = YES;
         }
         @catch (NSException *exception) {
             PreyLogMessageAndFile(@"Report", 0, @"Report couldn't be sent: %@", [exception reason]);
@@ -160,7 +170,7 @@
 	[data setValue:[NSString stringWithFormat:@"%f",newLocation.altitude] forKey:[NSString stringWithFormat:@"%@[%@]",@"geo",@"alt"]];
 	[data setValue:[NSString stringWithFormat:@"%f",newLocation.horizontalAccuracy] forKey:[NSString stringWithFormat:@"%@[%@]",@"geo",@"acc"]];
 	[reportData addEntriesFromDictionary:data];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"locationUpdated" object:nil];
+
     waitForLocation = NO;
 	[self sendIfConditionsMatch];
 }
@@ -199,7 +209,6 @@
     [modules release];
     [url release];
     [picture release];
-    [location release];
     [runReportTimer release];
 }
 @end

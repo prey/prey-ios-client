@@ -14,14 +14,10 @@
     SEL                 methodToInvoke;
     NSObject            *targetObject;
     CLLocation          *bestEffortAtLocation;
-    
-    BOOL                isForReport;
 }
 
 @property (nonatomic, retain) CLLocationManager *locManager;
 @property (nonatomic, retain) CLLocation        *bestEffortAtLocation;
-
-- (void)getLocationForReport;
 
 - (void)testLocation;
 

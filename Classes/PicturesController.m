@@ -71,7 +71,7 @@
     NSError *error = nil;
     
     // Find a suitable AVCaptureDevice
-    PreyLogMessage(@"PicturesController", 10, @"Finding suitable camera device...");
+    //PreyLogMessage(@"PicturesController", 10, @"Finding suitable camera device...");
     AVCaptureDevice *device = nil;
     //if (camera){
     
@@ -100,7 +100,7 @@
     
     
     // Create a device input with the device and add it to the session.
-    PreyLogMessage(@"PicturesController", 10, @"Creating the input device...");
+    //PreyLogMessage(@"PicturesController", 10, @"Creating the input device...");
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device
                                                                         error:&error];
     if (!input) {
@@ -109,18 +109,18 @@
     }
     
     
-    PreyLogMessage(@"PicturesController", 10, @"Adding input device to the session...");
+    //PreyLogMessage(@"PicturesController", 10, @"Adding input device to the session...");
     [session addInput:input];
     
     // Create a VideoDataOutput and add it to the session
-    PreyLogMessage(@"PicturesController", 10, @"Creating the output device...");
+    //PreyLogMessage(@"PicturesController", 10, @"Creating the output device...");
     AVCaptureVideoDataOutput *output = [[[AVCaptureVideoDataOutput alloc] init] autorelease];
     
-    PreyLogMessage(@"PicturesController", 10, @"Adding output device to the session...");
+    //PreyLogMessage(@"PicturesController", 10, @"Adding output device to the session...");
     [session addOutput:output];
     
     // Configure your output.
-    PreyLogMessage(@"PicturesController", 10, @"Configuring the output device...");
+    //PreyLogMessage(@"PicturesController", 10, @"Configuring the output device...");
     dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
     PicturesControllerDelegate *delegate = [PicturesControllerDelegate initWithSession:session AndWhenFinishSendImageTo:method onTarget:target];
     
@@ -149,7 +149,7 @@
     }
     
     // Start the session running to start the flow of data
-    PreyLogMessage(@"PicturesController", 10, @"Starting the session to run...");
+    //PreyLogMessage(@"PicturesController", 10, @"Starting the session to run...");
     [session startRunning];
     
     // Assign session to an ivar.

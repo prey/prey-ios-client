@@ -33,6 +33,7 @@
     
     [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, preferencesController, nil] animated:NO];
     [preferencesController release];
+    [loginController release];
         
     if ([self.parentViewController respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) // Check iOS 5.0 or later
         [self.parentViewController dismissViewControllerAnimated:YES completion:NULL];
