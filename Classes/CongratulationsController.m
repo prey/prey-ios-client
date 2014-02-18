@@ -20,7 +20,10 @@
 
 #pragma mark -
 #pragma mark IBActions
-- (IBAction) okPressed: (id) sender{
+- (IBAction) okPressed: (id) sender
+{
+    PreyLogMessageAndFile(@"Congratulation Controller", 10, @"Init okPressed");
+    
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     
     LoginController *loginController;
@@ -34,11 +37,13 @@
     [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, preferencesController, nil] animated:NO];
     [preferencesController release];
     [loginController release];
-        
-    if ([self.parentViewController respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) // Check iOS 5.0 or later
-        [self.parentViewController dismissViewControllerAnimated:YES completion:NULL];
-    else
-        [self.parentViewController dismissModalViewControllerAnimated:YES];
+
+    PreyLogMessageAndFile(@"Congratulation Controller", 10, @"End okPressed");
+    
+    //if ([self.parentViewController respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) // Check iOS 5.0 or later
+    //    [self.parentViewController dismissViewControllerAnimated:YES completion:NULL];
+    //else
+    //    [self.parentViewController dismissModalViewControllerAnimated:YES];
     
 }
 
@@ -70,6 +75,8 @@
 	[self.ok setTitle:NSLocalizedString(@"OK",nil) forState:UIControlStateNormal];
     
 	[super viewDidLoad];
+    
+    PreyLogMessageAndFile(@"Congratulation Controller", 10, @"viewDidLoad");
 }
 
 - (void)viewWillAppear:(BOOL)animated {

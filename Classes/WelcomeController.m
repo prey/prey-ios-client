@@ -22,10 +22,8 @@
 
 
 -(void)newUserClicked:(id)sender{
-    PreyLogMessage(@"welcome_controller", 10, @"New user clicked");
     NewUserController *nuController = [[NewUserController alloc] initWithStyle:UITableViewStyleGrouped];
-	nuController.title = NSLocalizedString(@"Create Prey account",nil);
-    
+	nuController.title = NSLocalizedString(@"Create Prey account",nil);    
 	[self.navigationController pushViewController:nuController animated:YES];
 	[nuController release];
 }

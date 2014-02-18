@@ -78,20 +78,19 @@
 		[request startSynchronous];
 		NSError *error = [request error];
         
-        
-        int statusCode = [request responseStatusCode];
-        NSString *statusMessage = [request responseStatusMessage];
-        NSString *response = [request responseString];
-        
-        PreyLogMessage(@"PreyRestHttp", 10, @"GET profile.json: %@ :: %@",statusMessage, response);
-        
-		if (statusCode == 401){
-			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
-			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
-		}
 		if (!error)
         {
-            NSError *error = nil;
+            int statusCode = [request responseStatusCode];
+            NSString *statusMessage = [request responseStatusMessage];
+            NSString *response = [request responseString];
+            
+            PreyLogMessage(@"PreyRestHttp", 10, @"GET profile.json: %@ :: %@",statusMessage, response);
+            
+            if (statusCode == 401){
+                NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
+                @throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
+            }
+            
             NSString *respString = [request responseString];
 			JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
             [configParser parseRequest:respString forUser:user parseError:&error];
@@ -313,12 +312,14 @@
 	@try {
 		[request startSynchronous];
 		NSError *error = [request error];
-		/*
-		int statusCode = [request responseStatusCode];
-		NSString *statusMessage = [request responseStatusMessage];
-		 */
-		NSString *response = [request responseString];
-		if (!error) {
+		if (!error)
+        {
+            /*
+             int statusCode = [request responseStatusCode];
+             NSString *statusMessage = [request responseStatusMessage];
+             */
+            NSString *response = [request responseString];
+            
 			NSString *extractedDeviceKey = NULL;
 			[response getCapturesWithRegexAndReferences:deviceKey,	 @"$0", &extractedDeviceKey, nil];	
 			//LogMessageCompat(@"Extracted key from response: %@", extractedDeviceKey);
@@ -339,7 +340,7 @@
 
 - (BOOL) deleteDevice: (Device*) device{
 	PreyConfig* preyConfig = [PreyConfig instance];
-	__block ASIHTTPRequest *request = [self createGETrequestWithURL:[preyConfig deviceCheckPathWithExtension:@".json"]];
+	__block ASIHTTPRequest *request = [self createGETrequestWithURL:[preyConfig deviceCheckPathWithExtension:@""]];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
 	[request setRequestMethod:@"DELETE"];
@@ -494,17 +495,18 @@
 	@try {
 		[request startSynchronous];
 		NSError *error = [request error];
-		int statusCode = [request responseStatusCode];
-		PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,[request responseStatusMessage]);
-        
-		if (statusCode == 401){
-			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
-			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
-		}
-		
-		if (!error) {
-            NSError *error = nil;
-            NSData *respData = [request responseData];
+		if (!error)
+        {
+            int statusCode = [request responseStatusCode];
+            PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,[request responseStatusMessage]);
+            
+            if (statusCode == 401)
+            {
+                NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
+                @throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
+            }
+            
+            //NSData *respData = [request responseData];
             NSString *respString = [request responseString];
 			JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
 

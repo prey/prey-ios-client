@@ -39,7 +39,7 @@
     if (jsonObjects != nil)
     {
         user.apiKey = [jsonObjects objectForKey:@"key"];
-        user.pro    = [jsonObjects objectForKey:@"pro_account"];
+        user.pro = [[jsonObjects objectForKey:@"pro_account"] boolValue];
     }
 }
 
