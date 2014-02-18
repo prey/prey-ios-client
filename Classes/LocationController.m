@@ -23,8 +23,8 @@
 		//PreyConfig *config = [PreyConfig instance];
 		accurateLocationManager = [[CLLocationManager alloc] init];
 		accurateLocationManager.delegate = self;
-		accurateLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-		
+		accurateLocationManager.desiredAccuracy = [PreyConfig instance].desiredAccuracy;
+        
 		//self.locationManager.distanceFilter = 1;	
     }
     return self;
@@ -41,13 +41,16 @@
 }
 
 - (void)startUpdatingLocation {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accuracyUpdated:) name:@"accuracyUpdated" object:nil];
 	[accurateLocationManager startUpdatingLocation];
+    //[accurateLocationManager startMonitoringSignificantLocationChanges];
 	PreyLogMessage(@"Prey Location Controller", 5, @"Accurate location updating started.");
 }
 
 - (void)stopUpdatingLocation {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"accuracyUpdated" object:nil];
 	[accurateLocationManager stopUpdatingLocation];
-    [accurateLocationManager stopMonitoringSignificantLocationChanges];
+    //[accurateLocationManager stopMonitoringSignificantLocationChanges];
 	PreyLogMessage(@"Prey Location Controller", 5, @"Accurate location updating stopped.");
 }
 
@@ -89,6 +92,13 @@
     [alert show];
     [alert release];
     PreyLogMessageAndFile(@"Prey LocationController", 0, @"Error getting location: %@", [error description]);
+}
+
+- (void)accuracyUpdated:(NSNotification *)notification
+{
+	PreyLogMessageAndFile(@"Prey Location Controller", 5, @"Accuracy has been modified. Updating location manager with new accuracy: OH");
+	[accurateLocationManager stopUpdatingLocation];
+	[accurateLocationManager startUpdatingLocation];
 }
 
 - (void)dealloc {

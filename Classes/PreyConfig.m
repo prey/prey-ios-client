@@ -104,12 +104,15 @@ static PreyConfig *_instance = nil;
 
 - (void) loadDefaultValues {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	int delaySet = [defaults integerForKey:DELAY];    
+	double accSet = [defaults doubleForKey:ACCURACY];
+	self.desiredAccuracy = accSet != 0 ? accSet : kCLLocationAccuracyHundredMeters;
+	int delaySet = [defaults integerForKey:DELAY];
 	self.delay = delaySet > 0 ? delaySet : 20*60;
 	self.alreadyRegistered =[defaults boolForKey:ALREADY_REGISTERED];
+	self.alertOnReport = [defaults boolForKey:ALERT_ON_REPORT];
 	self.missing = NO;
     self.askForPassword = YES;
-	
+    
 }
 
 - (void) saveValues
@@ -126,6 +129,7 @@ static PreyConfig *_instance = nil;
 	[defaults setObject:[self email] forKey:EMAIL];
     [defaults setBool:[self isPro] forKey:PRO_ACCOUNT];
 	[defaults setBool:YES forKey:ALREADY_REGISTERED];
+    [defaults setDouble:[self desiredAccuracy] forKey:ACCURACY];
 	[defaults setInteger:[self delay] forKey:DELAY];
     [defaults setBool:[self askForPassword] forKey:ASK_FOR_PASSWORD];
     [defaults setBool:[self camouflageMode] forKey:CAMOUFLAGE_MODE];
@@ -148,6 +152,7 @@ static PreyConfig *_instance = nil;
     [defaults removeObjectForKey:EMAIL];
 	[defaults removeObjectForKey:CHECK_URL];
 	[defaults removeObjectForKey:ALREADY_REGISTERED];
+    [defaults removeObjectForKey:ACCURACY];
 	[defaults removeObjectForKey:DELAY];
     [defaults removeObjectForKey:CAMOUFLAGE_MODE];
     [defaults removeObjectForKey:INTERVAL_MODE];
@@ -188,6 +193,13 @@ static PreyConfig *_instance = nil;
 	[dev release];
 }
 
+- (void) setDesiredAccuracy:(double) acc {
+	desiredAccuracy = acc;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults setDouble:acc forKey:ACCURACY];
+	[defaults synchronize]; // this method is optional
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"accuracyUpdated" object:self];
+}
 
 - (void) setAskForPassword:(BOOL)askForPass { 
 	askForPassword = askForPass;

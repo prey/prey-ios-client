@@ -14,7 +14,6 @@
 #import "PicturesController.h"
 
 #import "LocationController.h"
-#import "SignificantLocationController.h"
 
 
 @implementation ReportModule
@@ -62,15 +61,11 @@
         
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:interval];
         
-        PreyLogMessage(@"Report", 5, @"Have to wait for a location before send the report.");
-		[[NSNotificationCenter defaultCenter] addObserver:self
+        [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(locationUpdated:)
                                                      name:@"locationUpdated"
                                                    object:nil];
         [[LocationController instance] startUpdatingLocation];
-
-        
-        [[SignificantLocationController instance] startMonitoringSignificantLocationChanges];
     }
     
     [self send];
@@ -93,12 +88,9 @@
         lastExecution = nil;
         [[NSUserDefaults standardUserDefaults] setObject:lastExecution forKey:@"lastExecutionKey"];
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
-
         
         [[NSNotificationCenter defaultCenter] removeObserver:self name:@"locationUpdated" object:nil];
         [[LocationController instance] stopUpdatingLocation];
-
-        [[SignificantLocationController instance] stopMonitoringSignificantLocationChanges];
     }
 }
 
@@ -106,6 +98,11 @@
 - (void) send
 {
     PreyLogMessage(@"Report", 5, @"Attempting to send the report.");
+    
+    if (waitForLocation) {
+        PreyLogMessage(@"Report", 5, @"Have to wait for a location before send the report.");
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"accuracyUpdated" object:nil];
+    }
     
     if (waitForPicture) {
 		PreyLogMessage(@"Report", 5, @"Have to wait the picture be taken before send the report.");
