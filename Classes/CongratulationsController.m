@@ -13,6 +13,7 @@
 #import "PreyAppDelegate.h"
 #import "LoginController.h"
 #import "PreferencesController.h"
+#import "Constants.h"
 
 @implementation CongratulationsController
 
@@ -28,7 +29,12 @@
     
     LoginController *loginController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+    {
+        if (IS_IPHONE5)
+            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil];
+        else
+            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+    }
     else
         loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
     
