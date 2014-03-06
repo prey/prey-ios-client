@@ -15,6 +15,8 @@
 
 #import "Location.h"
 
+#import "CongratulationsController.h"
+
 @interface WizardController ()
 
 @end
@@ -25,20 +27,47 @@
 
 #pragma mark Init
 
+- (void)callStartMethod:(NSURL *)userInfo
+{
+    NSInteger currentPage = [[NSUserDefaults standardUserDefaults] integerForKey:@"currentViewWizard"];
+    if (currentPage == 0)
+        currentPage = 1;
+    
+    NSString *loadString = [NSString stringWithFormat:@"Wizard.load('%d')",currentPage];
+    
+    [wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.start(4)"];
+    [wizardWebView stringByEvaluatingJavaScriptFromString:loadString];
+
+/*
+    PreyConfig *config = [PreyConfig instance];
+    
+    if (config.alreadyRegistered)
+    {
+        if (config.askForPassword)
+        {
+            [wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.load('ok')"];
+            [self enablePrey];
+        }
+    }
+    else
+    {
+        NSInteger currentPage = [[NSUserDefaults standardUserDefaults] integerForKey:@"currentViewWizard"];
+        if (currentPage == 0)
+            currentPage = 1;
+        
+        NSString *loadString = [NSString stringWithFormat:@"Wizard.load('%d')",currentPage];
+        
+        [wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.start(4)"];
+        [wizardWebView stringByEvaluatingJavaScriptFromString:loadString];
+    }
+*/
+}
+
 - (void)dealloc
 {
     [super dealloc];
     [wizardWebView release];
     [location release];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
 }
 
 - (void)viewDidLoad
@@ -52,6 +81,7 @@
     wizardWebView = [[UIWebView alloc] initWithFrame:appDelegate.window.frame];
     [wizardWebView loadRequest:[NSURLRequest requestWithURL:url]];
     [wizardWebView setDelegate:self];
+    wizardWebView.scrollView.alwaysBounceVertical = NO;
 
     [self.view addSubview:wizardWebView];
 }
@@ -63,10 +93,111 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark New User
+
+- (void)callNewUserMethod:(NSURL *)userInfo
+{
+    NSArray     *userData = [userInfo pathComponents];
+    NSString    *strEmailMatchstring =   @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
+    
+    if ([userData count] == 4)
+    {
+        if (![userData[2] isMatchedByRegex:strEmailMatchstring])
+        {
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
+            [objAlert show];
+            [objAlert release];
+        }
+        else
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.labelText = NSLocalizedString(@"Attaching device...",nil);
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
+                           {
+                               [self addNewUser:userData];
+                               [MBProgressHUD hideHUDForView:self.view animated:YES];
+                           });
+        }
+    }
+    else
+        [self showWarningInfoUser];
+}
+
+- (void) addNewUser:(NSArray*)userData
+{
+    // UserDATA = nombre, email, password
+    if ([userData[3] length] <6)
+    {
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil)
+                                                            message:NSLocalizedString(@"Password must be at least 6 characters",nil)
+                                                           delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+        return;
+    }
+    
+    User *user = nil;
+    Device *device = nil;
+    PreyConfig *config = nil;
+    @try
+    {
+        user = [User createNew:userData[1] email:userData[2] password:userData[3] repassword:userData[3]];
+        device = [Device newDeviceForApiKey:[user apiKey]];
+        config = [PreyConfig initWithUser: user andDevice:device];
+        if (config != nil)
+        {
+            NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
+            [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
+            [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
+        }
+    }
+    @catch (NSException * e) {
+        if (device != nil)
+            [user deleteDevice:device];
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"User couldn't be created",nil) message:[e reason] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alertView show];
+        [alertView release];
+        
+    }
+    @finally {
+        [user release];
+        [device release];
+    }
+}
 
 
 #pragma mark Old User
 
+- (void)callOldUserMethod:(NSURL *)userInfo
+{
+    NSArray     *userData = [userInfo pathComponents];
+    NSString    *strEmailMatchstring =   @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
+    
+    if ([userData count] == 3)
+    {
+        if (![userData[1] isMatchedByRegex:strEmailMatchstring])
+        {
+            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
+            [objAlert show];
+            [objAlert release];
+        }
+        else
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.labelText = NSLocalizedString(@"Attaching device...",nil);
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
+                           {
+                               [self addDeviceForCurrentUser:userData];
+                               [MBProgressHUD hideHUDForView:self.view animated:YES];
+                           });
+        }
+    }
+    else
+        [self showWarningInfoUser];
+}
 
 - (void) addDeviceForCurrentUser:(NSArray*)userData{
 	
@@ -77,12 +208,13 @@
 		user    = [User allocWithEmail:userData[1] password:userData[2]];
 		device  = [Device newDeviceForApiKey:[user apiKey]];
 		config  = [[PreyConfig initWithUser:user andDevice:device] retain];
-		if (config != nil){
-            //NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
-            
+		if (config != nil)
+        {
+            NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
             [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
+            [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
             
-            [self deviceAddedSuccessfully];
+            //[self deviceAddedSuccessfully];
         }
         
 	}
@@ -135,78 +267,47 @@
 }
 
 
-#pragma mark UIWebViewDelegate
+#pragma mark Methods
 
+- (void)showWarningInfoUser
+{
+    UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Enter a valid e-mail/password" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
+    [objAlert show];
+    [objAlert release];
+}
+
+- (void) showCongratsView:(id) congratsText
+{
+    CongratulationsController *congratsController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone" bundle:nil];
+    else
+        congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPad" bundle:nil];
+    
+    congratsController.txtToShow = (NSString*) congratsText;
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.navigationController pushViewController:congratsController animated:YES];
+    [congratsController release];
+}
+
+#pragma mark UIWebViewDelegate
 
 - (void)callJavaScriptMethod:(NSURL *)userInfo
 {    
     if ([[userInfo host] isEqualToString:@"index"])
     {
-        PreyConfig *config = [PreyConfig instance];
-        
-        if (config.alreadyRegistered)
-        {
-            if (config.askForPassword)
-            {
-                [wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.load('ok')"];
-                [self enablePrey];
-            }
-        }
-        else
-        {
-            NSInteger currentPage = [[NSUserDefaults standardUserDefaults] integerForKey:@"currentViewWizard"];
-            if (currentPage == 0)
-                currentPage = 1;
-            
-            NSString *loadString = [NSString stringWithFormat:@"Wizard.load('%d')",currentPage];
-            
-            [wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.start(4)"];
-            [wizardWebView stringByEvaluatingJavaScriptFromString:loadString];
-        }
+        [self callStartMethod:userInfo];
     }
     
     else if ([[userInfo host] isEqualToString:@"signin"])
     {
-        NSArray     *userData = [userInfo pathComponents];
-        NSString    *strEmailMatchstring =   @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
-        
-        if ([userData count] == 3)
-        {
-            if (![userData[1] isMatchedByRegex:strEmailMatchstring])
-            {
-                UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
-                [objAlert show];
-                [objAlert release];
-            }
-            else
-            {
-                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                hud.labelText = NSLocalizedString(@"Attaching device...",nil);
-                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
-                dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
-                {
-                    [self addDeviceForCurrentUser:userData];
-                    
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                });
-            }
-        }
-        else
-        {
-            UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Enter a valid e-mail/password" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
-            [objAlert show];
-            [objAlert release];
-        }
-        
+        [self callOldUserMethod:userInfo];
     }
 
     else if ([[userInfo host] isEqualToString:@"signup"])
     {
-        //[wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.load('error')"];
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Denied",nil) message:@"Only registered users"delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		[alertView show];
-		[alertView release];
-        
+        [self callNewUserMethod:userInfo];
     }
     
     else if ([[userInfo host] isEqualToString:@"activeView"])

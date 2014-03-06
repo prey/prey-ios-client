@@ -24,6 +24,8 @@
 #import "GAI.h"
 #import "GAIDictionaryBuilder.h"
 #import "GAIFields.h"
+#import "Constants.h"
+#import "WizardController.h"
 
 
 @implementation PreferencesController
@@ -433,10 +435,28 @@
     UIViewController *welco;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
+    {
+        if (IS_IPHONE5)
+            welco = [[WizardController alloc] initWithNibName:@"WizardController-iPhone-568h" bundle:nil];
+        else
+            welco = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
+    }
+    else
+        welco = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+
+    /*
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        if (IS_IPHONE5)
+            welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone-568h" bundle:nil];
+        else
+            welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
+    }
     else
         welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
+    */
     
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate.viewController setViewControllers:[NSArray arrayWithObject:welco] animated:NO];
     [welco release];

@@ -25,6 +25,7 @@
 #import "WizardController.h"
 #import "ReportModule.h"
 #import "AlertModule.h"
+#import "Constants.h"
 
 #warning Beta TestFlight
 #import "TestFlight.h"
@@ -212,6 +213,27 @@
 }
 
 
+- (void)applicationWillTerminate:(UIApplication *)application {
+	int minutes=0;
+	int seconds=0;
+	if (wentToBackground != nil){
+		NSTimeInterval inBg = [wentToBackground timeIntervalSinceNow];
+		minutes = floor(-inBg/60);
+		seconds = trunc(-inBg - minutes * 60);
+	}
+	PreyLogMessage(@"App Delegate", 10, @"Application will terminate!. Time alive: %d minutes, %d seconds",minutes,seconds);
+    
+    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+    if (localNotif)
+    {
+        localNotif.alertBody = @"Keep Prey in background to enable all of its features.";
+        localNotif.hasAction = NO;
+        [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
+        [localNotif release];
+    }
+    
+}
+
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     /*
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
@@ -276,44 +298,19 @@
     {
 		if (config.askForPassword)
         {
-#warning Beta: Wizard :: Logged Test
-            
-            if (config.camouflageMode)
-            {
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-                    nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
-                else
-                    nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
-            }
-            /*
-            else
-            {
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-                    nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
-                else
-                    nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
-            }
-        }
-             */
-            else
-            {
-            
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-                nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+            {
+                if (IS_IPHONE5)
+                    nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil];
+                else
+                    nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+            }
             else
                 nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
-            }
         }
     }
     else
     {
-#warning Beta: Wizard :: Welcome Test
-        /*
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
-        else
-            nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
-        */
         PreyDeployment *preyDeployment = [[PreyDeployment alloc] init];
         if ([preyDeployment isCorrect])
         {
@@ -321,10 +318,27 @@
         }
         else
         {
+#warning Beta: Wizard :: Welcome Test
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-                nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
+            {
+                if (IS_IPHONE5)
+                    nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone-568h" bundle:nil];
+                else
+                    nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
+            }
+            else
+                nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+            /*
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            {
+                if (IS_IPHONE5)
+                    nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone-568h" bundle:nil];
+                else
+                    nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
+            }
             else
                 nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
+            */
         }
         [preyDeployment release];
     }
@@ -353,19 +367,6 @@
 - (void)updateMissingStatus:(id)data {
     [(PreyConfig*)data updateMissingStatus];
 }
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-	int minutes=0;
-	int seconds=0;
-	if (wentToBackground != nil){
-		NSTimeInterval inBg = [wentToBackground timeIntervalSinceNow];
-		minutes = floor(-inBg/60);
-		seconds = trunc(-inBg - minutes * 60);
-	}
-	PreyLogMessage(@"App Delegate", 10, @"Application will terminate!. Time alive: %d minutes, %d seconds",minutes,seconds);
-	
-}
-
 
 #pragma mark -
 #pragma mark Prey Config

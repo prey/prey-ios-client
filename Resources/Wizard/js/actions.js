@@ -34,7 +34,7 @@ $(function(){
 
     // AndroidFunction.newuser();
     // Wizard.load('enable');
-    window.location.href = "command://signup/"
+    window.location.href = "command://signup/"+data.username+"/"+data.email+"/"+data.password;
                     
     e.preventDefault();
   })
