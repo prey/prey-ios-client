@@ -27,24 +27,17 @@
         
         LoginController *loginController;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+        {
+            if (IS_IPHONE5)
+                loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil];
+            else
+                loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+        }
         else
             loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
         
         [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, nil] animated:NO];
         [loginController release];
-        
-        /*
-        LoginController *loginController;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
-        else
-            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
-        
-        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-        [appDelegate.viewController pushViewController:loginController animated:NO];
-        [loginController release];
-        */
     }
     [super notifyCommandResponse:[self getName] withStatus:@"started"];
 }
@@ -59,23 +52,17 @@
         
         LoginController *loginController;
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+        {
+            if (IS_IPHONE5)
+                loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil];
+            else
+                loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+        }
         else
             loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
         
         [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, nil] animated:NO];
         [loginController release];
-        /*
-        WizardController *wizardController;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
-        else
-            wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
-        
-        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-        [appDelegate.viewController pushViewController:wizardController animated:NO];
-        [wizardController release];
-        */
     }
     
     [super notifyCommandResponse:[self getName] withStatus:@"stopped"];

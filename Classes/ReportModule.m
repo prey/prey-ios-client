@@ -59,7 +59,8 @@
         
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SendReport"];
         
-        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:interval];
+        if (IS_OS_7_OR_LATER)
+            [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:interval];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(locationUpdated:)
@@ -87,7 +88,9 @@
         
         lastExecution = nil;
         [[NSUserDefaults standardUserDefaults] setObject:lastExecution forKey:@"lastExecutionKey"];
-        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
+
+        if (IS_OS_7_OR_LATER)
+            [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
         
         [[NSNotificationCenter defaultCenter] removeObserver:self name:@"locationUpdated" object:nil];
         [[LocationController instance] stopUpdatingLocation];
