@@ -89,7 +89,7 @@ bool ReviewRequest::ShouldAskForReviewAtLaunch()
 		return false;
 	
 	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-	const int count = [defaults integerForKey:KeySessionCountSinceLastAsked];
+	const int count = (int)[defaults integerForKey:KeySessionCountSinceLastAsked];
 	[defaults setInteger:count+1 forKey:KeySessionCountSinceLastAsked];
 	
 	if (count < 12)

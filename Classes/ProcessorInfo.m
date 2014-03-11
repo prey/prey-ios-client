@@ -17,8 +17,8 @@
     NSString *model =[[UIDevice currentDevice] hwmodel];
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:[NSString stringWithFormat:@"%d",speed] forKey:@"speed"];
-    [dict setObject:[NSString stringWithFormat:@"%d",cores] forKey:@"cores"];
+    [dict setObject:[NSString stringWithFormat:@"%lu",(unsigned long)speed] forKey:@"speed"];
+    [dict setObject:[NSString stringWithFormat:@"%lu",(unsigned long)cores] forKey:@"cores"];
     [dict setObject:model forKey:@"model"];
     [super sendHttp:[super createResponseFromObject:dict]];
     

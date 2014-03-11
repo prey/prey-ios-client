@@ -40,7 +40,7 @@ static NSString *const PRO_ACCOUNT=@"pro_account";
 
 @synthesize checkUrl, desiredAccuracy, alertOnReport;
 
-@synthesize controlPanelHost,checkPath,sendCrashReports,exceptionsEndpoint,dataEndpoint,apiKey,deviceKey,email,alreadyRegistered,delay,missing,askForPassword,camouflageMode,intervalMode,pro;
+@synthesize controlPanelHost,checkPath,sendCrashReports,exceptionsEndpoint,dataEndpoint,apiKey,delay,deviceKey,email,alreadyRegistered,missing,askForPassword,camouflageMode,intervalMode,pro;
 static PreyConfig *_instance = nil;
 
 +(PreyConfig *)instance {
@@ -106,7 +106,7 @@ static PreyConfig *_instance = nil;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	double accSet = [defaults doubleForKey:ACCURACY];
 	self.desiredAccuracy = accSet != 0 ? accSet : kCLLocationAccuracyHundredMeters;
-	int delaySet = [defaults integerForKey:DELAY];
+	int delaySet = (int)[defaults integerForKey:DELAY];
 	self.delay = delaySet > 0 ? delaySet : 20*60;
 	self.alreadyRegistered =[defaults boolForKey:ALREADY_REGISTERED];
 	self.alertOnReport = [defaults boolForKey:ALERT_ON_REPORT];
@@ -172,17 +172,6 @@ static PreyConfig *_instance = nil;
     else
         return (BOOL)value ? @"True" : @"False";
 }
-
-- (void) updateMissingStatus {
-	if (self.deviceKey != nil && ![self.deviceKey isEqualToString:@""]){
-		PreyLogMessage(@"PreyConfig", 10, @"Updating missing status...");
-		PreyRestHttp *http = [[PreyRestHttp alloc] init];
-		self.missing = [http isMissingTheDevice:self.deviceKey ofTheUser:self.apiKey];
-		[http release];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"missingUpdated" object:self];
-	}
-}
-
 
 - (void) detachDevice {
     [self resetValues];

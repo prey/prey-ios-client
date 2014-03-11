@@ -70,7 +70,7 @@
             return numberRow;
             break;
 		case 1:
-			return 3;
+			return 2;
 			break;
 		case 2:
 			return 4;
@@ -162,13 +162,6 @@
                 [camouflageMode release];
             }
             else if ([indexPath row] == 1) {
-                intervalCheckin = [[UISwitch alloc]init];
-                cell.textLabel.text = NSLocalizedString(@"Use Location Listener",nil);
-                [intervalCheckin addTarget: self action: @selector(intervalModeState:) forControlEvents:UIControlEventValueChanged];
-                [intervalCheckin setOn:config.intervalMode];
-                cell.accessoryView = intervalCheckin;
-                
-            } else if ([indexPath row] == 2) {
 				cell.textLabel.text = NSLocalizedString(@"Detach device",nil);
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -229,20 +222,12 @@
             }
             break;
 		case 1:
-            if ([indexPath row] == 2){
+            if ([indexPath row] == 1){
 				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil) destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) otherButtonTitles:nil];
 				actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
 				[actionSheet release];
 			}
-            /*
-             else if ([indexPath row] == 4){
-             LogController *logController = [[LogController alloc] init];
-             [self.navigationController setNavigationBarHidden:NO animated:NO];
-             [self.navigationController pushViewController:logController animated:YES];
-             [logController release];
-             }
-             */
 			break;
 		case 2:
             if (indexPath.row != 0) {
@@ -313,120 +298,22 @@
 
 #pragma mark -
 #pragma mark Switches methods
-- (IBAction)changeMissingState:(UISwitch*)missingSwitch{
-	//LogMessageCompat(@"Switch status on? %@", missingSwitch.on == YES? @"YES" : @"NO");
-    
-	NSString *label = nil;
-	NSString *button = nil;
-	if (missingSwitch.on){
-		label = NSLocalizedString(@"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?",nil);
-		button = NSLocalizedString(@"Mark as missing",nil);
-	}
-	else {
-		label = NSLocalizedString(@"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?",nil);
-		button = NSLocalizedString(@"Mark as recovered",nil);
-	}
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:label
-															 delegate:self
-													cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                                               destructiveButtonTitle:button otherButtonTitles:nil];
-	[actionSheet setTag:2];
-    [actionSheet showInView:self.view];
-	[actionSheet release];
-    
-    
-}
-
-- (IBAction)changeAskForPasswordState:(UISwitch*)askForPassSwitch{
-	//LogMessageCompat(@"Switch status on? %@", missingSwitch.on == YES? @"YES" : @"NO");
-    [[PreyConfig instance] setAskForPassword:askForPassSwitch.on];
-}
-
 
 - (IBAction)camouflageModeState:(UISwitch*)camouflageModeSwitch{
-	//LogMessageCompat(@"Switch status on? %@", missingSwitch.on == YES? @"YES" : @"NO");
     [[PreyConfig instance] setCamouflageMode:camouflageModeSwitch.on];
 }
 
-- (IBAction)intervalModeState:(UISwitch*)intervalModeSwitch{
-    NSString *label = nil;
-	NSString *button = nil;
-	if (intervalModeSwitch.on){
-		label = NSLocalizedString(@"By enabling this, the arrow location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery",nil);
-		button = NSLocalizedString(@"Enable it!",nil);
-	}
-	else {
-		label = NSLocalizedString(@"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel",nil);
-		button = NSLocalizedString(@"Disable it!",nil);
-	}
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:label
-															 delegate:self
-													cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                                               destructiveButtonTitle:button otherButtonTitles:nil];
-	[actionSheet setTag:3];
-    [actionSheet showInView:self.view];
-	[actionSheet release];
-    
-    
-}
-
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-	if (actionSheet.tag == 1){
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (actionSheet.tag == 1)
+    {
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         
 		if (buttonIndex == 0){
-            //Dettaching device...
-            /*
-             HUD = [[MBProgressHUD alloc] initWithView:self.view];
-             HUD.delegate = self;
-             HUD.labelText = NSLocalizedString(@"Removing device...",nil);
-             [self.navigationController.view addSubview:HUD];
-             [HUD showWhileExecuting:@selector(detachDevice) onTarget:self withObject:nil animated:NO];
-             */
             [self detachDevice];
         }
 	}
-	else if (actionSheet.tag == 2){
-		if (missing.on)
-			if (buttonIndex == 0){
-#warning REvisar missing.on
-                HUD = [[MBProgressHUD alloc] initWithView:self.view];
-                HUD.delegate = self;
-                HUD.labelText = NSLocalizedString(@"Starting Prey...",nil);
-                [self.navigationController.view addSubview:HUD];
-                //[HUD showWhileExecuting:@selector(startPrey) onTarget:self withObject:nil animated:YES];
-            }
-			else
-				[missing setOn:NO animated:YES];
-            else
-                if (buttonIndex == 0){
-                    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-                    HUD.delegate = self;
-                    HUD.labelText = NSLocalizedString(@"Stopping Prey...",nil);
-                    [self.navigationController.view addSubview:HUD];
-                    //[HUD showWhileExecuting:@selector(stopPrey) onTarget:self withObject:nil animated:YES];
-                }
-                else
-                    [missing setOn:YES animated:YES];
-    } else  if (actionSheet.tag == 3){
-        if (intervalCheckin.on)
-			if (buttonIndex == 0){
-                [[PreyConfig instance] setIntervalMode:intervalCheckin.on];
-                [[SignificantLocationController instance] startMonitoringSignificantLocationChanges];
-            }
-			else
-				[intervalCheckin setOn:NO animated:YES];
-            else
-                if (buttonIndex == 0){
-                    [[PreyConfig instance] setIntervalMode:intervalCheckin.on];
-                    [[SignificantLocationController instance] stopMonitoringSignificantLocationChanges];
-                }
-                else
-                    [intervalCheckin setOn:YES animated:YES];
-    }
 }
 
 - (void) detachDevice {
@@ -462,27 +349,12 @@
     [welco release];
 }
 
-
-- (IBAction)changeReportState:(UISwitch*)missingSwitch{
-	[PreyConfig instance].alertOnReport = missingSwitch.on;
-}
-
 #pragma mark -
 #pragma mark Events received
-- (void)missingStateUpdated:(NSNotification *)notification
-{
-	//LogMessage(@"Prey Location Controller", 0, @"Missing state has been updated from the control panel. Setting the missing switch");
-	[self performSelectorOnMainThread:@selector(changeMissingSwitch:) withObject:[notification object] waitUntilDone:NO];
-}
 
 - (void)reloadData:(NSNotification *)notification
 {
 	[[self tableView] reloadData];
-}
-
-- (void)changeMissingSwitch:(id)config {
-	BOOL isMissing = ((PreyConfig*)config).missing;
-	[missing setOn:isMissing animated:YES];
 }
 
 #pragma mark -
@@ -509,7 +381,6 @@
     accManager = [[AccuracyManager alloc] init];
     delayManager = [[DelayManager alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:kProductsLoadedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(missingStateUpdated:) name:@"missingUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
     

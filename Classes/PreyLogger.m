@@ -22,7 +22,8 @@ void PreyLogMessage(NSString *domain, int level, NSString *format, ...)
         NSString *msgString = [[NSString alloc] initWithFormat:format arguments:args];
         if (msgString != nil)
         {
-            LogMessage(domain, level, msgString);
+            LogMessage(domain, level, @"%@",msgString);
+            NSLog(@"%@",msgString);
             [msgString release];
         }
         
@@ -39,7 +40,8 @@ void PreyLogMessageAndFile(NSString *domain, int level, NSString *format, ...)
         NSString *msgString = [[NSString alloc] initWithFormat:format arguments:args];
         if (msgString != nil)
         {
-            LogMessage(domain, level, msgString);
+            LogMessage(domain, level, @"%@",msgString);
+            NSLog(@"%@",msgString);
             [PreyLogger LogToFile:msgString];
             [msgString release];
         }

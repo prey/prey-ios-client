@@ -11,9 +11,8 @@
 #import "ASIFormDataRequest.h"
 #import "DataModule.h"
 
-@interface ReportModule : DataModule{
-
-	NSMutableArray *modules;
+@interface ReportModule : DataModule
+{
 	NSMutableDictionary *reportData;
     UIImage *picture;
     
@@ -21,7 +20,6 @@
     NSDate      *lastExecution;
 }
 
-@property (nonatomic, retain) NSMutableArray *modules;
 @property BOOL waitForLocation, waitForPicture;
 @property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) UIImage *picture;
@@ -30,6 +28,5 @@
 @property (nonatomic, retain) NSTimer   *runReportTimer;
 
 - (void) send;
-- (NSMutableDictionary *) getReportData;
 - (void) fillReportData:(ASIFormDataRequest*) request;
 @end

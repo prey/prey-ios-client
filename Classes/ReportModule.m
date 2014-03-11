@@ -9,7 +9,6 @@
 //
 
 #import "ReportModule.h"
-#import "PreyModule.h"
 #import "PreyRestHttp.h"
 #import "PicturesController.h"
 
@@ -18,7 +17,7 @@
 
 @implementation ReportModule
 
-@synthesize modules,waitForLocation,waitForPicture,url, picture, reportData, runReportTimer;
+@synthesize waitForLocation,waitForPicture,url, picture, reportData, runReportTimer;
 
 - (void) get
 {
@@ -29,10 +28,10 @@
         NSInteger delayReport = [[NSUserDefaults standardUserDefaults] integerForKey:@"delayReport"];
         NSInteger lastRunInterval = ceil(-[lastExecution timeIntervalSinceNow]) ;
         
-        PreyLogMessage(@"Report Module", 0, @"Checking if delay of %i secs. is less than last running interval: %i secs.", delayReport, lastRunInterval);
+        PreyLogMessage(@"Report Module", 0, @"Checking if delay of %d secs. is less than last running interval: %d secs.", (int)delayReport, (int)lastRunInterval);
         if (lastRunInterval < delayReport)
         {
-            PreyLogMessage(@"Report Module", 0, @"Trying to get device's status but interval hasn't expired. (%i secs. since last execution). Aborting!", lastRunInterval);
+            PreyLogMessage(@"Report Module", 0, @"Trying to get device's status but interval hasn't expired. (%d secs. since last execution). Aborting!", (int)lastRunInterval);
             return;
         }
     }
@@ -53,7 +52,7 @@
         else
             [[NSUserDefaults standardUserDefaults] setInteger:interval forKey:@"delayReport"];
         
-        PreyLogMessage(@"Report", 10, @"Intervalo = %d",interval);
+        PreyLogMessage(@"Report", 10, @"Intervalo = %d",(int)interval);
 
         runReportTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(runReportModule:) userInfo:nil repeats:YES];
         
@@ -175,24 +174,8 @@
 	[self sendIfConditionsMatch];
 }
 
-
-
-- (NSMutableDictionary *) getReportData {
-	PreyModule* module;
-	for (module in modules){
-		if ([module reportData] != nil)
-			[reportData addEntriesFromDictionary:[module reportData]];
-	}
-	return reportData;
-}
-
-- (void) fillReportData:(ASIFormDataRequest*) request {
-    PreyModule* module;
-	for (module in modules){
-		if ([module reportData] != nil)
-			[reportData addEntriesFromDictionary:[module reportData]];
-	}
-    
+- (void) fillReportData:(ASIFormDataRequest*) request
+{
     [reportData enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
 		[request addPostValue:(NSString*)object forKey:(NSString *) key];
 	}];
@@ -206,7 +189,6 @@
 - (void) dealloc {
 	[super dealloc];
 	[reportData release];
-    [modules release];
     [url release];
     [picture release];
     [runReportTimer release];

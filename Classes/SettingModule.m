@@ -33,5 +33,15 @@
     [http sendSetting:dict];
 }
 
+- (void) update: (NSString*) value
+{
+    
+}
+
+- (void) toggle: (NSString*) value
+{
+    
+}
+
 
 @end

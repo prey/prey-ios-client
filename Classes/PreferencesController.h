@@ -19,8 +19,6 @@
     UIActivityIndicatorView *cLoadingView;
 	AccuracyManager *accManager;
 	DelayManager *delayManager;
-	UISwitch *missing;
-    UISwitch *intervalCheckin;
     BOOL pickerShowed;
     MBProgressHUD *HUD;
     

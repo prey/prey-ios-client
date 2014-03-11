@@ -11,9 +11,6 @@
 
 #import "UIWebViewController.h"
 
-// Constants
-static NSString* const kGGTwitterLoadingBackgroundImage = @"sumerceWait.png";
-
 @interface UIWebViewController ()
 @property (nonatomic, readwrite) UIInterfaceOrientation orientation;
 @end

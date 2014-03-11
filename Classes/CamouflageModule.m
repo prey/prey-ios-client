@@ -14,6 +14,7 @@
 #import "LoginController.h"
 #import "WizardController.h"
 #import "PreferencesController.h"
+#import "Constants.h"
 
 @implementation CamouflageModule
 

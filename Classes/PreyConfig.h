@@ -55,7 +55,6 @@
 + (PreyConfig*) initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device;
 - (NSString *) deviceCheckPathWithExtension: (NSString *) extension;
 - (NSString *) readConfigValueForKey: (NSString *) key;
-- (void) updateMissingStatus; //get status from Control Panel
 - (void) loadDefaultValues;
 - (void) saveValues;
 - (void) detachDevice;

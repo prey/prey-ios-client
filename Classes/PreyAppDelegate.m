@@ -26,6 +26,7 @@
 #import "ReportModule.h"
 #import "AlertModule.h"
 #import "Constants.h"
+#import "PreyRestHttp.h"
 
 #warning Beta TestFlight
 #import "TestFlight.h"
@@ -182,13 +183,6 @@
             
             [self registerForRemoteNotifications];
             //[[PreyRunner instance] startOnIntervalChecking];
-     
-            /*
-            NSOperationQueue *bgQueue = [[NSOperationQueue alloc] init];
-            NSInvocationOperation* updateStatus = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(updateMissingStatus:) object:config] autorelease];
-            [bgQueue addOperation:updateStatus];
-            [bgQueue release];
-             */
         }
     }
   
@@ -360,12 +354,6 @@
     [window setRootViewController:viewController];
     [window makeKeyAndVisible];
 	[nextController release];
-}
-
-
-
-- (void)updateMissingStatus:(id)data {
-    [(PreyConfig*)data updateMissingStatus];
 }
 
 #pragma mark -
