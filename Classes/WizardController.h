@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 #import "Location.h"
+#import "UIWebViewController.h"
 
-@interface WizardController : UIViewController <UIWebViewDelegate, MBProgressHUDDelegate>
+@interface WizardController : UIViewController <UIWebViewControllerDelegate, UIWebViewDelegate, MBProgressHUDDelegate>
 {
     UIWebView *wizardWebView;
     Location *location;

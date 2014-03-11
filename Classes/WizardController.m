@@ -12,10 +12,11 @@
 #import "User.h"
 #import "Device.h"
 #import "PreyConfig.h"
-
+#import "Constants.h"
 #import "Location.h"
 
 #import "CongratulationsController.h"
+#import "RegexKitLite.h"
 
 @interface WizardController ()
 
@@ -33,7 +34,7 @@
     if (currentPage == 0)
         currentPage = 1;
     
-    NSString *loadString = [NSString stringWithFormat:@"Wizard.load('%d')",currentPage];
+    NSString *loadString = [NSString stringWithFormat:@"Wizard.load('%ld')",(long)currentPage];
     
     [wizardWebView stringByEvaluatingJavaScriptFromString:@"Wizard.start(4)"];
     [wizardWebView stringByEvaluatingJavaScriptFromString:loadString];
@@ -269,6 +270,20 @@
 
 #pragma mark Methods
 
+- (void)showWebView:(NSString *)url
+{
+    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self
+                                                                   forOrientation:UIInterfaceOrientationPortrait setURL:url];
+    
+    if (controller)
+    {
+        if ([self.navigationController respondsToSelector:@selector(presentViewController:animated:completion:)]) // Check iOS 5.0 or later
+            [self.navigationController presentViewController:controller animated:YES completion:NULL];
+        else
+            [self.navigationController presentModalViewController:controller animated:YES];
+    }
+}
+
 - (void)showWarningInfoUser
 {
     UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Enter a valid e-mail/password" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
@@ -281,7 +296,12 @@
     CongratulationsController *congratsController;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone" bundle:nil];
+    {
+        if (IS_IPHONE5)
+            congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone-568h" bundle:nil];
+        else
+            congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone" bundle:nil];
+    }
     else
         congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPad" bundle:nil];
     
@@ -314,6 +334,18 @@
     {
         NSArray     *userData = [userInfo pathComponents];
         [[NSUserDefaults standardUserDefaults] setInteger:[userData[1] intValue] forKey:@"currentViewWizard"];
+    }
+    else if ([[userInfo host] isEqualToString:@"tos"])
+    {
+        [self showWebView:@"https://preyproject.com/terms"];
+    }
+    else if ([[userInfo host] isEqualToString:@"privacy"])
+    {
+        [self showWebView:@"https://preyproject.com/privacy"];
+    }
+    else if ([[userInfo host] isEqualToString:@"forgot"])
+    {
+        [self showWebView:@"https://beta.preyproject.com/forgot"];
     }
 }
 
