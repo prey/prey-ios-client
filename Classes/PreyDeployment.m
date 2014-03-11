@@ -10,7 +10,7 @@
 #import "Device.h"
 #import "PreyConfig.h"
 #import "PreyAppDelegate.h"
-#import "PreyRunner.h"
+#import "PreyRestHttp.h"
 
 @implementation PreyDeployment
 
@@ -59,7 +59,7 @@
 		device = [Device newDeviceForApiKey:apiKeyUser];
 		config = [[PreyConfig initWithApiKey:apiKeyUser andDevice:device] retain];
 		if (config != nil){
-            [self activatePreyService];
+            [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
             return YES;
         }
 	}
@@ -79,11 +79,6 @@
 	}
 }
 
-- (void) activatePreyService {
-    [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
-    [[PreyRunner instance] startOnIntervalChecking];
-}
-
 -(BOOL) deleteDevice: (Device*) dev {
 	@try {
 		PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
@@ -100,7 +95,12 @@
     CongratulationsController* congratulationsController;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        congratulationsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone" bundle:nil];
+    {
+        if (IS_IPHONE5)
+            congratulationsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone-568h" bundle:nil];
+        else
+            congratulationsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone" bundle:nil];
+    }
     else
         congratulationsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPad" bundle:nil];
     

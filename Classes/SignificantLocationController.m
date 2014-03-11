@@ -9,7 +9,6 @@
 //
 
 #import "SignificantLocationController.h"
-#import "DeviceModulesConfig.h"
 #import "PreyRestHttp.h"
 #import "PreyConfig.h"
 

@@ -12,10 +12,8 @@
 #import "User.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
-#import "RegexKitLite.h"
 #import "Constants.h"
 #import "Device.h"
-#import "DeviceModulesConfig.h"
 #import "JsonConfigParser.h"
 #import "PreyConfig.h"
 #import "Reachability.h"
@@ -36,10 +34,6 @@
 - (NSString *) createApiKey: (User *) user;
 - (NSString *) createDeviceKeyForDevice: (Device*) device usingApiKey: (NSString *) apiKey;
 - (BOOL) deleteDevice: (Device*) device;
-- (BOOL) validateIfExistApiKey: (NSString *) apiKey andDeviceKey: (NSString *) deviceKey;
-- (DeviceModulesConfig *) getXMLforUser;
-- (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey;
-- (BOOL) isMissingTheDevice: (NSString *) device ofTheUser: (NSString *) apiKey;
 - (void) sendReport: (ReportModule *) report;
 + (BOOL) checkInternet;
 - (void) getAppstoreConfig: (id) delegate inURL: (NSString *) URL;
@@ -48,7 +42,7 @@
 #pragma mark -
 #pragma mark New panel API
 
-- (DeviceModulesConfig *) checkStatusForDevice: (NSString *) deviceKey andApiKey: (NSString *) apiKey;
+- (NewModulesConfig *) checkStatusForDevice: (NSString *) deviceKey andApiKey: (NSString *) apiKey;
 - (void) notifyEvent: (NSDictionary*) data;
 - (void) notifyCommandResponse: (NSDictionary*) data;
 - (void) sendSetting: (NSDictionary*) data;

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PreyRestHttp.h"
 #import "PreyConfig.h"
 #import "PreyModule.h"
 

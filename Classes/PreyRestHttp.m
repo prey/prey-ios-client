@@ -9,7 +9,7 @@
 
 
 #import "PreyRestHttp.h"
-#import "ConfigParserDelegate.h"
+#import "ReportModule.h"
 
 @interface PreyRestHttp()
 
@@ -219,125 +219,6 @@
 	
 }
 
-- (DeviceModulesConfig *) getXMLforUser
-{
-    ASIHTTPRequest *request = [self createGETrequestWithURL:[[PreyConfig instance] deviceCheckPathWithExtension:@".json"]];
-    [request setUsername:[[PreyConfig instance] apiKey]];
-	[request setPassword: @"x"];
-	
-	@try {
-		[request startSynchronous];
-		NSError *error = [request error];
-		int statusCode = [request responseStatusCode];
-		//NSString *statusMessage = [request responseStatusMessage];
-		//NSString *response = [request responseString];
-        
-		//PreyLogMessage(@"PreyRestHttp", 10, @"GET devices/%@.xml: %@",[[PreyConfig instance] deviceKey],[request responseStatusMessage]);
-   		PreyLogMessage(@"PreyRestHttp", 10, @"GET %@: %@",[[PreyConfig instance] deviceCheckPathWithExtension:@".xml"],[request responseStatusMessage]);
-		
-        if (statusCode == 401){
-			NSString *errorMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
-			@throw [NSException exceptionWithName:@"GetApiKeyException" reason:errorMessage userInfo:nil];
-		}
-		
-		if (!error) {
-            NSError *error = nil;
-			ConfigParserDelegate *configParser = [[ConfigParserDelegate alloc] init];
-			NSData *respData = [request responseData];
-			DeviceModulesConfig *modulesConfig = [configParser parseModulesConfig:respData parseError:&error];
-            
-			return modulesConfig;
-		}
-		else {
-			@throw [NSException exceptionWithName:@"GetXMLforDeviceException" reason:[error localizedDescription] userInfo:nil];
-		}
-		
-		
-	}
-	@catch (NSException * e) {
-		@throw;
-	}
-	return nil;
-}
-
-- (BOOL) isMissingTheDevice: (NSString *) device ofTheUser: (NSString *) apiKey{
-	return [self getXMLforUser].missing;
-}
-
-- (BOOL) changeStatusToMissing: (BOOL) missing forDevice:(NSString *) deviceKey fromUser: (NSString *) apiKey {
-	ASIFormDataRequest *request = [self createPUTrequestWithURL:[[PreyConfig instance] deviceCheckPathWithExtension:@".json"]];
-    [request setShouldContinueWhenAppEntersBackground:YES];
-	[request setUsername:apiKey];
-	[request setPassword: @"x"];
-	if (missing)
-		[request setPostValue:@"1" forKey:@"device[missing]"];
-	else
-		[request setPostValue:@"0" forKey:@"device[missing]"];
-	
-	@try {
-        PreyLogMessage(@"PreyRestHttp", 10, @"Attempting to change status on Control Panel");
-		[request startSynchronous];
-        PreyLogMessage(@"PreyRestHttp", 10, @"PUT devices/%@.xml [missing=%@] response: %@",deviceKey,missing?@"YES":@"NO",[request responseStatusMessage]);
-		NSError *error = [request error];
-		if (!error) {
-			/*
-			 int statusCode = [request responseStatusCode];
-			 NSString *statusMessage = [request responseStatusMessage];
-			 NSString *response = [request responseString];
-			 //LogMessageCompat(@"URL: %@ response status: %@ with data: %@", url, statusMessage, response );
-			 */
-			return NO;
-		}
-		
-		else {
-			return YES;
-			
-		}
-	}
-	@catch (NSException * e) {
-		@throw;
-	}
-	
-	return NO;
-	
-}
-
-- (BOOL) validateIfExistApiKey: (NSString *) apiKey andDeviceKey: (NSString *) deviceKey
-{	
-	//ASIHTTPRequest *request = [self createGETrequestWithURL:[[[PreyConfig instance] controlPanelHost] stringByAppendingFormat: @"/devices.xml"]];
-	ASIHTTPRequest *request = [self createGETrequestWithURL:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices.json"]];
-	[request setUsername:apiKey];
-	[request setPassword:@"x"];
-	
-	@try {
-		[request startSynchronous];
-		NSError *error = [request error];
-		if (!error)
-        {
-            /*
-             int statusCode = [request responseStatusCode];
-             NSString *statusMessage = [request responseStatusMessage];
-             */
-            NSString *response = [request responseString];
-            
-			NSString *extractedDeviceKey = NULL;
-			[response getCapturesWithRegexAndReferences:deviceKey,	 @"$0", &extractedDeviceKey, nil];	
-			//LogMessageCompat(@"Extracted key from response: %@", extractedDeviceKey);
-			return [extractedDeviceKey isEqual:deviceKey];
-		}
-		
-		else {
-			return NO;
-			
-		}
-	}
-	@catch (NSException * e) {
-		@throw;
-	}
-	
-	return NO;
-}
-
 - (BOOL) deleteDevice: (Device*) device{
 	PreyConfig* preyConfig = [PreyConfig instance];
 	__block ASIHTTPRequest *request = [self createGETrequestWithURL:[preyConfig deviceCheckPathWithExtension:@""]];
@@ -490,7 +371,7 @@
     [request setUsername:apiKey];
 	[request setPassword: @"x"];
 	
-    PreyLogMessage(@"PreyRestHttp", 10, [DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@.json", deviceKey]);
+    PreyLogMessage(@"PreyRestHttp", 10,@"%@",[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@.json", deviceKey]);
     
 	@try {
 		[request startSynchronous];

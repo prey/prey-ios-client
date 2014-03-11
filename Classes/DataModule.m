@@ -7,7 +7,7 @@
 //
 
 #import "DataModule.h"
-
+#import "PreyRestHttp.h"
 
 @implementation DataModule
 
