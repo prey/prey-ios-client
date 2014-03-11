@@ -25,6 +25,7 @@
 #import "ReportModule.h"
 #import "Location.h"
 #import "CamouflageModule.h"
+#import "ContactsModule.h"
 
 @implementation PreyModule
 
@@ -77,13 +78,16 @@
     if ([moduleName isEqualToString:@"uptime"]) {
 		return [[[Uptime alloc] init] autorelease];
 	}    
-
     if ([moduleName isEqualToString:@"remaining_storage"]) {
 		return [[[RemainingStorage alloc] init] autorelease];
 	}
     if ([moduleName isEqualToString:@"location"]) {
 		return [[[Location alloc] init] autorelease];
 	}
+    if ([moduleName isEqualToString:@"contacts_backup"]) {
+		return [[[ContactsModule alloc] init] autorelease];
+	}
+    
     
     if ([command isEqualToString:@"read"] || [command isEqualToString:@"update"] || [command isEqualToString:@"toggle"]) { //Setting Module
         SettingModule *settingModule = [[[SettingModule alloc]init] autorelease];

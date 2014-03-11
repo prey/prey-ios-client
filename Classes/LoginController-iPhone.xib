@@ -13,6 +13,7 @@
                 <outlet property="loginButton" destination="8" id="29"/>
                 <outlet property="loginImage" destination="17" id="20"/>
                 <outlet property="loginPassword" destination="6" id="14"/>
+                <outlet property="preyLogo" destination="t3I-7N-zsm" id="NXd-rO-3kX"/>
                 <outlet property="scrollView" destination="33" id="38"/>
                 <outlet property="tableView" destination="34" id="39"/>
                 <outlet property="tipl" destination="40" id="42"/>
