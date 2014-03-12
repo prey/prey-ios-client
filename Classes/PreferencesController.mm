@@ -320,7 +320,7 @@
     [[PreyConfig instance] detachDevice];
     
     UIViewController *welco;
-    
+    /*
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         if (IS_IPHONE5)
@@ -330,8 +330,8 @@
     }
     else
         welco = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
-
-    /*
+    */
+    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         if (IS_IPHONE5)
@@ -341,7 +341,7 @@
     }
     else
         welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
-    */
+    
     
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];

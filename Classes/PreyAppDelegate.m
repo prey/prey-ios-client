@@ -313,6 +313,7 @@
         else
         {
 #warning Beta: Wizard :: Welcome Test
+            /*
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             {
                 if (IS_IPHONE5)
@@ -322,7 +323,8 @@
             }
             else
                 nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
-            /*
+            */
+            
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             {
                 if (IS_IPHONE5)
@@ -332,7 +334,7 @@
             }
             else
                 nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
-            */
+            
         }
         [preyDeployment release];
     }
