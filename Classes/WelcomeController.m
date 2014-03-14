@@ -23,15 +23,17 @@
 
 -(void)newUserClicked:(id)sender{
     NewUserController *nuController = [[NewUserController alloc] initWithStyle:UITableViewStyleGrouped];
-	nuController.title = NSLocalizedString(@"Create Prey account",nil);    
-	[self.navigationController pushViewController:nuController animated:YES];
+	nuController.title = NSLocalizedString(@"Create Prey account",nil);
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+	[appDelegate.viewController pushViewController:nuController animated:YES];
 	[nuController release];
 }
 
 -(void)oldUserClicked:(id)sender{
     OldUserController *ouController = [[OldUserController alloc] initWithStyle:UITableViewStyleGrouped];
     ouController.title = NSLocalizedString(@"Log in to Prey",nil);
-	[self.navigationController pushViewController:ouController animated:YES];
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+	[appDelegate.viewController pushViewController:ouController animated:YES];
 	[ouController release];
 }
 
@@ -72,11 +74,6 @@
     [self.buttnewUser setTitle:NSLocalizedString(@"New user", nil) forState: UIControlStateNormal];
     [self.buttoldUser setTitle:NSLocalizedString(@"Already a Prey user", nil) forState: UIControlStateNormal];
 	[super viewDidLoad];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
 }
 
 - (void)didReceiveMemoryWarning {

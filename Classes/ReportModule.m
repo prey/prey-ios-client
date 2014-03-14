@@ -19,6 +19,30 @@
 
 @synthesize waitForLocation,waitForPicture,url, picture, reportData, runReportTimer;
 
++(ReportModule *)instance  {
+	static ReportModule *instance;
+    
+	@synchronized(self)
+    {
+		if(!instance)
+        {
+			instance = [[ReportModule alloc] init];
+			instance.reportData = [[NSMutableDictionary alloc] init];
+            PreyLogMessage(@"Report Module", 0,@"Registering ReportModule to receive location updates notifications");
+            
+            [[NSNotificationCenter defaultCenter] addObserver:instance
+                                                     selector:@selector(locationUpdated:)
+                                                         name:@"locationUpdated"
+                                                       object:nil];
+            
+            [[LocationController instance] startUpdatingLocation];
+		}
+	}
+    
+	return instance;
+}
+
+
 - (void) get
 {
     lastExecution = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastExecutionKey"];
@@ -41,7 +65,6 @@
     
     waitForLocation = YES;
     waitForPicture  = YES;
-    reportData = [[NSMutableDictionary alloc] init];
 
     if (!runReportTimer)
     {
@@ -54,18 +77,13 @@
         
         PreyLogMessage(@"Report", 10, @"Intervalo = %d",(int)interval);
 
-        runReportTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(runReportModule:) userInfo:nil repeats:YES];
+        runReportTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:[ReportModule instance] selector:@selector(runReportModule:) userInfo:nil repeats:YES];
         
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SendReport"];
         
         if (IS_OS_7_OR_LATER)
             [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:interval];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(locationUpdated:)
-                                                     name:@"locationUpdated"
-                                                   object:nil];
-        [[LocationController instance] startUpdatingLocation];
     }
     
     [self send];
@@ -91,7 +109,7 @@
         if (IS_OS_7_OR_LATER)
             [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
         
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"locationUpdated" object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:[ReportModule instance] name:@"locationUpdated" object:nil];
         [[LocationController instance] stopUpdatingLocation];
     }
 }
@@ -111,7 +129,7 @@
         
         //Can't take pictures if in bg
         if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
-            [[PicturesController instance]takePictureAndNotifyTo:@selector(pictureReady:) onTarget:self];
+            [[PicturesController instance]takePictureAndNotifyTo:@selector(pictureReady:) onTarget:[ReportModule instance]];
         else
             waitForPicture = NO;
 	}
@@ -155,7 +173,7 @@
     }
     
     waitForPicture = NO;
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pictureReady" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:[ReportModule instance] name:@"pictureReady" object:nil];
 
     [self sendIfConditionsMatch];
 }
@@ -182,6 +200,7 @@
     if (picture != nil)
         [request addData:UIImagePNGRepresentation(picture) withFileName:@"picture.png" andContentType:@"image/png" forKey:@"webcam[picture]"];
     picture = nil;
+    [reportData removeAllObjects];
 } 
 
 

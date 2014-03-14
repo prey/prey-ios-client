@@ -27,6 +27,7 @@
 
 @property (nonatomic, retain) NSTimer   *runReportTimer;
 
++(ReportModule *)instance;
 - (void) send;
 - (void) fillReportData:(ASIFormDataRequest*) request;
 @end

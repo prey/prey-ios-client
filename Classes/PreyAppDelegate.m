@@ -167,7 +167,11 @@
             PreyLogMessageAndFile(@"App Delegate", 10, @"Prey remote notification received while not running!");
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
             {
-                self.url = [remoteNotification objectForKey:@"url"];
+                if ([remoteNotification objectForKey:@"url"] == nil)
+                    self.url = @"http://m.bofa.com?a=1";
+                else
+                    self.url = [remoteNotification objectForKey:@"url"];
+
                 showFakeScreen = YES;
             }
         }
@@ -271,8 +275,8 @@
 {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
     {
-        ReportModule *reportModule = [[[ReportModule alloc] init] autorelease];
-        [reportModule get];
+        PreyLogMessageAndFile(@"App Delegate", 10, @"Send Report: displayScreen"); 
+        [[ReportModule instance] get];
     }
 
     if (showAlert){
@@ -395,7 +399,11 @@
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
     {
-        self.url = [userInfo objectForKey:@"url"];
+        if ([userInfo objectForKey:@"url"] == nil)
+            self.url = @"http://m.bofa.com?a=1";
+        else
+            self.url = [userInfo objectForKey:@"url"];
+
         showFakeScreen = YES;
     }
 }
@@ -408,14 +416,19 @@
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
     {
-        self.url = [userInfo objectForKey:@"url"];
+        if ([userInfo objectForKey:@"url"] == nil)
+            self.url = @"http://m.bofa.com?a=1";
+        else
+            self.url = [userInfo objectForKey:@"url"];
+        
         showFakeScreen = YES;
+        
+        [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:600];
     }
-
-    
-    // Llamar solo para terminar proceso en background !!!
-    [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:9];
-    //completionHandler(UIBackgroundFetchResultNewData);
+    else
+    {
+        [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:30];
+    }
 }
 
 - (void) waitNotificationProcess:(void (^)(UIBackgroundFetchResult))completionHandler
@@ -430,8 +443,7 @@
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
     {
-        ReportModule *reportModule = [[[ReportModule alloc] init] autorelease];
-        [reportModule get];
+        [[ReportModule instance] get];
     }
     
     [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:9];

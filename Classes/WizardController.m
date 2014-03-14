@@ -306,8 +306,10 @@
         congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPad" bundle:nil];
     
     congratsController.txtToShow = (NSString*) congratsText;
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self.navigationController pushViewController:congratsController animated:YES];
+    
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate.viewController setNavigationBarHidden:YES animated:YES];
+    [appDelegate.viewController pushViewController:congratsController animated:YES];
     [congratsController release];
 }
 

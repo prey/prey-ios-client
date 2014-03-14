@@ -246,25 +246,63 @@
 	
 }
 
+- (void) sendReport: (ReportModule *) report
+{
+    PreyConfig *preyConfig = [PreyConfig instance];
+    ASIFormDataRequest *request = [self createPOSTrequestWithURL:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/reports",[preyConfig deviceKey]]];
+    
+    [request setShouldContinueWhenAppEntersBackground:YES];
+	[request setUsername:[preyConfig apiKey]];
+	[request setPassword: @"x"];
+	
+    [report fillReportData:request];
+    [request setNumberOfTimesToRetryOnTimeout:5];
+    
+    @try
+    {
+		[request startSynchronous];
+		NSError *error = [request error];
+		if (!error)
+        {
+            int statusCode = [request responseStatusCode];
+			NSString *statusMessage = [request responseStatusMessage];
+			NSString *response = [request responseString];
+            
+            PreyLogMessage(@"PreyRestHttp", 10, @"POST reports: %@ :: %@",statusMessage, response);
+            
+            if (statusCode != 200)
+            {
+                PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Report wasn't sent: %@", [request responseStatusMessage]);
+                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SendReport"];
+                [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"lastExecutionKey"];
+            }
+            else
+                PreyLogMessageAndFile(@"PreyRestHttp", 10, @"Report: POST response: %@",[request responseStatusMessage]);
+            
+            
+        }	
+		else {
+			@throw [NSException exceptionWithName:@"SendReportException" reason:[error localizedDescription] userInfo:nil];
+                   PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Report couldn't be sent: %@", [[request error] localizedDescription]);
+		}
+	}
+	@catch (NSException *e) {
+		@throw;
+	}
+}
+
+/*
 - (void) sendReport: (ReportModule *) report {
 	
     PreyConfig *preyConfig = [PreyConfig instance];
     __block ASIFormDataRequest *request = [self createPOSTrequestWithURL:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/reports",[preyConfig deviceKey]]];
     
-	//__block ASIFormDataRequest *request = [self createPOSTrequestWithURL:report.url];
     [request setShouldContinueWhenAppEntersBackground:YES];
 	[request setUsername:[preyConfig apiKey]];
 	[request setPassword: @"x"];
 	
-    /*
-	[[report getReportData] enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
-		//LogMessage(@"PreyRestHttp", 10, @"Adding to report: %@ = %@", key, object);
-		[request addPostValue:(NSString*)object forKey:(NSString *) key];
-	}];
-     */
     [report fillReportData:request];
     [request setNumberOfTimesToRetryOnTimeout:5];
-    //[request setDelegate:self];
     
     [request setCompletionBlock:^{
         int statusCode = [request responseStatusCode];
@@ -279,35 +317,13 @@
             PreyLogMessageAndFile(@"PreyRestHttp", 10, @"Report: POST response: %@",[request responseStatusMessage]);
     }];
     [request setFailedBlock:^{
-        /*@throw [NSException exceptionWithName:@"ReportNotSentException" reason:[[request error] localizedDescription] userInfo:nil]; 
-         */
+        //@throw [NSException exceptionWithName:@"ReportNotSentException" reason:[[request error] localizedDescription] userInfo:nil];
+ 
         PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Report couldn't be sent: %@", [[request error] localizedDescription]);
     }];
     [request startAsynchronous];
-	/*** USED FOR SYNC SENDING **/
-    /*
-	@try {
-		[request startAsynchronous];
-		NSError *error = [request error];
-		if (!error) {
-			int statusCode = [request responseStatusCode];
-			if (statusCode != 200)
-				@throw [NSException exceptionWithName:@"ReportNotSentException" reason:NSLocalizedString(@"Report couldn't be sent",nil) userInfo:nil];
-			NSString *response = [request responseString];
-			LogMessage(@"PreyRestHttp", 10, @"Report sent response: %@",response);
-		}	
-		else {
-			@throw [NSException exceptionWithName:@"ReportNotSentException" reason:[error localizedDescription] userInfo:nil];
-			
-		} 
-	} 
-	@catch (NSException *e) {
-		@throw;
-	}
-     */
-	
 }
-
+*/
 - (void) getAppstoreConfig: (id) delegate inURL: (NSString *) URL {
     ASIHTTPRequest *request = [self createGETrequestWithURL:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat:@"/%@",URL]];
     [request setDelegate:delegate];

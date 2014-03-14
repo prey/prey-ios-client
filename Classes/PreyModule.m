@@ -52,7 +52,7 @@
 		return [[CamouflageModule alloc] init];
 	}    
     if ([moduleName isEqualToString:@"report"]) {
-		return [[[ReportModule alloc] init] autorelease];
+		return [ReportModule instance];
 	}
     if ([moduleName isEqualToString:@"picture"]) {
 		return [[[PictureModule alloc] init] autorelease];

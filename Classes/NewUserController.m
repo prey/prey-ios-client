@@ -338,14 +338,6 @@
 }
 
 
-
-
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
-}
-
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -388,8 +380,10 @@
         congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPad" bundle:nil];
     
     congratsController.txtToShow = (NSString*) congratsText;
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self.navigationController pushViewController:congratsController animated:YES];
+    
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate.viewController setNavigationBarHidden:YES animated:YES];
+    [appDelegate.viewController pushViewController:congratsController animated:YES];
     [congratsController release];
 }
 
