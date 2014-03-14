@@ -11,7 +11,7 @@
 #import "ReportModule.h"
 #import "PreyRestHttp.h"
 #import "PicturesController.h"
-
+#import "PreyAppDelegate.h"
 #import "LocationController.h"
 
 
@@ -99,19 +99,27 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
         [self get];
     else
-    {
-        [runReportTimer invalidate];
-        runReportTimer = nil;
-        
-        lastExecution = nil;
-        [[NSUserDefaults standardUserDefaults] setObject:lastExecution forKey:@"lastExecutionKey"];
+        [self stopSendReport];
+}
 
-        if (IS_OS_7_OR_LATER)
-            [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
-        
-        [[NSNotificationCenter defaultCenter] removeObserver:[ReportModule instance] name:@"locationUpdated" object:nil];
-        [[LocationController instance] stopUpdatingLocation];
-    }
+- (void)stopSendReport
+{
+    [runReportTimer invalidate];
+    runReportTimer = nil;
+    
+    lastExecution = nil;
+    [[NSUserDefaults standardUserDefaults] setObject:lastExecution forKey:@"lastExecutionKey"];
+
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SendReport"];
+    
+    if (IS_OS_7_OR_LATER)
+        [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:[ReportModule instance] name:@"locationUpdated" object:nil];
+    [[LocationController instance] stopUpdatingLocation];
+    
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate changeShowFakeScreen:NO];
 }
 
 
@@ -143,8 +151,12 @@
         @try {
             PreyLogMessageAndFile(@"Report", 5, @"Sending report now!");
             
-            PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
-            [userHttp sendReport:self];
+            PreyRestHttp *userHttp = [[PreyRestHttp alloc] init];
+            
+            if (![userHttp sendReport:self])
+                [self stopSendReport];
+
+            [userHttp release];
             
             self.picture = nil;
             waitForLocation = YES;

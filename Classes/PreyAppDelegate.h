@@ -29,6 +29,7 @@
 - (void)showAlert: (NSString *) textToShow;
 - (void)showFakeScreen;
 - (void)registerForRemoteNotifications;
+- (void)changeShowFakeScreen:(BOOL)value;
 
 @end
 

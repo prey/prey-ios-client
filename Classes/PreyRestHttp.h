@@ -34,7 +34,7 @@
 - (NSString *) createApiKey: (User *) user;
 - (NSString *) createDeviceKeyForDevice: (Device*) device usingApiKey: (NSString *) apiKey;
 - (BOOL) deleteDevice: (Device*) device;
-- (void) sendReport: (ReportModule *) report;
+- (BOOL) sendReport: (ReportModule *) report;
 + (BOOL) checkInternet;
 - (void) getAppstoreConfig: (id) delegate inURL: (NSString *) URL;
 - (void) setPushRegistrationId: (NSString *) id;

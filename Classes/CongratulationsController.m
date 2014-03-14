@@ -39,7 +39,7 @@
         loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
     
     PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
-    
+    [appDelegate.viewController popToRootViewControllerAnimated:NO];
     [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, preferencesController, nil] animated:YES];
     [preferencesController release];
     [loginController release];

@@ -28,9 +28,6 @@
 #import "Constants.h"
 #import "PreyRestHttp.h"
 
-#warning Beta TestFlight
-#import "TestFlight.h"
-
 @interface PreyAppDelegate()
 
 -(void)renderFirstScreen;
@@ -55,6 +52,11 @@
 	 (UIRemoteNotificationTypeAlert | 
 	  UIRemoteNotificationTypeBadge | 
 	  UIRemoteNotificationTypeSound)];
+}
+
+- (void)changeShowFakeScreen:(BOOL)value
+{
+    showFakeScreen = value;
 }
 
 - (void)showFakeScreen
@@ -134,13 +136,6 @@
     [GAI sharedInstance].dispatchInterval = 120;
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelNone];
     [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
- 
-    
-#warning Beta: TestFlight
-    // !!!: Use the next line only during beta
-    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
-    [TestFlight setOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:@"logToConsole"]];
-    [TestFlight takeOff:@"18dd420a-1b00-462a-84e0-140293f3628a"];
     
     //IAPHelper *IAP = [IAPHelper sharedHelper];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[IAPHelper sharedHelper]];
@@ -316,7 +311,6 @@
         }
         else
         {
-#warning Beta: Wizard :: Welcome Test
             /*
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             {
@@ -427,7 +421,7 @@
     }
     else
     {
-        [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:30];
+        [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:9];
     }
 }
 

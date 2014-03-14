@@ -29,5 +29,6 @@
 
 +(ReportModule *)instance;
 - (void) send;
+- (void) stopSendReport;
 - (void) fillReportData:(ASIFormDataRequest*) request;
 @end

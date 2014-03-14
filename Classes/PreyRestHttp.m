@@ -246,7 +246,7 @@
 	
 }
 
-- (void) sendReport: (ReportModule *) report
+- (BOOL) sendReport: (ReportModule *) report
 {
     PreyConfig *preyConfig = [PreyConfig instance];
     ASIFormDataRequest *request = [self createPOSTrequestWithURL:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/reports",[preyConfig deviceKey]]];
@@ -273,22 +273,25 @@
             if (statusCode != 200)
             {
                 PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Report wasn't sent: %@", [request responseStatusMessage]);
-                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SendReport"];
-                [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"lastExecutionKey"];
+                return NO;
             }
             else
+            {
                 PreyLogMessageAndFile(@"PreyRestHttp", 10, @"Report: POST response: %@",[request responseStatusMessage]);
-            
-            
-        }	
+                return YES;
+            }
+        }
 		else {
 			@throw [NSException exceptionWithName:@"SendReportException" reason:[error localizedDescription] userInfo:nil];
-                   PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Report couldn't be sent: %@", [[request error] localizedDescription]);
+            
+            PreyLogMessageAndFile(@"PreyRestHttp", 0, @"Report couldn't be sent: %@", [[request error] localizedDescription]);
+            return NO;
 		}
 	}
 	@catch (NSException *e) {
 		@throw;
 	}
+    return NO;
 }
 
 /*

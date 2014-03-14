@@ -149,7 +149,6 @@
 		3BBAB00518B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAB00418B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib */; };
 		3BBAB00718B8FA7F00ADE493 /* WizardController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAB00618B8FA7F00ADE493 /* WizardController-iPhone-568h.xib */; };
 		3BBAB00918B9085C00ADE493 /* LoginController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAB00818B9085C00ADE493 /* LoginController-iPhone-568h.xib */; };
-		3BBAB01118B9321100ADE493 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BBAB01018B9321100ADE493 /* libTestFlight.a */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
 		3BE0935B18D1150F00F6ACE4 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE0935A18D1150F00F6ACE4 /* Default-Portrait~ipad.png */; };
@@ -390,10 +389,6 @@
 		3BBAB00418B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPhone-568h.xib"; path = "Classes/WelcomeController-iPhone-568h.xib"; sourceTree = "<group>"; };
 		3BBAB00618B8FA7F00ADE493 /* WizardController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WizardController-iPhone-568h.xib"; path = "Classes/WizardController-iPhone-568h.xib"; sourceTree = "<group>"; };
 		3BBAB00818B9085C00ADE493 /* LoginController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPhone-568h.xib"; path = "Classes/LoginController-iPhone-568h.xib"; sourceTree = "<group>"; };
-		3BBAB00D18B9321100ADE493 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
-		3BBAB00E18B9321100ADE493 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
-		3BBAB00F18B9321100ADE493 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
-		3BBAB01018B9321100ADE493 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		3BD482E31678CAE300F25DC8 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewController.h; path = Classes/UIWebViewController.h; sourceTree = "<group>"; };
 		3BD482E41678CAE300F25DC8 /* UIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewController.m; path = Classes/UIWebViewController.m; sourceTree = "<group>"; };
 		3BD546D017FE10CF00ABFDBC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -465,7 +460,6 @@
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				0780547D12554BDA00E4CCE5 /* CFNetwork.framework in Frameworks */,
 				0780547F12554BDA00E4CCE5 /* MobileCoreServices.framework in Frameworks */,
-				3BBAB01118B9321100ADE493 /* libTestFlight.a in Frameworks */,
 				0780561D12564F1C00E4CCE5 /* SystemConfiguration.framework in Frameworks */,
 				3B675EF81891874500CE3D0D /* libGoogleAnalyticsServices.a in Frameworks */,
 				07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */,
@@ -724,7 +718,6 @@
 			isa = PBXGroup;
 			children = (
 				3BD546C717FE102400ABFDBC /* GoogleAnalytics */,
-				3BBAB00C18B9321100ADE493 /* TestFlightSDK3.0.0 */,
 				3BCD1C5516693E9600D609D9 /* External */,
 				5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */,
 				07178F3B12675C2C007B290C /* Controllers */,
@@ -886,17 +879,6 @@
 			);
 			name = "Image-Legacy";
 			path = "Resources/Image-Legacy";
-			sourceTree = "<group>";
-		};
-		3BBAB00C18B9321100ADE493 /* TestFlightSDK3.0.0 */ = {
-			isa = PBXGroup;
-			children = (
-				3BBAB00D18B9321100ADE493 /* TestFlight+AsyncLogging.h */,
-				3BBAB00E18B9321100ADE493 /* TestFlight+ManualSessions.h */,
-				3BBAB00F18B9321100ADE493 /* TestFlight.h */,
-				3BBAB01018B9321100ADE493 /* libTestFlight.a */,
-			);
-			path = TestFlightSDK3.0.0;
 			sourceTree = "<group>";
 		};
 		3BCD1C5516693E9600D609D9 /* External */ = {
@@ -1294,7 +1276,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
-					"./Classes/TestFlightSDK3.0.0/**",
 				);
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
@@ -1325,7 +1306,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
-					"./Classes/TestFlightSDK3.0.0/**",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-licucore";
@@ -1357,7 +1337,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
-					"./Classes/TestFlightSDK3.0.0/**",
 				);
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
