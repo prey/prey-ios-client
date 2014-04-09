@@ -9,6 +9,7 @@
 #import "ActionModule.h"
 #import "PreyConfig.h"
 #import "PreyRestHttp.h"
+#import "Constants.h"
 
 @implementation ActionModule
 
@@ -26,8 +27,15 @@
     [data setObject:target forKey:@"target"];
     [data setObject:@"start" forKey:@"command"];
     
-    PreyRestHttp* http = [[PreyRestHttp alloc] init];
-    [http notifyCommandResponse:data];
+    [PreyRestHttp sendJsonData:data andRawData:nil
+                    toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/response",[[PreyConfig instance] deviceKey]]
+                     withBlock:^(NSArray *posts, NSError *error) {
+                         if (error) {
+                             PreyLogMessage(@"ActionModule", 10,@"Error: %@",error);
+                         } else {
+                             PreyLogMessage(@"ActionModule", 10,@"OK data");
+                         }
+                     }];
 }
 
 @end

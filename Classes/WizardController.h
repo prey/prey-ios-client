@@ -15,6 +15,7 @@
 {
     UIWebView *wizardWebView;
     Location *location;
+    MBProgressHUD *HUD;
 }
 
 @property (nonatomic,retain)  UIWebView *wizardWebView;

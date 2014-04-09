@@ -11,7 +11,7 @@
 #import "LoginController.h"
 #import "User.h"
 #import "PreyConfig.h"
-#import "PreyRestHttp.h"
+#import "Constants.h"
 #import <CoreLocation/CoreLocation.h>
 #import "PreyAppDelegate.h"
 #import "WizardController.h"
@@ -40,49 +40,40 @@
 	}
 }
 
-- (void) checkPassword {
-	PreyConfig *config = [PreyConfig instance];
-    
-    @try {
-        User *user = [User allocWithEmail: config.email password: loginPassword.text];
-        [config setPro:user.isPro];
-        
-        PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
-        preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-        [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
-        [appDelegate.viewController pushViewController:preferencesController animated:YES];
-        [preferencesController release];
-
-        /*
-        WizardController *wizardController;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
-        else
-            wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
-        
-        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-        [appDelegate.viewController pushViewController:wizardController animated:NO];
-        [wizardController release];
-        */
-		[user release];
-        
-	} @catch (NSException *e)  {
-        NSString *title = nil;
-        NSString *message = nil;
-        if ([[e name]isEqualToString:@"GetApiKeyUnknownException"]){
-            message = [e description];
-            title = NSLocalizedString(@"Couldn't check your password",nil);
-        }
-        else {
-            message = NSLocalizedString(@"Wrong password. Try again.",nil);
-            title = NSLocalizedString(@"Access Denied",nil);
-        }
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		[alertView show];
-		[alertView release];
-	} 
-	
+- (void) checkPassword
+{
+    PreyConfig *config = [PreyConfig instance];
+    [User allocWithEmail:config.email password:loginPassword.text
+               withBlock:^(User *user, NSError *error)
+     {
+         [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+         
+         if (!error) // User Login
+         {
+             PreyLogMessage(@"LoginController", 10,@"OK Login" );
+             
+             [config setPro:user.isPro];
+             
+             PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
+             preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+             PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+             [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
+             [appDelegate.viewController pushViewController:preferencesController animated:YES];
+             [preferencesController release];
+             
+             /*
+             WizardController *wizardController;
+             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+                 wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
+             else
+                 wizardController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+             
+             PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+             [appDelegate.viewController pushViewController:wizardController animated:NO];
+             [wizardController release];
+             */
+         }
+     }]; // End Block User
 }
 
 - (IBAction) checkLoginPassword: (id) sender {
@@ -93,14 +84,12 @@
 		return;
 	}
 	[self hideKeyboard];
-    /*
-	HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    
+    
+    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     HUD.delegate = self;
     HUD.labelText = NSLocalizedString(@"Please wait",nil);
-	HUD.detailsLabelText = NSLocalizedString(@"Checking your password...",nil);
-	[self.view addSubview:HUD];
-    [HUD showWhileExecuting:@selector(checkPassword) onTarget:self withObject:nil animated:YES];
-    */
+    HUD.detailsLabelText = NSLocalizedString(@"Checking your password...",nil);
     [self checkPassword];
 }
 
@@ -109,15 +98,6 @@
 	
 }
 
-#pragma mark -
-#pragma mark MBProgressHUDDelegate methods
-
-- (void)hudWasHidden {
-    // Remove HUD from screen when the HUD was hidded
-    [HUD removeFromSuperview];
-    [HUD release];
-	
-}
 #pragma mark -
 #pragma mark UI sliding methods
 - (void)textFieldDidBeginEditing:(UITextField *)textField

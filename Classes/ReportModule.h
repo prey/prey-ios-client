@@ -8,7 +8,6 @@
 //  Full license at "/LICENSE"
 //
 
-#import "ASIFormDataRequest.h"
 #import "DataModule.h"
 
 @interface ReportModule : DataModule
@@ -30,5 +29,4 @@
 +(ReportModule *)instance;
 - (void) send;
 - (void) stopSendReport;
-- (void) fillReportData:(ASIFormDataRequest*) request;
 @end

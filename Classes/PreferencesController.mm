@@ -34,19 +34,6 @@
 
 
 #pragma mark -
-#pragma mark MBProgressHUDDelegate methods
-
-- (void)hudWasHidden {
-    // Remove HUD from screen when the HUD was hidded
-    [HUD removeFromSuperview];
-    [HUD release];
-	HUD = nil;
-}
-
-
-
-
-#pragma mark -
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -316,37 +303,51 @@
 	}
 }
 
-- (void) detachDevice {
-    [[PreyConfig instance] detachDevice];
+- (void) detachDevice
+{
+    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    HUD.delegate = self;
+    HUD.labelText = NSLocalizedString(@"Detaching device...",nil);
+
     
-    UIViewController *welco;
-    /*
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        if (IS_IPHONE5)
-            welco = [[WizardController alloc] initWithNibName:@"WizardController-iPhone-568h" bundle:nil];
-        else
-            welco = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
-    }
-    else
-        welco = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
-    */
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        if (IS_IPHONE5)
-            welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone-568h" bundle:nil];
-        else
-            welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
-    }
-    else
-        welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
-    
-    
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-    [appDelegate.viewController setViewControllers:[NSArray arrayWithObject:welco] animated:NO];
-    [welco release];
+    [PreyRestHttp deleteDevice:^(NSError *error)
+     {
+         [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+         
+         if (!error)
+         {
+             [[PreyConfig instance] resetValues];
+             
+             UIViewController *welco;
+             /*
+              if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+              {
+              if (IS_IPHONE5)
+              welco = [[WizardController alloc] initWithNibName:@"WizardController-iPhone-568h" bundle:nil];
+              else
+              welco = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
+              }
+              else
+              welco = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+              */
+             
+             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+             {
+                 if (IS_IPHONE5)
+                     welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone-568h" bundle:nil];
+                 else
+                     welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
+             }
+             else
+                 welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
+             
+             
+             [self.navigationController setNavigationBarHidden:YES animated:NO];
+             PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+             [appDelegate.viewController setViewControllers:[NSArray arrayWithObject:welco] animated:NO];
+             [welco release];
+         }
+     }];
 }
 
 #pragma mark -
@@ -370,7 +371,6 @@
     if (ReviewRequest::ShouldAskForReview())
         ReviewRequest::AskForReview();
     
-    HUD = nil;
     self.title = NSLocalizedString(@"Preferences", nil);
     [self.tableView setBackgroundView: nil];
     [self.tableView setBackgroundColor:[UIColor whiteColor]];
@@ -447,12 +447,8 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)dealloc {
-    if (HUD != nil) {
-        HUD.delegate = nil;
-        [HUD removeFromSuperview];
-        [HUD release];
-    }
+- (void)dealloc
+{
 	[accManager release];
 	[delayManager release];
     

@@ -57,5 +57,5 @@
 - (NSString *) readConfigValueForKey: (NSString *) key;
 - (void) loadDefaultValues;
 - (void) saveValues;
-- (void) detachDevice;
+- (void)resetValues;
 @end

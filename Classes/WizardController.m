@@ -111,14 +111,11 @@
         }
         else
         {
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.labelText = NSLocalizedString(@"Attaching device...",nil);
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
-            dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
-                           {
-                               [self addNewUser:userData];
-                               [MBProgressHUD hideHUDForView:self.view animated:YES];
-                           });
+            HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            HUD.delegate = self;
+            HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
+            
+            [self addNewUser:userData];
         }
     }
     else
@@ -138,34 +135,32 @@
         return;
     }
     
-    User *user = nil;
-    Device *device = nil;
-    PreyConfig *config = nil;
-    @try
-    {
-        user = [User createNew:userData[1] email:userData[2] password:userData[3] repassword:userData[3]];
-        device = [Device newDeviceForApiKey:[user apiKey]];
-        config = [PreyConfig initWithUser: user andDevice:device];
-        if (config != nil)
-        {
-            NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
-            [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
-            [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
-        }
-    }
-    @catch (NSException * e) {
-        if (device != nil)
-            [user deleteDevice:device];
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"User couldn't be created",nil) message:[e reason] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [alertView show];
-        [alertView release];
-        
-    }
-    @finally {
-        [user release];
-        [device release];
-    }
+    [User createNew:userData[1] email:userData[2] password:userData[3] repassword:userData[3]
+          withBlock:^(User *user, NSError *error)
+     {
+         if (!error) // User Login
+         {
+             [Device newDeviceForApiKey:user
+                              withBlock:^(User *user, Device *dev, NSError *error)
+              {
+                  [MBProgressHUD hideHUDForView:self.view animated:NO];
+                  
+                  if (!error) // Device created
+                  {
+                      PreyLogMessage(@"NewUserController", 10,@"OK" );
+                      PreyConfig *config = [PreyConfig initWithUser:user andDevice:dev];
+                      if (config != nil)
+                      {
+                          NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
+                          [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
+                          [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
+                      }
+                  }
+              }]; // End Block Device
+         }
+         else
+             [MBProgressHUD hideHUDForView:self.view animated:NO];
+     }]; // End Block User
 }
 
 
@@ -186,51 +181,44 @@
         }
         else
         {
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.labelText = NSLocalizedString(@"Attaching device...",nil);
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
-            dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
-                           {
-                               [self addDeviceForCurrentUser:userData];
-                               [MBProgressHUD hideHUDForView:self.view animated:YES];
-                           });
+            HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
+            
+            [self addDeviceForCurrentUser:userData];
         }
     }
     else
         [self showWarningInfoUser];
 }
 
-- (void) addDeviceForCurrentUser:(NSArray*)userData{
-	
-	User *user = nil;
-	Device *device = nil;
-	PreyConfig *config = nil;
-	@try {
-		user    = [User allocWithEmail:userData[1] password:userData[2]];
-		device  = [Device newDeviceForApiKey:[user apiKey]];
-		config  = [[PreyConfig initWithUser:user andDevice:device] retain];
-		if (config != nil)
-        {
-            NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
-            [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
-            [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
-            
-            //[self deviceAddedSuccessfully];
-        }
-        
-	}
-	@catch (NSException * e) {
-		if (device != nil)
-			[user deleteDevice:device];
-		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Couldn't add your device",nil) message:[e reason] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		
-		[alertView show];
-		[alertView release];
-	} @finally {
-        [config release];
-		[user release];
-		[device release];
-	}
+- (void) addDeviceForCurrentUser:(NSArray*)userData
+{
+    [User allocWithEmail:userData[1] password:userData[2]
+               withBlock:^(User *user, NSError *error)
+     {
+         if (!error) // User Login
+         {
+             [Device newDeviceForApiKey:user
+                              withBlock:^(User *user, Device *dev, NSError *error)
+              {
+                  [MBProgressHUD hideHUDForView:self.view animated:NO];
+                  
+                  if (!error) // Device created
+                  {
+                      PreyLogMessage(@"WizardController", 10,@"OK" );
+                      PreyConfig *config = [PreyConfig initWithUser:user andDevice:dev];
+                      if (config != nil)
+                      {
+                          NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
+                          [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
+                          [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
+                      }
+                  }
+              }]; // End Block Device
+         }
+         else
+             [MBProgressHUD hideHUDForView:self.view animated:NO];
+     }]; // End Block User
 }
 
 - (void)deviceAddedSuccessfully

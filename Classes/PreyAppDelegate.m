@@ -304,37 +304,28 @@
     }
     else
     {
-        PreyDeployment *preyDeployment = [[PreyDeployment alloc] init];
-        if ([preyDeployment isCorrect])
+        [PreyDeployment runPreyDeployment];
+        /*
+         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+         {
+         if (IS_IPHONE5)
+         nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone-568h" bundle:nil];
+         else
+         nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
+         }
+         else
+         nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
+         */
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
-            nextController = [preyDeployment returnViewController];
+            if (IS_IPHONE5)
+                nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone-568h" bundle:nil];
+            else
+                nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
         }
         else
-        {
-            /*
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            {
-                if (IS_IPHONE5)
-                    nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone-568h" bundle:nil];
-                else
-                    nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
-            }
-            else
-                nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
-            */
-            
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            {
-                if (IS_IPHONE5)
-                    nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone-568h" bundle:nil];
-                else
-                    nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
-            }
-            else
-                nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
-            
-        }
-        [preyDeployment release];
+            nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
     }
     
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
@@ -361,9 +352,13 @@
 
 - (void)checkStatusInPreyPanel
 {
-    PreyRestHttp *http = [[PreyRestHttp alloc] init];
-    PreyConfig *preyConfig = [PreyConfig instance];
-    [http checkStatusForDevice:[preyConfig deviceKey] andApiKey:[preyConfig apiKey]];
+    [PreyRestHttp checkStatusForDevice:^(NSArray *posts, NSError *error) {
+        if (error) {
+            PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
+        } else {
+            PreyLogMessage(@"PreyAppDelegate", 10,@"OK:");
+        }
+    }];
 }
 
 #pragma mark -
@@ -374,9 +369,16 @@
                                  stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
                                 stringByReplacingOccurrencesOfString:@" " withString:@""];
     PreyLogMessageAndFile(@"App Delegate", 10, @"Did register for remote notifications - Device Token=%@",tokenAsString);
-	PreyRestHttp *http = [[PreyRestHttp alloc] init];
-    [http setPushRegistrationId:tokenAsString]; 
-    [http release];
+    
+    
+    [PreyRestHttp setPushRegistrationId:tokenAsString
+                              withBlock:^(NSArray *posts, NSError *error) {
+                                  if (error) {
+                                      PreyLogMessage(@"App Delegate", 10,@"Error notification_id: %@",error);
+                                  } else {
+                                      PreyLogMessage(@"App Delegate", 10,@"OK notification_id");
+                                  }
+                              }];
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err { 
@@ -428,7 +430,6 @@
 - (void) waitNotificationProcess:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     completionHandler(UIBackgroundFetchResultNewData);
-    //PreyLogMessage(@"PreyRestHttp", 10, @"==== Finished Background Notifications =======");
 }
 
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler

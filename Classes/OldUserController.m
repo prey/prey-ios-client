@@ -34,59 +34,34 @@
 
 @synthesize email, password, buttonCell, strEmailMatchstring;
 
-- (void) addDeviceForCurrentUser {
-    /*
-     #if (TARGET_IPHONE_SIMULATOR)
-     sleep(1);
-     [self performSelectorOnMainThread:@selector(showCongratsView) withObject:nil waitUntilDone:NO];
-     #else
-     */
-    
-    User *user = nil;
-    Device *device = nil;
-    PreyConfig *config = nil;
-    @try {
-        user = [User allocWithEmail:[email text] password:[password text]];
-        device = [Device newDeviceForApiKey:[user apiKey]];
-        config = [[PreyConfig initWithUser:user andDevice:device] retain];
-        if (config != nil){
-            NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
-            [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
-            [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
-        }
-        
-    }
-    @catch (NSException * e) {
-        if (device != nil)
-            [user deleteDevice:device];
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Couldn't add your device",nil) message:[e reason] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [alertView show];
-        [alertView release];
-    } @finally {
-        [config release];
-        [user release];
-        [device release];
-    }
-    //#endif
-}
-
-
-
-
-#pragma mark -
-#pragma mark IBAction
-
-- (IBAction) next: (id) sender
+- (void) addDeviceForCurrentUser
 {
-    /*
-     [self hideKeyboard];
-     HUD = [[MBProgressHUD alloc] initWithView:self.view];
-     HUD.delegate = self;
-     HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
-     [self.navigationController.view addSubview:HUD];
-     [HUD showWhileExecuting:@selector(addDeviceForCurrentUser) onTarget:self withObject:nil animated:YES];
-     */
+    [User allocWithEmail:[email text] password:[password text]
+               withBlock:^(User *user, NSError *error)
+     {
+         if (!error) // User Login
+         {
+             [Device newDeviceForApiKey:user
+                              withBlock:^(User *user, Device *dev, NSError *error)
+              {
+                  [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+                  
+                  if (!error) // Device created
+                  {
+                      PreyLogMessage(@"OldUserController", 10,@"OK" );
+                      PreyConfig *config = [PreyConfig initWithUser:user andDevice:dev];
+                      if (config != nil)
+                      {
+                          NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
+                          [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
+                          [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
+                      }
+                  }
+              }]; // End Block Device
+         }
+         else
+             [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+     }]; // End Block User
 }
 
 
@@ -188,11 +163,13 @@
             }
             [email resignFirstResponder];
             [password resignFirstResponder];
-            HUD = [[MBProgressHUD alloc] initWithView:self.view];
+            
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             HUD.delegate = self;
             HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
-            [self.navigationController.view addSubview:HUD];
-            [HUD showWhileExecuting:@selector(addDeviceForCurrentUser) onTarget:self withObject:nil animated:YES];
+            
+            [self addDeviceForCurrentUser];
+
             //}
             
             break;
@@ -357,16 +334,6 @@
     [appDelegate.viewController setNavigationBarHidden:YES animated:YES];
     [appDelegate.viewController pushViewController:congratsController animated:YES];
     [congratsController release];
-}
-
-#pragma mark -
-#pragma mark MBProgressHUDDelegate methods
-
-- (void)hudWasHidden {
-    // Remove HUD from screen when the HUD was hidded
-    [HUD removeFromSuperview];
-    [HUD release];
-    
 }
 
 @end

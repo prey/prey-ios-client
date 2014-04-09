@@ -9,8 +9,6 @@
 //
 
 #import "SignificantLocationController.h"
-#import "PreyRestHttp.h"
-#import "PreyConfig.h"
 
 @implementation SignificantLocationController
 

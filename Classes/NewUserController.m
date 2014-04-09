@@ -42,52 +42,54 @@
     [repassword resignFirstResponder];
 }
 
-- (void) addNewUser {
-    if (![password.text isEqualToString:repassword.text]){
+- (void) addNewUser
+{
+    if (![password.text isEqualToString:repassword.text])
+    {
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil) message:NSLocalizedString(@"Passwords do not match",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         [alertView release];
-        return;
-    }
-    if ([password.text length] <6){
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil) message:NSLocalizedString(@"Password must be at least 6 characters",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
+        
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
         return;
     }
     
-#if (TARGET_IPHONE_SIMULATOR)
-    sleep(1);
-    NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
-    [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
-#else
-    User *user = nil;
-    Device *device = nil;
-    PreyConfig *config = nil;
-    @try {
-        user = [User createNew:[name text] email:[email text] password:[password text] repassword:[repassword text]];
-        device = [Device newDeviceForApiKey:[user apiKey]];
-        config = [PreyConfig initWithUser: user andDevice:device];
-        if (config != nil){
-            NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
-            [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
-            [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
-        }
-    }
-    @catch (NSException * e) {
-        if (device != nil)
-            [user deleteDevice:device];
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"User couldn't be created",nil) message:[e reason] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
+    if ([password.text length] <6)
+    {
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil) message:NSLocalizedString(@"Password must be at least 6 characters",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         [alertView release];
         
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+        return;
     }
-    @finally {
-        [user release];
-        [device release];
-    }
-#endif
+    
+    [User createNew:[name text] email:[email text] password:[password text] repassword:[repassword text]
+               withBlock:^(User *user, NSError *error)
+     {
+         if (!error) // User Login
+         {
+             [Device newDeviceForApiKey:user
+                              withBlock:^(User *user, Device *dev, NSError *error)
+              {
+                  [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+                  
+                  if (!error) // Device created
+                  {
+                      PreyLogMessage(@"NewUserController", 10,@"OK" );
+                      PreyConfig *config = [PreyConfig initWithUser:user andDevice:dev];
+                      if (config != nil)
+                      {
+                          NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
+                          [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
+                          [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
+                      }
+                  }
+              }]; // End Block Device
+         }
+         else
+             [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+     }]; // End Block User
 }
 
 
@@ -200,11 +202,12 @@
                 return;
             }
             [self hideKeyboard];
-            HUD = [[MBProgressHUD alloc] initWithView:self.view];
+
+            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
             HUD.delegate = self;
             HUD.labelText = NSLocalizedString(@"Creating account...",nil);
-            [self.navigationController.view addSubview:HUD];
-            [HUD showWhileExecuting:@selector(addNewUser) onTarget:self withObject:nil animated:YES];
+
+            [self addNewUser];
             //}
             break;
             
@@ -385,16 +388,6 @@
     [appDelegate.viewController setNavigationBarHidden:YES animated:YES];
     [appDelegate.viewController pushViewController:congratsController animated:YES];
     [congratsController release];
-}
-
-#pragma mark -
-#pragma mark MBProgressHUDDelegate methods
-
-- (void)hudWasHidden {
-    // Remove HUD from screen when the HUD was hidded
-    [HUD removeFromSuperview];
-    [HUD release];
-    
 }
 
 @end

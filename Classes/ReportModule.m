@@ -9,7 +9,7 @@
 //
 
 #import "ReportModule.h"
-#import "PreyRestHttp.h"
+#import "Constants.h"
 #import "PicturesController.h"
 #import "PreyAppDelegate.h"
 #import "LocationController.h"
@@ -149,18 +149,15 @@
 {
     if (!waitForPicture && !waitForLocation) {
         @try {
+            waitForLocation = YES;
+            waitForPicture  = YES;
+
             PreyLogMessageAndFile(@"Report", 5, @"Sending report now!");
             
-            PreyRestHttp *userHttp = [[PreyRestHttp alloc] init];
-            
-            if (![userHttp sendReport:self])
-                [self stopSendReport];
-
-            [userHttp release];
+            [super sendHttp:reportData
+                     andRaw:[super createResponseFromData:UIImagePNGRepresentation(picture) withKey:@"picture"]];
             
             self.picture = nil;
-            waitForLocation = YES;
-            waitForPicture = YES;
         }
         @catch (NSException *exception) {
             PreyLogMessageAndFile(@"Report", 0, @"Report couldn't be sent: %@", [exception reason]);
@@ -203,19 +200,6 @@
     waitForLocation = NO;
 	[self sendIfConditionsMatch];
 }
-
-- (void) fillReportData:(ASIFormDataRequest*) request
-{
-    [reportData enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
-		[request addPostValue:(NSString*)object forKey:(NSString *) key];
-	}];
-    if (picture != nil)
-        [request addData:UIImagePNGRepresentation(picture) withFileName:@"picture.png" andContentType:@"image/png" forKey:@"webcam[picture]"];
-    picture = nil;
-    [reportData removeAllObjects];
-} 
-
-
 
 - (void) dealloc {
 	[super dealloc];

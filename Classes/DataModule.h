@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PreyConfig.h"
 #import "PreyModule.h"
 
 @interface DataModule : PreyModule {
@@ -19,6 +18,7 @@
 - (NSMutableDictionary*) createResponseFromObject: (NSDictionary*) dict;
 - (NSMutableDictionary*) createResponseFromObject: dict withKey:(NSString *) key;
 - (NSMutableDictionary*) createResponseFromData: (NSData*) rawData withKey: (NSString*) key;
-- (void) sendHttp: (NSMutableDictionary*) data;
+- (void)sendHttp:(NSMutableDictionary*)data;
+- (void)sendHttp:(NSMutableDictionary*)data andRaw:(NSMutableDictionary*) rawData;
 
 @end

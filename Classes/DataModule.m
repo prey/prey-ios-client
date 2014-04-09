@@ -8,6 +8,8 @@
 
 #import "DataModule.h"
 #import "PreyRestHttp.h"
+#import "PreyConfig.h"
+#import "Constants.h"
 
 @implementation DataModule
 
@@ -46,16 +48,35 @@
 
 - (NSMutableDictionary*) createResponseFromData: (NSData*) rawData withKey: (NSString*) key {
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    
-    [data setObject:[NSString stringWithFormat:@"data[%@]", key] forKey:@"key"];
-    [data setObject:rawData forKey:@"data"];
+    [data setObject:rawData forKey:key];
     
     return data;
 }
 
-- (void) sendHttp: (NSMutableDictionary*) data {
-    PreyRestHttp* http = [[PreyRestHttp alloc] init];
-    [http sendData:data];
+- (void)sendHttp:(NSMutableDictionary*)data
+{
+    [PreyRestHttp sendJsonData:data andRawData:nil
+                    toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",[[PreyConfig instance] deviceKey]]
+                     withBlock:^(NSArray *posts, NSError *error) {
+        if (error) {
+            PreyLogMessage(@"DataModule", 10,@"Error: %@",error);
+        } else {
+            PreyLogMessage(@"DataModule", 10,@"OK data");
+        }
+    }];
+}
+
+- (void)sendHttp:(NSMutableDictionary*)data andRaw:(NSMutableDictionary*) rawData
+{
+    [PreyRestHttp sendJsonData:data andRawData:rawData
+                    toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/reports",[[PreyConfig instance] deviceKey]]
+                     withBlock:^(NSArray *posts, NSError *error) {
+                         if (error) {
+                             PreyLogMessage(@"DataModule", 10,@"Error: %@",error);
+                         } else {
+                             PreyLogMessage(@"DataModule", 10,@"OK report");
+                         }
+                     }];
 }
 
 @end

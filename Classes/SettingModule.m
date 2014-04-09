@@ -8,7 +8,6 @@
 
 #import "SettingModule.h"
 #import "PreyConfig.h"
-#import "PreyRestHttp.h"
 
 @implementation SettingModule
 
@@ -29,8 +28,7 @@
     [data setObject:value forKey:@"value"];
     [dict setObject:data forKey:@"setting"];
     
-    PreyRestHttp* http = [[PreyRestHttp alloc] init];
-    [http sendSetting:dict];
+    // Send info to server endopoint
 }
 
 - (void) update: (NSString*) value

@@ -9,8 +9,7 @@
 //
 
 #import "PreyConfig.h"
-#import "PreyRestHttp.h"
-
+#import "Constants.h"
 //deprecated
 static NSString *const CHECK_URL = @"check_url";
 
@@ -69,7 +68,7 @@ static PreyConfig *_instance = nil;
 
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device
 {
-	PreyConfig *newConfig = [[PreyConfig alloc] init];
+	PreyConfig *newConfig = [[[PreyConfig alloc] init] autorelease];
     newConfig.controlPanelHost = DEFAULT_CONTROL_PANEL_HOST;
     newConfig.checkPath = DEFAULT_CHECK_PATH;
     newConfig.sendCrashReports = DEFAULT_SEND_CRASH_REPORTS;
@@ -84,7 +83,7 @@ static PreyConfig *_instance = nil;
     [newConfig saveValues];
     newConfig.alreadyRegistered = YES;
     _instance = nil; //to force config reload on next +instance call.
-	return [newConfig autorelease];
+	return newConfig;
 }
 
 + (PreyConfig*) initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device
@@ -157,7 +156,9 @@ static PreyConfig *_instance = nil;
     [defaults removeObjectForKey:CAMOUFLAGE_MODE];
     [defaults removeObjectForKey:INTERVAL_MODE];
 	[defaults synchronize]; // this method is optional
-
+    
+    _instance=nil;
+	[_instance release];
 }
 
 - (NSString *) deviceCheckPathWithExtension: (NSString *) extension {
@@ -171,15 +172,6 @@ static PreyConfig *_instance = nil;
         return (NSString*)value;
     else
         return (BOOL)value ? @"True" : @"False";
-}
-
-- (void) detachDevice {
-    [self resetValues];
-	Device *dev = [Device allocInstance];
-	[dev detachDevice];
-	_instance=nil;
-	[_instance release];
-	[dev release];
 }
 
 - (void) setDesiredAccuracy:(double) acc {

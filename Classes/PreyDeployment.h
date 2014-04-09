@@ -11,7 +11,6 @@
 
 @interface PreyDeployment : NSObject
 
-- (BOOL)isCorrect;
-- (CongratulationsController*)returnViewController;
++ (void)runPreyDeployment;
 
 @end

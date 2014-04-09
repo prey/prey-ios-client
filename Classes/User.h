@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Device.h"
 
 @interface User : NSObject {
 	
@@ -30,9 +29,7 @@
 @property (nonatomic,retain) NSArray *devices;
 @property (nonatomic, getter = isPro) BOOL pro;
 
-+(User*) allocWithEmail: (NSString*) email password: (NSString*) password;
-+(User*) createNew: (NSString*) name email: (NSString*) email password: (NSString*) password repassword: (NSString*) repassword;
--(BOOL) deleteDevice: (Device*) device;
-
++ (void)allocWithEmail:(NSString*)emailUser password:(NSString*)passwordUser  withBlock:(void (^)(User *user, NSError *error))block;
++ (void)createNew:(NSString*)nameUser email:(NSString*)emailUser password:(NSString*)passwordUser repassword:(NSString*)repasswordUser  withBlock:(void (^)(User *user, NSError *error))block;
 
 @end

@@ -21,63 +21,72 @@
 @synthesize devices;
 @synthesize pro;
 
-+(User*) allocWithEmail: (NSString*) _email password: (NSString*) _password {
-	User *newUser = [[User alloc] init];
-	newUser.email = _email;
-	newUser.password = _password;
++ (void)allocWithEmail:(NSString*)emailUser password:(NSString*)passwordUser  withBlock:(void (^)(User *user, NSError *error))block
+{
+    User *newUser = [[[User alloc] init] autorelease];
+	newUser.email = emailUser;
+	newUser.password = passwordUser;
     newUser.pro = NO;
-	PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
-	@try {
-		NSString *_apiKey = [userHttp getCurrentControlPanelApiKey: newUser];
-		newUser.apiKey = _apiKey;
-		return newUser;
-	}
-	@catch (NSException * e) {
-		@throw e;
-	}
-	return nil;
+    
+    
+    [PreyRestHttp getCurrentControlPanelApiKey:newUser
+                                     withBlock:^(NSString *apiKey, NSError *error)
+     {
+         if (error)
+         {
+             if (block)
+                 block(nil, error);
+         }
+         else
+         {
+             PreyLogMessage(@"User", 10,@"OK loginUser");
+             
+             [newUser setApiKey:apiKey];
+             
+             if (block) {
+                 block(newUser, nil);
+             }
+         }
+     }];
 }
 
-+(User*) createNew: (NSString*) _name email: (NSString*) _email password: (NSString*) _password repassword: (NSString*) _repassword {
-	
-	User *newUser = [[User alloc] init];
++ (void)createNew:(NSString*)nameUser email:(NSString*)emailUser password:(NSString*)passwordUser repassword:(NSString*)repasswordUser  withBlock:(void (^)(User *user, NSError *error))block
+{
+    User *newUser = [[User alloc] init];
 	newUser.pro = NO;
 	NSLocale *locale = [NSLocale currentLocale];
     NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
     NSString *countryName = [locale displayNameForKey:NSLocaleCountryCode value:countryCode];
 	
-	[newUser setName: _name];
-	[newUser setEmail: _email];
-	[newUser setCountry: countryName];
-	[newUser setPassword: _password];
-	[newUser setRepassword: _repassword];
+	[newUser setName:nameUser];
+	[newUser setEmail:emailUser];
+	[newUser setCountry:countryName];
+	[newUser setPassword:passwordUser];
+	[newUser setRepassword:repasswordUser];
 	
 	[locale release];
 	[countryCode release];
 	[countryName release];
-	
-	@try {
-		PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
-		NSString *_apiKey = [userHttp createApiKey: newUser];
-		
-		[newUser setApiKey:_apiKey];
-		
-		return newUser;
-	}
-	@catch (NSException * e) {
-		@throw e;
-	}
-	return nil;
+    
+    [PreyRestHttp createApiKey:newUser
+                    withBlock:^(NSString *apiKey, NSError *error)
+     {
+         if (error)
+         {
+             if (block)
+                 block(nil, error);
+         }
+         else
+         {
+             PreyLogMessage(@"User", 10,@"OK newUser");
+             
+             [newUser setApiKey:apiKey];
+             
+             if (block) {
+                 block(newUser, nil);
+             }
+         }
+     }];
 }
 
--(BOOL) deleteDevice: (Device*) dev {
-	@try {
-		PreyRestHttp *userHttp = [[[PreyRestHttp alloc] init] autorelease];
-		return [userHttp deleteDevice:dev];
-	}
-	@catch (NSException * e) {
-		@throw;
-	}
-	return NO;
-}
 @end

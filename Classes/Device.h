@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "User.h"
 
 @interface Device : NSObject {
 	
@@ -32,9 +33,6 @@
 @property (nonatomic,retain) NSString *macAddress;
 @property (nonatomic,retain) NSString *uuid;
 
-
-+(Device*) newDeviceForApiKey: (NSString*) apiKey;
-+(Device*) allocInstance;
--(void) detachDevice;
++ (void)newDeviceForApiKey:(User*)userKey withBlock:(void (^)(User *user, Device *dev, NSError *error))block;
 
 @end
