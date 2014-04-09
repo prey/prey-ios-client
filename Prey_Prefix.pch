@@ -10,4 +10,6 @@
 	#import "LoggerClient.h"
     #import "PreyLogger.h"
     #import <QuartzCore/QuartzCore.h>
+    #import <SystemConfiguration/SystemConfiguration.h>
+    #import <MobileCoreServices/MobileCoreServices.h>
 #endif

@@ -10,9 +10,10 @@
 [submodule "Classes/InAppSubscriptions"]
 	path = Classes/InAppSubscriptions
 	url = git@github.com:prey/prey-ios-inapppurchase.git
-[submodule "Classes/json-framework"]
-	path = Classes/json-framework
-	url = git://github.com/stig/json-framework.git
 [submodule "Classes/NSLogger"]
 	path = Classes/NSLogger
 	url = git://github.com/fpillet/NSLogger.git
+[submodule "Classes/AFNetworking-1.x"]
+	path = Classes/AFNetworking-1.x
+	url = https://github.com/AFNetworking/AFNetworking
+	branch = 1.x
