@@ -33,7 +33,7 @@
                          if (error) {
                              PreyLogMessage(@"ActionModule", 10,@"Error: %@",error);
                          } else {
-                             PreyLogMessage(@"ActionModule", 10,@"OK data");
+                             PreyLogMessage(@"ActionModule", 10,@"ActionModule: OK response");
                          }
                      }];
 }

@@ -41,6 +41,8 @@
         [loginController release];
     }
     [super notifyCommandResponse:[self getName] withStatus:@"started"];
+    
+    PreyLogMessage(@"CamouflageModule", 10, @"CamouflageModule: command start");
 }
 
 - (void)stop
@@ -67,6 +69,8 @@
     }
     
     [super notifyCommandResponse:[self getName] withStatus:@"stopped"];
+    
+    PreyLogMessage(@"CamouflageModule", 10, @"CamouflageModule: command stop");
 }
 
 

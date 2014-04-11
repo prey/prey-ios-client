@@ -112,7 +112,7 @@
     [requestData setObject:[device vendor] forKey:@"vendor_name"];
     [requestData setObject:[device os] forKey:@"os"];
     [requestData setObject:[device macAddress] forKey:@"physical_address"];
-    [requestData setObject:[device uuid] forKey:@"uuid"];
+    [requestData setObject:[device uuid] forKey:@"hardware_attributes[uuid]"];
     
     [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:apiKey password:@"x"];
     
@@ -161,7 +161,7 @@
                                      parameters:nil
                                         success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"DELETE device: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         PreyLogMessage(@"PreyRestHttp", 21, @"DELETE device: %@ : %ld",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding], (long)[operation.response statusCode]);
          
          if (block) {
              block(nil);

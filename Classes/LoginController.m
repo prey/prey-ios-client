@@ -50,8 +50,6 @@
          
          if (!error) // User Login
          {
-             PreyLogMessage(@"LoginController", 10,@"OK Login" );
-             
              [config setPro:user.isPro];
              
              PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];

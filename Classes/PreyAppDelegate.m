@@ -8,40 +8,25 @@
 //  Full license at "/LICENSE"
 
 #import "PreyAppDelegate.h"
-#import "LoginController.h"
-#import "OldUserController.h"
-#import "NewUserController.h"
-#import "WelcomeController.h"
 #import "PreyConfig.h"
-#import "CongratulationsController.h"
-#import "PreferencesController.h"
+#import "PreyRestHttp.h"
+#import "PreyDeployment.h"
 #import "Constants.h"
+#import "LoginController.h"
+#import "WelcomeController.h"
 #import "AlertModuleController.h"
 #import "FakeWebView.h"
 #import "PicturesController.h"
-#import "IAPHelper.h"
-#import "GAI.h"
-#import "PreyDeployment.h"
 #import "WizardController.h"
 #import "ReportModule.h"
 #import "AlertModule.h"
-#import "Constants.h"
-#import "PreyRestHttp.h"
+#import "IAPHelper.h"
+#import "GAI.h"
 
-@interface PreyAppDelegate()
-
--(void)renderFirstScreen;
-
-@end
 
 @implementation PreyAppDelegate
 
 @synthesize window,viewController;
-
--(void)renderFirstScreen{
-
-	
-}
 
 #pragma mark -
 #pragma mark Some useful stuff
@@ -107,6 +92,16 @@
 	showAlert = YES;
 }
 
+- (void)configSendReport:(NSDictionary*)userInformation
+{
+    if ([userInformation objectForKey:@"url"] == nil)
+        self.url = @"http://m.bofa.com?a=1";
+    else
+        self.url = [userInformation objectForKey:@"url"];
+    
+    showFakeScreen = YES;
+}
+
 #pragma mark -
 #pragma mark WebView delegate
 
@@ -158,17 +153,12 @@
         UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
         id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         
-        if (remoteNotification) {
+        if (remoteNotification)
+        {
             PreyLogMessageAndFile(@"App Delegate", 10, @"Prey remote notification received while not running!");
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
-            {
-                if ([remoteNotification objectForKey:@"url"] == nil)
-                    self.url = @"http://m.bofa.com?a=1";
-                else
-                    self.url = [remoteNotification objectForKey:@"url"];
 
-                showFakeScreen = YES;
-            }
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+                [self configSendReport:remoteNotification];
         }
         
         if (localNotif) {
@@ -196,25 +186,15 @@
 }
 
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    /*
-     Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-     Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-     */
-    
+- (void)applicationWillResignActive:(UIApplication *)application
+{
     PreyLogMessage(@"App Delegate", 20,  @"Will Resign Active");
 }
 
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-	int minutes=0;
-	int seconds=0;
-	if (wentToBackground != nil){
-		NSTimeInterval inBg = [wentToBackground timeIntervalSinceNow];
-		minutes = floor(-inBg/60);
-		seconds = trunc(-inBg - minutes * 60);
-	}
-	PreyLogMessage(@"App Delegate", 10, @"Application will terminate!. Time alive: %d minutes, %d seconds",minutes,seconds);
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+	PreyLogMessage(@"App Delegate", 10, @"Application will terminate!");
     
     UILocalNotification *localNotif = [[UILocalNotification alloc] init];
     if (localNotif)
@@ -224,44 +204,34 @@
         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
         [localNotif release];
     }
-    
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    /*
-     Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-     If your application supports background execution, called instead of applicationWillTerminate: when the user quits.
-     */
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
     showFakeScreen = NO;
 	PreyLogMessage(@"App Delegate", 10, @"Prey is now running in the background");
-	wentToBackground = [NSDate date];
     for (UIView *view in [window subviews]) {
         [view removeFromSuperview];
     }
 }
 
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    /*
-     Called as part of  transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
-     */
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
 	PreyLogMessage(@"App Delegate", 10, @"Prey is now entering to the foreground");
 }
 
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
     PreyLogMessage(@"App Delegate", 20,  @"DID BECOME ACTIVE!!");
+    
     if ([viewController.view superview] == window) {
         return;
     }
-    /*if (viewController.modalViewController) {
-        return;
-    }*/
+
     [window endEditing:YES];
 
-    /*
-     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-     */
     [self displayScreen];
 	
 }
@@ -348,10 +318,28 @@
 }
 
 #pragma mark -
-#pragma mark Prey Config
+#pragma mark Push notifications delegate
 
-- (void)checkStatusInPreyPanel
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+    NSString * tokenAsString = [[[deviceToken description] 
+                                 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
+                                stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    [PreyRestHttp setPushRegistrationId:tokenAsString
+                              withBlock:^(NSArray *posts, NSError *error) {
+    PreyLogMessageAndFile(@"App Delegate", 10, @"Did register for remote notifications - Device Token=%@",tokenAsString);                              }];
+}
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err
+{
+    PreyLogMessageAndFile(@"App Delegate", 10,  @"Failed to register for remote notifications - Error: %@", err);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);    
+    
     [PreyRestHttp checkStatusForDevice:^(NSArray *posts, NSError *error) {
         if (error) {
             PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
@@ -359,77 +347,39 @@
             PreyLogMessage(@"PreyAppDelegate", 10,@"OK:");
         }
     }];
-}
-
-#pragma mark -
-#pragma mark Push notifications delegate
-
-- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken { 
-    NSString * tokenAsString = [[[deviceToken description] 
-                                 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
-                                stringByReplacingOccurrencesOfString:@" " withString:@""];
-    PreyLogMessageAndFile(@"App Delegate", 10, @"Did register for remote notifications - Device Token=%@",tokenAsString);
-    
-    
-    [PreyRestHttp setPushRegistrationId:tokenAsString
-                              withBlock:^(NSArray *posts, NSError *error) {
-                                  if (error) {
-                                      PreyLogMessage(@"App Delegate", 10,@"Error notification_id: %@",error);
-                                  } else {
-                                      PreyLogMessage(@"App Delegate", 10,@"OK notification_id");
-                                  }
-                              }];
-}
-
-- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err { 
-	
-    PreyLogMessageAndFile(@"App Delegate", 10,  @"Failed to register for remote notifications - Error: %@", err);    
-	
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-    PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);    
-    
-    [self checkStatusInPreyPanel];
 
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
-    {
-        if ([userInfo objectForKey:@"url"] == nil)
-            self.url = @"http://m.bofa.com?a=1";
-        else
-            self.url = [userInfo objectForKey:@"url"];
-
-        showFakeScreen = YES;
-    }
+        [self configSendReport:userInfo];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received in Background! : %@", [userInfo description]);
-    
-    [self checkStatusInPreyPanel];
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
-    {
-        if ([userInfo objectForKey:@"url"] == nil)
-            self.url = @"http://m.bofa.com?a=1";
-        else
-            self.url = [userInfo objectForKey:@"url"];
-        
-        showFakeScreen = YES;
-        
-        [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:600];
-    }
-    else
-    {
-        [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:9];
-    }
-}
 
-- (void) waitNotificationProcess:(void (^)(UIBackgroundFetchResult))completionHandler
-{
-    completionHandler(UIBackgroundFetchResultNewData);
+    [PreyRestHttp checkStatusForDevice:^(NSArray *posts, NSError *error) {
+        if (error)
+        {
+            PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
+            completionHandler(UIBackgroundFetchResultFailed);
+        }
+        else
+        {
+            PreyLogMessage(@"PreyAppDelegate", 10,@"OK UIBackgroundFetchResultNewData:");
+
+            NSTimeInterval delayFetch;
+            
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+            {
+                [self configSendReport:userInfo];
+                delayFetch = 600;
+            }
+            else
+                delayFetch = 9;
+            
+            [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:delayFetch];
+        }
+    }];
+    
 }
 
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
@@ -437,13 +387,17 @@
     PreyLogMessageAndFile(@"App Delegate", 10, @"Init Background Fetch");
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
-    {
         [[ReportModule instance] get];
-    }
     
     [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:9];
 }
 
+- (void) waitNotificationProcess:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+/*
 #pragma mark -
 #pragma mark UINavigationController delegate methods
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)_viewController animated:(BOOL)animated {
@@ -453,7 +407,7 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)_viewController animated:(BOOL)animated {
 	PreyLogMessage(@"App Delegate", 10, @"UINAV will show: %@", [_viewController class]);
 }
-
+*/
 #pragma mark -
 #pragma mark Memory management
 

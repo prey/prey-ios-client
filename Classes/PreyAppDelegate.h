@@ -15,7 +15,6 @@
     UIWindow *window;
 	UINavigationController *viewController;
     UIWebView *fakeView;
-	NSDate *wentToBackground;
 	BOOL showFakeScreen;
     BOOL screenLoaded;
     BOOL showAlert;

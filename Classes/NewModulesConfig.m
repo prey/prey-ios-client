@@ -42,6 +42,9 @@
 }
 
 - (void) runAllModules {
+    
+    PreyLogMessage(@"NewModulesConfig", 10,@"Run all modules");
+    
     PreyModule *module;
     
 	for (module in dataModules){

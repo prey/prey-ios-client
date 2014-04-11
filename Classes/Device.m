@@ -38,8 +38,6 @@
             
         } else
         {
-            PreyLogMessage(@"Device", 10,@"OK newDevice");
-            
             [newDevice setDeviceKey:deviceKey];
             
             if (block) {

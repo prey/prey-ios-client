@@ -61,7 +61,7 @@
         if (error) {
             PreyLogMessage(@"DataModule", 10,@"Error: %@",error);
         } else {
-            PreyLogMessage(@"DataModule", 10,@"OK data");
+            PreyLogMessage(@"DataModule", 10,@"DataModule: OK data");
         }
     }];
 }
@@ -74,7 +74,7 @@
                          if (error) {
                              PreyLogMessage(@"DataModule", 10,@"Error: %@",error);
                          } else {
-                             PreyLogMessage(@"DataModule", 10,@"OK report");
+                             PreyLogMessage(@"DataModule", 10,@"DataModule: OK report");
                          }
                      }];
 }

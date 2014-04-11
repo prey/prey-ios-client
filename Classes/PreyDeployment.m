@@ -61,7 +61,6 @@
      {
          if (!error) // Device created
          {
-             PreyLogMessage(@"PreyDeployment", 10,@"OK" );
              PreyConfig *config = [PreyConfig initWithApiKey:apiKeyUser andDevice:dev];
              if (config != nil)
              {

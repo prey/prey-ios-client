@@ -48,7 +48,6 @@
                   
                   if (!error) // Device created
                   {
-                      PreyLogMessage(@"OldUserController", 10,@"OK" );
                       PreyConfig *config = [PreyConfig initWithUser:user andDevice:dev];
                       if (config != nil)
                       {

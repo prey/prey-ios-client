@@ -37,6 +37,8 @@
         
         [super notifyCommandResponse:[self getName] withStatus:@"stopped"];
     }
+    
+    PreyLogMessage(@"AlertModule", 10, @"AlertModule: command start");
 }
 
 - (void)showAlertModule:(NSString*)message

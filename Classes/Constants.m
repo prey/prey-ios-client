@@ -10,22 +10,9 @@
 
 
 @implementation Constants
-/*
-	NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://panel.preyproject.com/";
-	NSString * const PREY_URL = @"http://control.preyproject.com/";
-	NSString * const PREY_SECURE_URL = @"https://control.preyproject.com/";
-    NSString * const PREY_API_URL = @"https://panel.preyproject.com/";
-	BOOL  const ASK_FOR_LOGIN = YES;
-	BOOL const	USE_CONTROL_PANEL_DELAY=YES; //use the preferences page's instead.
-    BOOL const	SHOULD_LOG=NO;
-*/
-
 
 //NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://control.preyapp.com/api/v2";  // STG
-//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://panel.preyproject.com/api/v2";  // PRD
-
 NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://solid.preyproject.com/api/v2";  // PRD
-//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://panel.preyproject.com";  // PRD
 
 
 NSString * const DEFAULT_CHECK_PATH = @"/devices/%@%@"; // /devices/abc123.xml

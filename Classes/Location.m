@@ -26,6 +26,8 @@
 - (void) get
 {
     [self initLocation];
+    
+    PreyLogMessage(@"Location", 10,@"Location Command: Get");
 }
 
 - (void)initLocation

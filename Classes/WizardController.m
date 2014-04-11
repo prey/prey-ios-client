@@ -147,7 +147,6 @@
                   
                   if (!error) // Device created
                   {
-                      PreyLogMessage(@"NewUserController", 10,@"OK" );
                       PreyConfig *config = [PreyConfig initWithUser:user andDevice:dev];
                       if (config != nil)
                       {
@@ -205,7 +204,6 @@
                   
                   if (!error) // Device created
                   {
-                      PreyLogMessage(@"WizardController", 10,@"OK" );
                       PreyConfig *config = [PreyConfig initWithUser:user andDevice:dev];
                       if (config != nil)
                       {

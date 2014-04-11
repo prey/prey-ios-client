@@ -168,10 +168,7 @@
 - (void) pictureReady:(UIImage *) pictureTaken
 {
     if (pictureTaken != nil)
-    {
-        //UIImageWriteToSavedPhotosAlbum(pictureTaken, nil, nil, nil);
         self.picture = pictureTaken;
-    }
     else
     {
         UIImage *lastPicture = [[[PicturesController instance]lastPicture] copy];

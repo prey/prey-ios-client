@@ -39,8 +39,6 @@
          }
          else
          {
-             PreyLogMessage(@"User", 10,@"OK loginUser");
-             
              [newUser setApiKey:apiKey];
              
              if (block) {
@@ -78,8 +76,6 @@
          }
          else
          {
-             PreyLogMessage(@"User", 10,@"OK newUser");
-             
              [newUser setApiKey:apiKey];
              
              if (block) {

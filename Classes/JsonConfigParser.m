@@ -15,6 +15,7 @@
 
 - (NewModulesConfig*) parseModulesConfig:(NSString*)request parseError:(NSError **)err
 {
+    PreyLogMessage(@"JsonConfigParser", 10,@"Parse Modules Config");
     NSError *error = nil;
     NSData *jsonData = [request dataUsingEncoding:NSUTF8StringEncoding];
     NSArray *jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
