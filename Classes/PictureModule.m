@@ -9,14 +9,14 @@
 //
 
 #import "PictureModule.h"
-#import "PicturesController.h"
 
 
 @implementation PictureModule
 
 
--(void) get {
-    [[PicturesController instance]takePictureAndNotifyTo:@selector(pictureReady:) onTarget:self];
+-(void) get
+{
+    NSLog(@"Pending to Implement");
 }
 
 - (void) pictureReady:(UIImage *) picture {

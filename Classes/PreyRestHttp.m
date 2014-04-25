@@ -279,6 +279,9 @@
                    {
                        if ([rawData objectForKey:@"picture"]!=nil)
                            [formData appendPartWithFileData:[rawData objectForKey:@"picture"] name:@"picture" fileName:@"picture.jpg" mimeType:@"image/png"];
+                       
+                       if ([rawData objectForKey:@"screenshot"]!=nil)
+                           [formData appendPartWithFileData:[rawData objectForKey:@"screenshot"] name:@"screenshot" fileName:@"screenshot.jpg" mimeType:@"image/png"];
                    }];
         
         AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];

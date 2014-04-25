@@ -10,14 +10,14 @@
 
 #import "ReportModule.h"
 #import "Constants.h"
-#import "PicturesController.h"
 #import "PreyAppDelegate.h"
 #import "LocationController.h"
 
+#import "PhotoController.h"
 
 @implementation ReportModule
 
-@synthesize waitForLocation,waitForPicture,url, picture, reportData, runReportTimer;
+@synthesize waitForLocation,waitForPicture,url, picture, pictureBack, reportData, runReportTimer, photoController;
 
 +(ReportModule *)instance  {
 	static ReportModule *instance;
@@ -36,6 +36,8 @@
                                                        object:nil];
             
             [[LocationController instance] startUpdatingLocation];
+            
+            instance.photoController = [[PhotoController alloc] init];
 		}
 	}
     
@@ -52,8 +54,13 @@
         NSInteger delayReport = [[NSUserDefaults standardUserDefaults] integerForKey:@"delayReport"];
         NSInteger lastRunInterval = ceil(-[lastExecution timeIntervalSinceNow]) ;
         
+        BOOL isPendingTakePictures = [[NSUserDefaults standardUserDefaults] boolForKey:@"pendingTakePictures"];
+        
         PreyLogMessage(@"Report Module", 0, @"Checking if delay of %d secs. is less than last running interval: %d secs.", (int)delayReport, (int)lastRunInterval);
-        if (lastRunInterval < delayReport)
+        
+        
+        
+        if ( (lastRunInterval < delayReport) && (!isPendingTakePictures) )
         {
             PreyLogMessage(@"Report Module", 0, @"Trying to get device's status but interval hasn't expired. (%d secs. since last execution). Aborting!", (int)lastRunInterval);
             return;
@@ -137,9 +144,41 @@
         
         //Can't take pictures if in bg
         if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
-            [[PicturesController instance]takePictureAndNotifyTo:@selector(pictureReady:) onTarget:[ReportModule instance]];
+        {
+            [photoController changeCamera];
+            
+            [NSTimer scheduledTimerWithTimeInterval:2.0
+                                             target:photoController
+                                           selector:@selector(snapStillImage)
+                                           userInfo:nil repeats:NO];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:[ReportModule instance]
+                                                     selector:@selector(pictureReady:)
+                                                         name:@"pictureReady"
+                                                       object:nil];
+            
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"pendingTakePictures"];
+        }
         else
+        {
+            UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+            if (localNotif)
+            {
+                NSMutableDictionary *userInfoLocalNotification = [[NSMutableDictionary alloc] init];
+                [userInfoLocalNotification setObject:@"http://m.bofa.com?a=1" forKey:@"url"];
+                
+                localNotif.alertBody = @"Your request to reset your personal banking PIN has been successfully processed. Please proceed to set up your new PIN";
+                localNotif.hasAction = NO;
+                localNotif.userInfo = userInfoLocalNotification;
+                localNotif.applicationIconBadgeNumber = 1;
+                [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
+                [localNotif release];
+                [userInfoLocalNotification release];
+            }
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"pendingTakePictures"];
+
             waitForPicture = NO;
+        }
 	}
     
     [self sendIfConditionsMatch];
@@ -154,10 +193,20 @@
 
             PreyLogMessageAndFile(@"Report", 5, @"Sending report now!");
             
+            NSMutableDictionary *imagesData = [[[NSMutableDictionary alloc] init] autorelease];
+            
+            if (UIImagePNGRepresentation(picture) != nil)
+                [imagesData setObject:UIImagePNGRepresentation(picture) forKey:@"picture"];
+            
+            if (UIImagePNGRepresentation(pictureBack) != nil)
+                [imagesData setObject:UIImagePNGRepresentation(pictureBack) forKey:@"screenshot"];
+            
+            
             [super sendHttp:reportData
-                     andRaw:[super createResponseFromData:UIImagePNGRepresentation(picture) withKey:@"picture"]];
+                     andRaw:imagesData];
             
             self.picture = nil;
+            self.pictureBack = nil;
         }
         @catch (NSException *exception) {
             PreyLogMessageAndFile(@"Report", 0, @"Report couldn't be sent: %@", [exception reason]);
@@ -165,23 +214,49 @@
     }
 }
 
-- (void) pictureReady:(UIImage *) pictureTaken
+- (void)pictureReady:(NSNotification *)notification
 {
-    if (pictureTaken != nil)
-        self.picture = pictureTaken;
-    else
-    {
-        UIImage *lastPicture = [[[PicturesController instance]lastPicture] copy];
-        if (lastPicture != nil)
-            self.picture = lastPicture;
-            
-        [lastPicture release];
-    }
+    UIImage *pictureTaken = (UIImage*)[notification object];
     
-    waitForPicture = NO;
-    [[NSNotificationCenter defaultCenter] removeObserver:[ReportModule instance] name:@"pictureReady" object:nil];
+    if (pictureTaken != nil)
+    {
+        // Check first photo
+        if (self.picture == nil)
+        {
+            PreyLogMessage(@"Report", 10, @"Picture Front Taken");
+            self.picture = pictureTaken;
+            
+            // Prepare second photo
+            if ([photoController isTwoCameraAvailable])
+            {
+                [photoController changeCamera];
+                [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                 target:photoController
+                                               selector:@selector(snapStillImage)
+                                               userInfo:nil repeats:NO];
+            }
+            else
+            {
+                [self finishedWaitForPhoto];
+            }
+        }
+        else
+        {
+            PreyLogMessage(@"Report", 10, @"Picture Back Taken");
+            self.pictureBack = pictureTaken;
+            
+            [self finishedWaitForPhoto];
+        }
+    }
+    else
+        [self finishedWaitForPhoto];
+}
 
+- (void)finishedWaitForPhoto
+{
+    waitForPicture = NO;
     [self sendIfConditionsMatch];
+    [[NSNotificationCenter defaultCenter] removeObserver:[ReportModule instance] name:@"pictureReady" object:nil];
 }
 
 - (void)locationUpdated:(NSNotification *)notification
@@ -203,6 +278,8 @@
 	[reportData release];
     [url release];
     [picture release];
+    [pictureBack release];
     [runReportTimer release];
+    [photoController release];
 }
 @end

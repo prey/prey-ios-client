@@ -16,7 +16,6 @@
 #import "WelcomeController.h"
 #import "AlertModuleController.h"
 #import "FakeWebView.h"
-#import "PicturesController.h"
 #import "WizardController.h"
 #import "ReportModule.h"
 #import "AlertModule.h"
@@ -182,7 +181,12 @@
 	
     PreyLogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
     
-    [self showAlert:notif.alertBody];
+    if ([notif.userInfo objectForKey:@"url"] == nil)
+        [self showAlert:notif.alertBody];
+    else
+        [self configSendReport:notif.userInfo];
+    
+    notif.applicationIconBadgeNumber = -1;
 }
 
 
@@ -364,7 +368,7 @@
         }
         else
         {
-            PreyLogMessage(@"PreyAppDelegate", 10,@"OK UIBackgroundFetchResultNewData:");
+            PreyLogMessage(@"PreyAppDelegate", 10,@"OK Background");
 
             NSTimeInterval delayFetch;
             
@@ -394,6 +398,7 @@
 
 - (void) waitNotificationProcess:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+    PreyLogMessage(@"PreyAppDelegate", 10,@"OK UIBackgroundFetchResultNewData");
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
