@@ -12,8 +12,8 @@
 
 @interface PreyRestHttp : NSObject
 
-- (void)getAppstoreConfig:(id) delegate inURL: (NSString *) URL;
-
++ (void)checkTransaction:(NSString *)receiptData withBlock:(void (^)(NSError *error))block;
++ (void)getAppstoreConfig:(NSString *)URL withBlock:(void (^)(NSMutableSet *dataStore, NSError *error))block;
 + (void)createApiKey:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block;
 + (void)getCurrentControlPanelApiKey:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block;
 + (void)createDeviceKeyForDevice:(Device *)device usingApiKey:(NSString *)apiKey withBlock:(void (^)(NSString *deviceKey, NSError *error))block;

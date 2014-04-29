@@ -15,7 +15,6 @@
 #import "WelcomeController.h"
 #import "LogController.h"
 #import "DeviceMapController.h"
-#import "IAPHelper.h"
 #import "StoreControllerViewController.h"
 #import "SignificantLocationController.h"
 #import "Constants.h"
@@ -380,7 +379,6 @@
     
     accManager = [[AccuracyManager alloc] init];
     delayManager = [[DelayManager alloc] init];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:kProductsLoadedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
     

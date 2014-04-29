@@ -15,10 +15,37 @@
 #import "PreyConfig.h"
 #import "Constants.h"
 #import "JsonConfigParser.h"
+#import "PreyAppDelegate.h"
 
 @implementation PreyRestHttp
 
 #pragma mark Init
+
++ (void)checkTransaction:(NSString *)receiptData withBlock:(void (^)(NSError *error))block
+{
+    NSMutableDictionary *requestData = [[NSMutableDictionary alloc] init];
+    if (receiptData)
+        [requestData setObject:receiptData forKey:@"receipt-data"];
+    
+    [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingString:@"/subscriptions/receipt"]
+                                     parameters:requestData
+                                        success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         PreyLogMessage(@"PreyRestHttp", 21, @"subscriptions/receipt: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         
+         if (block) {
+             block(nil);
+         }
+         
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+    {
+         if (block) {
+             block(error);
+         }
+         PreyLogMessage(@"PreyRestHttp", 10,@"Error /subscriptions: %@",error);
+     }];
+
+}
 
 + (void)getCurrentControlPanelApiKey:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block
 {
@@ -182,15 +209,30 @@
      }];
 }
 
-#warning PENDIENTE
-- (void) getAppstoreConfig: (id) delegate inURL: (NSString *) URL
++ (void)getAppstoreConfig:(NSString *)URL withBlock:(void (^)(NSMutableSet *dataStore, NSError *error))block
 {
-    /*
-    ASIHTTPRequest *request = [self createGETrequestWithURL:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat:@"/%@",URL]];
-    [request setDelegate:delegate];
-    [request setDidFinishSelector:@selector(receivedData:)];
-    [request startAsynchronous];
-    */
+    [[AFPreyStatusClient sharedClient] getPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat:@"/%@",URL]
+                                    parameters:nil
+                                       success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         PreyLogMessage(@"PreyRestHttp", 21, @"GET /%@: %@",URL,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         
+         NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+         JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
+         
+         NSError *error2;
+         NSMutableSet *productsRequest = [configParser parseStore:respString parseError:&error2];
+         
+         if (block) {
+             block(productsRequest, nil);
+         }
+         
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         if (block) {
+             block(nil, error);
+         }
+         PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
+     }];    
 }
 
 + (void)setPushRegistrationId:(NSString *)tokenId withBlock:(void (^)(NSArray *posts, NSError *error))block
@@ -248,6 +290,8 @@
 
 + (void)sendJsonData:(NSDictionary*)jsonData andRawData:(NSDictionary*)rawData toEndpoint:(NSString *)url withBlock:(void (^)(NSArray *posts, NSError *error))block
 {
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
     if (rawData == nil)
     {
         [[AFPreyStatusClient sharedClient] postPath:url
@@ -255,10 +299,12 @@
                                             success:^(AFHTTPRequestOperation *operation, id responseObject)
          {
              PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-             
+
              if (block) {
                  block([NSArray array], nil);
              }
+             
+             [appDelegate checkedCompletionHandler];
              
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
@@ -269,6 +315,8 @@
              if (block) {
                  block([NSArray array], error);
              }
+             
+             [appDelegate checkedCompletionHandler];
          }];
     }
     else
@@ -289,14 +337,16 @@
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
          {
              PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+             [appDelegate checkedCompletionHandler];
              
          } failure:^(AFHTTPRequestOperation *operation, NSError *error)
          {
-             
              PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
              
              if ([operation.response statusCode] == 409)
                  [[ReportModule instance] stopSendReport];
+             
+             [appDelegate checkedCompletionHandler];
          }];
         [[AFPreyStatusClient sharedClient] enqueueHTTPRequestOperation:operation];
     }

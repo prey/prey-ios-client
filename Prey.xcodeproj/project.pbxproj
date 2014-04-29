@@ -139,6 +139,15 @@
 		3BA6AD1218D1184E00CAADAC /* prey-iphone-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6AD1018D1184E00CAADAC /* prey-iphone-logo@2x.png */; };
 		3BA6AD1318D1184E00CAADAC /* prey-iphone-sonar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6AD1118D1184E00CAADAC /* prey-iphone-sonar@2x.png */; };
 		3BA6AD1918D1199E00CAADAC /* LoginController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6AD1818D1199E00CAADAC /* LoginController-iPad.xib */; };
+		3BAE4E3A190AB2CA0093ECA2 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E26190AB2C90093ECA2 /* NSData+MKBase64.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3BAE4E3B190AB2CA0093ECA2 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E28190AB2CA0093ECA2 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3BAE4E3C190AB2CA0093ECA2 /* MKSKProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E2A190AB2CA0093ECA2 /* MKSKProduct.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3BAE4E3D190AB2CA0093ECA2 /* MKSKSubscriptionProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E2C190AB2CA0093ECA2 /* MKSKSubscriptionProduct.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3BAE4E3F190AB2CA0093ECA2 /* MKStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E30190AB2CA0093ECA2 /* MKStoreManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3BAE4E52190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BAE4E48190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib */; };
+		3BAE4E53190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BAE4E49190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib */; };
+		3BAE4E54190AB96F0093ECA2 /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E4B190AB96F0093ECA2 /* GrettingsProViewController.m */; };
+		3BAE4E56190AB96F0093ECA2 /* StoreControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E4F190AB96F0093ECA2 /* StoreControllerViewController.m */; };
 		3BBAAFF118B8EAD300ADE493 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAAFDE18B8EAD300ADE493 /* Default-568h@2x.png */; };
 		3BBAAFF218B8EAD300ADE493 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAAFDF18B8EAD300ADE493 /* Default-Portrait@2x~ipad.png */; };
 		3BBAAFF318B8EAD300ADE493 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAAFE018B8EAD300ADE493 /* Default@2x~iphone.png */; };
@@ -165,13 +174,9 @@
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
 		3BE0935B18D1150F00F6ACE4 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE0935A18D1150F00F6ACE4 /* Default-Portrait~ipad.png */; };
 		3BEEAB7E1806F87A00849B2B /* Wizard in Resources */ = {isa = PBXBuildFile; fileRef = 3BEEAB7D1806F87A00849B2B /* Wizard */; };
-		3BF03704167835CD0086A7A7 /* GrettingsProViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */; };
 		3BF0371F167847920086A7A7 /* ReviewRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.mm */; };
 		3BFF783E189C592500694625 /* AccuracyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF783B189C592500694625 /* AccuracyManager.m */; };
 		3BFF783F189C592500694625 /* DeviceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF783D189C592500694625 /* DeviceMapController.m */; };
-		5A14171115190E240005AE7D /* StoreParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A14171015190E230005AE7D /* StoreParserDelegate.m */; };
-		5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */; };
-		5A3137961512AB4E00504BA8 /* GrettingsProViewController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A3137951512AB4E00504BA8 /* GrettingsProViewController-iPhone.xib */; };
 		5A73C0FE146ADD5000AB32E9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */; };
 		5A7A12A0146D70FF00B14176 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A128D146D70FF00B14176 /* ASIAuthenticationDialog.m */; };
 		5A7A12A1146D70FF00B14176 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A1290146D70FF00B14176 /* ASIDataCompressor.m */; };
@@ -182,8 +187,6 @@
 		5A7A12A6146D70FF00B14176 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A129C146D70FF00B14176 /* ASIInputStream.m */; };
 		5A7A12A7146D70FF00B14176 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A129E146D70FF00B14176 /* ASINetworkQueue.m */; };
 		5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */; };
-		5A8DA67D150E4A3500A05BBD /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8DA67C150E4A3500A05BBD /* IAPHelper.m */; };
-		5A8DA684150E4AC000A05BBD /* StoreControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -410,6 +413,23 @@
 		3BA6AD1018D1184E00CAADAC /* prey-iphone-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-iphone-logo@2x.png"; sourceTree = "<group>"; };
 		3BA6AD1118D1184E00CAADAC /* prey-iphone-sonar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-iphone-sonar@2x.png"; sourceTree = "<group>"; };
 		3BA6AD1818D1199E00CAADAC /* LoginController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPad.xib"; path = "Classes/LoginController-iPad.xib"; sourceTree = "<group>"; };
+		3BAE4E25190AB2C90093ECA2 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
+		3BAE4E26190AB2C90093ECA2 /* NSData+MKBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MKBase64.m"; sourceTree = "<group>"; };
+		3BAE4E27190AB2CA0093ECA2 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		3BAE4E28190AB2CA0093ECA2 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
+		3BAE4E29190AB2CA0093ECA2 /* MKSKProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSKProduct.h; sourceTree = "<group>"; };
+		3BAE4E2A190AB2CA0093ECA2 /* MKSKProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSKProduct.m; sourceTree = "<group>"; };
+		3BAE4E2B190AB2CA0093ECA2 /* MKSKSubscriptionProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSKSubscriptionProduct.h; sourceTree = "<group>"; };
+		3BAE4E2C190AB2CA0093ECA2 /* MKSKSubscriptionProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSKSubscriptionProduct.m; sourceTree = "<group>"; };
+		3BAE4E2D190AB2CA0093ECA2 /* MKStoreKitConfigs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreKitConfigs.h; sourceTree = "<group>"; };
+		3BAE4E2F190AB2CA0093ECA2 /* MKStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreManager.h; sourceTree = "<group>"; };
+		3BAE4E30190AB2CA0093ECA2 /* MKStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStoreManager.m; sourceTree = "<group>"; };
+		3BAE4E48190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPad.xib"; sourceTree = "<group>"; };
+		3BAE4E49190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPhone.xib"; sourceTree = "<group>"; };
+		3BAE4E4A190AB96F0093ECA2 /* GrettingsProViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrettingsProViewController.h; sourceTree = "<group>"; };
+		3BAE4E4B190AB96F0093ECA2 /* GrettingsProViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrettingsProViewController.m; sourceTree = "<group>"; };
+		3BAE4E4E190AB96F0093ECA2 /* StoreControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreControllerViewController.h; sourceTree = "<group>"; };
+		3BAE4E4F190AB96F0093ECA2 /* StoreControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreControllerViewController.m; sourceTree = "<group>"; };
 		3BBAAFDE18B8EAD300ADE493 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3BBAAFDF18B8EAD300ADE493 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		3BBAAFE018B8EAD300ADE493 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
@@ -440,18 +460,12 @@
 		3BD74799170F7EFB00F44E2C /* LoggerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
 		3BE0935A18D1150F00F6ACE4 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		3BEEAB7D1806F87A00849B2B /* Wizard */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Wizard; path = Resources/Wizard; sourceTree = "<group>"; };
-		3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPad.xib"; sourceTree = "<group>"; };
 		3BF0371D167847920086A7A7 /* ReviewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReviewRequest.h; path = Classes/ReviewRequest.h; sourceTree = "<group>"; };
 		3BF0371E167847920086A7A7 /* ReviewRequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ReviewRequest.mm; path = Classes/ReviewRequest.mm; sourceTree = "<group>"; };
 		3BFF783A189C592500694625 /* AccuracyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccuracyManager.h; path = Classes/AccuracyManager.h; sourceTree = "<group>"; };
 		3BFF783B189C592500694625 /* AccuracyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccuracyManager.m; path = Classes/AccuracyManager.m; sourceTree = "<group>"; };
 		3BFF783C189C592500694625 /* DeviceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceMapController.h; path = Classes/DeviceMapController.h; sourceTree = "<group>"; };
 		3BFF783D189C592500694625 /* DeviceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceMapController.m; path = Classes/DeviceMapController.m; sourceTree = "<group>"; };
-		5A14170F15190E230005AE7D /* StoreParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoreParserDelegate.h; path = Classes/InAppSubscriptions/StoreParserDelegate.h; sourceTree = "<group>"; };
-		5A14171015190E230005AE7D /* StoreParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoreParserDelegate.m; path = Classes/InAppSubscriptions/StoreParserDelegate.m; sourceTree = "<group>"; };
-		5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrettingsProViewController.m; sourceTree = "<group>"; };
-		5A3137931512AB3F00504BA8 /* GrettingsProViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrettingsProViewController.h; sourceTree = "<group>"; };
-		5A3137951512AB4E00504BA8 /* GrettingsProViewController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPhone.xib"; sourceTree = "<group>"; };
 		5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		5A76D80B1513E90A009D778B /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5A7A128C146D70FF00B14176 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIAuthenticationDialog.h; path = "asi-http-request/Classes/ASIAuthenticationDialog.h"; sourceTree = "<group>"; };
@@ -476,10 +490,6 @@
 		5A7A129F146D70FF00B14176 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIProgressDelegate.h; path = "asi-http-request/Classes/ASIProgressDelegate.h"; sourceTree = "<group>"; };
 		5A7A12AB146D74FB00B14176 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice-Hardware.h"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.h"; sourceTree = "<group>"; };
 		5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice-Hardware.m"; path = "Classes/UIDevice-Extension/UIDevice-Hardware.m"; sourceTree = "<group>"; };
-		5A8DA67B150E4A3500A05BBD /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPHelper.h; sourceTree = "<group>"; };
-		5A8DA67C150E4A3500A05BBD /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
-		5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreControllerViewController.m; sourceTree = "<group>"; };
-		5A8DA683150E4AC000A05BBD /* StoreControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreControllerViewController.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Prey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Prey-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -584,6 +594,7 @@
 			children = (
 				071324161346348400F7EFD8 /* FakeWebView.h */,
 				071324171346348400F7EFD8 /* FakeWebView.m */,
+				3BAE4E47190AB96F0093ECA2 /* Store Controller */,
 				3B3B2FC91714B63C00BABCAE /* Location Controller */,
 				3BF862B31714ACDF00BA27F0 /* Photo Controller */,
 				3BF862B21714A89300BA27F0 /* Alert Controller */,
@@ -698,8 +709,6 @@
 				3BA3EAA918F19AAA00B3CA80 /* AFPreyStatusClient.m */,
 				07435EF21680FDA000FBD54B /* JsonConfigParser.h */,
 				07435EF31680FDA000FBD54B /* JsonConfigParser.m */,
-				5A14170F15190E230005AE7D /* StoreParserDelegate.h */,
-				5A14171015190E230005AE7D /* StoreParserDelegate.m */,
 				07132447134635A100F7EFD8 /* User.h */,
 				07132448134635A100F7EFD8 /* User.m */,
 				0713240C1346343C00F7EFD8 /* Device.h */,
@@ -775,7 +784,6 @@
 			children = (
 				3BD546C717FE102400ABFDBC /* GoogleAnalytics */,
 				3BCD1C5516693E9600D609D9 /* External */,
-				5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */,
 				07178F3B12675C2C007B290C /* Controllers */,
 				07805429125542EF00E4CCE5 /* Prey Utils */,
 				0780541E1255421800E4CCE5 /* Prey Http */,
@@ -965,9 +973,50 @@
 			name = "AFNetworking-1.x";
 			sourceTree = "<group>";
 		};
+		3BAE4E23190AB2C90093ECA2 /* MKStoreKit */ = {
+			isa = PBXGroup;
+			children = (
+				3BAE4E24190AB2C90093ECA2 /* Externals */,
+				3BAE4E29190AB2CA0093ECA2 /* MKSKProduct.h */,
+				3BAE4E2A190AB2CA0093ECA2 /* MKSKProduct.m */,
+				3BAE4E2B190AB2CA0093ECA2 /* MKSKSubscriptionProduct.h */,
+				3BAE4E2C190AB2CA0093ECA2 /* MKSKSubscriptionProduct.m */,
+				3BAE4E2D190AB2CA0093ECA2 /* MKStoreKitConfigs.h */,
+				3BAE4E2F190AB2CA0093ECA2 /* MKStoreManager.h */,
+				3BAE4E30190AB2CA0093ECA2 /* MKStoreManager.m */,
+			);
+			path = MKStoreKit;
+			sourceTree = "<group>";
+		};
+		3BAE4E24190AB2C90093ECA2 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				3BAE4E25190AB2C90093ECA2 /* NSData+MKBase64.h */,
+				3BAE4E26190AB2C90093ECA2 /* NSData+MKBase64.m */,
+				3BAE4E27190AB2CA0093ECA2 /* SFHFKeychainUtils.h */,
+				3BAE4E28190AB2CA0093ECA2 /* SFHFKeychainUtils.m */,
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+		3BAE4E47190AB96F0093ECA2 /* Store Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3BAE4E48190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib */,
+				3BAE4E49190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib */,
+				3BAE4E4A190AB96F0093ECA2 /* GrettingsProViewController.h */,
+				3BAE4E4B190AB96F0093ECA2 /* GrettingsProViewController.m */,
+				3BAE4E4E190AB96F0093ECA2 /* StoreControllerViewController.h */,
+				3BAE4E4F190AB96F0093ECA2 /* StoreControllerViewController.m */,
+			);
+			name = "Store Controller";
+			path = "Classes/Store Controller";
+			sourceTree = "<group>";
+		};
 		3BCD1C5516693E9600D609D9 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				3BAE4E23190AB2C90093ECA2 /* MKStoreKit */,
 				3B9EF00118ECE2860060FFAE /* AFNetworking-1.x */,
 				07E1ABFF16A5FF3A00803187 /* UIDevice */,
 				078053FE125541DE00E4CCE5 /* ASIHttp */,
@@ -1037,21 +1086,6 @@
 			);
 			name = "Photo Controller";
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		5A8DA67A150E4A3500A05BBD /* InAppSubscriptions */ = {
-			isa = PBXGroup;
-			children = (
-				5A8DA67B150E4A3500A05BBD /* IAPHelper.h */,
-				5A8DA67C150E4A3500A05BBD /* IAPHelper.m */,
-				5A3137931512AB3F00504BA8 /* GrettingsProViewController.h */,
-				5A3137921512AB3F00504BA8 /* GrettingsProViewController.m */,
-				5A3137951512AB4E00504BA8 /* GrettingsProViewController-iPhone.xib */,
-				3BF03703167835CC0086A7A7 /* GrettingsProViewController-iPad.xib */,
-				5A8DA683150E4AC000A05BBD /* StoreControllerViewController.h */,
-				5A8DA682150E4AC000A05BBD /* StoreControllerViewController.m */,
-			);
-			path = InAppSubscriptions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1165,18 +1199,17 @@
 				0713246D1346369200F7EFD8 /* siren.mp3 in Resources */,
 				3BA6AD1318D1184E00CAADAC /* prey-iphone-sonar@2x.png in Resources */,
 				3BBAAFF218B8EAD300ADE493 /* Default-Portrait@2x~ipad.png in Resources */,
+				3BAE4E53190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib in Resources */,
 				3BE0935B18D1150F00F6ACE4 /* Default-Portrait~ipad.png in Resources */,
 				07132472134639DF00F7EFD8 /* Localizable.strings in Resources */,
 				3B18096E18CF5E7700D64ED7 /* logo-prey.png in Resources */,
 				3BBAAFF818B8EAD300ADE493 /* Icon-76.png in Resources */,
 				3B9D47E4189C5E4500E6F7A2 /* button.png in Resources */,
-				5A3137961512AB4E00504BA8 /* GrettingsProViewController-iPhone.xib in Resources */,
 				3BA6A22F16769566005323EB /* MainWindow-iPad.xib in Resources */,
 				3B9D47EA189C5E4500E6F7A2 /* prey-allgood.png in Resources */,
 				3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */,
 				3BBAAFF318B8EAD300ADE493 /* Default@2x~iphone.png in Resources */,
 				3BBAAFFD18B8EAD300ADE493 /* Icon-Small-50.png in Resources */,
-				3BF03704167835CD0086A7A7 /* GrettingsProViewController-iPad.xib in Resources */,
 				3B9D47E0189C5E4500E6F7A2 /* bg-mnts1@2x.png in Resources */,
 				3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */,
 				3BBAB00718B8FA7F00ADE493 /* WizardController-iPhone-568h.xib in Resources */,
@@ -1207,6 +1240,7 @@
 				3B9D47F6189C5E4500E6F7A2 /* sucess.png in Resources */,
 				3B9D47E3189C5E4500E6F7A2 /* botonmask.png in Resources */,
 				3BBAAFFC18B8EAD300ADE493 /* Icon-Small-40@2x.png in Resources */,
+				3BAE4E52190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib in Resources */,
 				3B9D47EF189C5E4500E6F7A2 /* prey-logo@2x.png in Resources */,
 				3B9D47E5189C5E4500E6F7A2 /* button@2x.png in Resources */,
 				3BA6AD1918D1199E00CAADAC /* LoginController-iPad.xib in Resources */,
@@ -1264,6 +1298,7 @@
 				3B9EF01918ECE2E60060FFAE /* AFNetworkActivityIndicatorManager.m in Sources */,
 				071323F6134632C900F7EFD8 /* AlarmModule.m in Sources */,
 				071323F7134632C900F7EFD8 /* AlertModule.m in Sources */,
+				3BAE4E3F190AB2CA0093ECA2 /* MKStoreManager.m in Sources */,
 				071323F8134632C900F7EFD8 /* AlertModuleController.m in Sources */,
 				07132403134633EA00F7EFD8 /* CongratulationsController.m in Sources */,
 				071324061346340500F7EFD8 /* DelayManager.m in Sources */,
@@ -1274,8 +1309,10 @@
 				071324151346346F00F7EFD8 /* IphoneInformationHelper.m in Sources */,
 				3BFF783F189C592500694625 /* DeviceMapController.m in Sources */,
 				071324181346348400F7EFD8 /* FakeWebView.m in Sources */,
+				3BAE4E54190AB96F0093ECA2 /* GrettingsProViewController.m in Sources */,
 				07132421134634CA00F7EFD8 /* LogController.m in Sources */,
 				07132424134634D900F7EFD8 /* OldUserController.m in Sources */,
+				3BAE4E3D190AB2CA0093ECA2 /* MKSKSubscriptionProduct.m in Sources */,
 				07132427134634E600F7EFD8 /* NewUserController.m in Sources */,
 				0713242F1346350100F7EFD8 /* LocationController.m in Sources */,
 				071324331346353C00F7EFD8 /* WelcomeController.m in Sources */,
@@ -1292,24 +1329,23 @@
 				5A7A12A1146D70FF00B14176 /* ASIDataCompressor.m in Sources */,
 				5A7A12A2146D70FF00B14176 /* ASIDataDecompressor.m in Sources */,
 				5A7A12A3146D70FF00B14176 /* ASIDownloadCache.m in Sources */,
+				3BAE4E3B190AB2CA0093ECA2 /* SFHFKeychainUtils.m in Sources */,
 				3B9EF01618ECE2E60060FFAE /* AFHTTPRequestOperation.m in Sources */,
 				5A7A12A4146D70FF00B14176 /* ASIFormDataRequest.m in Sources */,
 				3B9EF01818ECE2E60060FFAE /* AFJSONRequestOperation.m in Sources */,
 				3B477ED918B2AA7B003A32CE /* PreyDeployment.m in Sources */,
 				5A7A12A5146D70FF00B14176 /* ASIHTTPRequest.m in Sources */,
 				3BFF783E189C592500694625 /* AccuracyManager.m in Sources */,
+				3BAE4E3A190AB2CA0093ECA2 /* NSData+MKBase64.m in Sources */,
 				5A7A12A6146D70FF00B14176 /* ASIInputStream.m in Sources */,
 				5A7A12A7146D70FF00B14176 /* ASINetworkQueue.m in Sources */,
 				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
-				5A8DA67D150E4A3500A05BBD /* IAPHelper.m in Sources */,
-				5A8DA684150E4AC000A05BBD /* StoreControllerViewController.m in Sources */,
 				3B9EF01D18ECE2E60060FFAE /* UIImageView+AFNetworking.m in Sources */,
-				5A3137941512AB3F00504BA8 /* GrettingsProViewController.m in Sources */,
 				3B675EF01891837B00CE3D0D /* Reachability.m in Sources */,
-				5A14171115190E240005AE7D /* StoreParserDelegate.m in Sources */,
 				07D4CBB81670EDE100DD1CB9 /* GeofencingModule.m in Sources */,
 				07D4CBBB1670FA2400DD1CB9 /* PreyGeofencingController.m in Sources */,
 				3BF0371F167847920086A7A7 /* ReviewRequest.mm in Sources */,
+				3BAE4E3C190AB2CA0093ECA2 /* MKSKProduct.m in Sources */,
 				3B7C148C1909506E0080C606 /* PhotoController.m in Sources */,
 				3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */,
 				3B65EE2A1805E358008EB7CF /* MBProgressHUD.m in Sources */,
@@ -1325,6 +1361,7 @@
 				07E1ABFE16A5FF2E00803187 /* UIDevice-Reachability.m in Sources */,
 				07E1AC0216A600DE00803187 /* PrivateIp.m in Sources */,
 				07E1AC0516A6014D00803187 /* wwanconnect.c in Sources */,
+				3BAE4E56190AB96F0093ECA2 /* StoreControllerViewController.m in Sources */,
 				07E1AC0816A601AB00803187 /* FirmwareInfo.m in Sources */,
 				075E6D3016AEF2F100F5DB91 /* BatteryStatus.m in Sources */,
 				075E6D3316AEFA6300F5DB91 /* ProcessorInfo.m in Sources */,
