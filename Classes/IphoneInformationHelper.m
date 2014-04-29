@@ -11,6 +11,7 @@
 #import "IphoneInformationHelper.h"
 #import "UIDevice-Hardware.h"
 #import <sys/utsname.h>
+#import "MKStoreKit/MKSKProduct.h"
 
 @implementation IphoneInformationHelper
 
@@ -29,7 +30,7 @@
     iphoneInfo.model = [self deviceModel];
 	iphoneInfo.version = [[UIDevice currentDevice] systemVersion];
 	iphoneInfo.macAddress = [[UIDevice currentDevice] macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
-	iphoneInfo.uuid = [[UIDevice currentDevice] name];
+	iphoneInfo.uuid = [MKSKProduct deviceId];
 	return iphoneInfo;
 }
 
