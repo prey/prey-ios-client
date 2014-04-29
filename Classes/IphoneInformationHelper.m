@@ -11,7 +11,7 @@
 #import "IphoneInformationHelper.h"
 #import "UIDevice-Hardware.h"
 #import <sys/utsname.h>
-#import "MKStoreKit/MKSKProduct.h"
+#import "MKStore/MKSKProduct.h"
 
 @implementation IphoneInformationHelper
 

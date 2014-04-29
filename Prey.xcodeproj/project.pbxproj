@@ -94,11 +94,11 @@
 		3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */; };
 		3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71AB1417FA215D0091FE14 /* CamouflageModule.m */; };
 		3B7C148C1909506E0080C606 /* PhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7C148B1909506E0080C606 /* PhotoController.m */; };
-		3B7FBB02191027250057EBC4 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAF8191027250057EBC4 /* NSData+MKBase64.m */; };
-		3B7FBB03191027250057EBC4 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFA191027250057EBC4 /* SFHFKeychainUtils.m */; };
-		3B7FBB04191027250057EBC4 /* MKSKProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFC191027250057EBC4 /* MKSKProduct.m */; };
-		3B7FBB05191027250057EBC4 /* MKSKSubscriptionProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFE191027250057EBC4 /* MKSKSubscriptionProduct.m */; };
-		3B7FBB06191027250057EBC4 /* MKStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBB01191027250057EBC4 /* MKStoreManager.m */; };
+		3B7FBB02191027250057EBC4 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAF8191027250057EBC4 /* NSData+MKBase64.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3B7FBB03191027250057EBC4 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFA191027250057EBC4 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3B7FBB04191027250057EBC4 /* MKSKProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFC191027250057EBC4 /* MKSKProduct.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3B7FBB05191027250057EBC4 /* MKSKSubscriptionProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFE191027250057EBC4 /* MKSKSubscriptionProduct.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3B7FBB06191027250057EBC4 /* MKStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBB01191027250057EBC4 /* MKStoreManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		3B81A347178B1B62009296E1 /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B81A345178B1B62009296E1 /* WizardController.m */; };
 		3B81A348178B1B62009296E1 /* WizardController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B81A346178B1B62009296E1 /* WizardController-iPhone.xib */; };
 		3B81A34B178B1E1C009296E1 /* WizardController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B81A34A178B1E1C009296E1 /* WizardController-iPad.xib */; };
