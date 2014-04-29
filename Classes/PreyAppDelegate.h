@@ -24,11 +24,13 @@
 @property (nonatomic, retain) NSString *alertMessage;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *viewController;
+@property (nonatomic, copy) void (^onPreyVerificationSucceeded)(UIBackgroundFetchResult);
 
 - (void)showAlert: (NSString *) textToShow;
 - (void)showFakeScreen;
 - (void)registerForRemoteNotifications;
 - (void)changeShowFakeScreen:(BOOL)value;
+- (void)checkedCompletionHandler;
 
 @end
 

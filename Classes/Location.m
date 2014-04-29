@@ -25,6 +25,9 @@
 
 - (void) get
 {
+    NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 1;
+    [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
+    
     [self initLocation];
     
     PreyLogMessage(@"Location", 10,@"Location Command: Get");

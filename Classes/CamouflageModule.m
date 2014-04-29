@@ -20,7 +20,10 @@
 
 - (void)start
 {
-    [[PreyConfig instance] setCamouflageMode:YES];    
+    NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 1;
+    [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
+
+    [[PreyConfig instance] setCamouflageMode:YES];
 
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
     {
@@ -47,6 +50,9 @@
 
 - (void)stop
 {
+    NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 1;
+    [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
+
     [[PreyConfig instance] setCamouflageMode:NO];
     
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)

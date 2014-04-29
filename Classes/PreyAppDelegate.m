@@ -19,7 +19,7 @@
 #import "WizardController.h"
 #import "ReportModule.h"
 #import "AlertModule.h"
-#import "IAPHelper.h"
+#import "MKStoreManager.h"
 #import "GAI.h"
 
 
@@ -63,6 +63,9 @@
 
 - (void) displayAlert
 {
+    AlertModule *alertModule = [[[AlertModule alloc] init] autorelease];
+    [alertModule notifyCommandResponse:[alertModule getName] withStatus:@"started"];
+    
     AlertModuleController *alertController;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
@@ -78,11 +81,9 @@
     
     [alertController release];
     
-    AlertModule *alertModule = [[[AlertModule alloc] init] autorelease];
-    [alertModule notifyCommandResponse:[alertModule getName] withStatus:@"started"];
-    
-    
     showAlert = NO;
+
+    [alertModule notifyCommandResponse:[alertModule getName] withStatus:@"stopped"];
 }
 
 
@@ -131,9 +132,8 @@
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelNone];
     [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
     
-    //IAPHelper *IAP = [IAPHelper sharedHelper];
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:[IAPHelper sharedHelper]];
-    //[IAPHelper initWithRemoteIdentifiers];
+    // In-App Purchase Instance
+    [MKStoreManager sharedManager];
     
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.105", 50000);
@@ -332,7 +332,8 @@
     
     [PreyRestHttp setPushRegistrationId:tokenAsString
                               withBlock:^(NSArray *posts, NSError *error) {
-    PreyLogMessageAndFile(@"App Delegate", 10, @"Did register for remote notifications - Device Token=%@",tokenAsString);                              }];
+    PreyLogMessageAndFile(@"App Delegate", 10, @"Did register for remote notifications - Device Token");
+    }];
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err
@@ -360,59 +361,57 @@
 {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received in Background! : %@", [userInfo description]);
 
+    self.onPreyVerificationSucceeded = completionHandler;
+    
     [PreyRestHttp checkStatusForDevice:^(NSArray *posts, NSError *error) {
         if (error)
         {
             PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
-            completionHandler(UIBackgroundFetchResultFailed);
+            
+            if (self.onPreyVerificationSucceeded)
+            {
+                self.onPreyVerificationSucceeded(UIBackgroundFetchResultFailed);
+                self.onPreyVerificationSucceeded = nil;
+            }
         }
         else
         {
             PreyLogMessage(@"PreyAppDelegate", 10,@"OK Background");
-
-            NSTimeInterval delayFetch;
-            
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
-            {
-                [self configSendReport:userInfo];
-                delayFetch = 600;
-            }
-            else
-                delayFetch = 9;
-            
-            [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:delayFetch];
         }
     }];
     
+}
+
+- (void)checkedCompletionHandler
+{
+    NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] - 1;
+    
+    if ( (self.onPreyVerificationSucceeded) && (requestNumber <= 0) )
+    {
+        PreyLogMessage(@"PreyAppDelegate", 10,@"OK UIBackgroundFetchResultNewData");
+        self.onPreyVerificationSucceeded(UIBackgroundFetchResultNewData);
+        self.onPreyVerificationSucceeded = nil;
+        requestNumber = 0;
+    }
+    
+    if (requestNumber <= 0)
+        requestNumber = 0;
+    
+    PreyLogMessage(@"PreyAppDelegate", 10,@"Number Request: %ld",(long)requestNumber);
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
 }
 
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Init Background Fetch");
     
+    self.onPreyVerificationSucceeded = completionHandler;
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
         [[ReportModule instance] get];
-    
-    [self performSelector:@selector(waitNotificationProcess:) withObject:completionHandler afterDelay:9];
 }
 
-- (void) waitNotificationProcess:(void (^)(UIBackgroundFetchResult))completionHandler
-{
-    PreyLogMessage(@"PreyAppDelegate", 10,@"OK UIBackgroundFetchResultNewData");
-    completionHandler(UIBackgroundFetchResultNewData);
-}
-
-/*
-#pragma mark -
-#pragma mark UINavigationController delegate methods
-- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)_viewController animated:(BOOL)animated {
-	PreyLogMessage(@"App Delegate", 10, @"UINAV did show: %@", [_viewController class]);
-}
-
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)_viewController animated:(BOOL)animated {
-	PreyLogMessage(@"App Delegate", 10, @"UINAV will show: %@", [_viewController class]);
-}
-*/
 #pragma mark -
 #pragma mark Memory management
 

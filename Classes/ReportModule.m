@@ -201,6 +201,8 @@
             if (UIImagePNGRepresentation(pictureBack) != nil)
                 [imagesData setObject:UIImagePNGRepresentation(pictureBack) forKey:@"screenshot"];
             
+            NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 1;
+            [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
             
             [super sendHttp:reportData
                      andRaw:imagesData];

@@ -16,6 +16,9 @@
 
 - (void)start
 {
+    NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 2;
+    [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
+
     NSString *alertMessage = [super.options objectForKey:@"alert_message"];
 
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground)

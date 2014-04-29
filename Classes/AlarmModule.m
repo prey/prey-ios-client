@@ -17,6 +17,9 @@
 - (void) start {
     PreyLogMessage(@"alarm", 10, @"Playing the alarm now!");
     
+    NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 2;
+    [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
+    
     NSURL* musicFile = [NSURL fileURLWithPath:[[NSBundle mainBundle]
                                                pathForResource:@"siren"
                                                ofType:@"mp3"]];
