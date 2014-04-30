@@ -303,73 +303,100 @@
     }
 }
 
-+ (void)sendJsonData:(NSDictionary*)jsonData andRawData:(NSDictionary*)rawData toEndpoint:(NSString *)url withBlock:(void (^)(NSArray *posts, NSError *error))block
++ (void)sendJsonData:(NSInteger)reload withData:(NSDictionary*)jsonData andRawData:(NSDictionary*)rawData toEndpoint:(NSString *)url withBlock:(void (^)(NSArray *posts, NSError *error))block
 {
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     
-    if (rawData == nil)
+    if (reload <= 0)
     {
-        [[AFPreyStatusClient sharedClient] postPath:url
-                                         parameters:jsonData
-                                            success:^(AFHTTPRequestOperation *operation, id responseObject)
-         {
-             PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-
-             if (block) {
-                 block([NSArray array], nil);
-             }
-             
-             [appDelegate checkedCompletionHandler];
-             
-         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
-             
-             if ([operation.response statusCode] == 409)
-             {
-                 [[ReportModule instance] stopSendReport];
-                 [appDelegate checkedCompletionHandler];
-             }
-             
-             if (block) {
-                 block([NSArray array], error);
-             }
-             
-             [appDelegate checkedCompletionHandler];
-         }];
+        if (block)
+        {
+            NSError *error = [NSError errorWithDomain:@"StatusCode503Reload" code:700 userInfo:nil];
+            block(nil, error);
+            [appDelegate checkedCompletionHandler];
+        }
     }
     else
     {
-        NSMutableURLRequest *request;
-        request = [[AFPreyStatusClient sharedClient] multipartFormRequestWithMethod:@"POST" path:url parameters:jsonData
-                                                          constructingBodyWithBlock: ^(id <AFMultipartFormData>formData)
-                   {
-                       if ([rawData objectForKey:@"picture"]!=nil)
-                           [formData appendPartWithFileData:[rawData objectForKey:@"picture"] name:@"picture" fileName:@"picture.jpg" mimeType:@"image/png"];
-                       
-                       if ([rawData objectForKey:@"screenshot"]!=nil)
-                           [formData appendPartWithFileData:[rawData objectForKey:@"screenshot"] name:@"screenshot" fileName:@"screenshot.jpg" mimeType:@"image/png"];
-                   }];
-        
-        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-        
-        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
-         {
-             PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-             [appDelegate checkedCompletionHandler];
-             
-         } failure:^(AFHTTPRequestOperation *operation, NSError *error)
-         {
-             PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
-             
-             if ([operation.response statusCode] == 409)
+        if (rawData == nil)
+        {
+            [[AFPreyStatusClient sharedClient] postPath:url
+                                             parameters:jsonData
+                                                success:^(AFHTTPRequestOperation *operation, id responseObject)
              {
-                 [[ReportModule instance] stopSendReport];
+                 PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+                 if (block) {
+                     block([NSArray array], nil);
+                 }
                  [appDelegate checkedCompletionHandler];
-             }
-             
-             [appDelegate checkedCompletionHandler];
-         }];
-        [[AFPreyStatusClient sharedClient] enqueueHTTPRequestOperation:operation];
+                 
+             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
+                 
+                 if ([operation.response statusCode] == 409)
+                 {
+                     [[ReportModule instance] stopSendReport];
+                     [appDelegate checkedCompletionHandler];
+                 }
+                 
+                 if (block)
+                 {
+                     if ([operation.response statusCode] == 503)
+                         [self sendJsonData:reload - 1 withData:jsonData andRawData:rawData toEndpoint:url withBlock:block];
+                     else
+                     {
+                         block([NSArray array], error);
+                         [appDelegate checkedCompletionHandler];
+                     }
+                 }
+             }];
+        }
+        else
+        {
+            NSMutableURLRequest *request;
+            request = [[AFPreyStatusClient sharedClient] multipartFormRequestWithMethod:@"POST" path:url parameters:jsonData
+                                                              constructingBodyWithBlock: ^(id <AFMultipartFormData>formData)
+                       {
+                           if ([rawData objectForKey:@"picture"]!=nil)
+                               [formData appendPartWithFileData:[rawData objectForKey:@"picture"] name:@"picture" fileName:@"picture.jpg" mimeType:@"image/png"];
+                           
+                           if ([rawData objectForKey:@"screenshot"]!=nil)
+                               [formData appendPartWithFileData:[rawData objectForKey:@"screenshot"] name:@"screenshot" fileName:@"screenshot.jpg" mimeType:@"image/png"];
+                       }];
+            
+            AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+            
+            [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+             {
+                 PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+                 if (block) {
+                     block([NSArray array], nil);
+                 }
+                 [appDelegate checkedCompletionHandler];
+                 
+             } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+             {
+                 PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
+                 
+                 if ([operation.response statusCode] == 409)
+                 {
+                     [[ReportModule instance] stopSendReport];
+                     [appDelegate checkedCompletionHandler];
+                 }
+                 
+                 if (block)
+                 {
+                     if ([operation.response statusCode] == 503)
+                         [self sendJsonData:reload - 1 withData:jsonData andRawData:rawData toEndpoint:url withBlock:block];
+                     else
+                     {
+                         block([NSArray array], error);
+                         [appDelegate checkedCompletionHandler];
+                     }
+                 }
+             }];
+            [[AFPreyStatusClient sharedClient] enqueueHTTPRequestOperation:operation];
+        }
     }
 }
 

@@ -23,24 +23,30 @@
 #pragma mark IBActions
 - (IBAction) okPressed: (id) sender
 {
-    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-    
-    LoginController *loginController;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    @try
     {
-        if (IS_IPHONE5)
-            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil];
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        
+        LoginController *loginController;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            if (IS_IPHONE5)
+                loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil];
+            else
+                loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+        }
         else
-            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+            loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
+        
+        PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
+        [appDelegate.viewController popToRootViewControllerAnimated:NO];
+        [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, preferencesController, nil] animated:YES];
+        [preferencesController release];
+        [loginController release];
     }
-    else
-        loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
-    
-    PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
-    [appDelegate.viewController popToRootViewControllerAnimated:NO];
-    [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, preferencesController, nil] animated:YES];
-    [preferencesController release];
-    [loginController release];
+    @catch (NSException *exception) {
+        PreyLogMessage(@"CongratulationsController", 0, @"CongratulationsController bug: %@", [exception reason]);
+    }
 }
 
 /*

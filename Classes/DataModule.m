@@ -55,7 +55,7 @@
 
 - (void)sendHttp:(NSMutableDictionary*)data
 {
-    [PreyRestHttp sendJsonData:data andRawData:nil
+    [PreyRestHttp sendJsonData:5 withData:data andRawData:nil
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",[[PreyConfig instance] deviceKey]]
                      withBlock:^(NSArray *posts, NSError *error) {
         if (error) {
@@ -68,7 +68,7 @@
 
 - (void)sendHttp:(NSMutableDictionary*)data andRaw:(NSMutableDictionary*) rawData
 {
-    [PreyRestHttp sendJsonData:data andRawData:rawData
+    [PreyRestHttp sendJsonData:5 withData:data andRawData:rawData
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/reports",[[PreyConfig instance] deviceKey]]
                      withBlock:^(NSArray *posts, NSError *error) {
                          if (error) {
