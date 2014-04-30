@@ -258,34 +258,49 @@
      }];
 }
 
-+ (void)checkStatusForDevice:(void (^)(NSArray *posts, NSError *error))block
++ (void)checkStatusForDevice:(NSInteger)reload withBlock:(void (^)(NSError *error))block
 {
-    NSString *deviceKey = [[PreyConfig instance] deviceKey];
-    
-    [[AFPreyStatusClient sharedClient] getPath:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
-                                    parameters:nil
-                                       success:^(AFHTTPRequestOperation *operation, id responseObject)
+    if (reload <= 0)
     {
-        PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-        
-        NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
-        
-        NSError *error2;
-        NewModulesConfig *modulesConfig = [configParser parseModulesConfig:respString parseError:&error2];
-        [modulesConfig runAllModules];
-        [configParser release];
-        
-        if (block) {
-            block([NSArray array], nil);
+        if (block)
+        {
+            NSError *error = [NSError errorWithDomain:@"StatusCode503Reload" code:700 userInfo:nil];
+            block(error);
         }
+    }
+    else
+    {
+        NSString *deviceKey = [[PreyConfig instance] deviceKey];
         
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (block) {
-            block([NSArray array], error);
-        }
-        PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
-    }];
+        [[AFPreyStatusClient sharedClient] getPath:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
+                                        parameters:nil
+                                           success:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+             
+             NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+             JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
+             
+             NSError *error2;
+             NewModulesConfig *modulesConfig = [configParser parseModulesConfig:respString parseError:&error2];
+             [modulesConfig runAllModules];
+             [configParser release];
+             
+             if (block)
+                 block(nil);
+             
+         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+ 
+             if (block)
+             {
+                 if ([operation.response statusCode] == 503)
+                     [self checkStatusForDevice:reload - 1 withBlock:block];
+                 else
+                     block(error);
+             }
+             PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
+         }];
+    }
 }
 
 + (void)sendJsonData:(NSDictionary*)jsonData andRawData:(NSDictionary*)rawData toEndpoint:(NSString *)url withBlock:(void (^)(NSArray *posts, NSError *error))block
@@ -310,7 +325,10 @@
              PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
              
              if ([operation.response statusCode] == 409)
+             {
                  [[ReportModule instance] stopSendReport];
+                 [appDelegate checkedCompletionHandler];
+             }
              
              if (block) {
                  block([NSArray array], error);
@@ -344,7 +362,10 @@
              PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
              
              if ([operation.response statusCode] == 409)
+             {
                  [[ReportModule instance] stopSendReport];
+                 [appDelegate checkedCompletionHandler];
+             }
              
              [appDelegate checkedCompletionHandler];
          }];

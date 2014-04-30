@@ -17,7 +17,7 @@
 + (void)createApiKey:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block;
 + (void)getCurrentControlPanelApiKey:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block;
 + (void)createDeviceKeyForDevice:(Device *)device usingApiKey:(NSString *)apiKey withBlock:(void (^)(NSString *deviceKey, NSError *error))block;
-+ (void)checkStatusForDevice:(void (^)(NSArray *posts, NSError *error))block;
++ (void)checkStatusForDevice:(NSInteger)reload withBlock:(void (^)(NSError *error))block;
 + (void)sendJsonData:(NSDictionary*)jsonData andRawData:(NSDictionary*)rawData toEndpoint:(NSString *)url withBlock:(void (^)(NSArray *posts, NSError *error))block;
 + (void)setPushRegistrationId:(NSString *)tokenId withBlock:(void (^)(NSArray *posts, NSError *error))block;
 + (void)deleteDevice:(void (^)(NSError *error))block;

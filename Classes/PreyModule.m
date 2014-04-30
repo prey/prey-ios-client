@@ -51,7 +51,11 @@
     if ([moduleName isEqualToString:@"camouflage"]) {
 		return [[CamouflageModule alloc] init];
 	}    
-    if ([moduleName isEqualToString:@"report"]) {
+    if ([moduleName isEqualToString:@"report"])
+    {
+        NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 1;
+        [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
+
 		return [ReportModule instance];
 	}
     if ([moduleName isEqualToString:@"picture"]) {

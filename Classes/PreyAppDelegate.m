@@ -63,6 +63,9 @@
 
 - (void) displayAlert
 {
+    NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 2;
+    [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
+
     AlertModule *alertModule = [[[AlertModule alloc] init] autorelease];
     [alertModule notifyCommandResponse:[alertModule getName] withStatus:@"started"];
     
@@ -134,6 +137,9 @@
     
     // In-App Purchase Instance
     [MKStoreManager sharedManager];
+    
+    // Reset RequestNumber
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"requestNumber"];
     
     //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
 	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.105", 50000);
@@ -345,7 +351,7 @@
 {
     PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);    
     
-    [PreyRestHttp checkStatusForDevice:^(NSArray *posts, NSError *error) {
+    [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSError *error) {
         if (error) {
             PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
         } else {
@@ -363,7 +369,7 @@
 
     self.onPreyVerificationSucceeded = completionHandler;
     
-    [PreyRestHttp checkStatusForDevice:^(NSArray *posts, NSError *error) {
+    [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSError *error) {
         if (error)
         {
             PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
