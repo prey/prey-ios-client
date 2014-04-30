@@ -101,6 +101,8 @@
 - (void)locationManager:(CLLocationManager *)manager
 	   didFailWithError:(NSError *)error
 {
+    BOOL showAlertLocation = YES;
+    
 	NSString *errorString;
     //[manager stopUpdatingLocation];
     switch([error code]) {
@@ -112,6 +114,7 @@
         case kCLErrorLocationUnknown:
             //Probably temporary...
             errorString = NSLocalizedString(@"Unable to fetch location data. Is this device on airplane mode?",nil);
+            showAlertLocation = NO;
             //Do something else...
             break;
         default:
@@ -119,9 +122,12 @@
             break;
     }
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:errorString delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alert show];
-    [alert release];
+    if (showAlertLocation)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:errorString delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+    }
     PreyLogMessageAndFile(@"Prey Location", 0, @"Error getting location: %@", [error description]);
 }
 

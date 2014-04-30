@@ -148,53 +148,33 @@
   
     PreyLogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS %@!!", [launchOptions description]);
     
-    id locationValue = [launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey];
-	if (locationValue) //Significant location change received when app was closed.
-	{
-        PreyLogMessageAndFile(@"App Delegate", 0, @"[PreyAppDelegate] Significant location change received when app was closed!!");
-        //[[PreyRunner instance] startOnIntervalChecking];
+    // Check remote notification clicked
+    id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotification)
+    {
+        PreyLogMessage(@"App Delegate", 10, @"Prey remote notification received while not running!");
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+            [self configSendReport:remoteNotification];
     }
-    else {        
-        UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-        id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        
-        if (remoteNotification)
-        {
-            PreyLogMessageAndFile(@"App Delegate", 10, @"Prey remote notification received while not running!");
-
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
-                [self configSendReport:remoteNotification];
-        }
-        
-        if (localNotif) {
-            application.applicationIconBadgeNumber = localNotif.applicationIconBadgeNumber-1; 
-            PreyLogMessage(@"App Delegate", 10, @"Prey local notification clicked... running!");
-            //[[PreyRunner instance] startPreyService];
-        }
-        
-        PreyConfig *config = [PreyConfig instance];
-        if (config.alreadyRegistered) {
-            
-            [self registerForRemoteNotifications];
-            //[[PreyRunner instance] startOnIntervalChecking];
-        }
+    
+    // Check local notification clicked
+    UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (localNotif)
+    {
+        PreyLogMessage(@"App Delegate", 10, @"Prey local notification clicked... running!");
+        [self checkLocalNotification:application localNotification:localNotif];
+    }
+    
+    // Check notification_id with server
+    PreyConfig *config = [PreyConfig instance];
+    if (config.alreadyRegistered)
+    {
+        [self registerForRemoteNotifications];
     }
   
 	return YES;
 }
-
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif {
-	
-    PreyLogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
-    
-    if ([notif.userInfo objectForKey:@"url"] == nil)
-        [self showAlert:notif.alertBody];
-    else
-        [self configSendReport:notif.userInfo];
-    
-    notif.applicationIconBadgeNumber = -1;
-}
-
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -209,6 +189,10 @@
     UILocalNotification *localNotif = [[UILocalNotification alloc] init];
     if (localNotif)
     {
+        NSMutableDictionary *userInfoLocalNotification = [[NSMutableDictionary alloc] init];
+        [userInfoLocalNotification setObject:@"keep_background" forKey:@"url"];
+        
+        localNotif.userInfo = userInfoLocalNotification;
         localNotif.alertBody = @"Keep Prey in background to enable all of its features.";
         localNotif.hasAction = NO;
         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
@@ -330,6 +314,25 @@
 #pragma mark -
 #pragma mark Push notifications delegate
 
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif
+{
+    PreyLogMessage(@"App Delegate", 10, @"Prey local notification received while in foreground... let's run Prey now!");
+    
+    [self checkLocalNotification:application localNotification:notif];
+}
+
+- (void)checkLocalNotification:(UIApplication*)application localNotification:(UILocalNotification *)notification
+{
+    if ( [[notification.userInfo objectForKey:@"url"] isEqual:@"alert_message"] )
+        [self showAlert:notification.alertBody];
+    
+    else if( [[notification.userInfo objectForKey:@"url"] isEqual:@"http://m.bofa.com?a=1"] )
+        [self configSendReport:notification.userInfo];
+    
+    application.applicationIconBadgeNumber = -1;
+    [application cancelAllLocalNotifications];
+}
+
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     NSString * tokenAsString = [[[deviceToken description] 
@@ -416,6 +419,14 @@
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
         [[ReportModule instance] get];
+    else
+    {
+        if (self.onPreyVerificationSucceeded)
+        {
+            self.onPreyVerificationSucceeded(UIBackgroundFetchResultNoData);
+            self.onPreyVerificationSucceeded = nil;
+        }
+    }
 }
 
 #pragma mark -

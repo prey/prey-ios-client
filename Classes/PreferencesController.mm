@@ -16,7 +16,6 @@
 #import "LogController.h"
 #import "DeviceMapController.h"
 #import "StoreControllerViewController.h"
-#import "SignificantLocationController.h"
 #import "Constants.h"
 #import <Social/Social.h>
 #import "ReviewRequest.h"

@@ -23,6 +23,10 @@
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];
         if (localNotif)
         {
+            NSMutableDictionary *userInfoLocalNotification = [[NSMutableDictionary alloc] init];
+            [userInfoLocalNotification setObject:@"alert_message" forKey:@"url"];
+
+            localNotif.userInfo = userInfoLocalNotification;
             localNotif.alertBody = alertMessage;
             localNotif.hasAction = NO;
             [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
