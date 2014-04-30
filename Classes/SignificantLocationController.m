@@ -38,13 +38,13 @@
 
 - (void)startMonitoringSignificantLocationChanges {
     [significantLocationManager startMonitoringSignificantLocationChanges];
-    PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"Significant location updating started.");
+    PreyLogMessage(@"Prey SignificantLocationController", 5, @"Significant location updating started.");
 }
 
 - (void)stopMonitoringSignificantLocationChanges {
 	[significantLocationManager stopMonitoringSignificantLocationChanges];
     [significantLocationManager stopUpdatingLocation];
-	PreyLogMessageAndFile(@"Prey SignificantLocationController", 5, @"Significant location updating stopped.");
+	PreyLogMessage(@"Prey SignificantLocationController", 5, @"Significant location updating stopped.");
 }
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -89,7 +89,7 @@
         [alert show];
         [alert release];
     }
-    PreyLogMessageAndFile(@"Prey SignificantLocationController", 0, @"Error getting location: %@", [error description]);
+    PreyLogMessage(@"Prey SignificantLocationController", 0, @"Error getting location: %@", [error description]);
 }
 
 - (void)dealloc {

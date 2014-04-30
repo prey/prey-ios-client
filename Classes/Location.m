@@ -128,7 +128,7 @@
         [alert show];
         [alert release];
     }
-    PreyLogMessageAndFile(@"Prey Location", 0, @"Error getting location: %@", [error description]);
+    PreyLogMessage(@"Prey Location", 0, @"Error getting location: %@", [error description]);
 }
 
 - (NSString *) getName {

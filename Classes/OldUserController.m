@@ -138,9 +138,8 @@
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
-    //PreyLogMessageAndFile(@"Old user controller", 10, @"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     switch ([indexPath section]) {
         case 0:
             if ([indexPath row] == 0)

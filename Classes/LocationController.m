@@ -96,12 +96,12 @@
         [alert show];
         [alert release];
     }
-    PreyLogMessageAndFile(@"Prey LocationController", 0, @"Error getting location: %@", [error description]);
+    PreyLogMessage(@"Prey LocationController", 0, @"Error getting location: %@", [error description]);
 }
 
 - (void)accuracyUpdated:(NSNotification *)notification
 {
-	PreyLogMessageAndFile(@"Prey Location Controller", 5, @"Accuracy has been modified. Updating location manager with new accuracy: OH");
+	PreyLogMessage(@"Prey Location Controller", 5, @"Accuracy has been modified. Updating location manager with new accuracy: OH");
 	[accurateLocationManager stopUpdatingLocation];
 	[accurateLocationManager startUpdatingLocation];
 }

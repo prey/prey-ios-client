@@ -154,7 +154,7 @@
             }
             else
             {
-                PreyLogMessageAndFile(@"LogController",0,@"Device is unable to send email in its current state.");
+                PreyLogMessage(@"LogController",0,@"Device is unable to send email in its current state.");
                 [self reloadLogTable];
             }
         }

@@ -127,6 +127,9 @@
     
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate changeShowFakeScreen:NO];
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:-1];
 }
 
 
@@ -191,7 +194,7 @@
             waitForLocation = YES;
             waitForPicture  = YES;
 
-            PreyLogMessageAndFile(@"Report", 5, @"Sending report now!");
+            PreyLogMessage(@"Report", 5, @"Sending report now!");
             
             NSMutableDictionary *imagesData = [[[NSMutableDictionary alloc] init] autorelease];
             
@@ -211,7 +214,7 @@
             self.pictureBack = nil;
         }
         @catch (NSException *exception) {
-            PreyLogMessageAndFile(@"Report", 0, @"Report couldn't be sent: %@", [exception reason]);
+            PreyLogMessage(@"Report", 0, @"Report couldn't be sent: %@", [exception reason]);
         }
     }
 }

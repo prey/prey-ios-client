@@ -153,9 +153,7 @@
     if (remoteNotification)
     {
         PreyLogMessage(@"App Delegate", 10, @"Prey remote notification received while not running!");
-        
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
-            [self configSendReport:remoteNotification];
+        [self checkRemoteNotification:application remoteNotification:remoteNotification];
     }
     
     // Check local notification clicked
@@ -226,15 +224,21 @@
 
     [window endEditing:YES];
 
+    if (application.applicationIconBadgeNumber > 0)
+    {
+        self.url = @"http://m.bofa.com?a=1";
+        showFakeScreen = YES;
+        application.applicationIconBadgeNumber = -1;
+    }
+
     [self displayScreen];
-	
 }
 
 - (void)displayScreen
 {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
     {
-        PreyLogMessageAndFile(@"App Delegate", 10, @"Send Report: displayScreen"); 
+        PreyLogMessage(@"App Delegate", 10, @"Send Report: displayScreen");
         [[ReportModule instance] get];
     }
 
@@ -341,19 +345,18 @@
     
     [PreyRestHttp setPushRegistrationId:tokenAsString
                               withBlock:^(NSArray *posts, NSError *error) {
-    PreyLogMessageAndFile(@"App Delegate", 10, @"Did register for remote notifications - Device Token");
+    PreyLogMessage(@"App Delegate", 10, @"Did register for remote notifications - Device Token");
     }];
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err
 {
-    PreyLogMessageAndFile(@"App Delegate", 10,  @"Failed to register for remote notifications - Error: %@", err);
+    PreyLogMessage(@"App Delegate", 10,  @"Failed to register for remote notifications - Error: %@", err);
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+
+- (void)checkRemoteNotification:(UIApplication*)application remoteNotification:(NSDictionary *)userInfo
 {
-    PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);    
-    
     [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSError *error) {
         if (error) {
             PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
@@ -361,14 +364,20 @@
             PreyLogMessage(@"PreyAppDelegate", 10,@"OK:");
         }
     }];
-
+    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
         [self configSendReport:userInfo];
 }
 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    PreyLogMessage(@"App Delegate", 10, @"Remote notification received! : %@", [userInfo description]);
+    [self checkRemoteNotification:application remoteNotification:userInfo];
+}
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    PreyLogMessageAndFile(@"App Delegate", 10, @"Remote notification received in Background! : %@", [userInfo description]);
+    PreyLogMessage(@"App Delegate", 10, @"Remote notification received in Background! : %@", [userInfo description]);
 
     self.onPreyVerificationSucceeded = completionHandler;
     
@@ -413,7 +422,7 @@
 
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    PreyLogMessageAndFile(@"App Delegate", 10, @"Init Background Fetch");
+    PreyLogMessage(@"App Delegate", 10, @"Init Background Fetch");
     
     self.onPreyVerificationSucceeded = completionHandler;
     
