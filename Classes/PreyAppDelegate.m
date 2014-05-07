@@ -339,7 +339,7 @@
                                  stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
                                 stringByReplacingOccurrencesOfString:@" " withString:@""];
     
-    [PreyRestHttp setPushRegistrationId:tokenAsString
+    [PreyRestHttp setPushRegistrationId:5 withToken:tokenAsString
                               withBlock:^(NSArray *posts, NSError *error) {
     PreyLogMessage(@"App Delegate", 10, @"Did register for remote notifications - Device Token");
     }];

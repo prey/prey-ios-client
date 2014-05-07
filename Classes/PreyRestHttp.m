@@ -235,27 +235,43 @@
      }];    
 }
 
-+ (void)setPushRegistrationId:(NSString *)tokenId withBlock:(void (^)(NSArray *posts, NSError *error))block
++ (void)setPushRegistrationId:(NSInteger)reload  withToken:(NSString *)tokenId withBlock:(void (^)(NSArray *posts, NSError *error))block
 {
-    NSDictionary    *params     = [NSDictionary dictionaryWithObjectsAndKeys: tokenId, @"notification_id", nil];
-    NSString        *deviceKey  = [[PreyConfig instance] deviceKey];
-    
-    [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",deviceKey]
-                                    parameters:params
-                                       success:^(AFHTTPRequestOperation *operation, id responseObject)
-     {
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST notificationID: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-         
-         if (block) {
-             block([NSArray array], nil);
-         }
-         
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         if (block) {
-             block([NSArray array], error);
-         }
-         PreyLogMessage(@"PreyRestHttp", 10,@"Error notificationID: %@",error);
-     }];
+    if (reload <= 0)
+    {
+        if (block)
+        {
+            NSError *error = [NSError errorWithDomain:@"StatusCode503Reload" code:700 userInfo:nil];
+            block(nil,error);
+        }
+    }
+    else
+    {
+        NSDictionary    *params     = [NSDictionary dictionaryWithObjectsAndKeys: tokenId, @"notification_id", nil];
+        NSString        *deviceKey  = [[PreyConfig instance] deviceKey];
+        
+        [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",deviceKey]
+                                         parameters:params
+                                            success:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             PreyLogMessage(@"PreyRestHttp", 21, @"POST notificationID: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+             
+             if (block) {
+                 block([NSArray array], nil);
+             }
+             
+         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             
+             if (block)
+             {
+                 if ([operation.response statusCode] == 503)
+                     [self setPushRegistrationId:reload - 1 withToken:tokenId withBlock:block];
+                 else
+                     block(nil, error);
+             }
+             PreyLogMessage(@"PreyRestHttp", 10,@"Error notificationID: %@",error);
+         }];
+    }
 }
 
 + (void)checkStatusForDevice:(NSInteger)reload withBlock:(void (^)(NSError *error))block

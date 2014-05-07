@@ -19,7 +19,7 @@
 + (void)createDeviceKeyForDevice:(Device *)device usingApiKey:(NSString *)apiKey withBlock:(void (^)(NSString *deviceKey, NSError *error))block;
 + (void)checkStatusForDevice:(NSInteger)reload withBlock:(void (^)(NSError *error))block;
 + (void)sendJsonData:(NSInteger)reload withData:(NSDictionary*)jsonData andRawData:(NSDictionary*)rawData toEndpoint:(NSString *)url withBlock:(void (^)(NSArray *posts, NSError *error))block;
-+ (void)setPushRegistrationId:(NSString *)tokenId withBlock:(void (^)(NSArray *posts, NSError *error))block;
++ (void)setPushRegistrationId:(NSInteger)reload  withToken:(NSString *)tokenId withBlock:(void (^)(NSArray *posts, NSError *error))block;
 + (void)deleteDevice:(void (^)(NSError *error))block;
 
 @end
