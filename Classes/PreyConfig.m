@@ -89,8 +89,14 @@ static PreyConfig *_instance = nil;
 + (PreyConfig*) initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device
 {
 	PreyConfig *newConfig = [[PreyConfig alloc] init];
-	newConfig.apiKey = apiKeyUser;
-    newConfig.pro = NO;
+    newConfig.controlPanelHost = DEFAULT_CONTROL_PANEL_HOST;
+    newConfig.checkPath = DEFAULT_CHECK_PATH;
+    newConfig.sendCrashReports = DEFAULT_SEND_CRASH_REPORTS;
+    newConfig.exceptionsEndpoint = DEFAULT_EXCEPTIONS_ENDPOINT;
+    newConfig.dataEndpoint = DEFAULT_DATA_ENDPOINT_LOCATION;
+	
+    newConfig.apiKey = apiKeyUser;
+    newConfig.pro = YES;
 	newConfig.deviceKey = [device deviceKey];
 	newConfig.email = apiKeyUser;
 	[newConfig loadDefaultValues];

@@ -19,7 +19,6 @@
 #import "WizardController.h"
 #import "ReportModule.h"
 #import "AlertModule.h"
-#import "MKStoreManager.h"
 #import "GAI.h"
 
 
@@ -134,9 +133,6 @@
     [GAI sharedInstance].dispatchInterval = 120;
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelNone];
     [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
-    
-    // In-App Purchase Instance
-    [MKStoreManager sharedManager];
     
     // Reset RequestNumber
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"requestNumber"];

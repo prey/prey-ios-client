@@ -16,6 +16,7 @@
 #import "PreyAppDelegate.h"
 #import "WizardController.h"
 #import "PreferencesController.h"
+#import "MKStoreManager.h"
 
 @interface LoginController()
 
@@ -51,6 +52,9 @@
          if (!error) // User Login
          {
              [config setPro:user.isPro];
+             
+             // In-App Purchase Instance
+             [MKStoreManager sharedManager];
              
              PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
              preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;

@@ -80,6 +80,8 @@
 		3B18096E18CF5E7700D64ED7 /* logo-prey.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B18096D18CF5E7700D64ED7 /* logo-prey.png */; };
 		3B1BA22017271C8500200251 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7B0C8D17171CAD002B6E2D /* Location.m */; };
 		3B1BA22117271C8500200251 /* RemainingStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7B0C8F17171CAD002B6E2D /* RemainingStorage.m */; };
+		3B1C2BB2191AC7E000DFD677 /* ManagedAppConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B1C2BB1191AC7E000DFD677 /* ManagedAppConfig.plist */; };
+		3B1C2BB4191ACAAF00DFD677 /* AppFeedback.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B1C2BB3191ACAAF00DFD677 /* AppFeedback.plist */; };
 		3B1C978117B3177400D9FD1E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C978017B3177400D9FD1E /* CoreData.framework */; };
 		3B2A3BD017CE68B3000D5B9D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */; };
 		3B477ED918B2AA7B003A32CE /* PreyDeployment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B477ED818B2AA7B003A32CE /* PreyDeployment.m */; };
@@ -319,14 +321,16 @@
 		3B150F2918D11B96003BD13E /* WelcomeController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPad.xib"; path = "Classes/WelcomeController-iPad.xib"; sourceTree = "<group>"; };
 		3B150F2A18D11B96003BD13E /* WelcomeController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPhone.xib"; path = "Classes/WelcomeController-iPhone.xib"; sourceTree = "<group>"; };
 		3B18096D18CF5E7700D64ED7 /* logo-prey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-prey.png"; path = "Resources/logo-prey.png"; sourceTree = SOURCE_ROOT; };
+		3B1C2BB1191AC7E000DFD677 /* ManagedAppConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ManagedAppConfig.plist; sourceTree = "<group>"; };
+		3B1C2BB3191ACAAF00DFD677 /* AppFeedback.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppFeedback.plist; sourceTree = "<group>"; };
 		3B1C978017B3177400D9FD1E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		3B477ED718B2AA7B003A32CE /* PreyDeployment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyDeployment.h; sourceTree = "<group>"; };
 		3B477ED818B2AA7B003A32CE /* PreyDeployment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyDeployment.m; sourceTree = "<group>"; };
 		3B4F8E0A18E4EFAE00C7DB43 /* UnitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		3B65EE281805E358008EB7CF /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Classes/MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
-		3B65EE291805E358008EB7CF /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Classes/MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
+		3B65EE281805E358008EB7CF /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
+		3B65EE291805E358008EB7CF /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		3B675EF11891874500CE3D0D /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		3B675EF21891874500CE3D0D /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		3B675EF31891874500CE3D0D /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
@@ -671,8 +675,6 @@
 				071324381346356300F7EFD8 /* PreyLogger.m */,
 				071324391346356300F7EFD8 /* RegexKitLite.h */,
 				0713243A1346356300F7EFD8 /* RegexKitLite.m */,
-				3B65EE281805E358008EB7CF /* MBProgressHUD.h */,
-				3B65EE291805E358008EB7CF /* MBProgressHUD.m */,
 				071324131346346F00F7EFD8 /* IphoneInformationHelper.h */,
 				071324141346346F00F7EFD8 /* IphoneInformationHelper.m */,
 			);
@@ -781,6 +783,8 @@
 				0713246A1346369200F7EFD8 /* siren.mp3 */,
 				3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */,
 				8D1107310486CEB800E47090 /* Prey-Info.plist */,
+				3B1C2BB1191AC7E000DFD677 /* ManagedAppConfig.plist */,
+				3B1C2BB3191ACAAF00DFD677 /* AppFeedback.plist */,
 				07DA04B013216E3A00FECCAD /* Entitlements.plist */,
 			);
 			name = Resources;
@@ -814,6 +818,15 @@
 				3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3B1C2BB5191AE4DD00DFD677 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				3B65EE281805E358008EB7CF /* MBProgressHUD.h */,
+				3B65EE291805E358008EB7CF /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		3B3B2FC91714B63C00BABCAE /* Location Controller */ = {
@@ -956,6 +969,7 @@
 		3BCD1C5516693E9600D609D9 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				3B1C2BB5191AE4DD00DFD677 /* MBProgressHUD */,
 				3B7FBAF5191027250057EBC4 /* MKStore */,
 				3B9EF00118ECE2860060FFAE /* AFNetworking-1.x */,
 				07E1ABFF16A5FF3A00803187 /* UIDevice */,
@@ -1128,6 +1142,7 @@
 				3BBAAFFF18B8EAD300ADE493 /* Icon-Small-80.png in Resources */,
 				071324591346363300F7EFD8 /* MainWindow-iPhone.xib in Resources */,
 				3B9D47F5189C5E4500E6F7A2 /* star_wars_battlefront@2x.png in Resources */,
+				3B1C2BB2191AC7E000DFD677 /* ManagedAppConfig.plist in Resources */,
 				3B9D47E2189C5E4500E6F7A2 /* bg-mnts2@2x.png in Resources */,
 				3B9D47E1189C5E4500E6F7A2 /* bg-mnts2.png in Resources */,
 				3BEEAB7E1806F87A00849B2B /* Wizard in Resources */,
@@ -1147,6 +1162,7 @@
 				3BA6A22F16769566005323EB /* MainWindow-iPad.xib in Resources */,
 				3B9D47EA189C5E4500E6F7A2 /* prey-allgood.png in Resources */,
 				3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */,
+				3B1C2BB4191ACAAF00DFD677 /* AppFeedback.plist in Resources */,
 				3BBAAFF318B8EAD300ADE493 /* Default@2x~iphone.png in Resources */,
 				3BBAAFFD18B8EAD300ADE493 /* Icon-Small-50.png in Resources */,
 				3B9D47E0189C5E4500E6F7A2 /* bg-mnts1@2x.png in Resources */,
