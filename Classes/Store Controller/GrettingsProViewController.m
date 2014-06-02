@@ -8,6 +8,10 @@
 
 #import "GrettingsProViewController.h"
 #import "PreyAppDelegate.h"
+#import "GAITrackedViewController.h"
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
+#import "GAIFields.h"
 
 @interface GrettingsProViewController ()
 
@@ -26,6 +30,11 @@
 
 - (void)viewDidLoad
 {
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:@"Grettings Pro Accounts"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+
+    
     self.screenName = @"Grettings Pro Accounts";
     
     [super viewDidLoad];
