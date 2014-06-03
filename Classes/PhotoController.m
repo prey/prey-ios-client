@@ -220,6 +220,16 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 	dispatch_async([self sessionQueue], ^{
 		// Flash set to Auto for Still Capture
 		[PhotoController setFlashMode:AVCaptureFlashModeOff forDevice:[[self videoDeviceInput] device]];
+
+        // Turn off shutter sound
+        static SystemSoundID soundID = 0;
+        if (soundID == 0) {
+            NSURL* shutterFile = [NSURL fileURLWithPath:[[NSBundle mainBundle]
+                                                       pathForResource:@"shutter"
+                                                       ofType:@"aiff"]];
+            AudioServicesCreateSystemSoundID((__bridge CFURLRef)shutterFile, &soundID);
+        }
+        AudioServicesPlaySystemSound(soundID);
         
 		// Capture a still image.
 		[[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
