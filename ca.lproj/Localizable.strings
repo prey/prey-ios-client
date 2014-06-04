@@ -16,6 +16,8 @@
 
 "A new report has been sent to your Control Panel" = "S'ha enviat un informe nou al vostre panell de control";
 
+"A new report has been sent to your Control Panel." = "S'ha enviat un nou informe al vostre panell de control.";
+
 "About" = "Quant a...";
 
 "Access Denied" = "Accés denegat";
@@ -37,6 +39,10 @@
 "Attaching device..." = "S'està associant el dispositiu...";
 
 "Best possible" = "La millor possible";
+
+"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Inhabilitant aquesta opció, Prey no podrà verificar l'estat del dispoditiu i l'única manera de rebre informes serà mitjançant el panell de control";
+
+"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Habilitant aquesta opció, es mostrarà la icona al costat de l'estat de la bateria. Això no significa que s'estigui utilitzant el GPS, però pot consumir una mica més de bateria";
 
 "Camouflage mode" = "Mode camuflatge";
 
@@ -60,21 +66,35 @@
 
 "Creating account..." = "S'està creant el compte...";
 
+"Current Location" = "Ubicació actual";
+
 "Delay" = "Retard";
 
 "Delete log" = "Suprimeix el registre";
 
 "Detach device" = "Suprimeix el dispositiu";
 
+"Device not ready!" = "Dispositiu no preparat!";
+
+"Device ready." = "Dispositiu preparat.";
+
+"Disable it!" = "Inhabilita-ho!";
+
 "Email" = "Correu electrònic";
 
+"Enable it!" = "Habilita-ho!";
+
 "Enter a valid e-mail address" = "Inseriu un correu electrònic vàlid.";
+
+"Help" = "Ajuda";
 
 "Hundreds of Meters" = "Centenars de metres";
 
 "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "Sembla que heu exhaurit el nombre màxim de dispositius permesos al vostre compte. Proveu suprimint els que ja no feu servir.";
 
 "Location accuracy" = "Precisió de la ubicació";
+
+"Location services are disabled for Prey. Reports will not be sent." = "Els serveis de localització no estan disponibles per a Prey. No s'enviaran informes.";
 
 "Log" = "Registre";
 
@@ -112,11 +132,15 @@
 
 "Please wait" = "S'està treballant";
 
+"Preferences" = "opcions";
+
 "Prey alert" = "Alerta de Prey";
 
 "Prey next execution in %i minutes." = "Propera execució en %i minuts.";
 
 "Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey aturará l'enviament d'informes al panell de control i marcarà aquest dispositiu com a recuperat.\n\nVoleu continuar?";
+
+"Privacy Policy" = "Política de privadesa";
 
 "Quite accurate" = "Molt precisa";
 
@@ -136,11 +160,17 @@
 
 "Stopping Prey..." = "S'està aturant Prey...";
 
+"Terms of Service" = "Condicions d'ús";
+
 "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password." = "No s'ha pogut accedir al compte. Assegureu-vos que les credencials inserides són correctes.";
 
 "Unable to access Location Services.\n You need to grant Prey access if you wish to track your device." = "Ha fallat l'accés als serveis d'ubicació.\nHeu de concedir permisos de seguretat a Prey perquè pugui localitzar el vostre dispositiu.";
 
 "Unable to fetch location data. Is this device on airplane mode?" = "No s'ha pogut obtenir les dades de la ubicació. El dispositiu està en «Mode avió»?";
+
+"Upgrade to Pro" = "Actualitzeu-vos a «Pro»";
+
+"Use Location Listener" = "Utilitza els serveis de localització";
 
 "User couldn't be created" = "No s'ha pogut crear l'usuari";
 
@@ -164,54 +194,22 @@
 
 "You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Esteu a punt de marcar aquest dispositiu com a perdut i Prey començara a enviar informes al panell de control.\n\nVoleu continuar?";
 
+"Your device is protected and waiting for the activation signal." = "El dispositiu està preparat i a l'espera de rebre el senyal d'activació.";
+
 "Your email" = "Correu electrònic";
 
 "Your name" = "Nom";
-
-"A new report has been sent to your Control Panel." = "S'ha enviat un nou informe al vostre panell de control.";
-
-"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Inhabilitant aquesta opció, Prey no podrà verificar l'estat del dispoditiu i l'única manera de rebre informes serà mitjançant el panell de control";
-
-"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Habilitant aquesta opció, es mostrarà la icona al costat de l'estat de la bateria. Això no significa que s'estigui utilitzant el GPS, però pot consumir una mica més de bateria";
-
-"Current Location" = "Ubicació actual";
-
-"Device not ready!" = "Dispositiu no preparat!";
-
-"Device ready." = "Dispositiu preparat.";
-
-"Disable it!" = "Inhabilita-ho!";
-
-"Enable it!" = "Habilita-ho!";
-
-"Help" = "Ajuda";
-
-"Location services are disabled for Prey. Reports will not be sent." = "Els serveis de localització no estan disponibles per a Prey. No s'enviaran informes.";
-
-"Preferences" = "opcions";
-
-"Privacy Policy" = "Política de privadesa";
-
-"Terms of Service" = "Condicions d'ús";
-
-"Upgrade to Pro" = "Actualitzeu-vos a «Pro»";
-
-"Use Location Listener" = "Utilitza els serveis de localització";
-
-"Your device is protected and waiting for the activation signal." = "El dispositiu està preparat i a l'espera de rebre el senyal d'activació.";
-
-"Remind me later" = "Recorda-m'ho més tard";
 
 "Rate us" = "Puntue-nos";
 
 "Give us ★★★★★ on the App Store if you like Prey." = "Puntueu amb ★★★★★ a l'App Store si us agrada Prey.";
 
+"Remind me later" = "Recorda-m'ho més tard";
+
 "Yes, rate Prey!" = "Sí, vull puntuar a Prey!";
 
 "Information" = "Informació";
 
-"Yes, accept it!" = "Sí accepta-la!";
+"Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team." = "Gràcies pel vostre suport. Ara teniu al vostre abast totes les funcionalitats d'un compte Premium, incloent suport directe i privat amb nosaltres, l'equip de Prey.";
 
-"Rate this update with ★★★★★ on the App Store then await further instructions." = "Puntueu aquesta actualització amb ★★★★★ a l'App Store i espereu noves instruccions.";
-
-"Your mission, should you decide to accept it" = "La missió, si voleu acceptar-la";
+"Congrats,\nyou're now Pro" = "Enhorabona,\nJa sou Pro";
