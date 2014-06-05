@@ -138,7 +138,7 @@ static NSString * const kFeedbackSuccessKey = @"success";
     
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate.viewController setNavigationBarHidden:YES animated:NO];
-    [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:congratsController, nil] animated:YES];
+    [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:congratsController, nil] animated:NO];
     [congratsController release];
 }
 

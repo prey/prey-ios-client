@@ -23,7 +23,9 @@ void PreyLogMessage(NSString *domain, int level, NSString *format, ...)
         if (msgString != nil)
         {
             LogMessage(domain, level, @"%@",msgString);
+#ifndef NDEBUG
             NSLog(@"%@",msgString);
+#endif
             [msgString release];
         }
         
