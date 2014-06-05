@@ -10,7 +10,7 @@
 
 
 #import "AlarmModule.h"
-
+#import "Constants.h"
 
 @implementation AlarmModule
 
@@ -20,20 +20,49 @@
     NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 2;
     [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
     
-    NSURL* musicFile = [NSURL fileURLWithPath:[[NSBundle mainBundle]
-                                               pathForResource:@"siren"
-                                               ofType:@"mp3"]];
+    [[AVAudioSession sharedInstance]  setCategory:AVAudioSessionCategoryPlayAndRecord
+                                      withOptions:AVAudioSessionCategoryOptionMixWithOthers
+                                            error:nil];
+    
+    [[AVAudioSession sharedInstance]  setActive:YES error:nil];
+    
+    if (IS_OS_6_OR_LATER)
+        [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
+    
+    [[MPMusicPlayerController applicationMusicPlayer] setVolume:0.25];
+    [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(incrementVolume:) userInfo:nil repeats:YES];
+
+    
+    NSURL* musicFile = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"siren" ofType:@"mp3"]];
     audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:musicFile error:nil];
     audioPlayer.delegate = self;
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-    [[AVAudioSession sharedInstance] setActive: YES error: nil];
+    
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    //Load the audio into memory
+    
     [audioPlayer prepareToPlay];
     [audioPlayer setVolume:1.0f];
     [audioPlayer play];
+    
     [super notifyCommandResponse:[self getName] withStatus:@"started"];
 }
+
+- (void)incrementVolume:(NSTimer *)timer
+{
+    PreyLogMessage(@"alarm", 10, @"Volume UP!");
+    
+    float systemVolume = [[MPMusicPlayerController applicationMusicPlayer] volume];
+    
+    if ( (systemVolume < 1.0 ) && ([audioPlayer isPlaying]) )
+    {
+        [[MPMusicPlayerController applicationMusicPlayer] setVolume:(systemVolume+0.25)];
+    }
+    else
+    {
+        [timer invalidate];
+        timer = nil;
+    }
+}
+
 
 - (NSString *) getName {
 	return @"alarm";

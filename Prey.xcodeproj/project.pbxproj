@@ -35,7 +35,6 @@
 		071324591346363300F7EFD8 /* MainWindow-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071324551346363300F7EFD8 /* MainWindow-iPhone.xib */; };
 		0713246B1346369200F7EFD8 /* large9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 071324681346369200F7EFD8 /* large9.ttf */; };
 		0713246C1346369200F7EFD8 /* NewJuneBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 071324691346369200F7EFD8 /* NewJuneBold.otf */; };
-		0713246D1346369200F7EFD8 /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0713246A1346369200F7EFD8 /* siren.mp3 */; };
 		07132472134639DF00F7EFD8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07132470134639DF00F7EFD8 /* Localizable.strings */; };
 		07178F2612675AD3007B290C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07178F2512675AD3007B290C /* CoreLocation.framework */; };
 		07435EF41680FDA000FBD54B /* JsonConfigParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 07435EF31680FDA000FBD54B /* JsonConfigParser.m */; };
@@ -172,6 +171,8 @@
 		3BBAB00518B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAB00418B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib */; };
 		3BBAB00718B8FA7F00ADE493 /* WizardController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAB00618B8FA7F00ADE493 /* WizardController-iPhone-568h.xib */; };
 		3BBAB00918B9085C00ADE493 /* LoginController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAB00818B9085C00ADE493 /* LoginController-iPhone-568h.xib */; };
+		3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
+		3BC8A0A3193F905D000408BA /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3BC8A0A2193F905D000408BA /* siren.mp3 */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
 		3BE0935B18D1150F00F6ACE4 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE0935A18D1150F00F6ACE4 /* Default-Portrait~ipad.png */; };
@@ -245,7 +246,6 @@
 		071324551346363300F7EFD8 /* MainWindow-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPhone.xib"; sourceTree = "<group>"; };
 		071324681346369200F7EFD8 /* large9.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = large9.ttf; path = Resources/large9.ttf; sourceTree = "<group>"; };
 		071324691346369200F7EFD8 /* NewJuneBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = NewJuneBold.otf; path = Resources/NewJuneBold.otf; sourceTree = "<group>"; };
-		0713246A1346369200F7EFD8 /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = siren.mp3; path = Resources/siren.mp3; sourceTree = "<group>"; };
 		07132471134639DF00F7EFD8 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07132473134639E800F7EFD8 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07178F2512675AD3007B290C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -447,6 +447,8 @@
 		3BBAB00418B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPhone-568h.xib"; path = "Classes/WelcomeController-iPhone-568h.xib"; sourceTree = "<group>"; };
 		3BBAB00618B8FA7F00ADE493 /* WizardController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WizardController-iPhone-568h.xib"; path = "Classes/WizardController-iPhone-568h.xib"; sourceTree = "<group>"; };
 		3BBAB00818B9085C00ADE493 /* LoginController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPhone-568h.xib"; path = "Classes/LoginController-iPhone-568h.xib"; sourceTree = "<group>"; };
+		3BC8A0A0193F7751000408BA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		3BC8A0A2193F905D000408BA /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = siren.mp3; path = Resources/siren.mp3; sourceTree = "<group>"; };
 		3BD482E31678CAE300F25DC8 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewController.h; path = Classes/UIWebViewController.h; sourceTree = "<group>"; };
 		3BD482E41678CAE300F25DC8 /* UIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewController.m; path = Classes/UIWebViewController.m; sourceTree = "<group>"; };
 		3BD546D017FE10CF00ABFDBC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -473,6 +475,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */,
 				3B6CC14318EA1B58007E371A /* Security.framework in Frameworks */,
 				3B675EFA18918C6E00CE3D0D /* Social.framework in Frameworks */,
 				3B1C978117B3177400D9FD1E /* CoreData.framework in Frameworks */,
@@ -783,7 +786,7 @@
 				071324681346369200F7EFD8 /* large9.ttf */,
 				071324691346369200F7EFD8 /* NewJuneBold.otf */,
 				3B51B16E193E7DA6001B78A5 /* shutter.aiff */,
-				0713246A1346369200F7EFD8 /* siren.mp3 */,
+				3BC8A0A2193F905D000408BA /* siren.mp3 */,
 				3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */,
 				8D1107310486CEB800E47090 /* Prey-Info.plist */,
 				3B1C2BB1191AC7E000DFD677 /* ManagedAppConfig.plist */,
@@ -796,6 +799,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3BC8A0A0193F7751000408BA /* MediaPlayer.framework */,
 				3B6CC14218EA1B58007E371A /* Security.framework */,
 				3B675EF918918C6E00CE3D0D /* Social.framework */,
 				3BD546D017FE10CF00ABFDBC /* AdSupport.framework */,
@@ -1153,7 +1157,7 @@
 				3BBAB00318B8EAD300ADE493 /* Icon@2x.png in Resources */,
 				0713246B1346369200F7EFD8 /* large9.ttf in Resources */,
 				0713246C1346369200F7EFD8 /* NewJuneBold.otf in Resources */,
-				0713246D1346369200F7EFD8 /* siren.mp3 in Resources */,
+				3BC8A0A3193F905D000408BA /* siren.mp3 in Resources */,
 				3BA6AD1318D1184E00CAADAC /* prey-iphone-sonar@2x.png in Resources */,
 				3BBAAFF218B8EAD300ADE493 /* Default-Portrait@2x~ipad.png in Resources */,
 				3BAE4E53190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib in Resources */,
