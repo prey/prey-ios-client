@@ -54,7 +54,8 @@
              [config setPro:user.isPro];
              
              // In-App Purchase Instance
-             [MKStoreManager sharedManager];
+             if (!user.isPro)
+                 [MKStoreManager sharedManager];
              
              PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
              preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
