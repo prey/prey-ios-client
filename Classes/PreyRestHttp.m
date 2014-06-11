@@ -69,13 +69,13 @@
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          
          NSInteger  statusCode  = [operation.response statusCode];
-         NSString  *showMessage = [error localizedDescription];
+         NSString  *showMessage = ([error localizedRecoverySuggestion] != nil) ? [error localizedRecoverySuggestion] : [error localizedDescription];
+
          
          if (statusCode == 401)
          {
              showMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
          }
-         
          UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Couldn't check your password",nil)
                                                              message:showMessage
                                                             delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -116,8 +116,10 @@
          
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          
+         NSString  *showMessage = ([error localizedRecoverySuggestion] != nil) ? [error localizedRecoverySuggestion] : [error localizedDescription];
+
          UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"User couldn't be created",nil)
-                                                             message:[error localizedDescription]
+                                                             message:showMessage
                                                             delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
          [alertView show];
          [alertView release];
@@ -161,7 +163,7 @@
      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
          
          NSInteger  statusCode  = [operation.response statusCode];
-         NSString  *showMessage = [error localizedDescription];
+         NSString  *showMessage = ([error localizedRecoverySuggestion] != nil) ? [error localizedRecoverySuggestion] : [error localizedDescription];
          
          if ((statusCode == 302) || (statusCode == 403))
          {
