@@ -13,99 +13,6 @@
 
 @implementation ContactsModule
 
-
--(void)collectContacts
-{
-    NSMutableDictionary *myAddressBook = [[NSMutableDictionary alloc] init];
-    ABAddressBookRef addressBook = ABAddressBookCreate();
-    CFArrayRef people  = ABAddressBookCopyArrayOfAllPeople(addressBook);
-    for(int i = 0;i<ABAddressBookGetPersonCount(addressBook);i++)
-    {
-        ABRecordRef ref = CFArrayGetValueAtIndex(people, i);
-        
-        // Get First name, Last name, Prefix, Suffix, Job title
-        NSString *firstName = (NSString *)ABRecordCopyValue(ref,kABPersonFirstNameProperty);
-        NSString *lastName = (NSString *)ABRecordCopyValue(ref,kABPersonLastNameProperty);
-        NSString *prefix = (NSString *)ABRecordCopyValue(ref,kABPersonPrefixProperty);
-        NSString *suffix = (NSString *)ABRecordCopyValue(ref,kABPersonSuffixProperty);
-        NSString *jobTitle = (NSString *)ABRecordCopyValue(ref,kABPersonJobTitleProperty);
-        
-        [myAddressBook setObject:firstName forKey:@"firstName"];
-        [myAddressBook setObject:lastName forKey:@"lastName"];
-        [myAddressBook setObject:prefix forKey:@"prefix"];
-        [myAddressBook setObject:suffix forKey:@"suffix"];
-        [myAddressBook setObject:jobTitle forKey:@"jobTitle"];
-        
-        NSMutableArray *arPhone = [[NSMutableArray alloc] init];
-        ABMultiValueRef phones = ABRecordCopyValue(ref, kABPersonPhoneProperty);
-        for(CFIndex j = 0; j < ABMultiValueGetCount(phones); j++)
-        {
-            CFStringRef phoneNumberRef = ABMultiValueCopyValueAtIndex(phones, j);
-            NSString *phoneLabel =(NSString*) ABAddressBookCopyLocalizedLabel (ABMultiValueCopyLabelAtIndex(phones, j));
-            NSString *phoneNumber = (NSString *)phoneNumberRef;
-            NSMutableDictionary *temp = [[NSMutableDictionary alloc] init];
-            [temp setObject:phoneNumber forKey:@"phoneNumber"];
-            [temp setObject:phoneLabel forKey:@"phoneNumber"];
-            [arPhone addObject:temp];
-            [temp release];
-        }
-        [myAddressBook setObject:arPhone forKey:@"Phone"];
-        [arPhone release];
-        
-        CFStringRef address;
-        CFStringRef label;
-        ABMutableMultiValueRef multi = ABRecordCopyValue(ref, kABPersonAddressProperty);
-        for (CFIndex i = 0; i < ABMultiValueGetCount(multi); i++)
-        {
-            label = ABMultiValueCopyLabelAtIndex(multi, i);
-            //CFStringRef readableLabel = ABAddressBookCopyLocalizedLabel(label);
-            address = ABMultiValueCopyValueAtIndex(multi, i);
-            CFRelease(address);
-            CFRelease(label);
-        }
-        
-        ABMultiValueRef emails = ABRecordCopyValue(ref, kABPersonEmailProperty);
-        NSMutableArray *arEmail = [[NSMutableArray alloc] init];
-        for(CFIndex idx = 0; idx < ABMultiValueGetCount(emails); idx++)
-        {
-            CFStringRef emailRef = ABMultiValueCopyValueAtIndex(emails, idx);
-            NSString *strLbl = (NSString*) ABAddressBookCopyLocalizedLabel (ABMultiValueCopyLabelAtIndex (emails, idx));
-            NSString *strEmail_old = (NSString*)emailRef;
-            NSMutableDictionary *temp = [[NSMutableDictionary alloc] init];
-            [temp setObject:strEmail_old forKey:@"strEmail_old"];
-            [temp setObject:strLbl forKey:@"strLbl"];
-            [arEmail addObject:temp];
-            [temp release];
-        }
-        [myAddressBook setObject:arEmail forKey:@"Email"];
-        [arEmail release];
-    }
-    [self createCSV:myAddressBook];
-}
-
--(void) createCSV :(NSMutableDictionary*)arAddressData
-{
-    NSMutableString *stringToWrite = [[NSMutableString alloc] init];
-    [stringToWrite appendString:[NSString stringWithFormat:@"%@,",[arAddressData valueForKey:@"firstName"]]];
-    [stringToWrite appendString:[NSString stringWithFormat:@"%@,",[arAddressData valueForKey:@"lastName"]]];
-    [stringToWrite appendString:[NSString stringWithFormat:@"%@,",[arAddressData valueForKey:@"jobTitle"]]];
-    
-    NSMutableArray *arPhone = (NSMutableArray*) [arAddressData valueForKey:@"Phone"];
-    for(int i = 0 ;i<[arPhone count];i++)
-    {
-        NSMutableDictionary *temp = (NSMutableDictionary*) [arPhone objectAtIndex:i];
-        [stringToWrite appendString:[NSString stringWithFormat:@"%@,",[temp valueForKey:@"phoneNumber"]]];
-        [stringToWrite appendString:[NSString stringWithFormat:@"%@,",[temp valueForKey:@"phoneNumber"]]];
-        [temp release];
-    }
-    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *documentDirectory=[paths objectAtIndex:0];
-    NSString *strBackupFileLocation = [NSString stringWithFormat:@"%@/%@", documentDirectory,@"ContactList.csv"];
-    [stringToWrite writeToFile:strBackupFileLocation atomically:YES encoding:NSUTF8StringEncoding error:nil];
-}
-
-
-
 - (void)start
 {
     // Request authorization to Address Book
@@ -133,7 +40,6 @@
         // Send an alert telling user to change privacy setting in settings app
     }
     
-    
     NSMutableArray* contactsArray = [NSMutableArray new];
     
     // open the default address book.
@@ -147,122 +53,93 @@
     CFIndex nPeople = ABAddressBookGetPersonCount(m_addressbook);
     for (int i=0;i < nPeople;i++)
     {
-        NSMutableDictionary* tempContactDic = [NSMutableDictionary new];
-        ABRecordRef ref = CFArrayGetValueAtIndex(allPeople,i);
+        ABRecordRef person = CFArrayGetValueAtIndex(allPeople,i);
         
-        CFStringRef firstName, lastName;
-        firstName = ABRecordCopyValue(ref, kABPersonFirstNameProperty);
-        lastName  = ABRecordCopyValue(ref, kABPersonLastNameProperty);
-        NSString *name = [NSString stringWithFormat:@"%@ %@", firstName , lastName];
-        [tempContactDic setValue:name forKey:@"name"];
+        // Initialize a mutable dictionary and give it initial values.
+        NSMutableDictionary *tempContactDic = [[NSMutableDictionary alloc]
+                                                initWithObjects:@[@"", @"", @"", @"", @"", @"", @"", @"", @""]
+                                                forKeys:@[@"firstName", @"lastName", @"mobileNumber", @"homeNumber", @"homeEmail", @"workEmail", @"address", @"zipCode", @"city"]];
         
-        NSString *strEmail;
-        ABMultiValueRef email = ABRecordCopyValue(ref, kABPersonEmailProperty);
-        CFStringRef tempEmailref = ABMultiValueCopyValueAtIndex(email, 0);
-        strEmail = (__bridge  NSString *)tempEmailref;
-        [tempContactDic setValue:strEmail forKey:@"email"];
-
+        // Use a general Core Foundation object.
+        CFTypeRef generalCFObject = ABRecordCopyValue(person, kABPersonFirstNameProperty);
+        
+        // Get the first name.
+        if (generalCFObject) {
+            [tempContactDic setObject:(__bridge NSString *)generalCFObject forKey:@"firstName"];
+            CFRelease(generalCFObject);
+        }
+        
+        // Get the last name.
+        generalCFObject = ABRecordCopyValue(person, kABPersonLastNameProperty);
+        if (generalCFObject) {
+            [tempContactDic setObject:(__bridge NSString *)generalCFObject forKey:@"lastName"];
+            CFRelease(generalCFObject);
+        }
+        
+        // Get the phone numbers as a multi-value property.
+        ABMultiValueRef phonesRef = ABRecordCopyValue(person, kABPersonPhoneProperty);
+        for (int i=0; i<ABMultiValueGetCount(phonesRef); i++) {
+            CFStringRef currentPhoneLabel = ABMultiValueCopyLabelAtIndex(phonesRef, i);
+            CFStringRef currentPhoneValue = ABMultiValueCopyValueAtIndex(phonesRef, i);
+            
+            if (CFStringCompare(currentPhoneLabel, kABPersonPhoneMobileLabel, 0) == kCFCompareEqualTo) {
+                [tempContactDic setObject:(__bridge NSString *)currentPhoneValue forKey:@"mobileNumber"];
+            }
+            
+            if (CFStringCompare(currentPhoneLabel, kABHomeLabel, 0) == kCFCompareEqualTo) {
+                [tempContactDic setObject:(__bridge NSString *)currentPhoneValue forKey:@"homeNumber"];
+            }
+            
+            CFRelease(currentPhoneLabel);
+            CFRelease(currentPhoneValue);
+        }
+        CFRelease(phonesRef);
         
         
+        // Get the e-mail addresses as a multi-value property.
+        ABMultiValueRef emailsRef = ABRecordCopyValue(person, kABPersonEmailProperty);
+        for (int i=0; i<ABMultiValueGetCount(emailsRef); i++) {
+            CFStringRef currentEmailLabel = ABMultiValueCopyLabelAtIndex(emailsRef, i);
+            CFStringRef currentEmailValue = ABMultiValueCopyValueAtIndex(emailsRef, i);
+            
+            if (CFStringCompare(currentEmailLabel, kABHomeLabel, 0) == kCFCompareEqualTo) {
+                [tempContactDic setObject:(__bridge NSString *)currentEmailValue forKey:@"homeEmail"];
+            }
+            
+            if (CFStringCompare(currentEmailLabel, kABWorkLabel, 0) == kCFCompareEqualTo) {
+                [tempContactDic setObject:(__bridge NSString *)currentEmailValue forKey:@"workEmail"];
+            }
+            
+            CFRelease(currentEmailLabel);
+            CFRelease(currentEmailValue);
+        }
+        CFRelease(emailsRef);
+        
+        
+        // Get the first street address among all addresses of the selected contact.
+        ABMultiValueRef addressRef = ABRecordCopyValue(person, kABPersonAddressProperty);
+        if (ABMultiValueGetCount(addressRef) > 0) {
+            NSDictionary *addressDict = (__bridge NSDictionary *)ABMultiValueCopyValueAtIndex(addressRef, 0);
+            
+            [tempContactDic setObject:[addressDict objectForKey:(NSString *)kABPersonAddressStreetKey] forKey:@"address"];
+            [tempContactDic setObject:[addressDict objectForKey:(NSString *)kABPersonAddressZIPKey] forKey:@"zipCode"];
+            [tempContactDic setObject:[addressDict objectForKey:(NSString *)kABPersonAddressCityKey] forKey:@"city"];
+        }
+        CFRelease(addressRef);
+        
+        
+        // If the contact has an image then get it too.
+        if (ABPersonHasImageData(person)) {
+            NSData *contactImageData = (__bridge NSData *)ABPersonCopyImageDataWithFormat(person, kABPersonImageFormatThumbnail);
+            
+            [tempContactDic setObject:contactImageData forKey:@"image"];
+        }
         
         
         [contactsArray addObject:tempContactDic];
-        
     }
     
-    
-    /*
-    ABAddressBookRef addressBook = ABAddressBookCreate( );
-    CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
-    CFIndex nPeople = ABAddressBookGetPersonCount( addressBook );
-    
-    for ( int i = 0; i < nPeople; i++ )
-    {
-        ABRecordRef ref = CFArrayGetValueAtIndex( allPeople, i );
-        NSLog(@"inside");
-        
-    }
-    
-    
-    
-	ABAddressBookRef ab;
-	ab = ABAddressBookCreate();
-	int len = (int) ABAddressBookGetPersonCount(ab);
-	int i;
-	for(i = 1; i < (len + 1); i++)
-	{
-		ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab,(ABRecordID) i);
-		CFStringRef firstName, lastName;
-		char *lastNameString, *firstNameString;
-		firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty);
-		lastName = ABRecordCopyValue(person, kABPersonLastNameProperty);
-		
-		static char* fallback = "";
-		int fbLength = strlen(fallback);
-		
-		int firstNameLength = fbLength;
-		bool firstNameFallback = true;
-		int lastNameLength = fbLength;
-		bool lastNameFallback = true;
-		
-		if (firstName != NULL)
-		{
-			firstNameLength = (int) CFStringGetLength(firstName);
-			firstNameFallback = false;
-		}
-		if (lastName != NULL)
-		{
-			lastNameLength = (int) CFStringGetLength(lastName);
-			lastNameFallback = false;
-		}
-		
-		if (firstNameLength == 0) 
-		{
-			firstNameLength = fbLength;
-			firstNameFallback = true;
-		}
-		if (lastNameLength == 0)
-		{
-			lastNameLength = fbLength;
-			lastNameFallback = true;
-		}
-		
-		firstNameString = malloc(sizeof(char)*(firstNameLength+1));
-		lastNameString = malloc(sizeof(char)*(lastNameLength+1));
-		
-		if (firstNameFallback == true) 
-		{
-			strcpy(firstNameString, fallback);
-		}
-		else
-		{
-			CFStringGetCString(firstName, firstNameString, 10*CFStringGetLength(firstName), kCFStringEncodingASCII);
-		}
-		
-		if (lastNameFallback == true) 
-		{
-			strcpy(lastNameString, fallback);
-		} 
-		else
-		{
-			CFStringGetCString(lastName, lastNameString, 10*CFStringGetLength(lastName), kCFStringEncodingASCII);
-		}
-		
-		printf("%d.\t%s %s\n", i, firstNameString, lastNameString);
-		
-		
-		if (firstName != NULL)
-		{
-			CFRelease(firstName);
-		}
-		if (lastName != NULL) 
-		{
-			CFRelease(lastName);
-		}
-		free(firstNameString);
-		free(lastNameString);
-	}
-    */
+    NSLog(@"Contacts:%@",[contactsArray description]);
 }
 
 - (NSString *) getName {
