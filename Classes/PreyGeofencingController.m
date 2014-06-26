@@ -55,12 +55,15 @@
 #pragma mark CLLocationManagerDelegate Protocol methods
 
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
+    PreyLogMessage(@"Prey PreyGeofencingController", 5, @"didStartMonitoringForRegion");
 }
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
+    PreyLogMessage(@"Prey PreyGeofencingController", 5, @"didEnterRegion");
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
+    PreyLogMessage(@"Prey PreyGeofencingController", 5, @"didExitRegion");
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {

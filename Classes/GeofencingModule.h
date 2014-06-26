@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PreyModule.h"
+#import "DataModule.h"
 
-@interface GeofencingModule : PreyModule{
+@interface GeofencingModule : DataModule{
 }
 
 @end

@@ -8,22 +8,38 @@
 
 #import "GeofencingModule.h"
 #import "PreyGeofencingController.h"
+#import "Constants.h"
 
 @implementation GeofencingModule
 
-- (void)main {
-    NSString *action = [self.options objectForKey:@"action"];
+- (void)get
+{
+    NSString *action = [NSString stringWithFormat:@"%@:",[self.options objectForKey:@"action"]];
     NSString *region_id = [self.options objectForKey:@"region_id"];
     CLLocationDegrees center_lat = [[self.options objectForKey:@"center_lat"] doubleValue];
     CLLocationDegrees center_lon = [[self.options objectForKey:@"center_lon"] doubleValue];
     CLLocationDistance radius = [[self.options objectForKey:@"radius"] doubleValue];
     CLLocationCoordinate2D center = CLLocationCoordinate2DMake(center_lat, center_lon);
     
-    CLRegion *region = [[CLRegion alloc] initCircularRegionWithCenter:center radius:radius identifier:region_id];
+    CLRegion *region;
     
-    SEL s = NSSelectorFromString(action);
-    [self performSelector:s withObject:region];
-    [region release];
+    if (IS_OS_7_OR_LATER)
+    {
+        if ([CLLocationManager isMonitoringAvailableForClass:[CLRegion class]])
+        {
+            region =  [[CLCircularRegion alloc] initWithCenter:center radius:radius identifier:region_id];
+        }
+    }
+    else
+         region = [[CLRegion alloc] initCircularRegionWithCenter:center radius:radius identifier:region_id];
+
+    
+    if (region != nil)
+    {
+        SEL s = NSSelectorFromString(action);
+        [self performSelector:s withObject:region];
+        [region release];
+    }
 }
 
 - (void)start: (CLRegion *)region {

@@ -570,8 +570,7 @@
 		07178F3B12675C2C007B290C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				071324161346348400F7EFD8 /* FakeWebView.h */,
-				071324171346348400F7EFD8 /* FakeWebView.m */,
+				3BD9FB82195C75EC0005FC57 /* FakeWebView Controller */,
 				3BAE4E47190AB96F0093ECA2 /* Store Controller */,
 				3B3B2FC91714B63C00BABCAE /* Location Controller */,
 				3BF862B31714ACDF00BA27F0 /* Photo Controller */,
@@ -997,6 +996,15 @@
 				3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */,
 			);
 			path = GoogleAnalytics;
+			sourceTree = "<group>";
+		};
+		3BD9FB82195C75EC0005FC57 /* FakeWebView Controller */ = {
+			isa = PBXGroup;
+			children = (
+				071324161346348400F7EFD8 /* FakeWebView.h */,
+				071324171346348400F7EFD8 /* FakeWebView.m */,
+			);
+			name = "FakeWebView Controller";
 			sourceTree = "<group>";
 		};
 		3BF0370616783C760086A7A7 /* Iconos */ = {
