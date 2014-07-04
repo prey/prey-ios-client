@@ -29,7 +29,7 @@
     
     [PreyRestHttp sendJsonData:5 withData:data andRawData:nil
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/response",[[PreyConfig instance] deviceKey]]
-                     withBlock:^(NSArray *posts, NSError *error) {
+                     withBlock:^(NSHTTPURLResponse *response, NSError *error) {
                          if (error) {
                              PreyLogMessage(@"ActionModule", 10,@"Error: %@",error);
                          } else {

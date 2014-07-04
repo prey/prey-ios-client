@@ -84,9 +84,6 @@
 		3B1C978117B3177400D9FD1E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C978017B3177400D9FD1E /* CoreData.framework */; };
 		3B2A3BD017CE68B3000D5B9D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */; };
 		3B477ED918B2AA7B003A32CE /* PreyDeployment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B477ED818B2AA7B003A32CE /* PreyDeployment.m */; };
-		3B4F8E0C18E4EFAE00C7DB43 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */; };
-		3B4F8E0D18E4EFAE00C7DB43 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
-		3B4F8E0E18E4EFAE00C7DB43 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		3B51B16F193E7DA6001B78A5 /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B51B16E193E7DA6001B78A5 /* shutter.aiff */; };
 		3B65EE2A1805E358008EB7CF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65EE291805E358008EB7CF /* MBProgressHUD.m */; };
 		3B675EF81891874500CE3D0D /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */; };
@@ -103,6 +100,39 @@
 		3B81A347178B1B62009296E1 /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B81A345178B1B62009296E1 /* WizardController.m */; };
 		3B81A348178B1B62009296E1 /* WizardController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B81A346178B1B62009296E1 /* WizardController-iPhone.xib */; };
 		3B81A34B178B1E1C009296E1 /* WizardController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B81A34A178B1E1C009296E1 /* WizardController-iPad.xib */; };
+		3B90867F1966F6060015BB45 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */; };
+		3B9086801966F6060015BB45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		3B9086811966F6060015BB45 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		3B9086871966F6070015BB45 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B9086851966F6070015BB45 /* InfoPlist.strings */; };
+		3B9086891966F6070015BB45 /* PreyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9086881966F6070015BB45 /* PreyTests.m */; };
+		3B9086921966FD000015BB45 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713240B1346343C00F7EFD8 /* Constants.m */; };
+		3B9086931966FD260015BB45 /* PreyConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132444134635A100F7EFD8 /* PreyConfig.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3B9086941966FD5E0015BB45 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132448134635A100F7EFD8 /* User.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3B9086951966FD660015BB45 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713240D1346343C00F7EFD8 /* Device.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3B9086961966FD8C0015BB45 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07178F2512675AD3007B290C /* CoreLocation.framework */; };
+		3B9086971966FDC50015BB45 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7BA11270D79700C713B7 /* MapKit.framework */; };
+		3B9086981966FEB00015BB45 /* IphoneInformationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324141346346F00F7EFD8 /* IphoneInformationHelper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3B9086991966FEC40015BB45 /* PreyRestHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713244D134635C400F7EFD8 /* PreyRestHttp.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3B90869A1966FF320015BB45 /* ReportModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132446134635A100F7EFD8 /* ReportModule.m */; };
+		3B90869B1966FF450015BB45 /* AFNetworking.h in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00C18ECE2E60060FFAE /* AFNetworking.h */; };
+		3B90869C1966FFFA0015BB45 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7B2C126F3C8400C713B7 /* AddressBook.framework */; };
+		3B90869D1966FFFA0015BB45 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD546D017FE10CF00ABFDBC /* AdSupport.framework */; };
+		3B90869E1966FFFA0015BB45 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7A3B126E171300C713B7 /* AudioToolbox.framework */; };
+		3B90869F1966FFFA0015BB45 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D3239C133BC6B100841BFD /* AVFoundation.framework */; };
+		3B9086A01966FFFA0015BB45 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0780547C12554BDA00E4CCE5 /* CFNetwork.framework */; };
+		3B9086A11966FFFA0015BB45 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C978017B3177400D9FD1E /* CoreData.framework */; };
+		3B9086A21966FFFA0015BB45 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		3B9086A31966FFFA0015BB45 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D3239E133BC74A00841BFD /* CoreMedia.framework */; };
+		3B9086A41966FFFA0015BB45 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D3239F133BC74A00841BFD /* CoreVideo.framework */; };
+		3B9086A51966FFFA0015BB45 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */; };
+		3B9086A61966FFFA0015BB45 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0797FC651459BBA5000DCA46 /* libz.1.2.5.dylib */; };
+		3B9086A71966FFFA0015BB45 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
+		3B9086A81966FFFA0015BB45 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07DF36E213413B6E00F0F218 /* MessageUI.framework */; };
+		3B9086A91966FFFA0015BB45 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0780547E12554BDA00E4CCE5 /* MobileCoreServices.framework */; };
+		3B9086AA1966FFFA0015BB45 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6CC14218EA1B58007E371A /* Security.framework */; };
+		3B9086AB1966FFFA0015BB45 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF918918C6E00CE3D0D /* Social.framework */; };
+		3B9086AC1966FFFA0015BB45 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */; };
+		3B9086AD1966FFFA0015BB45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0780561C12564F1C00E4CCE5 /* SystemConfiguration.framework */; };
 		3B9D47C4189C5D2A00E6F7A2 /* LoginController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47C2189C5D2A00E6F7A2 /* LoginController-iPhone.xib */; };
 		3B9D47DF189C5E4500E6F7A2 /* bg-mnts1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47C6189C5E4500E6F7A2 /* bg-mnts1.png */; };
 		3B9D47E0189C5E4500E6F7A2 /* bg-mnts1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47C7189C5E4500E6F7A2 /* bg-mnts1@2x.png */; };
@@ -185,7 +215,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3B4F8E1818E4EFAE00C7DB43 /* PBXContainerItemProxy */ = {
+		3B90868B1966F6070015BB45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
@@ -269,7 +299,6 @@
 		0780547E12554BDA00E4CCE5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0780561C12564F1C00E4CCE5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0797FC651459BBA5000DCA46 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
-		07ABF44E1344C8EB00370933 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		07CD95F11253D99500590FCD /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PreferencesController.h; path = Classes/PreferencesController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		07CD95F21253D99500590FCD /* PreferencesController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; name = PreferencesController.mm; path = Classes/PreferencesController.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07CD96221253E13800590FCD /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = LoginController.h; path = Classes/LoginController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -328,7 +357,6 @@
 		3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		3B477ED718B2AA7B003A32CE /* PreyDeployment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyDeployment.h; sourceTree = "<group>"; };
 		3B477ED818B2AA7B003A32CE /* PreyDeployment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyDeployment.m; sourceTree = "<group>"; };
-		3B4F8E0A18E4EFAE00C7DB43 /* UnitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3B51B16E193E7DA6001B78A5 /* shutter.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = shutter.aiff; path = Resources/shutter.aiff; sourceTree = "<group>"; };
 		3B65EE281805E358008EB7CF /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
@@ -366,6 +394,11 @@
 		3B81A345178B1B62009296E1 /* WizardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WizardController.m; path = Classes/WizardController.m; sourceTree = "<group>"; };
 		3B81A346178B1B62009296E1 /* WizardController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WizardController-iPhone.xib"; path = "Classes/WizardController-iPhone.xib"; sourceTree = "<group>"; };
 		3B81A34A178B1E1C009296E1 /* WizardController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WizardController-iPad.xib"; path = "Classes/WizardController-iPad.xib"; sourceTree = "<group>"; };
+		3B90867E1966F6060015BB45 /* PreyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B9086841966F6060015BB45 /* PreyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PreyTests-Info.plist"; sourceTree = "<group>"; };
+		3B9086861966F6070015BB45 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3B9086881966F6070015BB45 /* PreyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreyTests.m; sourceTree = "<group>"; };
+		3B90868A1966F6070015BB45 /* PreyTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PreyTests-Prefix.pch"; sourceTree = "<group>"; };
 		3B9D47C2189C5D2A00E6F7A2 /* LoginController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPhone.xib"; path = "Classes/LoginController-iPhone.xib"; sourceTree = "<group>"; };
 		3B9D47C6189C5E4500E6F7A2 /* bg-mnts1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts1.png"; sourceTree = "<group>"; };
 		3B9D47C7189C5E4500E6F7A2 /* bg-mnts1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts1@2x.png"; sourceTree = "<group>"; };
@@ -500,13 +533,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3B4F8E0718E4EFAE00C7DB43 /* Frameworks */ = {
+		3B90867B1966F6060015BB45 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B4F8E0C18E4EFAE00C7DB43 /* XCTest.framework in Frameworks */,
-				3B4F8E0E18E4EFAE00C7DB43 /* UIKit.framework in Frameworks */,
-				3B4F8E0D18E4EFAE00C7DB43 /* Foundation.framework in Frameworks */,
+				3B90869C1966FFFA0015BB45 /* AddressBook.framework in Frameworks */,
+				3B90869D1966FFFA0015BB45 /* AdSupport.framework in Frameworks */,
+				3B90869E1966FFFA0015BB45 /* AudioToolbox.framework in Frameworks */,
+				3B90869F1966FFFA0015BB45 /* AVFoundation.framework in Frameworks */,
+				3B9086A01966FFFA0015BB45 /* CFNetwork.framework in Frameworks */,
+				3B9086A11966FFFA0015BB45 /* CoreData.framework in Frameworks */,
+				3B9086A21966FFFA0015BB45 /* CoreGraphics.framework in Frameworks */,
+				3B9086A31966FFFA0015BB45 /* CoreMedia.framework in Frameworks */,
+				3B9086A41966FFFA0015BB45 /* CoreVideo.framework in Frameworks */,
+				3B9086A51966FFFA0015BB45 /* libsqlite3.0.dylib in Frameworks */,
+				3B9086A61966FFFA0015BB45 /* libz.1.2.5.dylib in Frameworks */,
+				3B9086A71966FFFA0015BB45 /* MediaPlayer.framework in Frameworks */,
+				3B9086A81966FFFA0015BB45 /* MessageUI.framework in Frameworks */,
+				3B9086A91966FFFA0015BB45 /* MobileCoreServices.framework in Frameworks */,
+				3B9086AA1966FFFA0015BB45 /* Security.framework in Frameworks */,
+				3B9086AB1966FFFA0015BB45 /* Social.framework in Frameworks */,
+				3B9086AC1966FFFA0015BB45 /* StoreKit.framework in Frameworks */,
+				3B9086AD1966FFFA0015BB45 /* SystemConfiguration.framework in Frameworks */,
+				3B9086971966FDC50015BB45 /* MapKit.framework in Frameworks */,
+				3B9086961966FD8C0015BB45 /* CoreLocation.framework in Frameworks */,
+				3B90867F1966F6060015BB45 /* XCTest.framework in Frameworks */,
+				3B9086811966F6060015BB45 /* UIKit.framework in Frameworks */,
+				3B9086801966F6060015BB45 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -750,7 +803,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* Prey.app */,
-				3B4F8E0A18E4EFAE00C7DB43 /* UnitTest.xctest */,
+				3B90867E1966F6060015BB45 /* PreyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -761,6 +814,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				3B9086821966F6060015BB45 /* PreyTests */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -806,7 +860,6 @@
 				0774BF171517B90D0016D3E6 /* libsqlite3.0.dylib */,
 				3B1C978017B3177400D9FD1E /* CoreData.framework */,
 				5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */,
-				07ABF44E1344C8EB00370933 /* AudioToolbox.framework */,
 				07DF36E213413B6E00F0F218 /* MessageUI.framework */,
 				07D3239E133BC74A00841BFD /* CoreMedia.framework */,
 				07D3239F133BC74A00841BFD /* CoreVideo.framework */,
@@ -894,6 +947,25 @@
 				3B81A34A178B1E1C009296E1 /* WizardController-iPad.xib */,
 			);
 			name = "Wizard Controller";
+			sourceTree = "<group>";
+		};
+		3B9086821966F6060015BB45 /* PreyTests */ = {
+			isa = PBXGroup;
+			children = (
+				3B9086881966F6070015BB45 /* PreyTests.m */,
+				3B9086831966F6060015BB45 /* Supporting Files */,
+			);
+			path = PreyTests;
+			sourceTree = "<group>";
+		};
+		3B9086831966F6060015BB45 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3B9086841966F6060015BB45 /* PreyTests-Info.plist */,
+				3B9086851966F6070015BB45 /* InfoPlist.strings */,
+				3B90868A1966F6070015BB45 /* PreyTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		3B9D47C5189C5E4500E6F7A2 /* Image-Legacy */ = {
@@ -1077,22 +1149,22 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* Prey.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3B4F8E0918E4EFAE00C7DB43 /* UnitTest */ = {
+		3B90867D1966F6060015BB45 /* PreyTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3B4F8E1D18E4EFAE00C7DB43 /* Build configuration list for PBXNativeTarget "UnitTest" */;
+			buildConfigurationList = 3B90868D1966F6070015BB45 /* Build configuration list for PBXNativeTarget "PreyTests" */;
 			buildPhases = (
-				3B4F8E0618E4EFAE00C7DB43 /* Sources */,
-				3B4F8E0718E4EFAE00C7DB43 /* Frameworks */,
-				3B4F8E0818E4EFAE00C7DB43 /* Resources */,
+				3B90867A1966F6060015BB45 /* Sources */,
+				3B90867B1966F6060015BB45 /* Frameworks */,
+				3B90867C1966F6060015BB45 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				3B4F8E1918E4EFAE00C7DB43 /* PBXTargetDependency */,
+				3B90868C1966F6070015BB45 /* PBXTargetDependency */,
 			);
-			name = UnitTest;
-			productName = UnitTest;
-			productReference = 3B4F8E0A18E4EFAE00C7DB43 /* UnitTest.xctest */;
+			name = PreyTests;
+			productName = PreyTests;
+			productReference = 3B90867E1966F6060015BB45 /* PreyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1104,7 +1176,7 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Fork Ltd.";
 				TargetAttributes = {
-					3B4F8E0918E4EFAE00C7DB43 = {
+					3B90867D1966F6060015BB45 = {
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
@@ -1136,7 +1208,7 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Prey */,
-				3B4F8E0918E4EFAE00C7DB43 /* UnitTest */,
+				3B90867D1966F6060015BB45 /* PreyTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1224,10 +1296,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3B4F8E0818E4EFAE00C7DB43 /* Resources */ = {
+		3B90867C1966F6060015BB45 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B9086871966F6070015BB45 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1332,20 +1405,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3B4F8E0618E4EFAE00C7DB43 /* Sources */ = {
+		3B90867A1966F6060015BB45 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B90869B1966FF450015BB45 /* AFNetworking.h in Sources */,
+				3B90869A1966FF320015BB45 /* ReportModule.m in Sources */,
+				3B9086991966FEC40015BB45 /* PreyRestHttp.m in Sources */,
+				3B9086981966FEB00015BB45 /* IphoneInformationHelper.m in Sources */,
+				3B9086951966FD660015BB45 /* Device.m in Sources */,
+				3B9086941966FD5E0015BB45 /* User.m in Sources */,
+				3B9086931966FD260015BB45 /* PreyConfig.m in Sources */,
+				3B9086921966FD000015BB45 /* Constants.m in Sources */,
+				3B9086891966F6070015BB45 /* PreyTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		3B4F8E1918E4EFAE00C7DB43 /* PBXTargetDependency */ = {
+		3B90868C1966F6070015BB45 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1D6058900D05DD3D006BFB54 /* Prey */;
-			targetProxy = 3B4F8E1818E4EFAE00C7DB43 /* PBXContainerItemProxy */;
+			targetProxy = 3B90868B1966F6070015BB45 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1366,6 +1448,14 @@
 				3B0DBF9E17039D7B00AA8A3B /* zh-CN */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		3B9086851966F6070015BB45 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3B9086861966F6070015BB45 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1483,7 +1573,7 @@
 			};
 			name = Release;
 		};
-		3B4F8E1A18E4EFAE00C7DB43 /* Debug */ = {
+		3B90868E1966F6070015BB45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1510,7 +1600,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UnitTest/UnitTest-Prefix.pch";
+				GCC_PREFIX_HEADER = "PreyTests/PreyTests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1521,7 +1611,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "UnitTest/UnitTest-Info.plist";
+				INFOPLIST_FILE = "PreyTests/PreyTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -1529,7 +1619,7 @@
 			};
 			name = Debug;
 		};
-		3B4F8E1B18E4EFAE00C7DB43 /* Release */ = {
+		3B90868F1966F6070015BB45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1555,13 +1645,13 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UnitTest/UnitTest-Prefix.pch";
+				GCC_PREFIX_HEADER = "PreyTests/PreyTests-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "UnitTest/UnitTest-Info.plist";
+				INFOPLIST_FILE = "PreyTests/PreyTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -1570,7 +1660,7 @@
 			};
 			name = Release;
 		};
-		3B4F8E1C18E4EFAE00C7DB43 /* Ad Hoc */ = {
+		3B9086901966F6070015BB45 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1596,13 +1686,13 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UnitTest/UnitTest-Prefix.pch";
+				GCC_PREFIX_HEADER = "PreyTests/PreyTests-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "UnitTest/UnitTest-Info.plist";
+				INFOPLIST_FILE = "PreyTests/PreyTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -1668,15 +1758,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3B4F8E1D18E4EFAE00C7DB43 /* Build configuration list for PBXNativeTarget "UnitTest" */ = {
+		3B90868D1966F6070015BB45 /* Build configuration list for PBXNativeTarget "PreyTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3B4F8E1A18E4EFAE00C7DB43 /* Debug */,
-				3B4F8E1B18E4EFAE00C7DB43 /* Release */,
-				3B4F8E1C18E4EFAE00C7DB43 /* Ad Hoc */,
+				3B90868E1966F6070015BB45 /* Debug */,
+				3B90868F1966F6070015BB45 /* Release */,
+				3B9086901966F6070015BB45 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Prey" */ = {
 			isa = XCConfigurationList;

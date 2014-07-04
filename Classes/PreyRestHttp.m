@@ -324,7 +324,7 @@
     }
 }
 
-+ (void)sendJsonData:(NSInteger)reload withData:(NSDictionary*)jsonData andRawData:(NSDictionary*)rawData toEndpoint:(NSString *)url withBlock:(void (^)(NSArray *posts, NSError *error))block
++ (void)sendJsonData:(NSInteger)reload withData:(NSDictionary*)jsonData andRawData:(NSDictionary*)rawData toEndpoint:(NSString *)url withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     
@@ -347,7 +347,7 @@
              {
                  PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
                  if (block) {
-                     block([NSArray array], nil);
+                     block(operation.response, nil);
                  }
                  [appDelegate checkedCompletionHandler];
                  
@@ -366,7 +366,7 @@
                          [self sendJsonData:reload - 1 withData:jsonData andRawData:rawData toEndpoint:url withBlock:block];
                      else
                      {
-                         block([NSArray array], error);
+                         block(operation.response, error);
                          [appDelegate checkedCompletionHandler];
                      }
                  }
@@ -391,7 +391,7 @@
              {
                  PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
                  if (block) {
-                     block([NSArray array], nil);
+                     block(operation.response, nil);
                  }
                  [appDelegate checkedCompletionHandler];
                  
@@ -411,7 +411,7 @@
                          [self sendJsonData:reload - 1 withData:jsonData andRawData:rawData toEndpoint:url withBlock:block];
                      else
                      {
-                         block([NSArray array], error);
+                         block(operation.response, error);
                          [appDelegate checkedCompletionHandler];
                      }
                  }

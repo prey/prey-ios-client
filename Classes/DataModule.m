@@ -57,7 +57,7 @@
 {
     [PreyRestHttp sendJsonData:5 withData:data andRawData:nil
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",[[PreyConfig instance] deviceKey]]
-                     withBlock:^(NSArray *posts, NSError *error) {
+                     withBlock:^(NSHTTPURLResponse *response, NSError *error) {
         if (error) {
             PreyLogMessage(@"DataModule", 10,@"Error: %@",error);
         } else {
@@ -70,7 +70,7 @@
 {
     [PreyRestHttp sendJsonData:5 withData:data andRawData:rawData
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/reports",[[PreyConfig instance] deviceKey]]
-                     withBlock:^(NSArray *posts, NSError *error) {
+                     withBlock:^(NSHTTPURLResponse *response, NSError *error) {
                          if (error) {
                              PreyLogMessage(@"DataModule", 10,@"Error: %@",error);
                          } else {
