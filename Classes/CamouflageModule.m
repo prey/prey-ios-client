@@ -41,7 +41,6 @@
             loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
         
         [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, nil] animated:NO];
-        [loginController release];
     }
     [super notifyCommandResponse:[self getName] withStatus:@"started"];
     
@@ -71,7 +70,6 @@
             loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
         
         [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, nil] animated:NO];
-        [loginController release];
     }
     
     [super notifyCommandResponse:[self getName] withStatus:@"stopped"];

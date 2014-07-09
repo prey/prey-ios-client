@@ -13,7 +13,7 @@
     
 }
 
-@property(nonatomic, retain) NSString *setting;
+@property(nonatomic) NSString *setting;
 
 //read and toggle methods accept parameters to implement the same interface that will be called by a selector.
 - (void) read: (NSString*) key;

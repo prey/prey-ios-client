@@ -96,7 +96,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
         UILabel *label =[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 75, 25)];
         label.textAlignment = UITextAlignmentLeft;
@@ -105,8 +105,6 @@
         label.font = [UIFont boldSystemFontOfSize:14];
         [cell.contentView addSubview:label];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [label release];
-        
     }
     
     UILabel *label = (UILabel *)[cell viewWithTag:kLabelTag];
@@ -155,7 +153,6 @@
             if (![email.text isMatchedByRegex:strEmailMatchstring]){
                 UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
                 [objAlert show];
-                [objAlert release];
                 [email becomeFirstResponder];
                 return;
             }
@@ -245,10 +242,6 @@
     [fondo addSubview:imv];
     
     [self.tableView setBackgroundView:fondo];
-    [imv release];
-    [fondo release];
-    
-    
     
     
     email = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
@@ -283,29 +276,16 @@
 
 
 - (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-}
-
-- (void)dealloc {
-    [super dealloc];
-    [email release];
-    [password release];
-    [buttonCell release];
-    [strEmailMatchstring release];
 }
 
 
@@ -331,7 +311,6 @@
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate.viewController setNavigationBarHidden:YES animated:YES];
     [appDelegate.viewController pushViewController:congratsController animated:YES];
-    [congratsController release];
 }
 
 @end

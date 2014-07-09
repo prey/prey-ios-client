@@ -19,8 +19,8 @@ typedef NSInteger ModuleType;
     ModuleType type;
 }
 
-@property (nonatomic, retain) NSDictionary *options;
-@property (nonatomic, retain) NSString *command;
+@property (nonatomic) NSDictionary *options;
+@property (nonatomic) NSString *command;
 @property (nonatomic) ModuleType type;
 
 

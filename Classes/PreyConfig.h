@@ -26,29 +26,27 @@
 	BOOL alertOnReport;
     BOOL camouflageMode;
     BOOL intervalMode;
-	
 }
 
-@property (nonatomic,retain) NSString *checkUrl;
-@property (nonatomic) double desiredAccuracy;
+@property (nonatomic) NSString *checkUrl;
+@property (nonatomic) NSString *controlPanelHost;
+@property (nonatomic) NSString *checkPath;
+@property (nonatomic) NSString *exceptionsEndpoint;
+@property (nonatomic) NSString *dataEndpoint;
+@property (nonatomic) NSString *apiKey;
+@property (nonatomic) NSString *deviceKey;
+@property (nonatomic) NSString *email;
 
-@property (nonatomic,retain) NSString *controlPanelHost;
-@property (nonatomic,retain) NSString *checkPath;
 @property BOOL sendCrashReports;
-@property (nonatomic,retain) NSString *exceptionsEndpoint;
-@property (nonatomic,retain) NSString *dataEndpoint;
-
-@property (nonatomic,retain) NSString *apiKey;
-@property (nonatomic,retain) NSString *deviceKey;
-@property (nonatomic,retain) NSString *email;
 @property BOOL alreadyRegistered;
-@property (nonatomic) int delay;
 @property BOOL missing;
-@property (getter = isPro) BOOL pro;
+@property (nonatomic) double desiredAccuracy;
 @property (nonatomic) BOOL askForPassword;
 @property (nonatomic) BOOL camouflageMode;
 @property (nonatomic) BOOL intervalMode;
 @property (nonatomic) BOOL alertOnReport;
+@property (nonatomic) int delay;
+@property (getter = isPro) BOOL pro;
 
 + (PreyConfig*) instance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;

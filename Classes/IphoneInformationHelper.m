@@ -17,21 +17,30 @@
 
 @synthesize name, type, os, version, macAddress,vendor,model, uuid;
 
-+(IphoneInformationHelper*) initializeWithValues{ 
-	IphoneInformationHelper *iphoneInfo = [[[IphoneInformationHelper alloc] init] autorelease];
-	iphoneInfo.name = [[UIDevice currentDevice] name];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        iphoneInfo.type = @"Tablet";
-    else
-        iphoneInfo.type = @"Phone";
++(IphoneInformationHelper*) initializeWithValues
+{
+    static IphoneInformationHelper *instance;
 	
-	iphoneInfo.os = @"iOS";
-    iphoneInfo.vendor = @"Apple";
-    iphoneInfo.model = [self deviceModel];
-	iphoneInfo.version = [[UIDevice currentDevice] systemVersion];
-	iphoneInfo.macAddress = [[UIDevice currentDevice] macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
-	iphoneInfo.uuid = [MKSKProduct deviceId];
-	return iphoneInfo;
+    @synchronized(self)
+    {
+		if(!instance) {
+			instance = [[IphoneInformationHelper alloc] init];
+            instance.name = [[UIDevice currentDevice] name];
+
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                instance.type = @"Tablet";
+            else
+                instance.type = @"Phone";
+            
+            instance.os = @"iOS";
+            instance.vendor = @"Apple";
+            instance.model = [self deviceModel];
+            instance.version = [[UIDevice currentDevice] systemVersion];
+            instance.macAddress = [[UIDevice currentDevice] macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
+            instance.uuid = [MKSKProduct deviceId];
+		}
+	}
+	return instance;
 }
 
 + (NSString *)deviceModel

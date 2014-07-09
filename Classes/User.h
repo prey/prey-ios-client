@@ -20,13 +20,13 @@
 
 }
 
-@property (nonatomic,retain) NSString *apiKey;
-@property (nonatomic,retain) NSString *name;
-@property (nonatomic,retain) NSString *email;
-@property (nonatomic,retain) NSString *country;
-@property (nonatomic,retain) NSString *password;
-@property (nonatomic,retain) NSString *repassword;
-@property (nonatomic,retain) NSArray *devices;
+@property (nonatomic) NSString *apiKey;
+@property (nonatomic) NSString *name;
+@property (nonatomic) NSString *email;
+@property (nonatomic) NSString *country;
+@property (nonatomic) NSString *password;
+@property (nonatomic) NSString *repassword;
+@property (nonatomic) NSArray *devices;
 @property (nonatomic, getter = isPro) BOOL pro;
 
 + (void)allocWithEmail:(NSString*)emailUser password:(NSString*)passwordUser  withBlock:(void (^)(User *user, NSError *error))block;

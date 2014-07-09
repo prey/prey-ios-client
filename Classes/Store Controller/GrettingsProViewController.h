@@ -12,7 +12,7 @@
 @interface GrettingsProViewController : GAITrackedViewController
 
 -(IBAction)CLICKY:(id)sender;   
-@property (nonatomic, retain) IBOutlet UIButton *BUTTON;
-@property (nonatomic, retain) IBOutlet UILabel *textMsg;
-@property (nonatomic, retain) IBOutlet UILabel *textTitle;
+@property (nonatomic) IBOutlet UIButton *BUTTON;
+@property (nonatomic) IBOutlet UILabel *textMsg;
+@property (nonatomic) IBOutlet UILabel *textTitle;
 @end

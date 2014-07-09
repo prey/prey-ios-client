@@ -80,7 +80,6 @@
                                                              message:showMessage
                                                             delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
          [alertView show];
-         [alertView release];
          
          if (block) {
              block(nil, error);
@@ -122,7 +121,6 @@
                                                              message:showMessage
                                                             delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
          [alertView show];
-         [alertView release];
          
          if (block) {
              block(nil, error);
@@ -174,8 +172,6 @@
                                                              message:showMessage
                                                             delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
          [alertView show];
-         [alertView release];
-
          
          if (block) {
              block(nil, error);
@@ -205,7 +201,6 @@
                                                              message:NSLocalizedString(@"Device not ready!",nil)
                                                             delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
          [alertView show];
-         [alertView release];
         
          if (block) {
              block(error);
@@ -305,7 +300,6 @@
              NSError *error2;
              NewModulesConfig *modulesConfig = [configParser parseModulesConfig:respString parseError:&error2];
              [modulesConfig runAllModules];
-             [configParser release];
              
              if (block)
                  block(nil);

@@ -68,11 +68,6 @@
 	return @"alarm";
 }
 
--(void)dealloc {
-    [audioPlayer release];
-    [super dealloc];
-}
-
 #pragma --
 #pragma AVAudioPlayerDelegate methods
 

@@ -10,7 +10,6 @@
 
 #import <UIKit/UIKit.h>
 #import "AccuracyManager.h"
-#import "DelayManager.h"
 #import "MBProgressHUD.h"
 
 #define kDetachAction  1;
@@ -18,14 +17,12 @@
 @interface PreferencesController : UITableViewController <UIActionSheetDelegate, MBProgressHUDDelegate>  {
     UIActivityIndicatorView *cLoadingView;
 	AccuracyManager *accManager;
-	DelayManager *delayManager;
     BOOL pickerShowed;
     MBProgressHUD *HUD;
     
 }
 
-@property (nonatomic, retain) AccuracyManager *accManager;
-@property (nonatomic, retain) DelayManager *delayManager;
+@property (nonatomic) AccuracyManager *accManager;
 
 - (void) setupNavigatorForPicker:(BOOL)showed withSelector:(SEL)action;
 

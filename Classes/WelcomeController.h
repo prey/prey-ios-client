@@ -19,7 +19,7 @@
 -(IBAction)newUserClicked:(id)sender;
 -(IBAction)oldUserClicked:(id)sender;
 
-@property (nonatomic, retain) IBOutlet UIButton *buttnewUser;
-@property (nonatomic, retain) IBOutlet UIButton *buttoldUser;
+@property (nonatomic) IBOutlet UIButton *buttnewUser;
+@property (nonatomic) IBOutlet UIButton *buttoldUser;
 
 @end

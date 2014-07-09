@@ -18,19 +18,9 @@
 @implementation UIWebViewController
 @synthesize delegate = _delegate, navigationBar = _navBar, orientation = _orientation;
 
-- (void) dealloc
-{
-	_webView.delegate = nil;
-	[_webView loadRequest: [NSURLRequest requestWithURL: [NSURL URLWithString: @""]]];
-	[_webView release];
-	
-	self.view = nil;
-	[super dealloc];
-}
-
 + (UIWebViewController *) controllerToEnterdelegate: (id <UIWebViewControllerDelegate>) delegate forOrientation: (UIInterfaceOrientation)theOrientation setURL:(NSString*)stringURL
 {
-	UIWebViewController     *controller = [[[UIWebViewController alloc] initOrientation:theOrientation setURL:stringURL] autorelease];
+	UIWebViewController     *controller = [[UIWebViewController alloc] initOrientation:theOrientation setURL:stringURL];
 	controller.delegate = delegate;
 	return controller;
 }
@@ -95,13 +85,13 @@
     
 	if ( UIInterfaceOrientationIsLandscape( self.orientation ) ) 
     {
-		self.view = [[[UIView alloc] initWithFrame: CGRectMake(0, 0, 480, 288)] autorelease];	
-		_navBar = [[[UINavigationBar alloc] initWithFrame: CGRectMake(0, 0, 480, 32)] autorelease];
+		self.view = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 480, 288)];
+		_navBar = [[UINavigationBar alloc] initWithFrame: CGRectMake(0, 0, 480, 32)];
 	}
     else 
     {
-		self.view = [[[UIView alloc] initWithFrame: CGRectMake(0, 0, 320, 416)] autorelease];	
-		_navBar = [[[UINavigationBar alloc] initWithFrame: CGRectMake(0, 0, 320, 44)] autorelease];
+		self.view = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 320, 416)];
+		_navBar = [[UINavigationBar alloc] initWithFrame: CGRectMake(0, 0, 320, 44)];
 	}
     
 	_navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
@@ -110,7 +100,7 @@
 	[self.view addSubview: _webView];
 	[self.view addSubview: _navBar];
 	
-	_blockerView = [[[UIView alloc] initWithFrame: CGRectMake(0, 0, 200, 60)] autorelease];
+	_blockerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 200, 60)];
 	_blockerView.backgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.8];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -122,7 +112,7 @@
 	_blockerView.clipsToBounds = YES;
 	if ([_blockerView.layer respondsToSelector: @selector(setCornerRadius:)]) [(id) _blockerView.layer setCornerRadius: 10];
 	
-	UILabel	*label = [[[UILabel alloc] initWithFrame: CGRectMake(0, 5, _blockerView.bounds.size.width, 15)] autorelease];
+	UILabel	*label = [[UILabel alloc] initWithFrame: CGRectMake(0, 5, _blockerView.bounds.size.width, 15)];
 	label.text = NSLocalizedString(@"Please Wait…", nil);
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UIColor whiteColor];
@@ -130,16 +120,16 @@
 	label.font = [UIFont boldSystemFontOfSize: 15];
 	[_blockerView addSubview: label];
 	
-	UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhite] autorelease];
+	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhite];
 	
 	spinner.center = CGPointMake(_blockerView.bounds.size.width / 2, _blockerView.bounds.size.height / 2 + 10);
 	[_blockerView addSubview: spinner];
 	[self.view addSubview: _blockerView];
 	[spinner startAnimating];
 	
-	UINavigationItem  *navItem = [[[UINavigationItem alloc] initWithTitle: NSLocalizedString(@"Prey Control Panel", nil)] autorelease];
-	navItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemCancel 
-                                                                               target: self action: @selector(cancel:)] autorelease];
+	UINavigationItem  *navItem = [[UINavigationItem alloc] initWithTitle: NSLocalizedString(@"Prey Control Panel", nil)];
+	navItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemCancel
+                                                                               target: self action: @selector(cancel:)];
 	
 	[_navBar setBarStyle:UIBarStyleBlackOpaque];	
 	[_navBar pushNavigationItem:navItem animated: NO];

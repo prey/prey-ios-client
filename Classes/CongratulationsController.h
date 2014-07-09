@@ -20,11 +20,11 @@
     CLLocationManager *authLocation;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel *congratsTitle;
-@property (nonatomic, retain) IBOutlet UILabel *congratsMsg;
-@property (nonatomic, retain) IBOutlet UIButton *ok;
-@property (nonatomic, retain) NSString *txtToShow;
-@property (nonatomic, retain) CLLocationManager *authLocation;
+@property (nonatomic) IBOutlet UILabel *congratsTitle;
+@property (nonatomic) IBOutlet UILabel *congratsMsg;
+@property (nonatomic) IBOutlet UIButton *ok;
+@property (nonatomic) NSString *txtToShow;
+@property (nonatomic) CLLocationManager *authLocation;
 
 - (IBAction) okPressed: (id) sender;
 

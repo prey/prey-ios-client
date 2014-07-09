@@ -28,9 +28,4 @@
 	return @"picture";
 }
 
-
-- (void)dealloc {
-	[super dealloc];
-}
-
 @end

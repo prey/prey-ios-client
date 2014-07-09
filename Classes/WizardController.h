@@ -18,6 +18,6 @@
     MBProgressHUD *HUD;
 }
 
-@property (nonatomic,retain)  UIWebView *wizardWebView;
+@property (nonatomic)  UIWebView *wizardWebView;
 
 @end

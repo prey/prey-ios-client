@@ -55,7 +55,7 @@ static NSString * const kFeedbackSuccessKey = @"success";
         if (fileData == nil)
             return;
         
-        NSString *apiKeyUser = [[[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding] autorelease];
+        NSString *apiKeyUser = [[NSString alloc] initWithData:fileData encoding:NSUTF8StringEncoding];
         if (apiKeyUser == nil)
             return;
         
@@ -101,7 +101,7 @@ static NSString * const kFeedbackSuccessKey = @"success";
 
 + (void)addDeviceForApiKey:(NSString *)apiKeyUser
 {
-    User *newUser = [[[User alloc] init] autorelease];
+    User *newUser = [[User alloc] init];
     [newUser setApiKey:apiKeyUser];
     
     [Device newDeviceForApiKey:newUser
@@ -139,7 +139,6 @@ static NSString * const kFeedbackSuccessKey = @"success";
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate.viewController setNavigationBarHidden:YES animated:NO];
     [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:congratsController, nil] animated:NO];
-    [congratsController release];
 }
 
 @end

@@ -25,14 +25,14 @@
 }
 
 @property BOOL waitForLocation, waitForPicture;
-@property (nonatomic, retain) NSString *url;
-@property (nonatomic, retain) UIImage *picture;
-@property (nonatomic, retain) UIImage *pictureBack;
-@property (nonatomic, retain) NSMutableDictionary *reportData;
+@property (nonatomic) NSString *url;
+@property (nonatomic) UIImage *picture;
+@property (nonatomic) UIImage *pictureBack;
+@property (nonatomic) NSMutableDictionary *reportData;
 
-@property (nonatomic, retain) NSTimer   *runReportTimer;
+@property (nonatomic) NSTimer   *runReportTimer;
 
-@property (nonatomic, retain) PhotoController *photoController;
+@property (nonatomic) PhotoController *photoController;
 
 +(ReportModule *)instance;
 - (void) send;

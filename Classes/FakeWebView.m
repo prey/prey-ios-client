@@ -44,10 +44,6 @@
 #pragma mark MBProgressHUDDelegate methods
 
 - (void)hudWasHidden {
-    // Remove HUD from screen when the HUD was hidded
     PreyLogMessage(@"FakeWebView", 10, @"HUB was hidden");
-    //[HUD removeFromSuperview];
-    //[HUD release];
-	
 }
 @end

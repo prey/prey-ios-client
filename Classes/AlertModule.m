@@ -30,7 +30,6 @@
             localNotif.alertBody = alertMessage;
             localNotif.hasAction = NO;
             [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
-            [localNotif release];
         }
     }
     else
@@ -63,7 +62,6 @@
     PreyLogMessage(@"App Delegate", 20, @"Displaying the alert message");
     
     [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:alertController, nil] animated:NO];
-    [alertController release];
 }
 
 - (NSString *) getName {

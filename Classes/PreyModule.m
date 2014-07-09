@@ -59,42 +59,42 @@
 		return [ReportModule instance];
 	}
     if ([moduleName isEqualToString:@"picture"]) {
-		return [[[PictureModule alloc] init] autorelease];
+		return [[PictureModule alloc] init];
 	}
     if ([moduleName isEqualToString:@"public_ip"]) {
-		return [[[PublicIp alloc] init] autorelease];
+		return [[PublicIp alloc] init];
 	}
     if ([moduleName isEqualToString:@"private_ip"]) {
-		return [[[PrivateIp alloc] init] autorelease];
+		return [[PrivateIp alloc] init];
 	}
     if ([moduleName isEqualToString:@"first_mac_address"]) {
-		return [[[MacAddress alloc] init] autorelease];
+		return [[MacAddress alloc] init];
 	}
     if ([moduleName isEqualToString:@"firmware_info"]) {
-		return [[[FirmwareInfo alloc] init] autorelease];
+		return [[FirmwareInfo alloc] init];
 	}
     if ([moduleName isEqualToString:@"battery_status"]) {
-		return [[[BatteryStatus alloc] init] autorelease];
+		return [[BatteryStatus alloc] init];
 	}
     if ([moduleName isEqualToString:@"processor_info"]) {
-		return [[[ProcessorInfo alloc] init] autorelease];
+		return [[ProcessorInfo alloc] init];
 	}
     if ([moduleName isEqualToString:@"uptime"]) {
-		return [[[Uptime alloc] init] autorelease];
+		return [[Uptime alloc] init];
 	}    
     if ([moduleName isEqualToString:@"remaining_storage"]) {
-		return [[[RemainingStorage alloc] init] autorelease];
+		return [[RemainingStorage alloc] init];
 	}
     if ([moduleName isEqualToString:@"location"]) {
-		return [[[Location alloc] init] autorelease];
+		return [[Location alloc] init];
 	}
     if ([moduleName isEqualToString:@"contacts_backup"]) {
-		return [[[ContactsModule alloc] init] autorelease];
+		return [[ContactsModule alloc] init];
 	}
     
     
     if ([command isEqualToString:@"read"] || [command isEqualToString:@"update"] || [command isEqualToString:@"toggle"]) { //Setting Module
-        SettingModule *settingModule = [[[SettingModule alloc]init] autorelease];
+        SettingModule *settingModule = [[SettingModule alloc]init];
         settingModule.setting = moduleName;
     }
 	return nil;
@@ -102,14 +102,6 @@
 
 - (NSString *) getName {
 	return nil; //must be overriden;
-}
-
-
-
-
--(void)dealloc {
-    [super dealloc];
-    [options release];
 }
 
 @end

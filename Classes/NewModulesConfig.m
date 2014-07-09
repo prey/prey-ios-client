@@ -25,7 +25,7 @@
     
     PreyLogMessage(@"NewModulesConfig", 10, @"target:%@  command:%@",[jsonModuleConfig objectForKey:@"target"] ,[jsonModuleConfig objectForKey:@"command"]);
     
-    PreyModule *module = [[PreyModule newModuleForName:[jsonModuleConfig objectForKey:@"target"] andCommand:[jsonModuleConfig objectForKey:@"command"]] retain] ;
+    PreyModule *module = [PreyModule newModuleForName:[jsonModuleConfig objectForKey:@"target"] andCommand:[jsonModuleConfig objectForKey:@"command"]] ;
     if (module != nil){
         module.command = [jsonModuleConfig objectForKey:@"command"];
         module.options = [jsonModuleConfig objectForKey:@"options"];
@@ -37,8 +37,6 @@
         else if (module.type == SettingModuleType)
             [settingModules addObject:module];
     }
-    
-    [module release];
 }
 
 - (void) runAllModules {

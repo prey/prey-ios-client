@@ -64,13 +64,6 @@
 */
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-    [wizardWebView release];
-    [location release];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -107,7 +100,6 @@
         {
             UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
             [objAlert show];
-            [objAlert release];
         }
         else
         {
@@ -131,7 +123,6 @@
                                                             message:NSLocalizedString(@"Password must be at least 6 characters",nil)
                                                            delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
         return;
     }
     
@@ -176,7 +167,6 @@
         {
             UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
             [objAlert show];
-            [objAlert release];
         }
         else
         {
@@ -248,7 +238,6 @@
                                                   cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                   otherButtonTitles:nil];
 		[alertView show];
-		[alertView release];
     }
 
 }
@@ -274,7 +263,6 @@
 {
     UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Enter a valid e-mail/password" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
     [objAlert show];
-    [objAlert release];
 }
 
 - (void) showCongratsView:(id) congratsText
@@ -296,7 +284,6 @@
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate.viewController setNavigationBarHidden:YES animated:YES];
     [appDelegate.viewController pushViewController:congratsController animated:YES];
-    [congratsController release];
 }
 
 #pragma mark UIWebViewDelegate

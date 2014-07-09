@@ -94,7 +94,6 @@
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:errorString delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
-        [alert release];
     }
     PreyLogMessage(@"Prey LocationController", 0, @"Error getting location: %@", [error description]);
 }
@@ -106,8 +105,4 @@
 	[accurateLocationManager startUpdatingLocation];
 }
 
-- (void)dealloc {
-    [accurateLocationManager release];
-    [super dealloc];
-}
 @end

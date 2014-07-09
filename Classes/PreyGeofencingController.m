@@ -22,13 +22,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-    [geofencingManager release];
-}
-
-
 +(PreyGeofencingController *)instance  {
 	static PreyGeofencingController *instance;
 	@synchronized(self) {

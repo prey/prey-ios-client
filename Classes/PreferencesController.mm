@@ -13,7 +13,6 @@
 #import "PreyConfig.h"
 #import "PreyRestHttp.h"
 #import "WelcomeController.h"
-#import "LogController.h"
 #import "DeviceMapController.h"
 #import "StoreControllerViewController.h"
 #import "Constants.h"
@@ -28,7 +27,7 @@
 
 @implementation PreferencesController
 
-@synthesize accManager,delayManager;
+@synthesize accManager;
 
 
 #pragma mark -
@@ -112,7 +111,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
     }
@@ -144,7 +143,6 @@
                 [camouflageMode addTarget: self action: @selector(camouflageModeState:) forControlEvents:UIControlEventValueChanged];
                 [camouflageMode setOn:config.camouflageMode];
                 cell.accessoryView = camouflageMode;
-                [camouflageMode release];
             }
             else if ([indexPath row] == 1) {
 				cell.textLabel.text = NSLocalizedString(@"Detach device",nil);
@@ -191,7 +189,6 @@
             {
                 DeviceMapController *deviceMapController = [[DeviceMapController alloc] init];
                 [self.navigationController pushViewController:deviceMapController animated:YES];
-                [deviceMapController release];
             }
             else if ([indexPath row] == 1) {
                 [self postToSocialFramework:SLServiceTypeFacebook];
@@ -203,7 +200,6 @@
             {
                 StoreControllerViewController *viewController = [[StoreControllerViewController alloc] init];
                 [self.navigationController pushViewController:viewController animated:YES];
-                [viewController release];
             }
             break;
 		case 1:
@@ -211,7 +207,6 @@
 				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil) destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) otherButtonTitles:nil];
 				actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
-				[actionSheet release];
 			}
 			break;
 		case 2:
@@ -233,8 +228,6 @@
                 [webView loadRequest:req];
                 [webView setScalesPageToFit:YES];
                 [self.navigationController pushViewController:moo animated:YES];
-                [webView release];
-                [moo release];
             }
 			break;
             
@@ -249,7 +242,6 @@
         self.navigationItem.hidesBackButton=YES;
 		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self	action:action];
 		self.navigationItem.rightBarButtonItem = doneButton;
-        [doneButton release];
 		pickerShowed = YES;
 	} else {
 		// remove the "Done" button in the nav bar
@@ -270,13 +262,6 @@
 - (void)accuracyPickerSelected
 {
 	[accManager hidePickerOnView:self.view fromTableView:self.tableView];
-	[self setupNavigatorForPicker:NO withSelector:nil];
-    
-}
-
-- (void)delayPickerSelected
-{
-	[delayManager hideDelayPickerOnView:self.view fromTableView:self.tableView];
 	[self setupNavigatorForPicker:NO withSelector:nil];
     
 }
@@ -343,7 +328,6 @@
              [self.navigationController setNavigationBarHidden:YES animated:NO];
              PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
              [appDelegate.viewController setViewControllers:[NSArray arrayWithObject:welco] animated:NO];
-             [welco release];
          }
      }];
 }
@@ -377,7 +361,6 @@
     self.tableView.dataSource = self;
     
     accManager = [[AccuracyManager alloc] init];
-    delayManager = [[DelayManager alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
     
@@ -442,17 +425,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-}
-
-- (void)dealloc
-{
-	[accManager release];
-	[delayManager release];
-    
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
-    
-    [super dealloc];
 }
 
 @end

@@ -62,8 +62,6 @@
              PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
              [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
              [appDelegate.viewController pushViewController:preferencesController animated:YES];
-             [preferencesController release];
-             
              /*
              WizardController *wizardController;
              if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
@@ -73,7 +71,6 @@
              
              PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
              [appDelegate.viewController pushViewController:wizardController animated:NO];
-             [wizardController release];
              */
          }
      }]; // End Block User
@@ -83,7 +80,6 @@
 	if ([loginPassword.text length] <6){
 		UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Access Denied",nil) message:NSLocalizedString(@"Wrong password. Try again.",nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alertView show];
-		[alertView release];
 		return;
 	}
 	[self hideKeyboard];
@@ -343,7 +339,6 @@
                                                   cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                   otherButtonTitles:nil];
 		[alertView show];
-		[alertView release];
     }
 
 }
@@ -352,10 +347,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     
-}
-
-- (void)dealloc {
-    [super dealloc];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -370,7 +361,7 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
 	if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
     }
@@ -403,7 +394,6 @@
         }
     }
 }
-
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     int page = floor(self.scrollView.contentOffset.x/self.scrollView.frame.size.width);

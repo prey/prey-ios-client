@@ -31,8 +31,6 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
     
     [super sendHttp:[super createResponseFromString:[dateFormatter stringFromDate:bootTime] withKey:[self getName]]];
-    
-    [dateFormatter release];  // delete this line if using ARC
 }
 
 - (NSString *) getName {

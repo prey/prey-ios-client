@@ -13,7 +13,7 @@
 @interface LocationController : NSObject <CLLocationManagerDelegate> {
 
 }
-@property (nonatomic, retain) CLLocationManager *accurateLocationManager;
+@property (nonatomic) CLLocationManager *accurateLocationManager;
 
 +(LocationController *) instance;
 - (void)startUpdatingLocation;

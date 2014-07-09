@@ -32,13 +32,13 @@
     }
     else
          region = [[CLRegion alloc] initCircularRegionWithCenter:center radius:radius identifier:region_id];
-
     
     if (region != nil)
     {
-        SEL s = NSSelectorFromString(action);
-        [self performSelector:s withObject:region];
-        [region release];
+        SEL selector = NSSelectorFromString(action);
+        IMP imp = [self methodForSelector:selector];
+        void (*func)(id, SEL, CLRegion *) = (void *)imp;
+        func(self, selector, region);
     }
 }
 
@@ -54,13 +54,8 @@
 	return @"geofencing";
 }
 
-
 - (NSMutableDictionary *) reportData {
     return nil;
-}
-
-- (void)dealloc {
-	[super dealloc];
 }
 
 @end

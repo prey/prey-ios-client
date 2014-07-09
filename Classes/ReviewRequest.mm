@@ -47,7 +47,6 @@ static NSString * const KeySessionCountSinceLastAsked = @"ReviewRequestSessionCo
 	}
 
 	[defaults setInteger:0 forKey:KeySessionCountSinceLastAsked];
-	[self release];
 }
 
 
@@ -112,7 +111,6 @@ void ReviewRequest::AskForReview()
                                           cancelButtonTitle:NSLocalizedString(@"Remind me later", nil)
                                           otherButtonTitles:NSLocalizedString(@"Yes, rate Prey!", nil), nil];
 	[alert show];
-	[alert release];
 }
 
 

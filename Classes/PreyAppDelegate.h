@@ -20,10 +20,10 @@
     BOOL showAlert;
 }
 
-@property (nonatomic, retain) NSString *url;
-@property (nonatomic, retain) NSString *alertMessage;
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UINavigationController *viewController;
+@property (nonatomic) NSString *url;
+@property (nonatomic) NSString *alertMessage;
+@property (nonatomic) IBOutlet UIWindow *window;
+@property (nonatomic) IBOutlet UINavigationController *viewController;
 @property (nonatomic, copy) void (^onPreyVerificationSucceeded)(UIBackgroundFetchResult);
 
 - (void)showAlert: (NSString *) textToShow;

@@ -23,7 +23,7 @@
 
 + (void)allocWithEmail:(NSString*)emailUser password:(NSString*)passwordUser  withBlock:(void (^)(User *user, NSError *error))block
 {
-    User *newUser = [[[User alloc] init] autorelease];
+    User *newUser = [[User alloc] init];
 	newUser.email = emailUser;
 	newUser.password = passwordUser;
     newUser.pro = NO;
@@ -62,10 +62,6 @@
 	[newUser setPassword:passwordUser];
 	[newUser setRepassword:repasswordUser];
 	
-	[locale release];
-	[countryCode release];
-	[countryName release];
-    
     [PreyRestHttp createApiKey:newUser
                     withBlock:^(NSString *apiKey, NSError *error)
      {

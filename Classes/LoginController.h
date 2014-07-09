@@ -30,17 +30,17 @@
     UIButton *loginButton;
 }
 
-@property (nonatomic, retain) IBOutlet UIImageView *loginImage;
-@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UITextField *loginPassword;
-@property (nonatomic, retain) IBOutlet UIImageView *nonCamuflageImage;
-@property (nonatomic, retain) IBOutlet UIImageView *buttn;
-@property (nonatomic, retain) IBOutlet UIImageView *preyLogo;
-@property (nonatomic, retain) IBOutlet UILabel *devReady;
-@property (nonatomic, retain) IBOutlet UILabel *detail;
-@property (nonatomic, retain) IBOutlet UILabel *tipl;
-@property (nonatomic, retain) IBOutlet UIButton *loginButton;
+@property (nonatomic) IBOutlet UIImageView *loginImage;
+@property (nonatomic) IBOutlet UIScrollView *scrollView;
+@property (nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) IBOutlet UITextField *loginPassword;
+@property (nonatomic) IBOutlet UIImageView *nonCamuflageImage;
+@property (nonatomic) IBOutlet UIImageView *buttn;
+@property (nonatomic) IBOutlet UIImageView *preyLogo;
+@property (nonatomic) IBOutlet UILabel *devReady;
+@property (nonatomic) IBOutlet UILabel *detail;
+@property (nonatomic) IBOutlet UILabel *tipl;
+@property (nonatomic) IBOutlet UIButton *loginButton;
 
 - (IBAction) checkLoginPassword: (id) sender;
 

@@ -26,7 +26,6 @@ void PreyLogMessage(NSString *domain, int level, NSString *format, ...)
 #ifndef NDEBUG
             NSLog(@"%@",msgString);
 #endif
-            [msgString release];
         }
         
         va_end(args);
@@ -45,7 +44,6 @@ void PreyLogMessageAndFile(NSString *domain, int level, NSString *format, ...)
             LogMessage(domain, level, @"%@",msgString);
             NSLog(@"%@",msgString);
             [PreyLogger LogToFile:msgString];
-            [msgString release];
         }
         va_end(args);
     }
@@ -60,7 +58,7 @@ void PreyLogMessageAndFile(NSString *domain, int level, NSString *format, ...)
 
 +(void) LogToFile:(NSString*)msg{
     
-    NSDateFormatter * formatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
 	[formatter setTimeStyle:NSDateFormatterMediumStyle];
 	NSString *logMessage = [NSString stringWithFormat:@"%@ %@", [formatter stringFromDate:[NSDate date]], msg];
     
@@ -86,7 +84,7 @@ void PreyLogMessageAndFile(NSString *domain, int level, NSString *format, ...)
 	NSString *content = [NSString stringWithContentsOfFile:fileName
                                               usedEncoding:nil error:nil];
 	NSMutableArray * array = (NSMutableArray *)[content componentsSeparatedByString:@"\n"];
-	NSMutableArray * newArray = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray * newArray = [[NSMutableArray alloc] init];
 	for (int i = 0; i < [array count]; i++)
 	{
 		NSString * item = [array objectAtIndex:i];

@@ -15,7 +15,7 @@
     
 }
 
-@property (nonatomic, retain) CLLocationManager *significantLocationManager;
+@property (nonatomic) CLLocationManager *significantLocationManager;
 
 +(SignificantLocationController *) instance;
 - (void)startMonitoringSignificantLocationChanges;

@@ -69,12 +69,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
--(void)dealloc {
-    [super dealloc];
-    [mapa release];
-    [MANG release];
-}
 @end

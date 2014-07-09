@@ -53,10 +53,10 @@
          
          [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
          
-         UIAlertView *alerta = [[[UIAlertView alloc] initWithTitle:@"Notice"
+         UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:@"Notice"
                                                            message:@"Canceled transaction, please try again."
                                                           delegate:nil
-                                                 cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease];
+                                                 cancelButtonTitle:@"OK" otherButtonTitles:nil];
          [alerta show];
      }];
 }
@@ -85,8 +85,6 @@
     [self.tableView setSeparatorColor:[UIColor colorWithRed:(97/255.f) green:(61/255.f) blue:(0/255.f) alpha:.6]];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
         
-    [landingWebView release];
-    
     [super viewDidLoad];
 }
 
@@ -105,15 +103,12 @@
     else
         [[self navigationController] presentModalViewController:controller animated:YES];
 
-    [controller release];
 }
 
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 #pragma mark - Table view data source
@@ -134,7 +129,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         [cell setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:1]];
         
         [[cell layer] setShadowColor:[UIColor whiteColor].CGColor];
@@ -173,7 +168,6 @@
     [numberFormatter setLocale:product.priceLocale];
     
     NSString *formattedString = [numberFormatter stringFromNumber:product.price];
-    [numberFormatter release];
 
     UIButton *buyButton = [[UIButton alloc] initWithFrame:CGRectMake(230, 13, 70, 20)];
     [buyButton setTitle:formattedString forState:UIControlStateNormal];
@@ -195,8 +189,6 @@
     [buyButton addTarget:self action:@selector(priceButton:) forControlEvents:UIControlEventTouchUpInside];
     [cell setAccessoryView:buyButton];
 
-    [buyButton release];
-        
     return cell;
 }
 
@@ -204,11 +196,6 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-}
-
-- (void)dealloc
-{
-   [super dealloc];
 }
 
 @end

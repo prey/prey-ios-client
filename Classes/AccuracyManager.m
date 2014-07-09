@@ -169,14 +169,4 @@
 	config.desiredAccuracy = [(NSNumber *)[accuracyValues objectAtIndex:row] doubleValue];
 }
 
-
-
-
-- (void)dealloc {
-    [super dealloc];
-	[accuracyNames release];
-	//[accuracyValues release];
-	//[accuracyData release];
-	[accPicker release];
-}
 @end

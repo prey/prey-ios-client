@@ -40,7 +40,7 @@
     
     if (jsonObjects != nil)
     {
-        products = [[[NSMutableSet alloc] init] autorelease];
+        products = [[NSMutableSet alloc] init];
         
         for (NSMutableDictionary *item in [jsonObjects objectForKey:@"products"])
             [products addObject:item];

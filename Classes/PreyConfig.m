@@ -37,38 +37,39 @@ static NSString *const PRO_ACCOUNT=@"pro_account";
 
 @implementation PreyConfig
 
-@synthesize checkUrl, desiredAccuracy, alertOnReport;
+@synthesize checkUrl, controlPanelHost, checkPath, exceptionsEndpoint, dataEndpoint, apiKey, deviceKey, email;
+@synthesize desiredAccuracy,alertOnReport,sendCrashReports,delay,alreadyRegistered,missing,askForPassword,camouflageMode,intervalMode,pro;
 
-@synthesize controlPanelHost,checkPath,sendCrashReports,exceptionsEndpoint,dataEndpoint,apiKey,delay,deviceKey,email,alreadyRegistered,missing,askForPassword,camouflageMode,intervalMode,pro;
-static PreyConfig *_instance = nil;
+static PreyConfig *instance = nil;
+
 
 +(PreyConfig *)instance {
 	
 	@synchronized([PreyConfig class]) {
-		if(!_instance) {
-			_instance = [[PreyConfig alloc] init];
+		if(!instance) {
+			instance = [[PreyConfig alloc] init];
 			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            _instance.controlPanelHost = [defaults stringForKey: CONTROL_PANEL_HOST];
-            _instance.checkPath = [defaults stringForKey: CHECK_PATH];
-            _instance.sendCrashReports = [defaults boolForKey: SEND_CRASH_REPORTS];
-            _instance.exceptionsEndpoint = [defaults stringForKey: EXCEPTIONS_ENDPOINT];
-            _instance.dataEndpoint = [defaults stringForKey: DATA_ENDPOINT_LOCATION];
+            instance.controlPanelHost = [defaults stringForKey: CONTROL_PANEL_HOST];
+            instance.checkPath = [defaults stringForKey: CHECK_PATH];
+            instance.sendCrashReports = [defaults boolForKey: SEND_CRASH_REPORTS];
+            instance.exceptionsEndpoint = [defaults stringForKey: EXCEPTIONS_ENDPOINT];
+            instance.dataEndpoint = [defaults stringForKey: DATA_ENDPOINT_LOCATION];
             
-			_instance.apiKey = [defaults stringForKey: API_KEY];
-			_instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
-			_instance.email = [defaults stringForKey: EMAIL];
-            _instance.camouflageMode = [defaults boolForKey:CAMOUFLAGE_MODE];
-            _instance.intervalMode = [defaults boolForKey:INTERVAL_MODE];
-            _instance.pro = [defaults boolForKey:PRO_ACCOUNT];
-			[_instance loadDefaultValues];
+			instance.apiKey = [defaults stringForKey: API_KEY];
+			instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
+			instance.email = [defaults stringForKey: EMAIL];
+            instance.camouflageMode = [defaults boolForKey:CAMOUFLAGE_MODE];
+            instance.intervalMode = [defaults boolForKey:INTERVAL_MODE];
+            instance.pro = [defaults boolForKey:PRO_ACCOUNT];
+			[instance loadDefaultValues];
 		}
 	}
-	return _instance;
+	return instance;
 }
 
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device
 {
-	PreyConfig *newConfig = [[[PreyConfig alloc] init] autorelease];
+	PreyConfig *newConfig = [[PreyConfig alloc] init];
     newConfig.controlPanelHost = DEFAULT_CONTROL_PANEL_HOST;
     newConfig.checkPath = DEFAULT_CHECK_PATH;
     newConfig.sendCrashReports = DEFAULT_SEND_CRASH_REPORTS;
@@ -82,7 +83,7 @@ static PreyConfig *_instance = nil;
 	[newConfig loadDefaultValues];
     [newConfig saveValues];
     newConfig.alreadyRegistered = YES;
-    _instance = nil; //to force config reload on next +instance call.
+    instance = nil; //to force config reload on next +instance call.
 	return newConfig;
 }
 
@@ -102,8 +103,8 @@ static PreyConfig *_instance = nil;
 	[newConfig loadDefaultValues];
     [newConfig saveValues];
     newConfig.alreadyRegistered = YES;
-    _instance = nil; //to force config reload on next +instance call.
-	return [newConfig autorelease];
+    instance = nil; //to force config reload on next +instance call.
+	return newConfig;
 }
 
 
@@ -163,8 +164,7 @@ static PreyConfig *_instance = nil;
     [defaults removeObjectForKey:INTERVAL_MODE];
 	[defaults synchronize]; // this method is optional
     
-    _instance=nil;
-	[_instance release];
+    instance=nil;
 }
 
 - (NSString *) deviceCheckPathWithExtension: (NSString *) extension {
@@ -218,15 +218,4 @@ static PreyConfig *_instance = nil;
 	[defaults synchronize];
 }
 
-- (void) dealloc {
-	[super dealloc];
-    [controlPanelHost release];
-    [checkPath release];
-    [exceptionsEndpoint release];
-    [dataEndpoint release];
-    
-	[apiKey release];
-	[deviceKey release];
-	[email release];
-}
 @end

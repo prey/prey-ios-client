@@ -30,7 +30,7 @@
 }
 
 
-@property (nonatomic, readwrite, assign) id <UIWebViewControllerDelegate> delegate;
+@property (nonatomic, readwrite) id <UIWebViewControllerDelegate> delegate;
 @property (nonatomic, readonly) UINavigationBar *navigationBar;
 
 + (UIWebViewController *) controllerToEnterdelegate: (id <UIWebViewControllerDelegate>) delegate forOrientation: (UIInterfaceOrientation)theOrientation setURL:(NSString*)stringURL;

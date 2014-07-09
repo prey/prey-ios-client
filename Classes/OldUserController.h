@@ -23,10 +23,10 @@
     BOOL enableToSubmit;
 }
 
-@property (nonatomic, retain) UITextField *email;
-@property (nonatomic, retain) UITextField *password;
-@property (nonatomic, retain) UITableViewCell *buttonCell;
-@property (nonatomic, retain) NSString *strEmailMatchstring;
+@property (nonatomic) UITextField *email;
+@property (nonatomic) UITextField *password;
+@property (nonatomic) UITableViewCell *buttonCell;
+@property (nonatomic) NSString *strEmailMatchstring;
 
 - (void) showCongratsView:(id) congratsText;
 

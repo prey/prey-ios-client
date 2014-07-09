@@ -47,7 +47,7 @@
     PreyLogMessage(@"App Delegate", 20,  @"Showing the guy our fake screen at: %@", self.url );
     
     CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
-    fakeView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, appFrame.size.width, appFrame.size.height)] autorelease];
+    fakeView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, appFrame.size.width, appFrame.size.height)];
     [fakeView setDelegate:self];
     
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
@@ -65,7 +65,7 @@
     NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 2;
     [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
 
-    AlertModule *alertModule = [[[AlertModule alloc] init] autorelease];
+    AlertModule *alertModule = [[AlertModule alloc] init];
     [alertModule notifyCommandResponse:[alertModule getName] withStatus:@"started"];
     
     AlertModuleController *alertController;
@@ -80,9 +80,7 @@
     
     [window setRootViewController:alertController];
     [window makeKeyAndVisible];
-    
-    [alertController release];
-    
+
     showAlert = NO;
 
     [alertModule notifyCommandResponse:[alertModule getName] withStatus:@"stopped"];
@@ -190,7 +188,6 @@
         localNotif.alertBody = @"Keep Prey in background to enable all of its features.";
         localNotif.hasAction = NO;
         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
-        [localNotif release];
     }
 }
 
@@ -308,7 +305,6 @@
     
     [window setRootViewController:viewController];
     [window makeKeyAndVisible];
-	[nextController release];
 }
 
 #pragma mark -
@@ -442,13 +438,5 @@
      Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
      */
 }
-
-
-- (void)dealloc {
-	[super dealloc];
-    [window release];
-	[viewController release];
-}
-
 
 @end

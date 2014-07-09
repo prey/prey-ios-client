@@ -12,7 +12,7 @@
 }
 
 +(PreyGeofencingController *) instance;
-@property (nonatomic, retain) CLLocationManager *geofencingManager;
+@property (nonatomic) CLLocationManager *geofencingManager;
 - (void)addNewregion: (CLRegion *) region;
 - (void)removeRegion: (NSString *) id;
 

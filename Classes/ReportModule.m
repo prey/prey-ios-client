@@ -66,7 +66,7 @@
             return;
         }
     }
-    lastExecution = [[NSDate date] retain];
+    lastExecution = [NSDate date];
     [[NSUserDefaults standardUserDefaults] setObject:lastExecution forKey:@"lastExecutionKey"];
     
     
@@ -175,8 +175,6 @@
                 localNotif.userInfo = userInfoLocalNotification;
                 localNotif.applicationIconBadgeNumber = 1;
                 [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
-                [localNotif release];
-                [userInfoLocalNotification release];
             }
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"pendingTakePictures"];
 
@@ -196,7 +194,7 @@
 
             PreyLogMessage(@"Report", 5, @"Sending report now!");
             
-            NSMutableDictionary *imagesData = [[[NSMutableDictionary alloc] init] autorelease];
+            NSMutableDictionary *imagesData = [[NSMutableDictionary alloc] init];
             
             if (UIImagePNGRepresentation(picture) != nil)
                 [imagesData setObject:UIImagePNGRepresentation(picture) forKey:@"picture"];
@@ -267,7 +265,7 @@
 - (void)locationUpdated:(NSNotification *)notification
 {
     CLLocation *newLocation = (CLLocation*)[notification object];
-	NSMutableDictionary *data = [[[NSMutableDictionary alloc] init] autorelease];
+	NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
 	[data setValue:[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude] forKey:[NSString stringWithFormat:@"%@[%@]",@"geo",@"lng"]];
 	[data setValue:[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude] forKey:[NSString stringWithFormat:@"%@[%@]",@"geo",@"lat"]];
 	[data setValue:[NSString stringWithFormat:@"%f",newLocation.altitude] forKey:[NSString stringWithFormat:@"%@[%@]",@"geo",@"alt"]];
@@ -278,13 +276,4 @@
 	[self sendIfConditionsMatch];
 }
 
-- (void) dealloc {
-	[super dealloc];
-	[reportData release];
-    [url release];
-    [picture release];
-    [pictureBack release];
-    [runReportTimer release];
-    [photoController release];
-}
 @end

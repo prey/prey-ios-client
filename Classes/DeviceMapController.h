@@ -15,7 +15,7 @@
     CLLocationManager * MANG;
 }
 
-@property (nonatomic, retain) MKMapView *mapa;
-@property (nonatomic, retain) CLLocationManager * MANG;
+@property (nonatomic) MKMapView *mapa;
+@property (nonatomic) CLLocationManager * MANG;
 
 @end
