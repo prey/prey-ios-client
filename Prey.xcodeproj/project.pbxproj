@@ -12,19 +12,17 @@
 		071323F8134632C900F7EFD8 /* AlertModuleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F5134632C900F7EFD8 /* AlertModuleController.m */; };
 		07132400134633B800F7EFD8 /* CongratulationsController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 071323FF134633B800F7EFD8 /* CongratulationsController-iPhone.xib */; };
 		07132403134633EA00F7EFD8 /* CongratulationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132402134633EA00F7EFD8 /* CongratulationsController.m */; };
-		071324061346340500F7EFD8 /* DelayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324051346340500F7EFD8 /* DelayManager.m */; };
 		071324091346342700F7EFD8 /* ContactsModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324081346342700F7EFD8 /* ContactsModule.m */; };
 		071324101346343C00F7EFD8 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713240B1346343C00F7EFD8 /* Constants.m */; };
 		071324111346343C00F7EFD8 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713240D1346343C00F7EFD8 /* Device.m */; };
 		071324151346346F00F7EFD8 /* IphoneInformationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324141346346F00F7EFD8 /* IphoneInformationHelper.m */; };
 		071324181346348400F7EFD8 /* FakeWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324171346348400F7EFD8 /* FakeWebView.m */; };
-		07132421134634CA00F7EFD8 /* LogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132420134634CA00F7EFD8 /* LogController.m */; };
 		07132424134634D900F7EFD8 /* OldUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132423134634D900F7EFD8 /* OldUserController.m */; };
 		07132427134634E600F7EFD8 /* NewUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132426134634E600F7EFD8 /* NewUserController.m */; };
 		0713242F1346350100F7EFD8 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713242C1346350100F7EFD8 /* LocationController.m */; };
 		071324331346353C00F7EFD8 /* WelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324321346353C00F7EFD8 /* WelcomeController.m */; };
 		0713243B1346356300F7EFD8 /* PreyLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324381346356300F7EFD8 /* PreyLogger.m */; };
-		0713243C1346356300F7EFD8 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243A1346356300F7EFD8 /* RegexKitLite.m */; };
+		0713243C1346356300F7EFD8 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243A1346356300F7EFD8 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0713243F1346357500F7EFD8 /* SignificantLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243E1346357500F7EFD8 /* SignificantLocationController.m */; };
 		071324421346358600F7EFD8 /* PreyModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324411346358600F7EFD8 /* PreyModule.m */; };
 		07132449134635A100F7EFD8 /* PreyConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132444134635A100F7EFD8 /* PreyConfig.m */; };
@@ -83,6 +81,70 @@
 		3B1C2BB4191ACAAF00DFD677 /* AppFeedback.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B1C2BB3191ACAAF00DFD677 /* AppFeedback.plist */; };
 		3B1C978117B3177400D9FD1E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C978017B3177400D9FD1E /* CoreData.framework */; };
 		3B2A3BD017CE68B3000D5B9D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */; };
+		3B3CCB5D196B28820000F56C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65EE291805E358008EB7CF /* MBProgressHUD.m */; };
+		3B3CCB5E196B28820000F56C /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAF8191027250057EBC4 /* NSData+MKBase64.m */; };
+		3B3CCB5F196B28820000F56C /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFA191027250057EBC4 /* SFHFKeychainUtils.m */; };
+		3B3CCB60196B28820000F56C /* MKSKProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFC191027250057EBC4 /* MKSKProduct.m */; };
+		3B3CCB61196B28820000F56C /* MKSKSubscriptionProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFE191027250057EBC4 /* MKSKSubscriptionProduct.m */; };
+		3B3CCB62196B28820000F56C /* MKStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBB01191027250057EBC4 /* MKStoreManager.m */; };
+		3B3CCB63196B28820000F56C /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00318ECE2E60060FFAE /* AFHTTPClient.m */; };
+		3B3CCB64196B28820000F56C /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00518ECE2E60060FFAE /* AFHTTPRequestOperation.m */; };
+		3B3CCB65196B28820000F56C /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00718ECE2E60060FFAE /* AFImageRequestOperation.m */; };
+		3B3CCB66196B28820000F56C /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00918ECE2E60060FFAE /* AFJSONRequestOperation.m */; };
+		3B3CCB67196B28820000F56C /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00B18ECE2E60060FFAE /* AFNetworkActivityIndicatorManager.m */; };
+		3B3CCB68196B28820000F56C /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00E18ECE2E60060FFAE /* AFPropertyListRequestOperation.m */; };
+		3B3CCB69196B28820000F56C /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF01018ECE2E60060FFAE /* AFURLConnectionOperation.m */; };
+		3B3CCB6A196B28820000F56C /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF01218ECE2E60060FFAE /* AFXMLRequestOperation.m */; };
+		3B3CCB6B196B28820000F56C /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF01418ECE2E60060FFAE /* UIImageView+AFNetworking.m */; };
+		3B3CCB6C196B28820000F56C /* UIDevice-Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABFD16A5FF2E00803187 /* UIDevice-Reachability.m */; };
+		3B3CCB6D196B28820000F56C /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */; };
+		3B3CCB6E196B28820000F56C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
+		3B3CCB6F196B28820000F56C /* FakeWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324171346348400F7EFD8 /* FakeWebView.m */; };
+		3B3CCB70196B28820000F56C /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E4B190AB96F0093ECA2 /* GrettingsProViewController.m */; };
+		3B3CCB71196B28820000F56C /* StoreControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E4F190AB96F0093ECA2 /* StoreControllerViewController.m */; };
+		3B3CCB72196B28820000F56C /* SignificantLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243E1346357500F7EFD8 /* SignificantLocationController.m */; };
+		3B3CCB73196B28820000F56C /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713242C1346350100F7EFD8 /* LocationController.m */; };
+		3B3CCB74196B28820000F56C /* PreyGeofencingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D4CBBA1670FA2400DD1CB9 /* PreyGeofencingController.m */; };
+		3B3CCB75196B28820000F56C /* PhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7C148B1909506E0080C606 /* PhotoController.m */; };
+		3B3CCB76196B28820000F56C /* AlertModuleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F5134632C900F7EFD8 /* AlertModuleController.m */; };
+		3B3CCB77196B28820000F56C /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96231253E13800590FCD /* LoginController.m */; };
+		3B3CCB78196B28820000F56C /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B81A345178B1B62009296E1 /* WizardController.m */; };
+		3B3CCB79196B28820000F56C /* WelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324321346353C00F7EFD8 /* WelcomeController.m */; };
+		3B3CCB7B196B28820000F56C /* AccuracyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF783B189C592500694625 /* AccuracyManager.m */; };
+		3B3CCB7C196B28820000F56C /* DeviceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF783D189C592500694625 /* DeviceMapController.m */; };
+		3B3CCB7E196B28820000F56C /* PreferencesController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 07CD95F21253D99500590FCD /* PreferencesController.mm */; };
+		3B3CCB7F196B28820000F56C /* OldUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132423134634D900F7EFD8 /* OldUserController.m */; };
+		3B3CCB80196B28820000F56C /* NewUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132426134634E600F7EFD8 /* NewUserController.m */; };
+		3B3CCB81196B28820000F56C /* CongratulationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132402134633EA00F7EFD8 /* CongratulationsController.m */; };
+		3B3CCB82196B28820000F56C /* ReviewRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.mm */; };
+		3B3CCB83196B28820000F56C /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
+		3B3CCB84196B28820000F56C /* PreyLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324381346356300F7EFD8 /* PreyLogger.m */; };
+		3B3CCB85196B28820000F56C /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243A1346356300F7EFD8 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3B3CCB86196B28820000F56C /* AFPreyStatusClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3EAA918F19AAA00B3CA80 /* AFPreyStatusClient.m */; };
+		3B3CCB87196B28820000F56C /* JsonConfigParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 07435EF31680FDA000FBD54B /* JsonConfigParser.m */; };
+		3B3CCB88196B28820000F56C /* ActionModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABF216A0A02C00803187 /* ActionModule.m */; };
+		3B3CCB89196B28820000F56C /* AlarmModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F1134632C900F7EFD8 /* AlarmModule.m */; };
+		3B3CCB8A196B28820000F56C /* AlertModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F3134632C900F7EFD8 /* AlertModule.m */; };
+		3B3CCB8B196B28820000F56C /* CamouflageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71AB1417FA215D0091FE14 /* CamouflageModule.m */; };
+		3B3CCB8C196B28820000F56C /* DataModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07435EFB1681031300FBD54B /* DataModule.m */; };
+		3B3CCB8D196B28820000F56C /* MacAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 07435EF8168102AB00FBD54B /* MacAddress.m */; };
+		3B3CCB8E196B28820000F56C /* PublicIp.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABFA16A5FE2700803187 /* PublicIp.m */; };
+		3B3CCB8F196B28820000F56C /* PrivateIp.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1AC0116A600DE00803187 /* PrivateIp.m */; };
+		3B3CCB90196B28820000F56C /* FirmwareInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1AC0716A601AB00803187 /* FirmwareInfo.m */; };
+		3B3CCB91196B28820000F56C /* BatteryStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 075E6D2F16AEF2F000F5DB91 /* BatteryStatus.m */; };
+		3B3CCB92196B28820000F56C /* ProcessorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 075E6D3216AEFA6300F5DB91 /* ProcessorInfo.m */; };
+		3B3CCB93196B28820000F56C /* Uptime.m in Sources */ = {isa = PBXBuildFile; fileRef = 075E6D3516AEFD8E00F5DB91 /* Uptime.m */; };
+		3B3CCB94196B28820000F56C /* RemainingStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7B0C8F17171CAD002B6E2D /* RemainingStorage.m */; };
+		3B3CCB95196B28820000F56C /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7B0C8D17171CAD002B6E2D /* Location.m */; };
+		3B3CCB96196B28820000F56C /* PictureModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D3239A133BC32D00841BFD /* PictureModule.m */; };
+		3B3CCB97196B28820000F56C /* ScreenshotModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D32397133BB74A00841BFD /* ScreenshotModule.m */; };
+		3B3CCB98196B28820000F56C /* ContactsModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324081346342700F7EFD8 /* ContactsModule.m */; };
+		3B3CCB99196B28820000F56C /* GeofencingModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D4CBB71670EDE100DD1CB9 /* GeofencingModule.m */; };
+		3B3CCB9A196B28820000F56C /* PreyModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324411346358600F7EFD8 /* PreyModule.m */; };
+		3B3CCB9B196B28820000F56C /* NewModulesConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABEA16A090F200803187 /* NewModulesConfig.m */; };
+		3B3CCB9C196B28820000F56C /* SettingModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABF716A4975B00803187 /* SettingModule.m */; };
+		3B3CCB9D196B28820000F56C /* PreyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* PreyAppDelegate.m */; };
+		3B3CCB9E196B28820000F56C /* PreyDeployment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B477ED818B2AA7B003A32CE /* PreyDeployment.m */; };
 		3B477ED918B2AA7B003A32CE /* PreyDeployment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B477ED818B2AA7B003A32CE /* PreyDeployment.m */; };
 		3B51B16F193E7DA6001B78A5 /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B51B16E193E7DA6001B78A5 /* shutter.aiff */; };
 		3B65EE2A1805E358008EB7CF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65EE291805E358008EB7CF /* MBProgressHUD.m */; };
@@ -92,11 +154,11 @@
 		3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */; };
 		3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71AB1417FA215D0091FE14 /* CamouflageModule.m */; };
 		3B7C148C1909506E0080C606 /* PhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7C148B1909506E0080C606 /* PhotoController.m */; };
-		3B7FBB02191027250057EBC4 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAF8191027250057EBC4 /* NSData+MKBase64.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B7FBB03191027250057EBC4 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFA191027250057EBC4 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B7FBB04191027250057EBC4 /* MKSKProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFC191027250057EBC4 /* MKSKProduct.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B7FBB05191027250057EBC4 /* MKSKSubscriptionProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFE191027250057EBC4 /* MKSKSubscriptionProduct.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B7FBB06191027250057EBC4 /* MKStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBB01191027250057EBC4 /* MKStoreManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3B7FBB02191027250057EBC4 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAF8191027250057EBC4 /* NSData+MKBase64.m */; };
+		3B7FBB03191027250057EBC4 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFA191027250057EBC4 /* SFHFKeychainUtils.m */; };
+		3B7FBB04191027250057EBC4 /* MKSKProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFC191027250057EBC4 /* MKSKProduct.m */; };
+		3B7FBB05191027250057EBC4 /* MKSKSubscriptionProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFE191027250057EBC4 /* MKSKSubscriptionProduct.m */; };
+		3B7FBB06191027250057EBC4 /* MKStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBB01191027250057EBC4 /* MKStoreManager.m */; };
 		3B81A347178B1B62009296E1 /* WizardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B81A345178B1B62009296E1 /* WizardController.m */; };
 		3B81A348178B1B62009296E1 /* WizardController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B81A346178B1B62009296E1 /* WizardController-iPhone.xib */; };
 		3B81A34B178B1E1C009296E1 /* WizardController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B81A34A178B1E1C009296E1 /* WizardController-iPad.xib */; };
@@ -106,15 +168,14 @@
 		3B9086871966F6070015BB45 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B9086851966F6070015BB45 /* InfoPlist.strings */; };
 		3B9086891966F6070015BB45 /* PreyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9086881966F6070015BB45 /* PreyTests.m */; };
 		3B9086921966FD000015BB45 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713240B1346343C00F7EFD8 /* Constants.m */; };
-		3B9086931966FD260015BB45 /* PreyConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132444134635A100F7EFD8 /* PreyConfig.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		3B9086941966FD5E0015BB45 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132448134635A100F7EFD8 /* User.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		3B9086951966FD660015BB45 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713240D1346343C00F7EFD8 /* Device.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3B9086931966FD260015BB45 /* PreyConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132444134635A100F7EFD8 /* PreyConfig.m */; };
+		3B9086941966FD5E0015BB45 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132448134635A100F7EFD8 /* User.m */; };
+		3B9086951966FD660015BB45 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713240D1346343C00F7EFD8 /* Device.m */; };
 		3B9086961966FD8C0015BB45 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07178F2512675AD3007B290C /* CoreLocation.framework */; };
 		3B9086971966FDC50015BB45 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7BA11270D79700C713B7 /* MapKit.framework */; };
-		3B9086981966FEB00015BB45 /* IphoneInformationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324141346346F00F7EFD8 /* IphoneInformationHelper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		3B9086991966FEC40015BB45 /* PreyRestHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713244D134635C400F7EFD8 /* PreyRestHttp.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3B9086981966FEB00015BB45 /* IphoneInformationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324141346346F00F7EFD8 /* IphoneInformationHelper.m */; };
+		3B9086991966FEC40015BB45 /* PreyRestHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713244D134635C400F7EFD8 /* PreyRestHttp.m */; };
 		3B90869A1966FF320015BB45 /* ReportModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132446134635A100F7EFD8 /* ReportModule.m */; };
-		3B90869B1966FF450015BB45 /* AFNetworking.h in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00C18ECE2E60060FFAE /* AFNetworking.h */; };
 		3B90869C1966FFFA0015BB45 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7B2C126F3C8400C713B7 /* AddressBook.framework */; };
 		3B90869D1966FFFA0015BB45 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD546D017FE10CF00ABFDBC /* AdSupport.framework */; };
 		3B90869E1966FFFA0015BB45 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077D7A3B126E171300C713B7 /* AudioToolbox.framework */; };
@@ -158,15 +219,15 @@
 		3B9D47F5189C5E4500E6F7A2 /* star_wars_battlefront@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47DC189C5E4500E6F7A2 /* star_wars_battlefront@2x.png */; };
 		3B9D47F6189C5E4500E6F7A2 /* sucess.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47DD189C5E4500E6F7A2 /* sucess.png */; };
 		3B9D47F7189C5E4500E6F7A2 /* sucess@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47DE189C5E4500E6F7A2 /* sucess@2x.png */; };
-		3B9EF01518ECE2E60060FFAE /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00318ECE2E60060FFAE /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B9EF01618ECE2E60060FFAE /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00518ECE2E60060FFAE /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B9EF01718ECE2E60060FFAE /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00718ECE2E60060FFAE /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B9EF01818ECE2E60060FFAE /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00918ECE2E60060FFAE /* AFJSONRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B9EF01918ECE2E60060FFAE /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00B18ECE2E60060FFAE /* AFNetworkActivityIndicatorManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B9EF01A18ECE2E60060FFAE /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00E18ECE2E60060FFAE /* AFPropertyListRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B9EF01B18ECE2E60060FFAE /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF01018ECE2E60060FFAE /* AFURLConnectionOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B9EF01C18ECE2E60060FFAE /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF01218ECE2E60060FFAE /* AFXMLRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		3B9EF01D18ECE2E60060FFAE /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF01418ECE2E60060FFAE /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3B9EF01518ECE2E60060FFAE /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00318ECE2E60060FFAE /* AFHTTPClient.m */; };
+		3B9EF01618ECE2E60060FFAE /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00518ECE2E60060FFAE /* AFHTTPRequestOperation.m */; };
+		3B9EF01718ECE2E60060FFAE /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00718ECE2E60060FFAE /* AFImageRequestOperation.m */; };
+		3B9EF01818ECE2E60060FFAE /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00918ECE2E60060FFAE /* AFJSONRequestOperation.m */; };
+		3B9EF01918ECE2E60060FFAE /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00B18ECE2E60060FFAE /* AFNetworkActivityIndicatorManager.m */; };
+		3B9EF01A18ECE2E60060FFAE /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00E18ECE2E60060FFAE /* AFPropertyListRequestOperation.m */; };
+		3B9EF01B18ECE2E60060FFAE /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF01018ECE2E60060FFAE /* AFURLConnectionOperation.m */; };
+		3B9EF01C18ECE2E60060FFAE /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF01218ECE2E60060FFAE /* AFXMLRequestOperation.m */; };
+		3B9EF01D18ECE2E60060FFAE /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF01418ECE2E60060FFAE /* UIImageView+AFNetworking.m */; };
 		3BA1815F18CE740E00E7700B /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA1815E18CE740E00E7700B /* background.png */; };
 		3BA1816118CE7C4C00E7700B /* CongratulationsController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA1816018CE7C4C00E7700B /* CongratulationsController-iPhone-568h.xib */; };
 		3BA3EAAA18F19AAA00B3CA80 /* AFPreyStatusClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3EAA918F19AAA00B3CA80 /* AFPreyStatusClient.m */; };
@@ -201,6 +262,9 @@
 		3BBAB00518B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAB00418B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib */; };
 		3BBAB00718B8FA7F00ADE493 /* WizardController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAB00618B8FA7F00ADE493 /* WizardController-iPhone-568h.xib */; };
 		3BBAB00918B9085C00ADE493 /* LoginController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAB00818B9085C00ADE493 /* LoginController-iPhone-568h.xib */; };
+		3BBB678F196B2A070006A955 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */; };
+		3BBB6796196B2A580006A955 /* wwanconnect.c in Sources */ = {isa = PBXBuildFile; fileRef = 07E1AC0316A6014D00803187 /* wwanconnect.c */; };
+		3BBB6818196B4AE40006A955 /* libExpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BBB6815196B4AE40006A955 /* libExpecta-iOS.a */; };
 		3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
 		3BC8A0A3193F905D000408BA /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3BC8A0A2193F905D000408BA /* siren.mp3 */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
@@ -234,8 +298,6 @@
 		071323FF134633B800F7EFD8 /* CongratulationsController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "CongratulationsController-iPhone.xib"; path = "Classes/CongratulationsController-iPhone.xib"; sourceTree = "<group>"; };
 		07132401134633EA00F7EFD8 /* CongratulationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = CongratulationsController.h; path = Classes/CongratulationsController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		07132402134633EA00F7EFD8 /* CongratulationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = CongratulationsController.m; path = Classes/CongratulationsController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		071324041346340500F7EFD8 /* DelayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DelayManager.h; path = Classes/DelayManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		071324051346340500F7EFD8 /* DelayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = DelayManager.m; path = Classes/DelayManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324071346342700F7EFD8 /* ContactsModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ContactsModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071324081346342700F7EFD8 /* ContactsModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ContactsModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0713240A1346343C00F7EFD8 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Classes/Constants.h; sourceTree = "<group>"; };
@@ -246,8 +308,6 @@
 		071324141346346F00F7EFD8 /* IphoneInformationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = IphoneInformationHelper.m; path = Classes/IphoneInformationHelper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324161346348400F7EFD8 /* FakeWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = FakeWebView.h; path = Classes/FakeWebView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071324171346348400F7EFD8 /* FakeWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = FakeWebView.m; path = Classes/FakeWebView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		0713241F134634CA00F7EFD8 /* LogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = LogController.h; path = Classes/LogController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		07132420134634CA00F7EFD8 /* LogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = LogController.m; path = Classes/LogController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07132422134634D900F7EFD8 /* OldUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = OldUserController.h; path = Classes/OldUserController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		07132423134634D900F7EFD8 /* OldUserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = OldUserController.m; path = Classes/OldUserController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07132425134634E600F7EFD8 /* NewUserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = NewUserController.h; path = Classes/NewUserController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -480,6 +540,45 @@
 		3BBAB00418B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPhone-568h.xib"; path = "Classes/WelcomeController-iPhone-568h.xib"; sourceTree = "<group>"; };
 		3BBAB00618B8FA7F00ADE493 /* WizardController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WizardController-iPhone-568h.xib"; path = "Classes/WizardController-iPhone-568h.xib"; sourceTree = "<group>"; };
 		3BBAB00818B9085C00ADE493 /* LoginController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPhone-568h.xib"; path = "Classes/LoginController-iPhone-568h.xib"; sourceTree = "<group>"; };
+		3BBB67F1196B4AE40006A955 /* EXPBackwardCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPBackwardCompatibility.h; path = "Classes/Expecta/build/Release-iphoneos/EXPBackwardCompatibility.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67F2196B4AE40006A955 /* EXPBlockDefinedMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPBlockDefinedMatcher.h; path = "Classes/Expecta/build/Release-iphoneos/EXPBlockDefinedMatcher.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67F3196B4AE40006A955 /* EXPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPDefines.h; path = "Classes/Expecta/build/Release-iphoneos/EXPDefines.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67F4196B4AE40006A955 /* EXPDoubleTuple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPDoubleTuple.h; path = "Classes/Expecta/build/Release-iphoneos/EXPDoubleTuple.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67F5196B4AE40006A955 /* Expecta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Expecta.h; path = "Classes/Expecta/build/Release-iphoneos/Expecta.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67F6196B4AE40006A955 /* ExpectaSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExpectaSupport.h; path = "Classes/Expecta/build/Release-iphoneos/ExpectaSupport.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67F7196B4AE40006A955 /* EXPExpect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPExpect.h; path = "Classes/Expecta/build/Release-iphoneos/EXPExpect.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67F8196B4AE40006A955 /* EXPFloatTuple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPFloatTuple.h; path = "Classes/Expecta/build/Release-iphoneos/EXPFloatTuple.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67F9196B4AE40006A955 /* EXPMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPMatcher.h; path = "Classes/Expecta/build/Release-iphoneos/EXPMatcher.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67FA196B4AE40006A955 /* EXPMatcherHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPMatcherHelpers.h; path = "Classes/Expecta/build/Release-iphoneos/EXPMatcherHelpers.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67FB196B4AE40006A955 /* EXPMatchers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPMatchers.h; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67FC196B4AE40006A955 /* EXPMatchers+beCloseTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beCloseTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beCloseTo.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67FD196B4AE40006A955 /* EXPMatchers+beFalsy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beFalsy.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beFalsy.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67FE196B4AE40006A955 /* EXPMatchers+beginWith.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beginWith.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beginWith.h"; sourceTree = SOURCE_ROOT; };
+		3BBB67FF196B4AE40006A955 /* EXPMatchers+beGreaterThan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beGreaterThan.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beGreaterThan.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6800196B4AE40006A955 /* EXPMatchers+beGreaterThanOrEqualTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beGreaterThanOrEqualTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beGreaterThanOrEqualTo.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6801196B4AE40006A955 /* EXPMatchers+beIdenticalTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beIdenticalTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beIdenticalTo.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6802196B4AE40006A955 /* EXPMatchers+beInstanceOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beInstanceOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beInstanceOf.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6803196B4AE40006A955 /* EXPMatchers+beInTheRangeOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beInTheRangeOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beInTheRangeOf.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6804196B4AE40006A955 /* EXPMatchers+beKindOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beKindOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beKindOf.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6805196B4AE40006A955 /* EXPMatchers+beLessThan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beLessThan.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beLessThan.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6806196B4AE40006A955 /* EXPMatchers+beLessThanOrEqualTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beLessThanOrEqualTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beLessThanOrEqualTo.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6807196B4AE40006A955 /* EXPMatchers+beNil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beNil.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beNil.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6808196B4AE40006A955 /* EXPMatchers+beSubclassOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beSubclassOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beSubclassOf.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6809196B4AE40006A955 /* EXPMatchers+beSupersetOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beSupersetOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beSupersetOf.h"; sourceTree = SOURCE_ROOT; };
+		3BBB680A196B4AE40006A955 /* EXPMatchers+beTruthy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beTruthy.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beTruthy.h"; sourceTree = SOURCE_ROOT; };
+		3BBB680B196B4AE40006A955 /* EXPMatchers+conformTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+conformTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+conformTo.h"; sourceTree = SOURCE_ROOT; };
+		3BBB680C196B4AE40006A955 /* EXPMatchers+contain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+contain.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+contain.h"; sourceTree = SOURCE_ROOT; };
+		3BBB680D196B4AE40006A955 /* EXPMatchers+endWith.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+endWith.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+endWith.h"; sourceTree = SOURCE_ROOT; };
+		3BBB680E196B4AE40006A955 /* EXPMatchers+equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+equal.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+equal.h"; sourceTree = SOURCE_ROOT; };
+		3BBB680F196B4AE40006A955 /* EXPMatchers+haveCountOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+haveCountOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+haveCountOf.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6810196B4AE40006A955 /* EXPMatchers+notify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+notify.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+notify.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6811196B4AE40006A955 /* EXPMatchers+raise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+raise.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+raise.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6812196B4AE40006A955 /* EXPMatchers+raiseWithReason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+raiseWithReason.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+raiseWithReason.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6813196B4AE40006A955 /* EXPMatchers+respondTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+respondTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+respondTo.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6814196B4AE40006A955 /* EXPUnsupportedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPUnsupportedObject.h; path = "Classes/Expecta/build/Release-iphoneos/EXPUnsupportedObject.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6815196B4AE40006A955 /* libExpecta-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libExpecta-iOS.a"; path = "Classes/Expecta/build/Release-iphoneos/libExpecta-iOS.a"; sourceTree = SOURCE_ROOT; };
+		3BBB6816196B4AE40006A955 /* NSObject+Expecta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Expecta.h"; path = "Classes/Expecta/build/Release-iphoneos/NSObject+Expecta.h"; sourceTree = SOURCE_ROOT; };
+		3BBB6817196B4AE40006A955 /* NSValue+Expecta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSValue+Expecta.h"; path = "Classes/Expecta/build/Release-iphoneos/NSValue+Expecta.h"; sourceTree = SOURCE_ROOT; };
 		3BC8A0A0193F7751000408BA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		3BC8A0A2193F905D000408BA /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = siren.mp3; path = Resources/siren.mp3; sourceTree = "<group>"; };
 		3BD482E31678CAE300F25DC8 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewController.h; path = Classes/UIWebViewController.h; sourceTree = "<group>"; };
@@ -537,6 +636,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BBB678F196B2A070006A955 /* libGoogleAnalyticsServices.a in Frameworks */,
 				3B90869C1966FFFA0015BB45 /* AddressBook.framework in Frameworks */,
 				3B90869D1966FFFA0015BB45 /* AdSupport.framework in Frameworks */,
 				3B90869E1966FFFA0015BB45 /* AudioToolbox.framework in Frameworks */,
@@ -558,6 +658,7 @@
 				3B9086971966FDC50015BB45 /* MapKit.framework in Frameworks */,
 				3B9086961966FD8C0015BB45 /* CoreLocation.framework in Frameworks */,
 				3B90867F1966F6060015BB45 /* XCTest.framework in Frameworks */,
+				3BBB6818196B4AE40006A955 /* libExpecta-iOS.a in Frameworks */,
 				3B9086811966F6060015BB45 /* UIKit.framework in Frameworks */,
 				3B9086801966F6060015BB45 /* Foundation.framework in Frameworks */,
 			);
@@ -590,14 +691,10 @@
 		07178DA5126605A0007B290C /* Preferences Controller */ = {
 			isa = PBXGroup;
 			children = (
-				0713241F134634CA00F7EFD8 /* LogController.h */,
-				07132420134634CA00F7EFD8 /* LogController.m */,
 				3BFF783A189C592500694625 /* AccuracyManager.h */,
 				3BFF783B189C592500694625 /* AccuracyManager.m */,
 				3BFF783C189C592500694625 /* DeviceMapController.h */,
 				3BFF783D189C592500694625 /* DeviceMapController.m */,
-				071324041346340500F7EFD8 /* DelayManager.h */,
-				071324051346340500F7EFD8 /* DelayManager.m */,
 				07CD95F11253D99500590FCD /* PreferencesController.h */,
 				07CD95F21253D99500590FCD /* PreferencesController.mm */,
 			);
@@ -952,6 +1049,7 @@
 		3B9086821966F6060015BB45 /* PreyTests */ = {
 			isa = PBXGroup;
 			children = (
+				3BBB679A196B43220006A955 /* Expecta */,
 				3B9086881966F6070015BB45 /* PreyTests.m */,
 				3B9086831966F6060015BB45 /* Supporting Files */,
 			);
@@ -1033,15 +1131,61 @@
 		3BAE4E47190AB96F0093ECA2 /* Store Controller */ = {
 			isa = PBXGroup;
 			children = (
-				3BAE4E48190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib */,
-				3BAE4E49190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib */,
 				3BAE4E4A190AB96F0093ECA2 /* GrettingsProViewController.h */,
 				3BAE4E4B190AB96F0093ECA2 /* GrettingsProViewController.m */,
 				3BAE4E4E190AB96F0093ECA2 /* StoreControllerViewController.h */,
 				3BAE4E4F190AB96F0093ECA2 /* StoreControllerViewController.m */,
+				3BAE4E48190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib */,
+				3BAE4E49190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib */,
 			);
 			name = "Store Controller";
 			path = "Classes/Store Controller";
+			sourceTree = "<group>";
+		};
+		3BBB679A196B43220006A955 /* Expecta */ = {
+			isa = PBXGroup;
+			children = (
+				3BBB67F1196B4AE40006A955 /* EXPBackwardCompatibility.h */,
+				3BBB67F2196B4AE40006A955 /* EXPBlockDefinedMatcher.h */,
+				3BBB67F3196B4AE40006A955 /* EXPDefines.h */,
+				3BBB67F4196B4AE40006A955 /* EXPDoubleTuple.h */,
+				3BBB67F5196B4AE40006A955 /* Expecta.h */,
+				3BBB67F6196B4AE40006A955 /* ExpectaSupport.h */,
+				3BBB67F7196B4AE40006A955 /* EXPExpect.h */,
+				3BBB67F8196B4AE40006A955 /* EXPFloatTuple.h */,
+				3BBB67F9196B4AE40006A955 /* EXPMatcher.h */,
+				3BBB67FA196B4AE40006A955 /* EXPMatcherHelpers.h */,
+				3BBB67FB196B4AE40006A955 /* EXPMatchers.h */,
+				3BBB67FC196B4AE40006A955 /* EXPMatchers+beCloseTo.h */,
+				3BBB67FD196B4AE40006A955 /* EXPMatchers+beFalsy.h */,
+				3BBB67FE196B4AE40006A955 /* EXPMatchers+beginWith.h */,
+				3BBB67FF196B4AE40006A955 /* EXPMatchers+beGreaterThan.h */,
+				3BBB6800196B4AE40006A955 /* EXPMatchers+beGreaterThanOrEqualTo.h */,
+				3BBB6801196B4AE40006A955 /* EXPMatchers+beIdenticalTo.h */,
+				3BBB6802196B4AE40006A955 /* EXPMatchers+beInstanceOf.h */,
+				3BBB6803196B4AE40006A955 /* EXPMatchers+beInTheRangeOf.h */,
+				3BBB6804196B4AE40006A955 /* EXPMatchers+beKindOf.h */,
+				3BBB6805196B4AE40006A955 /* EXPMatchers+beLessThan.h */,
+				3BBB6806196B4AE40006A955 /* EXPMatchers+beLessThanOrEqualTo.h */,
+				3BBB6807196B4AE40006A955 /* EXPMatchers+beNil.h */,
+				3BBB6808196B4AE40006A955 /* EXPMatchers+beSubclassOf.h */,
+				3BBB6809196B4AE40006A955 /* EXPMatchers+beSupersetOf.h */,
+				3BBB680A196B4AE40006A955 /* EXPMatchers+beTruthy.h */,
+				3BBB680B196B4AE40006A955 /* EXPMatchers+conformTo.h */,
+				3BBB680C196B4AE40006A955 /* EXPMatchers+contain.h */,
+				3BBB680D196B4AE40006A955 /* EXPMatchers+endWith.h */,
+				3BBB680E196B4AE40006A955 /* EXPMatchers+equal.h */,
+				3BBB680F196B4AE40006A955 /* EXPMatchers+haveCountOf.h */,
+				3BBB6810196B4AE40006A955 /* EXPMatchers+notify.h */,
+				3BBB6811196B4AE40006A955 /* EXPMatchers+raise.h */,
+				3BBB6812196B4AE40006A955 /* EXPMatchers+raiseWithReason.h */,
+				3BBB6813196B4AE40006A955 /* EXPMatchers+respondTo.h */,
+				3BBB6814196B4AE40006A955 /* EXPUnsupportedObject.h */,
+				3BBB6815196B4AE40006A955 /* libExpecta-iOS.a */,
+				3BBB6816196B4AE40006A955 /* NSObject+Expecta.h */,
+				3BBB6817196B4AE40006A955 /* NSValue+Expecta.h */,
+			);
+			name = Expecta;
 			sourceTree = "<group>";
 		};
 		3BCD1C5516693E9600D609D9 /* External */ = {
@@ -1345,7 +1489,6 @@
 				071323F8134632C900F7EFD8 /* AlertModuleController.m in Sources */,
 				3B7FBB05191027250057EBC4 /* MKSKSubscriptionProduct.m in Sources */,
 				07132403134633EA00F7EFD8 /* CongratulationsController.m in Sources */,
-				071324061346340500F7EFD8 /* DelayManager.m in Sources */,
 				071324091346342700F7EFD8 /* ContactsModule.m in Sources */,
 				071324101346343C00F7EFD8 /* Constants.m in Sources */,
 				071324111346343C00F7EFD8 /* Device.m in Sources */,
@@ -1355,7 +1498,6 @@
 				3BFF783F189C592500694625 /* DeviceMapController.m in Sources */,
 				071324181346348400F7EFD8 /* FakeWebView.m in Sources */,
 				3BAE4E54190AB96F0093ECA2 /* GrettingsProViewController.m in Sources */,
-				07132421134634CA00F7EFD8 /* LogController.m in Sources */,
 				07132424134634D900F7EFD8 /* OldUserController.m in Sources */,
 				07132427134634E600F7EFD8 /* NewUserController.m in Sources */,
 				0713242F1346350100F7EFD8 /* LocationController.m in Sources */,
@@ -1409,7 +1551,71 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B90869B1966FF450015BB45 /* AFNetworking.h in Sources */,
+				3BBB6796196B2A580006A955 /* wwanconnect.c in Sources */,
+				3B3CCB5D196B28820000F56C /* MBProgressHUD.m in Sources */,
+				3B3CCB5E196B28820000F56C /* NSData+MKBase64.m in Sources */,
+				3B3CCB5F196B28820000F56C /* SFHFKeychainUtils.m in Sources */,
+				3B3CCB60196B28820000F56C /* MKSKProduct.m in Sources */,
+				3B3CCB61196B28820000F56C /* MKSKSubscriptionProduct.m in Sources */,
+				3B3CCB62196B28820000F56C /* MKStoreManager.m in Sources */,
+				3B3CCB63196B28820000F56C /* AFHTTPClient.m in Sources */,
+				3B3CCB64196B28820000F56C /* AFHTTPRequestOperation.m in Sources */,
+				3B3CCB65196B28820000F56C /* AFImageRequestOperation.m in Sources */,
+				3B3CCB66196B28820000F56C /* AFJSONRequestOperation.m in Sources */,
+				3B3CCB67196B28820000F56C /* AFNetworkActivityIndicatorManager.m in Sources */,
+				3B3CCB68196B28820000F56C /* AFPropertyListRequestOperation.m in Sources */,
+				3B3CCB69196B28820000F56C /* AFURLConnectionOperation.m in Sources */,
+				3B3CCB6A196B28820000F56C /* AFXMLRequestOperation.m in Sources */,
+				3B3CCB6B196B28820000F56C /* UIImageView+AFNetworking.m in Sources */,
+				3B3CCB6C196B28820000F56C /* UIDevice-Reachability.m in Sources */,
+				3B3CCB6D196B28820000F56C /* UIDevice-Hardware.m in Sources */,
+				3B3CCB6E196B28820000F56C /* LoggerClient.m in Sources */,
+				3B3CCB6F196B28820000F56C /* FakeWebView.m in Sources */,
+				3B3CCB70196B28820000F56C /* GrettingsProViewController.m in Sources */,
+				3B3CCB71196B28820000F56C /* StoreControllerViewController.m in Sources */,
+				3B3CCB72196B28820000F56C /* SignificantLocationController.m in Sources */,
+				3B3CCB73196B28820000F56C /* LocationController.m in Sources */,
+				3B3CCB74196B28820000F56C /* PreyGeofencingController.m in Sources */,
+				3B3CCB75196B28820000F56C /* PhotoController.m in Sources */,
+				3B3CCB76196B28820000F56C /* AlertModuleController.m in Sources */,
+				3B3CCB77196B28820000F56C /* LoginController.m in Sources */,
+				3B3CCB78196B28820000F56C /* WizardController.m in Sources */,
+				3B3CCB79196B28820000F56C /* WelcomeController.m in Sources */,
+				3B3CCB7B196B28820000F56C /* AccuracyManager.m in Sources */,
+				3B3CCB7C196B28820000F56C /* DeviceMapController.m in Sources */,
+				3B3CCB7E196B28820000F56C /* PreferencesController.mm in Sources */,
+				3B3CCB7F196B28820000F56C /* OldUserController.m in Sources */,
+				3B3CCB80196B28820000F56C /* NewUserController.m in Sources */,
+				3B3CCB81196B28820000F56C /* CongratulationsController.m in Sources */,
+				3B3CCB82196B28820000F56C /* ReviewRequest.mm in Sources */,
+				3B3CCB83196B28820000F56C /* UIWebViewController.m in Sources */,
+				3B3CCB84196B28820000F56C /* PreyLogger.m in Sources */,
+				3B3CCB85196B28820000F56C /* RegexKitLite.m in Sources */,
+				3B3CCB86196B28820000F56C /* AFPreyStatusClient.m in Sources */,
+				3B3CCB87196B28820000F56C /* JsonConfigParser.m in Sources */,
+				3B3CCB88196B28820000F56C /* ActionModule.m in Sources */,
+				3B3CCB89196B28820000F56C /* AlarmModule.m in Sources */,
+				3B3CCB8A196B28820000F56C /* AlertModule.m in Sources */,
+				3B3CCB8B196B28820000F56C /* CamouflageModule.m in Sources */,
+				3B3CCB8C196B28820000F56C /* DataModule.m in Sources */,
+				3B3CCB8D196B28820000F56C /* MacAddress.m in Sources */,
+				3B3CCB8E196B28820000F56C /* PublicIp.m in Sources */,
+				3B3CCB8F196B28820000F56C /* PrivateIp.m in Sources */,
+				3B3CCB90196B28820000F56C /* FirmwareInfo.m in Sources */,
+				3B3CCB91196B28820000F56C /* BatteryStatus.m in Sources */,
+				3B3CCB92196B28820000F56C /* ProcessorInfo.m in Sources */,
+				3B3CCB93196B28820000F56C /* Uptime.m in Sources */,
+				3B3CCB94196B28820000F56C /* RemainingStorage.m in Sources */,
+				3B3CCB95196B28820000F56C /* Location.m in Sources */,
+				3B3CCB96196B28820000F56C /* PictureModule.m in Sources */,
+				3B3CCB97196B28820000F56C /* ScreenshotModule.m in Sources */,
+				3B3CCB98196B28820000F56C /* ContactsModule.m in Sources */,
+				3B3CCB99196B28820000F56C /* GeofencingModule.m in Sources */,
+				3B3CCB9A196B28820000F56C /* PreyModule.m in Sources */,
+				3B3CCB9B196B28820000F56C /* NewModulesConfig.m in Sources */,
+				3B3CCB9C196B28820000F56C /* SettingModule.m in Sources */,
+				3B3CCB9D196B28820000F56C /* PreyAppDelegate.m in Sources */,
+				3B3CCB9E196B28820000F56C /* PreyDeployment.m in Sources */,
 				3B90869A1966FF320015BB45 /* ReportModule.m in Sources */,
 				3B9086991966FEC40015BB45 /* PreyRestHttp.m in Sources */,
 				3B9086981966FEB00015BB45 /* IphoneInformationHelper.m in Sources */,
@@ -1487,7 +1693,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fork Ltd.";
 				COPY_PHASE_STRIP = YES;
@@ -1502,6 +1708,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
+					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
 				);
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
@@ -1516,7 +1723,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1532,6 +1739,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
+					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-licucore";
@@ -1548,7 +1756,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fork Ltd.";
 				COPY_PHASE_STRIP = YES;
@@ -1563,6 +1771,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
+					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
 				);
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
@@ -1613,6 +1822,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "PreyTests/PreyTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
+					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
+					"$(PROJECT_DIR)/Classes/Expecta/build/Release-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -1623,6 +1838,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD_32_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Prey.app/Prey";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1653,6 +1869,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "PreyTests/PreyTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
+					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
+					"$(PROJECT_DIR)/Classes/Expecta/build/Release-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				VALIDATE_PRODUCT = YES;
@@ -1694,6 +1916,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "PreyTests/PreyTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
+					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
+					"$(PROJECT_DIR)/Classes/Expecta/build/Release-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				VALIDATE_PRODUCT = YES;
@@ -1766,6 +1994,7 @@
 				3B9086901966F6070015BB45 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Prey" */ = {
 			isa = XCConfigurationList;

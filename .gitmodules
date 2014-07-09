@@ -11,3 +11,6 @@
 	path = Classes/AFNetworking-1.x
 	url = https://github.com/AFNetworking/AFNetworking
 	branch = 1.x
+[submodule "Classes/Expecta"]
+	path = Classes/Expecta
+	url = https://github.com/specta/expecta

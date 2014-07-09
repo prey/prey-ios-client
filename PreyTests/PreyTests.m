@@ -11,6 +11,10 @@
 #import "PreyConfig.h"
 #import "Constants.h"
 
+#define EXP_SHORTHAND YES
+#import "Expecta.h"
+//#import "OCMock.h"
+
 @interface PreyTests : XCTestCase
 
 @end
@@ -31,7 +35,11 @@
 
 - (void)testRequests
 {
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    //dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    __block id blockError = nil;
+    
+    __block NSInteger statusCode;
+    //[Expecta setAsynchronousTestTimeout:5.0];
     
     NSDictionary *data = [NSDictionary new];
     [PreyRestHttp sendJsonData:5 withData:data andRawData:nil
@@ -42,17 +50,22 @@
                          
                          if ([response isKindOfClass:[NSHTTPURLResponse class]])
                          {
-                             NSInteger statusCode = [(NSHTTPURLResponse *) response statusCode];
-                             XCTAssertEqual(statusCode, 200, @"status code was not 200; was %d", statusCode);
+                            statusCode = [(NSHTTPURLResponse *) response statusCode];
+                             XCTAssertEqual(statusCode, 200, @"status code was not 200; was %ld", (long)statusCode);
                          }
                          
                          XCTAssert(data, @"data nil");
-                         
-                         dispatch_semaphore_signal(semaphore);
+                         blockError = error;
+                         //dispatch_semaphore_signal(semaphore);
                      }];
+
+    expect(statusCode).will.equal(200);;
+    //expect(blockError).after(30).to.beNil();
+    //expect(blockError).will.beNil();
+
+    //long rc = dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 60.0 * NSEC_PER_SEC));
+    //XCTAssertEqual(rc, 0, @"network request timed out");
     
-    long rc = dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 60.0 * NSEC_PER_SEC));
-    XCTAssertEqual(rc, 0, @"network request timed out");
 }
 
 @end
