@@ -20,5 +20,6 @@
 @property (nonatomic) CLLocation        *bestEffortAtLocation;
 
 - (void)testLocation;
++(Location *)instance;
 
 @end

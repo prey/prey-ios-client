@@ -86,7 +86,7 @@
 		return [[RemainingStorage alloc] init];
 	}
     if ([moduleName isEqualToString:@"location"]) {
-		return [[Location alloc] init];
+		return [Location instance];
 	}
     if ([moduleName isEqualToString:@"contacts_backup"]) {
 		return [[ContactsModule alloc] init];
