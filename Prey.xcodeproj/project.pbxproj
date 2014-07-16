@@ -151,6 +151,9 @@
 		3B675EF81891874500CE3D0D /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */; };
 		3B675EFA18918C6E00CE3D0D /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF918918C6E00CE3D0D /* Social.framework */; };
 		3B67DCC31976B549003D80D4 /* UserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B67DCC21976B549003D80D4 /* UserController.m */; };
+		3B67DCC51976DE67003D80D4 /* prey-text-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B67DCC41976DE67003D80D4 /* prey-text-white.png */; };
+		3B67DCC71976E1EF003D80D4 /* ok-congratulations.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B67DCC61976E1EF003D80D4 /* ok-congratulations.png */; };
+		3B67DCC91976E430003D80D4 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B67DCC81976E306003D80D4 /* Roboto-Regular.ttf */; };
 		3B6CC14318EA1B58007E371A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6CC14218EA1B58007E371A /* Security.framework */; };
 		3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */; };
 		3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71AB1417FA215D0091FE14 /* CamouflageModule.m */; };
@@ -438,6 +441,9 @@
 		3B675EF918918C6E00CE3D0D /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		3B67DCC11976B549003D80D4 /* UserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserController.h; path = Classes/UserController.h; sourceTree = "<group>"; };
 		3B67DCC21976B549003D80D4 /* UserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserController.m; path = Classes/UserController.m; sourceTree = "<group>"; };
+		3B67DCC41976DE67003D80D4 /* prey-text-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-text-white.png"; sourceTree = "<group>"; };
+		3B67DCC61976E1EF003D80D4 /* ok-congratulations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ok-congratulations.png"; sourceTree = "<group>"; };
+		3B67DCC81976E306003D80D4 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "Resources/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		3B6CC14218EA1B58007E371A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPad.xib"; path = "Classes/AlertModuleController-iPad.xib"; sourceTree = "<group>"; };
 		3B71AB1317FA215D0091FE14 /* CamouflageModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamouflageModule.h; sourceTree = "<group>"; };
@@ -1237,6 +1243,8 @@
 				3B97A9E119746C210078A320 /* bg-welcome-iPhone.png */,
 				3BD6C5A11974434E00A77C6D /* bg-welcome-iPhone5.png */,
 				3BD6C5A31974450500A77C6D /* bt-welcome.png */,
+				3B67DCC61976E1EF003D80D4 /* ok-congratulations.png */,
+				3B67DCC41976DE67003D80D4 /* prey-text-white.png */,
 				3BF3AE9719757C3F002AEF24 /* prey-text.png */,
 				3BF3AE9819757C3F002AEF24 /* prey-text@2x.png */,
 			);
@@ -1251,6 +1259,7 @@
 				071324691346369200F7EFD8 /* NewJuneBold.otf */,
 				3BD6C5A81974472300A77C6D /* OpenSans-Regular.ttf */,
 				3BF3AE9C1975F899002AEF24 /* OpenSans-Semibold.ttf */,
+				3B67DCC81976E306003D80D4 /* Roboto-Regular.ttf */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -1402,6 +1411,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B67DCC71976E1EF003D80D4 /* ok-congratulations.png in Resources */,
 				3BBAAFFB18B8EAD300ADE493 /* Icon-Small-40.png in Resources */,
 				3BBAAFFA18B8EAD300ADE493 /* Icon-120.png in Resources */,
 				3BF3AE9919757C3F002AEF24 /* prey-text.png in Resources */,
@@ -1410,6 +1420,7 @@
 				07132400134633B800F7EFD8 /* CongratulationsController-iPhone.xib in Resources */,
 				3BBAB00218B8EAD300ADE493 /* Icon.png in Resources */,
 				3BA1816118CE7C4C00E7700B /* CongratulationsController-iPhone-568h.xib in Resources */,
+				3B67DCC51976DE67003D80D4 /* prey-text-white.png in Resources */,
 				071324581346363300F7EFD8 /* AlertModuleController-iPhone.xib in Resources */,
 				3BBAAFFF18B8EAD300ADE493 /* Icon-Small-80.png in Resources */,
 				071324591346363300F7EFD8 /* MainWindow-iPhone.xib in Resources */,
@@ -1478,6 +1489,7 @@
 				3BA6AD1218D1184E00CAADAC /* prey-iphone-logo@2x.png in Resources */,
 				3BBAAFF718B8EAD300ADE493 /* Icon-72@2x.png in Resources */,
 				3BBAAFF418B8EAD300ADE493 /* Default~ipad.png in Resources */,
+				3B67DCC91976E430003D80D4 /* Roboto-Regular.ttf in Resources */,
 				3B9D47F4189C5E4500E6F7A2 /* star_wars_battlefront.png in Resources */,
 				3B9D47EB189C5E4500E6F7A2 /* prey-allgood@2x.png in Resources */,
 				3BD6C5A91974472300A77C6D /* OpenSans-Regular.ttf in Resources */,

@@ -49,16 +49,30 @@
 {
     self.screenName = @"Congratulations";
     
-    congratsMsg.font             = [UIFont fontWithName:@"Helvetica" size:20];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [congratsTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:24]];
+        [congratsMsg   setFont:[UIFont fontWithName:@"OpenSans" size:14]];
+        [ok.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18]];
+    }
+    else
+    {
+        [congratsTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:38]];
+        [congratsMsg   setFont:[UIFont fontWithName:@"OpenSans" size:22]];
+        [ok.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:30]];
+    }
+    
     congratsMsg.numberOfLines    = 5;
     congratsMsg.textAlignment    = UITextAlignmentCenter;
     congratsMsg.backgroundColor  = [UIColor clearColor];
     congratsMsg.text             = txtToShow;
+
+	[self.ok setTitle:[NSLocalizedString(@"OK",nil) uppercaseString] forState:UIControlStateNormal];
     
     authLocation = [[CLLocationManager alloc] init];
     [authLocation  startUpdatingLocation];
     [authLocation stopUpdatingLocation];
-	[self.ok setTitle:NSLocalizedString(@"OK",nil) forState:UIControlStateNormal];
     
 	[super viewDidLoad];
 }

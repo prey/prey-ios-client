@@ -52,6 +52,10 @@
                         <action selector="oldUserClicked:" destination="-1" eventType="touchUpInside" id="48"/>
                     </connections>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="prey-text-white.png" id="HKB-K0-g91">
+                    <rect key="frame" x="52" y="131" width="218" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.98765432099999995" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
         </view>
@@ -59,5 +63,6 @@
     <resources>
         <image name="bg-welcome-iPhone.png" width="640" height="960"/>
         <image name="bt-welcome.png" width="500" height="85"/>
+        <image name="prey-text-white.png" width="434" height="88"/>
     </resources>
 </document>

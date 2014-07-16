@@ -52,6 +52,10 @@
                         <action selector="oldUserClicked:" destination="-1" eventType="touchUpInside" id="93"/>
                     </connections>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="prey-text-white.png" id="zgl-JK-yMe">
+                    <rect key="frame" x="168" y="262" width="433" height="88"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
         </view>
@@ -59,5 +63,6 @@
     <resources>
         <image name="bg-welcome-iPad.png" width="768" height="1024"/>
         <image name="bt-welcome.png" width="500" height="85"/>
+        <image name="prey-text-white.png" width="434" height="88"/>
     </resources>
 </document>
