@@ -187,6 +187,7 @@
         localNotif.userInfo = userInfoLocalNotification;
         localNotif.alertBody = @"Keep Prey in background to enable all of its features.";
         localNotif.hasAction = NO;
+        localNotif.soundName = UILocalNotificationDefaultSoundName;
         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];
     }
 }
@@ -293,14 +294,27 @@
 	[viewController setToolbarHidden:YES animated:NO];
 	[viewController setNavigationBarHidden:YES animated:NO];
     
+    
     if ([viewController respondsToSelector:@selector(isBeingDismissed)])  // Supports iOS5 or later
     {
-        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarbg.png"] forBarMetrics:UIBarMetricsDefault];
-        [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.42f
-                                                                   green: 0.42f
-                                                                    blue:0.42f
-                                                                   alpha:1]];
+        UIFont *tmpFont;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            tmpFont = [UIFont fontWithName:@"OpenSans-Semibold" size:15];
+        else
+            tmpFont = [UIFont fontWithName:@"OpenSans-Semibold" size:22];
+        
+        [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                              [UIColor blackColor], UITextAttributeTextColor,
+                                                              tmpFont,UITextAttributeFont,nil]];
+
+        NSDictionary *barButtonAppearanceDict = @{UITextAttributeFont:tmpFont};
+        [[UIBarButtonItem appearance] setTitleTextAttributes:barButtonAppearanceDict forState:UIControlStateNormal];
+        
+        //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarbg.png"] forBarMetrics:UIBarMetricsDefault];
+        //[[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.42f green: 0.42f blue:0.42f alpha:1]];
     }
+    
     
     
     [window setRootViewController:viewController];
