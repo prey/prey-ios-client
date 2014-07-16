@@ -13,6 +13,13 @@
 	
 }
 
+// UserController Config
+#define kMoveTableView_iPhone5  70.0
+#define kMoveButton_iPhone5     55.0
+#define kMoveTableView_iPhone   85.0
+#define kMoveButton_iPhone      0
+
+
 #define kLabelTag	4096
 
 #define IS_IPHONE5 (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)

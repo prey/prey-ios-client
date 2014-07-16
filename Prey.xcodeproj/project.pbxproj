@@ -150,6 +150,7 @@
 		3B65EE2A1805E358008EB7CF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65EE291805E358008EB7CF /* MBProgressHUD.m */; };
 		3B675EF81891874500CE3D0D /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */; };
 		3B675EFA18918C6E00CE3D0D /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF918918C6E00CE3D0D /* Social.framework */; };
+		3B67DCC31976B549003D80D4 /* UserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B67DCC21976B549003D80D4 /* UserController.m */; };
 		3B6CC14318EA1B58007E371A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6CC14218EA1B58007E371A /* Security.framework */; };
 		3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */; };
 		3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71AB1417FA215D0091FE14 /* CamouflageModule.m */; };
@@ -194,6 +195,8 @@
 		3B9086AB1966FFFA0015BB45 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF918918C6E00CE3D0D /* Social.framework */; };
 		3B9086AC1966FFFA0015BB45 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */; };
 		3B9086AD1966FFFA0015BB45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0780561C12564F1C00E4CCE5 /* SystemConfiguration.framework */; };
+		3B97A9E219746C210078A320 /* bg-welcome-iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B97A9E119746C210078A320 /* bg-welcome-iPhone.png */; };
+		3B97A9E4197470020078A320 /* bg-welcome-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B97A9E3197470020078A320 /* bg-welcome-iPad.png */; };
 		3B9D47C4189C5D2A00E6F7A2 /* LoginController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47C2189C5D2A00E6F7A2 /* LoginController-iPhone.xib */; };
 		3B9D47DF189C5E4500E6F7A2 /* bg-mnts1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47C6189C5E4500E6F7A2 /* bg-mnts1.png */; };
 		3B9D47E0189C5E4500E6F7A2 /* bg-mnts1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47C7189C5E4500E6F7A2 /* bg-mnts1@2x.png */; };
@@ -208,7 +211,6 @@
 		3B9D47E9189C5E4500E6F7A2 /* okbutt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47D0189C5E4500E6F7A2 /* okbutt@2x.png */; };
 		3B9D47EA189C5E4500E6F7A2 /* prey-allgood.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47D1189C5E4500E6F7A2 /* prey-allgood.png */; };
 		3B9D47EB189C5E4500E6F7A2 /* prey-allgood@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47D2189C5E4500E6F7A2 /* prey-allgood@2x.png */; };
-		3B9D47EC189C5E4500E6F7A2 /* prey-iphone-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47D3189C5E4500E6F7A2 /* prey-iphone-logo@2x.png */; };
 		3B9D47EE189C5E4500E6F7A2 /* prey-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47D5189C5E4500E6F7A2 /* prey-logo.png */; };
 		3B9D47EF189C5E4500E6F7A2 /* prey-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47D6189C5E4500E6F7A2 /* prey-logo@2x.png */; };
 		3B9D47F0189C5E4500E6F7A2 /* prey-pro-badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47D7189C5E4500E6F7A2 /* prey-pro-badge.png */; };
@@ -241,7 +243,6 @@
 		3BAE4E54190AB96F0093ECA2 /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E4B190AB96F0093ECA2 /* GrettingsProViewController.m */; };
 		3BAE4E56190AB96F0093ECA2 /* StoreControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E4F190AB96F0093ECA2 /* StoreControllerViewController.m */; };
 		3BBAAFF118B8EAD300ADE493 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAAFDE18B8EAD300ADE493 /* Default-568h@2x.png */; };
-		3BBAAFF218B8EAD300ADE493 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAAFDF18B8EAD300ADE493 /* Default-Portrait@2x~ipad.png */; };
 		3BBAAFF318B8EAD300ADE493 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAAFE018B8EAD300ADE493 /* Default@2x~iphone.png */; };
 		3BBAAFF418B8EAD300ADE493 /* Default~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAAFE118B8EAD300ADE493 /* Default~ipad.png */; };
 		3BBAAFF518B8EAD300ADE493 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAAFE218B8EAD300ADE493 /* Default~iphone.png */; };
@@ -268,10 +269,16 @@
 		3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
 		3BC8A0A3193F905D000408BA /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3BC8A0A2193F905D000408BA /* siren.mp3 */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
+		3BD6C5A21974434E00A77C6D /* bg-welcome-iPhone5.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BD6C5A11974434E00A77C6D /* bg-welcome-iPhone5.png */; };
+		3BD6C5A41974450500A77C6D /* bt-welcome.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BD6C5A31974450500A77C6D /* bt-welcome.png */; };
+		3BD6C5A91974472300A77C6D /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BD6C5A81974472300A77C6D /* OpenSans-Regular.ttf */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
 		3BE0935B18D1150F00F6ACE4 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE0935A18D1150F00F6ACE4 /* Default-Portrait~ipad.png */; };
 		3BEEAB7E1806F87A00849B2B /* Wizard in Resources */ = {isa = PBXBuildFile; fileRef = 3BEEAB7D1806F87A00849B2B /* Wizard */; };
 		3BF0371F167847920086A7A7 /* ReviewRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.mm */; };
+		3BF3AE9919757C3F002AEF24 /* prey-text.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF3AE9719757C3F002AEF24 /* prey-text.png */; };
+		3BF3AE9A19757C3F002AEF24 /* prey-text@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF3AE9819757C3F002AEF24 /* prey-text@2x.png */; };
+		3BF3AE9D1975F89A002AEF24 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BF3AE9C1975F899002AEF24 /* OpenSans-Semibold.ttf */; };
 		3BFF783E189C592500694625 /* AccuracyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF783B189C592500694625 /* AccuracyManager.m */; };
 		3BFF783F189C592500694625 /* DeviceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF783D189C592500694625 /* DeviceMapController.m */; };
 		5A73C0FE146ADD5000AB32E9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */; };
@@ -429,6 +436,8 @@
 		3B675EF61891874500CE3D0D /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
 		3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		3B675EF918918C6E00CE3D0D /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		3B67DCC11976B549003D80D4 /* UserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserController.h; path = Classes/UserController.h; sourceTree = "<group>"; };
+		3B67DCC21976B549003D80D4 /* UserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserController.m; path = Classes/UserController.m; sourceTree = "<group>"; };
 		3B6CC14218EA1B58007E371A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPad.xib"; path = "Classes/AlertModuleController-iPad.xib"; sourceTree = "<group>"; };
 		3B71AB1317FA215D0091FE14 /* CamouflageModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamouflageModule.h; sourceTree = "<group>"; };
@@ -459,6 +468,8 @@
 		3B9086861966F6070015BB45 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3B9086881966F6070015BB45 /* PreyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreyTests.m; sourceTree = "<group>"; };
 		3B90868A1966F6070015BB45 /* PreyTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PreyTests-Prefix.pch"; sourceTree = "<group>"; };
+		3B97A9E119746C210078A320 /* bg-welcome-iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-welcome-iPhone.png"; sourceTree = "<group>"; };
+		3B97A9E3197470020078A320 /* bg-welcome-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-welcome-iPad.png"; sourceTree = "<group>"; };
 		3B9D47C2189C5D2A00E6F7A2 /* LoginController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPhone.xib"; path = "Classes/LoginController-iPhone.xib"; sourceTree = "<group>"; };
 		3B9D47C6189C5E4500E6F7A2 /* bg-mnts1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts1.png"; sourceTree = "<group>"; };
 		3B9D47C7189C5E4500E6F7A2 /* bg-mnts1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-mnts1@2x.png"; sourceTree = "<group>"; };
@@ -473,7 +484,6 @@
 		3B9D47D0189C5E4500E6F7A2 /* okbutt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "okbutt@2x.png"; sourceTree = "<group>"; };
 		3B9D47D1189C5E4500E6F7A2 /* prey-allgood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-allgood.png"; sourceTree = "<group>"; };
 		3B9D47D2189C5E4500E6F7A2 /* prey-allgood@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-allgood@2x.png"; sourceTree = "<group>"; };
-		3B9D47D3189C5E4500E6F7A2 /* prey-iphone-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-iphone-logo@2x.png"; sourceTree = "<group>"; };
 		3B9D47D5189C5E4500E6F7A2 /* prey-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-logo.png"; sourceTree = "<group>"; };
 		3B9D47D6189C5E4500E6F7A2 /* prey-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-logo@2x.png"; sourceTree = "<group>"; };
 		3B9D47D7189C5E4500E6F7A2 /* prey-pro-badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-pro-badge.png"; sourceTree = "<group>"; };
@@ -519,7 +529,6 @@
 		3BAE4E4E190AB96F0093ECA2 /* StoreControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreControllerViewController.h; sourceTree = "<group>"; };
 		3BAE4E4F190AB96F0093ECA2 /* StoreControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreControllerViewController.m; sourceTree = "<group>"; };
 		3BBAAFDE18B8EAD300ADE493 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		3BBAAFDF18B8EAD300ADE493 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		3BBAAFE018B8EAD300ADE493 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
 		3BBAAFE118B8EAD300ADE493 /* Default~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~ipad.png"; sourceTree = "<group>"; };
 		3BBAAFE218B8EAD300ADE493 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
@@ -584,6 +593,9 @@
 		3BD482E31678CAE300F25DC8 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewController.h; path = Classes/UIWebViewController.h; sourceTree = "<group>"; };
 		3BD482E41678CAE300F25DC8 /* UIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewController.m; path = Classes/UIWebViewController.m; sourceTree = "<group>"; };
 		3BD546D017FE10CF00ABFDBC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		3BD6C5A11974434E00A77C6D /* bg-welcome-iPhone5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-welcome-iPhone5.png"; sourceTree = "<group>"; };
+		3BD6C5A31974450500A77C6D /* bt-welcome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bt-welcome.png"; sourceTree = "<group>"; };
+		3BD6C5A81974472300A77C6D /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "Resources/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		3BD74797170F7EFB00F44E2C /* LoggerClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
 		3BD74798170F7EFB00F44E2C /* LoggerClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = "NSLogger/Client Logger/iOS/LoggerClient.m"; sourceTree = "<group>"; };
 		3BD74799170F7EFB00F44E2C /* LoggerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
@@ -591,6 +603,9 @@
 		3BEEAB7D1806F87A00849B2B /* Wizard */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Wizard; path = Resources/Wizard; sourceTree = "<group>"; };
 		3BF0371D167847920086A7A7 /* ReviewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReviewRequest.h; path = Classes/ReviewRequest.h; sourceTree = "<group>"; };
 		3BF0371E167847920086A7A7 /* ReviewRequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ReviewRequest.mm; path = Classes/ReviewRequest.mm; sourceTree = "<group>"; };
+		3BF3AE9719757C3F002AEF24 /* prey-text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-text.png"; sourceTree = "<group>"; };
+		3BF3AE9819757C3F002AEF24 /* prey-text@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-text@2x.png"; sourceTree = "<group>"; };
+		3BF3AE9C1975F899002AEF24 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "Resources/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		3BFF783A189C592500694625 /* AccuracyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccuracyManager.h; path = Classes/AccuracyManager.h; sourceTree = "<group>"; };
 		3BFF783B189C592500694625 /* AccuracyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccuracyManager.m; path = Classes/AccuracyManager.m; sourceTree = "<group>"; };
 		3BFF783C189C592500694625 /* DeviceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceMapController.h; path = Classes/DeviceMapController.h; sourceTree = "<group>"; };
@@ -704,6 +719,8 @@
 		07178E9B126641A0007B290C /* Setup Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3B67DCC11976B549003D80D4 /* UserController.h */,
+				3B67DCC21976B549003D80D4 /* UserController.m */,
 				07132422134634D900F7EFD8 /* OldUserController.h */,
 				07132423134634D900F7EFD8 /* OldUserController.m */,
 				07132425134634E600F7EFD8 /* NewUserController.h */,
@@ -930,11 +947,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3BD6C5A7197446D600A77C6D /* Fonts */,
+				3BD6C5A01974434E00A77C6D /* Img-Prey */,
 				3BEEAB7D1806F87A00849B2B /* Wizard */,
 				07178976125B8498007B290C /* Images */,
 				07132470134639DF00F7EFD8 /* Localizable.strings */,
-				071324681346369200F7EFD8 /* large9.ttf */,
-				071324691346369200F7EFD8 /* NewJuneBold.otf */,
 				3B51B16E193E7DA6001B78A5 /* shutter.aiff */,
 				3BC8A0A2193F905D000408BA /* siren.mp3 */,
 				3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */,
@@ -1084,7 +1101,6 @@
 				3B9D47D0189C5E4500E6F7A2 /* okbutt@2x.png */,
 				3B9D47D1189C5E4500E6F7A2 /* prey-allgood.png */,
 				3B9D47D2189C5E4500E6F7A2 /* prey-allgood@2x.png */,
-				3B9D47D3189C5E4500E6F7A2 /* prey-iphone-logo@2x.png */,
 				3BA6AD1018D1184E00CAADAC /* prey-iphone-logo@2x.png */,
 				3BA6AD1118D1184E00CAADAC /* prey-iphone-sonar@2x.png */,
 				3B9D47D5189C5E4500E6F7A2 /* prey-logo.png */,
@@ -1214,6 +1230,31 @@
 			path = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
+		3BD6C5A01974434E00A77C6D /* Img-Prey */ = {
+			isa = PBXGroup;
+			children = (
+				3B97A9E3197470020078A320 /* bg-welcome-iPad.png */,
+				3B97A9E119746C210078A320 /* bg-welcome-iPhone.png */,
+				3BD6C5A11974434E00A77C6D /* bg-welcome-iPhone5.png */,
+				3BD6C5A31974450500A77C6D /* bt-welcome.png */,
+				3BF3AE9719757C3F002AEF24 /* prey-text.png */,
+				3BF3AE9819757C3F002AEF24 /* prey-text@2x.png */,
+			);
+			name = "Img-Prey";
+			path = "Resources/Img-Prey";
+			sourceTree = "<group>";
+		};
+		3BD6C5A7197446D600A77C6D /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				071324681346369200F7EFD8 /* large9.ttf */,
+				071324691346369200F7EFD8 /* NewJuneBold.otf */,
+				3BD6C5A81974472300A77C6D /* OpenSans-Regular.ttf */,
+				3BF3AE9C1975F899002AEF24 /* OpenSans-Semibold.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		3BD9FB82195C75EC0005FC57 /* FakeWebView Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -1227,7 +1268,6 @@
 			isa = PBXGroup;
 			children = (
 				3BBAAFDE18B8EAD300ADE493 /* Default-568h@2x.png */,
-				3BBAAFDF18B8EAD300ADE493 /* Default-Portrait@2x~ipad.png */,
 				3BE0935A18D1150F00F6ACE4 /* Default-Portrait~ipad.png */,
 				3BBAAFE018B8EAD300ADE493 /* Default@2x~iphone.png */,
 				3BBAAFE118B8EAD300ADE493 /* Default~ipad.png */,
@@ -1364,6 +1404,7 @@
 			files = (
 				3BBAAFFB18B8EAD300ADE493 /* Icon-Small-40.png in Resources */,
 				3BBAAFFA18B8EAD300ADE493 /* Icon-120.png in Resources */,
+				3BF3AE9919757C3F002AEF24 /* prey-text.png in Resources */,
 				3BBAB00518B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib in Resources */,
 				3B9D47DF189C5E4500E6F7A2 /* bg-mnts1.png in Resources */,
 				07132400134633B800F7EFD8 /* CongratulationsController-iPhone.xib in Resources */,
@@ -1383,7 +1424,6 @@
 				0713246C1346369200F7EFD8 /* NewJuneBold.otf in Resources */,
 				3BC8A0A3193F905D000408BA /* siren.mp3 in Resources */,
 				3BA6AD1318D1184E00CAADAC /* prey-iphone-sonar@2x.png in Resources */,
-				3BBAAFF218B8EAD300ADE493 /* Default-Portrait@2x~ipad.png in Resources */,
 				3BAE4E53190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib in Resources */,
 				3B51B16F193E7DA6001B78A5 /* shutter.aiff in Resources */,
 				3BE0935B18D1150F00F6ACE4 /* Default-Portrait~ipad.png in Resources */,
@@ -1397,6 +1437,7 @@
 				3B1C2BB4191ACAAF00DFD677 /* AppFeedback.plist in Resources */,
 				3BBAAFF318B8EAD300ADE493 /* Default@2x~iphone.png in Resources */,
 				3BBAAFFD18B8EAD300ADE493 /* Icon-Small-50.png in Resources */,
+				3B97A9E4197470020078A320 /* bg-welcome-iPad.png in Resources */,
 				3B9D47E0189C5E4500E6F7A2 /* bg-mnts1@2x.png in Resources */,
 				3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */,
 				3BBAB00718B8FA7F00ADE493 /* WizardController-iPhone-568h.xib in Resources */,
@@ -1412,6 +1453,7 @@
 				3B150F2B18D11B96003BD13E /* WelcomeController-iPad.xib in Resources */,
 				3B9D47E6189C5E4500E6F7A2 /* navbarbg.png in Resources */,
 				3B9D47F3189C5E4500E6F7A2 /* signupbtn@2x.png in Resources */,
+				3BF3AE9A19757C3F002AEF24 /* prey-text@2x.png in Resources */,
 				3BBAAFF518B8EAD300ADE493 /* Default~iphone.png in Resources */,
 				3BBAAFF918B8EAD300ADE493 /* Icon-76@2x.png in Resources */,
 				3BBAAFFE18B8EAD300ADE493 /* Icon-Small-50@2x.png in Resources */,
@@ -1426,17 +1468,21 @@
 				3B2A3BD017CE68B3000D5B9D /* Settings.bundle in Resources */,
 				3B9D47F6189C5E4500E6F7A2 /* sucess.png in Resources */,
 				3B9D47E3189C5E4500E6F7A2 /* botonmask.png in Resources */,
+				3BD6C5A41974450500A77C6D /* bt-welcome.png in Resources */,
 				3BBAAFFC18B8EAD300ADE493 /* Icon-Small-40@2x.png in Resources */,
 				3BAE4E52190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib in Resources */,
 				3B9D47EF189C5E4500E6F7A2 /* prey-logo@2x.png in Resources */,
+				3BF3AE9D1975F89A002AEF24 /* OpenSans-Semibold.ttf in Resources */,
 				3B9D47E5189C5E4500E6F7A2 /* button@2x.png in Resources */,
 				3BA6AD1918D1199E00CAADAC /* LoginController-iPad.xib in Resources */,
 				3BA6AD1218D1184E00CAADAC /* prey-iphone-logo@2x.png in Resources */,
 				3BBAAFF718B8EAD300ADE493 /* Icon-72@2x.png in Resources */,
 				3BBAAFF418B8EAD300ADE493 /* Default~ipad.png in Resources */,
 				3B9D47F4189C5E4500E6F7A2 /* star_wars_battlefront.png in Resources */,
-				3B9D47EC189C5E4500E6F7A2 /* prey-iphone-logo@2x.png in Resources */,
 				3B9D47EB189C5E4500E6F7A2 /* prey-allgood@2x.png in Resources */,
+				3BD6C5A91974472300A77C6D /* OpenSans-Regular.ttf in Resources */,
+				3B97A9E219746C210078A320 /* bg-welcome-iPhone.png in Resources */,
+				3BD6C5A21974434E00A77C6D /* bg-welcome-iPhone5.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1473,6 +1519,7 @@
 			files = (
 				3B9EF01B18ECE2E60060FFAE /* AFURLConnectionOperation.m in Sources */,
 				3B9EF01718ECE2E60060FFAE /* AFImageRequestOperation.m in Sources */,
+				3B67DCC31976B549003D80D4 /* UserController.m in Sources */,
 				3B1BA22017271C8500200251 /* Location.m in Sources */,
 				3B1BA22117271C8500200251 /* RemainingStorage.m in Sources */,
 				3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */,

@@ -9,47 +9,29 @@
 //
 
 #import "NewUserController.h"
-#import "User.h"
-#import "Device.h"
-#import "PreyConfig.h"
-#import "GAITrackedViewController.h"
-#import "GAI.h"
-#import "GAIDictionaryBuilder.h"
-#import "GAIFields.h"
-#import "CongratulationsController.h"
-#import "PreyAppDelegate.h"
-#import "Constants.h"
-
-
-@interface NewUserController ()
-
-- (void) addNewUser;
-
-@end
 
 @implementation NewUserController
 
-@synthesize name, email, password, repassword, buttonCell, strEmailMatchstring;
+@synthesize repassword;
 
-#pragma mark -
-#pragma mark Private methods
+#pragma mark Request methods
 
-- (void) hideKeyboard {
-    
-    [email resignFirstResponder];
-    [name resignFirstResponder];
-    [password resignFirstResponder];
-    [repassword resignFirstResponder];
-}
-
-- (void) addNewUser
+- (void)addDeviceForCurrentUser
 {
+    if (![email.text isMatchedByRegex:strEmailMatchstring]){
+        UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
+        [objAlert show];
+        
+        [email becomeFirstResponder];
+        return;
+    }
+    
     if (![password.text isEqualToString:repassword.text])
     {
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil) message:NSLocalizedString(@"Passwords do not match",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         
-        [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+        [repassword becomeFirstResponder];
         return;
     }
     
@@ -58,9 +40,15 @@
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil) message:NSLocalizedString(@"Password must be at least 6 characters",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         
-        [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+        [password becomeFirstResponder];
         return;
     }
+
+    [self hideKeyboard];
+    
+    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    HUD.delegate = self;
+    HUD.labelText = NSLocalizedString(@"Creating account...",nil);
     
     [User createNew:[name text] email:[email text] password:[password text] repassword:[repassword text]
                withBlock:^(User *user, NSError *error)
@@ -89,16 +77,12 @@
      }]; // End Block User
 }
 
-
-
-#pragma mark -
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 2;
+    return 1;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
@@ -106,14 +90,9 @@
         case 0:
             return 4;
             break;
-            
-        default:
-            return 1;
-            break;
     }
-    
+    return 4;
 }
-
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,51 +103,31 @@
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        UILabel *label =[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 75, 25)];
-        label.textAlignment = UITextAlignmentLeft;
-        label.tag = kLabelTag;
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont boldSystemFontOfSize:14];
-        [cell.contentView addSubview:label];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    UILabel *label = (UILabel *)[cell viewWithTag:kLabelTag];
-    
     switch ([indexPath section]) {
+      
         case 0:
             if ([indexPath row] == 0){
-                label.text = NSLocalizedString(@"Name",nil);
                 [cell.contentView addSubview:name];
                 
             }
             else if ([indexPath row] == 1){
-                label.text = NSLocalizedString(@"Email",nil);
                 [cell.contentView addSubview:email];
             }
             else if ([indexPath row] == 2){
-                label.text = NSLocalizedString(@"Password",nil);
                 [cell.contentView addSubview:password];
             }
             else if ([indexPath row] == 3){
-                label.text = NSLocalizedString(@"Password",nil);
                 [cell.contentView addSubview:repassword];
             }
-            break;
-        case 1:
-            return buttonCell;
-            break;
-            
-        default:
             break;
     }
     
     return cell;
 }
 
-
-
-#pragma mark -
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -188,183 +147,108 @@
                 [repassword becomeFirstResponder];
             }
             break;
-        case 1:
-            //if (enableToSubmit) {
-            if (![email.text isMatchedByRegex:strEmailMatchstring]){
-                UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
-                [objAlert show];
-                [email becomeFirstResponder];
-                return;
-            }
-            [self hideKeyboard];
-
-            HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-            HUD.delegate = self;
-            HUD.labelText = NSLocalizedString(@"Creating account...",nil);
-
-            [self addNewUser];
-            //}
-            break;
-            
-        default:
-            break;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark -
-#pragma mark UITextField delegate methods
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    NSInteger nextTag = textField.tag + 1;
-    // Try to find next responder
-    UIResponder* nextResponder = (UITextField *)[self.view viewWithTag:nextTag];
-    if (nextResponder) {
-        // Found next responder, so set it.
-        [nextResponder becomeFirstResponder];
-    } else {
-        // Not found, so remove keyboard.
-        [textField resignFirstResponder];
-    }
-    return NO; // We do not want UITextField to insert line-breaks.
-}
-
-
-- (void)checkFieldsToEnableSendButton:(id)sender {
-    if (email.text != nil &&
-        [email.text isMatchedByRegex:strEmailMatchstring] &&
-        ![email.text isEqualToString:@""] &&
-        name.text != nil &&
-        ![name.text isEqualToString:@""] &&
-        password.text != nil &&
-        ![password.text isEqualToString:@""] &&
-        repassword.text != nil &&
-        [password.text isEqualToString:repassword.text]) {
-        buttonCell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        buttonCell.textLabel.textColor = [UIColor blackColor];
-        enableToSubmit = YES;
-        //[self hideKeyboard];
-    } else {
-        buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        buttonCell.textLabel.textColor = [UIColor grayColor];
-        enableToSubmit = NO;
-    }
-}
-
-
+#pragma mark Init
 - (void)viewDidLoad
 {
-    id tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:@"New User"];
-    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+    // GoogleAnalytics Config
+    self.screenName = @"New User";
     
+    // Dismiss Keyboard on tap outside
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
+    [self.view addGestureRecognizer:tap];
     
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenHeight = screenRect.size.height;
+    // Add ScrollView to main View
+    scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+    scrollView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
     
+    // Check email inputs
     strEmailMatchstring =   @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
+
+    // Main View Color:White
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     
-    [self.tableView setBackgroundColor:[UIColor clearColor]];
+    // TableView Config
+    infoInputs = [[UITableView alloc] initWithFrame:[self returnRectToTableView] style:UITableViewStylePlain];
+    [infoInputs setDataSource:self];
+    [infoInputs setDelegate:self];
+    [infoInputs setScrollEnabled:NO];
+    infoInputs.rowHeight = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) ? 44 : 60;    
+    //infoInputs.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
+
+    [scrollView addSubview:infoInputs];
+
     
-    UIView *fondo = [[UIView alloc] initWithFrame:screenRect];
-    [fondo setBackgroundColor:[UIColor whiteColor]];
+    UIImage *preyImage = [UIImage imageNamed:@"prey-text"];
+    UIImageView *preyText = [[UIImageView alloc] initWithImage:preyImage];
+    preyText.frame = [self returnRectToPreyTxt];
+    [scrollView addSubview:preyText];
     
-    UIImage *btm     = [UIImage imageNamed:@"bg-mnts2.png"];
-    UIImageView *imv = [[UIImageView alloc] initWithImage:btm];
-    
-    if (IS_OS_7_OR_LATER)
-    {
-        imv.frame        = CGRectMake(0, screenHeight-99, 320, 99);
-    }
-    else
-        imv.frame        = CGRectMake(0, screenHeight-143, 320, 99); // 143
-    
-    
-    [fondo addSubview:imv];
-    
-    [self.tableView setBackgroundView:fondo];
-    
-    
-    name = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
+    name = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
     name.clearsOnBeginEditing = NO;
     name.returnKeyType = UIReturnKeyNext;
     name.tag = 28;
+    name.font = [self returnFontToChange:@"OpenSans"];
     name.placeholder = NSLocalizedString(@"Your name",nil);
     [name setDelegate:self];
-    //[name addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
     
-    email = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
+    email = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
     email.clearsOnBeginEditing = NO;
     email.returnKeyType = UIReturnKeyNext;
     email.tag = 29;
+    email.font = [self returnFontToChange:@"OpenSans"];
     email.placeholder = NSLocalizedString(@"Your email",nil);
     email.keyboardType = UIKeyboardTypeEmailAddress;
     email.autocapitalizationType = UITextAutocapitalizationTypeNone;
     [email setDelegate:self];
-    //[email addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
     
-    password = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
+    password = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
     password.clearsOnBeginEditing = NO;
     password.returnKeyType = UIReturnKeyNext;
     password.tag = 30;
+    password.font = [self returnFontToChange:@"OpenSans"];
     [password setSecureTextEntry:YES];
     password.placeholder = NSLocalizedString(@"Choose a 6 characters password",nil);
     [password setDelegate:self];
-    //[password addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
     
-    repassword = [[UITextField alloc] initWithFrame:CGRectMake(90,12,200,25)];
+    repassword = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
     repassword.clearsOnBeginEditing = NO;
     repassword.returnKeyType = UIReturnKeyDone;
     repassword.tag = 31;
+    repassword.font = [self returnFontToChange:@"OpenSans"];
     [repassword setSecureTextEntry:YES];
     repassword.placeholder = NSLocalizedString(@"Repeat your password",nil);
     [repassword setDelegate:self];
-    //[repassword addTarget:self action:@selector(checkFieldsToEnableSendButton:) forControlEvents:UIControlEventEditingChanged];
     
-    buttonCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"buttonCell"];
-    buttonCell.selectionStyle = UITableViewCellSelectionStyleBlue;
-    buttonCell.textLabel.textColor = [UIColor blackColor];
-    //buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    //buttonCell.textLabel.textColor = [UIColor grayColor];
-    buttonCell.textLabel.textAlignment = UITextAlignmentCenter;
-    buttonCell.textLabel.text = NSLocalizedString(@"Create my account!",nil);
     
-    enableToSubmit = YES;
+    btnNewUser = [[UIButton alloc] initWithFrame:[self returnRectToBtnNewUser]];
+    [btnNewUser setBackgroundColor:[UIColor clearColor]];
+    [btnNewUser setBackgroundImage:[UIImage imageNamed:@"bt-welcome"] forState:UIControlStateNormal];
+    [btnNewUser setBackgroundImage:[UIImage imageNamed:@"bt-welcome"] forState:UIControlStateHighlighted];
+    [btnNewUser.titleLabel setFont:[self returnFontToChange:@"OpenSans"]];
+    [btnNewUser setTitleColor:[UIColor colorWithRed:0 green:(146/255.f) blue:(187/255.f) alpha:1.f] forState:UIControlStateNormal];
+    btnNewUser.titleLabel.textAlignment = UITextAlignmentCenter;
+    [btnNewUser setTitle:[NSLocalizedString(@"Create my account!",nil) uppercaseString] forState:UIControlStateNormal];
+    [btnNewUser addTarget:self action:@selector(addDeviceForCurrentUser) forControlEvents:UIControlEventTouchUpInside];
+    [scrollView addSubview:btnNewUser];
+
+    
+    [self.view addSubview:scrollView];
+    
     [super viewDidLoad];
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-}
-
-
-#pragma mark -
 #pragma mark Private methods
 
-- (void) showCongratsView:(id) congratsText
-{
-    CongratulationsController *congratsController;
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        if (IS_IPHONE5)
-            congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone-568h" bundle:nil];
-        else
-            congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone" bundle:nil];
-    }
-    else
-        congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPad" bundle:nil];
-    
-    congratsController.txtToShow = (NSString*) congratsText;
-    
-    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-    [appDelegate.viewController setNavigationBarHidden:YES animated:YES];
-    [appDelegate.viewController pushViewController:congratsController animated:YES];
+- (void) hideKeyboard {
+    [email resignFirstResponder];
+    [name resignFirstResponder];
+    [password resignFirstResponder];
+    [repassword resignFirstResponder];
 }
+
 
 @end

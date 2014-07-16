@@ -19,14 +19,14 @@
 
 
 -(void)newUserClicked:(id)sender{
-    NewUserController *nuController = [[NewUserController alloc] initWithStyle:UITableViewStyleGrouped];
+    NewUserController *nuController = [[NewUserController alloc] init];
 	nuController.title = NSLocalizedString(@"Create Prey account",nil);
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
 	[appDelegate.viewController pushViewController:nuController animated:YES];
 }
 
 -(void)oldUserClicked:(id)sender{
-    OldUserController *ouController = [[OldUserController alloc] initWithStyle:UITableViewStyleGrouped];
+    OldUserController *ouController = [[OldUserController alloc] init];
     ouController.title = NSLocalizedString(@"Log in to Prey",nil);
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
 	[appDelegate.viewController pushViewController:ouController animated:YES];
@@ -57,8 +57,20 @@
     
     self.screenName = @"Welcome";
     
-    [self.buttnewUser setTitle:NSLocalizedString(@"New user", nil) forState: UIControlStateNormal];
-    [self.buttoldUser setTitle:NSLocalizedString(@"Already a Prey user", nil) forState: UIControlStateNormal];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [self.buttnewUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18]];
+        [self.buttoldUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18]];
+    }
+    else
+    {
+        [self.buttnewUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:30]];
+        [self.buttoldUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:30]];
+    }
+    
+    
+    [self.buttnewUser setTitle:[NSLocalizedString(@"New user", nil) uppercaseString] forState: UIControlStateNormal];
+    [self.buttoldUser setTitle:[NSLocalizedString(@"Already a Prey user", nil) uppercaseString] forState: UIControlStateNormal];
 	[super viewDidLoad];
 }
 

@@ -94,6 +94,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>NewJuneBold.otf</string>
+		<string>OpenSans-Semibold.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
 		<string>large9.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>

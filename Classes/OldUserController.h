@@ -9,26 +9,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MBProgressHUD.h"
 #import "RegexKitLite.h"
+#import "UserController.h"
 
-@interface OldUserController : UITableViewController <UITextFieldDelegate, MBProgressHUDDelegate>
-{
-    UITextField *email;
-    UITextField *password;
-    UITableViewCell *buttonCell;
-    
-    MBProgressHUD *HUD;
-    NSString *strEmailMatchstring;
-    BOOL enableToSubmit;
-}
-
-@property (nonatomic) UITextField *email;
-@property (nonatomic) UITextField *password;
-@property (nonatomic) UITableViewCell *buttonCell;
-@property (nonatomic) NSString *strEmailMatchstring;
-
-- (void) showCongratsView:(id) congratsText;
-
+@interface OldUserController : UserController <UITableViewDataSource, UITableViewDelegate>
 
 @end
