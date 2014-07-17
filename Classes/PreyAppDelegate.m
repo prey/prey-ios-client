@@ -302,7 +302,7 @@
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
             tmpFont = [UIFont fontWithName:@"OpenSans-Semibold" size:15];
         else
-            tmpFont = [UIFont fontWithName:@"OpenSans-Semibold" size:22];
+            tmpFont = [UIFont fontWithName:@"OpenSans-Semibold" size:20];
         
         [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                               [UIColor blackColor], UITextAttributeTextColor,

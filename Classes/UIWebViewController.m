@@ -131,7 +131,7 @@
 	navItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemCancel
                                                                                target: self action: @selector(cancel:)];
 	
-	[_navBar setBarStyle:UIBarStyleBlackOpaque];	
+	//[_navBar setBarStyle:UIBarStyleBlackOpaque];
 	[_navBar pushNavigationItem:navItem animated: NO];
 }
 

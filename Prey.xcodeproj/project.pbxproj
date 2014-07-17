@@ -154,6 +154,7 @@
 		3B67DCC51976DE67003D80D4 /* prey-text-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B67DCC41976DE67003D80D4 /* prey-text-white.png */; };
 		3B67DCC71976E1EF003D80D4 /* ok-congratulations.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B67DCC61976E1EF003D80D4 /* ok-congratulations.png */; };
 		3B67DCC91976E430003D80D4 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B67DCC81976E306003D80D4 /* Roboto-Regular.ttf */; };
+		3B67DCCB19773862003D80D4 /* shield-login.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B67DCCA19773862003D80D4 /* shield-login.png */; };
 		3B6CC14318EA1B58007E371A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B6CC14218EA1B58007E371A /* Security.framework */; };
 		3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */; };
 		3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71AB1417FA215D0091FE14 /* CamouflageModule.m */; };
@@ -444,6 +445,7 @@
 		3B67DCC41976DE67003D80D4 /* prey-text-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-text-white.png"; sourceTree = "<group>"; };
 		3B67DCC61976E1EF003D80D4 /* ok-congratulations.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ok-congratulations.png"; sourceTree = "<group>"; };
 		3B67DCC81976E306003D80D4 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "Resources/Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		3B67DCCA19773862003D80D4 /* shield-login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shield-login.png"; sourceTree = "<group>"; };
 		3B6CC14218EA1B58007E371A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPad.xib"; path = "Classes/AlertModuleController-iPad.xib"; sourceTree = "<group>"; };
 		3B71AB1317FA215D0091FE14 /* CamouflageModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamouflageModule.h; sourceTree = "<group>"; };
@@ -764,6 +766,8 @@
 			children = (
 				07CD96221253E13800590FCD /* LoginController.h */,
 				07CD96231253E13800590FCD /* LoginController.m */,
+				3BD482E31678CAE300F25DC8 /* UIWebViewController.h */,
+				3BD482E41678CAE300F25DC8 /* UIWebViewController.m */,
 				3BA6AD1818D1199E00CAADAC /* LoginController-iPad.xib */,
 				3B9D47C2189C5D2A00E6F7A2 /* LoginController-iPhone.xib */,
 				3BBAB00818B9085C00ADE493 /* LoginController-iPhone-568h.xib */,
@@ -846,8 +850,6 @@
 				0713240B1346343C00F7EFD8 /* Constants.m */,
 				3BF0371D167847920086A7A7 /* ReviewRequest.h */,
 				3BF0371E167847920086A7A7 /* ReviewRequest.mm */,
-				3BD482E31678CAE300F25DC8 /* UIWebViewController.h */,
-				3BD482E41678CAE300F25DC8 /* UIWebViewController.m */,
 				071324371346356300F7EFD8 /* PreyLogger.h */,
 				071324381346356300F7EFD8 /* PreyLogger.m */,
 				071324391346356300F7EFD8 /* RegexKitLite.h */,
@@ -1247,6 +1249,7 @@
 				3B67DCC41976DE67003D80D4 /* prey-text-white.png */,
 				3BF3AE9719757C3F002AEF24 /* prey-text.png */,
 				3BF3AE9819757C3F002AEF24 /* prey-text@2x.png */,
+				3B67DCCA19773862003D80D4 /* shield-login.png */,
 			);
 			name = "Img-Prey";
 			path = "Resources/Img-Prey";
@@ -1475,6 +1478,7 @@
 				3BBAB00118B8EAD300ADE493 /* Icon-Small@2x.png in Resources */,
 				3BA1815F18CE740E00E7700B /* background.png in Resources */,
 				3B9D47F0189C5E4500E6F7A2 /* prey-pro-badge.png in Resources */,
+				3B67DCCB19773862003D80D4 /* shield-login.png in Resources */,
 				3B9D47E7189C5E4500E6F7A2 /* navbarbg@2x.png in Resources */,
 				3B2A3BD017CE68B3000D5B9D /* Settings.bundle in Resources */,
 				3B9D47F6189C5E4500E6F7A2 /* sucess.png in Resources */,
