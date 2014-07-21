@@ -132,6 +132,11 @@
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelNone];
     [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
     
+    // Add app Version in SettingsView
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [[NSUserDefaults standardUserDefaults] setObject:version forKey:@"version_preference"];
+
+    
     // Reset RequestNumber
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"requestNumber"];
     

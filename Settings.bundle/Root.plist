@@ -5,12 +5,6 @@
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string></string>
-		</dict>
-		<dict>
 			<key>Title</key>
 			<string>App Information</string>
 			<key>Type</key>
@@ -24,7 +18,7 @@
 			<key>Title</key>
 			<string>Version</string>
 			<key>Key</key>
-			<string>readOnly_key</string>
+			<string>version_preference</string>
 			<key>DefaultValue</key>
 			<string>1.1.2</string>
 		</dict>
