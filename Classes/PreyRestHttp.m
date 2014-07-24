@@ -274,14 +274,14 @@
     }
 }
 
-+ (void)checkStatusForDevice:(NSInteger)reload withBlock:(void (^)(NSError *error))block
++ (void)checkStatusForDevice:(NSInteger)reload withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
     if (reload <= 0)
     {
         if (block)
         {
             NSError *error = [NSError errorWithDomain:@"StatusCode503Reload" code:700 userInfo:nil];
-            block(error);
+            block(nil, error);
         }
     }
     else
@@ -302,7 +302,7 @@
              [modulesConfig runAllModules];
              
              if (block)
-                 block(nil);
+                 block(operation.response,nil);
              
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
  
@@ -311,7 +311,7 @@
                  if ([operation.response statusCode] == 503)
                      [self checkStatusForDevice:reload - 1 withBlock:block];
                  else
-                     block(error);
+                     block(operation.response,error);
              }
              PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
          }];

@@ -368,7 +368,7 @@
 
 - (void)checkRemoteNotification:(UIApplication*)application remoteNotification:(NSDictionary *)userInfo
 {
-    [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSError *error) {
+    [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
         if (error) {
             PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
         } else {
@@ -392,7 +392,7 @@
 
     self.onPreyVerificationSucceeded = completionHandler;
     
-    [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSError *error) {
+    [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
         if (error)
         {
             PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);

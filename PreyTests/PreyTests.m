@@ -10,6 +10,7 @@
 #import "PreyRestHttp.h"
 #import "PreyConfig.h"
 #import "Constants.h"
+#import "AFHTTPRequestOperation.h"
 
 #define EXP_SHORTHAND YES
 #import "Expecta.h"
@@ -33,39 +34,27 @@
     [super tearDown];
 }
 
-- (void)testRequests
+- (void)testRequestsCheckStatusForDevice
 {
-    //dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     __block id blockError = nil;
-    
     __block NSInteger statusCode;
-    //[Expecta setAsynchronousTestTimeout:5.0];
     
-    NSDictionary *data = [NSDictionary new];
-    [PreyRestHttp sendJsonData:5 withData:data andRawData:nil
-                    toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",[[PreyConfig instance] deviceKey]]
-                     withBlock:^(NSHTTPURLResponse *response, NSError *error) {
-                         
-                         XCTAssertNil(error, @"JsonData error %@", error);
-                         
-                         if ([response isKindOfClass:[NSHTTPURLResponse class]])
-                         {
-                            statusCode = [(NSHTTPURLResponse *) response statusCode];
-                             XCTAssertEqual(statusCode, 200, @"status code was not 200; was %ld", (long)statusCode);
-                         }
-                         
-                         XCTAssert(data, @"data nil");
-                         blockError = error;
-                         //dispatch_semaphore_signal(semaphore);
-                     }];
-
+    [Expecta setAsynchronousTestTimeout:5.0];
+    
+    [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+        
+        XCTAssertNil(error, @"JsonData error %@", error);
+        
+        if ([response isKindOfClass:[NSHTTPURLResponse class]])
+        {
+            statusCode = [(NSHTTPURLResponse *) response statusCode];
+            XCTAssertEqual(statusCode, 200, @"status code was not 200; was %ld", (long)statusCode);
+        }
+        
+        blockError = error;
+    }];
+    
     expect(statusCode).will.equal(200);;
-    //expect(blockError).after(30).to.beNil();
-    //expect(blockError).will.beNil();
-
-    //long rc = dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 60.0 * NSEC_PER_SEC));
-    //XCTAssertEqual(rc, 0, @"network request timed out");
-    
 }
 
 @end
