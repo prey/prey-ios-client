@@ -12,7 +12,7 @@
 
 @interface PreyRestHttp : NSObject
 
-+ (void)checkTransaction:(NSString *)receiptData withBlock:(void (^)(NSError *error))block;
++ (void)checkTransaction:(NSString *)receiptData withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block;
 + (void)getAppstoreConfig:(NSString *)URL withBlock:(void (^)(NSMutableSet *dataStore, NSError *error))block;
 + (void)createApiKey:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block;
 + (void)getCurrentControlPanelApiKey:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block;

@@ -172,7 +172,7 @@
 		3B9086801966F6060015BB45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		3B9086811966F6060015BB45 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		3B9086871966F6070015BB45 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B9086851966F6070015BB45 /* InfoPlist.strings */; };
-		3B9086891966F6070015BB45 /* PreyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9086881966F6070015BB45 /* PreyTests.m */; };
+		3B9086891966F6070015BB45 /* PreyRestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9086881966F6070015BB45 /* PreyRestTests.m */; };
 		3B9086921966FD000015BB45 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713240B1346343C00F7EFD8 /* Constants.m */; };
 		3B9086931966FD260015BB45 /* PreyConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132444134635A100F7EFD8 /* PreyConfig.m */; };
 		3B9086941966FD5E0015BB45 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132448134635A100F7EFD8 /* User.m */; };
@@ -509,7 +509,7 @@
 		3B90867E1966F6060015BB45 /* PreyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B9086841966F6060015BB45 /* PreyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PreyTests-Info.plist"; sourceTree = "<group>"; };
 		3B9086861966F6070015BB45 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		3B9086881966F6070015BB45 /* PreyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreyTests.m; sourceTree = "<group>"; };
+		3B9086881966F6070015BB45 /* PreyRestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreyRestTests.m; sourceTree = "<group>"; };
 		3B90868A1966F6070015BB45 /* PreyTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PreyTests-Prefix.pch"; sourceTree = "<group>"; };
 		3B97A9E119746C210078A320 /* bg-welcome-iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-welcome-iPhone.png"; sourceTree = "<group>"; };
 		3B97A9E3197470020078A320 /* bg-welcome-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-welcome-iPad.png"; sourceTree = "<group>"; };
@@ -1145,7 +1145,7 @@
 			isa = PBXGroup;
 			children = (
 				3BBB679A196B43220006A955 /* Expecta */,
-				3B9086881966F6070015BB45 /* PreyTests.m */,
+				3B9086881966F6070015BB45 /* PreyRestTests.m */,
 				3B9086831966F6060015BB45 /* Supporting Files */,
 			);
 			path = PreyTests;
@@ -1843,7 +1843,7 @@
 				3B9086941966FD5E0015BB45 /* User.m in Sources */,
 				3B9086931966FD260015BB45 /* PreyConfig.m in Sources */,
 				3B9086921966FD000015BB45 /* Constants.m in Sources */,
-				3B9086891966F6070015BB45 /* PreyTests.m in Sources */,
+				3B9086891966F6070015BB45 /* PreyRestTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

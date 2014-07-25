@@ -21,7 +21,7 @@
 
 #pragma mark Init
 
-+ (void)checkTransaction:(NSString *)receiptData withBlock:(void (^)(NSError *error))block
++ (void)checkTransaction:(NSString *)receiptData withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
     NSMutableDictionary *requestData = [[NSMutableDictionary alloc] init];
     if (receiptData)
@@ -34,13 +34,13 @@
          PreyLogMessage(@"PreyRestHttp", 21, @"subscriptions/receipt: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
          if (block) {
-             block(nil);
+             block(operation.response, nil);
          }
          
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
     {
          if (block) {
-             block(error);
+             block(operation.response, error);
          }
          PreyLogMessage(@"PreyRestHttp", 10,@"Error /subscriptions: %@",error);
      }];

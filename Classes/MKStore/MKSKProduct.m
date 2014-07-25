@@ -178,7 +178,7 @@ static NSMutableData *sDataFromConnection;
     NSString *receiptDataString = [self.receipt base64EncodedString];
     
     [PreyRestHttp checkTransaction:receiptDataString
-                     withBlock:^(NSError *error)
+                     withBlock:^(NSHTTPURLResponse *response, NSError *error)
      {
          if ( (!error) && (self.onReceiptVerificationSucceeded) )
          {
