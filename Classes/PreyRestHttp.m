@@ -180,7 +180,7 @@
      }];
 }
 
-+ (void)deleteDevice:(void (^)(NSError *error))block
++ (void)deleteDevice:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
     [[AFPreyStatusClient sharedClient] deletePath:[[PreyConfig instance] deviceCheckPathWithExtension:@""]
                                      parameters:nil
@@ -192,7 +192,7 @@
              [[ReportModule instance] stopSendReport];
          
          if (block) {
-             block(nil);
+             block(operation.response, nil);
          }
          
      } failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -203,7 +203,7 @@
          [alertView show];
         
          if (block) {
-             block(error);
+             block(operation.response, error);
          }
          PreyLogMessage(@"PreyRestHttp", 10,@"Error DELETE: %@",error);
      }];
@@ -235,7 +235,7 @@
      }];    
 }
 
-+ (void)setPushRegistrationId:(NSInteger)reload  withToken:(NSString *)tokenId withBlock:(void (^)(NSArray *posts, NSError *error))block
++ (void)setPushRegistrationId:(NSInteger)reload  withToken:(NSString *)tokenId withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
     if (reload <= 0)
     {
@@ -257,7 +257,7 @@
              PreyLogMessage(@"PreyRestHttp", 21, @"POST notificationID: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
              
              if (block) {
-                 block([NSArray array], nil);
+                 block(operation.response, nil);
              }
              
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -267,7 +267,7 @@
                  if ([operation.response statusCode] == 503)
                      [self setPushRegistrationId:reload - 1 withToken:tokenId withBlock:block];
                  else
-                     block(nil, error);
+                     block(operation.response, error);
              }
              PreyLogMessage(@"PreyRestHttp", 10,@"Error notificationID: %@",error);
          }];
