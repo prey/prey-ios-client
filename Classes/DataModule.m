@@ -10,6 +10,7 @@
 #import "PreyRestHttp.h"
 #import "PreyConfig.h"
 #import "Constants.h"
+#import "AFPreyStatusClient.h"
 
 @implementation DataModule
 
@@ -51,6 +52,28 @@
     [data setObject:rawData forKey:key];
     
     return data;
+}
+
+- (void)sendHttpEvent:(NSMutableDictionary*)event withParameters:(NSMutableDictionary*)parameters
+{
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:event options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *jsonString;
+    
+    if (jsonData)
+        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    [[AFPreyStatusClient sharedClient] setDefaultHeader:@"X-Prey-Status" value:jsonString];
+    
+    [PreyRestHttp sendJsonData:5 withData:parameters andRawData:nil
+                    toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/events",[[PreyConfig instance] deviceKey]]
+                     withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+                         if (error) {
+                             PreyLogMessage(@"DataModule", 10,@"Error: %@",error);
+                         } else {
+                             PreyLogMessage(@"DataModule", 10,@"DataModule: OK events");
+                         }
+                     }];
 }
 
 - (void)sendHttp:(NSMutableDictionary*)data

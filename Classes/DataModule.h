@@ -20,5 +20,6 @@
 - (NSMutableDictionary*) createResponseFromData: (NSData*) rawData withKey: (NSString*) key;
 - (void)sendHttp:(NSMutableDictionary*)data;
 - (void)sendHttp:(NSMutableDictionary*)data andRaw:(NSMutableDictionary*) rawData;
+- (void)sendHttpEvent:(NSMutableDictionary*)event withParameters:(NSMutableDictionary*)parameters;
 
 @end
