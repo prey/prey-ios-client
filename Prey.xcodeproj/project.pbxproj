@@ -325,6 +325,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3B8283E01991985A000E4545 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D6058900D05DD3D006BFB54;
+			remoteInfo = Prey;
+		};
+		3B8283E21991985A000E4545 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D6058900D05DD3D006BFB54;
+			remoteInfo = Prey;
+		};
 		3B90868B1966F6070015BB45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -1479,6 +1493,8 @@
 			);
 			dependencies = (
 				3B90868C1966F6070015BB45 /* PBXTargetDependency */,
+				3B8283E11991985A000E4545 /* PBXTargetDependency */,
+				3B8283E31991985A000E4545 /* PBXTargetDependency */,
 			);
 			name = PreyTests;
 			productName = PreyTests;
@@ -1850,6 +1866,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3B8283E11991985A000E4545 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D6058900D05DD3D006BFB54 /* Prey */;
+			targetProxy = 3B8283E01991985A000E4545 /* PBXContainerItemProxy */;
+		};
+		3B8283E31991985A000E4545 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D6058900D05DD3D006BFB54 /* Prey */;
+			targetProxy = 3B8283E21991985A000E4545 /* PBXContainerItemProxy */;
+		};
 		3B90868C1966F6070015BB45 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1D6058900D05DD3D006BFB54 /* Prey */;

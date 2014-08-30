@@ -58,5 +58,14 @@
         //[module performSelector:NSSelectorFromString(module.command)];
 	}
 }
+- (BOOL) checkAllModulesEmpty
+{
+    BOOL isEmpty = NO;
+    
+    if ( (dataModules.count == 0) && (actionModules.count == 0) && (settingModules.count == 0) )
+        isEmpty = YES;
+
+    return isEmpty;
+}
 
 @end

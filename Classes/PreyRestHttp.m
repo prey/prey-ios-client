@@ -259,13 +259,15 @@
              if (block) {
                  block(operation.response, nil);
              }
-             
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             
              if (block)
              {
                  if ([operation.response statusCode] == 503)
-                     [self setPushRegistrationId:reload - 1 withToken:tokenId withBlock:block];
+                 {
+                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                         [self setPushRegistrationId:reload - 1 withToken:tokenId withBlock:block];
+                     });
+                 }
                  else
                      block(operation.response, error);
              }
@@ -299,7 +301,14 @@
              
              NSError *error2;
              NewModulesConfig *modulesConfig = [configParser parseModulesConfig:respString parseError:&error2];
-             [modulesConfig runAllModules];
+             
+             if ([modulesConfig checkAllModulesEmpty])
+             {
+                 PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+                 [appDelegate checkedCompletionHandler];
+             }
+             else
+                 [modulesConfig runAllModules];
              
              if (block)
                  block(operation.response,nil);
@@ -309,7 +318,11 @@
              if (block)
              {
                  if ([operation.response statusCode] == 503)
-                     [self checkStatusForDevice:reload - 1 withBlock:block];
+                 {
+                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                         [self checkStatusForDevice:reload - 1 withBlock:block];
+                     });
+                 }
                  else
                      block(operation.response,error);
              }
@@ -357,7 +370,10 @@
                  if (block)
                  {
                      if ([operation.response statusCode] == 503)
-                         [self sendJsonData:reload - 1 withData:jsonData andRawData:rawData toEndpoint:url withBlock:block];
+                     {
+                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                         [self sendJsonData:reload - 1 withData:jsonData andRawData:rawData toEndpoint:url withBlock:block];                         });
+                     }
                      else
                      {
                          block(operation.response, error);
@@ -402,7 +418,10 @@
                  if (block)
                  {
                      if ([operation.response statusCode] == 503)
-                         [self sendJsonData:reload - 1 withData:jsonData andRawData:rawData toEndpoint:url withBlock:block];
+                     {
+                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                         [self sendJsonData:reload - 1 withData:jsonData andRawData:rawData toEndpoint:url withBlock:block];                         });
+                     }
                      else
                      {
                          block(operation.response, error);

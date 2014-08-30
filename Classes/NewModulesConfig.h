@@ -18,5 +18,6 @@
 
 - (void) addModule: (NSDictionary *) jsonModuleConfig;
 - (void) runAllModules;
+- (BOOL) checkAllModulesEmpty;
 
 @end
