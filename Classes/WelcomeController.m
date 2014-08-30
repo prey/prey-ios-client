@@ -57,18 +57,6 @@
     
     self.screenName = @"Welcome";
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        [self.buttnewUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18]];
-        [self.buttoldUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18]];
-    }
-    else
-    {
-        [self.buttnewUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:30]];
-        [self.buttoldUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:30]];
-    }
-    
-    
     [self.buttnewUser setTitle:[NSLocalizedString(@"New user", nil) uppercaseString] forState: UIControlStateNormal];
     [self.buttoldUser setTitle:[NSLocalizedString(@"Already a Prey user", nil) uppercaseString] forState: UIControlStateNormal];
 	[super viewDidLoad];
