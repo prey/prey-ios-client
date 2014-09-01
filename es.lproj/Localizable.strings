@@ -16,6 +16,8 @@
 
 "A new report has been sent to your Control Panel" = "Un nuevo reporte ha sido enviado al Panel de Control";
 
+"A new report has been sent to your Control Panel." = "Un nuevo reporte ha sido enviado al Panel de Control.";
+
 "About" = "Acerca de";
 
 "Access Denied" = "Acceso denegado";
@@ -38,13 +40,17 @@
 
 "Best possible" = "Mejor posible";
 
+"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Al deshabilitar esto, Prey no consumirá batería pero al marcarlo como desaparecido el usuario verá un mensaje en pantalla.";
+
+"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Al habilitar esto, el ícono de localización se mostrará en la barra de estado de tu dispositivo. Esto no quiere decir que el GPS está encendido, pero sí consumirá un poco más de batería.";
+
 "Camouflage mode" = "Modo camuflado";
 
 "Cancel" = "Cancelar";
 
 "Checking your password..." = "Comprobando contraseña...";
 
-"Choose a 6 characters password" = "Elije una contraseña de al menos 6 caracteres";
+"Choose a 6 characters password" = "Contraseña; mínimo 6 caracteres";
 
 "Congratulations!" = "Felicitaciones!";
 
@@ -60,21 +66,35 @@
 
 "Creating account..." = "Creando cuenta...";
 
+"Current Location" = "Ubicación actual";
+
 "Delay" = "Intervalo";
 
 "Delete log" = "Eliminar log";
 
 "Detach device" = "Eliminar dispositivo";
 
+"Device not ready!" = "Dispositivo no protegido";
+
+"Device ready." = "Dispositivo protegido";
+
+"Disable it!" = "Deshabilitarlo!";
+
 "Email" = "Email";
 
+"Enable it!" = "Habilitarlo!";
+
 "Enter a valid e-mail address" = "Ingresa un e-mail válido";
+
+"Help" = "Ayuda";
 
 "Hundreds of Meters" = "Cientos de metros";
 
 "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "No tienes capacidad para agregar más dispositivos en tu cuenta Prey.\n\Para aumentar la capacidad disponible, puedes contratar una cuenta Prey Pro.";
 
 "Location accuracy" = "Precisión de ubicación";
+
+"Location services are disabled for Prey. Reports will not be sent." = "Servicio de localización para Prey on está activo. No se podrán enviar reportes.";
 
 "Log" = "Log";
 
@@ -112,11 +132,15 @@
 
 "Please wait" = "Espera un segundo";
 
+"Preferences" = "Preferencias";
+
 "Prey alert" = "Alerta de Prey";
 
 "Prey next execution in %i minutes." = "Próxima ejecución de Prey en %i minutos.";
 
 "Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey dejará de enviar reportes al Panel de Control, y tu dispositivo quedará marcado como no desaparecido.\n\n¿Estás seguro?";
+
+"Privacy Policy" = "Política de privacidad";
 
 "Quite accurate" = "Muy preciso";
 
@@ -136,11 +160,17 @@
 
 "Stopping Prey..." = "Deteniendo Prey...";
 
+"Terms of Service" = "Términos del servicio";
+
 "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password." = "Hubo un problema obteniendo la información de tu cuenta. Por favor asegúrate que tanto el email como la contraseña ingresada son válidas.";
 
 "Unable to access Location Services.\n You need to grant Prey access if you wish to track your device." = "No pudimos acceder a los servicios de localización.\n Necesitas darle acceso a Prey si deseas localizar el dispositivo.";
 
 "Unable to fetch location data. Is this device on airplane mode?" = "No fue posible obtener información de localización. ¿Está el dispositivo en modo avión?";
+
+"Upgrade to Pro" = "Cámbiate a Pro";
+
+"Use Location Listener" = "Usar Servicio de Localización";
 
 "User couldn't be created" = "El usuario no pudo ser creado";
 
@@ -164,54 +194,22 @@
 
 "You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Al marcar el dispositivo como desaparecido, comenzará a enviar reportes con su ubicación al Panel de Control.\n\n¿Estás seguro?";
 
+"Your device is protected and waiting for the activation signal." = "Tu dispositivo está protegido y a la espera de la señal de activación.";
+
 "Your email" = "Tu email";
 
 "Your name" = "Tu nombre";
-
-"A new report has been sent to your Control Panel." = "Un nuevo reporte ha sido enviado al Panel de Control.";
-
-"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Al deshabilitar esto, Prey no consumirá batería pero al marcarlo como desaparecido el usuario verá un mensaje en pantalla.";
-
-"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Al habilitar esto, el ícono de localización se mostrará en la barra de estado de tu dispositivo. Esto no quiere decir que el GPS está encendido, pero sí consumirá un poco más de batería.";
-
-"Current Location" = "Ubicación actual";
-
-"Device not ready!" = "Dispositivo no protegido";
-
-"Device ready." = "Dispositivo protegido";
-
-"Disable it!" = "Deshabilitarlo!";
-
-"Enable it!" = "Habilitarlo!";
-
-"Help" = "Ayuda";
-
-"Location services are disabled for Prey. Reports will not be sent." = "Servicio de localización para Prey on está activo. No se podrán enviar reportes.";
-
-"Preferences" = "Preferencias";
-
-"Privacy Policy" = "Política de privacidad";
-
-"Terms of Service" = "Términos del servicio";
-
-"Upgrade to Pro" = "Cámbiate a Pro";
-
-"Use Location Listener" = "Usar Servicio de Localización";
-
-"Your device is protected and waiting for the activation signal." = "Tu dispositivo está protegido y a la espera de la señal de activación.";
-
-"Remind me later" = "Más tarde";
 
 "Rate us" = "Califícanos";
 
 "Give us ★★★★★ on the App Store if you like Prey." = "Dános ★★★★★ en la App Store si te gusta Prey.";
 
+"Remind me later" = "Más tarde";
+
 "Yes, rate Prey!" = "Sí, calificar a Prey!";
 
-"Yes, accept it!" = "Sí, acepto!";
-
-"Rate this update with ★★★★★ on the App Store then await further instructions." = "Es valorar esta actualización con ★★★★★ en la App Store, luego espere nuevas instrucciones.";
-
-"Your mission, should you decide to accept it" = "Su misión, si decide aceptarla";
-
 "Information" = "Información";
+
+"Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team." = "Ahora tienes acceso a todas las características Pro de Prey, como por ejemplo el soporte directo con nuestro equipo técnico.";
+
+"Congrats,\nyou're now Pro" = "Enhorabuena,\nYa eres Pro";
