@@ -16,6 +16,8 @@
 
 "A new report has been sent to your Control Panel" = "Uusi raportti on lähetetty ohjauspaneeliisi";
 
+"A new report has been sent to your Control Panel." = "Uusi raportti on lähetetty ohjauspaneeliisi.";
+
 "About" = "Tietoa";
 
 "Access Denied" = "Pääsy estetty";
@@ -38,13 +40,17 @@
 
 "Best possible" = "Paras mahdollinen";
 
+"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Jos poistat tämän käytöstä, ei Prey voi enää tarkistaa sen tilaa ja ainoa tapa käynnistää raporttien lähetys on Preyn aktivointi web-ohjauspaneelista";
+
+"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Jos otat tämän käyttöön, näkyy violetti sijaintikuvake ylhäällä akun tilan vieressä. Tämä ei tarkoita, että GPS olisi päällä, mutta se voi silti kuormittaa hivenen puhelimesi akkua.";
+
 "Camouflage mode" = "Naamiotila";
 
 "Cancel" = "Peruuta";
 
 "Checking your password..." = "Tarkistetaan salasanaasi...";
 
-"Choose a 6 characters password" = "Valitse 6 merkkiä pitkä salasana";
+"Choose a 6 characters password" = "Salasanasi";
 
 "Congratulations!" = "Onnittelut!";
 
@@ -60,21 +66,35 @@
 
 "Creating account..." = "Luodaan tiliä...";
 
+"Current Location" = "Nykyinen sijainti";
+
 "Delay" = "Viive";
 
 "Delete log" = "Poista loki";
 
 "Detach device" = "Irrota laite";
 
+"Device not ready!" = "Laite ei ole valmiina!";
+
+"Device ready." = "Laite valmis.";
+
+"Disable it!" = "Poista käytöstä!";
+
 "Email" = "Sähköposti";
 
+"Enable it!" = "Ota käyttöön!";
+
 "Enter a valid e-mail address" = "Syötä kelvollinen sähköpostiosoite";
+
+"Help" = "Apua";
 
 "Hundreds of Meters" = "Satoja metrejä";
 
 "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "Näyttää siltä, että olet saavuttanut laitemäärän rajan ohjauspaneelissa. Yritä poistaa tämä laite tililtäsi, jos olet sen jo lisännyt.";
 
 "Location accuracy" = "Sijainnin tarkkuus";
+
+"Location services are disabled for Prey. Reports will not be sent." = "Preyn käyttämät sijaintipalvelut ovat poissa käytöstä. Raportteja ei lähetetä.";
 
 "Log" = "Loki";
 
@@ -112,11 +132,15 @@
 
 "Please wait" = "Odota";
 
+"Preferences" = "Ominaisuudet";
+
 "Prey alert" = "Prey-hälytys";
 
 "Prey next execution in %i minutes." = "Preyn seuraava suoritus %i minuutin kuluttua.";
 
 "Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey lopettaa raporttien lähetyksen ohjauspaneeliin ja laitteesi merkitään löydetyksi.\n\nOletko varma?";
+
+"Privacy Policy" = "Yksityisyyden suoja";
 
 "Quite accurate" = "Melko tarkka";
 
@@ -136,11 +160,17 @@
 
 "Stopping Prey..." = "Pysäytetään Preytä...";
 
+"Terms of Service" = "Käyttöehdot";
+
 "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password." = "Tilitietojesi saamisessa tapahtui virhe. Varmista, että sähköpostiosoitteesi ja salasanasi ovat oikein.";
 
 "Unable to access Location Services.\n You need to grant Prey access if you wish to track your device." = "Sijaintipalveluihin pääsy ei onnistu.\nSinun pitää myöntää Preylle pääsy, jos haluat jäljittää laitettasi.";
 
 "Unable to fetch location data. Is this device on airplane mode?" = "Sijaintitiedon nouto ei onnistunut. Onko laite lentokone-tilassa?";
+
+"Upgrade to Pro" = "Päivitä Pro-versioon";
+
+"Use Location Listener" = "Käytä sijainnin kuuntelijaa";
 
 "User couldn't be created" = "Käyttäjää ei voitu luoda";
 
@@ -164,48 +194,22 @@
 
 "You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Olet aikeissa merkitä tämän laitteen hävinneeksi ja käynnistää raporttien lähetyksen ohjauspaneeliin,\n\nOletko varma?";
 
+"Your device is protected and waiting for the activation signal." = "Laitteesi on suojattu ja se odottaa aktivointisignaalia.";
+
 "Your email" = "Sähköpostisi";
 
 "Your name" = "Nimesi";
-
-"A new report has been sent to your Control Panel." = "Uusi raportti on lähetetty ohjauspaneeliisi.";
-
-"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Jos poistat tämän käytöstä, ei Prey voi enää tarkistaa sen tilaa ja ainoa tapa käynnistää raporttien lähetys on Preyn aktivointi web-ohjauspaneelista";
-
-"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Jos otat tämän käyttöön, näkyy violetti sijaintikuvake ylhäällä akun tilan vieressä. Tämä ei tarkoita, että GPS olisi päällä, mutta se voi silti kuormittaa hivenen puhelimesi akkua.";
-
-"Current Location" = "Nykyinen sijainti";
-
-"Device not ready!" = "Laite ei ole valmiina!";
-
-"Device ready." = "Laite valmis.";
-
-"Disable it!" = "Poista käytöstä!";
-
-"Enable it!" = "Ota käyttöön!";
-
-"Help" = "Apua";
-
-"Location services are disabled for Prey. Reports will not be sent." = "Preyn käyttämät sijaintipalvelut ovat poissa käytöstä. Raportteja ei lähetetä.";
-
-"Preferences" = "Ominaisuudet";
-
-"Privacy Policy" = "Yksityisyyden suoja";
-
-"Terms of Service" = "Käyttöehdot";
-
-"Upgrade to Pro" = "Päivitä Pro-versioon";
-
-"Use Location Listener" = "Käytä sijainnin kuuntelijaa";
-
-"Your device is protected and waiting for the activation signal." = "Laitteesi on suojattu ja se odottaa aktivointisignaalia.";
-
-"Remind me later" = "Muistuta minua myöhrmmin";
 
 "Rate us" = "Arvostele Prey";
 
 "Give us ★★★★★ on the App Store if you like Prey." = "Anna meille viisi tähteä App Storessa jos pidät Preystä.";
 
+"Remind me later" = "Muistuta minua myöhrmmin";
+
 "Yes, rate Prey!" = "Kyllä, arvostele Prey!";
 
 "Information" = "Tiedot";
+
+"Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team." = "Kiitos tuestasi. Olet juuri saanut pääsyn kaikkiin Pro-ominaisuuksiin, mukaan lukien yksityisen ja suoran tuen meiltä, Prey-tiimiltä.";
+
+"Congrats,\nyou're now Pro" = "Onnittelut,\olet nyt Pro";
