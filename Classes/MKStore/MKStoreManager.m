@@ -181,7 +181,7 @@ static MKStoreManager* _sharedStoreManager;
 
 -(void) requestProductData
 {
-    [PreyRestHttp getAppstoreConfig:@"subscriptions/store.json" withBlock:^(NSMutableSet *dataStore, NSError *error)
+    [PreyRestHttp getAppstoreConfig:5 withUrl:@"subscriptions/store.json" withBlock:^(NSMutableSet *dataStore, NSError *error)
      {
          if (error)
          {

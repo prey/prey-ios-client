@@ -27,7 +27,7 @@
     [data setObject:target forKey:@"target"];
     [data setObject:@"start" forKey:@"command"];
     
-    [PreyRestHttp sendJsonData:5 withData:data andRawData:nil
+    [PreyRestHttp sendJsonData:5 withData:data
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/response",[[PreyConfig instance] deviceKey]]
                      withBlock:^(NSHTTPURLResponse *response, NSError *error) {
                          if (error) {

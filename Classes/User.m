@@ -29,7 +29,7 @@
     newUser.pro = NO;
     
     
-    [PreyRestHttp getCurrentControlPanelApiKey:newUser
+    [PreyRestHttp getCurrentControlPanelApiKey:5 withUser:newUser
                                      withBlock:^(NSString *apiKey, NSError *error)
      {
          if (error)
@@ -62,7 +62,7 @@
 	[newUser setPassword:passwordUser];
 	[newUser setRepassword:repasswordUser];
 	
-    [PreyRestHttp createApiKey:newUser
+    [PreyRestHttp createApiKey:5 withUser:newUser
                     withBlock:^(NSString *apiKey, NSError *error)
      {
          if (error)

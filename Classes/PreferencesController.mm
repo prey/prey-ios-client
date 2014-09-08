@@ -293,7 +293,7 @@
     HUD.labelText = NSLocalizedString(@"Detaching device...",nil);
 
     
-    [PreyRestHttp deleteDevice:^(NSHTTPURLResponse *response, NSError *error)
+    [PreyRestHttp deleteDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error)
      {
          [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
          

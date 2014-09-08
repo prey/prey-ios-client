@@ -28,7 +28,7 @@
     [newDevice setModel: [iphoneInfo model]];
     [newDevice setUuid: [iphoneInfo uuid]];
 
-    [PreyRestHttp createDeviceKeyForDevice:newDevice usingApiKey:[userKey apiKey]
+    [PreyRestHttp createDeviceKeyForDevice:5 withDevice:newDevice usingApiKey:[userKey apiKey]
                                  withBlock:^(NSString *deviceKey, NSError *error)
     {
         if (error)

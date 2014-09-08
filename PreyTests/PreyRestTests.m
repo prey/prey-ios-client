@@ -65,7 +65,7 @@
     __block id blockError;
     __block NSMutableSet *blockDataStore;
 
-    [PreyRestHttp getAppstoreConfig:@"subscriptions/store.json" withBlock:^(NSMutableSet *dataStore, NSError *error)
+    [PreyRestHttp getAppstoreConfig:5 withUrl:@"subscriptions/store.json" withBlock:^(NSMutableSet *dataStore, NSError *error)
      {
          blockError = error;
          blockDataStore = dataStore;
@@ -99,10 +99,10 @@
 	newUser.email = emailTest;
 	newUser.password = passwTest;
     
-    [PreyRestHttp getCurrentControlPanelApiKey:newUser
+    [PreyRestHttp getCurrentControlPanelApiKey:5 withUser:newUser
                                      withBlock:^(NSString *apiKey, NSError *error)
      {
-         [PreyRestHttp createDeviceKeyForDevice:newDevice usingApiKey:apiKey
+         [PreyRestHttp createDeviceKeyForDevice:5 withDevice:newDevice usingApiKey:apiKey
                                       withBlock:^(NSString *deviceKey, NSError *error)
           {
               blockDevicekey = deviceKey;
@@ -133,7 +133,7 @@
 	[newUser setPassword:passwTest];
 	[newUser setRepassword:passwTest];
     
-    [PreyRestHttp createApiKey:newUser withBlock:^(NSString *apiKey, NSError *error)
+    [PreyRestHttp createApiKey:5 withUser:newUser withBlock:^(NSString *apiKey, NSError *error)
      {
          blockApikey = apiKey;
          blockError  = error;
@@ -153,7 +153,7 @@
 
     NSString *receiptDataString = @"th1s4t3st";
     
-    [PreyRestHttp checkTransaction:receiptDataString
+    [PreyRestHttp checkTransaction:5 withString:receiptDataString
                          withBlock:^(NSHTTPURLResponse *response, NSError *error)
      {
          if ([response isKindOfClass:[NSHTTPURLResponse class]])
@@ -180,7 +180,7 @@
 	newUser.email = emailTest;
 	newUser.password = passwTest;
     
-    [PreyRestHttp getCurrentControlPanelApiKey:newUser
+    [PreyRestHttp getCurrentControlPanelApiKey:5 withUser:newUser
                                      withBlock:^(NSString *apiKey, NSError *error)
      {
          blockApikey = apiKey;
@@ -218,7 +218,7 @@
     __block id blockError = nil;
     __block NSInteger statusCode;
     
-    [PreyRestHttp deleteDevice:^(NSHTTPURLResponse *response, NSError *error)
+    [PreyRestHttp deleteDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error)
      {
          if ([response isKindOfClass:[NSHTTPURLResponse class]])
          {

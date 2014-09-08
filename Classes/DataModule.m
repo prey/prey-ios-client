@@ -65,7 +65,7 @@
     
     [[AFPreyStatusClient sharedClient] setDefaultHeader:@"X-Prey-Status" value:jsonString];
     
-    [PreyRestHttp sendJsonData:5 withData:parameters andRawData:nil
+    [PreyRestHttp sendJsonData:5 withData:parameters
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/events",[[PreyConfig instance] deviceKey]]
                      withBlock:^(NSHTTPURLResponse *response, NSError *error) {
                          if (error) {
@@ -78,7 +78,7 @@
 
 - (void)sendHttp:(NSMutableDictionary*)data
 {
-    [PreyRestHttp sendJsonData:5 withData:data andRawData:nil
+    [PreyRestHttp sendJsonData:5 withData:data
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",[[PreyConfig instance] deviceKey]]
                      withBlock:^(NSHTTPURLResponse *response, NSError *error) {
         if (error) {
