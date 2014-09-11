@@ -21,6 +21,11 @@
 	NSString *macAddress;
     NSString *uuid;
     
+    NSString *cpu_model;
+    NSString *cpu_speed;
+    NSString *cpu_cores;
+
+    NSString *ram_size;
 }
 
 @property (nonatomic) NSString *deviceKey;
@@ -32,6 +37,10 @@
 @property (nonatomic) NSString *version;
 @property (nonatomic) NSString *macAddress;
 @property (nonatomic) NSString *uuid;
+@property (nonatomic) NSString *cpu_model;
+@property (nonatomic) NSString *cpu_speed;
+@property (nonatomic) NSString *cpu_cores;
+@property (nonatomic) NSString *ram_size;
 
 + (void)newDeviceForApiKey:(User*)userKey withBlock:(void (^)(User *user, Device *dev, NSError *error))block;
 

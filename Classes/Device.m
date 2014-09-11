@@ -9,10 +9,11 @@
 #import "Device.h"
 #import "PreyRestHttp.h"
 #import "IphoneInformationHelper.h"
+#import "UIDevice-Hardware.h"
 
 @implementation Device
 
-@synthesize deviceKey, name, type, vendor, model, os, version, macAddress, uuid;
+@synthesize deviceKey, name, type, vendor, model, os, version, macAddress, uuid, cpu_model, cpu_cores, cpu_speed, ram_size;
 
 
 + (void)newDeviceForApiKey:(User*)userKey withBlock:(void (^)(User *user, Device *dev, NSError *error))block
@@ -28,6 +29,15 @@
     [newDevice setModel: [iphoneInfo model]];
     [newDevice setUuid: [iphoneInfo uuid]];
 
+    float frequency_cpu = [[UIDevice currentDevice] cpuFrequency] / 1000000;
+    
+    [newDevice setCpu_model:[[UIDevice currentDevice] hwmodel]];
+    [newDevice setCpu_cores:[NSString stringWithFormat:@"%lu",(unsigned long)[[UIDevice currentDevice] cpuCount]]];
+    [newDevice setCpu_speed:[NSString stringWithFormat:@"%f",frequency_cpu]];
+    
+    [newDevice setRam_size:[NSString stringWithFormat:@"%lu",(unsigned long)([[UIDevice currentDevice] totalMemory]/1024/1024)]];
+
+    
     [PreyRestHttp createDeviceKeyForDevice:5 withDevice:newDevice usingApiKey:[userKey apiKey]
                                  withBlock:^(NSString *deviceKey, NSError *error)
     {
