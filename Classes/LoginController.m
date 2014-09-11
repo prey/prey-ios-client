@@ -17,6 +17,7 @@
 #import "WizardController.h"
 #import "PreferencesController.h"
 #import "MKStoreManager.h"
+#import "ReviewRequest.h"
 
 @interface LoginController()
 
@@ -270,6 +271,9 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    if ([ReviewRequest shouldAskForReview])
+        [ReviewRequest askForReview];
+    
     self.screenName = @"Login";
     
     PreyConfig *config = [PreyConfig instance];

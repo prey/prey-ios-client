@@ -17,7 +17,6 @@
 #import "StoreControllerViewController.h"
 #import "Constants.h"
 #import <Social/Social.h>
-#import "ReviewRequest.h"
 #import "GAI.h"
 #import "GAIDictionaryBuilder.h"
 #import "GAIFields.h"
@@ -348,10 +347,6 @@
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"Preferences"];
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
-    
-    
-    if (ReviewRequest::ShouldAskForReview())
-        ReviewRequest::AskForReview();
     
     self.title = NSLocalizedString(@"Preferences", nil);
     [self.tableView setBackgroundView: nil];

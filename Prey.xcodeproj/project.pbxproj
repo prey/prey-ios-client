@@ -116,7 +116,7 @@
 		3B3CCB7F196B28820000F56C /* OldUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132423134634D900F7EFD8 /* OldUserController.m */; };
 		3B3CCB80196B28820000F56C /* NewUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132426134634E600F7EFD8 /* NewUserController.m */; };
 		3B3CCB81196B28820000F56C /* CongratulationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132402134633EA00F7EFD8 /* CongratulationsController.m */; };
-		3B3CCB82196B28820000F56C /* ReviewRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.mm */; };
+		3B3CCB82196B28820000F56C /* ReviewRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.m */; };
 		3B3CCB83196B28820000F56C /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3B3CCB84196B28820000F56C /* PreyLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324381346356300F7EFD8 /* PreyLogger.m */; };
 		3B3CCB85196B28820000F56C /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243A1346356300F7EFD8 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -314,7 +314,7 @@
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
 		3BE0935B18D1150F00F6ACE4 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE0935A18D1150F00F6ACE4 /* Default-Portrait~ipad.png */; };
 		3BEEAB7E1806F87A00849B2B /* Wizard in Resources */ = {isa = PBXBuildFile; fileRef = 3BEEAB7D1806F87A00849B2B /* Wizard */; };
-		3BF0371F167847920086A7A7 /* ReviewRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.mm */; };
+		3BF0371F167847920086A7A7 /* ReviewRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.m */; };
 		3BF3AE9919757C3F002AEF24 /* prey-text.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF3AE9719757C3F002AEF24 /* prey-text.png */; };
 		3BF3AE9A19757C3F002AEF24 /* prey-text@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BF3AE9819757C3F002AEF24 /* prey-text@2x.png */; };
 		3BF3AE9D1975F89A002AEF24 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BF3AE9C1975F899002AEF24 /* OpenSans-Semibold.ttf */; };
@@ -694,7 +694,7 @@
 		3BE0935A18D1150F00F6ACE4 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		3BEEAB7D1806F87A00849B2B /* Wizard */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Wizard; path = Resources/Wizard; sourceTree = "<group>"; };
 		3BF0371D167847920086A7A7 /* ReviewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReviewRequest.h; path = Classes/ReviewRequest.h; sourceTree = "<group>"; };
-		3BF0371E167847920086A7A7 /* ReviewRequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ReviewRequest.mm; path = Classes/ReviewRequest.mm; sourceTree = "<group>"; };
+		3BF0371E167847920086A7A7 /* ReviewRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReviewRequest.m; path = Classes/ReviewRequest.m; sourceTree = "<group>"; };
 		3BF3AE9719757C3F002AEF24 /* prey-text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-text.png"; sourceTree = "<group>"; };
 		3BF3AE9819757C3F002AEF24 /* prey-text@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-text@2x.png"; sourceTree = "<group>"; };
 		3BF3AE9C1975F899002AEF24 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "Resources/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
@@ -933,7 +933,7 @@
 				0713240A1346343C00F7EFD8 /* Constants.h */,
 				0713240B1346343C00F7EFD8 /* Constants.m */,
 				3BF0371D167847920086A7A7 /* ReviewRequest.h */,
-				3BF0371E167847920086A7A7 /* ReviewRequest.mm */,
+				3BF0371E167847920086A7A7 /* ReviewRequest.m */,
 				071324371346356300F7EFD8 /* PreyLogger.h */,
 				071324381346356300F7EFD8 /* PreyLogger.m */,
 				071324391346356300F7EFD8 /* RegexKitLite.h */,
@@ -1722,7 +1722,7 @@
 				3B9EF01D18ECE2E60060FFAE /* UIImageView+AFNetworking.m in Sources */,
 				07D4CBB81670EDE100DD1CB9 /* GeofencingModule.m in Sources */,
 				07D4CBBB1670FA2400DD1CB9 /* PreyGeofencingController.m in Sources */,
-				3BF0371F167847920086A7A7 /* ReviewRequest.mm in Sources */,
+				3BF0371F167847920086A7A7 /* ReviewRequest.m in Sources */,
 				3B7FBB03191027250057EBC4 /* SFHFKeychainUtils.m in Sources */,
 				3B7C148C1909506E0080C606 /* PhotoController.m in Sources */,
 				3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */,
@@ -1810,7 +1810,7 @@
 				3BC712401981C8CB00FDF99B /* EXPDoubleTuple.m in Sources */,
 				3BC712581981C8CB00FDF99B /* EXPMatchers+contain.m in Sources */,
 				3B3CCB81196B28820000F56C /* CongratulationsController.m in Sources */,
-				3B3CCB82196B28820000F56C /* ReviewRequest.mm in Sources */,
+				3B3CCB82196B28820000F56C /* ReviewRequest.m in Sources */,
 				3B3CCB83196B28820000F56C /* UIWebViewController.m in Sources */,
 				3B3CCB84196B28820000F56C /* PreyLogger.m in Sources */,
 				3B3CCB85196B28820000F56C /* RegexKitLite.m in Sources */,
@@ -1958,8 +1958,7 @@
 				);
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BED4CC68-D15E-4D59-ADAF-0B74DC866B6A";
+				PROVISIONING_PROFILE = "27d5b4f8-6a55-496a-a775-8442e3ca6b9e";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1990,8 +1989,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9EB91967-1F83-42BD-AE3A-D16508BDDBEF";
+				PROVISIONING_PROFILE = "0885A388-4AEC-4945-A440-5EC90FDE0D30";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2021,8 +2019,7 @@
 				);
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "287AED91-A38C-4B48-82E7-61B093932371";
+				PROVISIONING_PROFILE = "939207EA-0CF6-432B-B723-9717D149DDD9";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
