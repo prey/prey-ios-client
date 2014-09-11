@@ -556,4 +556,47 @@
     }
 }
 
++ (void)checkStatusInBackground:(NSInteger)reload withURL:(NSString*)endpoint withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
+{
+    if (reload <= 0)
+    {
+        if (block)
+        {
+            NSError *error = [NSError errorWithDomain:@"StatusCode503Reload" code:700 userInfo:nil];
+            block(nil, error);
+        }
+    }
+    else
+    {
+        NSMutableDictionary *requestData = [[NSMutableDictionary alloc] init];
+        [requestData setObject:[[PreyConfig instance] deviceKey] forKey:@"device_key"];
+        
+        [[AFPreyStatusClient sharedClient] postPath:endpoint
+                                         parameters:requestData
+                                            success:^(AFHTTPRequestOperation *operation, id responseObject)
+         {
+             PreyLogMessage(@"PreyRestHttp", 21, @"POST: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+             if (block) {
+                 block(operation.response, nil);
+             }
+             
+         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
+             
+             if (block)
+             {
+                 if ([operation.response statusCode] == 503)
+                 {
+                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                         [self checkStatusForDevice:reload - 1 withBlock:block];                         });
+                 }
+                 else
+                 {
+                     block(operation.response, error);
+                 }
+             }
+         }];
+    }
+}
+
 @end

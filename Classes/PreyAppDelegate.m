@@ -392,23 +392,46 @@
 
     self.onPreyVerificationSucceeded = completionHandler;
     
-    [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
-        if (error)
-        {
-            PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
-            
-            if (self.onPreyVerificationSucceeded)
+    if ([userInfo objectForKey:@"url-echo"] == nil)
+    {
+        [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+            if (error)
             {
-                self.onPreyVerificationSucceeded(UIBackgroundFetchResultFailed);
-                self.onPreyVerificationSucceeded = nil;
+                PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
+                
+                if (self.onPreyVerificationSucceeded)
+                {
+                    self.onPreyVerificationSucceeded(UIBackgroundFetchResultFailed);
+                    self.onPreyVerificationSucceeded = nil;
+                }
             }
-        }
-        else
-        {
-            PreyLogMessage(@"PreyAppDelegate", 10,@"OK Background");
-        }
-    }];
-    
+            else
+            {
+                PreyLogMessage(@"PreyAppDelegate", 10,@"OK Background");
+            }
+        }];
+    }
+    else
+    {        
+        [PreyRestHttp checkStatusInBackground:5 withURL:[userInfo objectForKey:@"url-echo"] withBlock:^(NSHTTPURLResponse *response, NSError *error)
+         {
+             if (error)
+             {
+                 PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
+                 
+                 if (self.onPreyVerificationSucceeded)
+                 {
+                     self.onPreyVerificationSucceeded(UIBackgroundFetchResultFailed);
+                     self.onPreyVerificationSucceeded = nil;
+                 }
+             }
+             else
+             {
+                 [self checkedCompletionHandler];
+                 PreyLogMessage(@"PreyAppDelegate", 10,@"OK Echo");
+             }
+         }];
+    }
 }
 
 - (void)checkedCompletionHandler
