@@ -203,6 +203,7 @@
         [requestData setObject:[device os] forKey:@"os"];
         [requestData setObject:[device macAddress] forKey:@"physical_address"];
         [requestData setObject:[device uuid] forKey:@"hardware_attributes[uuid]"];
+        [requestData setObject:[device uuid] forKey:@"hardware_attributes[serial_number]"];
         [requestData setObject:[device cpu_model] forKey:@"hardware_attributes[cpu_model]"];
         [requestData setObject:[device cpu_speed] forKey:@"hardware_attributes[cpu_speed]"];
         [requestData setObject:[device cpu_cores] forKey:@"hardware_attributes[cpu_cores]"];

@@ -12,6 +12,7 @@
 #import "UIDevice-Hardware.h"
 #import <sys/utsname.h>
 #import "MKStore/MKSKProduct.h"
+#import "Constants.h"
 
 @implementation IphoneInformationHelper
 
@@ -37,7 +38,11 @@
             instance.model = [self deviceModel];
             instance.version = [[UIDevice currentDevice] systemVersion];
             instance.macAddress = [[UIDevice currentDevice] macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
-            instance.uuid = [MKSKProduct deviceId];
+            
+            if (IS_OS_6_OR_LATER)
+                instance.uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+            else
+                instance.uuid = [MKSKProduct deviceId];
 		}
 	}
 	return instance;
