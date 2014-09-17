@@ -92,6 +92,7 @@
              
              if (block) {
                  block(user.apiKey, nil);
+                 [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:[[PreyConfig instance] apiKey] password:@"x"];
              }
              
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -116,7 +117,10 @@
                  [alertView show];
                  
                  if (block)
+                 {
                      block(nil, error);
+                     [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:[[PreyConfig instance] apiKey] password:@"x"];
+                 }
              }
              PreyLogMessage(@"PreyRestHttp", 10,@"Error profile.json: %@",error);
          }];
