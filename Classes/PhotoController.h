@@ -12,6 +12,7 @@
 
 @interface PhotoController : NSObject
 
++ (PhotoController *)instance;
 - (void)snapStillImage;
 - (void)changeCamera;
 - (BOOL)isTwoCameraAvailable;

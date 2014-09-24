@@ -12,12 +12,11 @@
 #import "Constants.h"
 #import "PreyAppDelegate.h"
 #import "LocationController.h"
-
 #import "PhotoController.h"
 
 @implementation ReportModule
 
-@synthesize waitForLocation,waitForPicture,url, picture, pictureBack, reportData, runReportTimer, photoController;
+@synthesize waitForLocation,waitForPicture,url, picture, pictureBack, reportData, runReportTimer;
 
 +(ReportModule *)instance  {
 	static ReportModule *instance;
@@ -36,8 +35,6 @@
                                                        object:nil];
             
             [[LocationController instance] startUpdatingLocation];
-            
-            instance.photoController = [[PhotoController alloc] init];
 		}
 	}
     
@@ -148,10 +145,10 @@
         //Can't take pictures if in bg
         if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
         {
-            [photoController changeCamera];
+            [[PhotoController instance] changeCamera];
             
             [NSTimer scheduledTimerWithTimeInterval:2.0
-                                             target:photoController
+                                             target:[PhotoController instance]
                                            selector:@selector(snapStillImage)
                                            userInfo:nil repeats:NO];
             
@@ -230,11 +227,11 @@
             self.picture = pictureTaken;
             
             // Prepare second photo
-            if ([photoController isTwoCameraAvailable])
+            if ([[PhotoController instance] isTwoCameraAvailable])
             {
-                [photoController changeCamera];
+                [[PhotoController instance] changeCamera];
                 [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                 target:photoController
+                                                 target:[PhotoController instance]
                                                selector:@selector(snapStillImage)
                                                userInfo:nil repeats:NO];
             }

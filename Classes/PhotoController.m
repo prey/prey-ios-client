@@ -10,6 +10,7 @@
 
 #import "PhotoController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "Constants.h"
 
 static void * CapturingStillImageContext = &CapturingStillImageContext;
 static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDeviceAuthorizedContext;
@@ -18,9 +19,9 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 // Session management.
 @property (nonatomic) dispatch_queue_t sessionQueue; // Communicate with the session and other session objects on this queue.
-@property (nonatomic) AVCaptureSession *session;
+@property (nonatomic, strong) AVCaptureSession *session;
 @property (nonatomic) AVCaptureDeviceInput *videoDeviceInput;
-@property (nonatomic) AVCaptureStillImageOutput *stillImageOutput;
+@property (nonatomic, strong) AVCaptureStillImageOutput *stillImageOutput;
 
 // Utilities.
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
@@ -32,6 +33,18 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 @end
 
 @implementation PhotoController
+
++ (PhotoController *)instance
+{
+    static PhotoController *instance;
+    
+    @synchronized(self)
+    {
+        if(!instance)
+            instance = [[PhotoController alloc] init];
+    }
+    return instance;
+}
 
 - (id) init
 {
@@ -71,7 +84,9 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 		
 	// Check for device authorization
     [self setDeviceAuthorized:YES];
-	//[self checkDeviceAuthorizationStatus];
+	
+    if (IS_OS_7_OR_LATER)
+        [self checkDeviceAuthorizationStatus];
 	
 	// In general it is not safe to mutate an AVCaptureSession or any of its inputs, outputs, or connections from multiple threads at the same time.
 	// Why not do all of this on the main queue?
@@ -210,7 +225,11 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 		{
 			[[self session] addInput:[self videoDeviceInput]];
 		}
-		
+        
+        if ([[self session] canSetSessionPreset:AVCaptureSessionPresetLow])
+            [[self session] setSessionPreset:AVCaptureSessionPresetLow];
+        
+        
 		[[self session] commitConfiguration];
 	});
 }
@@ -231,20 +250,27 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
         }
         AudioServicesPlaySystemSound(soundID);
         
-		// Capture a still image.
-		[[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-			
-			if (imageDataSampleBuffer)
-			{
-				NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-				UIImage *image = [[UIImage alloc] initWithData:imageData];
+        @try {
+            // Capture a still image.
+            [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
                 
-                //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-                NSLog(@"saved photo");
-                
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureReady" object:image];
-			}
-		}];
+                if (imageDataSampleBuffer)
+                {
+                    NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                    UIImage *image = [[UIImage alloc] initWithData:imageData];
+                    
+                    //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+                    NSLog(@"saved photo");
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureReady" object:image];
+                }
+            }];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Error saving photo: %@ reason %@", [exception name], [exception reason]);
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureReady" object:nil];
+        }
+        
 	});
 }
 
@@ -355,8 +381,8 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 		{
 			//Not granted access to mediaType
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[[[UIAlertView alloc] initWithTitle:@"AVCam!"
-											message:@"AVCam doesn't have permission to use Camera, please change privacy settings"
+				[[[UIAlertView alloc] initWithTitle:@"Camera Authorization"
+											message:@"Prey doesn't have permission to use Camera, please change privacy settings"
 										   delegate:self
 								  cancelButtonTitle:@"OK"
 								  otherButtonTitles:nil] show];

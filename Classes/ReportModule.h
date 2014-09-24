@@ -10,8 +10,6 @@
 
 #import "DataModule.h"
 
-@class PhotoController;
-
 @interface ReportModule : DataModule
 {
 	NSMutableDictionary *reportData;
@@ -20,8 +18,6 @@
     
     NSTimer     *runReportTimer;
     NSDate      *lastExecution;
-    
-    PhotoController *photoController;
 }
 
 @property BOOL waitForLocation, waitForPicture;
@@ -29,12 +25,10 @@
 @property (nonatomic) UIImage *picture;
 @property (nonatomic) UIImage *pictureBack;
 @property (nonatomic) NSMutableDictionary *reportData;
-
 @property (nonatomic) NSTimer   *runReportTimer;
 
-@property (nonatomic) PhotoController *photoController;
++ (ReportModule *)instance;
+- (void)send;
+- (void)stopSendReport;
 
-+(ReportModule *)instance;
-- (void) send;
-- (void) stopSendReport;
 @end
