@@ -331,10 +331,21 @@
     }
 }
 
--(void)viewDidAppear:(BOOL)animated {
-    UIRemoteNotificationType notificationTypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
-
-    if (notificationTypes & UIRemoteNotificationTypeAlert)
+-(void)viewDidAppear:(BOOL)animated
+{
+    BOOL isRegisteredNotifications = NO;
+    
+    if (IS_OS_8_OR_LATER)
+        isRegisteredNotifications  = [[UIApplication sharedApplication] isRegisteredForRemoteNotifications];
+    else
+    {
+        UIRemoteNotificationType notificationTypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+        if (notificationTypes & UIRemoteNotificationTypeAlert) {
+            isRegisteredNotifications = YES;
+        }
+    }
+    
+    if (isRegisteredNotifications)
         PreyLogMessage(@"App Delegate", 10, @"Alert notification set. Good!");
     else
     {

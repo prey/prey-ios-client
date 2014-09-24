@@ -30,11 +30,13 @@
 #pragma mark Some useful stuff
 - (void)registerForRemoteNotifications {
     PreyLogMessage(@"App Delegate", 10, @"Registering for push notifications...");    
-    [[UIApplication sharedApplication] 
-	 registerForRemoteNotificationTypes:
-	 (UIRemoteNotificationTypeAlert | 
-	  UIRemoteNotificationTypeBadge | 
-	  UIRemoteNotificationTypeSound)];
+
+    if (IS_OS_8_OR_LATER)
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    else
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert |
+                                                                               UIRemoteNotificationTypeBadge |
+                                                                               UIRemoteNotificationTypeSound)];
 }
 
 - (void)changeShowFakeScreen:(BOOL)value
@@ -130,7 +132,7 @@
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     [GAI sharedInstance].dispatchInterval = 120;
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelNone];
-    [[GAI sharedInstance] trackerWithTrackingId:@"UA-8743344-7"];
+    [[GAI sharedInstance] trackerWithTrackingId:kGAIcode];
     
     // Add app Version in SettingsView
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];

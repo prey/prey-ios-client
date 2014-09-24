@@ -19,6 +19,7 @@
 #define kMoveTableView_iPhone   85.0
 #define kMoveButton_iPhone      0
 
+#define kGAIcode @"UA-8743344-7"
 
 #define kLabelTag	4096
 
@@ -26,6 +27,7 @@
 #define IS_OS_5_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0)
 #define IS_OS_6_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0)
 #define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+#define IS_OS_8_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
 extern NSString * const DEFAULT_CONTROL_PANEL_HOST;
 extern NSString * const DEFAULT_CHECK_PATH;

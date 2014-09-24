@@ -13,6 +13,7 @@
 #import "PreyAppDelegate.h"
 #import "LoginController.h"
 #import "PreferencesController.h"
+#import "PhotoController.h"
 #import "Constants.h"
 
 @implementation CongratulationsController
@@ -73,8 +74,19 @@
 	[self.ok setTitle:[NSLocalizedString(@"OK",nil) uppercaseString] forState:UIControlStateNormal];
     
     authLocation = [[CLLocationManager alloc] init];
-    [authLocation  startUpdatingLocation];
-    [authLocation stopUpdatingLocation];
+    
+    if (IS_OS_8_OR_LATER)
+    {
+        [authLocation requestAlwaysAuthorization];
+        
+        // Authorization Camera
+        [PhotoController instance];
+    }
+    else
+    {
+        [authLocation  startUpdatingLocation];
+        [authLocation stopUpdatingLocation];
+    }
     
 	[super viewDidLoad];
 }
