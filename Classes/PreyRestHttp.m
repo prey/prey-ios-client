@@ -92,7 +92,7 @@
              
              if (block) {
                  block(user.apiKey, nil);
-                 [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:[[PreyConfig instance] apiKey] password:@"x"];
+                 [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:user.apiKey password:@"x"];
              }
              
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
