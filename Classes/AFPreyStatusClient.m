@@ -51,7 +51,7 @@
     
     // Takes the form "My Application 1.0 (Macintosh; Mac OS X 10.5.7; en_GB)"
     //return [NSString stringWithFormat:@"Prey/%@ (%@; %@ %@; %@)", [Constants appVersion], deviceName, OSName, OSVersion, locale];
-    return [NSString stringWithFormat:@"Prey/%@ (iOS)", [Constants appVersion]];
+    return [NSString stringWithFormat:@"Prey/%@ (iOS %@)", [Constants appVersion], OSVersion];
 }
 
 @end
