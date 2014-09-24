@@ -475,6 +475,9 @@
 		3B1C2BB3191ACAAF00DFD677 /* AppFeedback.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppFeedback.plist; sourceTree = "<group>"; };
 		3B1C978017B3177400D9FD1E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		3B31F1CE19D0CCA500769982 /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		3B31F1CF19D0CCA500769982 /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		3B31F1D019D0CCA500769982 /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
 		3B477ED718B2AA7B003A32CE /* PreyDeployment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyDeployment.h; sourceTree = "<group>"; };
 		3B477ED818B2AA7B003A32CE /* PreyDeployment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyDeployment.m; sourceTree = "<group>"; };
 		3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -1369,6 +1372,9 @@
 				3B675EF41891874500CE3D0D /* GAILogger.h */,
 				3B675EF51891874500CE3D0D /* GAITrackedViewController.h */,
 				3B675EF61891874500CE3D0D /* GAITracker.h */,
+				3B31F1CE19D0CCA500769982 /* GAIEcommerceProduct.h */,
+				3B31F1CF19D0CCA500769982 /* GAIEcommerceProductAction.h */,
+				3B31F1D019D0CCA500769982 /* GAIEcommercePromotion.h */,
 				3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */,
 			);
 			path = GoogleAnalytics;
@@ -1956,7 +1962,10 @@
 					"./Classes/GoogleAnalytics/**",
 					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
 				);
-				OTHER_LDFLAGS = "-licucore";
+				OTHER_LDFLAGS = (
+					"-licucore",
+					"-ObjC",
+				);
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "27d5b4f8-6a55-496a-a775-8442e3ca6b9e";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1987,7 +1996,10 @@
 					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
 				);
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-licucore";
+				OTHER_LDFLAGS = (
+					"-licucore",
+					"-ObjC",
+				);
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "0885A388-4AEC-4945-A440-5EC90FDE0D30";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2017,7 +2029,10 @@
 					"./Classes/GoogleAnalytics/**",
 					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
 				);
-				OTHER_LDFLAGS = "-licucore";
+				OTHER_LDFLAGS = (
+					"-licucore",
+					"-ObjC",
+				);
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "939207EA-0CF6-432B-B723-9717D149DDD9";
 				TARGETED_DEVICE_FAMILY = "1,2";

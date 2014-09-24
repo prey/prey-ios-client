@@ -12,16 +12,20 @@
 	<dict>
 		<key>11D8F452-C2FA-44F1-B93E-288CC161E2A0</key>
 		<string>ssh://github.com/prey/prey-ios-inapppurchase.git</string>
-		<key>185D1EF4-CA69-471E-A93C-C4D31E870BD7</key>
+		<key>2B858CE492C59A91F1112F6810689C5505846642</key>
 		<string>git://github.com/fpillet/NSLogger.git</string>
-		<key>5569AA9B-80C4-4A48-99EA-E833E33A14FB</key>
-		<string>git://github.com/erica/uidevice-extension.git</string>
-		<key>7AB01F05-C635-4ABE-8520-A6C37EB83857</key>
+		<key>4182765C525509B305166AB949D5935FD5C85212</key>
 		<string>git://github.com/jdg/MBProgressHUD.git</string>
+		<key>8884BD3B878631A1500EC9895E6A3CF4CB0AB3DB</key>
+		<string>https://github.com/specta/expecta</string>
+		<key>A1F2DF57605D01F240A56F2D16A22892BAF74E87</key>
+		<string>git://github.com/erica/uidevice-extension.git</string>
+		<key>B8AFC418E4AD7753C47B407DD923BBCD0CA9DFC1</key>
+		<string>https://github.com/prey/prey-ios-client.git</string>
 		<key>D68D8992-48E3-486D-B255-7B5507911C2D</key>
 		<string>git://github.com/pokeb/asi-http-request.git</string>
-		<key>DEBB5085-164F-41C2-A51F-0B93B9CA930E</key>
-		<string>https://github.com/prey/prey-ios-client.git</string>
+		<key>DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8</key>
+		<string>https://github.com/AFNetworking/AFNetworking</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Prey.xcodeproj/project.xcworkspace</string>
@@ -29,25 +33,37 @@
 	<dict>
 		<key>11D8F452-C2FA-44F1-B93E-288CC161E2A0</key>
 		<string>../../Classes/InAppSubscriptions</string>
-		<key>185D1EF4-CA69-471E-A93C-C4D31E870BD7</key>
+		<key>2B858CE492C59A91F1112F6810689C5505846642</key>
 		<string>../../Classes/NSLogger</string>
-		<key>5569AA9B-80C4-4A48-99EA-E833E33A14FB</key>
-		<string>../../Classes/UIDevice-Extension</string>
-		<key>7AB01F05-C635-4ABE-8520-A6C37EB83857</key>
+		<key>4182765C525509B305166AB949D5935FD5C85212</key>
 		<string>../../Classes/MBProgressHUD</string>
+		<key>8884BD3B878631A1500EC9895E6A3CF4CB0AB3DB</key>
+		<string>../../Classes/Expecta</string>
+		<key>A1F2DF57605D01F240A56F2D16A22892BAF74E87</key>
+		<string>../../Classes/UIDevice-Extension</string>
+		<key>B8AFC418E4AD7753C47B407DD923BBCD0CA9DFC1</key>
+		<string>../..</string>
 		<key>D68D8992-48E3-486D-B255-7B5507911C2D</key>
 		<string>../../Classes/asi-http-request</string>
-		<key>DEBB5085-164F-41C2-A51F-0B93B9CA930E</key>
-		<string>../..</string>
+		<key>DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8</key>
+		<string>../../Classes/AFNetworking-1.x</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/prey/prey-ios-client.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>DEBB5085-164F-41C2-A51F-0B93B9CA930E</string>
+	<string>B8AFC418E4AD7753C47B407DD923BBCD0CA9DFC1</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AFNetworking-1.x</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
@@ -55,6 +71,14 @@
 			<string>D68D8992-48E3-486D-B255-7B5507911C2D</string>
 			<key>IDESourceControlWCCName</key>
 			<string>asi-http-request</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8884BD3B878631A1500EC9895E6A3CF4CB0AB3DB</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Expecta</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
@@ -68,7 +92,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>7AB01F05-C635-4ABE-8520-A6C37EB83857</string>
+			<string>4182765C525509B305166AB949D5935FD5C85212</string>
 			<key>IDESourceControlWCCName</key>
 			<string>MBProgressHUD</string>
 		</dict>
@@ -76,7 +100,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>185D1EF4-CA69-471E-A93C-C4D31E870BD7</string>
+			<string>2B858CE492C59A91F1112F6810689C5505846642</string>
 			<key>IDESourceControlWCCName</key>
 			<string>NSLogger</string>
 		</dict>
@@ -84,7 +108,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>DEBB5085-164F-41C2-A51F-0B93B9CA930E</string>
+			<string>B8AFC418E4AD7753C47B407DD923BBCD0CA9DFC1</string>
 			<key>IDESourceControlWCCName</key>
 			<string>prey-ios-client</string>
 		</dict>
@@ -92,7 +116,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>5569AA9B-80C4-4A48-99EA-E833E33A14FB</string>
+			<string>A1F2DF57605D01F240A56F2D16A22892BAF74E87</string>
 			<key>IDESourceControlWCCName</key>
 			<string>UIDevice-Extension</string>
 		</dict>
