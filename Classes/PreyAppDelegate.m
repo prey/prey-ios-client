@@ -396,22 +396,20 @@
     
     if ([userInfo objectForKey:@"url-echo"] == nil)
     {
-        [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
-            if (error)
-            {
-                PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
-                
-                if (self.onPreyVerificationSucceeded)
+        if ([userInfo objectForKey:@"cmd"] == nil)
+        {
+            [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+                if (error)
                 {
-                    self.onPreyVerificationSucceeded(UIBackgroundFetchResultFailed);
-                    self.onPreyVerificationSucceeded = nil;
+                    [self checkedCompletionHandlerError];
+                    PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
                 }
-            }
-            else
-            {
-                PreyLogMessage(@"PreyAppDelegate", 10,@"OK Background");
-            }
-        }];
+                else
+                    PreyLogMessage(@"PreyAppDelegate", 10,@"OK Background");
+            }];
+        }
+        else
+            [PreyRestHttp checkCommandJsonForDevice:[userInfo objectForKey:@"cmd"]];
     }
     else
     {        
@@ -419,13 +417,8 @@
          {
              if (error)
              {
+                 [self checkedCompletionHandlerError];
                  PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
-                 
-                 if (self.onPreyVerificationSucceeded)
-                 {
-                     self.onPreyVerificationSucceeded(UIBackgroundFetchResultFailed);
-                     self.onPreyVerificationSucceeded = nil;
-                 }
              }
              else
              {
@@ -433,6 +426,15 @@
                  PreyLogMessage(@"PreyAppDelegate", 10,@"OK Echo");
              }
          }];
+    }
+}
+
+- (void)checkedCompletionHandlerError
+{
+    if (self.onPreyVerificationSucceeded)
+    {
+        self.onPreyVerificationSucceeded(UIBackgroundFetchResultFailed);
+        self.onPreyVerificationSucceeded = nil;
     }
 }
 

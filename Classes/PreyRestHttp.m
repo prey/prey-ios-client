@@ -395,6 +395,35 @@
     }
 }
 
++ (void)checkCommandJsonForDevice:(NSString *)cmdString
+{
+    NSString *deviceKey = [[PreyConfig instance] deviceKey];
+    PreyLogMessage(@"PreyRestHttp", 21, @"GET CMD devices/%@.json: %@",deviceKey, cmdString);
+    
+    NSError *error2;
+    JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
+    NewModulesConfig *modulesConfig = [configParser parseModulesConfig:cmdString parseError:&error2];
+    
+    if ([modulesConfig checkAllModulesEmpty])
+    {
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        [appDelegate checkedCompletionHandler];
+    }
+    else
+        [modulesConfig runAllModules];
+
+    
+    [[AFPreyStatusClient sharedClient] getPath:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
+                                    parameters:nil
+                                       success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
+     }];
+}
+
 + (void)checkStatusForDevice:(NSInteger)reload withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
     if (reload <= 0)
