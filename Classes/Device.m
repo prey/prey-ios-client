@@ -19,7 +19,7 @@
 + (void)newDeviceForApiKey:(User*)userKey withBlock:(void (^)(User *user, Device *dev, NSError *error))block
 {
     Device *newDevice = [[Device alloc] init];
-	IphoneInformationHelper *iphoneInfo = [IphoneInformationHelper initializeWithValues];
+	IphoneInformationHelper *iphoneInfo = [IphoneInformationHelper instance];
 	[newDevice setOs: [iphoneInfo os]];
 	[newDevice setVersion: [iphoneInfo version]];
 	[newDevice setType: [iphoneInfo type]];

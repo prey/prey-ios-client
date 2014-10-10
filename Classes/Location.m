@@ -13,21 +13,16 @@
 @synthesize locManager;
 @synthesize bestEffortAtLocation;
 
-+(Location *)instance  {
-	static Location *instance;
++ (Location *)instance {
+    static Location *instance = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        instance = [[Location alloc] init];
+        PreyLogMessage(@"Location Module", 0,@"Registering Location to receive location updates notifications");
+    });
     
-	@synchronized(self)
-    {
-		if(!instance)
-        {
-			instance = [[Location alloc] init];
-            PreyLogMessage(@"Location Module", 0,@"Registering Location to receive location updates notifications");
-		}
-	}
-    
-	return instance;
+    return instance;
 }
-
 
 - (void)testLocation
 {

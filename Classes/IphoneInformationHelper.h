@@ -31,6 +31,6 @@
     @property (nonatomic) NSString *model;
     @property (nonatomic) NSString *uuid;
 
-+(IphoneInformationHelper*) initializeWithValues;
++ (IphoneInformationHelper*)instance;
 
 @end

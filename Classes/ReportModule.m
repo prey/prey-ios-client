@@ -18,29 +18,23 @@
 
 @synthesize waitForLocation,waitForPicture,url, picture, pictureBack, reportData, runReportTimer;
 
-+(ReportModule *)instance  {
-	static ReportModule *instance;
-    
-	@synchronized(self)
-    {
-		if(!instance)
-        {
-			instance = [[ReportModule alloc] init];
-			instance.reportData = [[NSMutableDictionary alloc] init];
-            PreyLogMessage(@"Report Module", 0,@"Registering ReportModule to receive location updates notifications");
-            
-            [[NSNotificationCenter defaultCenter] addObserver:instance
-                                                     selector:@selector(locationUpdated:)
-                                                         name:@"locationUpdated"
-                                                       object:nil];
-            
-            [[LocationController instance] startUpdatingLocation];
-		}
-	}
-    
-	return instance;
++ (ReportModule *)instance {
+    static ReportModule *instance = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        instance = [[ReportModule alloc] init];
+        instance.reportData = [[NSMutableDictionary alloc] init];
+        PreyLogMessage(@"Report Module", 0,@"Registering ReportModule to receive location updates notifications");
+        
+        [[NSNotificationCenter defaultCenter] addObserver:instance
+                                                 selector:@selector(locationUpdated:)
+                                                     name:@"locationUpdated"
+                                                   object:nil];
+        
+        [[LocationController instance] startUpdatingLocation];
+    });
+    return instance;
 }
-
 
 - (void) get
 {

@@ -18,34 +18,32 @@
 
 @synthesize name, type, os, version, macAddress,vendor,model, uuid;
 
-+(IphoneInformationHelper*) initializeWithValues
-{
-    static IphoneInformationHelper *instance;
-	
-    @synchronized(self)
-    {
-		if(!instance) {
-			instance = [[IphoneInformationHelper alloc] init];
-            instance.name = [[UIDevice currentDevice] name];
++ (IphoneInformationHelper *)instance {
+    static IphoneInformationHelper *instance = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        instance = [[IphoneInformationHelper alloc] init];
+        instance.name = [[UIDevice currentDevice] name];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            instance.type = @"Tablet";
+        else
+            instance.type = @"Phone";
+        
+        instance.os = @"iOS";
+        instance.vendor = @"Apple";
+        instance.model = [self deviceModel];
+        instance.version = [[UIDevice currentDevice] systemVersion];
+        instance.macAddress = [[UIDevice currentDevice] macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
+        
+        if (IS_OS_6_OR_LATER)
+            instance.uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        else
+            instance.uuid = [MKSKProduct deviceId];
 
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                instance.type = @"Tablet";
-            else
-                instance.type = @"Phone";
-            
-            instance.os = @"iOS";
-            instance.vendor = @"Apple";
-            instance.model = [self deviceModel];
-            instance.version = [[UIDevice currentDevice] systemVersion];
-            instance.macAddress = [[UIDevice currentDevice] macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
-            
-            if (IS_OS_6_OR_LATER)
-                instance.uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-            else
-                instance.uuid = [MKSKProduct deviceId];
-		}
-	}
-	return instance;
+    });
+    
+    return instance;
 }
 
 + (NSString *)deviceModel

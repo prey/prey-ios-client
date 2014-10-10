@@ -42,29 +42,28 @@ static NSString *const PRO_ACCOUNT=@"pro_account";
 
 static PreyConfig *instance = nil;
 
-
-+(PreyConfig *)instance {
-	
-	@synchronized([PreyConfig class]) {
-		if(!instance) {
-			instance = [[PreyConfig alloc] init];
-			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            instance.controlPanelHost = [defaults stringForKey: CONTROL_PANEL_HOST];
-            instance.checkPath = [defaults stringForKey: CHECK_PATH];
-            instance.sendCrashReports = [defaults boolForKey: SEND_CRASH_REPORTS];
-            instance.exceptionsEndpoint = [defaults stringForKey: EXCEPTIONS_ENDPOINT];
-            instance.dataEndpoint = [defaults stringForKey: DATA_ENDPOINT_LOCATION];
-            
-			instance.apiKey = [defaults stringForKey: API_KEY];
-			instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
-			instance.email = [defaults stringForKey: EMAIL];
-            instance.camouflageMode = [defaults boolForKey:CAMOUFLAGE_MODE];
-            instance.intervalMode = [defaults boolForKey:INTERVAL_MODE];
-            instance.pro = [defaults boolForKey:PRO_ACCOUNT];
-			[instance loadDefaultValues];
-		}
-	}
-	return instance;
++ (PreyConfig *)instance {
+    static PreyConfig *instance = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        instance = [[PreyConfig alloc] init];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        instance.controlPanelHost = [defaults stringForKey: CONTROL_PANEL_HOST];
+        instance.checkPath = [defaults stringForKey: CHECK_PATH];
+        instance.sendCrashReports = [defaults boolForKey: SEND_CRASH_REPORTS];
+        instance.exceptionsEndpoint = [defaults stringForKey: EXCEPTIONS_ENDPOINT];
+        instance.dataEndpoint = [defaults stringForKey: DATA_ENDPOINT_LOCATION];
+        
+        instance.apiKey = [defaults stringForKey: API_KEY];
+        instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
+        instance.email = [defaults stringForKey: EMAIL];
+        instance.camouflageMode = [defaults boolForKey:CAMOUFLAGE_MODE];
+        instance.intervalMode = [defaults boolForKey:INTERVAL_MODE];
+        instance.pro = [defaults boolForKey:PRO_ACCOUNT];
+        [instance loadDefaultValues];
+    });
+    
+    return instance;
 }
 
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device

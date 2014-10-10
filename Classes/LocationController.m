@@ -30,14 +30,14 @@
     return self;
 }
 
-+(LocationController *)instance  {
-	static LocationController *instance;
-	@synchronized(self) {
-		if(!instance) {
-			instance = [[LocationController alloc] init];
-		}
-	}
-	return instance;
++ (LocationController *)instance {
+    static LocationController *instance = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        instance = [[LocationController alloc] init];
+    });
+    
+    return instance;
 }
 
 - (void)startUpdatingLocation {

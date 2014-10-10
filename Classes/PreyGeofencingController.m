@@ -22,13 +22,14 @@
     return self;
 }
 
-+(PreyGeofencingController *)instance  {
-	static PreyGeofencingController *instance;
-	@synchronized(self) {
-		if(!instance)
-			instance = [[PreyGeofencingController alloc] init];
-	}
-	return instance;
++ (PreyGeofencingController *)instance {
+    static PreyGeofencingController *instance = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        instance = [[PreyGeofencingController alloc] init];
+    });
+    
+    return instance;
 }
 
 - (void)addNewregion: (CLRegion *) region {

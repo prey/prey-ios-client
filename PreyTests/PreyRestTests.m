@@ -83,7 +83,7 @@
     __block NSString *blockDevicekey;
     
     Device *newDevice = [[Device alloc] init];
-	IphoneInformationHelper *iphoneInfo = [IphoneInformationHelper initializeWithValues];
+	IphoneInformationHelper *iphoneInfo = [IphoneInformationHelper instance];
 	[newDevice setOs: [iphoneInfo os]];
 	[newDevice setVersion: [iphoneInfo version]];
 	[newDevice setType: [iphoneInfo type]];

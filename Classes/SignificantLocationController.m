@@ -25,16 +25,15 @@
     return self;
 }
 
-+(SignificantLocationController *)instance  {
-	static SignificantLocationController *instance;
-	@synchronized(self) {
-		if(!instance) {
-			instance = [[SignificantLocationController alloc] init];
-		}
-	}
-	return instance;
++ (SignificantLocationController *)instance {
+    static SignificantLocationController *instance = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        instance = [[SignificantLocationController alloc] init];
+    });
+    
+    return instance;
 }
-
 
 - (void)startMonitoringSignificantLocationChanges {
     [significantLocationManager startMonitoringSignificantLocationChanges];

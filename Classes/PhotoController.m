@@ -34,15 +34,13 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 @implementation PhotoController
 
-+ (PhotoController *)instance
-{
-    static PhotoController *instance;
++ (PhotoController *)instance {
+    static PhotoController *instance = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        instance = [[PhotoController alloc] init];
+    });
     
-    @synchronized(self)
-    {
-        if(!instance)
-            instance = [[PhotoController alloc] init];
-    }
     return instance;
 }
 
