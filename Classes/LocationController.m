@@ -10,6 +10,7 @@
 
 #import "LocationController.h"
 #import "PreyConfig.h"
+#import "Constants.h"
 
 
 @implementation LocationController
@@ -24,6 +25,9 @@
 		accurateLocationManager = [[CLLocationManager alloc] init];
 		accurateLocationManager.delegate = self;
 		accurateLocationManager.desiredAccuracy = [PreyConfig instance].desiredAccuracy;
+
+        if (IS_OS_6_OR_LATER)
+            accurateLocationManager.pausesLocationUpdatesAutomatically = NO;
         
 		//self.locationManager.distanceFilter = 1;	
     }

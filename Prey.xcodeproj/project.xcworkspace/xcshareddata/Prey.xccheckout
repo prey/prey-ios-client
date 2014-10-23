@@ -10,8 +10,6 @@
 	<string>Prey</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>11D8F452-C2FA-44F1-B93E-288CC161E2A0</key>
-		<string>ssh://github.com/prey/prey-ios-inapppurchase.git</string>
 		<key>2B858CE492C59A91F1112F6810689C5505846642</key>
 		<string>git://github.com/fpillet/NSLogger.git</string>
 		<key>4182765C525509B305166AB949D5935FD5C85212</key>
@@ -22,31 +20,25 @@
 		<string>git://github.com/erica/uidevice-extension.git</string>
 		<key>B8AFC418E4AD7753C47B407DD923BBCD0CA9DFC1</key>
 		<string>https://github.com/prey/prey-ios-client.git</string>
-		<key>D68D8992-48E3-486D-B255-7B5507911C2D</key>
-		<string>git://github.com/pokeb/asi-http-request.git</string>
 		<key>DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8</key>
 		<string>https://github.com/AFNetworking/AFNetworking</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Prey.xcodeproj/project.xcworkspace</string>
+	<string>Prey.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>11D8F452-C2FA-44F1-B93E-288CC161E2A0</key>
-		<string>../../Classes/InAppSubscriptions</string>
 		<key>2B858CE492C59A91F1112F6810689C5505846642</key>
-		<string>../../Classes/NSLogger</string>
+		<string>../..Classes/NSLogger</string>
 		<key>4182765C525509B305166AB949D5935FD5C85212</key>
-		<string>../../Classes/MBProgressHUD</string>
+		<string>../..Classes/MBProgressHUD</string>
 		<key>8884BD3B878631A1500EC9895E6A3CF4CB0AB3DB</key>
-		<string>../../Classes/Expecta</string>
+		<string>../..Classes/Expecta</string>
 		<key>A1F2DF57605D01F240A56F2D16A22892BAF74E87</key>
-		<string>../../Classes/UIDevice-Extension</string>
+		<string>../..Classes/UIDevice-Extension</string>
 		<key>B8AFC418E4AD7753C47B407DD923BBCD0CA9DFC1</key>
 		<string>../..</string>
-		<key>D68D8992-48E3-486D-B255-7B5507911C2D</key>
-		<string>../../Classes/asi-http-request</string>
 		<key>DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8</key>
-		<string>../../Classes/AFNetworking-1.x</string>
+		<string>../..Classes/AFNetworking-1.x</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/prey/prey-ios-client.git</string>
@@ -68,25 +60,9 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>D68D8992-48E3-486D-B255-7B5507911C2D</string>
-			<key>IDESourceControlWCCName</key>
-			<string>asi-http-request</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>8884BD3B878631A1500EC9895E6A3CF4CB0AB3DB</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Expecta</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>11D8F452-C2FA-44F1-B93E-288CC161E2A0</string>
-			<key>IDESourceControlWCCName</key>
-			<string>InAppSubscriptions</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
