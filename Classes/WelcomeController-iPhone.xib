@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1280" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -17,21 +17,16 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="bg-mnts1.png" id="40">
-                    <rect key="frame" x="0.0" y="381" width="320" height="99"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="bg-welcome-iPhone.png" id="40">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="center" image="prey-logo.png" id="21">
-                    <rect key="frame" x="16" y="45" width="287" height="302"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="43">
-                    <rect key="frame" x="20" y="364" width="280" height="35"/>
+                    <rect key="frame" x="35" y="292" width="250" height="45"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <inset key="titleEdgeInsets" minX="0.0" minY="-1" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="New user" backgroundImage="signupbtn.png">
+                    <state key="normal" title="New user" backgroundImage="bt-welcome.png">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -43,11 +38,11 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="44">
-                    <rect key="frame" x="20" y="413" width="280" height="35"/>
+                    <rect key="frame" x="35" y="352" width="250" height="45"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <inset key="contentEdgeInsets" minX="0.0" minY="-1" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="Already a Prey user" backgroundImage="signupbtn.png">
+                    <state key="normal" title="Already a Prey user" backgroundImage="bt-welcome.png">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="highlighted">
@@ -57,13 +52,17 @@
                         <action selector="oldUserClicked:" destination="-1" eventType="touchUpInside" id="48"/>
                     </connections>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="prey-text-white.png" id="HKB-K0-g91">
+                    <rect key="frame" x="52" y="131" width="218" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.98765432099999995" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
         </view>
     </objects>
     <resources>
-        <image name="bg-mnts1.png" width="320" height="99"/>
-        <image name="prey-logo.png" width="280" height="312"/>
-        <image name="signupbtn.png" width="238" height="35"/>
+        <image name="bg-welcome-iPhone.png" width="640" height="960"/>
+        <image name="bt-welcome.png" width="500" height="85"/>
+        <image name="prey-text-white.png" width="434" height="88"/>
     </resources>
 </document>

@@ -21,8 +21,6 @@
 #import "GAIDictionaryBuilder.h"
 #import "GAIFields.h"
 #import "Constants.h"
-#import "WizardController.h"
-
 
 @implementation PreferencesController
 
@@ -301,17 +299,6 @@
              [[PreyConfig instance] resetValues];
              
              UIViewController *welco;
-             /*
-              if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-              {
-              if (IS_IPHONE5)
-              welco = [[WizardController alloc] initWithNibName:@"WizardController-iPhone-568h" bundle:nil];
-              else
-              welco = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
-              }
-              else
-              welco = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
-              */
              
              if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
              {

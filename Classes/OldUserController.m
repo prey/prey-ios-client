@@ -185,10 +185,10 @@
     
     btnNewUser = [[UIButton alloc] initWithFrame:[self returnRectToBtnNewUser]];
     [btnNewUser setBackgroundColor:[UIColor clearColor]];
-    [btnNewUser setBackgroundImage:[UIImage imageNamed:@"signupbtn"] forState:UIControlStateNormal];
-    [btnNewUser setBackgroundImage:[UIImage imageNamed:@"signupbtn"] forState:UIControlStateHighlighted];
+    [btnNewUser setBackgroundImage:[UIImage imageNamed:@"bt-welcome"] forState:UIControlStateNormal];
+    [btnNewUser setBackgroundImage:[UIImage imageNamed:@"bt-welcome"] forState:UIControlStateHighlighted];
     [btnNewUser.titleLabel setFont:[self returnFontToChange:@"OpenSans"]];
-    [btnNewUser setTitleColor:[UIColor colorWithRed:1 green:(255/255.f) blue:(255/255.f) alpha:1.f] forState:UIControlStateNormal];
+    [btnNewUser setTitleColor:[UIColor colorWithRed:0 green:(146/255.f) blue:(187/255.f) alpha:1.f] forState:UIControlStateNormal];
     btnNewUser.titleLabel.textAlignment = UITextAlignmentCenter;
     [btnNewUser setTitle:[NSLocalizedString(@"Add this device!",nil) uppercaseString] forState:UIControlStateNormal];
     [btnNewUser addTarget:self action:@selector(addDeviceForCurrentUser) forControlEvents:UIControlEventTouchUpInside];
