@@ -12,7 +12,6 @@
 #import "PreyAppDelegate.h"
 #import "PreyConfig.h"
 #import "LoginController.h"
-#import "WizardController.h"
 #import "PreferencesController.h"
 #import "Constants.h"
 

@@ -16,7 +16,6 @@
 #import "WelcomeController.h"
 #import "AlertModuleController.h"
 #import "FakeWebView.h"
-#import "WizardController.h"
 #import "ReportModule.h"
 #import "AlertModule.h"
 #import "GAI.h"
@@ -274,17 +273,6 @@
     else
     {
         [PreyDeployment runPreyDeployment];
-        /*
-         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-         {
-         if (IS_IPHONE5)
-         nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone-568h" bundle:nil];
-         else
-         nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPhone" bundle:nil];
-         }
-         else
-         nextController = [[WizardController alloc] initWithNibName:@"WizardController-iPad" bundle:nil];
-         */
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
