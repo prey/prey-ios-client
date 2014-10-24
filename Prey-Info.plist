@@ -10,27 +10,35 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>Icon-Small-80</string>
-		<string>Icon-120</string>
-		<string>Icon.png</string>
-		<string>Icon@2x.png</string>
-		<string>Icon-72.png</string>
-		<string>Icon-Small-50.png</string>
-		<string>Icon-Small.png</string>
-		<string>Icon-Small@2x.png</string>
+				<string>Icon-Small-80.png</string>
+				<string>Icon-120.png</string>
+				<string>Icon.png</string>
+				<string>Icon@2x.png</string>
+				<string>Icon-72.png</string>
+				<string>Icon-72@2x.png</string>
+				<string>Icon-Small-50.png</string>
+				<string>Icon-Small-50@2x.png</string>
+				<string>Icon-Small.png</string>
+				<string>Icon-Small@2x.png</string>
+				<string>Icon-Small@3x.png</string>
 	</array>
 	<key>CFBundleIconFiles~ipad</key>
 	<array>
-		<string>Icon-Small-40</string>
-		<string>Icon-76</string>
-		<string>Icon-120</string>
-		<string>Icon.png</string>
-		<string>Icon@2x.png</string>
-		<string>Icon-72.png</string>
-		<string>Icon-Small-50.png</string>
-		<string>Icon-Small.png</string>
-		<string>Icon-Small@2x.png</string>
-		<string>Icon-72@2x.png</string>
+				<string>Icon-Small-40.png</string>
+				<string>Icon-Small-40@2x.png</string>
+				<string>Icon-Small-40@3x.png</string>
+				<string>Icon-76.png</string>
+				<string>Icon-76@2x.png</string>
+				<string>Icon-120.png</string>
+				<string>Icon.png</string>
+				<string>Icon@2x.png</string>
+				<string>Icon-72.png</string>
+				<string>Icon-72@2x.png</string>
+				<string>Icon-Small-50.png</string>
+				<string>Icon-Small-50@2x.png</string>
+				<string>Icon-Small.png</string>
+				<string>Icon-Small@2x.png</string>
+				<string>Icon-Small@3x.png</string>
 	</array>
 	<key>CFBundleIcons</key>
 	<dict>
@@ -38,15 +46,17 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>Icon-Small-80</string>
-				<string>Icon-120</string>
+				<string>Icon-Small-80.png</string>
+				<string>Icon-120.png</string>
 				<string>Icon.png</string>
 				<string>Icon@2x.png</string>
 				<string>Icon-72.png</string>
+				<string>Icon-72@2x.png</string>
 				<string>Icon-Small-50.png</string>
+				<string>Icon-Small-50@2x.png</string>
 				<string>Icon-Small.png</string>
 				<string>Icon-Small@2x.png</string>
-				<string>Icon-72@2x.png</string>
+				<string>Icon-Small@3x.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>
@@ -58,16 +68,21 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>Icon-Small-40</string>
-				<string>Icon-76</string>
-				<string>Icon-120</string>
+				<string>Icon-Small-40.png</string>
+				<string>Icon-Small-40@2x.png</string>
+				<string>Icon-Small-40@3x.png</string>
+				<string>Icon-76.png</string>
+				<string>Icon-76@2x.png</string>
+				<string>Icon-120.png</string>
 				<string>Icon.png</string>
 				<string>Icon@2x.png</string>
 				<string>Icon-72.png</string>
+				<string>Icon-72@2x.png</string>
 				<string>Icon-Small-50.png</string>
+				<string>Icon-Small-50@2x.png</string>
 				<string>Icon-Small.png</string>
 				<string>Icon-Small@2x.png</string>
-				<string>Icon-72@2x.png</string>
+				<string>Icon-Small@3x.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>
