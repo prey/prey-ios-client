@@ -49,9 +49,7 @@
 - (void)viewDidLoad
 {
     self.screenName = @"Congratulations";
-    congratsMsg.font             = [UIFont fontWithName:@"Helvetica" size:20];
 
-    /*
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         [congratsTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:24]];
@@ -64,7 +62,6 @@
         [congratsMsg   setFont:[UIFont fontWithName:@"OpenSans" size:22]];
         [ok.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:30]];
     }
-    */
     
     congratsMsg.numberOfLines    = 5;
     congratsMsg.textAlignment    = UITextAlignmentCenter;

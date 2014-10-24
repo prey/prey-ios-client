@@ -16,32 +16,39 @@
 
 #define kOFFSET_FOR_KEYBOARD 150.0
 
-@interface LoginController : GAITrackedViewController <UIWebViewControllerDelegate,MBProgressHUDDelegate, UIAlertViewDelegate> {
-@private
-	UITextField *loginPassword;
-	MBProgressHUD *HUD;
+@interface LoginController : GAITrackedViewController <UIWebViewControllerDelegate,MBProgressHUDDelegate, UIAlertViewDelegate>
+{
     UIImageView *loginImage;
     UIScrollView *scrollView;
+	UITextField *loginPassword;
     UIImageView *nonCamuflageImage;
     UIImageView *preyLogo;
-    UIImageView *buttn;
     UILabel *devReady;
     UILabel *detail;
+    UILabel *tipl;
     UIButton *loginButton;
+    UIButton *panelButton;
+    UIButton *settingButton;
+    MBProgressHUD *HUD;
 }
 
 @property (nonatomic) IBOutlet UIImageView *loginImage;
 @property (nonatomic) IBOutlet UIScrollView *scrollView;
-@property (nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) IBOutlet UITextField *loginPassword;
 @property (nonatomic) IBOutlet UIImageView *nonCamuflageImage;
-@property (nonatomic) IBOutlet UIImageView *buttn;
 @property (nonatomic) IBOutlet UIImageView *preyLogo;
 @property (nonatomic) IBOutlet UILabel *devReady;
 @property (nonatomic) IBOutlet UILabel *detail;
 @property (nonatomic) IBOutlet UILabel *tipl;
 @property (nonatomic) IBOutlet UIButton *loginButton;
+@property (nonatomic) IBOutlet UIButton *panelButton;
+@property (nonatomic) IBOutlet UIButton *settingButton;
 
-- (IBAction) checkLoginPassword: (id) sender;
+- (IBAction)checkLoginPassword:(id)sender;
+- (IBAction)goToControlPanel:(UIButton *)sender;
+- (IBAction)goToSettings:(UIButton *)sender;
+- (void)checkPassword;
+- (void)hideKeyboard;
+- (void)animateTextField:(UITextField*)textField up:(BOOL)up;
 
 @end
