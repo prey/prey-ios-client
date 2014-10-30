@@ -40,8 +40,6 @@ static NSString *const PRO_ACCOUNT=@"pro_account";
 @synthesize checkUrl, controlPanelHost, checkPath, exceptionsEndpoint, dataEndpoint, apiKey, deviceKey, email;
 @synthesize desiredAccuracy,alertOnReport,sendCrashReports,delay,alreadyRegistered,missing,askForPassword,camouflageMode,intervalMode,pro;
 
-static PreyConfig *instance = nil;
-
 + (PreyConfig *)instance {
     static PreyConfig *instance = nil;
     static dispatch_once_t onceToken = 0;
@@ -68,7 +66,7 @@ static PreyConfig *instance = nil;
 
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device
 {
-	PreyConfig *newConfig = [[PreyConfig alloc] init];
+	PreyConfig *newConfig = [PreyConfig instance];
     newConfig.controlPanelHost = DEFAULT_CONTROL_PANEL_HOST;
     newConfig.checkPath = DEFAULT_CHECK_PATH;
     newConfig.sendCrashReports = DEFAULT_SEND_CRASH_REPORTS;
@@ -82,13 +80,13 @@ static PreyConfig *instance = nil;
 	[newConfig loadDefaultValues];
     [newConfig saveValues];
     newConfig.alreadyRegistered = YES;
-    instance = nil; //to force config reload on next +instance call.
-	return newConfig;
+
+    return newConfig;
 }
 
 + (PreyConfig*) initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device
 {
-	PreyConfig *newConfig = [[PreyConfig alloc] init];
+	PreyConfig *newConfig = [PreyConfig instance];;
     newConfig.controlPanelHost = DEFAULT_CONTROL_PANEL_HOST;
     newConfig.checkPath = DEFAULT_CHECK_PATH;
     newConfig.sendCrashReports = DEFAULT_SEND_CRASH_REPORTS;
@@ -102,7 +100,7 @@ static PreyConfig *instance = nil;
 	[newConfig loadDefaultValues];
     [newConfig saveValues];
     newConfig.alreadyRegistered = YES;
-    instance = nil; //to force config reload on next +instance call.
+    
 	return newConfig;
 }
 
@@ -163,7 +161,7 @@ static PreyConfig *instance = nil;
     [defaults removeObjectForKey:INTERVAL_MODE];
 	[defaults synchronize]; // this method is optional
     
-    instance=nil;
+    [[PreyConfig instance] setAlreadyRegistered:NO];
 }
 
 - (NSString *) deviceCheckPathWithExtension: (NSString *) extension {
