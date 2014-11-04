@@ -54,13 +54,13 @@
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        [self.buttnewUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18]];
-        [self.buttoldUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18]];
+        [self.buttnewUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:14]];
+        [self.buttoldUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:14]];
     }
     else
     {
-        [self.buttnewUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:30]];
-        [self.buttoldUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:30]];
+        [self.buttnewUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:20]];
+        [self.buttoldUser.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:20]];
     }
     
     
