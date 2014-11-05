@@ -111,6 +111,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>NewJuneBold.otf</string>
+		<string>OpenSans-Bold.ttf</string>
 		<string>OpenSans-Semibold.ttf</string>
 		<string>OpenSans-Regular.ttf</string>
 		<string>Roboto-Regular.ttf</string>

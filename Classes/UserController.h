@@ -23,6 +23,7 @@
     UITextField *email;
     UITextField *password;
     UIButton *btnNewUser;
+    UIImageView *preyImage;
     
     NSString *strEmailMatchstring;
     
@@ -35,6 +36,7 @@
 @property (nonatomic) UITextField *email;
 @property (nonatomic) UITextField *password;
 @property (nonatomic) UIButton *btnNewUser;
+@property (nonatomic) UIImageView *preyImage;
 @property (nonatomic) NSString *strEmailMatchstring;
 @property (nonatomic) UITableView *infoInputs;
 @property (nonatomic) UIScrollView *scrollView;
@@ -43,8 +45,5 @@
 - (void) addDeviceForCurrentUser;
 - (CGRect)returnRectToInputsTable;
 - (UIFont*)returnFontToChange:(NSString *)fontString;
-- (CGRect)returnRectToBtnNewUser;
-- (CGRect)returnRectToPreyTxt;
-- (CGRect)returnRectToTableView;
 
 @end

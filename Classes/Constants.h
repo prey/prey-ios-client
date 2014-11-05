@@ -13,16 +13,11 @@
 	
 }
 
-// UserController Config
-#define kMoveTableView_iPhone5  70.0
-#define kMoveButton_iPhone5     55.0
-#define kMoveTableView_iPhone   85.0
-#define kMoveButton_iPhone      0
-
 #define kGAIcode @"UA-8743344-7"
 
 #define kLabelTag	4096
 
+#define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPhone)
 #define IS_IPHONE5 (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
 #define IS_OS_5_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0)
 #define IS_OS_6_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0)

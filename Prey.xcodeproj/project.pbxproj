@@ -258,6 +258,7 @@
 		3BAB3CF71A098877003BFCCE /* unprotected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CF31A098877003BFCCE /* unprotected@2x.png */; };
 		3BAB3CF91A098977003BFCCE /* prey-text-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CF81A098977003BFCCE /* prey-text-white@2x.png */; };
 		3BAB3CFB1A0993ED003BFCCE /* bt-welcome-press.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CFA1A0993ED003BFCCE /* bt-welcome-press.png */; };
+		3BAB3CFD1A099FBC003BFCCE /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CFC1A099FBC003BFCCE /* OpenSans-Bold.ttf */; };
 		3BAE4E52190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BAE4E48190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib */; };
 		3BAE4E53190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BAE4E49190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib */; };
 		3BAE4E54190AB96F0093ECA2 /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E4B190AB96F0093ECA2 /* GrettingsProViewController.m */; };
@@ -586,6 +587,7 @@
 		3BAB3CF31A098877003BFCCE /* unprotected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unprotected@2x.png"; sourceTree = "<group>"; };
 		3BAB3CF81A098977003BFCCE /* prey-text-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-text-white@2x.png"; sourceTree = "<group>"; };
 		3BAB3CFA1A0993ED003BFCCE /* bt-welcome-press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bt-welcome-press.png"; sourceTree = "<group>"; };
+		3BAB3CFC1A099FBC003BFCCE /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "Resources/Fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		3BAE4E48190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPad.xib"; sourceTree = "<group>"; };
 		3BAE4E49190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GrettingsProViewController-iPhone.xib"; sourceTree = "<group>"; };
 		3BAE4E4A190AB96F0093ECA2 /* GrettingsProViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrettingsProViewController.h; sourceTree = "<group>"; };
@@ -1349,6 +1351,7 @@
 			children = (
 				3B8AC77719F9D01C00464098 /* large9.ttf */,
 				3B8AC77819F9D01C00464098 /* NewJuneBold.otf */,
+				3BAB3CFC1A099FBC003BFCCE /* OpenSans-Bold.ttf */,
 				3B8AC77919F9D01C00464098 /* OpenSans-Regular.ttf */,
 				3B8AC77A19F9D01C00464098 /* OpenSans-Semibold.ttf */,
 				3B8AC77B19F9D01C00464098 /* Roboto-Regular.ttf */,
@@ -1580,6 +1583,7 @@
 				3B2A3BD017CE68B3000D5B9D /* Settings.bundle in Resources */,
 				3B8AC77C19F9D01C00464098 /* large9.ttf in Resources */,
 				3BAE4E52190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib in Resources */,
+				3BAB3CFD1A099FBC003BFCCE /* OpenSans-Bold.ttf in Resources */,
 				3B8AC79519F9D0C800464098 /* bg-welcome-iPad.png in Resources */,
 				3B8AC76B19F9C96700464098 /* Icon-Small-40@2x.png in Resources */,
 				3BA6AD1918D1199E00CAADAC /* LoginController-iPad.xib in Resources */,

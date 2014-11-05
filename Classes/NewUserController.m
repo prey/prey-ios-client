@@ -10,6 +10,50 @@
 
 #import "NewUserController.h"
 
+
+#define kLogoPosX_iPhone5        99.0
+#define kLogoPosY_iPhone5        83.0
+#define kLogoPosWidth_iPhone5   122.0
+#define kLogoPosHeight_iPhone5  144.0
+
+#define kLogoPosY_iPhone         49.0
+
+#define kLogoPosX_iPad          314.0
+#define kLogoPosY_iPad          189.0
+#define kLogoPosWidth_iPad      140.0
+#define kLogoPosHeight_iPad     161.0
+
+#define kBtnAddPosX_iPhone5        35.0
+#define kBtnAddPosY_iPhone5       465.0
+#define kBtnAddPosWidth_iPhone5   250.0
+#define kBtnAddPosHeight_iPhone5   43.0
+
+#define kBtnAddPosY_iPhone        405.0
+
+#define kBtnAddPosX_iPad          189.0
+#define kBtnAddPosY_iPad          749.0
+#define kBtnAddPosWidth_iPad      390.0
+#define kBtnAddPosHeight_iPad      66.0
+
+#define kTablePosX_iPhone5        15.0
+#define kTablePosY_iPhone5       265.0
+#define kTablePosWidth_iPhone5   290.0
+#define kTablePosHeight_iPhone5  180.0
+
+#define kTablePosY_iPhone        208.0
+
+#define kTablePosX_iPad          149.0
+#define kTablePosY_iPad          418.0
+#define kTablePosWidth_iPad      470.0
+#define kTablePosHeight_iPad     290.0
+
+#define kMoveTableView_iPhone5  180.0
+#define kMoveTableView_iPhone   148.0
+#define kMoveLogo_iPhone5       -27.0
+#define kMoveLogo_iPhone         20.0
+#define kMoveLogo_iPad          -45.0
+
+
 @implementation NewUserController
 
 @synthesize repassword;
@@ -125,6 +169,9 @@
             break;
     }
     
+    if (IS_OS_7_OR_LATER)
+        cell.separatorInset = UIEdgeInsetsMake(0.f, 0.f, 0.f, cell.bounds.size.width);
+
     return cell;
 }
 
@@ -176,60 +223,92 @@
     [infoInputs setDataSource:self];
     [infoInputs setDelegate:self];
     [infoInputs setScrollEnabled:NO];
-    infoInputs.rowHeight = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) ? 44 : 60;    
+    infoInputs.separatorColor = [UIColor clearColor];
+    infoInputs.rowHeight = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) ? 44 : 72.5;
     //infoInputs.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
 
     [scrollView addSubview:infoInputs];
 
+    UIColor *colorPlaceholder = [UIColor colorWithRed:(72/255.f) green:(84/255.f) blue:(102/255.f) alpha:1.f];
     
-    UIImage *preyImage = [UIImage imageNamed:@"prey-text"];
-    UIImageView *preyText = [[UIImageView alloc] initWithImage:preyImage];
-    preyText.frame = [self returnRectToPreyTxt];
-    [scrollView addSubview:preyText];
+    UIImage *preyText = [UIImage imageNamed:@"prey-text"];
+    preyImage = [[UIImageView alloc] initWithImage:preyText];
+    preyImage.frame = [self returnRectToPreyTxt];
+    [scrollView addSubview:preyImage];
     
     name = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
     name.clearsOnBeginEditing = NO;
     name.returnKeyType = UIReturnKeyNext;
     name.tag = 28;
     name.font = [self returnFontToChange:@"OpenSans"];
-    name.placeholder = NSLocalizedString(@"Your name",nil);
+    name.borderStyle = UITextBorderStyleRoundedRect;
     [name setDelegate:self];
+    [name setBackgroundColor:[UIColor colorWithRed:(240/255.f) green:(243/255.f) blue:(247/255.f) alpha:1.f]];
+    if (IS_OS_6_OR_LATER)
+        name.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Your name",nil)
+                                                                      attributes:@{NSForegroundColorAttributeName:colorPlaceholder}];
+    else
+        name.placeholder = NSLocalizedString(@"Your name",nil);
+
     
     email = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
     email.clearsOnBeginEditing = NO;
     email.returnKeyType = UIReturnKeyNext;
     email.tag = 29;
     email.font = [self returnFontToChange:@"OpenSans"];
-    email.placeholder = NSLocalizedString(@"Your email",nil);
+    email.borderStyle = UITextBorderStyleRoundedRect;
     email.keyboardType = UIKeyboardTypeEmailAddress;
     email.autocapitalizationType = UITextAutocapitalizationTypeNone;
     [email setDelegate:self];
+    [email setBackgroundColor:[UIColor clearColor]];
+    if (IS_OS_6_OR_LATER)
+        email.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Your email",nil)
+                                                                         attributes:@{NSForegroundColorAttributeName:colorPlaceholder}];
+    else
+        email.placeholder = NSLocalizedString(@"Your email",nil);
+
     
     password = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
     password.clearsOnBeginEditing = NO;
     password.returnKeyType = UIReturnKeyNext;
     password.tag = 30;
     password.font = [self returnFontToChange:@"OpenSans"];
+    password.borderStyle = UITextBorderStyleRoundedRect;
     [password setSecureTextEntry:YES];
-    password.placeholder = NSLocalizedString(@"Choose a 6 characters password",nil);
     [password setDelegate:self];
+    [password setBackgroundColor:[UIColor clearColor]];
+    if (IS_OS_6_OR_LATER)
+        password.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Choose a 6 characters password",nil)
+                                                                      attributes:@{NSForegroundColorAttributeName:colorPlaceholder}];
+    else
+        password.placeholder = NSLocalizedString(@"Choose a 6 characters password",nil);
+
     
     repassword = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
     repassword.clearsOnBeginEditing = NO;
     repassword.returnKeyType = UIReturnKeyDone;
     repassword.tag = 31;
     repassword.font = [self returnFontToChange:@"OpenSans"];
+    repassword.borderStyle = UITextBorderStyleRoundedRect;
     [repassword setSecureTextEntry:YES];
     repassword.placeholder = NSLocalizedString(@"Repeat your password",nil);
     [repassword setDelegate:self];
+    [repassword setBackgroundColor:[UIColor clearColor]];
+    if (IS_OS_6_OR_LATER)
+        repassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Repeat your password",nil)
+                                                                         attributes:@{NSForegroundColorAttributeName:colorPlaceholder}];
+    else
+        repassword.placeholder = NSLocalizedString(@"Repeat your password",nil);
+
     
     
     btnNewUser = [[UIButton alloc] initWithFrame:[self returnRectToBtnNewUser]];
     [btnNewUser setBackgroundColor:[UIColor clearColor]];
     [btnNewUser setBackgroundImage:[UIImage imageNamed:@"bt-welcome"] forState:UIControlStateNormal];
-    [btnNewUser setBackgroundImage:[UIImage imageNamed:@"bt-welcome"] forState:UIControlStateHighlighted];
+    [btnNewUser setBackgroundImage:[UIImage imageNamed:@"bt-welcome-press"] forState:UIControlStateHighlighted];
     [btnNewUser.titleLabel setFont:[self returnFontToChange:@"OpenSans"]];
-    [btnNewUser setTitleColor:[UIColor colorWithRed:0 green:(146/255.f) blue:(187/255.f) alpha:1.f] forState:UIControlStateNormal];
+    [btnNewUser setTitleColor:[UIColor colorWithRed:0 green:(129/255.f) blue:(194/255.f) alpha:1.f] forState:UIControlStateNormal];
+    [btnNewUser setTitleColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1.f] forState:UIControlStateHighlighted];
     btnNewUser.titleLabel.textAlignment = UITextAlignmentCenter;
     [btnNewUser setTitle:[NSLocalizedString(@"Create my account!",nil) uppercaseString] forState:UIControlStateNormal];
     [btnNewUser addTarget:self action:@selector(addDeviceForCurrentUser) forControlEvents:UIControlEventTouchUpInside];
@@ -250,5 +329,77 @@
     [repassword resignFirstResponder];
 }
 
+- (CGRect)returnRectToPreyTxt
+{
+    CGRect rect;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        rect = IS_IPHONE5 ? CGRectMake(kLogoPosX_iPhone5, kLogoPosY_iPhone5, kLogoPosWidth_iPhone5, kLogoPosHeight_iPhone5) :
+        CGRectMake(kLogoPosX_iPhone5, kLogoPosY_iPhone, kLogoPosWidth_iPhone5, kLogoPosHeight_iPhone5);
+    else
+        rect = CGRectMake(kLogoPosX_iPad, kLogoPosY_iPad, kLogoPosWidth_iPad, kLogoPosHeight_iPad);
+    
+    return rect;
+}
+
+- (CGRect)returnRectToBtnNewUser
+{
+    CGRect rect;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        rect = IS_IPHONE5 ? CGRectMake(kBtnAddPosX_iPhone5, kBtnAddPosY_iPhone5, kBtnAddPosWidth_iPhone5, kBtnAddPosHeight_iPhone5) :
+        CGRectMake(kBtnAddPosX_iPhone5, kBtnAddPosY_iPhone, kBtnAddPosWidth_iPhone5, kBtnAddPosHeight_iPhone5);
+    else
+        rect = CGRectMake(kBtnAddPosX_iPad, kBtnAddPosY_iPad, kBtnAddPosWidth_iPad, kBtnAddPosHeight_iPad);
+    
+    return rect;
+}
+
+- (CGRect)returnRectToTableView
+{
+    CGRect rect;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        rect = IS_IPHONE5 ? CGRectMake(kTablePosX_iPhone5, kTablePosY_iPhone5, kTablePosWidth_iPhone5, kTablePosHeight_iPhone5) :
+        CGRectMake(kTablePosX_iPhone5, kTablePosY_iPhone, kTablePosWidth_iPhone5, kTablePosHeight_iPhone5);
+    else
+        rect = CGRectMake(kTablePosX_iPad, kTablePosY_iPad, kTablePosWidth_iPad, kTablePosHeight_iPad);
+    
+    return rect;
+}
+
+-(void)setViewMovedUp:(BOOL)movedUp
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.3];
+    
+    CGRect rect      = self.view.frame;
+    CGRect rectLogo  = preyImage.frame;
+    if (movedUp)
+    {
+        rect.origin.y     -= IS_IPHONE5 ? kMoveTableView_iPhone5 : kMoveTableView_iPhone;
+        rect.size.height  += IS_IPHONE5 ? kMoveTableView_iPhone5 : kMoveTableView_iPhone;
+        
+        if (IS_IPAD)
+            rectLogo.origin.y -= kMoveLogo_iPad;
+        else
+            rectLogo.origin.y -= IS_IPHONE5 ? kMoveLogo_iPhone5 : kMoveLogo_iPhone;
+    }
+    else
+    {
+        rect.origin.y     += IS_IPHONE5 ? kMoveTableView_iPhone5 : kMoveTableView_iPhone;
+        rect.size.height  -= IS_IPHONE5 ? kMoveTableView_iPhone5 : kMoveTableView_iPhone;
+        
+        if (IS_IPAD)
+            rectLogo.origin.y += kMoveLogo_iPad;
+        else
+            rectLogo.origin.y += IS_IPHONE5 ? kMoveLogo_iPhone5 : kMoveLogo_iPhone;
+        
+    }
+    self.view.frame  = rect;
+    preyImage.frame  = rectLogo;
+    
+    [UIView commitAnimations];
+}
 
 @end

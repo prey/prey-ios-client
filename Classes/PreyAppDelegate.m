@@ -292,24 +292,36 @@
     
     if ([viewController respondsToSelector:@selector(isBeingDismissed)])  // Supports iOS5 or later
     {
-        UIFont *tmpFont;
+        UIFont *fontTitle, *fontItem;
+        UIColor *colorTitle = [UIColor colorWithRed:.3019f green:.3411f blue:.4f alpha:1];
+        UIColor *colorItem  = [UIColor colorWithRed:0 green:.5058f blue:.7607f alpha:1];
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            tmpFont = [UIFont fontWithName:@"OpenSans-Semibold" size:15];
+        {
+            fontItem = [UIFont fontWithName:@"OpenSans-Bold" size:12];
+            fontTitle = [UIFont fontWithName:@"OpenSans-Semibold" size:13];
+        }
         else
-            tmpFont = [UIFont fontWithName:@"OpenSans-Semibold" size:20];
+        {
+            fontItem = [UIFont fontWithName:@"OpenSans-Bold" size:18];
+            fontTitle = [UIFont fontWithName:@"OpenSans-Semibold" size:20];
+        }
         
         [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                              [UIColor blackColor], UITextAttributeTextColor,
-                                                              tmpFont,UITextAttributeFont,nil]];
+                                                              colorTitle, UITextAttributeTextColor,
+                                                              fontTitle,UITextAttributeFont,nil]];
 
-        NSDictionary *barButtonAppearanceDict = @{UITextAttributeFont:tmpFont};
+        NSDictionary *barButtonAppearanceDict = @{UITextAttributeFont:fontItem, UITextAttributeTextColor:colorItem};
         [[UIBarButtonItem appearance] setTitleTextAttributes:barButtonAppearanceDict forState:UIControlStateNormal];
         
-        //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navbarbg.png"] forBarMetrics:UIBarMetricsDefault];
-        //[[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.42f green: 0.42f blue:0.42f alpha:1]];
+        
+        if (IS_OS_7_OR_LATER)
+        {
+            [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
+            // Back arrow color
+            [[UINavigationBar appearance] setTintColor:colorItem];
+        }
     }
-    
     
     
     [window setRootViewController:viewController];

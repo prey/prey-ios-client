@@ -11,7 +11,8 @@
 #import <UIKit/UIKit.h>
 #import "RegexKitLite.h"
 #import "UserController.h"
+#import "UIWebViewController.h"
 
-@interface OldUserController : UserController <UITableViewDataSource, UITableViewDelegate>
+@interface OldUserController : UserController <UITableViewDataSource, UITableViewDelegate, UIWebViewControllerDelegate>
 
 @end
