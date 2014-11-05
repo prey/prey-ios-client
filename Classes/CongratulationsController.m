@@ -54,7 +54,7 @@
     {
         [congratsTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:24]];
         [congratsMsg   setFont:[UIFont fontWithName:@"OpenSans" size:14]];
-        [ok.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:18]];
+        [ok.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:14]];
     }
     else
     {
@@ -68,8 +68,8 @@
     congratsMsg.backgroundColor  = [UIColor clearColor];
     congratsMsg.text             = txtToShow;
 
-	[self.ok setTitle:[NSLocalizedString(@"OK",nil) uppercaseString] forState:UIControlStateNormal];
-    
+	[ok setTitle:[NSLocalizedString(@"OK",nil) uppercaseString] forState:UIControlStateNormal];
+
     authLocation = [[CLLocationManager alloc] init];
     
     if (IS_OS_8_OR_LATER)
