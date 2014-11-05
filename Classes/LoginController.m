@@ -159,19 +159,19 @@
         [detail   setFont:[UIFont fontWithName:@"OpenSans" size:14]];
         [tipl     setFont:[UIFont fontWithName:@"OpenSans" size:14]];
         
-        [loginButton.titleLabel   setFont:[UIFont fontWithName:@"OpenSans" size:16]];
-        [panelButton.titleLabel   setFont:[UIFont fontWithName:@"OpenSans" size:16]];
-        [settingButton.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:16]];
+        [loginButton.titleLabel   setFont:[UIFont fontWithName:@"OpenSans" size:14]];
+        [panelButton.titleLabel   setFont:[UIFont fontWithName:@"OpenSans" size:14]];
+        [settingButton.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:14]];
     }
     else
     {
-        [devReady setFont:[UIFont fontWithName:@"Roboto-Regular" size:38]];
-        [detail   setFont:[UIFont fontWithName:@"OpenSans" size:22]];
-        [tipl     setFont:[UIFont fontWithName:@"OpenSans" size:22]];
+        [devReady setFont:[UIFont fontWithName:@"Roboto-Regular" size:34]];
+        [detail   setFont:[UIFont fontWithName:@"OpenSans" size:20]];
+        [tipl     setFont:[UIFont fontWithName:@"OpenSans" size:20]];
         
-        [loginButton.titleLabel   setFont:[UIFont fontWithName:@"OpenSans" size:30]];
-        [panelButton.titleLabel   setFont:[UIFont fontWithName:@"OpenSans" size:30]];
-        [settingButton.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:30]];
+        [loginButton.titleLabel   setFont:[UIFont fontWithName:@"OpenSans" size:20]];
+        [panelButton.titleLabel   setFont:[UIFont fontWithName:@"OpenSans" size:20]];
+        [settingButton.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:20]];
     }
     
     [settingButton setTitle:[NSLocalizedString(@"Manage Prey settings", nil) uppercaseString] forState: UIControlStateNormal];
@@ -231,11 +231,13 @@
     {
         [self.devReady setText:[NSLocalizedString(@"Device not ready!", nil) uppercaseString]];
         [self.detail   setText:NSLocalizedString(@"Location services are disabled for Prey. Reports will not be sent.", nil)];
+        [nonCamuflageImage setImage:[UIImage imageNamed:@"unprotected.png"]];
     }
     else
     {
         [self.devReady setText:[NSLocalizedString(@"Device ready", nil) uppercaseString]];
         [self.detail   setText:NSLocalizedString(@"Your device is protected and waiting for the activation signal.", nil)];
+        [nonCamuflageImage setImage:[UIImage imageNamed:@"protected.png"]];
     }
     
     [self.navigationController setNavigationBarHidden:YES animated:NO];
