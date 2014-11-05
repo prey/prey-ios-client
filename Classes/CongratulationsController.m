@@ -12,7 +12,6 @@
 #import "CongratulationsController.h"
 #import "PreyAppDelegate.h"
 #import "LoginController.h"
-#import "PreferencesController.h"
 #import "PhotoController.h"
 #import "Constants.h"
 

@@ -105,7 +105,6 @@
 		3B3CCB76196B28820000F56C /* AlertModuleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F5134632C900F7EFD8 /* AlertModuleController.m */; };
 		3B3CCB77196B28820000F56C /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CD96231253E13800590FCD /* LoginController.m */; };
 		3B3CCB79196B28820000F56C /* WelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324321346353C00F7EFD8 /* WelcomeController.m */; };
-		3B3CCB7B196B28820000F56C /* AccuracyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF783B189C592500694625 /* AccuracyManager.m */; };
 		3B3CCB7C196B28820000F56C /* DeviceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF783D189C592500694625 /* DeviceMapController.m */; };
 		3B3CCB7E196B28820000F56C /* PreferencesController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 07CD95F21253D99500590FCD /* PreferencesController.mm */; };
 		3B3CCB7F196B28820000F56C /* OldUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132423134634D900F7EFD8 /* OldUserController.m */; };
@@ -306,7 +305,6 @@
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
 		3BF0371F167847920086A7A7 /* ReviewRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.m */; };
-		3BFF783E189C592500694625 /* AccuracyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF783B189C592500694625 /* AccuracyManager.m */; };
 		3BFF783F189C592500694625 /* DeviceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF783D189C592500694625 /* DeviceMapController.m */; };
 		5A73C0FE146ADD5000AB32E9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */; };
 		5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */; };
@@ -679,8 +677,6 @@
 		3BD74799170F7EFB00F44E2C /* LoggerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
 		3BF0371D167847920086A7A7 /* ReviewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReviewRequest.h; path = Classes/ReviewRequest.h; sourceTree = "<group>"; };
 		3BF0371E167847920086A7A7 /* ReviewRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReviewRequest.m; path = Classes/ReviewRequest.m; sourceTree = "<group>"; };
-		3BFF783A189C592500694625 /* AccuracyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccuracyManager.h; path = Classes/AccuracyManager.h; sourceTree = "<group>"; };
-		3BFF783B189C592500694625 /* AccuracyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccuracyManager.m; path = Classes/AccuracyManager.m; sourceTree = "<group>"; };
 		3BFF783C189C592500694625 /* DeviceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceMapController.h; path = Classes/DeviceMapController.h; sourceTree = "<group>"; };
 		3BFF783D189C592500694625 /* DeviceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceMapController.m; path = Classes/DeviceMapController.m; sourceTree = "<group>"; };
 		5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -769,8 +765,6 @@
 		07178DA5126605A0007B290C /* Preferences Controller */ = {
 			isa = PBXGroup;
 			children = (
-				3BFF783A189C592500694625 /* AccuracyManager.h */,
-				3BFF783B189C592500694625 /* AccuracyManager.m */,
 				3BFF783C189C592500694625 /* DeviceMapController.h */,
 				3BFF783D189C592500694625 /* DeviceMapController.m */,
 				07CD95F11253D99500590FCD /* PreferencesController.h */,
@@ -1669,7 +1663,6 @@
 				3B9EF01818ECE2E60060FFAE /* AFJSONRequestOperation.m in Sources */,
 				3B7FBB02191027250057EBC4 /* NSData+MKBase64.m in Sources */,
 				3B477ED918B2AA7B003A32CE /* PreyDeployment.m in Sources */,
-				3BFF783E189C592500694625 /* AccuracyManager.m in Sources */,
 				3B7FBB06191027250057EBC4 /* MKStoreManager.m in Sources */,
 				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
 				3B9EF01D18ECE2E60060FFAE /* UIImageView+AFNetworking.m in Sources */,
@@ -1750,7 +1743,6 @@
 				3BC712451981C8CB00FDF99B /* ExpectaSupport.m in Sources */,
 				3B3CCB77196B28820000F56C /* LoginController.m in Sources */,
 				3B3CCB79196B28820000F56C /* WelcomeController.m in Sources */,
-				3B3CCB7B196B28820000F56C /* AccuracyManager.m in Sources */,
 				3B3CCB7C196B28820000F56C /* DeviceMapController.m in Sources */,
 				3BC7123E1981C8CB00FDF99B /* EXPBackwardCompatibility.m in Sources */,
 				3BC7123F1981C8CB00FDF99B /* EXPBlockDefinedMatcher.m in Sources */,

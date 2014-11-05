@@ -24,7 +24,7 @@
 
 @implementation PreferencesController
 
-@synthesize accManager;
+@synthesize tableViewInfo;
 
 
 #pragma mark -
@@ -100,7 +100,17 @@
 	return nil;
 }
 
-// Customize the appearance of table view cells.
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    
+    if (IS_IPAD)
+        [header.textLabel  setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:17]];
+    else
+        [header.textLabel  setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:12]];
+    
+    [header.textLabel  setTextColor:[UIColor colorWithRed:(72/255.f) green:(84/255.f) blue:(102/255.f) alpha:.3]];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -110,8 +120,23 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
+        cell.backgroundColor = [UIColor whiteColor];
+        
+        if (IS_IPAD)
+        {
+            [cell.textLabel  setFont:[UIFont fontWithName:@"OpenSans" size:20]];
+            [cell.detailTextLabel setFont:[UIFont fontWithName:@"OpenSans" size:20]];
+        }
+        else
+        {
+            [cell.textLabel  setFont:[UIFont fontWithName:@"OpenSans" size:14]];
+            [cell.detailTextLabel setFont:[UIFont fontWithName:@"OpenSans" size:14]];
+        }
+        
+        [cell.textLabel setTextColor:[UIColor colorWithRed:(72/255.f) green:(84/255.f) blue:(102/255.f) alpha:1]];
+        [cell.detailTextLabel setTextColor:[UIColor colorWithRed:(72/255.f) green:(84/255.f) blue:(102/255.f) alpha:.3f]];
     }
+    
     PreyConfig *config = [PreyConfig instance];
     switch ([indexPath section]) {
         case 0:
@@ -179,7 +204,7 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	//LogMessageCompat(@"Table cell press. Section: %i, Row: %i",[indexPath section],[indexPath row]);
+    
 	switch ([indexPath section]) {
         case 0:
             if ([indexPath row] == 0)
@@ -233,36 +258,6 @@
 	}
 }
 
-- (void) setupNavigatorForPicker:(BOOL)showed withSelector:(SEL)action {
-	if (showed){
-		[self.navigationController setNavigationBarHidden:NO animated:YES];
-        self.navigationItem.hidesBackButton=YES;
-		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self	action:action];
-		self.navigationItem.rightBarButtonItem = doneButton;
-		pickerShowed = YES;
-	} else {
-		// remove the "Done" button in the nav bar
-		self.navigationItem.rightBarButtonItem = nil;
-        
-		// deselect the current table row
-		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        
-		//hide the nav bar again
-		[self.navigationController setNavigationBarHidden:YES animated:YES];
-        self.navigationItem.hidesBackButton=NO;
-		[self.tableView reloadData];
-		pickerShowed = NO;
-	}
-}
-
-- (void)accuracyPickerSelected
-{
-	[accManager hidePickerOnView:self.view fromTableView:self.tableView];
-	[self setupNavigatorForPicker:NO withSelector:nil];
-    
-}
-
 #pragma mark -
 #pragma mark Switches methods
 
@@ -274,8 +269,8 @@
 {
 	if (actionSheet.tag == 1)
     {
-		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+		NSIndexPath *indexPath = [tableViewInfo indexPathForSelectedRow];
+		[tableViewInfo deselectRowAtIndexPath:indexPath animated:YES];
         
 		if (buttonIndex == 0){
             [self detachDevice];
@@ -323,7 +318,7 @@
 
 - (void)reloadData:(NSNotification *)notification
 {
-	[[self tableView] reloadData];
+	[tableViewInfo reloadData];
 }
 
 #pragma mark -
@@ -331,23 +326,31 @@
 
 - (void)viewDidLoad
 {
-    id tracker = [[GAI sharedInstance] defaultTracker];
-    [tracker set:kGAIScreenName value:@"Preferences"];
-    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+    self.screenName = @"Preferences";
     
     self.title = NSLocalizedString(@"Preferences", nil);
-    [self.tableView setBackgroundView: nil];
-    [self.tableView setBackgroundColor:[UIColor whiteColor]];
+    self.view.backgroundColor = [UIColor whiteColor];
     
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+    // TableView Config
+    CGRect frameTable;
+    if (IS_IPAD)
+        frameTable = CGRectMake(149, 100, 470, 870);
+    else
+        frameTable = self.view.frame;
     
-    accManager = [[AccuracyManager alloc] init];
+    tableViewInfo = [[UITableView alloc] initWithFrame:frameTable style:UITableViewStyleGrouped];
+    [tableViewInfo setBackgroundView:nil];
+    [tableViewInfo setBackgroundColor:[UIColor whiteColor]];
+    [tableViewInfo setSeparatorColor:[UIColor colorWithRed:(240/255.f) green:(243/255.f) blue:(247/255.f) alpha:1]];
+    tableViewInfo.rowHeight  = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) ? 44 : 72.5;
+    tableViewInfo.delegate   = self;
+    tableViewInfo.dataSource = self;
+    if (IS_IPAD) tableViewInfo.scrollEnabled = NO;
+    [self.view addSubview:tableViewInfo];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
     
-    
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self.navigationController setToolbarHidden:YES animated:NO];
     [super viewDidLoad];

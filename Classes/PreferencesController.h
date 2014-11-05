@@ -9,21 +9,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AccuracyManager.h"
 #import "MBProgressHUD.h"
+#import "GAITrackedViewController.h"
 
 #define kDetachAction  1;
 
-@interface PreferencesController : UITableViewController <UIActionSheetDelegate, MBProgressHUDDelegate>  {
-    UIActivityIndicatorView *cLoadingView;
-	AccuracyManager *accManager;
-    BOOL pickerShowed;
-    MBProgressHUD *HUD;
-    
+@interface PreferencesController : GAITrackedViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, MBProgressHUDDelegate>
+{
+    MBProgressHUD *HUD;    
+    UITableView *tableViewInfo;
 }
 
-@property (nonatomic) AccuracyManager *accManager;
-
-- (void) setupNavigatorForPicker:(BOOL)showed withSelector:(SEL)action;
+@property (nonatomic) UITableView *tableViewInfo;
 
 @end

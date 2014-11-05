@@ -50,7 +50,7 @@
              if (!user.isPro)
                  [MKStoreManager sharedManager];
              
-             PreferencesController *preferencesController = [[PreferencesController alloc] initWithStyle:UITableViewStyleGrouped];
+             PreferencesController *preferencesController = [[PreferencesController alloc] init];
              preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
              PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
              [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
