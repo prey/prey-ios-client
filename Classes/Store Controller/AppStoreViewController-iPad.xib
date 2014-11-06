@@ -53,7 +53,7 @@ Priority support</string>
                     <color key="textColor" red="0.58039215690000001" green="0.66274509800000003" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="store_pro.png" id="AaY-w4-tvo">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="store_pro-iPad.png" id="AaY-w4-tvo">
                     <rect key="frame" x="303" y="92" width="162" height="162"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
@@ -90,7 +90,7 @@ Priority support</string>
         <image name="bg-welcome-iPad.png" width="768" height="1024"/>
         <image name="bt-store.png" width="218" height="76"/>
         <image name="store_discount-iPad.png" width="768" height="85"/>
-        <image name="store_pro.png" width="81" height="81"/>
+        <image name="store_pro-iPad.png" width="162" height="162"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

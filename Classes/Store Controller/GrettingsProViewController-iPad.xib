@@ -31,7 +31,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="store_pro.png" id="hlC-FJ-otS">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="store_pro-iPad.png" id="hlC-FJ-otS">
                     <rect key="frame" x="309" y="150" width="150" height="150"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -68,7 +68,7 @@
     <resources>
         <image name="bg-welcome-iPad.png" width="768" height="1024"/>
         <image name="bt-camouflage.png" width="500" height="85"/>
-        <image name="store_pro.png" width="81" height="81"/>
+        <image name="store_pro-iPad.png" width="142" height="162"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
