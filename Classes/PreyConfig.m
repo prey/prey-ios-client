@@ -37,7 +37,7 @@ static NSString *const PRO_ACCOUNT=@"pro_account";
 
 @implementation PreyConfig
 
-@synthesize checkUrl, controlPanelHost, checkPath, exceptionsEndpoint, dataEndpoint, apiKey, deviceKey, email;
+@synthesize checkUrl, controlPanelHost, checkPath, exceptionsEndpoint, dataEndpoint, apiKey, deviceKey, email, isNotificationSettingsEnabled;
 @synthesize desiredAccuracy,alertOnReport,sendCrashReports,delay,alreadyRegistered,missing,askForPassword,camouflageMode,intervalMode,pro;
 
 + (PreyConfig *)instance {

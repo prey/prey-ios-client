@@ -248,7 +248,10 @@
     BOOL isRegisteredNotifications = NO;
     
     if (IS_OS_8_OR_LATER)
-        isRegisteredNotifications  = [[UIApplication sharedApplication] isRegisteredForRemoteNotifications];
+    {
+        if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications] && [[PreyConfig instance] isNotificationSettingsEnabled])
+            isRegisteredNotifications = YES;
+    }
     else
     {
         UIRemoteNotificationType notificationTypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];

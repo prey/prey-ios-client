@@ -32,7 +32,13 @@
     PreyLogMessage(@"App Delegate", 10, @"Registering for push notifications...");    
 
     if (IS_OS_8_OR_LATER)
+    {
         [[UIApplication sharedApplication] registerForRemoteNotifications];
+        
+        if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+            [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
+        }
+    }
     else
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert |
                                                                                UIRemoteNotificationTypeBadge |
@@ -331,6 +337,16 @@
 
 #pragma mark -
 #pragma mark Push notifications delegate
+
+#ifdef __IPHONE_8_0
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    if (notificationSettings.types == UIUserNotificationTypeNone)
+        [[PreyConfig instance] setIsNotificationSettingsEnabled:NO];
+    else
+        [[PreyConfig instance] setIsNotificationSettingsEnabled:YES];
+}
+#endif
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif
 {
