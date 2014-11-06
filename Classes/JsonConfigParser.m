@@ -30,28 +30,6 @@
     return modulesConfig;
 }
 
-- (NSMutableSet *)parseStore:(NSString*)request parseError:(NSError **)err
-{
-    NSError *error = nil;
-    NSData *jsonData = [request dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-    
-    NSMutableSet *products;
-    
-    if (jsonObjects != nil)
-    {
-        products = [[NSMutableSet alloc] init];
-        
-        for (NSMutableDictionary *item in [jsonObjects objectForKey:@"products"])
-            [products addObject:item];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:[jsonObjects objectForKey:@"landing_url"] forKey:@"LandingURL"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    
-    return products;
-}
-
 - (void)parseRequest:(NSString *)request forUser:(User *)user parseError:(NSError **)err
 {
     NSError *error = nil;

@@ -18,6 +18,5 @@
 - (NewModulesConfig*) parseModulesConfig:(NSString *)request parseError:(NSError **)err;
 - (NSString*)parseKey:(NSString *)request parseError:(NSError **)err;
 - (void)parseRequest:(NSString *)request forUser:(User *)user parseError:(NSError **)err;
-- (NSMutableSet *)parseStore:(NSString*)request parseError:(NSError **)err;
 
 @end

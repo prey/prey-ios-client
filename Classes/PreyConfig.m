@@ -197,7 +197,6 @@ static NSString *const PRO_ACCOUNT=@"pro_account";
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setInteger:newDelay forKey:DELAY];
 	[defaults synchronize]; // this method is optional
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"delayUpdated" object:self];
 }
 
 

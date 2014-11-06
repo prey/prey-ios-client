@@ -309,51 +309,6 @@
     }
 }
 
-+ (void)getAppstoreConfig:(NSInteger)reload withUrl:(NSString *)URL withBlock:(void (^)(NSMutableSet *dataStore, NSError *error))block
-{
-    if (reload <= 0)
-    {
-        if (block)
-        {
-            NSError *error = [NSError errorWithDomain:@"StatusCode503Reload" code:700 userInfo:nil];
-            block(nil,error);
-        }
-    }
-    else
-    {
-        [[AFPreyStatusClient sharedClient] getPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat:@"/%@",URL]
-                                        parameters:nil
-                                           success:^(AFHTTPRequestOperation *operation, id responseObject)
-         {
-             PreyLogMessage(@"PreyRestHttp", 21, @"GET /%@: %@",URL,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-             
-             NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-             JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
-             
-             NSError *error2;
-             NSMutableSet *productsRequest = [configParser parseStore:respString parseError:&error2];
-             
-             if (block) {
-                 block(productsRequest, nil);
-             }
-             
-         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             if ([operation.response statusCode] == 503)
-             {
-                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                     [self getAppstoreConfig:reload -1 withUrl:URL withBlock:block];
-                 });
-             }
-             else
-             {
-                 if (block)
-                     block(nil, error);
-             }
-             PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
-         }];
-    }
-}
-
 + (void)setPushRegistrationId:(NSInteger)reload  withToken:(NSString *)tokenId withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
     if (reload <= 0)

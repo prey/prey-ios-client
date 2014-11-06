@@ -17,7 +17,6 @@
 + (void)createApiKey:(NSInteger)reload withUser:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block;
 + (void)createDeviceKeyForDevice:(NSInteger)reload withDevice:(Device *)device usingApiKey:(NSString *)apiKey withBlock:(void (^)(NSString *deviceKey, NSError *error))block;
 + (void)deleteDevice:(NSInteger)reload withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block;
-+ (void)getAppstoreConfig:(NSInteger)reload withUrl:(NSString *)URL withBlock:(void (^)(NSMutableSet *dataStore, NSError *error))block;
 + (void)setPushRegistrationId:(NSInteger)reload  withToken:(NSString *)tokenId withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block;
 + (void)checkCommandJsonForDevice:(NSString *)cmdString;
 + (void)checkStatusForDevice:(NSInteger)reload withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block;

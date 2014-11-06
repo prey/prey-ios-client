@@ -15,6 +15,7 @@
 #import "LoginController.h"
 #import "WelcomeController.h"
 #import "AlertModuleController.h"
+#import "GrettingsProViewController.h"
 #import "FakeWebView.h"
 #import "ReportModule.h"
 #import "AlertModule.h"
@@ -218,9 +219,9 @@
 {
     PreyLogMessage(@"App Delegate", 20,  @"DID BECOME ACTIVE!!");
     
-    if ([viewController.view superview] == window) {
+    if ( ([viewController.view superview] == window) ||
+         ([viewController.presentedViewController isKindOfClass:[GrettingsProViewController class]]) )
         return;
-    }
 
     [window endEditing:YES];
 

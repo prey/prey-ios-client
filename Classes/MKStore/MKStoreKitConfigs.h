@@ -41,6 +41,9 @@
 // #define kConsumableFeatureBId @"com.mycompany.myapp.005"
 // #define FishBasket @"FishBasket"
 
+#define kSubscription1Year  @"1year_personal_plan_non_renewing"
+
+
 #ifndef SERVER_PRODUCT_MODEL
     #define SERVER_PRODUCT_MODEL 0
 #endif

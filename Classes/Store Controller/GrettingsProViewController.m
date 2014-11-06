@@ -34,6 +34,7 @@
     [self.BUTTON setTitle:NSLocalizedString(@"Go back to preferences", nil) forState:UIControlStateNormal];
     // Do any additional setup after loading the view from its nib.
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"proUpdated" object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

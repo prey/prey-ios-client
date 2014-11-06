@@ -14,7 +14,7 @@
 #import "PreyRestHttp.h"
 #import "WelcomeController.h"
 #import "DeviceMapController.h"
-#import "StoreControllerViewController.h"
+#import "AppStoreViewController.h"
 #import "Constants.h"
 #import <Social/Social.h>
 #import "GAI.h"
@@ -170,6 +170,7 @@
 				cell.textLabel.text = NSLocalizedString(@"Detach device",nil);
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                cell.accessoryView = nil;
             }
 			break;
 		case 2:
@@ -220,7 +221,19 @@
             }
             else if ([indexPath row] == 3)
             {
-                StoreControllerViewController *viewController = [[StoreControllerViewController alloc] init];
+                AppStoreViewController *viewController;
+               
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+                {
+                    if (IS_IPHONE5)
+                        viewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone-568h" bundle:nil];
+                    else
+                        viewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone" bundle:nil];
+                }
+                else
+                    viewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPad" bundle:nil];
+
+                
                 [self.navigationController pushViewController:viewController animated:YES];
             }
             break;
@@ -348,9 +361,9 @@
     if (IS_IPAD) tableViewInfo.scrollEnabled = NO;
     [self.view addSubview:tableViewInfo];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"delayUpdated" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"accuracyUpdated" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"proUpdated" object:nil];
     
+    [tableViewInfo reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self.navigationController setToolbarHidden:YES animated:NO];
     [super viewDidLoad];

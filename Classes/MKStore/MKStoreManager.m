@@ -181,21 +181,12 @@ static MKStoreManager* _sharedStoreManager;
 
 -(void) requestProductData
 {
-    [PreyRestHttp getAppstoreConfig:5 withUrl:@"subscriptions/store.json" withBlock:^(NSMutableSet *dataStore, NSError *error)
-     {
-         if (error)
-         {
-             PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
-         }
-         else
-         {
-             PreyLogMessage(@"PreyAppDelegate", 10,@"Got Store Info");
-             
-             self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:dataStore];
-             self.productsRequest.delegate = self;
-             [self.productsRequest start];
-         }
-     }];
+    NSMutableSet *products = [[NSMutableSet alloc] init];
+    [products addObjectsFromArray:[NSArray arrayWithObjects:kSubscription1Year, nil]];
+
+    self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:products];
+    self.productsRequest.delegate = self;
+    [self.productsRequest start];
 }
 
 +(NSMutableArray*) allProducts {

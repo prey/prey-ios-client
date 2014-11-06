@@ -60,23 +60,6 @@
     expect(blockError).will.beNil();
 }
 
-- (void)testRestGetAppstoreConfig
-{
-    __block id blockError;
-    __block NSMutableSet *blockDataStore;
-
-    [PreyRestHttp getAppstoreConfig:5 withUrl:@"subscriptions/store.json" withBlock:^(NSMutableSet *dataStore, NSError *error)
-     {
-         blockError = error;
-         blockDataStore = dataStore;
-     }];
-
-    expect(blockDataStore).willNot.beNil();
-    expect(blockDataStore).willNot.beEmpty();
-    
-    expect(blockError).will.beNil();
-}
-
 - (void)testRestCreateDeviceKeyForDevice
 {
     __block id blockError;
