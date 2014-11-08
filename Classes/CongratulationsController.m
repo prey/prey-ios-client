@@ -57,8 +57,8 @@
     }
     else
     {
-        [congratsTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:38]];
-        [congratsMsg   setFont:[UIFont fontWithName:@"OpenSans" size:22]];
+        [congratsTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:34]];
+        [congratsMsg   setFont:[UIFont fontWithName:@"OpenSans" size:20]];
         [ok.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:30]];
     }
     

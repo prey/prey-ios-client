@@ -62,7 +62,7 @@ Priority support</string>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
                     <color key="tintColor" red="0.0" green="0.53333333329999999" blue="0.80000000000000004" alpha="0.0" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="1 Year" backgroundImage="bt-store.png">
+                    <state key="normal" title="Buy" backgroundImage="bt-store.png">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>

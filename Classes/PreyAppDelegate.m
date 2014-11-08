@@ -177,6 +177,8 @@
     {
         [self registerForRemoteNotifications];
     }
+    
+    [self displayScreen];
   
 	return YES;
 }
@@ -229,6 +231,7 @@
          ([viewController.presentedViewController isKindOfClass:[GrettingsProViewController class]]) )
         return;
 
+    
     [window endEditing:YES];
 
     if (application.applicationIconBadgeNumber > 0)
