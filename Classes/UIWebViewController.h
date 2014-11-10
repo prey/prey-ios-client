@@ -25,18 +25,15 @@
 	id <UIWebViewControllerDelegate>            _delegate;
 	UIView										*_blockerView;
     
-	UIInterfaceOrientation                      _orientation;
 	BOOL										_loading, _firstLoad;
+    UIButton                                    *cancelButton;
 }
 
 
 @property (nonatomic, readwrite) id <UIWebViewControllerDelegate> delegate;
 @property (nonatomic, readonly) UINavigationBar *navigationBar;
+@property (nonatomic) UIButton *cancelButton;
 
-+ (UIWebViewController *) controllerToEnterdelegate: (id <UIWebViewControllerDelegate>) delegate forOrientation: (UIInterfaceOrientation)theOrientation setURL:(NSString*)stringURL;
-
-+ (UIWebViewController *) controllerToEnterdelegate: (id <UIWebViewControllerDelegate>) delegate setURL:(NSString*)stringURL;
-
-- (id) initOrientation:(UIInterfaceOrientation)theOrientation setURL:(NSString*)stringURL;
++ (UIWebViewController *)controllerToEnterdelegate:(id<UIWebViewControllerDelegate>)delegate setURL:(NSString*)stringURL;
 
 @end

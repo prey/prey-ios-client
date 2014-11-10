@@ -8,56 +8,63 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-
 #import "UIWebViewController.h"
+#import "Constants.h"
 
-@interface UIWebViewController ()
-@property (nonatomic, readwrite) UIInterfaceOrientation orientation;
-@end
+#define kCancelBtn_PosX         268.0
+#define kCancelBtn_PosY         7.0
+#define kCancelBtn_Width        38.0
+#define kCancelBtn_Height       34.0
 
 @implementation UIWebViewController
-@synthesize delegate = _delegate, navigationBar = _navBar, orientation = _orientation;
+@synthesize delegate = _delegate, navigationBar = _navBar, cancelButton;
 
-+ (UIWebViewController *) controllerToEnterdelegate: (id <UIWebViewControllerDelegate>) delegate forOrientation: (UIInterfaceOrientation)theOrientation setURL:(NSString*)stringURL
+- (void) viewWillAppear:(BOOL)animated
 {
-	UIWebViewController     *controller = [[UIWebViewController alloc] initOrientation:theOrientation setURL:stringURL];
+    if (!IS_IPAD)
+        [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
+    [super viewWillAppear:animated];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    if (!IS_IPAD)
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+
+    [super viewWillDisappear:animated];
+}
+
+
++ (UIWebViewController *)controllerToEnterdelegate:(id<UIWebViewControllerDelegate>)delegate setURL:(NSString*)stringURL
+{
+	UIWebViewController     *controller = [[UIWebViewController alloc] initWithURL:stringURL];
 	controller.delegate = delegate;
 	return controller;
 }
 
-+ (UIWebViewController *) controllerToEnterdelegate: (id <UIWebViewControllerDelegate>) delegate setURL:(NSString*)stringURL{
-	return [UIWebViewController controllerToEnterdelegate: delegate forOrientation: UIInterfaceOrientationPortrait setURL:stringURL];
-}
-
-
-- (id) initOrientation:(UIInterfaceOrientation)theOrientation setURL:(NSString*)stringURL
+- (id) initWithURL:(NSString*)stringURL
 {
     self = [super init];
 	if (self) 
     {
-		self.orientation = theOrientation;
+        CGRect frameWebView = [[UIScreen mainScreen] bounds];
+        if (IS_IPAD)
+            frameWebView = CGRectMake(0, 44, frameWebView.size.width, frameWebView.size.height-44);
+        
 		_firstLoad = YES;
-		
-		if (UIInterfaceOrientationIsLandscape( self.orientation ) ){
-			_webView = [[UIWebView alloc] initWithFrame: CGRectMake(0, 32, 480, 288)];
-		}
-		else{
-			_webView = [[UIWebView alloc] initWithFrame: CGRectMake(0, 44, 320, 416)];
-		}
-		
+        _webView = [[UIWebView alloc] initWithFrame:frameWebView];
 		_webView.alpha = 0.0;
 		_webView.delegate = self;
-		_webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _webView.multipleTouchEnabled = YES;
         [_webView setScalesPageToFit:YES];
         
         NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:stringURL]]; 
-		[_webView loadRequest: theRequest];
+		[_webView loadRequest:theRequest];
 	}
 	return self;
 }
 
-//=============================================================================================================================
 #pragma mark Actions
 - (void) denied
 {
@@ -75,7 +82,6 @@
         [self dismissModalViewControllerAnimated:YES];
 }
 
-//=============================================================================================================================
 #pragma mark View Controller Stuff
 - (void) loadView
 {
@@ -83,22 +89,20 @@
     
 	[super loadView];
     
-	if ( UIInterfaceOrientationIsLandscape( self.orientation ) ) 
-    {
-		self.view = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 480, 288)];
-		_navBar = [[UINavigationBar alloc] initWithFrame: CGRectMake(0, 0, 480, 32)];
-	}
-    else 
-    {
-		self.view = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 320, 416)];
-		_navBar = [[UINavigationBar alloc] initWithFrame: CGRectMake(0, 0, 320, 44)];
-	}
+    CGRect frameView = [[UIScreen mainScreen] bounds];
+    if (IS_IPAD)
+        frameView = CGRectMake(0, 44, frameView.size.width, frameView.size.height-44);
+
     
-	_navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
-	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    
-	[self.view addSubview: _webView];
-	[self.view addSubview: _navBar];
+    self.view = [[UIView alloc] initWithFrame:frameView];
+	[self.view addSubview:_webView];
+
+    if (IS_IPAD)
+    {
+        _navBar = [[UINavigationBar alloc] initWithFrame: CGRectMake(0, 0, 768, 44)];
+        _navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+        [self.view addSubview:_navBar];
+    }
 	
 	_blockerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 200, 60)];
 	_blockerView.backgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.8];
@@ -131,22 +135,29 @@
 	navItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemCancel
                                                                                target: self action: @selector(cancel:)];
 	
-	//[_navBar setBarStyle:UIBarStyleBlackOpaque];
 	[_navBar pushNavigationItem:navItem animated: NO];
+    
+    
+    if (!IS_IPAD)
+    {
+        cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(kCancelBtn_PosX, kCancelBtn_PosY, kCancelBtn_Width, kCancelBtn_Height)];
+        [cancelButton setBackgroundColor:[UIColor clearColor]];
+        [cancelButton setBackgroundImage:[UIImage imageNamed:@"close_off"] forState:UIControlStateNormal];
+        [cancelButton setBackgroundImage:[UIImage imageNamed:@"close_on"] forState:UIControlStateHighlighted];
+        [cancelButton addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:cancelButton];
+    }
 }
 
 
 - (void) didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation {
-	self.orientation = self.interfaceOrientation;
 	_blockerView.center = CGPointMake(self.view.bounds.size.width / 2, self.view.bounds.size.height / 2);
 }
 
-//=============================================================================================================================
 #pragma mark Webview Delegate stuff
-- (void) webViewDidFinishLoad: (UIWebView *) webView {
-    
-    
-	_loading = NO;
+- (void) webViewDidFinishLoad: (UIWebView *) webView
+{
+    _loading = NO;
 
 	if (_firstLoad) {
 		[_webView performSelector: @selector(stringByEvaluatingJavaScriptFromString:) withObject: @"window.scrollBy(0,200)" afterDelay: 0];

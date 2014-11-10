@@ -130,7 +130,7 @@
 
 - (IBAction)goToControlPanel:(UIButton *)sender
 {
-    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self forOrientation:UIInterfaceOrientationPortrait setURL:@"http://panel.preyproject.com"];
+    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:@"http://panel.preyproject.com"];
     
     if (controller)
     {

@@ -121,7 +121,7 @@
 
 - (void)runWebForgot
 {
-    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self forOrientation:UIInterfaceOrientationPortrait setURL:@"https://panel.preyproject.com/forgot"];
+    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:@"https://panel.preyproject.com/forgot"];
     
     if (controller)
     {

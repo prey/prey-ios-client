@@ -139,6 +139,12 @@
 		3B3CCB9D196B28820000F56C /* PreyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* PreyAppDelegate.m */; };
 		3B3CCB9E196B28820000F56C /* PreyDeployment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B477ED818B2AA7B003A32CE /* PreyDeployment.m */; };
 		3B477ED918B2AA7B003A32CE /* PreyDeployment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B477ED818B2AA7B003A32CE /* PreyDeployment.m */; };
+		3B4B24D71A115C76002B64E8 /* close_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D11A115C76002B64E8 /* close_off.png */; };
+		3B4B24D81A115C76002B64E8 /* close_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D21A115C76002B64E8 /* close_off@2x.png */; };
+		3B4B24D91A115C76002B64E8 /* close_off@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D31A115C76002B64E8 /* close_off@3x.png */; };
+		3B4B24DA1A115C76002B64E8 /* close_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D41A115C76002B64E8 /* close_on.png */; };
+		3B4B24DB1A115C76002B64E8 /* close_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D51A115C76002B64E8 /* close_on@2x.png */; };
+		3B4B24DC1A115C76002B64E8 /* close_on@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D61A115C76002B64E8 /* close_on@3x.png */; };
 		3B56DF1B197EB92300FE7218 /* UserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B67DCC21976B549003D80D4 /* UserController.m */; };
 		3B656D791A0A47A1007C85E4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B656D6C1A0A47A1007C85E4 /* Localizable.strings */; };
 		3B65EE2A1805E358008EB7CF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65EE291805E358008EB7CF /* MBProgressHUD.m */; };
@@ -463,6 +469,12 @@
 		3B31F1D019D0CCA500769982 /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
 		3B477ED718B2AA7B003A32CE /* PreyDeployment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyDeployment.h; sourceTree = "<group>"; };
 		3B477ED818B2AA7B003A32CE /* PreyDeployment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyDeployment.m; sourceTree = "<group>"; };
+		3B4B24D11A115C76002B64E8 /* close_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close_off.png; sourceTree = "<group>"; };
+		3B4B24D21A115C76002B64E8 /* close_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_off@2x.png"; sourceTree = "<group>"; };
+		3B4B24D31A115C76002B64E8 /* close_off@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_off@3x.png"; sourceTree = "<group>"; };
+		3B4B24D41A115C76002B64E8 /* close_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close_on.png; sourceTree = "<group>"; };
+		3B4B24D51A115C76002B64E8 /* close_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_on@2x.png"; sourceTree = "<group>"; };
+		3B4B24D61A115C76002B64E8 /* close_on@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_on@3x.png"; sourceTree = "<group>"; };
 		3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3B656D6D1A0A47A1007C85E4 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3B656D6E1A0A47A1007C85E4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1148,6 +1160,12 @@
 				3B8AC78B19F9D0C800464098 /* camouflage-iPad */,
 				3B8AC78C19F9D0C800464098 /* camouflage-iPhone */,
 				3B8AC78D19F9D0C800464098 /* camouflage-iPhone5 */,
+				3B4B24D11A115C76002B64E8 /* close_off.png */,
+				3B4B24D21A115C76002B64E8 /* close_off@2x.png */,
+				3B4B24D31A115C76002B64E8 /* close_off@3x.png */,
+				3B4B24D41A115C76002B64E8 /* close_on.png */,
+				3B4B24D51A115C76002B64E8 /* close_on@2x.png */,
+				3B4B24D61A115C76002B64E8 /* close_on@3x.png */,
 				3B8AC78E19F9D0C800464098 /* ok-congratulations.png */,
 				3BAB3CEE1A0987E7003BFCCE /* ok-congratulations@2x.png */,
 				3B8AC79119F9D0C800464098 /* prey-text-white.png */,
@@ -1547,6 +1565,7 @@
 				3BAB3CED1A09874E003BFCCE /* bg-welcome-iPhone@2x.png in Resources */,
 				3B8AC77119F9C96700464098 /* Icon-Small@2x.png in Resources */,
 				3B8AC77019F9C96700464098 /* Icon-Small.png in Resources */,
+				3B4B24DB1A115C76002B64E8 /* close_on@2x.png in Resources */,
 				3BBAB00518B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib in Resources */,
 				3B8AC76C19F9C96700464098 /* Icon-Small-40@3x.png in Resources */,
 				3B8AC77F19F9D01C00464098 /* OpenSans-Semibold.ttf in Resources */,
@@ -1586,6 +1605,8 @@
 				3BA6A22F16769566005323EB /* MainWindow-iPad.xib in Resources */,
 				3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */,
 				3B6D2E441A0AF4DD00DF1EE7 /* AppStoreViewController-iPad.xib in Resources */,
+				3B4B24DA1A115C76002B64E8 /* close_on.png in Resources */,
+				3B4B24D91A115C76002B64E8 /* close_off@3x.png in Resources */,
 				3BA232921A0BB37A005E5145 /* GrettingsProViewController-iPhone-568h.xib in Resources */,
 				3B8AC76D19F9C96700464098 /* Icon-Small-50.png in Resources */,
 				3B8AC77219F9C96700464098 /* Icon-Small@3x.png in Resources */,
@@ -1597,10 +1618,13 @@
 				3BAB3CEF1A0987E7003BFCCE /* ok-congratulations@2x.png in Resources */,
 				3B8AC76219F9C96700464098 /* Icon-60.png in Resources */,
 				3BA232891A0B9757005E5145 /* store_discount.png in Resources */,
+				3B4B24DC1A115C76002B64E8 /* close_on@3x.png in Resources */,
 				3BAB3CFB1A0993ED003BFCCE /* bt-welcome-press.png in Resources */,
 				3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */,
 				3B8AC77619F9C96700464098 /* iTunesArtwork@2x.png in Resources */,
+				3B4B24D71A115C76002B64E8 /* close_off.png in Resources */,
 				3B8AC75D19F9C96700464098 /* Default-568h@2x.png in Resources */,
+				3B4B24D81A115C76002B64E8 /* close_off@2x.png in Resources */,
 				3BA2328A1A0B9757005E5145 /* store_discount@2x.png in Resources */,
 				3B8AC79619F9D0C800464098 /* bg-welcome-iPhone.png in Resources */,
 				3B6D2E461A0AF4DD00DF1EE7 /* AppStoreViewController-iPhone.xib in Resources */,
