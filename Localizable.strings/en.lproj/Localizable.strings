@@ -1,4 +1,4 @@
-﻿/* No comment provided by engineer. */
+/* No comment provided by engineer. */
 "10 mins." = "10 mins.";
 
 /* No comment provided by engineer. */
@@ -116,7 +116,7 @@
 "Device not ready!" = "Device not ready!";
 
 /* No comment provided by engineer. */
-"Device ready." = "Device ready.";
+"Device ready" = "Device ready";
 
 /* No comment provided by engineer. */
 "Disable it!" = "Disable it!";

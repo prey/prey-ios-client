@@ -84,7 +84,7 @@
 {
     HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     HUD.delegate = self;
-    HUD.labelText = NSLocalizedString(@"Loading...",nil);
+    HUD.labelText = NSLocalizedString(@"Please wait",nil);
     
     
     if ( [[MKStoreManager sharedManager].purchasableObjects count] == 1 )
@@ -121,10 +121,10 @@
 {
     [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
     
-    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:@"Notice"
-                                                      message:@"Canceled transaction, please try again."
+    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
+                                                      message:NSLocalizedString(@"Canceled transaction, please try again.",nil)
                                                      delegate:nil
-                                            cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                            cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
     [alerta show];
 
 }

@@ -63,7 +63,7 @@
 - (void)addDeviceForCurrentUser
 {
     if (![email.text isMatchedByRegex:strEmailMatchstring]){
-        UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
+        UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Try Again",nil) ,nil];
         [objAlert show];
         
         [email becomeFirstResponder];

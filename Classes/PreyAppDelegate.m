@@ -200,7 +200,7 @@
         [userInfoLocalNotification setObject:@"keep_background" forKey:@"url"];
         
         localNotif.userInfo = userInfoLocalNotification;
-        localNotif.alertBody = @"Keep Prey in background to enable all of its features.";
+        localNotif.alertBody = NSLocalizedString(@"Keep Prey in background to enable all of its features.", nil);
         localNotif.hasAction = NO;
         localNotif.soundName = UILocalNotificationDefaultSoundName;
         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotif];

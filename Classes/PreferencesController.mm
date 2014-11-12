@@ -295,7 +295,7 @@
 {
     HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     HUD.delegate = self;
-    HUD.labelText = NSLocalizedString(@"Detaching device...",nil);
+    HUD.labelText = NSLocalizedString(@"Detaching device ...",nil);
 
     
     [PreyRestHttp deleteDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error)
@@ -407,7 +407,7 @@
         }
     }
     else
-        [self displayErrorAlert:@"Is not available" title:NSLocalizedString(@"Access Denied",nil)];
+        [self displayErrorAlert:NSLocalizedString(@"Is not available",nil) title:NSLocalizedString(@"Access Denied",nil)];
 }
 
 - (void)displayErrorAlert: (NSString *)alertMessage title:(NSString*)titleMessage

@@ -70,7 +70,7 @@
 - (void)addDeviceForCurrentUser
 {
     if (![email.text isMatchedByRegex:strEmailMatchstring]){
-        UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Try Again",nil];
+        UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Try Again",nil),nil];
         [objAlert show];
         
         [email becomeFirstResponder];
@@ -248,10 +248,10 @@
     [email setDelegate:self];
     [email setBackgroundColor:[UIColor colorWithRed:(240/255.f) green:(243/255.f) blue:(247/255.f) alpha:1.f]];
     if (IS_OS_6_OR_LATER)
-        email.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"  Your Prey account email"
+        email.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Your email",nil)
                                                                       attributes:@{NSForegroundColorAttributeName:colorPlaceholder}];
     else
-        email.placeholder = @"  Your Prey account email";
+        email.placeholder = NSLocalizedString(@"Your email",nil);
     
     
     password = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
@@ -264,10 +264,10 @@
     [password setDelegate:self];
     [password setBackgroundColor:[UIColor clearColor]];
     if (IS_OS_6_OR_LATER)
-        password.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"  Your Prey account password"
+        password.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Your password",nil)
                                                                          attributes:@{NSForegroundColorAttributeName:colorPlaceholder}];
     else
-        password.placeholder = @"  Your Prey account password";
+        password.placeholder = NSLocalizedString(@"Your password",nil);
 
     
     btnNewUser = [[UIButton alloc] initWithFrame:[self returnRectToBtnAddDevice]];

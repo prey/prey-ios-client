@@ -67,7 +67,8 @@
     congratsMsg.backgroundColor  = [UIColor clearColor];
     congratsMsg.text             = txtToShow;
 
-	[ok setTitle:[NSLocalizedString(@"OK",nil) uppercaseString] forState:UIControlStateNormal];
+    [congratsTitle setText:[NSLocalizedString(@"Device set up!",nil) uppercaseString]];
+    [ok setTitle:[NSLocalizedString(@"OK",nil) uppercaseString] forState:UIControlStateNormal];
 
     authLocation = [[CLLocationManager alloc] init];
     

@@ -176,7 +176,9 @@
     
     [settingButton setTitle:[NSLocalizedString(@"Manage Prey settings", nil) uppercaseString] forState: UIControlStateNormal];
     [panelButton setTitle:[NSLocalizedString(@"Go to Control Panel", nil) uppercaseString] forState: UIControlStateNormal];
-    
+    [loginButton setTitle:[NSLocalizedString(@"Log in to Prey", nil) uppercaseString] forState: UIControlStateNormal];
+    [loginPassword setPlaceholder:NSLocalizedString(@"Type in your password", nil)];
+    [tipl setText:NSLocalizedString(@"Swipe to go back", nil)];
     
     PreyConfig *config = [PreyConfig instance];
     [self.scrollView setContentSize:CGSizeMake(scrollView.frame.size.width*2, scrollView.frame.size.height)];
