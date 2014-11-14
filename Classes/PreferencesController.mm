@@ -21,6 +21,7 @@
 #import "GAIDictionaryBuilder.h"
 #import "GAIFields.h"
 #import "Constants.h"
+#import "CamouflageModule.h"
 
 @implementation PreferencesController
 
@@ -366,9 +367,25 @@
     [tableViewInfo reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self.navigationController setToolbarHidden:YES animated:NO];
+    
+    
+    currentCamouflageMode = [PreyConfig instance].camouflageMode;
+    
     [super viewDidLoad];
 }
 
+- (void)didMoveToParentViewController:(UIViewController *)parent
+{
+    if ( (![parent isEqual:self.parentViewController]) && (currentCamouflageMode != [PreyConfig instance].camouflageMode) )
+    {
+        CamouflageModule *camouflageModule = [[CamouflageModule alloc] init];
+        
+        if ([PreyConfig instance].camouflageMode)
+            [camouflageModule start];
+        else
+            [camouflageModule stop];
+    }
+}
 
 #pragma mark -
 #pragma mark Social Framework

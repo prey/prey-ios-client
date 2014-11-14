@@ -18,6 +18,7 @@
 {
     MBProgressHUD *HUD;    
     UITableView *tableViewInfo;
+    BOOL currentCamouflageMode;
 }
 
 @property (nonatomic) UITableView *tableViewInfo;

@@ -96,6 +96,8 @@
     
     self.view = [[UIView alloc] initWithFrame:frameView];
 	[self.view addSubview:_webView];
+    
+    [self.view setBackgroundColor:[UIColor blackColor]];
 
     if (IS_IPAD)
     {
@@ -104,7 +106,7 @@
         [self.view addSubview:_navBar];
     }
 	
-	_blockerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 200, 60)];
+	_blockerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 200, 70)];
 	_blockerView.backgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.8];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -116,7 +118,7 @@
 	_blockerView.clipsToBounds = YES;
 	if ([_blockerView.layer respondsToSelector: @selector(setCornerRadius:)]) [(id) _blockerView.layer setCornerRadius: 10];
 	
-	UILabel	*label = [[UILabel alloc] initWithFrame: CGRectMake(0, 5, _blockerView.bounds.size.width, 15)];
+	UILabel	*label = [[UILabel alloc] initWithFrame: CGRectMake(0, 5, _blockerView.bounds.size.width, 18)];
 	label.text = NSLocalizedString(@"Please wait",nil);
 	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UIColor whiteColor];
