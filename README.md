@@ -1,5 +1,6 @@
-
-![Prey: iOS client in Swift](Prey/Images.xcassets/Prey-Logo.imageset/Prey-Logo.png)
+<p align="center">
+  <img src="https://github.com/prey/prey-ios-client/blob/master/Resources/Images/prey-text%402x.png?raw=true" alt="Prey: iOS client"/>
+</p>
 
 Prey is the most complete anti-theft application! It lets you track and locate your lost or stolen iPhone, iPad and Mac laptop. Locate and recover your device with geolocation and many more features.
 
