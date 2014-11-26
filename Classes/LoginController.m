@@ -17,7 +17,7 @@
 #import "PreferencesController.h"
 #import "MKStoreManager.h"
 #import "ReviewRequest.h"
-
+#import "Constants.h"
 
 @implementation LoginController
 
@@ -130,7 +130,7 @@
 
 - (IBAction)goToControlPanel:(UIButton *)sender
 {
-    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:@"http://panel.preyproject.com"];
+    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_LOGIN_PANEL];
     
     if (controller)
     {

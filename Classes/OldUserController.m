@@ -121,7 +121,7 @@
 
 - (void)runWebForgot
 {
-    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:@"https://panel.preyproject.com/forgot"];
+    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_FORGOT_PANEL];
     
     if (controller)
     {

@@ -33,6 +33,9 @@ extern BOOL  const ASK_FOR_LOGIN;
 extern BOOL const USE_CONTROL_PANEL_DELAY;
 extern BOOL const SHOULD_LOG;
 
+extern NSString * const URL_LOGIN_PANEL;
+extern NSString * const URL_FORGOT_PANEL;
+
 
 
 +(NSString *) appName;
