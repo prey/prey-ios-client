@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E7B87F22-DDE1-45D4-AC3B-102A705864FE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Prey</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>5ED2C1FE9F8912CD120E0F5C8A1C98B141A783AB</key>
+		<string>https://github.com/prey/prey-swift-client.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Prey.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>5ED2C1FE9F8912CD120E0F5C8A1C98B141A783AB</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/prey/prey-swift-client.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>5ED2C1FE9F8912CD120E0F5C8A1C98B141A783AB</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5ED2C1FE9F8912CD120E0F5C8A1C98B141A783AB</string>
+			<key>IDESourceControlWCCName</key>
+			<string>prey-swift-client</string>
+		</dict>
+	</array>
+</dict>
+</plist>

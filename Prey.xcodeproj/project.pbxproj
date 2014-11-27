@@ -7,11 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B6AF0EF1A1FDB5E000DC995 /* DeviceSetUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6AF0EE1A1FDB5E000DC995 /* DeviceSetUp.swift */; };
+		3B8065DC1A274C260012965E /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8065DB1A274C260012965E /* Home.swift */; };
+		3B8065DE1A276DDD0012965E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8065DD1A276DDD0012965E /* Settings.swift */; };
+		3B8065E01A276F150012965E /* Purchases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8065DF1A276F150012965E /* Purchases.swift */; };
 		3B8283F3199198E6000E4545 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8283F2199198E6000E4545 /* AppDelegate.swift */; };
-		3B8283F5199198E6000E4545 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8283F4199198E6000E4545 /* ViewController.swift */; };
-		3B8283F8199198E6000E4545 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F6199198E6000E4545 /* Main.storyboard */; };
+		3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */; };
 		3B8283FA199198E6000E4545 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F9199198E6000E4545 /* Images.xcassets */; };
 		3B828406199198E6000E4545 /* PreyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B828405199198E6000E4545 /* PreyTests.swift */; };
+		3BB7EAC31A1E78DC003FC312 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EABF1A1E78DB003FC312 /* OpenSans-Bold.ttf */; };
+		3BB7EAC41A1E78DC003FC312 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC01A1E78DC003FC312 /* OpenSans-Regular.ttf */; };
+		3BB7EAC51A1E78DC003FC312 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC11A1E78DC003FC312 /* OpenSans-Semibold.ttf */; };
+		3BB7EAC61A1E78DC003FC312 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC21A1E78DC003FC312 /* Roboto-Regular.ttf */; };
+		3BB7EAC81A1E93A7003FC312 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC71A1E93A7003FC312 /* SignUp.swift */; };
+		3BB7EACA1A1E942F003FC312 /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC91A1E942F003FC312 /* LogIn.swift */; };
+		3BD64CDF1A1CF3B800C3829D /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD64CDE1A1CF3B800C3829D /* Welcome.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,15 +49,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B6AF0EE1A1FDB5E000DC995 /* DeviceSetUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceSetUp.swift; sourceTree = "<group>"; };
+		3B8065DB1A274C260012965E /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		3B8065DD1A276DDD0012965E /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		3B8065DF1A276F150012965E /* Purchases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Purchases.swift; sourceTree = "<group>"; };
 		3B8283ED199198E6000E4545 /* Prey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B8283F1199198E6000E4545 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B8283F2199198E6000E4545 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3B8283F4199198E6000E4545 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		3B8283F7199198E6000E4545 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3B8283F7199198E6000E4545 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/PreyStoryBoard.storyboard; sourceTree = "<group>"; };
 		3B8283F9199198E6000E4545 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3B8283FF199198E6000E4545 /* PreyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B828404199198E6000E4545 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B828405199198E6000E4545 /* PreyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyTests.swift; sourceTree = "<group>"; };
+		3BB7EABF1A1E78DB003FC312 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		3BB7EAC01A1E78DC003FC312 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		3BB7EAC11A1E78DC003FC312 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		3BB7EAC21A1E78DC003FC312 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		3BB7EAC71A1E93A7003FC312 /* SignUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
+		3BB7EAC91A1E942F003FC312 /* LogIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
+		3BD64CDE1A1CF3B800C3829D /* Welcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,9 +110,16 @@
 			isa = PBXGroup;
 			children = (
 				3B8283F2199198E6000E4545 /* AppDelegate.swift */,
-				3B8283F4199198E6000E4545 /* ViewController.swift */,
-				3B8283F6199198E6000E4545 /* Main.storyboard */,
+				3BD64CDE1A1CF3B800C3829D /* Welcome.swift */,
+				3BB7EAC71A1E93A7003FC312 /* SignUp.swift */,
+				3BB7EAC91A1E942F003FC312 /* LogIn.swift */,
+				3B6AF0EE1A1FDB5E000DC995 /* DeviceSetUp.swift */,
+				3B8065DB1A274C260012965E /* Home.swift */,
+				3B8065DD1A276DDD0012965E /* Settings.swift */,
+				3B8065DF1A276F150012965E /* Purchases.swift */,
+				3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */,
 				3B8283F9199198E6000E4545 /* Images.xcassets */,
+				3BB7EABE1A1E78DB003FC312 /* Fonts */,
 				3B8283F0199198E6000E4545 /* Supporting Files */,
 			);
 			path = Prey;
@@ -121,6 +148,17 @@
 				3B828404199198E6000E4545 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3BB7EABE1A1E78DB003FC312 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3BB7EABF1A1E78DB003FC312 /* OpenSans-Bold.ttf */,
+				3BB7EAC01A1E78DC003FC312 /* OpenSans-Regular.ttf */,
+				3BB7EAC11A1E78DC003FC312 /* OpenSans-Semibold.ttf */,
+				3BB7EAC21A1E78DC003FC312 /* Roboto-Regular.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,8 +243,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B8283F8199198E6000E4545 /* Main.storyboard in Resources */,
+				3BB7EAC61A1E78DC003FC312 /* Roboto-Regular.ttf in Resources */,
+				3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */,
 				3B8283FA199198E6000E4545 /* Images.xcassets in Resources */,
+				3BB7EAC41A1E78DC003FC312 /* OpenSans-Regular.ttf in Resources */,
+				3BB7EAC31A1E78DC003FC312 /* OpenSans-Bold.ttf in Resources */,
+				3BB7EAC51A1E78DC003FC312 /* OpenSans-Semibold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,7 +266,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B8283F5199198E6000E4545 /* ViewController.swift in Sources */,
+				3B8065E01A276F150012965E /* Purchases.swift in Sources */,
+				3BB7EACA1A1E942F003FC312 /* LogIn.swift in Sources */,
+				3B6AF0EF1A1FDB5E000DC995 /* DeviceSetUp.swift in Sources */,
+				3BD64CDF1A1CF3B800C3829D /* Welcome.swift in Sources */,
+				3BB7EAC81A1E93A7003FC312 /* SignUp.swift in Sources */,
+				3B8065DE1A276DDD0012965E /* Settings.swift in Sources */,
+				3B8065DC1A274C260012965E /* Home.swift in Sources */,
 				3B8283F3199198E6000E4545 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,12 +306,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		3B8283F6199198E6000E4545 /* Main.storyboard */ = {
+		3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				3B8283F7199198E6000E4545 /* Base */,
 			);
-			name = Main.storyboard;
+			name = PreyStoryBoard.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -356,6 +404,7 @@
 				INFOPLIST_FILE = Prey/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -367,6 +416,7 @@
 				INFOPLIST_FILE = Prey/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
