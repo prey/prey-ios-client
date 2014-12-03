@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="SgZ-Bd-7Zs">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="SgZ-Bd-7Zs">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="OpenSans-Bold.ttf">
@@ -57,10 +57,10 @@
             </objects>
             <point key="canvasLocation" x="-747" y="218"/>
         </scene>
-        <!--Welcome-->
+        <!--WelcomeVC-->
         <scene sceneID="0pa-67-YZU">
             <objects>
-                <viewController id="wNb-UE-WhR" customClass="Welcome" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="wNb-UE-WhR" customClass="WelcomeVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yo0-VB-qg0"/>
                         <viewControllerLayoutGuide type="bottom" id="rqy-DV-Rar"/>
@@ -97,7 +97,7 @@
                                 </state>
                                 <state key="highlighted" backgroundImage="BtWelcomePress"/>
                                 <connections>
-                                    <segue destination="OXa-hN-alQ" kind="show" id="qIZ-cA-Cs1"/>
+                                    <segue destination="OXa-hN-alQ" kind="show" id="1Hk-8S-B2D"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -124,10 +124,10 @@
             </objects>
             <point key="canvasLocation" x="27" y="209"/>
         </scene>
-        <!--Sign Up-->
+        <!--Sign UpVC-->
         <scene sceneID="h8f-9I-neb">
             <objects>
-                <viewController id="87h-SF-vXS" customClass="SignUp" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="87h-SF-vXS" customClass="SignUpVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ua3-z3-mGY"/>
                         <viewControllerLayoutGuide type="bottom" id="dEH-ZI-fN0"/>
@@ -216,10 +216,10 @@
             </objects>
             <point key="canvasLocation" x="817" y="-169"/>
         </scene>
-        <!--Device Set Up-->
+        <!--Device Set UpVC-->
         <scene sceneID="gDn-I4-Jdp">
             <objects>
-                <viewController id="ij3-kr-IhJ" customClass="DeviceSetUp" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ij3-kr-IhJ" customClass="DeviceSetUpVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xhA-fh-VlZ"/>
                         <viewControllerLayoutGuide type="bottom" id="vRK-1B-2K2"/>
@@ -269,17 +269,17 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="gL7-o6-mYa" firstAttribute="top" secondItem="1vo-hQ-g6I" secondAttribute="bottom" constant="138" id="AZ1-aa-Qop"/>
-                            <constraint firstItem="4p1-lZ-dn0" firstAttribute="top" secondItem="xhA-fh-VlZ" secondAttribute="bottom" id="Itw-vf-oy8"/>
+                            <constraint firstItem="4p1-lZ-dn0" firstAttribute="leading" secondItem="wDj-nO-TNp" secondAttribute="leading" id="Keh-AI-u3d"/>
                             <constraint firstItem="1vo-hQ-g6I" firstAttribute="top" secondItem="y2z-mc-6WU" secondAttribute="bottom" constant="5" id="KtI-FM-fqJ"/>
+                            <constraint firstItem="4p1-lZ-dn0" firstAttribute="top" secondItem="xhA-fh-VlZ" secondAttribute="bottom" id="Mlx-5J-oZj"/>
+                            <constraint firstItem="vRK-1B-2K2" firstAttribute="top" secondItem="4p1-lZ-dn0" secondAttribute="bottom" id="Rjn-HM-WAk"/>
+                            <constraint firstAttribute="trailing" secondItem="4p1-lZ-dn0" secondAttribute="trailing" id="S2V-CV-Xhv"/>
                             <constraint firstItem="vRK-1B-2K2" firstAttribute="top" secondItem="gL7-o6-mYa" secondAttribute="bottom" constant="61" id="TXs-7F-T0P"/>
-                            <constraint firstItem="vRK-1B-2K2" firstAttribute="top" secondItem="4p1-lZ-dn0" secondAttribute="bottom" id="Te1-MB-Lwe"/>
                             <constraint firstItem="y2z-mc-6WU" firstAttribute="top" secondItem="NUA-rv-JT9" secondAttribute="bottom" constant="40" id="UX5-5h-r3R"/>
-                            <constraint firstItem="4p1-lZ-dn0" firstAttribute="leading" secondItem="wDj-nO-TNp" secondAttribute="leading" id="WgT-Pf-g6Z"/>
                             <constraint firstAttribute="centerX" secondItem="y2z-mc-6WU" secondAttribute="centerX" id="nfv-EQ-7uX"/>
                             <constraint firstAttribute="centerX" secondItem="NUA-rv-JT9" secondAttribute="centerX" id="vJS-TU-9pB"/>
                             <constraint firstAttribute="centerX" secondItem="1vo-hQ-g6I" secondAttribute="centerX" id="vy5-d5-Pt6"/>
                             <constraint firstAttribute="centerX" secondItem="gL7-o6-mYa" secondAttribute="centerX" id="yQW-Re-ZkI"/>
-                            <constraint firstAttribute="trailing" secondItem="4p1-lZ-dn0" secondAttribute="trailing" id="zv4-4n-Jyr"/>
                         </constraints>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
@@ -288,10 +288,10 @@
             </objects>
             <point key="canvasLocation" x="1573" y="218"/>
         </scene>
-        <!--Home-->
+        <!--HomeVC-->
         <scene sceneID="OUE-2b-Y5h">
             <objects>
-                <viewController id="LUo-0T-eaa" customClass="Home" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="LUo-0T-eaa" customClass="HomeVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9FH-NO-PAu"/>
                         <viewControllerLayoutGuide type="bottom" id="cQm-jX-JCg"/>
@@ -426,10 +426,10 @@
             </objects>
             <point key="canvasLocation" x="2302" y="218"/>
         </scene>
-        <!--Settings-->
+        <!--SettingsVC-->
         <scene sceneID="UN1-RZ-N2V">
             <objects>
-                <viewController id="b1G-ow-zIc" customClass="Settings" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="b1G-ow-zIc" customClass="SettingsVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LXN-qH-fiK"/>
                         <viewControllerLayoutGuide type="bottom" id="cEt-fU-id3"/>
@@ -457,10 +457,10 @@
             </objects>
             <point key="canvasLocation" x="3136" y="218"/>
         </scene>
-        <!--Purchases-->
+        <!--PurchasesVC-->
         <scene sceneID="mcB-k5-LVA">
             <objects>
-                <viewController id="dZW-Mi-Ce9" customClass="Purchases" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="dZW-Mi-Ce9" customClass="PurchasesVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Voq-C5-Qh4"/>
                         <viewControllerLayoutGuide type="bottom" id="CpQ-Xe-v3L"/>
@@ -556,10 +556,10 @@ Priority support</string>
             </objects>
             <point key="canvasLocation" x="3833" y="218"/>
         </scene>
-        <!--Log In-->
+        <!--Log InVC-->
         <scene sceneID="yf9-eU-aWk">
             <objects>
-                <viewController id="OXa-hN-alQ" customClass="LogIn" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="OXa-hN-alQ" customClass="LogInVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MPd-Pe-qfP"/>
                         <viewControllerLayoutGuide type="bottom" id="u52-WN-o4W"/>
@@ -577,7 +577,7 @@ Priority support</string>
                                 </state>
                                 <state key="highlighted" backgroundImage="BtWelcomePress"/>
                                 <connections>
-                                    <segue destination="ij3-kr-IhJ" kind="show" id="XxF-Qn-UH9"/>
+                                    <action selector="addDeviceAction:" destination="OXa-hN-alQ" eventType="touchUpInside" id="BHE-Jb-jds"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" minimumFontSize="17" background="BgTextFieldGray" translatesAutoresizingMaskIntoConstraints="NO" id="Gh2-kM-pCf">
@@ -628,6 +628,11 @@ Priority support</string>
                         </constraints>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="addDeviceButton" destination="VWu-eM-cIM" id="iTI-ak-S3S"/>
+                        <outlet property="emailTextField" destination="Gh2-kM-pCf" id="LI7-8t-YW9"/>
+                        <outlet property="passwordTextField" destination="CrR-jp-fDD" id="x6k-fa-p5v"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t0s-1a-3b4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -649,7 +654,4 @@ Priority support</string>
         <image name="PreyProImage" width="71" height="81"/>
         <image name="ProtectedImage" width="74" height="73"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="XxF-Qn-UH9"/>
-    </inferredMetricsTieBreakers>
 </document>

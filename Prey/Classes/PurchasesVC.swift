@@ -1,5 +1,5 @@
 //
-//  Settings.swift
+//  PurchasesVC.swift
 //  Prey
 //
 //  Created by Javier Cala Uribe on 27/11/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Settings: UIViewController {
+class PurchasesVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -1,14 +1,14 @@
 //
-//  LogIn.swift
+//  SettingsVC.swift
 //  Prey
 //
-//  Created by Javier Cala Uribe on 20/11/14.
+//  Created by Javier Cala Uribe on 27/11/14.
 //  Copyright (c) 2014 Fork Ltd. All rights reserved.
 //
 
 import UIKit
 
-class LogIn: UIViewController {
+class SettingsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
