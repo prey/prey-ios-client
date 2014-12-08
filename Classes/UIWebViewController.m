@@ -190,6 +190,17 @@
 	NSData				*data = [request HTTPBody];
 	char				*raw = data ? (char *) [data bytes] : "";
 	
+    if ([[[request URL] host] isEqualToString:@"secure.worldpay.com"])
+    {
+        UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
+                                                         message:NSLocalizedString(@"This service is not available from here. Please go to 'Manage Prey Settings' from the main menu in the app.",nil)
+                                                        delegate:nil
+                                               cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+        [alerta show];
+        
+        return NO;
+    }
+    
 	if (raw && strstr(raw, "cancel=")) {
 		[self denied];
 		return NO;

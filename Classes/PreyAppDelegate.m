@@ -20,7 +20,7 @@
 #import "ReportModule.h"
 #import "AlertModule.h"
 #import "GAI.h"
-
+#import "MKStoreManager.h"
 
 @implementation PreyAppDelegate
 
@@ -176,6 +176,10 @@
     if (config.alreadyRegistered)
     {
         [self registerForRemoteNotifications];
+
+        // In-App Purchase Instance
+        if (!config.isPro)
+            [MKStoreManager sharedManager];
     }
     
     [self displayScreen];
