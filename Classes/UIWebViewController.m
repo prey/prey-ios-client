@@ -176,6 +176,8 @@
 		_webView.alpha = 1.0;
 	}
     
+    // Hide addDeviceBtn
+    [webView stringByEvaluatingJavaScriptFromString:@"var addDeviceBtn = document.getElementsByClassName('btn btn-success js-add-device pull-right')[0]; addDeviceBtn.style.display='none';"];
 }
 
 - (void) webViewDidStartLoad: (UIWebView *) webView {
