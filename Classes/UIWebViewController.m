@@ -178,6 +178,9 @@
     
     // Hide addDeviceBtn
     [webView stringByEvaluatingJavaScriptFromString:@"var addDeviceBtn = document.getElementsByClassName('btn btn-success js-add-device pull-right')[0]; addDeviceBtn.style.display='none';"];
+    
+    // Hide accountPlans
+    [webView stringByEvaluatingJavaScriptFromString:@"var accountPlans = document.getElementById('account-plans'); accountPlans.style.display='none';"];
 }
 
 - (void) webViewDidStartLoad: (UIWebView *) webView {
@@ -202,6 +205,14 @@
         
         return NO;
     }
+    
+    if ([[[request URL] host] isEqualToString:@"help.preyproject.com"])
+    {
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString:@"https://help.preyproject.com"]];
+        
+        return NO;
+    }
+
     
 	if (raw && strstr(raw, "cancel=")) {
 		[self denied];
