@@ -9,7 +9,8 @@
 //
 
 #import "NewUserController.h"
-
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
 
 #define kLogoPosX_iPhone5        99.0
 #define kLogoPosY_iPhone5        83.0
@@ -109,6 +110,14 @@
                       PreyConfig *config = [PreyConfig initWithUser:user andDevice:dev];
                       if (config != nil)
                       {
+                          // Send Event to GAnalytics
+                          id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+                          [tracker send:[[GAIDictionaryBuilder createEventWithCategory:@"Acquisition"
+                                                                                action:@"Sign Up"
+                                                                                 label:@"Sign Up"
+                                                                                 value:nil] build]];
+                          
+                          
                           NSString *txtCongrats = NSLocalizedString(@"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.",nil);
                           [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
                           [self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
