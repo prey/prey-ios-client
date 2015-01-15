@@ -509,6 +509,7 @@
 		3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPad.xib"; path = "Classes/AlertModuleController-iPad.xib"; sourceTree = "<group>"; };
 		3B71AB1317FA215D0091FE14 /* CamouflageModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamouflageModule.h; sourceTree = "<group>"; };
 		3B71AB1417FA215D0091FE14 /* CamouflageModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CamouflageModule.m; sourceTree = "<group>"; };
+		3B7652C91A686153006F9D1E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3B7B0C8C17171CAD002B6E2D /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		3B7B0C8D17171CAD002B6E2D /* Location.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		3B7B0C8E17171CAD002B6E2D /* RemainingStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RemainingStorage.h; sourceTree = "<group>"; };
@@ -1543,6 +1544,7 @@
 				sv,
 				"zh-CN",
 				tr,
+				fr,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -1908,6 +1910,7 @@
 				3B656D761A0A47A1007C85E4 /* sv */,
 				3B656D771A0A47A1007C85E4 /* tr */,
 				3B656D781A0A47A1007C85E4 /* zh-CN */,
+				3B7652C91A686153006F9D1E /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
