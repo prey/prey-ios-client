@@ -1,0 +1,236 @@
+"10 mins." = "10 mins.";
+
+"15 mins." = "15 mins.";
+
+"2 mins." = "2 mins.";
+
+"20 mins." = "20 mins.";
+
+"30 mins." = "30 mins.";
+
+"30 secs." = "30 sec.";
+
+"40 mins." = "40 mins.";
+
+"5 mins." = "5 mins.";
+
+"A new report has been sent to your Control Panel" = "Un nouveau rapport a été envoyé au Panneau de configuration";
+
+"A new report has been sent to your Control Panel." = "Un nouveau rapport a été envoyé au Panneau de configuration.";
+
+"About" = "A propos de";
+
+"Access Denied" = "Accès refusé";
+
+"Accessing your account..." = "Accès à votre compte ...";
+
+"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address." = "Compte créé, vous recevrez un email de confirmation en quelques minutes !.";
+
+"Add this device!" = "Ajouter ce dispositif!";
+
+"Alert on report sent" = "Alerte d'envoyer le rapport";
+
+"Already a Prey user" = "vous êtes un utilisateur";
+
+"An unknown error has occurred" = "Un erreur inconnu s'est produit";
+
+"Ask for password" = "Demander mot de passe";
+
+"Attaching device..." = "Dispositif en train d'ajouter...";
+
+"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "En désactivant cela, Prey ne consommera pas la batterie, mais le marquer comme disparu l'utilisateur verra un message sur l'écran";
+
+"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "L'activation de cette icône emplacement est affiché dans la barre de votre appareil d'état ne signifie pas que le GPS est allumé, mais consomment un peu plus de la batterie";
+
+"Camouflage mode" = "Mode camouflage";
+
+"Cancel" = "Annuler";
+
+"Checking your password..." = "Vérification mot de passe...";
+
+"Choose a 6 characters password" = "Mot de passe, minimum 6 caractères";
+
+"Congratulations!" = "Félicitations!";
+
+"Congratulations! You have successfully associated this iOS device with your Prey account." = "Félicitations! Vous avez cet appareil iOS associé avec succès à votre compte Prey";
+
+"Couldn't add your device" = "Impossible d'ajouter votre appareil";
+
+"Couldn't check your password" = "Votre mot de passe ne peut pas etre confirmé ";
+
+"Create my account!" = "Créer mon compte";
+
+"Create Prey account" = "Créer un compte Prey";
+
+"Creating account..." = "Création compte...";
+
+"Current Location" = "Emplacement actuel";
+
+"Delay" = "Retard";
+
+"Delete log" = "Supprimer le journal";
+
+"Detach device" = "Supprimer le dispositif";
+
+"Device not ready!" = "Dispositif non protégée";
+
+"Device ready" = "Dispositif protégée";
+
+"Disable it!" = "Désactiver!";
+
+"Email" = "Email";
+
+"Enable it!" = "Activer!";
+
+"Enter a valid e-mail address" = "S'il vous plaît entrer une adresse e-mail valide";
+
+"Help" = "Aide";
+
+"Hundreds of Meters" = "Plusieurs centaines de mètres";
+
+"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "Vous avez la possibilité d'ajouter plusieurs périphériques à votre compte Prey. Pour augmenter la capacité disponible, vous pouvez louer un compte Prey Pro";
+
+"Location accuracy" = "Emplacement de précision";
+
+"Location services are disabled for Prey. Reports will not be sent." = "Emplacement de service pour Prey ne est pas actif ne sera pas en mesure d'envoyer des rapports";
+
+"Log" = "Connexion";
+
+"Log in to Prey" = "Entrez à Prey";
+
+"Log records will be deleted.\n\nAre you sure?" = "Connexion dossiers seront supprimés. Nare vous sûr.?";
+
+"Log records will be sent to developers. You'll be able to check the email body before proceed." = "Connecter dossiers seront envoyés aux développeurs Vous serez fiable pour vérifier le corps de mail avant de procéder";
+
+"Mark as missing" = "Marquer comme disparu";
+
+"Mark as recovered" = "Marquer comme récupéré";
+
+"Name" = "Prénom";
+
+"New user" = "Nouvel utilisateur";
+
+"No, don't delete" = "Non, suprimer ";
+
+"None: Send everything." = "Aucun: Poster tout.";
+
+"OK" = "OK";
+
+"Password" = "Mot de passe";
+
+"Password must be at least 6 characters" = "Le mot de passe doit être d'au moins six caractères";
+
+"Passwords do not match" = "Les mots de passe ne correspondent pas";
+
+"Please wait" = "Attendez une seconde";
+
+"Preferences" = "Préférences";
+
+"Prey alert" = "Alerte Prey";
+
+"Prey next execution in %i minutes." = "Prochaine exécution de Prey en %i minute.";
+
+"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey arrêtera d'envoyer des rapports au Panneau de configuration et de votre appareil sera marque comme récupéré. Êtes-vous sûr?";
+
+"Privacy Policy" = "Politique de confidentialité";
+
+"Read Message" = "Lire message";
+
+"Removing device..." = "Retrait périphérique ...";
+
+"Repeat your password" = "Répéter mot de passe";
+
+"Report couldn't be sent" = "Le rapport n'a pas pu être envoyé";
+
+"Send log" = "Envoyer log";
+
+"Settings" = "Préférences";
+
+"Starting Prey..." = "Démarrage Prey...";
+
+"Stopping Prey..." = "Arrêt Prey...";
+
+"Terms of Service" = "Conditions de service";
+
+"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password." = "Il y a un problème pour obtenir les informations de votre compte, s'il vous plaît s'assurer que l'e-mail et mot de passe entrés sont valides.";
+
+"Unable to access Location Services.\n You need to grant Prey access if you wish to track your device." = "impossible d'accéder aux services de localisation. Vous avez besoin de donner accès à Prey ,si vous voulez localiser le dispositif ";
+
+"Unable to fetch location data. Is this device on airplane mode?" = "Impossible d'obtenir des informations de localisation . Votre dispositif est en mode avion.?";
+
+"Upgrade to Pro" = "Changer à compte Pro";
+
+"Use Location Listener" = "Utilisation Service Lieu";
+
+"User couldn't be created" = "L'utilisateur ne peut pas être créé";
+
+"Version" = "Version";
+
+"View Details" = "Voir les détails";
+
+"Warning" = "Avertissement";
+
+"We have a situation!" = "Nous avons un problème!";
+
+"Welcome to Prey!" = "Bienvenue à Prey!";
+
+"Wrong password. Try again." = "Mot de passe incorrect , essayer à nouveau.";
+
+"Yes, remove from my account" = "Oui, supprimer mon compte";
+
+"You have successfully associated this device with your Prey Control Panel account." = "Vous avez réussi associer le dispositif à votre compte Panneau de configuration Prey";
+
+"You're about to delete this device from the Control Panel.\n Are you sure?" = "Vous êtes sur le point de supprimer ce panneau de commande de l'appareil. Vous êtes sûr?";
+
+"Your device is protected and waiting for the activation signal." = "Votre appareil est protégé et en attendant que le signal soit activé.";
+
+"Your email" = "Votre email";
+
+"Your name" = "Votre prénom ";
+
+"Rate us" = "Votre avis";
+
+"Give us ★★★★★ on the App Store if you like Prey." = "Donnez-nous ★★★★★ dans l'App Store si vous aimez Prey.";
+
+"Remind me later" = "Me rappeler plus tard";
+
+"Yes, rate Prey!" = "Oui, mon avis sur Prey!";
+
+"Information" = "Information";
+
+"Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team." = "Maintenant, vous avez accès à toutes les fonctionnalités Pro Prey, tels que le soutien direct avec notre équipe technique.";
+
+"Congrats,\nyou're now Pro" = "Félicitations, vous êtes maintenant Pro";
+
+"Your password" = "Votre mot de passe";
+
+"Forgot your password?" = "Mot de passe oublié?";
+
+"Try Again" = "Essayer à nouveau";
+
+"Device set up!" = "Ajouter un appareil";
+
+"Manage Prey settings" = "Paramètres";
+
+"Go to Control Panel" = "Aller au Panneau de configuration";
+
+"Type in your password" = "Entrez le mot de passe";
+
+"Swipe to go back" = "Déverrouiller pour revenir";
+
+"Share on Facebook" = "Partager sur Facebook";
+
+"Share on Twitter" = "Partager sur Twitter";
+
+"Detaching device ..." = "Retrait périphérique ...";
+
+"Is not available" = "Service desactivé";
+
+"Canceled transaction, please try again." = "Transaction annulée, essayez à nouveau";
+
+"Alert notification disabled" = "Notifications inhabilités";
+
+"You need to grant Prey access to show alert notifications in order to remotely mark it as missing." = "Vous avez besoin d'accorder l'accès à Prey pour que les notifications fonctionnent correctement.";
+
+"Keep Prey in background to enable all of its features." = "Mantenez Prey habilité pour permettre le bon fonctionnement de toutes les fonctionnalités.";
+
