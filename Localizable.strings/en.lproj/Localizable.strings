@@ -1,322 +1,153 @@
-/* No comment provided by engineer. */
-"10 mins." = "10 mins.";
 
-/* No comment provided by engineer. */
-"15 mins." = "15 mins.";
 
-/* No comment provided by engineer. */
-"2 mins." = "2 mins.";
-
-/* No comment provided by engineer. */
-"20 mins." = "20 mins.";
-
-/* No comment provided by engineer. */
-"30 mins." = "30 mins.";
-
-/* No comment provided by engineer. */
-"30 secs." = "30 secs.";
-
-/* No comment provided by engineer. */
-"40 mins." = "40 mins.";
-
-/* No comment provided by engineer. */
-"5 mins." = "5 mins.";
-
-/* No comment provided by engineer. */
-"A new report has been sent to your Control Panel" = "A new report has been sent to your Control Panel";
-
-/* No comment provided by engineer. */
-"A new report has been sent to your Control Panel." = "A new report has been sent to your Control Panel.";
-
-/* No comment provided by engineer. */
 "About" = "About";
 
-/* No comment provided by engineer. */
 "Access Denied" = "Access Denied";
 
-/* No comment provided by engineer. */
 "Accessing your account..." = "Accessing your account...";
 
-/* No comment provided by engineer. */
 "Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address." = "Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.";
 
-/* No comment provided by engineer. */
 "Add this device!" = "Add this device!";
 
-/* No comment provided by engineer. */
-"Alert on report sent" = "Alert on report sent";
-
-/* No comment provided by engineer. */
 "Already a Prey user" = "Already a Prey user";
 
-/* Regarding getting the device's location */
 "An unknown error has occurred" = "An unknown error has occurred";
 
-/* No comment provided by engineer. */
-"Ask for password" = "Ask for password";
-
-/* No comment provided by engineer. */
 "Attaching device..." = "Attaching device...";
 
-/* No comment provided by engineer. */
-"Best possible" = "Best possible";
-
-/* No comment provided by engineer. */
-"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel";
-
-/* No comment provided by engineer. */
-"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery";
-
-/* No comment provided by engineer. */
 "Camouflage mode" = "Camouflage mode";
 
-/* No comment provided by engineer. */
-"Cancel" = "Cancel";
-
-/* No comment provided by engineer. */
 "Checking your password..." = "Checking your password...";
 
-/* No comment provided by engineer. */
-"Choose a 6 characters password" = "Your password";
+"Choose a 6 characters password" = "Choose a 6 characters password";
 
-/* No comment provided by engineer. */
 "Congratulations!" = "Congratulations!";
 
-/* No comment provided by engineer. */
 "Congratulations! You have successfully associated this iOS device with your Prey account." = "Congratulations! You have successfully associated this iOS device with your Prey account.";
 
-/* No comment provided by engineer. */
 "Couldn't add your device" = "Couldn't add your device";
 
-/* No comment provided by engineer. */
 "Couldn't check your password" = "Couldn't check your password";
 
-/* No comment provided by engineer. */
 "Create my account!" = "Create my account!";
 
-/* No comment provided by engineer. */
 "Create Prey account" = "Create Prey account";
 
-/* No comment provided by engineer. */
 "Creating account..." = "Creating account...";
 
-/* No comment provided by engineer. */
 "Current Location" = "Current Location";
 
-/* No comment provided by engineer. */
-"Delay" = "Delay";
-
-/* No comment provided by engineer. */
-"Delete log" = "Delete log";
-
-/* No comment provided by engineer. */
 "Detach device" = "Detach device";
 
-/* No comment provided by engineer. */
 "Device not ready!" = "Device not ready!";
 
-/* No comment provided by engineer. */
 "Device ready" = "Device ready";
 
-/* No comment provided by engineer. */
-"Disable it!" = "Disable it!";
-
-/* No comment provided by engineer. */
-"Email" = "Email";
-
-/* No comment provided by engineer. */
-"Enable it!" = "Enable it!";
-
-/* No comment provided by engineer. */
 "Enter a valid e-mail address" = "Enter a valid e-mail address";
 
-/* No comment provided by engineer. */
 "Help" = "Help";
 
-/* No comment provided by engineer. */
-"Hundreds of Meters" = "Hundreds of Meters";
-
-/* No comment provided by engineer. */
 "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.";
 
-/* No comment provided by engineer. */
-"Location accuracy" = "Location accuracy";
-
-/* No comment provided by engineer. */
 "Location services are disabled for Prey. Reports will not be sent." = "Location services are disabled for Prey. Reports will not be sent.";
 
-/* No comment provided by engineer. */
-"Log" = "Log";
-
-/* No comment provided by engineer. */
 "Log in to Prey" = "Log in to Prey";
 
-/* No comment provided by engineer. */
-"Log records will be deleted.\n\nAre you sure?" = "Log records will be deleted.\n\nAre you sure?";
-
-/* No comment provided by engineer. */
-"Log records will be sent to developers. You'll be able to check the email body before proceed." = "Log records will be sent to developers. You'll be able to check the email body before proceed.";
-
-/* No comment provided by engineer. */
-"Mark as missing" = "Mark as missing";
-
-/* No comment provided by engineer. */
-"Mark as recovered" = "Mark as recovered";
-
-/* No comment provided by engineer. */
-"Name" = "Name";
-
-/* No comment provided by engineer. */
-"Nearest 10 meters" = "Nearest 10 meters";
-
-/* No comment provided by engineer. */
-"Nearest 3 kilometers" = "Nearest 3 kilometers";
-
-/* No comment provided by engineer. */
 "New user" = "New user";
 
-/* No comment provided by engineer. */
 "No, don't delete" = "No, don't delete";
 
-/* No comment provided by engineer. */
-"None: Send everything." = "None: Send everything.";
-
-/* No comment provided by engineer. */
 "OK" = "OK";
 
-/* No comment provided by engineer. */
-"One kilometer" = "One kilometer";
-
-/* No comment provided by engineer. */
-"Password" = "Password";
-
-/* No comment provided by engineer. */
 "Password must be at least 6 characters" = "Password must be at least 6 characters";
 
-/* No comment provided by engineer. */
 "Passwords do not match" = "Passwords do not match";
 
-/* No comment provided by engineer. */
 "Please wait" = "Please wait";
 
-/* No comment provided by engineer. */
 "Preferences" = "Preferences";
 
-/* No comment provided by engineer. */
-"Prey alert" = "Prey alert";
-
-/* No comment provided by engineer. */
-"Prey next execution in %i minutes." = "Prey next execution in %i minutes.";
-
-/* No comment provided by engineer. */
-"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?";
-
-/* No comment provided by engineer. */
 "Privacy Policy" = "Privacy Policy";
 
-/* No comment provided by engineer. */
-"Quite accurate" = "Quite accurate";
-
-/* No comment provided by engineer. */
-"Read Message" = "Read Message";
-
-/* No comment provided by engineer. */
-"Removing device..." = "Removing device...";
-
-/* No comment provided by engineer. */
 "Repeat your password" = "Repeat your password";
 
-/* No comment provided by engineer. */
-"Report couldn't be sent" = "Report couldn't be sent";
-
-/* No comment provided by engineer. */
-"Send log" = "Send log";
-
-/* No comment provided by engineer. */
 "Settings" = "Settings";
 
-/* No comment provided by engineer. */
-"Starting Prey..." = "Starting Prey...";
-
-/* No comment provided by engineer. */
-"Stopping Prey..." = "Stopping Prey...";
-
-/* No comment provided by engineer. */
 "Terms of Service" = "Terms of Service";
 
-/* No comment provided by engineer. */
 "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password." = "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.";
 
-/* No comment provided by engineer. */
 "Unable to access Location Services.\n You need to grant Prey access if you wish to track your device." = "Unable to access Location Services.\n You need to grant Prey access if you wish to track your device.";
 
-/* No comment provided by engineer. */
 "Unable to fetch location data. Is this device on airplane mode?" = "Unable to fetch location data. Is this device on airplane mode?";
 
-/* No comment provided by engineer. */
 "Upgrade to Pro" = "Upgrade to Pro";
 
-/* No comment provided by engineer. */
-"Use Location Listener" = "Use Location Listener";
-
-/* No comment provided by engineer. */
 "User couldn't be created" = "User couldn't be created";
 
-/* No comment provided by engineer. */
 "Version" = "Version";
 
-/* No comment provided by engineer. */
-"View Details" = "View Details";
-
-/* No comment provided by engineer. */
 "Warning" = "Warning";
 
-/* No comment provided by engineer. */
 "We have a situation!" = "We have a situation!";
 
-/* No comment provided by engineer. */
-"Welcome to Prey!" = "Welcome to Prey!";
-
-/* No comment provided by engineer. */
 "Wrong password. Try again." = "Wrong password. Try again.";
 
-/* No comment provided by engineer. */
 "Yes, remove from my account" = "Yes, remove from my account";
 
-/* No comment provided by engineer. */
 "You have successfully associated this device with your Prey Control Panel account." = "You have successfully associated this device with your Prey Control Panel account.";
 
-/* No comment provided by engineer. */
 "You're about to delete this device from the Control Panel.\n Are you sure?" = "You're about to delete this device from the Control Panel.\n Are you sure?";
 
-/* No comment provided by engineer. */
-"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?";
-
-/* No comment provided by engineer. */
 "Your device is protected and waiting for the activation signal." = "Your device is protected and waiting for the activation signal.";
 
-/* No comment provided by engineer. */
 "Your email" = "Your email";
 
-/* No comment provided by engineer. */
 "Your name" = "Your name";
 
-/* No comment provided by engineer. */
 "Rate us" = "Rate us";
 
-/* No comment provided by engineer. */
 "Give us ★★★★★ on the App Store if you like Prey." = "Give us ★★★★★ on the App Store if you like Prey.";
 
-/* No comment provided by engineer. */
 "Remind me later" = "Remind me later";
 
-/* No comment provided by engineer. */
 "Yes, rate Prey!" = "Yes, rate Prey!";
 
-/* No comment provided by engineer. */
 "Information" = "Information";
 
 "Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team." = "Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team.";
 
 "Congrats,\nyou're now Pro" = "Congrats,\nyou're now Pro";
 
+"Your password" = "Your password";
+
+"Forgot your password?" = "Forgot your password?";
+
+"Try Again" = "Try Again";
+
+"Device set up!" = "Device set up!";
+
+"Manage Prey settings" = "Manage Prey settings";
+
+"Go to Control Panel" = "Go to Control Panel";
+
+"Type in your password" = "Type in your password";
+
+"Swipe to go back" = "Swipe to go back";
+
+"Share on Facebook" = "Share on Facebook";
+
+"Share on Twitter" = "Share on Twitter";
+
+"Detaching device ..." = "Detaching device ...";
+
+"Is not available" = "Is not available";
+
+"Canceled transaction, please try again." = "Canceled transaction, please try again.";
+
+"Alert notification disabled" = "Alert notification disabled";
+
+"You need to grant Prey access to show alert notifications in order to remotely mark it as missing." = "You need to grant Prey access to show alert notifications in order to remotely mark it as missing.";
+
+"Keep Prey in background to enable all of its features." = "Keep Prey in background to enable all of its features.";
