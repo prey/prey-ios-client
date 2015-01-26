@@ -1,23 +1,3 @@
-"10 mins." = "10 min.";
-
-"15 mins." = "15 min.";
-
-"2 mins." = "2 min.";
-
-"20 mins." = "20 min.";
-
-"30 mins." = "30 min.";
-
-"30 secs." = "30 s.";
-
-"40 mins." = "40 s.";
-
-"5 mins." = "5 min.";
-
-"A new report has been sent to your Control Panel" = "S'ha enviat un informe nou al vostre panell de control";
-
-"A new report has been sent to your Control Panel." = "S'ha enviat un nou informe al vostre panell de control.";
-
 "About" = "Quant a...";
 
 "Access Denied" = "Accés denegat";
@@ -28,29 +8,17 @@
 
 "Add this device!" = "Afegeix aquest dispositiu!";
 
-"Alert on report sent" = "Notifica en enviar un informe";
-
 "Already a Prey user" = "Ja sóc usuari de Prey";
 
 "An unknown error has occurred" = "Hi ha hagut un error desconegut";
 
-"Ask for password" = "Demana la contrasenya";
-
 "Attaching device..." = "S'està associant el dispositiu...";
-
-"Best possible" = "La millor possible";
-
-"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Inhabilitant aquesta opció, Prey no podrà verificar l'estat del dispoditiu i l'única manera de rebre informes serà mitjançant el panell de control";
-
-"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Habilitant aquesta opció, es mostrarà la icona al costat de l'estat de la bateria. Això no significa que s'estigui utilitzant el GPS, però pot consumir una mica més de bateria";
 
 "Camouflage mode" = "Mode camuflatge";
 
-"Cancel" = "Cancel·la";
-
 "Checking your password..." = "S'està verificant la contrasenya...";
 
-"Choose a 6 characters password" = "Contrasenya";
+"Choose a 6 characters password" = "Contrasenya (6 caràcters com a mínim)";
 
 "Congratulations!" = "Enhorabona!";
 
@@ -68,63 +36,27 @@
 
 "Current Location" = "Ubicació actual";
 
-"Delay" = "Retard";
-
-"Delete log" = "Suprimeix el registre";
-
 "Detach device" = "Suprimeix el dispositiu";
 
 "Device not ready!" = "Dispositiu no preparat!";
 
 "Device ready" = "Dispositiu preparat.";
 
-"Disable it!" = "Inhabilita-ho!";
-
-"Email" = "Correu electrònic";
-
-"Enable it!" = "Habilita-ho!";
-
 "Enter a valid e-mail address" = "Inseriu un correu electrònic vàlid.";
 
 "Help" = "Ajuda";
 
-"Hundreds of Meters" = "Centenars de metres";
-
 "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "Sembla que heu exhaurit el nombre màxim de dispositius permesos al vostre compte. Proveu suprimint els que ja no feu servir.";
-
-"Location accuracy" = "Precisió de la ubicació";
 
 "Location services are disabled for Prey. Reports will not be sent." = "Els serveis de localització no estan disponibles per a Prey. No s'enviaran informes.";
 
-"Log" = "Registre";
-
 "Log in to Prey" = "Inicia la sessió a Prey";
-
-"Log records will be deleted.\n\nAre you sure?" = "Els registres seran suprimits.\n\nVoleu continuar?";
-
-"Log records will be sent to developers. You'll be able to check the email body before proceed." = "Els registres seran enviats als desenvolupadors. Hauríeu de verificar el correu abans de procedir.";
-
-"Mark as missing" = "Marca com a perdut";
-
-"Mark as recovered" = "Marca com a recuperat";
-
-"Name" = "Nom";
-
-"Nearest 10 meters" = "En un radi de 10 metres";
-
-"Nearest 3 kilometers" = "En un radi de 3 quilòmetres";
 
 "New user" = "Usuari nou";
 
 "No, don't delete" = "No, no suprimeixis";
 
-"None: Send everything." = "Cap: envia-ho tot.";
-
 "OK" = "Correcte";
-
-"One kilometer" = "1 quilòmetre";
-
-"Password" = "Contrasenya";
 
 "Password must be at least 6 characters" = "La contrasenya ha de tenir com a mínim 6 caràcters";
 
@@ -134,31 +66,11 @@
 
 "Preferences" = "opcions";
 
-"Prey alert" = "Alerta de Prey";
-
-"Prey next execution in %i minutes." = "Propera execució en %i minuts.";
-
-"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey aturará l'enviament d'informes al panell de control i marcarà aquest dispositiu com a recuperat.\n\nVoleu continuar?";
-
 "Privacy Policy" = "Política de privadesa";
-
-"Quite accurate" = "Molt precisa";
-
-"Read Message" = "Obre el missatge";
-
-"Removing device..." = "S'està suprimitn el dispositiu...";
 
 "Repeat your password" = "Torneu a inserir la contrasenya";
 
-"Report couldn't be sent" = "No s'ha enviat l'informe";
-
-"Send log" = "Envia el registre";
-
 "Settings" = "opcions";
-
-"Starting Prey..." = "S'està iniciant Prey...";
-
-"Stopping Prey..." = "S'està aturant Prey...";
 
 "Terms of Service" = "Condicions d'ús";
 
@@ -170,19 +82,13 @@
 
 "Upgrade to Pro" = "Actualitzeu-vos a «Pro»";
 
-"Use Location Listener" = "Utilitza els serveis de localització";
-
 "User couldn't be created" = "No s'ha pogut crear l'usuari";
 
 "Version" = "Versió";
 
-"View Details" = "Mostra els detalls";
-
 "Warning" = "Atenció";
 
 "We have a situation!" = "Tenim un problema!";
-
-"Welcome to Prey!" = "Us donem la benvinguda a Prey!";
 
 "Wrong password. Try again." = "Contrasenya no vàlida. Torneu a provar.";
 
@@ -191,8 +97,6 @@
 "You have successfully associated this device with your Prey Control Panel account." = "Heu associat correctament aquest dispositiu amb el vostre compte. Aneu a les opcions per acabar de configurar Prey.";
 
 "You're about to delete this device from the Control Panel.\n Are you sure?" = "El dispositiu serà suprimit del panell de control i també la informació associada.\n Voleu continuar?";
-
-"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Esteu a punt de marcar aquest dispositiu com a perdut i Prey començara a enviar informes al panell de control.\n\nVoleu continuar?";
 
 "Your device is protected and waiting for the activation signal." = "El dispositiu està preparat i a l'espera de rebre el senyal d'activació.";
 
@@ -213,3 +117,35 @@
 "Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team." = "Gràcies pel vostre suport. Ara teniu al vostre abast totes les funcionalitats d'un compte Premium, incloent suport directe i privat amb nosaltres, l'equip de Prey.";
 
 "Congrats,\nyou're now Pro" = "Enhorabona,\nJa sou Pro";
+
+"Your password" = "Contrasenya";
+
+"Forgot your password?" = "Heu oblidat la contrasenya?";
+
+"Try Again" = "Torneu a provar";
+
+"Device set up!" = "S'ha creat el dispositiu!";
+
+"Manage Prey settings" = "Administració de la configuració de Prey";
+
+"Go to Control Panel" = "Vés al panel de control";
+
+"Type in your password" = "Inseriu la contrasenya";
+
+"Swipe to go back" = "Llisque per tornar enrere";
+
+"Share on Facebook" = "Comparteix al Facebook";
+
+"Share on Twitter" = "Comparteix al Twitter";
+
+"Detaching device ..." = "S'està desvinculant...";
+
+"Is not available" = "No està disponible";
+
+"Canceled transaction, please try again." = "Transacció cancel·lada. Torneu a provar.";
+
+"Alert notification disabled" = "Notificació d'alerta inhabilitada";
+
+"You need to grant Prey access to show alert notifications in order to remotely mark it as missing." = "Heu de permetre a Prey l'accés a les notificacions d'alerta perquè pugui marcar el dispositiu com a perdut de forma remota.";
+
+"Keep Prey in background to enable all of its features." = "Mantingueu Prey en rerefons per habilitar totes les característiques.";
