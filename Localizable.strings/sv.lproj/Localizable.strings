@@ -1,23 +1,3 @@
-"10 mins." = "10 min.";
-
-"15 mins." = "15 min.";
-
-"2 mins." = "2 min.";
-
-"20 mins." = "20 min.";
-
-"30 mins." = "30 min.";
-
-"30 secs." = "30 s.";
-
-"40 mins." = "40 min.";
-
-"5 mins." = "5 min.";
-
-"A new report has been sent to your Control Panel" = "En ny rapport har skickats till din kontrollpanel";
-
-"A new report has been sent to your Control Panel." = "En ny rapport har skickats till din kontrollpanel.";
-
 "About" = "Om";
 
 "Access Denied" = "Åtkomst nekad";
@@ -28,29 +8,17 @@
 
 "Add this device!" = "Lägg till denna enhet!";
 
-"Alert on report sent" = "Avisering om skickad rapport";
-
 "Already a Prey user" = "Redan Prey-användare";
 
 "An unknown error has occurred" = "Ett okänt fel har inträffat";
 
-"Ask for password" = "Begär lösenord";
-
 "Attaching device..." = "Lägger till enhet …";
-
-"Best possible" = "Bästa möjliga";
-
-"By disabling this, Prey won't be able to check its missing status, and the only way to start sending reports will be activating Prey from the Web Control Panel" = "Om du inaktiverar det här kommer inte Prey att kunna kontrollera enhetens saknadstatus och det enda sättet att börja skicka rapporter kommer att vara genom att aktivera Prey via webbkontrollpanelen";
-
-"By enabling this, the purple location icon will be shown beside the battery status at the top. This doesn't mean the GPS is on, but it may use a bit of your phone's battery" = "Om du aktiverar det här kommer den lila platsikonen att visas bredvid batteristatusen överst på skärmen. Det här betyder inte att GPS:en är påslagen, men det kan använda en del av din telefons batteri.";
 
 "Camouflage mode" = "Kamouflageläge";
 
-"Cancel" = "Avbryt";
-
 "Checking your password..." = "Kontrollerar ditt lösenord …";
 
-"Choose a 6 characters password" = "Ditt lösenord";
+"Choose a 6 characters password" = "Välj ett 6 tecken långt lösenord";
 
 "Congratulations!" = "Gratulerar!";
 
@@ -68,63 +36,27 @@
 
 "Current Location" = "Aktuell plats";
 
-"Delay" = "Fördröjning";
-
-"Delete log" = "Ta bort logg";
-
 "Detach device" = "Ta bort enhet";
 
 "Device not ready!" = "Enheten är inte klar!";
 
 "Device ready" = "Enheten är klar";
 
-"Disable it!" = "Inaktivera det!";
-
-"Email" = "E-postadress";
-
-"Enable it!" = "Aktivera det!";
-
 "Enter a valid e-mail address" = "Ange en giltig e-postadress";
 
 "Help" = "Hjälp";
 
-"Hundreds of Meters" = "Hundratals meter";
-
 "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "Det verkar som att alla dina gratisplatser för enheter är upptagna på ditt Prey-konto.\n\nFörsök att ta bort den här enheten från ditt konto om du redan har lagt till den.";
-
-"Location accuracy" = "Lokaliseringsprecision";
 
 "Location services are disabled for Prey. Reports will not be sent." = "Lokaliseringstjänster har inaktiverats för Prey. Rapporter kommer inte att skickas.";
 
-"Log" = "Logg";
-
 "Log in to Prey" = "Logga in på Prey";
-
-"Log records will be deleted.\n\nAre you sure?" = "Loggposter kommer att tas bort.\n\nÄr du säker på att du vill göra det här?";
-
-"Log records will be sent to developers. You'll be able to check the email body before proceed." = "Loggposter kommer att skickas till utvecklarna. Du kommer att få möjlighet att granska meddelandeinnehållet innan du fortsätter.";
-
-"Mark as missing" = "Märk som saknad";
-
-"Mark as recovered" = "Märk som återfunnen";
-
-"Name" = "Namn";
-
-"Nearest 10 meters" = "Inom 10 meter";
-
-"Nearest 3 kilometers" = "Inom 3 kilometer";
 
 "New user" = "Ny användare";
 
 "No, don't delete" = "Nej, ta inte bort";
 
-"None: Send everything." = "Ingen: Skicka allting.";
-
 "OK" = "OK";
-
-"One kilometer" = "En kilometer";
-
-"Password" = "Lösenord";
 
 "Password must be at least 6 characters" = "Lösenordet måste vara åtminstone 6 tecken långt";
 
@@ -134,31 +66,11 @@
 
 "Preferences" = "Inställningar";
 
-"Prey alert" = "Prey-avisering";
-
-"Prey next execution in %i minutes." = "Prey körs nästa gång om %i minuter.";
-
-"Prey will stop sending reports to the Control Panel and your device will be mark as recovered.\n\nAre you sure?" = "Prey kommer att sluta skicka rapporter till kontrollpanelen och din enhet kommer att märkas som återfunnen.\n\nÄr du säker på att du vill göra det här?";
-
 "Privacy Policy" = "Sekretesspolicy";
-
-"Quite accurate" = "Ganska exakt";
-
-"Read Message" = "Läs meddelande";
-
-"Removing device..." = "Tar bort enhet …";
 
 "Repeat your password" = "Upprepa ditt lösenord";
 
-"Report couldn't be sent" = "Det gick inte att skicka rapporten";
-
-"Send log" = "Sändningslogg";
-
 "Settings" = "Inställningar";
-
-"Starting Prey..." = "Startar Pey …";
-
-"Stopping Prey..." = "Stoppar Prey …";
 
 "Terms of Service" = "Villkor för användning";
 
@@ -170,19 +82,13 @@
 
 "Upgrade to Pro" = "Uppgradera till Pro";
 
-"Use Location Listener" = "Använd Platslyssnaren";
-
 "User couldn't be created" = "Det gick inte att skapa användaren";
 
 "Version" = "Version";
 
-"View Details" = "Visa information";
-
 "Warning" = "Varning";
 
 "We have a situation!" = "Det har uppstått ett problem!";
-
-"Welcome to Prey!" = "Välkommen till Prey!";
 
 "Wrong password. Try again." = "Felaktigt lösenord. Försök igen.";
 
@@ -191,8 +97,6 @@
 "You have successfully associated this device with your Prey Control Panel account." = "Du har associerat denna enhet med ditt kontrollpanelkonto på Prey.";
 
 "You're about to delete this device from the Control Panel.\n Are you sure?" = "Du håller på att ta bort denna enhet från kontrollpanelen.\nÄr du säker på att du vill göra det här?";
-
-"You're attempting to mark this device as missing, and start sending reports to the Control Panel.\n\nAre you sure?" = "Du håller på att märka denna enhet som saknad och börja skicka rapporter till kontrollpanelen.\n\nÄr du säker på att du vill göra det här?";
 
 "Your device is protected and waiting for the activation signal." = "Din enhet är skyddad och inväntar din aktiveringssignal.";
 
@@ -213,3 +117,35 @@
 "Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team." = "Tack för ditt stöd. Du har nu tillgång till alla Pro-funktioner, inklusive direkthjälp från oss i Prey-teamet.";
 
 "Congrats,\nyou're now Pro" = "Gratulerar\ntill Pro-kontot!";
+
+"Your password" = "Ditt lösenord";
+
+"Forgot your password?" = "Glömt lösenordet?";
+
+"Try Again" = "Försök igen";
+
+"Device set up!" = "Enheten har konfigurerats!";
+
+"Manage Prey settings" = "Hantera Preys inställningar";
+
+"Go to Control Panel" = "Gå till kontrollpanelen";
+
+"Type in your password" = "Ange ditt lösenord";
+
+"Swipe to go back" = "Svep för att gå tillbaka";
+
+"Share on Facebook" = "Dela på Facebook";
+
+"Share on Twitter" = "Dela på Twitter";
+
+"Detaching device ..." = "Kopplar från enheten …";
+
+"Is not available" = "Inte tillgänglig";
+
+"Canceled transaction, please try again." = "Transaktionen har avbrutits, försök igen.";
+
+"Alert notification disabled" = "Varningsmeddelande har inaktiverats";
+
+"You need to grant Prey access to show alert notifications in order to remotely mark it as missing." = "Du måste ge Prey behörighet att visa varningsmeddelanden för att kunna fjärrmärka enheten som saknad.";
+
+"Keep Prey in background to enable all of its features." = "Låt Prey köras i bakgrunden för att få tillgång till alla dess funktioner.";
