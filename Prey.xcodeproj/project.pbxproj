@@ -266,6 +266,10 @@
 		3BA6A22F16769566005323EB /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A22E16769566005323EB /* MainWindow-iPad.xib */; };
 		3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */; };
 		3BA6AD1918D1199E00CAADAC /* LoginController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6AD1818D1199E00CAADAC /* LoginController-iPad.xib */; };
+		3BA73C681AA519F5002080CB /* OnboardingView-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA73C651AA519F5002080CB /* OnboardingView-iPhone-568h.xib */; };
+		3BA73C691AA519F5002080CB /* OnboardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA73C671AA519F5002080CB /* OnboardingView.m */; };
+		3BA73C6B1AA51E85002080CB /* OnboardingView-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA73C6A1AA51E85002080CB /* OnboardingView-iPhone.xib */; };
+		3BA73C6D1AA52100002080CB /* OnboardingView-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA73C6C1AA52100002080CB /* OnboardingView-iPad.xib */; };
 		3BAB3CED1A09874E003BFCCE /* bg-welcome-iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CEC1A09874E003BFCCE /* bg-welcome-iPhone@2x.png */; };
 		3BAB3CEF1A0987E7003BFCCE /* ok-congratulations@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CEE1A0987E7003BFCCE /* ok-congratulations@2x.png */; };
 		3BAB3CF41A098877003BFCCE /* protected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CF01A098877003BFCCE /* protected.png */; };
@@ -602,6 +606,11 @@
 		3BA6A22E16769566005323EB /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "CongratulationsController-iPad.xib"; path = "Classes/CongratulationsController-iPad.xib"; sourceTree = "<group>"; };
 		3BA6AD1818D1199E00CAADAC /* LoginController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPad.xib"; path = "Classes/LoginController-iPad.xib"; sourceTree = "<group>"; };
+		3BA73C651AA519F5002080CB /* OnboardingView-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "OnboardingView-iPhone-568h.xib"; path = "Classes/OnboardingView-iPhone-568h.xib"; sourceTree = "<group>"; };
+		3BA73C661AA519F5002080CB /* OnboardingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OnboardingView.h; path = Classes/OnboardingView.h; sourceTree = "<group>"; };
+		3BA73C671AA519F5002080CB /* OnboardingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OnboardingView.m; path = Classes/OnboardingView.m; sourceTree = "<group>"; };
+		3BA73C6A1AA51E85002080CB /* OnboardingView-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "OnboardingView-iPhone.xib"; path = "Classes/OnboardingView-iPhone.xib"; sourceTree = "<group>"; };
+		3BA73C6C1AA52100002080CB /* OnboardingView-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "OnboardingView-iPad.xib"; path = "Classes/OnboardingView-iPad.xib"; sourceTree = "<group>"; };
 		3BAB3CEC1A09874E003BFCCE /* bg-welcome-iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-welcome-iPhone@2x.png"; sourceTree = "<group>"; };
 		3BAB3CEE1A0987E7003BFCCE /* ok-congratulations@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ok-congratulations@2x.png"; sourceTree = "<group>"; };
 		3BAB3CF01A098877003BFCCE /* protected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = protected.png; sourceTree = "<group>"; };
@@ -817,6 +826,7 @@
 		07178F3B12675C2C007B290C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3BA73C641AA519C9002080CB /* Onboarding Controller */,
 				3BD9FB82195C75EC0005FC57 /* FakeWebView Controller */,
 				3BAE4E47190AB96F0093ECA2 /* Store Controller */,
 				3B3B2FC91714B63C00BABCAE /* Location Controller */,
@@ -1235,6 +1245,18 @@
 			name = "AFNetworking-1.x";
 			sourceTree = "<group>";
 		};
+		3BA73C641AA519C9002080CB /* Onboarding Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3BA73C661AA519F5002080CB /* OnboardingView.h */,
+				3BA73C671AA519F5002080CB /* OnboardingView.m */,
+				3BA73C6C1AA52100002080CB /* OnboardingView-iPad.xib */,
+				3BA73C6A1AA51E85002080CB /* OnboardingView-iPhone.xib */,
+				3BA73C651AA519F5002080CB /* OnboardingView-iPhone-568h.xib */,
+			);
+			name = "Onboarding Controller";
+			sourceTree = "<group>";
+		};
 		3BAE4E47190AB96F0093ECA2 /* Store Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -1566,6 +1588,7 @@
 				3BAB3CF41A098877003BFCCE /* protected.png in Resources */,
 				3BA2328B1A0B9757005E5145 /* store_pro.png in Resources */,
 				3BAB3CF71A098877003BFCCE /* unprotected@2x.png in Resources */,
+				3BA73C681AA519F5002080CB /* OnboardingView-iPhone-568h.xib in Resources */,
 				3BA232971A0C2F85005E5145 /* store_pro-iPad.png in Resources */,
 				3BAB3CF61A098877003BFCCE /* unprotected.png in Resources */,
 				3B6D2E451A0AF4DD00DF1EE7 /* AppStoreViewController-iPhone-568h.xib in Resources */,
@@ -1578,6 +1601,7 @@
 				3BAE4E53190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib in Resources */,
 				3B8AC77D19F9D01C00464098 /* NewJuneBold.otf in Resources */,
 				3BA2328E1A0B9DD4005E5145 /* bt-store.png in Resources */,
+				3BA73C6B1AA51E85002080CB /* OnboardingView-iPhone.xib in Resources */,
 				3B8AC75E19F9C96700464098 /* Default-Portrait~ipad.png in Resources */,
 				3B8AC77319F9C96700464098 /* Icon.png in Resources */,
 				3B8AC79819F9D0C800464098 /* bt-camouflage.png in Resources */,
@@ -1588,6 +1612,7 @@
 				3B4B24DA1A115C76002B64E8 /* close_on.png in Resources */,
 				3B4B24D91A115C76002B64E8 /* close_off@3x.png in Resources */,
 				3BA232921A0BB37A005E5145 /* GrettingsProViewController-iPhone-568h.xib in Resources */,
+				3BA73C6D1AA52100002080CB /* OnboardingView-iPad.xib in Resources */,
 				3B8AC76D19F9C96700464098 /* Icon-Small-50.png in Resources */,
 				3B8AC77219F9C96700464098 /* Icon-Small@3x.png in Resources */,
 				3B8AC76419F9C96700464098 /* Icon-60@3x.png in Resources */,
@@ -1676,6 +1701,7 @@
 				3BA3EAAA18F19AAA00B3CA80 /* AFPreyStatusClient.m in Sources */,
 				07CD96251253E13800590FCD /* LoginController.m in Sources */,
 				07DA037E132013D900FECCAD /* PreferencesController.mm in Sources */,
+				3BA73C691AA519F5002080CB /* OnboardingView.m in Sources */,
 				07D32398133BB74A00841BFD /* ScreenshotModule.m in Sources */,
 				07D3239B133BC32D00841BFD /* PictureModule.m in Sources */,
 				3B9EF01918ECE2E60060FFAE /* AFNetworkActivityIndicatorManager.m in Sources */,
