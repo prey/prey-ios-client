@@ -241,6 +241,8 @@
 		3B9086AB1966FFFA0015BB45 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF918918C6E00CE3D0D /* Social.framework */; };
 		3B9086AC1966FFFA0015BB45 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */; };
 		3B9086AD1966FFFA0015BB45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0780561C12564F1C00E4CCE5 /* SystemConfiguration.framework */; };
+		3B9B4FED1AA675E8001D3027 /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B9B4FEC1AA675E8001D3027 /* libAdIdAccess.a */; };
+		3B9B4FEE1AA6767E001D3027 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD546D017FE10CF00ABFDBC /* AdSupport.framework */; };
 		3B9D47C4189C5D2A00E6F7A2 /* LoginController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47C2189C5D2A00E6F7A2 /* LoginController-iPhone.xib */; };
 		3B9EF01518ECE2E60060FFAE /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00318ECE2E60060FFAE /* AFHTTPClient.m */; };
 		3B9EF01618ECE2E60060FFAE /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00518ECE2E60060FFAE /* AFHTTPRequestOperation.m */; };
@@ -566,6 +568,7 @@
 		3B9086861966F6070015BB45 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3B9086881966F6070015BB45 /* PreyRestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreyRestTests.m; sourceTree = "<group>"; };
 		3B90868A1966F6070015BB45 /* PreyTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PreyTests-Prefix.pch"; sourceTree = "<group>"; };
+		3B9B4FEC1AA675E8001D3027 /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
 		3B9D47C2189C5D2A00E6F7A2 /* LoginController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPhone.xib"; path = "Classes/LoginController-iPhone.xib"; sourceTree = "<group>"; };
 		3B9EF00218ECE2E60060FFAE /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPClient.h; path = "AFNetworking-1.x/AFNetworking/AFHTTPClient.h"; sourceTree = "<group>"; };
 		3B9EF00318ECE2E60060FFAE /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPClient.m; path = "AFNetworking-1.x/AFNetworking/AFHTTPClient.m"; sourceTree = "<group>"; };
@@ -713,6 +716,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B9B4FEE1AA6767E001D3027 /* AdSupport.framework in Frameworks */,
+				3B9B4FED1AA675E8001D3027 /* libAdIdAccess.a in Frameworks */,
 				3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */,
 				3B6CC14318EA1B58007E371A /* Security.framework in Frameworks */,
 				3B675EFA18918C6E00CE3D0D /* Social.framework in Frameworks */,
@@ -1375,6 +1380,7 @@
 				3B31F1CE19D0CCA500769982 /* GAIEcommerceProduct.h */,
 				3B31F1CF19D0CCA500769982 /* GAIEcommerceProductAction.h */,
 				3B31F1D019D0CCA500769982 /* GAIEcommercePromotion.h */,
+				3B9B4FEC1AA675E8001D3027 /* libAdIdAccess.a */,
 				3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */,
 			);
 			path = GoogleAnalytics;
@@ -1921,7 +1927,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fork Ltd.";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1935,13 +1940,14 @@
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
 					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
+					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-licucore",
 					"-ObjC",
 				);
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "292a93bc-e4a6-43ba-be31-d6861a211598";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1968,6 +1974,7 @@
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
 					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
+					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -1975,7 +1982,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "acd0e13c-a62f-448c-a7dc-902759c3db46";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1987,8 +1994,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fork Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2002,13 +2008,14 @@
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
 					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
+					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"-licucore",
 					"-ObjC",
 				);
 				PRODUCT_NAME = Prey;
-				PROVISIONING_PROFILE = "277f879a-6d38-4312-b97a-441bbeb7f825";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

@@ -139,6 +139,8 @@
     [GAI sharedInstance].dispatchInterval = 120;
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelNone];
     [[GAI sharedInstance] trackerWithTrackingId:kGAIcode];
+    [[[GAI sharedInstance] defaultTracker] setAllowIDFACollection:YES];
+
     
     // Add app Version in SettingsView
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
