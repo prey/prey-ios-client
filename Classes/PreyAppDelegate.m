@@ -296,6 +296,7 @@
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
 #warning Onboarding
+            
             if (IS_IPHONE5)
                 nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone-568h" bundle:nil];
             else
@@ -303,8 +304,8 @@
         }
         else
             nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPad" bundle:nil];
-        
         /*
+        
             if (IS_IPHONE5)
                 nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone-568h" bundle:nil];
             else

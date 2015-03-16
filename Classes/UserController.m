@@ -106,8 +106,10 @@
 -(void)keyboardWillHide{
     if (self.view.frame.origin.y >= 0)
         [self setViewMovedUp:YES];
-    else if (self.view.frame.origin.y < 0)
-        [self setViewMovedUp:NO];
+
+#warning Onboarding
+    //else if (self.view.frame.origin.y < 0)
+    //    [self setViewMovedUp:NO];
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)sender{
@@ -115,6 +117,16 @@
     {
         [self setViewMovedUp:YES];
     }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (self.view.frame.origin.y >= 0)
+        [self setViewMovedUp:YES];
+
+#warning Onboarding
+    //else if (self.view.frame.origin.y < 0)
+    //    [self setViewMovedUp:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated

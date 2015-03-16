@@ -48,9 +48,15 @@
 #define kTablePosWidth_iPad      470.0
 #define kTablePosHeight_iPad     290.0
 
-#define kMoveTableView_iPhone5  180.0
+#warning Onboarding: iPad/iPhone
+//#define kMoveTableView_iPhone5  180.0
+//#define kMoveLogo_iPhone5       -27.0
+#define kMoveTableView_iPhone5  210.0
+#define kMoveLogo_iPhone5       40.0
+
+
+
 #define kMoveTableView_iPhone   148.0
-#define kMoveLogo_iPhone5       -27.0
 #define kMoveLogo_iPhone         20.0
 #define kMoveLogo_iPad          -45.0
 
@@ -63,6 +69,8 @@
 
 - (void)addDeviceForCurrentUser
 {
+    [UIView setAnimationsEnabled:YES];
+    
     if (![email.text isMatchedByRegex:strEmailMatchstring]){
         UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Try Again",nil) ,nil];
         [objAlert show];
@@ -91,8 +99,8 @@
 
     [self hideKeyboard];
     
-    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    HUD.delegate = self;
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Creating account...",nil);
     
     [User createNew:[name text] email:[email text] password:[password text] repassword:[repassword text]
@@ -103,7 +111,8 @@
              [Device newDeviceForApiKey:user
                               withBlock:^(User *user, Device *dev, NSError *error)
               {
-                  [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+                  PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+                  [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
                   
                   if (!error) // Device created
                   {
@@ -126,7 +135,11 @@
               }]; // End Block Device
          }
          else
-             [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+         {
+             PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+             [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+         }
+
      }]; // End Block User
 }
 
@@ -248,7 +261,7 @@
     name = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
     name.clearsOnBeginEditing = NO;
     name.returnKeyType = UIReturnKeyNext;
-    name.tag = 28;
+    name.tag = kTagNameNewUser;
     name.font = [self returnFontToChange:@"OpenSans"];
     name.borderStyle = UITextBorderStyleRoundedRect;
     [name setDelegate:self];

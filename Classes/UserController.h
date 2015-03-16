@@ -45,5 +45,6 @@
 - (void) addDeviceForCurrentUser;
 - (CGRect)returnRectToInputsTable;
 - (UIFont*)returnFontToChange:(NSString *)fontString;
+- (void)keyboardWillShow;
 
 @end

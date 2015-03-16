@@ -58,8 +58,13 @@
 #define kTablePosWidth_iPad      470.0
 #define kTablePosHeight_iPad     145.0
 
-#define kMoveTableView_iPhone5  220.0
-#define kMoveLogo_iPhone5       -30.0
+#warning Onboarding: iPad/iPhone
+//#define kMoveTableView_iPhone5  220.0
+//#define kMoveLogo_iPhone5       -30.0
+#define kMoveTableView_iPhone5  300.0
+#define kMoveLogo_iPhone5       40.0
+
+
 #define kMoveLogo_iPhone        -20.0
 #define kMoveLogo_iPad          -30.0
 
@@ -69,6 +74,8 @@
 
 - (void)addDeviceForCurrentUser
 {
+    [UIView setAnimationsEnabled:YES];
+    
     if (![email.text isMatchedByRegex:strEmailMatchstring]){
         UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Try Again",nil),nil];
         [objAlert show];
@@ -88,8 +95,8 @@
     
     [self hideKeyboard];
     
-    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    HUD.delegate = self;
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
     
     [User allocWithEmail:[email text] password:[password text]
@@ -100,7 +107,8 @@
              [Device newDeviceForApiKey:user
                               withBlock:^(User *user, Device *dev, NSError *error)
               {
-                  [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+                  PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+                  [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
                   
                   if (!error) // Device created
                   {
@@ -115,20 +123,24 @@
               }]; // End Block Device
          }
          else
-             [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+         {
+             PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+             [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+         }
      }]; // End Block User
 }
 
 - (void)runWebForgot
 {
     UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_FORGOT_PANEL];
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     
     if (controller)
     {
-        if ([self.navigationController respondsToSelector:@selector(presentViewController:animated:completion:)]) // Check iOS 5.0 or later
-            [self.navigationController presentViewController:controller animated:YES completion:NULL];
+        if ([appDelegate.viewController respondsToSelector:@selector(presentViewController:animated:completion:)]) // Check iOS 5.0 or later
+            [appDelegate.viewController presentViewController:controller animated:YES completion:NULL];
         else
-            [self.navigationController presentModalViewController:controller animated:YES];
+            [appDelegate.viewController presentModalViewController:controller animated:YES];
     }
 }
 
@@ -240,7 +252,7 @@
     email = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
     email.clearsOnBeginEditing = NO;
     email.returnKeyType = UIReturnKeyNext;
-    email.tag = 29;
+    email.tag = kTagNameOldUser;
     email.font = [self returnFontToChange:@"OpenSans"];
     email.keyboardType = UIKeyboardTypeEmailAddress;
     email.autocapitalizationType = UITextAutocapitalizationTypeNone;
