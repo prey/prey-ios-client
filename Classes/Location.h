@@ -19,7 +19,6 @@
 @property (nonatomic) CLLocationManager *locManager;
 @property (nonatomic) CLLocation        *bestEffortAtLocation;
 
-- (void)testLocation;
 +(Location *)instance;
 
 @end

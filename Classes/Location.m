@@ -24,15 +24,6 @@
     return instance;
 }
 
-- (void)testLocation
-{
-    locManager = [[CLLocationManager alloc] init];
-    locManager.delegate = self;
-	locManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [locManager startUpdatingLocation ];
-    [locManager stopUpdatingLocation];    
-}
-
 - (void) get
 {
     NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 1;
@@ -40,7 +31,7 @@
     
     [self initLocation];
     
-    PreyLogMessage(@"Location", 10,@"Location Command: Get");
+    PreyLogMessage(@"Location", 10,@"Location Command: Get : %ld",(long)requestNumber);
 }
 
 - (void)initLocation
@@ -58,6 +49,7 @@
 	[dict setObject:[NSString stringWithFormat:@"%f",location.coordinate.latitude] forKey:@"lat"];
 	[dict setObject:[NSString stringWithFormat:@"%f",location.altitude] forKey:@"alt"];
 	[dict setObject:[NSString stringWithFormat:@"%f",location.horizontalAccuracy] forKey:@"acc"];
+	[dict setObject:@"native" forKey:@"method"];
     
     [super sendHttp:[super createResponseFromObject:dict withKey:[self getName]]];
 }
@@ -111,10 +103,8 @@
 - (void)locationManager:(CLLocationManager *)manager
 	   didFailWithError:(NSError *)error
 {
-    BOOL showAlertLocation = YES;
-    
 	NSString *errorString;
-    //[manager stopUpdatingLocation];
+    
     switch([error code]) {
         case kCLErrorDenied:
             //Access denied by user
@@ -124,7 +114,6 @@
         case kCLErrorLocationUnknown:
             //Probably temporary...
             errorString = NSLocalizedString(@"Unable to fetch location data. Is this device on airplane mode?",nil);
-            showAlertLocation = NO;
             //Do something else...
             break;
         default:
@@ -132,11 +121,8 @@
             break;
     }
     
-    if (showAlertLocation)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) message:errorString delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-    }
+    [super notifyCommandResponse:@"get" withTarget:[self getName] withStatus:@"failed" withReason:errorString];
+    
     PreyLogMessage(@"Prey Location", 0, @"Error getting location: %@", [error description]);
 }
 

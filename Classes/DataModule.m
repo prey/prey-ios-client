@@ -76,6 +76,28 @@
                      }];
 }
 
+- (void)notifyCommandResponse:(NSString*)action withTarget:(NSString *)target withStatus:(NSString*)status withReason:(NSString*)reason
+{
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setObject:status forKey:@"status"];
+    [data setObject:target forKey:@"target"];
+    [data setObject:action forKey:@"command"];
+    [data setObject:reason forKey:@"reason"];
+    
+    NSLog(@"info: %@", [data description]);
+    
+    [PreyRestHttp sendJsonData:5 withData:data
+                    toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/response",[[PreyConfig instance] deviceKey]]
+                     withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+                         if (error) {
+                             PreyLogMessage(@"DataModule", 10,@"Error: %@",error);
+                         } else {
+                             PreyLogMessage(@"DataModule", 10,@"DataModule: OK response");
+                         }
+                     }];
+}
+
+
 - (void)sendHttp:(NSMutableDictionary*)data
 {
     [PreyRestHttp sendJsonData:5 withData:data

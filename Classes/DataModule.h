@@ -21,5 +21,6 @@
 - (void)sendHttp:(NSMutableDictionary*)data;
 - (void)sendHttp:(NSMutableDictionary*)data andRaw:(NSMutableDictionary*) rawData;
 - (void)sendHttpEvent:(NSMutableDictionary*)event withParameters:(NSMutableDictionary*)parameters;
+- (void)notifyCommandResponse:(NSString*)action withTarget:(NSString *)target withStatus:(NSString*)status withReason:(NSString*)reason;
 
 @end

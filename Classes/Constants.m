@@ -11,7 +11,7 @@
 
 @implementation Constants
 
-//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://control.preyapp.com/api/v2";  // STG
+//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://control.preyhq.com/api/v2";  // STG
 NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://solid.preyproject.com/api/v2";  // PRD
 
 NSString * const URL_LOGIN_PANEL  = @"https://panel.preyproject.com/login?embeddable=true";
