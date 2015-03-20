@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GAITrackedViewController.h"
-
+#import "MBProgressHUD.h"
 
 @class UIWebViewController;
 
@@ -18,14 +18,13 @@
     
 @interface UIWebViewController : GAITrackedViewController <UIWebViewDelegate>
 {
-    
-	UIWebView									*_webView;
-	UINavigationBar								*_navBar;
+    MBProgressHUD                               *HUD;
+	UIWebView									*webViewPage;
+	UINavigationBar								*navBar;
 	
-	id <UIWebViewControllerDelegate>            _delegate;
-	UIView										*_blockerView;
+	id <UIWebViewControllerDelegate>            delegate;
     
-	BOOL										_loading, _firstLoad;
+	BOOL										loading, firstLoad;
     UIButton                                    *cancelButton;
 }
 

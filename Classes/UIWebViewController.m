@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "PreyAppDelegate.h"
 #import "UIWebViewController.h"
 #import "Constants.h"
 
@@ -17,7 +18,7 @@
 #define kCancelBtn_Height       34.0
 
 @implementation UIWebViewController
-@synthesize delegate = _delegate, navigationBar = _navBar, cancelButton;
+@synthesize delegate, navigationBar, cancelButton;
 
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -52,15 +53,15 @@
         if (IS_IPAD)
             frameWebView = CGRectMake(0, 44, frameWebView.size.width, frameWebView.size.height-44);
         
-		_firstLoad = YES;
-        _webView = [[UIWebView alloc] initWithFrame:frameWebView];
-		_webView.alpha = 0.0;
-		_webView.delegate = self;
-        _webView.multipleTouchEnabled = YES;
-        [_webView setScalesPageToFit:YES];
+        webViewPage = [[UIWebView alloc] initWithFrame:frameWebView];
+		self.view.backgroundColor = [UIColor blackColor];
+		webViewPage.backgroundColor = [UIColor blackColor];
+        webViewPage.delegate = self;
+        webViewPage.multipleTouchEnabled = YES;
+        [webViewPage setScalesPageToFit:YES];
         
         NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:stringURL]]; 
-		[_webView loadRequest:theRequest];
+		[webViewPage loadRequest:theRequest];
 	}
 	return self;
 }
@@ -95,49 +96,22 @@
 
     
     self.view = [[UIView alloc] initWithFrame:frameView];
-	[self.view addSubview:_webView];
+	[self.view addSubview:webViewPage];
     
     [self.view setBackgroundColor:[UIColor blackColor]];
 
     if (IS_IPAD)
     {
-        _navBar = [[UINavigationBar alloc] initWithFrame: CGRectMake(0, 0, 768, 44)];
-        _navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
-        [self.view addSubview:_navBar];
+        navBar = [[UINavigationBar alloc] initWithFrame: CGRectMake(0, 0, 768, 44)];
+        navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+        [self.view addSubview:navBar];
     }
-	
-	_blockerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 200, 70)];
-	_blockerView.backgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.8];
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-      	_blockerView.center = CGPointMake(768 / 2, 1024 / 2);
-    else
-        _blockerView.center = CGPointMake(self.view.bounds.size.width / 2, self.view.bounds.size.height / 2);
-    
-    _blockerView.alpha = 0.0;
-	_blockerView.clipsToBounds = YES;
-	if ([_blockerView.layer respondsToSelector: @selector(setCornerRadius:)]) [(id) _blockerView.layer setCornerRadius: 10];
-	
-	UILabel	*label = [[UILabel alloc] initWithFrame: CGRectMake(0, 5, _blockerView.bounds.size.width, 18)];
-	label.text = NSLocalizedString(@"Please wait",nil);
-	label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UIColor whiteColor];
-	label.textAlignment = UITextAlignmentCenter;
-	label.font = [UIFont boldSystemFontOfSize: 15];
-	[_blockerView addSubview: label];
-	
-	UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhite];
-	
-	spinner.center = CGPointMake(_blockerView.bounds.size.width / 2, _blockerView.bounds.size.height / 2 + 10);
-	[_blockerView addSubview: spinner];
-	[self.view addSubview: _blockerView];
-	[spinner startAnimating];
-	
 	UINavigationItem  *navItem = [[UINavigationItem alloc] initWithTitle: NSLocalizedString(@"Prey Control Panel", nil)];
 	navItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemCancel
                                                                                target: self action: @selector(cancel:)];
 	
-	[_navBar pushNavigationItem:navItem animated: NO];
+	[navBar pushNavigationItem:navItem animated: NO];
     
     
     if (!IS_IPAD)
@@ -152,49 +126,53 @@
 }
 
 
-- (void) didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation {
-	_blockerView.center = CGPointMake(self.view.bounds.size.width / 2, self.view.bounds.size.height / 2);
+#pragma mark WebViewDelegate
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    NSLog(@"Error Loading Web: %@",[error description]);
+    [MBProgressHUD hideHUDForView:self.view animated:NO];
+    
+    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil)
+                                                     message:NSLocalizedString(@"Error loading web, please try again.",nil)
+                                                    delegate:nil
+                                           cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+    [alerta show];
 }
 
-#pragma mark Webview Delegate stuff
 - (void) webViewDidFinishLoad: (UIWebView *) webView
 {
-    _loading = NO;
+    NSLog(@"Finish Load Web");
+    [MBProgressHUD hideHUDForView:self.view animated:NO];
 
-	if (_firstLoad) {
-		[_webView performSelector: @selector(stringByEvaluatingJavaScriptFromString:) withObject: @"window.scrollBy(0,200)" afterDelay: 0];
-		_firstLoad = NO;
-	}
-	
-	[UIView beginAnimations: nil context: nil];
-	_blockerView.alpha = 0.0;
-	[UIView commitAnimations];
-	
-	if ([_webView isLoading]) {
-		_webView.alpha = 0.0;
-	} else {
-		_webView.alpha = 1.0;
-	}
+
+    
+    // Hide ViewMap class
+    [webView stringByEvaluatingJavaScriptFromString:@"var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border js-toggle-report-map')[1]; viewMapBtn.style.display='none';"];
     
     // Hide addDeviceBtn
     [webView stringByEvaluatingJavaScriptFromString:@"var addDeviceBtn = document.getElementsByClassName('btn btn-success js-add-device pull-right')[0]; addDeviceBtn.style.display='none';"];
     
     // Hide accountPlans
     [webView stringByEvaluatingJavaScriptFromString:@"var accountPlans = document.getElementById('account-plans'); accountPlans.style.display='none';"];
+
+    // Hide print option
+    [webView stringByEvaluatingJavaScriptFromString:@"var printBtn = document.getElementById('print'); printBtn.style.display='none';"];
 }
 
 - (void) webViewDidStartLoad: (UIWebView *) webView {
-	_loading = YES;
-	[UIView beginAnimations: nil context: nil];
-	_blockerView.alpha = 1.0;
-	[UIView commitAnimations];
+    NSLog(@"Start Load Web");
+    HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    HUD.labelText = NSLocalizedString(@"Please wait",nil);
 }
 
 
 - (BOOL) webView: (UIWebView *) webView shouldStartLoadWithRequest: (NSURLRequest *) request navigationType: (UIWebViewNavigationType) navigationType {
+    
 	NSData				*data = [request HTTPBody];
 	char				*raw = data ? (char *) [data bytes] : "";
-	
+
+    NSLog(@"Should Load Web: %@", [[request URL] host]);
+    
     if ([[[request URL] host] isEqualToString:@"secure.worldpay.com"])
     {
         UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
@@ -212,13 +190,26 @@
         
         return NO;
     }
+    
+    if ([[[request URL] host] isEqualToString:@"panel.preyproject.com"])
+    {
+        // Hide print option
+        [webView stringByEvaluatingJavaScriptFromString:@"var printBtn = document.getElementById('print'); printBtn.style.display='none';"];
+    }
+    
 
+    // Google Maps apps and large picture
+    if ( ([[[request URL] host] isEqualToString:@"s3.amazonaws.com"]) || ([[[request URL] host] isEqualToString:@"www.google.com"]) )
+    {
+        [[UIApplication sharedApplication] openURL:[request URL]];        
+        return NO;
+    }
     
 	if (raw && strstr(raw, "cancel=")) {
 		[self denied];
 		return NO;
 	}
-	if (navigationType != UIWebViewNavigationTypeOther) _webView.alpha = 0.1;
+    
 	return YES;
 }
 
