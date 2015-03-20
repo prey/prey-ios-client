@@ -56,7 +56,7 @@
 #define kTablePosX_iPad          149.0
 #define kTablePosY_iPad          564.0
 #define kTablePosWidth_iPad      470.0
-#define kTablePosHeight_iPad     145.0
+#define kTablePosHeight_iPad     150.0
 
 #define kMoveTableView_iPhone5  220.0
 #define kMoveLogo_iPhone5       -30.0

@@ -161,6 +161,7 @@ static NSString *const PRO_ACCOUNT=@"pro_account";
     [defaults removeObjectForKey:INTERVAL_MODE];
 	[defaults synchronize]; // this method is optional
     
+    [[PreyConfig instance] setEmail:nil];
     [[PreyConfig instance] setAlreadyRegistered:NO];
 }
 

@@ -17,6 +17,7 @@
 #import "PreferencesController.h"
 #import "ReviewRequest.h"
 #import "Constants.h"
+#import "UIDevice-Reachability.h"
 
 @implementation LoginController
 
@@ -126,14 +127,23 @@
 
 - (IBAction)goToControlPanel:(UIButton *)sender
 {
-    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_LOGIN_PANEL];
-    
-    if (controller)
-    {
-        if ([self.navigationController respondsToSelector:@selector(presentViewController:animated:completion:)]) // Check iOS 5.0 or later
-            [self.navigationController presentViewController:controller animated:YES completion:NULL];
-        else
-            [self.navigationController presentModalViewController:controller animated:YES];
+    if ([[UIDevice currentDevice] networkAvailable]) {
+        UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_LOGIN_PANEL];
+        
+        if (controller)
+        {
+            if ([self.navigationController respondsToSelector:@selector(presentViewController:animated:completion:)]) // Check iOS 5.0 or later
+                [self.navigationController presentViewController:controller animated:YES completion:NULL];
+            else
+                [self.navigationController presentModalViewController:controller animated:YES];
+        }
+    }
+    else{
+        UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
+                                                         message:NSLocalizedString(@"The internet connection appears to be offline",nil)
+                                                        delegate:nil
+                                               cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+        [alerta show];
     }
 }
 

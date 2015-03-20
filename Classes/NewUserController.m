@@ -46,7 +46,7 @@
 #define kTablePosX_iPad          149.0
 #define kTablePosY_iPad          418.0
 #define kTablePosWidth_iPad      470.0
-#define kTablePosHeight_iPad     290.0
+#define kTablePosHeight_iPad     295.0
 
 #define kMoveTableView_iPhone5  180.0
 #define kMoveTableView_iPhone   148.0
@@ -291,10 +291,10 @@
     [password setDelegate:self];
     [password setBackgroundColor:[UIColor clearColor]];
     if (IS_OS_6_OR_LATER)
-        password.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Choose a 6 characters password",nil)
+        password.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Choose a password of at least 6 characters",nil)
                                                                       attributes:@{NSForegroundColorAttributeName:colorPlaceholder}];
     else
-        password.placeholder = NSLocalizedString(@"Choose a 6 characters password",nil);
+        password.placeholder = NSLocalizedString(@"Choose a password of at least 6 characters",nil);
 
     
     repassword = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
