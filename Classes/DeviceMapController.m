@@ -7,7 +7,9 @@
 //
 
 #import "DeviceMapController.h"
-@interface DeviceMapController() 
+#import "PreyAppDelegate.h"
+
+@interface DeviceMapController()
 @property (nonatomic) BOOL canUpdateUserLoc;
 @end
 
@@ -43,7 +45,10 @@
 	// Do any additional setup after loading the view.
     
     [self goToUserLocation];
-
+    
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
+    HUD.labelText = NSLocalizedString(@"Please wait",nil);
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
@@ -70,5 +75,22 @@
 {
     [super viewDidUnload];
 }
+
+- (void)mapViewWillStartLoadingMap:(MKMapView *)mapView{
+}
+- (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView{
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+}
+- (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error{
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil)
+                                                     message:NSLocalizedString(@"Error loading map, please try again.",nil)
+                                                    delegate:nil
+                                           cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+    [alerta show];
+}
+
 
 @end

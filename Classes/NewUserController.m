@@ -291,10 +291,10 @@
     [password setDelegate:self];
     [password setBackgroundColor:[UIColor clearColor]];
     if (IS_OS_6_OR_LATER)
-        password.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Choose a password of at least 6 characters",nil)
+        password.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Password must be at least 6 characters",nil)
                                                                       attributes:@{NSForegroundColorAttributeName:colorPlaceholder}];
     else
-        password.placeholder = NSLocalizedString(@"Choose a password of at least 6 characters",nil);
+        password.placeholder = NSLocalizedString(@"Password must be at least 6 characters",nil);
 
     
     repassword = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
