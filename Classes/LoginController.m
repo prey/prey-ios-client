@@ -39,7 +39,8 @@
     [User allocWithEmail:config.email password:loginPassword.text
                withBlock:^(User *user, NSError *error)
      {
-         [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+         [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
          
          if (!error) // User Login
          {
@@ -65,8 +66,8 @@
     
 	[self hideKeyboard];
     
-    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    HUD.delegate = self;
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Please wait",nil);
     HUD.detailsLabelText = NSLocalizedString(@"Checking your password...",nil);
     [self checkPassword];

@@ -11,6 +11,7 @@
 #import "GrettingsProViewController.h"
 #import "PreyConfig.h"
 #import "Constants.h"
+#import "PreyAppDelegate.h"
 
 @interface AppStoreViewController ()
 
@@ -82,10 +83,9 @@
 
 -(IBAction)buySubscription:(id)sender
 {
-    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    HUD.delegate = self;
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Please wait",nil);
-    
     
     if ( [[MKStoreManager sharedManager].purchasableObjects count] == 1 )
     {
@@ -98,7 +98,8 @@
          {
              NSLog(@"Purchased: %@", purchasedFeature);
              
-             [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+             PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+             [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
              
              [[PreyConfig instance] setPro:YES];
              [self showCongratsPro];
@@ -119,7 +120,8 @@
 
 - (void)showCancelMessage
 {
-    [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
     
     UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
                                                       message:NSLocalizedString(@"Canceled transaction, please try again.",nil)

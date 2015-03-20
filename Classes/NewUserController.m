@@ -90,9 +90,9 @@
     }
 
     [self hideKeyboard];
-    
-    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    HUD.delegate = self;
+
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Creating account...",nil);
     
     [User createNew:[name text] email:[email text] password:[password text] repassword:[repassword text]
@@ -103,7 +103,8 @@
              [Device newDeviceForApiKey:user
                               withBlock:^(User *user, Device *dev, NSError *error)
               {
-                  [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+                  PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+                  [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
                   
                   if (!error) // Device created
                   {
@@ -126,7 +127,10 @@
               }]; // End Block Device
          }
          else
-             [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+         {
+             PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+             [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+         }
      }]; // End Block User
 }
 

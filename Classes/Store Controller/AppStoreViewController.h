@@ -11,7 +11,7 @@
 #import <StoreKit/StoreKit.h>
 #import "MBProgressHUD.h"
 
-@interface AppStoreViewController : GAITrackedViewController <MBProgressHUDDelegate>
+@interface AppStoreViewController : GAITrackedViewController
 {
     MBProgressHUD *HUD;
 }

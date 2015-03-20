@@ -23,6 +23,20 @@
 #import "Constants.h"
 #import "CamouflageModule.h"
 
+@interface UIActionSheet(DismissAlert)
+- (void)hide;
+@end
+
+@implementation UIActionSheet(DismissAlert)
+- (void)hide{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIApplicationDidEnterBackgroundNotification" object:nil];
+    [self dismissWithClickedButtonIndex:[self cancelButtonIndex] animated:NO];
+}
+@end
+
+
+
 @implementation PreferencesController
 
 @synthesize tableViewInfo;
@@ -240,9 +254,22 @@
             break;
 		case 1:
             if ([indexPath row] == 1){
-				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil) destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) otherButtonTitles:nil];
-				actionSheet.tag = kDetachAction;
+				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil)
+                                                                         delegate:self
+                                                                cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil)
+                                                           destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil)
+                                                                otherButtonTitles:nil];
+                if (IS_IPAD)
+                    [actionSheet addButtonWithTitle:NSLocalizedString(@"No, don't delete",nil)];
+                
+                actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
+                
+                [[NSNotificationCenter defaultCenter] addObserver:actionSheet
+                                                         selector:@selector(hide)
+                                                             name:@"UIApplicationDidEnterBackgroundNotification"
+                                                           object:nil];
+
 			}
 			break;
 		case 2:
@@ -289,6 +316,7 @@
 {
 	if (actionSheet.tag == 1)
     {
+        [[NSNotificationCenter defaultCenter] removeObserver:actionSheet name:@"UIApplicationDidEnterBackgroundNotification" object:nil];
 		NSIndexPath *indexPath = [tableViewInfo indexPathForSelectedRow];
 		[tableViewInfo deselectRowAtIndexPath:indexPath animated:YES];
         
@@ -300,14 +328,15 @@
 
 - (void) detachDevice
 {
-    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    HUD.delegate = self;
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Detaching device ...",nil);
 
     
     [PreyRestHttp deleteDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error)
      {
-         [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+         [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
          
          if (!error)
          {
@@ -324,10 +353,10 @@
              }
              else
                  welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
-             
-             
-             [self.navigationController setNavigationBarHidden:YES animated:NO];
+                          
+
              PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+             [appDelegate.viewController setNavigationBarHidden:YES animated:NO];
              [appDelegate.viewController setViewControllers:[NSArray arrayWithObject:welco] animated:NO];
          }
      }];
