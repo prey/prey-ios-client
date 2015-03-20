@@ -247,20 +247,26 @@
 			break;
 		case 2:
             if (indexPath.row != 0) {
+                
+                PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+                HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
+                HUD.labelText = NSLocalizedString(@"Please wait",nil);
+                
                 UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
                 UIViewController *moo = [[UIViewController alloc] init];
                 moo.view = webView;
                 NSURLRequest *req = nil;
                 if (indexPath.row == 2) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com/terms"]];
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL_TERMS_PREY]];
                     moo.title = NSLocalizedString(@"Terms of Service", nil);
                 } else if (indexPath.row == 3) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com/privacy"]];
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL_PRIVACY_PREY]];
                     moo.title = NSLocalizedString(@"Privacy Policy", nil);
                 } else if (indexPath.row == 1) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://support.preyproject.com/"]];
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL_HELP_PREY]];
                     moo.title = NSLocalizedString(@"Help", nil);
                 }
+                [webView setDelegate:self];
                 [webView loadRequest:req];
                 [webView setScalesPageToFit:YES];
                 [self.navigationController pushViewController:moo animated:YES];
@@ -432,6 +438,30 @@
     UIAlertView * anAlert = [[UIAlertView alloc] initWithTitle:titleMessage message: alertMessage delegate:self cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
     
     [anAlert show];
+}
+
+
+#pragma mark WebViewDelegate
+- (void)webViewDidStartLoad:(UIWebView *)webView{
+   NSLog(@"Start Load Web");
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    NSLog(@"Finish Load Web");
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    NSLog(@"Error Loading Web: %@",[error description]);
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+
+    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil)
+                                                     message:NSLocalizedString(@"Error loading web, please try again.",nil)
+                                                    delegate:nil
+                                           cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+    [alerta show];
 }
 
 

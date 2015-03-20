@@ -36,7 +36,9 @@ extern BOOL const SHOULD_LOG;
 extern NSString * const URL_LOGIN_PANEL;
 extern NSString * const URL_FORGOT_PANEL;
 
-
+extern NSString * const URL_TERMS_PREY;
+extern NSString * const URL_PRIVACY_PREY;
+extern NSString * const URL_HELP_PREY;
 
 +(NSString *) appName;
 +(NSString *) appVersion;

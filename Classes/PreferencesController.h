@@ -14,7 +14,7 @@
 
 #define kDetachAction  1;
 
-@interface PreferencesController : GAITrackedViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, MBProgressHUDDelegate>
+@interface PreferencesController : GAITrackedViewController <UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, MBProgressHUDDelegate>
 {
     MBProgressHUD *HUD;    
     UITableView *tableViewInfo;
