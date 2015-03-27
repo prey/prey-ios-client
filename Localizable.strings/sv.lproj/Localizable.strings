@@ -18,7 +18,7 @@
 
 "Checking your password..." = "Kontrollerar ditt lösenord …";
 
-"Choose a 6 characters password" = "Välj ett 6 tecken långt lösenord";
+"Choose a password of at least 6 characters" = "Välj ett lösenord som är åtminstone 6 tecken långt";
 
 "Congratulations!" = "Gratulerar!";
 
@@ -63,6 +63,8 @@
 "Passwords do not match" = "Lösenorden stämmer inte överens";
 
 "Please wait" = "Var vänlig vänta";
+
+"Please make sure the password you entered is valid." = "Säkerställ att lösenordet du angav är giltigt.";
 
 "Preferences" = "Inställningar";
 
@@ -149,3 +151,5 @@
 "You need to grant Prey access to show alert notifications in order to remotely mark it as missing." = "Du måste ge Prey behörighet att visa varningsmeddelanden för att kunna fjärrmärka enheten som saknad.";
 
 "Keep Prey in background to enable all of its features." = "Låt Prey köras i bakgrunden för att få tillgång till alla dess funktioner.";
+
+"The internet connection appears to be offline" = "Internetanslutningen verkar vara frånkopplad";
