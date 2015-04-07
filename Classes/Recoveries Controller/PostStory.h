@@ -11,5 +11,8 @@
 @interface PostStory : NSObject
 
 @property (nonatomic,copy) NSString *imageMainUrl;
+@property (nonatomic,copy) NSString *title;
+@property (nonatomic,copy) NSString *content;
+@property (nonatomic, strong) UIImage *image;
 
 @end

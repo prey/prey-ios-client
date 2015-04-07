@@ -7,12 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
+#import "GAITrackedViewController.h"
 #import "RSSKit.h"
 
-@interface RecoveriesViewController : UIViewController <RSSParserDelegate>
+@interface RecoveriesViewController : GAITrackedViewController <UITableViewDataSource, UITableViewDelegate, RSSParserDelegate, MBProgressHUDDelegate>
+{
+    MBProgressHUD *HUD;
+    UITableView *tableViewInfo;
+    NSMutableArray *postArray;
+}
 
-
-
+@property (nonatomic) UITableView *tableViewInfo;
+@property (nonatomic, strong) NSMutableArray *postArray;
 
 @end
-

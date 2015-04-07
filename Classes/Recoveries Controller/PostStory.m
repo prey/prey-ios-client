@@ -11,5 +11,8 @@
 @implementation PostStory
 
 @synthesize imageMainUrl;
+@synthesize title;
+@synthesize content;
+@synthesize image;
 
 @end
