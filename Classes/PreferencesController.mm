@@ -453,7 +453,14 @@
             
             composeVC.completionHandler =myBlock;
             [composeVC setInitialText:[NSString stringWithFormat:@"I just protected my %@ from loss and theft with Prey. You can also protect yours for free.", [UIDevice currentDevice].model]];
-            [composeVC addURL:[NSURL URLWithString:@"http://preyproject.com/download?utm_source=iOS"]];
+            
+            NSString *urlString;
+            if ([socialNetwork isEqualToString:SLServiceTypeFacebook])
+                urlString = @"https://preyproject.com/?utm_source=iOS&utm_medium=facebook-share-button&utm_campaign=facebook-share";
+            else
+                urlString = @"https://preyproject.com/?utm_source=iOS&utm_medium=twitter-share-button&utm_campaign=twitter-share";
+            
+            [composeVC addURL:[NSURL URLWithString:urlString]];
             
             [self presentViewController: composeVC animated: YES completion: nil];
         }
