@@ -22,6 +22,9 @@
 #import "GAI.h"
 #import "MKStoreManager.h"
 
+#warning Onboarding
+#import "OnboardingView.h"
+
 @implementation PreyAppDelegate
 
 @synthesize window,viewController;
@@ -292,6 +295,17 @@
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
+#warning Onboarding
+            
+            if (IS_IPHONE5)
+                nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone-568h" bundle:nil];
+            else
+                nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone" bundle:nil];
+        }
+        else
+            nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPad" bundle:nil];
+        /*
+        
             if (IS_IPHONE5)
                 nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone-568h" bundle:nil];
             else
@@ -299,6 +313,7 @@
         }
         else
             nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
+        */
     }
     
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];

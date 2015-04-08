@@ -48,9 +48,15 @@
 #define kTablePosWidth_iPad      470.0
 #define kTablePosHeight_iPad     295.0
 
-#define kMoveTableView_iPhone5  180.0
+#warning Onboarding: iPad/iPhone
+//#define kMoveTableView_iPhone5  180.0
+//#define kMoveLogo_iPhone5       -27.0
+#define kMoveTableView_iPhone5  210.0
+#define kMoveLogo_iPhone5       40.0
+
+
+
 #define kMoveTableView_iPhone   148.0
-#define kMoveLogo_iPhone5       -27.0
 #define kMoveLogo_iPhone         20.0
 #define kMoveLogo_iPad          -45.0
 
@@ -63,6 +69,8 @@
 
 - (void)addDeviceForCurrentUser
 {
+    [UIView setAnimationsEnabled:YES];
+    
     if (![email.text isMatchedByRegex:strEmailMatchstring]){
         UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Try Again",nil) ,nil];
         [objAlert show];
@@ -90,7 +98,7 @@
     }
 
     [self hideKeyboard];
-
+    
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Creating account...",nil);
@@ -252,7 +260,7 @@
     name = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];
     name.clearsOnBeginEditing = NO;
     name.returnKeyType = UIReturnKeyNext;
-    name.tag = 28;
+    name.tag = kTagNameNewUser;
     name.font = [self returnFontToChange:@"OpenSans"];
     name.borderStyle = UITextBorderStyleRoundedRect;
     [name setDelegate:self];

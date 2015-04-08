@@ -13,6 +13,34 @@
 	
 }
 
+// Onboarding View
+#define kTagNameNewUser 28
+#define kTagNameOldUser 29
+
+#define kTagSegmentedControl 2010
+
+#define kTagLogoType       1000
+#define kTagFlashView      1100
+#define kTagPhotoImage     1101
+#define kTagOldUser        1201 
+#define kTagNewUser        1202
+
+#define kTagButtonStart     200
+#define kTagButtonBack      201
+#define kTagButtonNext      202
+
+#define kTagViewScroll      101
+#define kTagViewPage        102
+#define kPageWidth          100
+#define kPageHeight          20
+
+#define kNumberPages          4
+
+#define kTagCameraSwitch   3301
+#define kTagLocationSwitch 3302
+#define kTagNotifySwitch   3303
+
+
 #define kGAIcode @"UA-8743344-7"
 
 #define kLabelTag	4096
