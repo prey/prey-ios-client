@@ -60,7 +60,10 @@
     
     [alertController setTextToShow:message];
     PreyLogMessage(@"App Delegate", 20, @"Displaying the alert message");
-    
+
+    if (appDelegate.viewController.presentedViewController)
+        [appDelegate.viewController.presentedViewController dismissViewControllerAnimated:NO completion:NULL];
+
     [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:alertController, nil] animated:NO];
 }
 

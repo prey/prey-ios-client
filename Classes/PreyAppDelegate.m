@@ -337,6 +337,10 @@
             // Back arrow color
             [[UINavigationBar appearance] setTintColor:colorItem];
         }
+        else
+        {
+            [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+        }
     }
     
     

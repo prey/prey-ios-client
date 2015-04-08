@@ -17,7 +17,7 @@
 #import "PreyAppDelegate.h"
 #import "Constants.h"
 
-@interface UserController : GAITrackedViewController <UITextFieldDelegate, MBProgressHUDDelegate>
+@interface UserController : GAITrackedViewController <UITextFieldDelegate>
 {
     UITextField *name;
     UITextField *email;

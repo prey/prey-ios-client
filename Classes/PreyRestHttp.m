@@ -109,7 +109,8 @@
                  
                  if (statusCode == 401)
                  {
-                     showMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
+                     showMessage = ([PreyConfig instance].email != nil) ? NSLocalizedString(@"Please make sure the password you entered is valid.",nil) :
+                     NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
                  }
                  UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Couldn't check your password",nil)
                                                                      message:showMessage

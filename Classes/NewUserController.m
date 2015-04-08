@@ -46,7 +46,7 @@
 #define kTablePosX_iPad          149.0
 #define kTablePosY_iPad          418.0
 #define kTablePosWidth_iPad      470.0
-#define kTablePosHeight_iPad     290.0
+#define kTablePosHeight_iPad     295.0
 
 #define kMoveTableView_iPhone5  180.0
 #define kMoveTableView_iPhone   148.0
@@ -90,9 +90,9 @@
     }
 
     [self hideKeyboard];
-    
-    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    HUD.delegate = self;
+
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Creating account...",nil);
     
     [User createNew:[name text] email:[email text] password:[password text] repassword:[repassword text]
@@ -103,7 +103,8 @@
              [Device newDeviceForApiKey:user
                               withBlock:^(User *user, Device *dev, NSError *error)
               {
-                  [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+                  PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+                  [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
                   
                   if (!error) // Device created
                   {
@@ -126,7 +127,10 @@
               }]; // End Block Device
          }
          else
-             [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+         {
+             PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+             [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+         }
      }]; // End Block User
 }
 
@@ -287,10 +291,10 @@
     [password setDelegate:self];
     [password setBackgroundColor:[UIColor clearColor]];
     if (IS_OS_6_OR_LATER)
-        password.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Choose a 6 characters password",nil)
+        password.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Password must be at least 6 characters",nil)
                                                                       attributes:@{NSForegroundColorAttributeName:colorPlaceholder}];
     else
-        password.placeholder = NSLocalizedString(@"Choose a 6 characters password",nil);
+        password.placeholder = NSLocalizedString(@"Password must be at least 6 characters",nil);
 
     
     repassword = [[UITextField alloc] initWithFrame:[self returnRectToInputsTable]];

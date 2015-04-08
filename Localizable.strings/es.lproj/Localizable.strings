@@ -18,7 +18,7 @@
 
 "Checking your password..." = "Comprobando contraseña...";
 
-"Choose a 6 characters password" = "Contraseña; mínimo 6 caracteres";
+"Choose a password of at least 6 characters" = "Contraseña debe ser mínimo de 6 caracteres";
 
 "Congratulations!" = "Felicitaciones!";
 
@@ -63,6 +63,8 @@
 "Passwords do not match" = "Contraseñas no coinciden";
 
 "Please wait" = "Espera un segundo";
+
+"Please make sure the password you entered is valid." = "Por favor asegúrate que la contraseña ingresada sea válida.";
 
 "Preferences" = "Preferencias";
 
@@ -149,3 +151,5 @@
 "You need to grant Prey access to show alert notifications in order to remotely mark it as missing." = "Es necesario garantizar el acceso a Prey para poder mostrar las notificaciones de alerta al marcarlo como perdido.";
 
 "Keep Prey in background to enable all of its features." = "Mantener Prey en segundo plano para activar todas las características.";
+
+"The internet connection appears to be offline" = "La conexión a internet parece estar desactivada";

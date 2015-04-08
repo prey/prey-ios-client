@@ -23,6 +23,20 @@
 #import "Constants.h"
 #import "CamouflageModule.h"
 
+@interface UIActionSheet(DismissAlert)
+- (void)hide;
+@end
+
+@implementation UIActionSheet(DismissAlert)
+- (void)hide{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIApplicationDidEnterBackgroundNotification" object:nil];
+    [self dismissWithClickedButtonIndex:[self cancelButtonIndex] animated:NO];
+}
+@end
+
+
+
 @implementation PreferencesController
 
 @synthesize tableViewInfo;
@@ -240,27 +254,46 @@
             break;
 		case 1:
             if ([indexPath row] == 1){
-				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil) delegate:self cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil) destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil) otherButtonTitles:nil];
-				actionSheet.tag = kDetachAction;
+				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil)
+                                                                         delegate:self
+                                                                cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil)
+                                                           destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil)
+                                                                otherButtonTitles:nil];
+                if (IS_IPAD)
+                    [actionSheet addButtonWithTitle:NSLocalizedString(@"No, don't delete",nil)];
+                
+                actionSheet.tag = kDetachAction;
 				[actionSheet showInView:self.view];
+                
+                [[NSNotificationCenter defaultCenter] addObserver:actionSheet
+                                                         selector:@selector(hide)
+                                                             name:@"UIApplicationDidEnterBackgroundNotification"
+                                                           object:nil];
+
 			}
 			break;
 		case 2:
             if (indexPath.row != 0) {
+                
+                PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+                HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
+                HUD.labelText = NSLocalizedString(@"Please wait",nil);
+                
                 UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
                 UIViewController *moo = [[UIViewController alloc] init];
                 moo.view = webView;
                 NSURLRequest *req = nil;
                 if (indexPath.row == 2) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com/terms"]];
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL_TERMS_PREY]];
                     moo.title = NSLocalizedString(@"Terms of Service", nil);
                 } else if (indexPath.row == 3) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.preyproject.com/privacy"]];
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL_PRIVACY_PREY]];
                     moo.title = NSLocalizedString(@"Privacy Policy", nil);
                 } else if (indexPath.row == 1) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://support.preyproject.com/"]];
+                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL_HELP_PREY]];
                     moo.title = NSLocalizedString(@"Help", nil);
                 }
+                [webView setDelegate:self];
                 [webView loadRequest:req];
                 [webView setScalesPageToFit:YES];
                 [self.navigationController pushViewController:moo animated:YES];
@@ -283,6 +316,7 @@
 {
 	if (actionSheet.tag == 1)
     {
+        [[NSNotificationCenter defaultCenter] removeObserver:actionSheet name:@"UIApplicationDidEnterBackgroundNotification" object:nil];
 		NSIndexPath *indexPath = [tableViewInfo indexPathForSelectedRow];
 		[tableViewInfo deselectRowAtIndexPath:indexPath animated:YES];
         
@@ -294,14 +328,15 @@
 
 - (void) detachDevice
 {
-    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    HUD.delegate = self;
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Detaching device ...",nil);
 
     
     [PreyRestHttp deleteDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error)
      {
-         [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+         [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
          
          if (!error)
          {
@@ -318,10 +353,10 @@
              }
              else
                  welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
-             
-             
-             [self.navigationController setNavigationBarHidden:YES animated:NO];
+                          
+
              PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+             [appDelegate.viewController setNavigationBarHidden:YES animated:NO];
              [appDelegate.viewController setViewControllers:[NSArray arrayWithObject:welco] animated:NO];
          }
      }];
@@ -418,7 +453,14 @@
             
             composeVC.completionHandler =myBlock;
             [composeVC setInitialText:[NSString stringWithFormat:@"I just protected my %@ from loss and theft with Prey. You can also protect yours for free.", [UIDevice currentDevice].model]];
-            [composeVC addURL:[NSURL URLWithString:@"http://preyproject.com/download?utm_source=iOS"]];
+            
+            NSString *urlString;
+            if ([socialNetwork isEqualToString:SLServiceTypeFacebook])
+                urlString = @"https://preyproject.com/?utm_source=iOS&utm_medium=facebook-share-button&utm_campaign=facebook-share";
+            else
+                urlString = @"https://preyproject.com/?utm_source=iOS&utm_medium=twitter-share-button&utm_campaign=twitter-share";
+            
+            [composeVC addURL:[NSURL URLWithString:urlString]];
             
             [self presentViewController: composeVC animated: YES completion: nil];
         }
@@ -432,6 +474,30 @@
     UIAlertView * anAlert = [[UIAlertView alloc] initWithTitle:titleMessage message: alertMessage delegate:self cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
     
     [anAlert show];
+}
+
+
+#pragma mark WebViewDelegate
+- (void)webViewDidStartLoad:(UIWebView *)webView{
+   NSLog(@"Start Load Web");
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    NSLog(@"Finish Load Web");
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    NSLog(@"Error Loading Web: %@",[error description]);
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+
+    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil)
+                                                     message:NSLocalizedString(@"Error loading web, please try again.",nil)
+                                                    delegate:nil
+                                           cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+    [alerta show];
 }
 
 

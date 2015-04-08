@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/Mapkit.h>
 #import "GAITrackedViewController.h"
+#import "MBProgressHUD.h"
 
 @interface DeviceMapController : GAITrackedViewController <MKMapViewDelegate> {
     MKMapView *mapa;
     CLLocationManager * MANG;
+    MBProgressHUD *HUD;    
 }
 
 @property (nonatomic) MKMapView *mapa;

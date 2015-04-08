@@ -17,6 +17,7 @@
 #import "PreferencesController.h"
 #import "ReviewRequest.h"
 #import "Constants.h"
+#import "UIDevice-Reachability.h"
 
 @implementation LoginController
 
@@ -39,7 +40,8 @@
     [User allocWithEmail:config.email password:loginPassword.text
                withBlock:^(User *user, NSError *error)
      {
-         [MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+         [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
          
          if (!error) // User Login
          {
@@ -65,8 +67,8 @@
     
 	[self hideKeyboard];
     
-    HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    HUD.delegate = self;
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Please wait",nil);
     HUD.detailsLabelText = NSLocalizedString(@"Checking your password...",nil);
     [self checkPassword];
@@ -125,14 +127,23 @@
 
 - (IBAction)goToControlPanel:(UIButton *)sender
 {
-    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_LOGIN_PANEL];
-    
-    if (controller)
-    {
-        if ([self.navigationController respondsToSelector:@selector(presentViewController:animated:completion:)]) // Check iOS 5.0 or later
-            [self.navigationController presentViewController:controller animated:YES completion:NULL];
-        else
-            [self.navigationController presentModalViewController:controller animated:YES];
+    if ([[UIDevice currentDevice] networkAvailable]) {
+        UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_LOGIN_PANEL];
+        
+        if (controller)
+        {
+            if ([self.navigationController respondsToSelector:@selector(presentViewController:animated:completion:)]) // Check iOS 5.0 or later
+                [self.navigationController presentViewController:controller animated:YES completion:NULL];
+            else
+                [self.navigationController presentModalViewController:controller animated:YES];
+        }
+    }
+    else{
+        UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
+                                                         message:NSLocalizedString(@"The internet connection appears to be offline",nil)
+                                                        delegate:nil
+                                               cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+        [alerta show];
     }
 }
 

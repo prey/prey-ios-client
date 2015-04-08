@@ -38,6 +38,9 @@
         else
             loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
         
+        if (appDelegate.viewController.presentedViewController)
+            [appDelegate.viewController.presentedViewController dismissViewControllerAnimated:NO completion:NULL];
+        
         [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, nil] animated:NO];
     }
     [super notifyCommandResponse:[self getName] withStatus:@"started"];
@@ -67,6 +70,9 @@
         else
             loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
         
+        if (appDelegate.viewController.presentedViewController)
+            [appDelegate.viewController.presentedViewController dismissViewControllerAnimated:NO completion:NULL];
+
         [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:loginController, nil] animated:NO];
     }
     
