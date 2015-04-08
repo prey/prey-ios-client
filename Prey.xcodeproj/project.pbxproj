@@ -209,6 +209,7 @@
 		3B8AC7A219F9D0C800464098 /* prey-text@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC79319F9D0C800464098 /* prey-text@2x.png */; };
 		3B8AC7A719F9D0F200464098 /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC7A519F9D0F200464098 /* shutter.aiff */; };
 		3B8AC7A819F9D0F200464098 /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC7A619F9D0F200464098 /* siren.mp3 */; };
+		3B8E69221AD43124002F489B /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E69211AD43124002F489B /* PostViewController.m */; };
 		3B90867F1966F6060015BB45 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */; };
 		3B9086801966F6060015BB45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		3B9086811966F6060015BB45 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -322,6 +323,18 @@
 		3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
+		3BE24A761ABB915100464C1D /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A5E1ABB915100464C1D /* TFHpple.m */; };
+		3BE24A771ABB915100464C1D /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A601ABB915100464C1D /* TFHppleElement.m */; };
+		3BE24A781ABB915100464C1D /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A621ABB915100464C1D /* XPathQuery.m */; };
+		3BE24A791ABB915100464C1D /* PostStory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A641ABB915100464C1D /* PostStory.m */; };
+		3BE24A7A1ABB915100464C1D /* NSMutableString+RSSKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A671ABB915100464C1D /* NSMutableString+RSSKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3BE24A7B1ABB915100464C1D /* RSSAttachedMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A691ABB915100464C1D /* RSSAttachedMedia.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3BE24A7C1ABB915100464C1D /* RSSCloudService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A6B1ABB915100464C1D /* RSSCloudService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3BE24A7D1ABB915100464C1D /* RSSEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A6E1ABB915100464C1D /* RSSEntry.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3BE24A7E1ABB915100464C1D /* RSSFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A701ABB915100464C1D /* RSSFeed.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3BE24A7F1ABB915100464C1D /* RSSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A731ABB915100464C1D /* RSSParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3BE24A801ABB915100464C1D /* RecoveriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A751ABB915100464C1D /* RecoveriesViewController.m */; };
+		3BE24A821ABB91A800464C1D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE24A811ABB91A800464C1D /* libxml2.dylib */; };
 		3BF0371F167847920086A7A7 /* ReviewRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.m */; };
 		3BFF783F189C592500694625 /* DeviceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF783D189C592500694625 /* DeviceMapController.m */; };
 		5A73C0FE146ADD5000AB32E9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */; };
@@ -563,6 +576,8 @@
 		3B8AC79319F9D0C800464098 /* prey-text@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-text@2x.png"; sourceTree = "<group>"; };
 		3B8AC7A519F9D0F200464098 /* shutter.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = shutter.aiff; sourceTree = "<group>"; };
 		3B8AC7A619F9D0F200464098 /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siren.mp3; sourceTree = "<group>"; };
+		3B8E69201AD43124002F489B /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
+		3B8E69211AD43124002F489B /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
 		3B90867E1966F6060015BB45 /* PreyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B9086841966F6060015BB45 /* PreyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PreyTests-Info.plist"; sourceTree = "<group>"; };
 		3B9086861966F6070015BB45 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -701,6 +716,31 @@
 		3BD74797170F7EFB00F44E2C /* LoggerClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
 		3BD74798170F7EFB00F44E2C /* LoggerClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = "NSLogger/Client Logger/iOS/LoggerClient.m"; sourceTree = "<group>"; };
 		3BD74799170F7EFB00F44E2C /* LoggerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
+		3BE24A5D1ABB915100464C1D /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		3BE24A5E1ABB915100464C1D /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		3BE24A5F1ABB915100464C1D /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		3BE24A601ABB915100464C1D /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		3BE24A611ABB915100464C1D /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		3BE24A621ABB915100464C1D /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
+		3BE24A631ABB915100464C1D /* PostStory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostStory.h; sourceTree = "<group>"; };
+		3BE24A641ABB915100464C1D /* PostStory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostStory.m; sourceTree = "<group>"; };
+		3BE24A661ABB915100464C1D /* NSMutableString+RSSKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+RSSKit.h"; sourceTree = "<group>"; };
+		3BE24A671ABB915100464C1D /* NSMutableString+RSSKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+RSSKit.m"; sourceTree = "<group>"; };
+		3BE24A681ABB915100464C1D /* RSSAttachedMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSAttachedMedia.h; sourceTree = "<group>"; };
+		3BE24A691ABB915100464C1D /* RSSAttachedMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSAttachedMedia.m; sourceTree = "<group>"; };
+		3BE24A6A1ABB915100464C1D /* RSSCloudService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSCloudService.h; sourceTree = "<group>"; };
+		3BE24A6B1ABB915100464C1D /* RSSCloudService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSCloudService.m; sourceTree = "<group>"; };
+		3BE24A6C1ABB915100464C1D /* RSSDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSDefines.h; sourceTree = "<group>"; };
+		3BE24A6D1ABB915100464C1D /* RSSEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSEntry.h; sourceTree = "<group>"; };
+		3BE24A6E1ABB915100464C1D /* RSSEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSEntry.m; sourceTree = "<group>"; };
+		3BE24A6F1ABB915100464C1D /* RSSFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSFeed.h; sourceTree = "<group>"; };
+		3BE24A701ABB915100464C1D /* RSSFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSFeed.m; sourceTree = "<group>"; };
+		3BE24A711ABB915100464C1D /* RSSKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSKit.h; sourceTree = "<group>"; };
+		3BE24A721ABB915100464C1D /* RSSParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSParser.h; sourceTree = "<group>"; };
+		3BE24A731ABB915100464C1D /* RSSParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSParser.m; sourceTree = "<group>"; };
+		3BE24A741ABB915100464C1D /* RecoveriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecoveriesViewController.h; sourceTree = "<group>"; };
+		3BE24A751ABB915100464C1D /* RecoveriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecoveriesViewController.m; sourceTree = "<group>"; };
+		3BE24A811ABB91A800464C1D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		3BF0371D167847920086A7A7 /* ReviewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReviewRequest.h; path = Classes/ReviewRequest.h; sourceTree = "<group>"; };
 		3BF0371E167847920086A7A7 /* ReviewRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReviewRequest.m; path = Classes/ReviewRequest.m; sourceTree = "<group>"; };
 		3BFF783C189C592500694625 /* DeviceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceMapController.h; path = Classes/DeviceMapController.h; sourceTree = "<group>"; };
@@ -716,6 +756,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BE24A821ABB91A800464C1D /* libxml2.dylib in Frameworks */,
 				3B9B4FEE1AA6767E001D3027 /* AdSupport.framework in Frameworks */,
 				3B9B4FED1AA675E8001D3027 /* libAdIdAccess.a in Frameworks */,
 				3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */,
@@ -822,6 +863,7 @@
 		07178F3B12675C2C007B290C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3BE24A5B1ABB915100464C1D /* Recoveries Controller */,
 				3BD9FB82195C75EC0005FC57 /* FakeWebView Controller */,
 				3BAE4E47190AB96F0093ECA2 /* Store Controller */,
 				3B3B2FC91714B63C00BABCAE /* Location Controller */,
@@ -1048,6 +1090,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3BE24A811ABB91A800464C1D /* libxml2.dylib */,
 				3BC8A0A0193F7751000408BA /* MediaPlayer.framework */,
 				3B6CC14218EA1B58007E371A /* Security.framework */,
 				3B675EF918918C6E00CE3D0D /* Social.framework */,
@@ -1408,6 +1451,56 @@
 			name = "FakeWebView Controller";
 			sourceTree = "<group>";
 		};
+		3BE24A5B1ABB915100464C1D /* Recoveries Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3BE24A651ABB915100464C1D /* RSSKit */,
+				3BE24A5C1ABB915100464C1D /* Hpple */,
+				3BE24A741ABB915100464C1D /* RecoveriesViewController.h */,
+				3BE24A751ABB915100464C1D /* RecoveriesViewController.m */,
+				3B8E69201AD43124002F489B /* PostViewController.h */,
+				3B8E69211AD43124002F489B /* PostViewController.m */,
+				3BE24A631ABB915100464C1D /* PostStory.h */,
+				3BE24A641ABB915100464C1D /* PostStory.m */,
+			);
+			name = "Recoveries Controller";
+			path = "Classes/Recoveries Controller";
+			sourceTree = "<group>";
+		};
+		3BE24A5C1ABB915100464C1D /* Hpple */ = {
+			isa = PBXGroup;
+			children = (
+				3BE24A5D1ABB915100464C1D /* TFHpple.h */,
+				3BE24A5E1ABB915100464C1D /* TFHpple.m */,
+				3BE24A5F1ABB915100464C1D /* TFHppleElement.h */,
+				3BE24A601ABB915100464C1D /* TFHppleElement.m */,
+				3BE24A611ABB915100464C1D /* XPathQuery.h */,
+				3BE24A621ABB915100464C1D /* XPathQuery.m */,
+			);
+			path = Hpple;
+			sourceTree = "<group>";
+		};
+		3BE24A651ABB915100464C1D /* RSSKit */ = {
+			isa = PBXGroup;
+			children = (
+				3BE24A661ABB915100464C1D /* NSMutableString+RSSKit.h */,
+				3BE24A671ABB915100464C1D /* NSMutableString+RSSKit.m */,
+				3BE24A681ABB915100464C1D /* RSSAttachedMedia.h */,
+				3BE24A691ABB915100464C1D /* RSSAttachedMedia.m */,
+				3BE24A6A1ABB915100464C1D /* RSSCloudService.h */,
+				3BE24A6B1ABB915100464C1D /* RSSCloudService.m */,
+				3BE24A6C1ABB915100464C1D /* RSSDefines.h */,
+				3BE24A6D1ABB915100464C1D /* RSSEntry.h */,
+				3BE24A6E1ABB915100464C1D /* RSSEntry.m */,
+				3BE24A6F1ABB915100464C1D /* RSSFeed.h */,
+				3BE24A701ABB915100464C1D /* RSSFeed.m */,
+				3BE24A711ABB915100464C1D /* RSSKit.h */,
+				3BE24A721ABB915100464C1D /* RSSParser.h */,
+				3BE24A731ABB915100464C1D /* RSSParser.m */,
+			);
+			path = RSSKit;
+			sourceTree = "<group>";
+		};
 		3BF0370616783C760086A7A7 /* Iconos */ = {
 			isa = PBXGroup;
 			children = (
@@ -1689,11 +1782,14 @@
 				071323F7134632C900F7EFD8 /* AlertModule.m in Sources */,
 				071323F8134632C900F7EFD8 /* AlertModuleController.m in Sources */,
 				3B7FBB05191027250057EBC4 /* MKSKSubscriptionProduct.m in Sources */,
+				3BE24A801ABB915100464C1D /* RecoveriesViewController.m in Sources */,
 				3B6D2E471A0AF4DD00DF1EE7 /* AppStoreViewController.m in Sources */,
+				3BE24A761ABB915100464C1D /* TFHpple.m in Sources */,
 				07132403134633EA00F7EFD8 /* CongratulationsController.m in Sources */,
 				071324091346342700F7EFD8 /* ContactsModule.m in Sources */,
 				071324101346343C00F7EFD8 /* Constants.m in Sources */,
 				071324111346343C00F7EFD8 /* Device.m in Sources */,
+				3BE24A771ABB915100464C1D /* TFHppleElement.m in Sources */,
 				3B7FBB04191027250057EBC4 /* MKSKProduct.m in Sources */,
 				3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */,
 				071324151346346F00F7EFD8 /* IphoneInformationHelper.m in Sources */,
@@ -1703,6 +1799,7 @@
 				07132424134634D900F7EFD8 /* OldUserController.m in Sources */,
 				07132427134634E600F7EFD8 /* NewUserController.m in Sources */,
 				0713242F1346350100F7EFD8 /* LocationController.m in Sources */,
+				3BE24A7A1ABB915100464C1D /* NSMutableString+RSSKit.m in Sources */,
 				071324331346353C00F7EFD8 /* WelcomeController.m in Sources */,
 				0713243B1346356300F7EFD8 /* PreyLogger.m in Sources */,
 				0713243C1346356300F7EFD8 /* RegexKitLite.m in Sources */,
@@ -1710,7 +1807,9 @@
 				071324421346358600F7EFD8 /* PreyModule.m in Sources */,
 				3B9EF01C18ECE2E60060FFAE /* AFXMLRequestOperation.m in Sources */,
 				07132449134635A100F7EFD8 /* PreyConfig.m in Sources */,
+				3BE24A791ABB915100464C1D /* PostStory.m in Sources */,
 				0713244A134635A100F7EFD8 /* ReportModule.m in Sources */,
+				3BE24A7E1ABB915100464C1D /* RSSFeed.m in Sources */,
 				0713244B134635A100F7EFD8 /* User.m in Sources */,
 				07132450134635C400F7EFD8 /* PreyRestHttp.m in Sources */,
 				3B9EF01618ECE2E60060FFAE /* AFHTTPRequestOperation.m in Sources */,
@@ -1720,7 +1819,10 @@
 				3B7FBB06191027250057EBC4 /* MKStoreManager.m in Sources */,
 				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
 				3B9EF01D18ECE2E60060FFAE /* UIImageView+AFNetworking.m in Sources */,
+				3BE24A7C1ABB915100464C1D /* RSSCloudService.m in Sources */,
+				3B8E69221AD43124002F489B /* PostViewController.m in Sources */,
 				07D4CBB81670EDE100DD1CB9 /* GeofencingModule.m in Sources */,
+				3BE24A781ABB915100464C1D /* XPathQuery.m in Sources */,
 				07D4CBBB1670FA2400DD1CB9 /* PreyGeofencingController.m in Sources */,
 				3BF0371F167847920086A7A7 /* ReviewRequest.m in Sources */,
 				3B7FBB03191027250057EBC4 /* SFHFKeychainUtils.m in Sources */,
@@ -1737,12 +1839,15 @@
 				07E1ABFB16A5FE2700803187 /* PublicIp.m in Sources */,
 				3B9EF01A18ECE2E60060FFAE /* AFPropertyListRequestOperation.m in Sources */,
 				07E1ABFE16A5FF2E00803187 /* UIDevice-Reachability.m in Sources */,
+				3BE24A7F1ABB915100464C1D /* RSSParser.m in Sources */,
 				07E1AC0216A600DE00803187 /* PrivateIp.m in Sources */,
 				07E1AC0516A6014D00803187 /* wwanconnect.c in Sources */,
+				3BE24A7B1ABB915100464C1D /* RSSAttachedMedia.m in Sources */,
 				07E1AC0816A601AB00803187 /* FirmwareInfo.m in Sources */,
 				075E6D3016AEF2F100F5DB91 /* BatteryStatus.m in Sources */,
 				075E6D3316AEFA6300F5DB91 /* ProcessorInfo.m in Sources */,
 				075E6D3616AEFD8E00F5DB91 /* Uptime.m in Sources */,
+				3BE24A7D1ABB915100464C1D /* RSSEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1933,7 +2038,7 @@
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -1967,7 +2072,7 @@
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -2001,7 +2106,7 @@
 				GCC_PREFIX_HEADER = Prey_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Prey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (

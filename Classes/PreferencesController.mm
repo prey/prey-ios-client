@@ -22,6 +22,8 @@
 #import "GAIFields.h"
 #import "Constants.h"
 #import "CamouflageModule.h"
+#import "RecoveriesViewController.h"
+#import "UIDevice-Reachability.h"
 
 @interface UIActionSheet(DismissAlert)
 - (void)hide;
@@ -53,7 +55,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    int numberRow = 1;
+    int numberRow = 2;
 	switch (section)
     {
         case 0:
@@ -160,14 +162,18 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             else if ([indexPath row] == 1) {
-                cell.textLabel.text = NSLocalizedString(@"Share on Facebook",nil);
+                cell.textLabel.text = NSLocalizedString(@"Recovery Stories",nil);
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             else if ([indexPath row] == 2) {
-                cell.textLabel.text = NSLocalizedString(@"Share on Twitter",nil);
+                cell.textLabel.text = NSLocalizedString(@"Share on Facebook",nil);
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             else if ([indexPath row] == 3) {
+                cell.textLabel.text = NSLocalizedString(@"Share on Twitter",nil);
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+            else if ([indexPath row] == 4) {
                 cell.textLabel.text = NSLocalizedString(@"Upgrade to Pro",nil);
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
@@ -229,12 +235,31 @@
                 [self.navigationController pushViewController:deviceMapController animated:YES];
             }
             else if ([indexPath row] == 1) {
-                [self postToSocialFramework:SLServiceTypeFacebook];
+                
+                if ([[UIDevice currentDevice] networkAvailable])
+                {
+                    RecoveriesViewController *recoveriesController = [[RecoveriesViewController alloc] init];
+                    recoveriesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+                    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+                    [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
+                    [appDelegate.viewController pushViewController:recoveriesController animated:YES];
+                }
+                else
+                {
+                    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
+                                                                     message:NSLocalizedString(@"The internet connection appears to be offline",nil)
+                                                                    delegate:nil
+                                                           cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+                    [alerta show];
+                }
             }
             else if ([indexPath row] == 2) {
+                [self postToSocialFramework:SLServiceTypeFacebook];
+            }
+            else if ([indexPath row] == 3) {
                 [self postToSocialFramework:SLServiceTypeTwitter];
             }
-            else if ([indexPath row] == 3)
+            else if ([indexPath row] == 4)
             {
                 AppStoreViewController *viewController;
                
