@@ -18,6 +18,7 @@
 #import "ReviewRequest.h"
 #import "Constants.h"
 #import "UIDevice-Reachability.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 
 @implementation LoginController
 
@@ -46,14 +47,18 @@
          if (!error) // User Login
          {
              [config setPro:user.isPro];
-             
-             PreferencesController *preferencesController = [[PreferencesController alloc] init];
-             preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-             PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-             [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
-             [appDelegate.viewController pushViewController:preferencesController animated:YES];
+             [self showPreferencesController];
          }
      }]; // End Block User
+}
+
+- (void)showPreferencesController
+{
+    PreferencesController *preferencesController = [[PreferencesController alloc] init];
+    preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
+    [appDelegate.viewController pushViewController:preferencesController animated:YES];
 }
 
 - (IBAction) checkLoginPassword: (id) sender
@@ -150,6 +155,36 @@
 - (IBAction)goToSettings:(UIButton *)sender
 {
     [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width, 0) animated:YES];
+    
+    if (IS_OS_8_OR_LATER)
+        [self loginWithTouchID];
+}
+
+- (void)loginWithTouchID
+{
+    LAContext  *context = [[LAContext alloc] init];
+    NSError    *error   = nil;
+    
+    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error])
+    {
+        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+                localizedReason:NSLocalizedString(@"Authenticate for login?",nil)
+                          reply:^(BOOL success, NSError *error) {
+                              
+                              if (success){
+                                  [self showPreferencesController];
+                              }
+                              else if (error.code != kLAErrorUserCancel)
+                              {
+                                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
+                                                                                  message:NSLocalizedString(@"There was a problem verifying your identity",nil)
+                                                                                 delegate:nil
+                                                                        cancelButtonTitle:NSLocalizedString(@"OK",nil)
+                                                                        otherButtonTitles:nil];
+                                  [alert show];
+                              }
+                          }];
+    }
 }
 
 - (void)viewDidLoad

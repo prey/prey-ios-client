@@ -153,3 +153,7 @@
 "Keep Prey in background to enable all of its features." = "Mantener Prey en segundo plano para activar todas las características.";
 
 "The internet connection appears to be offline" = "La conexión a internet parece estar desactivada";
+
+"Authenticate for login?" = "¿Autenticar para inicio de sesión?";
+
+"There was a problem verifying your identity" = "Hubo un problema verificando su identidad";

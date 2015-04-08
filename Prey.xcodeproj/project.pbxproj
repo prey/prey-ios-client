@@ -146,6 +146,7 @@
 		3B4B24DB1A115C76002B64E8 /* close_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D51A115C76002B64E8 /* close_on@2x.png */; };
 		3B4B24DC1A115C76002B64E8 /* close_on@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D61A115C76002B64E8 /* close_on@3x.png */; };
 		3B56DF1B197EB92300FE7218 /* UserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B67DCC21976B549003D80D4 /* UserController.m */; };
+		3B6003601A5DDAB300948F96 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; };
 		3B656D791A0A47A1007C85E4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B656D6C1A0A47A1007C85E4 /* Localizable.strings */; };
 		3B65EE2A1805E358008EB7CF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65EE291805E358008EB7CF /* MBProgressHUD.m */; };
 		3B675EF81891874500CE3D0D /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */; };
@@ -491,6 +492,7 @@
 		3B4B24D51A115C76002B64E8 /* close_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_on@2x.png"; sourceTree = "<group>"; };
 		3B4B24D61A115C76002B64E8 /* close_on@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_on@3x.png"; sourceTree = "<group>"; };
 		3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		3B656D6F1A0A47A1007C85E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3B656D701A0A47A1007C85E4 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3B65EE281805E358008EB7CF /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
@@ -759,6 +761,7 @@
 				3BE24A821ABB91A800464C1D /* libxml2.dylib in Frameworks */,
 				3B9B4FEE1AA6767E001D3027 /* AdSupport.framework in Frameworks */,
 				3B9B4FED1AA675E8001D3027 /* libAdIdAccess.a in Frameworks */,
+				3B6003601A5DDAB300948F96 /* LocalAuthentication.framework in Frameworks */,
 				3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */,
 				3B6CC14318EA1B58007E371A /* Security.framework in Frameworks */,
 				3B675EFA18918C6E00CE3D0D /* Social.framework in Frameworks */,
@@ -1091,6 +1094,7 @@
 			isa = PBXGroup;
 			children = (
 				3BE24A811ABB91A800464C1D /* libxml2.dylib */,
+				3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */,
 				3BC8A0A0193F7751000408BA /* MediaPlayer.framework */,
 				3B6CC14218EA1B58007E371A /* Security.framework */,
 				3B675EF918918C6E00CE3D0D /* Social.framework */,
