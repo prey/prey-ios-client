@@ -13,7 +13,6 @@
 #import "PreyDeployment.h"
 #import "Constants.h"
 #import "LoginController.h"
-#import "WelcomeController.h"
 #import "AlertModuleController.h"
 #import "GrettingsProViewController.h"
 #import "FakeWebView.h"
@@ -21,8 +20,6 @@
 #import "AlertModule.h"
 #import "GAI.h"
 #import "MKStoreManager.h"
-
-#warning Onboarding
 #import "OnboardingView.h"
 
 @implementation PreyAppDelegate
@@ -295,8 +292,6 @@
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
-#warning Onboarding
-            
             if (IS_IPHONE5)
                 nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone-568h" bundle:nil];
             else
@@ -304,16 +299,6 @@
         }
         else
             nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPad" bundle:nil];
-        /*
-        
-            if (IS_IPHONE5)
-                nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone-568h" bundle:nil];
-            else
-                nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
-        }
-        else
-            nextController = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
-        */
     }
     
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];

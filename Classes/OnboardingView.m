@@ -16,7 +16,7 @@
 
 @implementation OnboardingView
 
-@synthesize nuController, ouController, widthScreen, heightScreen;
+@synthesize nuController, ouController, widthScreen, heightScreen, posYiPhone, posYiPhoneBtn;
 @synthesize cameraAuth, locationAuth, notifyAuth, tmpRect;
 @synthesize cameraSwitch, locationSwitch, notifySwitch, authLocation;
 
@@ -27,15 +27,17 @@
     NSString *bgImage;
     
     if (IS_IPAD) {
-        widthScreen  = 768;
-        heightScreen = 1024;
-        bgImage      = @"bg-welcome-iPad";
+        widthScreen   = 768;
+        heightScreen  = 1024;
+        bgImage       = @"bg-welcome-iPad";
     }
     else
     {
-        widthScreen  = 320;
-        heightScreen = (IS_IPHONE5) ? 568 : 480;
-        bgImage      = (IS_IPHONE5) ? @"bg-welcome-iPhone5" : @"bg-welcome-iPhone";
+        widthScreen   = 320;
+        heightScreen  = (IS_IPHONE5) ? 568 : 480;
+        bgImage       = (IS_IPHONE5) ? @"bg-welcome-iPhone5" : @"bg-welcome-iPhone";
+        posYiPhone    = (IS_IPHONE5) ? 0 : -45;
+        posYiPhoneBtn = (IS_IPHONE5) ? 0 : -80;
     }
     
     UIImageView *bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:bgImage]];
@@ -56,15 +58,15 @@
 - (void)initButtons
 {
     // Get Started
-    tmpRect = (IS_IPAD) ? CGRectMake(259, 900, 250, 60) : CGRectMake(85, 480, 150, 40);
+    tmpRect = (IS_IPAD) ? CGRectMake(259, 900, 250, 60) : CGRectMake(85, 500+posYiPhoneBtn, 150, 40);
     UIButton *startButton = [[UIButton alloc] initWithFrame:tmpRect];
-    [self configNewButton:startButton withText:@"Get Started" clearBackground:NO];
+    [self configNewButton:startButton withText:NSLocalizedString(@"Get Rolling",nil) clearBackground:NO];
     startButton.tag = kTagButtonStart;
     [self.view addSubview:startButton];
 
     
     // Back Button
-    tmpRect = (IS_IPAD) ? CGRectMake(40, 950, 43, 37) : CGRectMake(20, 535, 24, 21);
+    tmpRect = (IS_IPAD) ? CGRectMake(40, 950, 43, 37) : CGRectMake(20, 535+posYiPhoneBtn, 24, 21);
     UIButton *backButton = [[UIButton alloc] initWithFrame:tmpRect];
     [backButton setBackgroundImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     //[self configNewButton:backButton withText:@"Skip Tour" clearBackground:NO];
@@ -75,7 +77,7 @@
     
 
     // Next Button
-    tmpRect = (IS_IPAD) ? CGRectMake(685, 950, 43, 37) : CGRectMake(276, 535, 24, 21);
+    tmpRect = (IS_IPAD) ? CGRectMake(685, 950, 43, 37) : CGRectMake(276, 535+posYiPhoneBtn, 24, 21);
     UIButton *nextButton = [[UIButton alloc] initWithFrame:tmpRect];
     [nextButton setBackgroundImage:[UIImage imageNamed:@"arrowNext"] forState:UIControlStateNormal];
     //[self configNewButton:nextButton withText:@"next >" clearBackground:NO];
@@ -194,7 +196,7 @@
 
 - (UIPageControl*)createPageControl:(int)numberPages tagID:(int)value
 {
-    tmpRect = (IS_IPAD) ? CGRectMake(334, 960, kPageWidth, kPageHeight) : CGRectMake(110, 538, kPageWidth, kPageHeight);
+    tmpRect = (IS_IPAD) ? CGRectMake(334, 960, kPageWidth, kPageHeight) : CGRectMake(110, 538+posYiPhoneBtn, kPageWidth, kPageHeight);
     UIPageControl *tmpPageControl    = [[UIPageControl alloc] initWithFrame:tmpRect];
     //tmpPageControl.backgroundColor = [UIColor colorWithRed:0.9294f green:0.9137f blue:0.8588f alpha:1.0f];
     tmpPageControl.backgroundColor   = [UIColor clearColor];
@@ -279,22 +281,22 @@
 - (void)configPageView0:(UIView*)pageView
 {
     UIImageView *iconBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"preyIconBorder"]];
-    iconBorder.frame = (IS_IPAD) ? CGRectMake(312, 265, 144, 172) : CGRectMake(99.5, 114.5, 121, 142);
+    iconBorder.frame = (IS_IPAD) ? CGRectMake(312, 265, 144, 172) : CGRectMake(99.5, 114.5+posYiPhone, 121, 142);
     [pageView addSubview:iconBorder];
 
     UIImageView *logoType = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logoType"]];
-    logoType.frame = (IS_IPAD) ? CGRectMake(279, 470, 210, 42) : CGRectMake(72.5, 285.5, 175, 35);
+    logoType.frame = (IS_IPAD) ? CGRectMake(279, 470, 210, 42) : CGRectMake(72.5, 285.5+posYiPhone, 175, 35);
     logoType.tag   = kTagLogoType;
     logoType.alpha = 0.7;
     [pageView addSubview:logoType];
     
-    tmpRect = (IS_IPAD) ? CGRectMake(134, 650, 500, 150) : CGRectMake(33, 360, 255, 75);
+    tmpRect = (IS_IPAD) ? CGRectMake(134, 650, 500, 150) : CGRectMake(33, 360+posYiPhone, 255, 75);
     UILabel *welcomeText = [[UILabel alloc] initWithFrame:tmpRect];
     welcomeText.font = (IS_IPAD) ? [UIFont fontWithName:@"Open Sans" size:24] : [UIFont fontWithName:@"Open Sans" size:14];
     welcomeText.textAlignment = UITextAlignmentCenter;
     welcomeText.numberOfLines = 5;
     welcomeText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
-    welcomeText.text = NSLocalizedString(@"Prey lets you keep track of your laptop, phone and tablet whenever missing, whether you're in town or abroad.",nil);
+    welcomeText.text = NSLocalizedString(@"Prey will track your laptop, phone and tablet if they ever go missing, whether you're in town or abroad.",nil);
     [pageView addSubview:welcomeText];
     
     NSString *iconBirdFile = (IS_IPAD) ? @"preyIconBird-ipad" : @"preyIconBird";
@@ -315,7 +317,7 @@
     //iconBird.frame = CGRectMake(80, 114.5, 162, 107);  Complete image
     //iconBird.transform = CGAffineTransformMakeScale(0.1, 0.1);
 
-    CGPoint tmpPoint = (IS_IPAD) ? CGPointMake(384, 265) : CGPointMake(160, 114.5);
+    CGPoint tmpPoint = (IS_IPAD) ? CGPointMake(384, 265) : CGPointMake(160, 114.5+posYiPhone);
     UIImageView *iconBirdLeft = [[UIImageView alloc] initWithImage:leftImageBird];
     iconBirdLeft.center = tmpPoint;
     iconBirdLeft.layer.anchorPoint = CGPointMake( 1, 0);
@@ -365,7 +367,7 @@
 
 - (void)configPageView1:(UIView*)pageView
 {
-    tmpRect = (IS_IPAD) ? CGRectMake(194, 120, 380, 100) : CGRectMake(45, 55, 230, 70);
+    tmpRect = (IS_IPAD) ? CGRectMake(194, 120, 380, 100) : CGRectMake(45, 55+posYiPhone, 230, 70);
     UILabel *welcomeText = [[UILabel alloc] initWithFrame:tmpRect];
     welcomeText.font = (IS_IPAD) ? [UIFont fontWithName:@"Roboto" size:36] : [UIFont fontWithName:@"Roboto" size:22];
     welcomeText.textAlignment = UITextAlignmentCenter;
@@ -375,17 +377,17 @@
     [pageView addSubview:welcomeText];
     
     CGFloat iconEnablePosX = (IS_IPAD) ? 100 : 30;
-    tmpRect = (IS_IPAD) ? CGRectMake(iconEnablePosX, 350, 54, 40.5f) : CGRectMake(iconEnablePosX, 210, 36, 27);
+    tmpRect = (IS_IPAD) ? CGRectMake(iconEnablePosX, 350, 54, 40.5f) : CGRectMake(iconEnablePosX, 210+posYiPhone, 36, 27);
     UIImageView *cameraIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cameraIcon"]];
     cameraIcon.frame = tmpRect;
     [pageView addSubview:cameraIcon];
     
-    tmpRect = (IS_IPAD) ? CGRectMake(iconEnablePosX+11, 530, 33, 54) : CGRectMake(iconEnablePosX+7, 300, 22, 36);
+    tmpRect = (IS_IPAD) ? CGRectMake(iconEnablePosX+11, 530, 33, 54) : CGRectMake(iconEnablePosX+7, 300+posYiPhone, 22, 36);
     UIImageView *locationIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"locationIcon"]];
     locationIcon.frame = tmpRect;
     [pageView addSubview:locationIcon];
 
-    tmpRect = (IS_IPAD) ? CGRectMake(iconEnablePosX, 710, 54, 51) : CGRectMake(iconEnablePosX, 390, 36, 34);
+    tmpRect = (IS_IPAD) ? CGRectMake(iconEnablePosX, 710, 54, 51) : CGRectMake(iconEnablePosX, 390+posYiPhone, 36, 34);
     UIImageView *notifyIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"notifyIcon"]];
     notifyIcon.frame = tmpRect;
     [pageView addSubview:notifyIcon];
@@ -395,47 +397,47 @@
     CGFloat widthText = (IS_IPAD) ? 350 : 150;
     CGFloat heightText = (IS_IPAD) ? 70 : 35;
     
-    CGFloat textPosY = (IS_IPAD) ? 340 : 208;
+    CGFloat textPosY = (IS_IPAD) ? 340 : 208+posYiPhone;
     UILabel *cameraText = [[UILabel alloc] initWithFrame:CGRectMake(textEnablePosX, textPosY, widthText, heightText)];
     cameraText.font = [UIFont fontWithName:@"Open Sans" size:fontZize];
     cameraText.textAlignment = UITextAlignmentLeft;
     cameraText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
-    cameraText.text = NSLocalizedString(@"Enable camera",nil);
+    cameraText.text = NSLocalizedString(@"Enable Camera",nil);
     [pageView addSubview:cameraText];
 
-    textPosY = (IS_IPAD) ? 525 : 300;
+    textPosY = (IS_IPAD) ? 525 : 300+posYiPhone;
     UILabel *locationText = [[UILabel alloc] initWithFrame:CGRectMake(textEnablePosX, textPosY, widthText, heightText)];
     locationText.font = [UIFont fontWithName:@"Open Sans" size:fontZize];
     locationText.textAlignment = UITextAlignmentLeft;
     locationText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
-    locationText.text = NSLocalizedString(@"Enable location",nil);
+    locationText.text = NSLocalizedString(@"Enable Location",nil);
     [pageView addSubview:locationText];
 
-    textPosY = (IS_IPAD) ? 700 : 388;
+    textPosY = (IS_IPAD) ? 700 : 388+posYiPhone;
     UILabel *notifyText = [[UILabel alloc] initWithFrame:CGRectMake(textEnablePosX, textPosY, widthText, heightText)];
     notifyText.font = [UIFont fontWithName:@"Open Sans" size:fontZize];
     notifyText.textAlignment = UITextAlignmentLeft;
     notifyText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
-    notifyText.text = NSLocalizedString(@"Enable notification",nil);
+    notifyText.text = NSLocalizedString(@"Enable Notification",nil);
     [pageView addSubview:notifyText];
 
     CGFloat switchModePosX = (IS_IPAD) ? 640 : 265;
     cameraSwitch = [[UISwitch alloc]init];
-    cameraSwitch.center = (IS_IPAD) ? CGPointMake(switchModePosX, 370) : CGPointMake(switchModePosX, 223);
+    cameraSwitch.center = (IS_IPAD) ? CGPointMake(switchModePosX, 370) : CGPointMake(switchModePosX, 223+posYiPhone);
     cameraSwitch.tag = kTagCameraSwitch;
     [cameraSwitch addTarget:self action:@selector(cameraModeState:) forControlEvents:UIControlEventValueChanged];
     [cameraSwitch setOn:cameraAuth];
     [pageView addSubview:cameraSwitch];
     
     locationSwitch = [[UISwitch alloc]init];
-    locationSwitch.center = (IS_IPAD) ? CGPointMake(switchModePosX, 555) : CGPointMake(switchModePosX, 315);
+    locationSwitch.center = (IS_IPAD) ? CGPointMake(switchModePosX, 555) : CGPointMake(switchModePosX, 315+posYiPhone);
     locationSwitch.tag = kTagLocationSwitch;
     [locationSwitch addTarget:self action:@selector(cameraModeState:) forControlEvents:UIControlEventValueChanged];
     [locationSwitch setOn:locationAuth];
     [pageView addSubview:locationSwitch];
     
     notifySwitch = [[UISwitch alloc]init];
-    notifySwitch.center = (IS_IPAD) ? CGPointMake(switchModePosX, 740) : CGPointMake(switchModePosX, 406);
+    notifySwitch.center = (IS_IPAD) ? CGPointMake(switchModePosX, 740) : CGPointMake(switchModePosX, 406+posYiPhone);
     notifySwitch.tag = kTagNotifySwitch;
     [notifySwitch addTarget:self action:@selector(cameraModeState:) forControlEvents:UIControlEventValueChanged];
     [notifySwitch setOn:notifyAuth];
@@ -594,20 +596,19 @@
         
         if (tmpFlashView != nil)
         {
-            [self takeFirstPicture];
-        
+            
         [UIView animateWithDuration:0.5 animations:^{tmpFlashView.alpha = 1.0;}
                          completion:^(BOOL finished){
                              
                              [self playShutterSound];
                              
                              NSString *reportImageFile = (IS_IPAD) ? @"reportImage-ipad" : @"reportImage";
-                            tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(10, 170, 300, 210);
+                             tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(10, 170+posYiPhone, 300, 210);
                              UIImageView *reportImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:reportImageFile]];
                              reportImage.frame = tmpRect;
                              [currentViewK addSubview:reportImage];
                              
-                             tmpRect = (IS_IPAD) ? CGRectMake(194, 120, 380, 100) : CGRectMake(45, 55, 230, 70);
+                             tmpRect = (IS_IPAD) ? CGRectMake(194, 120, 380, 100) : CGRectMake(45, 55+posYiPhone, 230, 70);
                              UILabel *theftText = [[UILabel alloc] initWithFrame:tmpRect];
                              theftText.font = (IS_IPAD) ? [UIFont fontWithName:@"Roboto" size:36] : [UIFont fontWithName:@"Roboto" size:22];
                              theftText.textAlignment = UITextAlignmentCenter;
@@ -616,17 +617,17 @@
                              theftText.text = NSLocalizedString(@"They can run but they can't hide",nil);
                              [currentViewK addSubview:theftText];
 
-                             tmpRect = (IS_IPAD) ? CGRectMake(134, 760, 500, 200) : CGRectMake(33, 405, 255, 100);
+                             tmpRect = (IS_IPAD) ? CGRectMake(134, 760, 500, 200) : CGRectMake(33, 405+posYiPhone, 255, 100);
                              UILabel *infoText = [[UILabel alloc] initWithFrame:tmpRect];
                              infoText.font = (IS_IPAD) ? [UIFont fontWithName:@"Open Sans" size:24] : [UIFont fontWithName:@"Open Sans" size:14];
                              infoText.textAlignment = UITextAlignmentCenter;
                              infoText.numberOfLines = 5;
                              infoText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
-                             infoText.text = NSLocalizedString(@"Sensitive data is gathered only when you request it, and is for your eyes only, nothing is sent without your permission.",nil);
+                             infoText.text = NSLocalizedString(@"Sensitive data is gathered only when you request it, and is for your eyes only. Nothing is sent without your permission.",nil);
                              [currentViewK addSubview:infoText];
 
 
-                             tmpRect = (IS_IPAD) ? CGRectMake(0,0,768,1024) : CGRectMake(0,90,320,428);
+                             tmpRect = (IS_IPAD) ? CGRectMake(0,0,768,1024) : CGRectMake(0,90+posYiPhone,320,428);
                              UIImageView *photoImage = [[UIImageView alloc] initWithFrame:tmpRect];
                              [photoImage setBackgroundColor:[UIColor whiteColor]];
                              photoImage.tag = kTagPhotoImage;
@@ -728,8 +729,7 @@
     
     NSArray *itemArray = [NSArray arrayWithObjects: @"Sign Up", @"Log In", nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-    segmentedControl.frame = (IS_IPAD) ?  CGRectMake(259, 900, 250, 30) : CGRectMake(35, 10, 250, 30);
-    //segmentedControl.frame = (IS_IPAD) ?  CGRectMake(259, 900, 250, 30) : CGRectMake(35, 520, 250, 30);
+    segmentedControl.frame = (IS_IPAD) ?  CGRectMake(259, 30, 250, 30) : CGRectMake(35, 10, 250, 30);
     segmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
     [segmentedControl addTarget:self action:@selector(segmentControlAction:) forControlEvents: UIControlEventValueChanged];
     segmentedControl.selectedSegmentIndex = 0;

@@ -107,7 +107,6 @@
     if (self.view.frame.origin.y >= 0)
         [self setViewMovedUp:YES];
 
-#warning Onboarding
     //else if (self.view.frame.origin.y < 0)
     //    [self setViewMovedUp:NO];
 }
@@ -124,7 +123,6 @@
     if (self.view.frame.origin.y >= 0)
         [self setViewMovedUp:YES];
 
-#warning Onboarding
     //else if (self.view.frame.origin.y < 0)
     //    [self setViewMovedUp:NO];
 }

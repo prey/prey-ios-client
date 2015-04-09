@@ -12,7 +12,6 @@
 #import "PreyAppDelegate.h"
 #import "PreyConfig.h"
 #import "PreyRestHttp.h"
-#import "WelcomeController.h"
 #import "DeviceMapController.h"
 #import "AppStoreViewController.h"
 #import "Constants.h"
@@ -24,6 +23,7 @@
 #import "CamouflageModule.h"
 #import "RecoveriesViewController.h"
 #import "UIDevice-Reachability.h"
+#import "OnboardingView.h"
 
 @interface UIActionSheet(DismissAlert)
 - (void)hide;
@@ -367,22 +367,26 @@
          {
              [[PreyConfig instance] resetValues];
              
-             UIViewController *welco;
+             UIViewController *onboardingVC;
              
              if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
              {
                  if (IS_IPHONE5)
-                     welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone-568h" bundle:nil];
+                     onboardingVC = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone-568h" bundle:nil];
                  else
-                     welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPhone" bundle:nil];
+                     onboardingVC = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone" bundle:nil];
              }
              else
-                 welco = [[WelcomeController alloc] initWithNibName:@"WelcomeController-iPad" bundle:nil];
-                          
+                 onboardingVC = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPad" bundle:nil];
 
+                            
+             tableViewInfo.delegate   = nil;
+             tableViewInfo.dataSource = nil;
+             tableViewInfo = nil;
+             
              PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
              [appDelegate.viewController setNavigationBarHidden:YES animated:NO];
-             [appDelegate.viewController setViewControllers:[NSArray arrayWithObject:welco] animated:NO];
+             [appDelegate.viewController setViewControllers:[NSArray arrayWithObject:onboardingVC] animated:NO];
          }
      }];
 }

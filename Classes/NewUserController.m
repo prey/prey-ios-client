@@ -48,17 +48,16 @@
 #define kTablePosWidth_iPad      470.0
 #define kTablePosHeight_iPad     295.0
 
-#warning Onboarding: iPad/iPhone
 //#define kMoveTableView_iPhone5  180.0
 //#define kMoveLogo_iPhone5       -27.0
 #define kMoveTableView_iPhone5  210.0
 #define kMoveLogo_iPhone5       40.0
-
+#define kMoveLogo_iPad          -45.0
 
 
 #define kMoveTableView_iPhone   148.0
 #define kMoveLogo_iPhone         20.0
-#define kMoveLogo_iPad          -45.0
+
 
 
 @implementation NewUserController

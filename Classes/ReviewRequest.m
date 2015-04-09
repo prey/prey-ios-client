@@ -65,7 +65,10 @@ static NSString * const KeySessionCountSinceLastAsked = @"ReviewRequestSessionCo
 + (bool)shouldAskForReview
 {
 	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-	
+
+    if ([defaults boolForKey:@"SendReport"])
+        return false;
+    
 	if ([defaults boolForKey:KeyDontAsk])
 		return false;
 

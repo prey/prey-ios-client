@@ -54,19 +54,19 @@
 #define kTablePosY_iPhone        278.0
 
 #define kTablePosX_iPad          149.0
-#define kTablePosY_iPad          564.0
+//#define kTablePosY_iPad          564.0
+#define kTablePosY_iPad          570.0
 #define kTablePosWidth_iPad      470.0
 #define kTablePosHeight_iPad     150.0
 
-#warning Onboarding: iPad/iPhone
 //#define kMoveTableView_iPhone5  220.0
 //#define kMoveLogo_iPhone5       -30.0
+//#define kMoveLogo_iPad          -30.0
 #define kMoveTableView_iPhone5  300.0
+#define kMoveTableView_iPhone   218.0
 #define kMoveLogo_iPhone5       40.0
-
-
-#define kMoveLogo_iPhone        -20.0
-#define kMoveLogo_iPad          -30.0
+#define kMoveLogo_iPad          -106.0
+#define kMoveLogo_iPhone        40.0
 
 @implementation OldUserController
 
@@ -381,8 +381,8 @@
     CGRect rectLogo  = preyImage.frame;
     if (movedUp)
     {
-        rect.origin.y     -= kMoveTableView_iPhone5;
-        rect.size.height  += kMoveTableView_iPhone5;
+        rect.origin.y     -= ((IS_IPHONE5) || (IS_IPAD)) ? kMoveTableView_iPhone5 : kMoveTableView_iPhone;
+        rect.size.height  += ((IS_IPHONE5) || (IS_IPAD)) ? kMoveTableView_iPhone5 : kMoveTableView_iPhone;
         
         if (IS_IPAD)
             rectLogo.origin.y -= kMoveLogo_iPad;
@@ -391,8 +391,8 @@
     }
     else
     {
-        rect.origin.y     += kMoveTableView_iPhone5;
-        rect.size.height  -= kMoveTableView_iPhone5;
+        rect.origin.y     += ((IS_IPHONE5) || (IS_IPAD)) ? kMoveTableView_iPhone5 : kMoveTableView_iPhone;
+        rect.size.height  -= ((IS_IPHONE5) || (IS_IPAD)) ? kMoveTableView_iPhone5 : kMoveTableView_iPhone;
 
         if (IS_IPAD)
             rectLogo.origin.y += kMoveLogo_iPad;

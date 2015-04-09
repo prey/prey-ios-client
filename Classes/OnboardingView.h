@@ -18,6 +18,8 @@
 @property (nonatomic, strong) OldUserController *ouController;
 @property (nonatomic) CGFloat widthScreen;
 @property (nonatomic) CGFloat heightScreen;
+@property (nonatomic) CGFloat posYiPhone;
+@property (nonatomic) CGFloat posYiPhoneBtn;
 @property (nonatomic) BOOL cameraAuth;
 @property (nonatomic) BOOL locationAuth;
 @property (nonatomic) BOOL notifyAuth;
