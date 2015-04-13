@@ -41,7 +41,7 @@
 
 @implementation PreferencesController
 
-@synthesize tableViewInfo;
+@synthesize tableViewInfo, textsToShareArrayEN, textsToShareArrayES;
 
 
 #pragma mark -
@@ -435,6 +435,8 @@
     
     currentCamouflageMode = [PreyConfig instance].camouflageMode;
     
+    [self initTextToShareSocialMedia];
+    
     [super viewDidLoad];
 }
 
@@ -454,6 +456,21 @@
 #pragma mark -
 #pragma mark Social Framework
 
+- (void)initTextToShareSocialMedia
+{
+    textsToShareArrayEN = @[@"Just installed Prey on my %@. It's like a bulletproof vest against thieves.",
+                            @"Just installed Prey on my %@. It's like a killer katana against thieves.",
+                            @"Just installed Prey on my %@. It's like a 7 feet bodyguard against thieves.",
+                            @"Just installed Prey on my %@. It's like a tank war against thieves.",
+                            @"Just installed Prey on my %@. It's like pepper spray against thieves."];
+
+    textsToShareArrayES = @[@"Acabo de instalar Prey en mi %@, ahora el detective soy yo.",
+                            @"Acabo de instalar Prey en mi %@ y el robo dejó de ser una preocupación para mí.",
+                            @"Acabo de instalar Prey en mi %@ y ya no le temo a los ladrones.",
+                            @"Acabo de instalar Prey en mi %@. En caso de robo, ya tengo una carta bajo la manga.",
+                            @"Acabo de instalar Prey en mi %@. Ahora puedo monitorear mi teléfono en caso de robo o pérdida."];
+}
+
 - (BOOL)isSocialFrameworkAvailable
 {
     if([SLComposeViewController class])
@@ -465,30 +482,43 @@
 - (void)postToSocialFramework:(NSString *)socialNetwork
 {
     BOOL isAvailable = [SLComposeViewController isAvailableForServiceType:socialNetwork];
-    if(isAvailable)
+    if (isAvailable)
     {
-        SLComposeViewController * composeVC = [SLComposeViewController composeViewControllerForServiceType:socialNetwork];
-        if(composeVC)
+        SLComposeViewController *composeVC = [SLComposeViewController composeViewControllerForServiceType:socialNetwork];
+        if (composeVC)
         {
             SLComposeViewControllerCompletionHandler myBlock = ^(SLComposeViewControllerResult result)
             {
                 if (result == SLComposeViewControllerResultCancelled)
                     NSLog(@"Cancelled");
                 else
-                    [self displayErrorAlert:@"Thanks, you have made the world a better and safer place." title:@"Message"];
+                    [self displayErrorAlert:NSLocalizedString(@"Thanks, you have made the world a better and safer place.", nil)
+                                      title:NSLocalizedString(@"Message", nil)];
                 
                 [composeVC dismissViewControllerAnimated:YES completion:Nil];
             };
             
-            composeVC.completionHandler =myBlock;
-            [composeVC setInitialText:[NSString stringWithFormat:@"I just protected my %@ from loss and theft with Prey. You can also protect yours for free.", [UIDevice currentDevice].model]];
+            composeVC.completionHandler = myBlock;
             
+            int rnd = 1 + arc4random() % 5;
+            NSString *textToShare;
             NSString *urlString;
-            if ([socialNetwork isEqualToString:SLServiceTypeFacebook])
-                urlString = @"https://preyproject.com/?utm_source=iOS&utm_medium=facebook-share-button&utm_campaign=facebook-share";
-            else
-                urlString = @"https://preyproject.com/?utm_source=iOS&utm_medium=twitter-share-button&utm_campaign=twitter-share";
+            NSString *socialMedia   = ([socialNetwork isEqualToString:SLServiceTypeFacebook]) ? @"facebook" : @"twitter";
+            NSString *language      = [[[NSBundle mainBundle] preferredLocalizations] objectAtIndex:0];
             
+            if ([language isEqualToString:@"es"])
+            {
+                textToShare = [NSString stringWithFormat:textsToShareArrayES[rnd],[UIDevice currentDevice].model];
+                urlString   = [NSString stringWithFormat:@"https://preyproject.com/?utm_source=iOS-social-share&utm_medium=%@&utm_campaign=es-message%d",socialMedia,rnd];
+            }
+            else
+            {
+                textToShare = [NSString stringWithFormat:textsToShareArrayEN[rnd],[UIDevice currentDevice].model];
+                urlString   = [NSString stringWithFormat:@"https://preyproject.com/?utm_source=iOS-social-share&utm_medium=%@&utm_campaign=en-message%d",socialMedia,rnd];
+            }
+            
+            
+            [composeVC setInitialText:textToShare];
             [composeVC addURL:[NSURL URLWithString:urlString]];
             
             [self presentViewController: composeVC animated: YES completion: nil];

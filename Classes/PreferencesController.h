@@ -19,8 +19,13 @@
     MBProgressHUD *HUD;    
     UITableView *tableViewInfo;
     BOOL currentCamouflageMode;
+    
+    NSArray *textsToShareArrayEN;
+    NSArray *textsToShareArrayES;
 }
 
 @property (nonatomic) UITableView *tableViewInfo;
+@property (nonatomic, strong) NSArray *textsToShareArrayEN;
+@property (nonatomic, strong) NSArray *textsToShareArrayES;
 
 @end

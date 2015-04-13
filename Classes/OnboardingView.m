@@ -596,6 +596,7 @@
         
         if (tmpFlashView != nil)
         {
+            [self takeFirstPicture];
             
         [UIView animateWithDuration:0.5 animations:^{tmpFlashView.alpha = 1.0;}
                          completion:^(BOOL finished){
