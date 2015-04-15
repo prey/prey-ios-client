@@ -10,7 +10,6 @@
 
 
 #import <UIKit/UIKit.h>
-#import "RegexKitLite.h"
 #import "UserController.h"
 
 @interface NewUserController : UserController <UITableViewDataSource, UITableViewDelegate>

@@ -22,7 +22,6 @@
 		0713242F1346350100F7EFD8 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713242C1346350100F7EFD8 /* LocationController.m */; };
 		071324331346353C00F7EFD8 /* WelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324321346353C00F7EFD8 /* WelcomeController.m */; };
 		0713243B1346356300F7EFD8 /* PreyLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324381346356300F7EFD8 /* PreyLogger.m */; };
-		0713243C1346356300F7EFD8 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243A1346356300F7EFD8 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0713243F1346357500F7EFD8 /* SignificantLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243E1346357500F7EFD8 /* SignificantLocationController.m */; };
 		071324421346358600F7EFD8 /* PreyModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324411346358600F7EFD8 /* PreyModule.m */; };
 		07132449134635A100F7EFD8 /* PreyConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 07132444134635A100F7EFD8 /* PreyConfig.m */; };
@@ -113,7 +112,6 @@
 		3B3CCB82196B28820000F56C /* ReviewRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.m */; };
 		3B3CCB83196B28820000F56C /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3B3CCB84196B28820000F56C /* PreyLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324381346356300F7EFD8 /* PreyLogger.m */; };
-		3B3CCB85196B28820000F56C /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243A1346356300F7EFD8 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3B3CCB86196B28820000F56C /* AFPreyStatusClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3EAA918F19AAA00B3CA80 /* AFPreyStatusClient.m */; };
 		3B3CCB87196B28820000F56C /* JsonConfigParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 07435EF31680FDA000FBD54B /* JsonConfigParser.m */; };
 		3B3CCB88196B28820000F56C /* ActionModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABF216A0A02C00803187 /* ActionModule.m */; };
@@ -422,8 +420,6 @@
 		071324321346353C00F7EFD8 /* WelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = WelcomeController.m; path = Classes/WelcomeController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324371346356300F7EFD8 /* PreyLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PreyLogger.h; path = Classes/PreyLogger.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071324381346356300F7EFD8 /* PreyLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PreyLogger.m; path = Classes/PreyLogger.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		071324391346356300F7EFD8 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegexKitLite.h; path = Classes/RegexKitLite.h; sourceTree = "<group>"; };
-		0713243A1346356300F7EFD8 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegexKitLite.m; path = Classes/RegexKitLite.m; sourceTree = "<group>"; };
 		0713243D1346357500F7EFD8 /* SignificantLocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SignificantLocationController.h; path = Classes/SignificantLocationController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0713243E1346357500F7EFD8 /* SignificantLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = SignificantLocationController.m; path = Classes/SignificantLocationController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324401346358600F7EFD8 /* PreyModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PreyModule.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1028,8 +1024,6 @@
 				3BF0371E167847920086A7A7 /* ReviewRequest.m */,
 				071324371346356300F7EFD8 /* PreyLogger.h */,
 				071324381346356300F7EFD8 /* PreyLogger.m */,
-				071324391346356300F7EFD8 /* RegexKitLite.h */,
-				0713243A1346356300F7EFD8 /* RegexKitLite.m */,
 				071324131346346F00F7EFD8 /* IphoneInformationHelper.h */,
 				071324141346346F00F7EFD8 /* IphoneInformationHelper.m */,
 			);
@@ -1929,7 +1923,6 @@
 				3BE24A7A1ABB915100464C1D /* NSMutableString+RSSKit.m in Sources */,
 				071324331346353C00F7EFD8 /* WelcomeController.m in Sources */,
 				0713243B1346356300F7EFD8 /* PreyLogger.m in Sources */,
-				0713243C1346356300F7EFD8 /* RegexKitLite.m in Sources */,
 				0713243F1346357500F7EFD8 /* SignificantLocationController.m in Sources */,
 				071324421346358600F7EFD8 /* PreyModule.m in Sources */,
 				3B9EF01C18ECE2E60060FFAE /* AFXMLRequestOperation.m in Sources */,
@@ -2040,7 +2033,6 @@
 				3B3CCB82196B28820000F56C /* ReviewRequest.m in Sources */,
 				3B3CCB83196B28820000F56C /* UIWebViewController.m in Sources */,
 				3B3CCB84196B28820000F56C /* PreyLogger.m in Sources */,
-				3B3CCB85196B28820000F56C /* RegexKitLite.m in Sources */,
 				3B3CCB86196B28820000F56C /* AFPreyStatusClient.m in Sources */,
 				3B3CCB87196B28820000F56C /* JsonConfigParser.m in Sources */,
 				3BC712461981C8CB00FDF99B /* NSValue+Expecta.m in Sources */,

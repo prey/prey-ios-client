@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RegexKitLite.h"
 #import "MBProgressHUD.h"
 #import "User.h"
 #import "Device.h"
@@ -46,5 +45,6 @@
 - (CGRect)returnRectToInputsTable;
 - (UIFont*)returnFontToChange:(NSString *)fontString;
 - (void)keyboardWillShow;
+- (BOOL)validateString:(NSString *)string withPattern:(NSString *)pattern;
 
 @end

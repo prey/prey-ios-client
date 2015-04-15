@@ -51,6 +51,23 @@
 
 #pragma mark Private methods
 
+- (BOOL)validateString:(NSString *)string withPattern:(NSString *)pattern
+{
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+    
+    NSRange textRange = NSMakeRange(0, string.length);
+    NSRange matchRange = [regex rangeOfFirstMatchInString:string options:NSMatchingReportProgress range:textRange];
+    
+    BOOL didValidate = NO;
+    
+    // Did we find a matching range
+    if (matchRange.location != NSNotFound)
+        didValidate = YES;
+    
+    return didValidate;
+}
+
 - (void) showCongratsView:(id) congratsText
 {
     CongratulationsController *congratsController;

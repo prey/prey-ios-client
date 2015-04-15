@@ -76,7 +76,8 @@
 {
     [UIView setAnimationsEnabled:YES];
     
-    if (![email.text isMatchedByRegex:strEmailMatchstring]){
+    if (![self validateString:email.text withPattern:strEmailMatchstring])
+    {
         UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Try Again",nil),nil];
         [objAlert show];
         

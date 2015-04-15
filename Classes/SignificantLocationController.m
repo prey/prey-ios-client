@@ -53,7 +53,7 @@
 	PreyLogMessage(@"Prey SignificantLocationController", 3, @"New location received[%@]: %@",[manager description], [newLocation description]);
 	NSDate* eventDate = newLocation.timestamp;
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-    if (abs(howRecent) < 15.0)
+    if (fabs(howRecent) < 15.0)
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"locationUpdated" object:newLocation];
 	else
 		PreyLogMessage(@"Prey SignificantLocationController", 10, @"Location received too old, discarded!");

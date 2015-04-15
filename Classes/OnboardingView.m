@@ -596,8 +596,9 @@
         
         if (tmpFlashView != nil)
         {
+#if !(TARGET_IPHONE_SIMULATOR)
             [self takeFirstPicture];
-            
+#endif
         [UIView animateWithDuration:0.5 animations:^{tmpFlashView.alpha = 1.0;}
                          completion:^(BOOL finished){
                              
