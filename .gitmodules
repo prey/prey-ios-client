@@ -1,9 +1,6 @@
 [submodule "Classes/MBProgressHUD"]
 	path = Classes/MBProgressHUD
 	url = git://github.com/jdg/MBProgressHUD.git
-[submodule "Classes/UIDevice-Extension"]
-	path = Classes/UIDevice-Extension
-	url = git://github.com/erica/uidevice-extension.git
 [submodule "Classes/NSLogger"]
 	path = Classes/NSLogger
 	url = git://github.com/fpillet/NSLogger.git
@@ -14,3 +11,6 @@
 [submodule "Classes/Expecta"]
 	path = Classes/Expecta
 	url = https://github.com/specta/expecta
+[submodule "Classes/UIDevice-Extension"]
+	path = Classes/UIDevice-Extension
+	url = https://github.com/jCalaU/uidevice-extension
