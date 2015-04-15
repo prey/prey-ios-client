@@ -295,6 +295,7 @@
     welcomeText.font = (IS_IPAD) ? [UIFont fontWithName:@"Open Sans" size:24] : [UIFont fontWithName:@"Open Sans" size:14];
     welcomeText.textAlignment = UITextAlignmentCenter;
     welcomeText.numberOfLines = 5;
+    welcomeText.backgroundColor = [UIColor clearColor];
     welcomeText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
     welcomeText.text = NSLocalizedString(@"Prey will track your laptop, phone and tablet if they ever go missing, whether you're in town or abroad.",nil);
     [pageView addSubview:welcomeText];
@@ -372,6 +373,7 @@
     welcomeText.font = (IS_IPAD) ? [UIFont fontWithName:@"Roboto" size:36] : [UIFont fontWithName:@"Roboto" size:22];
     welcomeText.textAlignment = UITextAlignmentCenter;
     welcomeText.numberOfLines = 2;
+    welcomeText.backgroundColor = [UIColor clearColor];
     welcomeText.textColor = [UIColor colorWithRed:(255/255.f) green:(255/255.f) blue:(255/255.f) alpha:1];
     welcomeText.text = NSLocalizedString(@"Protect your devices from theft",nil);
     [pageView addSubview:welcomeText];
@@ -401,6 +403,7 @@
     UILabel *cameraText = [[UILabel alloc] initWithFrame:CGRectMake(textEnablePosX, textPosY, widthText, heightText)];
     cameraText.font = [UIFont fontWithName:@"Open Sans" size:fontZize];
     cameraText.textAlignment = UITextAlignmentLeft;
+    cameraText.backgroundColor = [UIColor clearColor];
     cameraText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
     cameraText.text = NSLocalizedString(@"Enable Camera",nil);
     [pageView addSubview:cameraText];
@@ -409,6 +412,7 @@
     UILabel *locationText = [[UILabel alloc] initWithFrame:CGRectMake(textEnablePosX, textPosY, widthText, heightText)];
     locationText.font = [UIFont fontWithName:@"Open Sans" size:fontZize];
     locationText.textAlignment = UITextAlignmentLeft;
+    locationText.backgroundColor = [UIColor clearColor];
     locationText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
     locationText.text = NSLocalizedString(@"Enable Location",nil);
     [pageView addSubview:locationText];
@@ -417,6 +421,7 @@
     UILabel *notifyText = [[UILabel alloc] initWithFrame:CGRectMake(textEnablePosX, textPosY, widthText, heightText)];
     notifyText.font = [UIFont fontWithName:@"Open Sans" size:fontZize];
     notifyText.textAlignment = UITextAlignmentLeft;
+    notifyText.backgroundColor = [UIColor clearColor];
     notifyText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
     notifyText.text = NSLocalizedString(@"Enable Notification",nil);
     [pageView addSubview:notifyText];
@@ -526,30 +531,33 @@
 
 - (void)checkCameraDeviceAuthorizationStatus
 {
-    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if(authStatus == AVAuthorizationStatusAuthorized)
+    if (IS_OS_7_OR_LATER)
     {
-        cameraAuth = YES;
-        cameraSwitch.on = cameraAuth;
-    }
-    else if(authStatus == AVAuthorizationStatusNotDetermined)
-    {
-        // Camera access not determined. Ask for permission
-        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-            if (granted)
-            {
-                cameraAuth = YES;
-                cameraSwitch.on = cameraAuth;
-            }
-            else
-            {
-                [self cameraDeniedAccess];
-            }
-        }];
-    }
-    else
-    {
-        [self cameraDeniedAccess];
+        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        if(authStatus == AVAuthorizationStatusAuthorized)
+        {
+            cameraAuth = YES;
+            cameraSwitch.on = cameraAuth;
+        }
+        else if(authStatus == AVAuthorizationStatusNotDetermined)
+        {
+            // Camera access not determined. Ask for permission
+            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                if (granted)
+                {
+                    cameraAuth = YES;
+                    cameraSwitch.on = cameraAuth;
+                }
+                else
+                {
+                    [self cameraDeniedAccess];
+                }
+            }];
+        }
+        else
+        {
+            [self cameraDeniedAccess];
+        }
     }
 }
 
@@ -615,6 +623,7 @@
                              theftText.font = (IS_IPAD) ? [UIFont fontWithName:@"Roboto" size:36] : [UIFont fontWithName:@"Roboto" size:22];
                              theftText.textAlignment = UITextAlignmentCenter;
                              theftText.numberOfLines = 2;
+                             theftText.backgroundColor = [UIColor clearColor];
                              theftText.textColor = [UIColor colorWithRed:(255/255.f) green:(255/255.f) blue:(255/255.f) alpha:1];
                              theftText.text = NSLocalizedString(@"They can run but they can't hide",nil);
                              [currentViewK addSubview:theftText];
@@ -624,6 +633,7 @@
                              infoText.font = (IS_IPAD) ? [UIFont fontWithName:@"Open Sans" size:24] : [UIFont fontWithName:@"Open Sans" size:14];
                              infoText.textAlignment = UITextAlignmentCenter;
                              infoText.numberOfLines = 5;
+                             infoText.backgroundColor = [UIColor clearColor];
                              infoText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
                              infoText.text = NSLocalizedString(@"Sensitive data is gathered only when you request it, and is for your eyes only. Nothing is sent without your permission.",nil);
                              [currentViewK addSubview:infoText];
@@ -729,7 +739,7 @@
     [pageView addSubview:nuController.view];
 
     
-    NSArray *itemArray = [NSArray arrayWithObjects: @"Sign Up", @"Log In", nil];
+    NSArray *itemArray = [NSArray arrayWithObjects:NSLocalizedString(@"Sign Up",nil), NSLocalizedString(@"Log In",nil), nil];
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     segmentedControl.frame = (IS_IPAD) ?  CGRectMake(259, 30, 250, 30) : CGRectMake(35, 10, 250, 30);
     segmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
