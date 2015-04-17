@@ -162,26 +162,28 @@
 
 - (void)loginWithTouchID
 {
-    LAContext  *context = [[LAContext alloc] init];
-    NSError    *error   = nil;
+    LAContext   *context  = [[LAContext alloc] init];
+    NSError     *errorCxt = nil;
     
-    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error])
+    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&errorCxt])
     {
         [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
                 localizedReason:NSLocalizedString(@"Authenticate for login?",nil)
                           reply:^(BOOL success, NSError *error) {
                               
-                              if (success){
+                              if (success)
                                   [self showPreferencesController];
-                              }
+                                  
                               else if (error.code != kLAErrorUserCancel)
                               {
-                                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
-                                                                                  message:NSLocalizedString(@"There was a problem verifying your identity",nil)
-                                                                                 delegate:nil
-                                                                        cancelButtonTitle:NSLocalizedString(@"OK",nil)
-                                                                        otherButtonTitles:nil];
-                                  [alert show];
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
+                                                                                      message:NSLocalizedString(@"There was a problem verifying your identity",nil)
+                                                                                     delegate:nil
+                                                                            cancelButtonTitle:NSLocalizedString(@"OK",nil)
+                                                                            otherButtonTitles:nil];
+                                      [alert show];
+                                  });
                               }
                           }];
     }
