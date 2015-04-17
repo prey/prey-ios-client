@@ -167,6 +167,7 @@
 		3B4B24DC1A115C76002B64E8 /* close_on@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D61A115C76002B64E8 /* close_on@3x.png */; };
 		3B56DF1B197EB92300FE7218 /* UserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B67DCC21976B549003D80D4 /* UserController.m */; };
 		3B6003601A5DDAB300948F96 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; };
+		3B62F4451AE1C1770060C8D7 /* theft.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B62F4441AE1C1770060C8D7 /* theft.png */; };
 		3B656D791A0A47A1007C85E4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B656D6C1A0A47A1007C85E4 /* Localizable.strings */; };
 		3B65EE2A1805E358008EB7CF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65EE291805E358008EB7CF /* MBProgressHUD.m */; };
 		3B675EF81891874500CE3D0D /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */; };
@@ -537,6 +538,7 @@
 		3B4B24D61A115C76002B64E8 /* close_on@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_on@3x.png"; sourceTree = "<group>"; };
 		3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		3B62F4441AE1C1770060C8D7 /* theft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = theft.png; sourceTree = "<group>"; };
 		3B656D6F1A0A47A1007C85E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3B656D701A0A47A1007C85E4 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3B65EE281805E358008EB7CF /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
@@ -1275,6 +1277,7 @@
 				3BA232961A0C2F85005E5145 /* store_pro-iPad@2x.png */,
 				3BA232871A0B9757005E5145 /* store_pro.png */,
 				3BA232881A0B9757005E5145 /* store_pro@2x.png */,
+				3B62F4441AE1C1770060C8D7 /* theft.png */,
 				3BAB3CF21A098877003BFCCE /* unprotected.png */,
 				3BAB3CF31A098877003BFCCE /* unprotected@2x.png */,
 			);
@@ -1814,6 +1817,7 @@
 				3BAB3CFB1A0993ED003BFCCE /* bt-welcome-press.png in Resources */,
 				3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */,
 				3B8AC77619F9C96700464098 /* iTunesArtwork@2x.png in Resources */,
+				3B62F4451AE1C1770060C8D7 /* theft.png in Resources */,
 				3B4B24D71A115C76002B64E8 /* close_off.png in Resources */,
 				3B8AC75D19F9C96700464098 /* Default-568h@2x.png in Resources */,
 				3B4B24D81A115C76002B64E8 /* close_off@2x.png in Resources */,

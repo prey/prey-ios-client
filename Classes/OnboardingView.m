@@ -707,15 +707,11 @@
 - (void)pictureReady:(NSNotification *)notification
 {
     UIImage *pictureTaken = (UIImage*)[notification object];
-    
-    if (pictureTaken != nil)
-    {
-        UIView *tmpView = (UIView*)[self.view viewWithTag:302];
-        UIImageView *photoImage = (UIImageView*)[tmpView viewWithTag:kTagPhotoImage];
-        photoImage.image = pictureTaken;
-        
-        NSLog(@"Picture finished");
-    }
+    UIView *tmpView = (UIView*)[self.view viewWithTag:302];
+    UIImageView *photoImage = (UIImageView*)[tmpView viewWithTag:kTagPhotoImage];
+    photoImage.image = (pictureTaken != nil) ? pictureTaken : [UIImage imageNamed:@"theft"];
+
+    NSLog(@"Picture finished");    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pictureReady" object:nil];
 }
 

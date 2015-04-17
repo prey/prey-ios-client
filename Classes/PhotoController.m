@@ -25,7 +25,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 // Utilities.
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
-@property (nonatomic, getter = isDeviceAuthorized) BOOL deviceAuthorized;
+@property (nonatomic) BOOL isDeviceAuthorized;
 @property (nonatomic, readonly, getter = isSessionRunningAndDeviceAuthorized) BOOL sessionRunningAndDeviceAuthorized;
 @property (nonatomic) BOOL lockInterfaceRotation;
 @property (nonatomic) id runtimeErrorHandlingObserver;
@@ -33,6 +33,8 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 @end
 
 @implementation PhotoController
+
+@synthesize isDeviceAuthorized;
 
 + (PhotoController *)instance {
     static PhotoController *instance = nil;
@@ -60,7 +62,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 - (BOOL)isSessionRunningAndDeviceAuthorized
 {
-	return [[self session] isRunning] && [self isDeviceAuthorized];
+	return [[self session] isRunning] && isDeviceAuthorized;
 }
 
 + (NSSet *)keyPathsForValuesAffectingSessionRunningAndDeviceAuthorized
@@ -81,7 +83,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 	[self setSession:session];
 		
 	// Check for device authorization
-    [self setDeviceAuthorized:YES];
+    isDeviceAuthorized = YES;
 	
     if (IS_OS_7_OR_LATER)
         [self checkDeviceAuthorizationStatus];
@@ -185,91 +187,102 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 - (void)changeCamera
 {
-	dispatch_async([self sessionQueue], ^{
-		AVCaptureDevice *currentVideoDevice = [[self videoDeviceInput] device];
-		AVCaptureDevicePosition preferredPosition = AVCaptureDevicePositionUnspecified;
-		AVCaptureDevicePosition currentPosition = [currentVideoDevice position];
-		
-		switch (currentPosition)
-		{
-			case AVCaptureDevicePositionUnspecified:
-				preferredPosition = AVCaptureDevicePositionBack;
-				break;
-			case AVCaptureDevicePositionBack:
-				preferredPosition = AVCaptureDevicePositionFront;
-				break;
-			case AVCaptureDevicePositionFront:
-				preferredPosition = AVCaptureDevicePositionBack;
-				break;
-		}
-		
-		AVCaptureDevice *videoDevice = [PhotoController deviceWithMediaType:AVMediaTypeVideo preferringPosition:preferredPosition];
-		AVCaptureDeviceInput *videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:nil];
-		
-		[[self session] beginConfiguration];
-		
-		[[self session] removeInput:[self videoDeviceInput]];
-		if ([[self session] canAddInput:videoDeviceInput])
-		{
-			[[NSNotificationCenter defaultCenter] removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:currentVideoDevice];
-			
-			[PhotoController setFlashMode:AVCaptureFlashModeOff forDevice:videoDevice];
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:videoDevice];
-			
-			[[self session] addInput:videoDeviceInput];
-			[self setVideoDeviceInput:videoDeviceInput];
-		}
-		else
-		{
-			[[self session] addInput:[self videoDeviceInput]];
-		}
-        
-        if ([[self session] canSetSessionPreset:AVCaptureSessionPresetLow])
-            [[self session] setSessionPreset:AVCaptureSessionPresetLow];
-        
-        
-		[[self session] commitConfiguration];
-	});
+    if (isDeviceAuthorized)
+    {
+        dispatch_async([self sessionQueue], ^{
+            AVCaptureDevice *currentVideoDevice = [[self videoDeviceInput] device];
+            AVCaptureDevicePosition preferredPosition = AVCaptureDevicePositionUnspecified;
+            AVCaptureDevicePosition currentPosition = [currentVideoDevice position];
+            
+            switch (currentPosition)
+            {
+                case AVCaptureDevicePositionUnspecified:
+                    preferredPosition = AVCaptureDevicePositionBack;
+                    break;
+                case AVCaptureDevicePositionBack:
+                    preferredPosition = AVCaptureDevicePositionFront;
+                    break;
+                case AVCaptureDevicePositionFront:
+                    preferredPosition = AVCaptureDevicePositionBack;
+                    break;
+            }
+            
+            AVCaptureDevice *videoDevice = [PhotoController deviceWithMediaType:AVMediaTypeVideo preferringPosition:preferredPosition];
+            AVCaptureDeviceInput *videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:nil];
+            
+            [[self session] beginConfiguration];
+            
+            [[self session] removeInput:[self videoDeviceInput]];
+            if ([[self session] canAddInput:videoDeviceInput])
+            {
+                [[NSNotificationCenter defaultCenter] removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:currentVideoDevice];
+                
+                [PhotoController setFlashMode:AVCaptureFlashModeOff forDevice:videoDevice];
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:videoDevice];
+                
+                [[self session] addInput:videoDeviceInput];
+                [self setVideoDeviceInput:videoDeviceInput];
+            }
+            else
+            {
+                [[self session] addInput:[self videoDeviceInput]];
+            }
+            
+            if ([[self session] canSetSessionPreset:AVCaptureSessionPresetLow])
+                [[self session] setSessionPreset:AVCaptureSessionPresetLow];
+            
+            
+            [[self session] commitConfiguration];
+        });
+    }
 }
 
 - (void)snapStillImage
 {
-	dispatch_async([self sessionQueue], ^{
-		// Flash set to Auto for Still Capture
-		[PhotoController setFlashMode:AVCaptureFlashModeOff forDevice:[[self videoDeviceInput] device]];
-
-        // Turn off shutter sound
-        static SystemSoundID soundID = 0;
-        if (soundID == 0) {
-            NSURL* shutterFile = [NSURL fileURLWithPath:[[NSBundle mainBundle]
-                                                       pathForResource:@"shutter"
-                                                       ofType:@"aiff"]];
-            AudioServicesCreateSystemSoundID((__bridge CFURLRef)shutterFile, &soundID);
-        }
-        AudioServicesPlaySystemSound(soundID);
-        
-        @try {
-            // Capture a still image.
-            [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-                
-                if (imageDataSampleBuffer)
-                {
-                    NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                    UIImage *image = [[UIImage alloc] initWithData:imageData];
+    if (isDeviceAuthorized)
+    {
+        dispatch_async([self sessionQueue], ^{
+            // Flash set to Auto for Still Capture
+            [PhotoController setFlashMode:AVCaptureFlashModeOff forDevice:[[self videoDeviceInput] device]];
+            
+            // Turn off shutter sound
+            static SystemSoundID soundID = 0;
+            if (soundID == 0) {
+                NSURL* shutterFile = [NSURL fileURLWithPath:[[NSBundle mainBundle]
+                                                             pathForResource:@"shutter"
+                                                             ofType:@"aiff"]];
+                AudioServicesCreateSystemSoundID((__bridge CFURLRef)shutterFile, &soundID);
+            }
+            AudioServicesPlaySystemSound(soundID);
+            
+            @try {
+                // Capture a still image.
+                [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
                     
-                    //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-                    NSLog(@"saved photo");
-                    
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureReady" object:image];
-                }
-            }];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"Error saving photo: %@ reason %@", [exception name], [exception reason]);
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureReady" object:nil];
-        }
-        
-	});
+                    if (imageDataSampleBuffer)
+                    {
+                        NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                        UIImage *image = [[UIImage alloc] initWithData:imageData];
+                        
+                        //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+                        NSLog(@"saved photo");
+                        
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureReady" object:image];
+                    }
+                }];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"Error saving photo: %@ reason %@", [exception name], [exception reason]);
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureReady" object:nil];
+            }
+            
+        });
+    }
+    else
+    {
+        NSLog(@"Error saving photo: Device is not Authorized");
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureReady" object:nil];
+    }
 }
 
 - (void)subjectAreaDidChange:(NSNotification *)notification
@@ -367,27 +380,41 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 - (void)checkDeviceAuthorizationStatus
 {
-	NSString *mediaType = AVMediaTypeVideo;
-	
-	[AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
-		if (granted)
-		{
-			//Granted access to mediaType
-			[self setDeviceAuthorized:YES];
-		}
-		else
-		{
-			//Not granted access to mediaType
-			dispatch_async(dispatch_get_main_queue(), ^{
-				[[[UIAlertView alloc] initWithTitle:@"Camera Authorization"
-											message:@"Prey doesn't have permission to use Camera, please change privacy settings"
-										   delegate:self
-								  cancelButtonTitle:@"OK"
-								  otherButtonTitles:nil] show];
-				[self setDeviceAuthorized:NO];
-			});
-		}
-	}];
+    if (IS_OS_7_OR_LATER)
+    {
+        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        if (authStatus == AVAuthorizationStatusAuthorized)
+        {
+            isDeviceAuthorized = YES;
+        }
+        else
+        {
+            isDeviceAuthorized = NO;
+            NSString *mediaType = AVMediaTypeVideo;
+            
+            [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
+                if (granted)
+                {
+                    //Granted access to mediaType
+                    isDeviceAuthorized = YES;
+                }
+                else
+                {
+                    //Not granted access to mediaType
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        /*[[[UIAlertView alloc] initWithTitle:@"Camera Authorization"
+                         message:@"Prey doesn't have permission to use Camera, please change privacy settings"
+                         delegate:self
+                         cancelButtonTitle:@"OK"
+                         otherButtonTitles:nil] show];
+                         */
+                        isDeviceAuthorized = NO;
+                    });
+                }
+            }];
+        }
+    }
 }
 
 @end
