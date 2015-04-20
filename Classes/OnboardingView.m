@@ -297,6 +297,7 @@
     welcomeText.numberOfLines = 5;
     welcomeText.backgroundColor = [UIColor clearColor];
     welcomeText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
+    welcomeText.adjustsFontSizeToFitWidth = YES;
     welcomeText.text = NSLocalizedString(@"Prey will track your laptop, phone and tablet if they ever go missing, whether you're in town or abroad.",nil);
     [pageView addSubview:welcomeText];
     
@@ -421,6 +422,7 @@
     UILabel *notifyText = [[UILabel alloc] initWithFrame:CGRectMake(textEnablePosX, textPosY, widthText, heightText)];
     notifyText.font = [UIFont fontWithName:@"Open Sans" size:fontZize];
     notifyText.textAlignment = UITextAlignmentLeft;
+    notifyText.adjustsFontSizeToFitWidth = YES;
     notifyText.backgroundColor = [UIColor clearColor];
     notifyText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
     notifyText.text = NSLocalizedString(@"Enable Notification",nil);

@@ -181,3 +181,5 @@
 "Sign Up" = "Registrarse";
 
 "Log In" = "Ingresar";
+
+"Name can't be blank" = "El nombre no puede estar en blanco";

@@ -35,7 +35,7 @@
         titlePost = [[UILabel alloc] initWithFrame:tmpFrame];
         titlePost.textAlignment = UITextAlignmentLeft;
         titlePost.numberOfLines = 2;
-        titlePost.adjustsLetterSpacingToFitWidth = YES;
+        if (IS_OS_6_OR_LATER) titlePost.adjustsLetterSpacingToFitWidth = YES;
         titlePost.adjustsFontSizeToFitWidth = YES;
         CGFloat fontSize = (IS_IPAD) ? 34 : 16;
         titlePost.font = [UIFont fontWithName:@"Roboto-Regular" size:fontSize];

@@ -79,6 +79,15 @@
         return;
     }
     
+    if ([name.text length] < 1)
+    {
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil) message:NSLocalizedString(@"Name can't be blank",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        
+        [name becomeFirstResponder];
+        return;
+    }
+    
     if (![password.text isEqualToString:repassword.text])
     {
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil) message:NSLocalizedString(@"Passwords do not match",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
