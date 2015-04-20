@@ -453,6 +453,19 @@
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (IS_OS_7_OR_LATER)
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    if (IS_OS_7_OR_LATER)
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+}
+
+
 #pragma mark -
 #pragma mark Social Framework
 

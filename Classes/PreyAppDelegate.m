@@ -217,8 +217,12 @@
 {
     showFakeScreen = NO;
 	PreyLogMessage(@"App Delegate", 10, @"Prey is now running in the background");
-    for (UIView *view in [window subviews]) {
-        [view removeFromSuperview];
+    
+    PreyConfig *config = [PreyConfig instance];
+    if (config.alreadyRegistered) {
+        for (UIView *view in [window subviews]) {
+            [view removeFromSuperview];
+        }
     }
 }
 
