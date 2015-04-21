@@ -472,12 +472,17 @@
 {
     notifyAuth = NO;
     
+    [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
+    
     if (IS_OS_8_OR_LATER)
     {
-        if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications])
-        {
+        UIUserNotificationSettings *notificationSettings = [[UIApplication sharedApplication]  currentUserNotificationSettings];
+        notifyAuth = notificationSettings.types > 0;
+        notifySwitch.on = notifyAuth;
+        
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"askFirst"]) {
             notifyAuth = YES;
-            notifySwitch.on = notifyAuth;
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"askFirst"];
         }
     }
     else
@@ -507,6 +512,7 @@
 - (void)checkLocationDeviceAuthorizationStatus
 {
     if ( [CLLocationManager locationServicesEnabled] &&
+       ( [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined) &&
        ( [CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied) &&
        ( [CLLocationManager authorizationStatus] != kCLAuthorizationStatusRestricted) )
     {
