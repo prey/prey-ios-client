@@ -567,6 +567,11 @@
             [self cameraDeniedAccess];
         }
     }
+    else
+    {
+        cameraAuth = YES;
+        cameraSwitch.on = cameraAuth;
+    }
 }
 
 - (void)cameraDeniedAccess

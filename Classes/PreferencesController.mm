@@ -521,12 +521,12 @@
             
             if ([language isEqualToString:@"es"])
             {
-                textToShare = [NSString stringWithFormat:textsToShareArrayES[rnd],[UIDevice currentDevice].model];
+                textToShare = [NSString stringWithFormat:textsToShareArrayES[rnd-1],[UIDevice currentDevice].model];
                 urlString   = [NSString stringWithFormat:@"https://preyproject.com/?utm_source=iOS-social-share&utm_medium=%@&utm_campaign=es-message%d",socialMedia,rnd];
             }
             else
             {
-                textToShare = [NSString stringWithFormat:textsToShareArrayEN[rnd],[UIDevice currentDevice].model];
+                textToShare = [NSString stringWithFormat:textsToShareArrayEN[rnd-1],[UIDevice currentDevice].model];
                 urlString   = [NSString stringWithFormat:@"https://preyproject.com/?utm_source=iOS-social-share&utm_medium=%@&utm_campaign=en-message%d",socialMedia,rnd];
             }
             
