@@ -35,31 +35,34 @@ static NSString *const CAMOUFLAGE_MODE=@"camouflage_mode";
 static NSString *const INTERVAL_MODE=@"interval_mode";
 static NSString *const PRO_ACCOUNT=@"pro_account";
 static NSString *const NOTIFICATION_SETTINGS=@"notification_settings";
+static NSString *const TOUCH_ID=@"touch_id";
 
 @implementation PreyConfig
 
 @synthesize checkUrl, controlPanelHost, checkPath, exceptionsEndpoint, dataEndpoint, apiKey, deviceKey, email, isNotificationSettingsEnabled;
 @synthesize desiredAccuracy,alertOnReport,sendCrashReports,delay,alreadyRegistered,missing,askForPassword,camouflageMode,intervalMode,pro;
+@synthesize isTouchIDEnabled;
 
 + (PreyConfig *)instance {
     static PreyConfig *instance = nil;
     static dispatch_once_t onceToken = 0;
     dispatch_once(&onceToken, ^{
         instance = [[PreyConfig alloc] init];
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        instance.controlPanelHost = [defaults stringForKey: CONTROL_PANEL_HOST];
-        instance.checkPath = [defaults stringForKey: CHECK_PATH];
-        instance.sendCrashReports = [defaults boolForKey: SEND_CRASH_REPORTS];
+        NSUserDefaults *defaults    = [NSUserDefaults standardUserDefaults];
+        instance.controlPanelHost   = [defaults stringForKey: CONTROL_PANEL_HOST];
+        instance.checkPath          = [defaults stringForKey: CHECK_PATH];
+        instance.sendCrashReports   = [defaults boolForKey: SEND_CRASH_REPORTS];
         instance.exceptionsEndpoint = [defaults stringForKey: EXCEPTIONS_ENDPOINT];
-        instance.dataEndpoint = [defaults stringForKey: DATA_ENDPOINT_LOCATION];
+        instance.dataEndpoint       = [defaults stringForKey: DATA_ENDPOINT_LOCATION];
         
-        instance.apiKey = [defaults stringForKey: API_KEY];
-        instance.deviceKey = [defaults stringForKey: DEVICE_KEY];
-        instance.email = [defaults stringForKey: EMAIL];
-        instance.camouflageMode = [defaults boolForKey:CAMOUFLAGE_MODE];
+        instance.apiKey             = [defaults stringForKey: API_KEY];
+        instance.deviceKey          = [defaults stringForKey: DEVICE_KEY];
+        instance.email              = [defaults stringForKey: EMAIL];
+        instance.camouflageMode     = [defaults boolForKey:CAMOUFLAGE_MODE];
         instance.isNotificationSettingsEnabled = [defaults boolForKey:NOTIFICATION_SETTINGS];
-        instance.intervalMode = [defaults boolForKey:INTERVAL_MODE];
-        instance.pro = [defaults boolForKey:PRO_ACCOUNT];
+        instance.intervalMode       = [defaults boolForKey:INTERVAL_MODE];
+        instance.pro                = [defaults boolForKey:PRO_ACCOUNT];
+        instance.isTouchIDEnabled   = [defaults boolForKey:TOUCH_ID];
         [instance loadDefaultValues];
     });
     
@@ -140,7 +143,8 @@ static NSString *const NOTIFICATION_SETTINGS=@"notification_settings";
     [defaults setBool:[self camouflageMode] forKey:CAMOUFLAGE_MODE];
     [defaults setBool:[self intervalMode] forKey:INTERVAL_MODE];
     [defaults setBool:[self isNotificationSettingsEnabled] forKey:NOTIFICATION_SETTINGS];
-	[defaults synchronize]; // this method is optional
+    [defaults setBool:[self isTouchIDEnabled] forKey:TOUCH_ID];
+    [defaults synchronize]; // this method is optional
 }
 
 -(void)resetValues
@@ -163,7 +167,8 @@ static NSString *const NOTIFICATION_SETTINGS=@"notification_settings";
     [defaults removeObjectForKey:CAMOUFLAGE_MODE];
     [defaults removeObjectForKey:INTERVAL_MODE];
     [defaults removeObjectForKey:NOTIFICATION_SETTINGS];
-	[defaults synchronize]; // this method is optional
+    [defaults removeObjectForKey:TOUCH_ID];
+    [defaults synchronize]; // this method is optional
     
     [[PreyConfig instance] setEmail:nil];
     [[PreyConfig instance] setAlreadyRegistered:NO];

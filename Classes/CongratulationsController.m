@@ -14,6 +14,8 @@
 #import "LoginController.h"
 #import "PhotoController.h"
 #import "Constants.h"
+#import <LocalAuthentication/LocalAuthentication.h>
+#import "PreyConfig.h"
 
 @implementation CongratulationsController
 
@@ -78,6 +80,9 @@
         
         // Authorization Camera
         [PhotoController instance];
+        
+        // Check TouchID
+        [self checkTouchID];
     }
     else
     {
@@ -86,6 +91,29 @@
     }
     
 	[super viewDidLoad];
+}
+
+- (void)checkTouchID
+{
+    LAContext   *context  = [[LAContext alloc] init];
+    NSError     *errorCxt = nil;
+    
+    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&errorCxt])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
+                                                        message:NSLocalizedString(@"Would you like to use Touch ID to access the Prey settings?",nil)
+                                                       delegate:self
+                                              cancelButtonTitle:NSLocalizedString(@"Cancel",nil)
+                                              otherButtonTitles:NSLocalizedString(@"OK",nil),nil];
+        [alert show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [PreyConfig instance].isTouchIDEnabled = YES;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

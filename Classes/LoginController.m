@@ -156,7 +156,7 @@
 {
     [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width, 0) animated:YES];
     
-    if (IS_OS_8_OR_LATER)
+    if ( (IS_OS_8_OR_LATER) && ([PreyConfig instance].isTouchIDEnabled) )
         [self loginWithTouchID];
 }
 
@@ -172,7 +172,11 @@
                           reply:^(BOOL success, NSError *error) {
                               
                               if (success)
-                                  [self showPreferencesController];
+                              {
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      [self showPreferencesController];
+                                  });
+                              }
                                   
                               else if (error.code != kLAErrorUserCancel)
                               {

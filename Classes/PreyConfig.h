@@ -27,6 +27,7 @@
     BOOL camouflageMode;
     BOOL intervalMode;
     BOOL isNotificationSettingsEnabled;
+    BOOL isTouchIDEnabled;
 }
 
 @property (nonatomic) NSString *checkUrl;
@@ -47,6 +48,7 @@
 @property (nonatomic) BOOL intervalMode;
 @property (nonatomic) BOOL alertOnReport;
 @property (nonatomic) BOOL isNotificationSettingsEnabled;
+@property (nonatomic) BOOL isTouchIDEnabled;
 @property (nonatomic) int delay;
 @property (getter = isPro) BOOL pro;
 

@@ -24,6 +24,7 @@
 #import "RecoveriesViewController.h"
 #import "UIDevice-Reachability.h"
 #import "OnboardingView.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 
 @interface UIActionSheet(DismissAlert)
 - (void)hide;
@@ -68,7 +69,7 @@
             return numberRow;
             break;
 		case 1:
-			return 2;
+            return [self isTouchIDAvailable] ? 3 : 2;
 			break;
 		case 2:
 			return 4;
@@ -193,6 +194,14 @@
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
                 cell.accessoryView = nil;
             }
+            else if ([indexPath row] == 2) {
+                UISwitch *touchIDMode = [[UISwitch alloc]init];
+                cell.textLabel.text = NSLocalizedString(@"Touch ID",nil);
+                [touchIDMode addTarget: self action: @selector(touchIDModeState:) forControlEvents:UIControlEventValueChanged];
+                [touchIDMode setOn:config.isTouchIDEnabled];
+                cell.accessoryView = touchIDMode;
+            }
+
 			break;
 		case 2:
             cell.detailTextLabel.text = @"";
@@ -337,6 +346,10 @@
     [[PreyConfig instance] setCamouflageMode:camouflageModeSwitch.on];
 }
 
+- (IBAction)touchIDModeState:(UISwitch*)touchIDModeSwitch{
+    [[PreyConfig instance] setIsTouchIDEnabled:touchIDModeSwitch.on];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	if (actionSheet.tag == 1)
@@ -390,6 +403,26 @@
          }
      }];
 }
+
+#pragma mark - 
+#pragma mark Touch ID
+
+- (BOOL)isTouchIDAvailable
+{
+    BOOL isAvailable = NO;
+    
+    if (IS_OS_8_OR_LATER)
+    {
+        LAContext   *context  = [[LAContext alloc] init];
+        NSError     *errorCxt = nil;
+        
+        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&errorCxt])
+            isAvailable = YES;
+    }
+    
+    return isAvailable;
+}
+
 
 #pragma mark -
 #pragma mark Events received

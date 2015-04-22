@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "GAITrackedViewController.h"
 
-@interface CongratulationsController : GAITrackedViewController {
+@interface CongratulationsController : GAITrackedViewController <UIAlertViewDelegate> {
 
 	UILabel *congratsTitle;
 	UILabel *congratsMsg;
