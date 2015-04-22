@@ -309,11 +309,10 @@
 		case 2:
             if (indexPath.row != 0) {
                 
-                PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-                HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
-                HUD.labelText = NSLocalizedString(@"Please wait",nil);
-                
                 UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+                HUD = [MBProgressHUD showHUDAddedTo:webView animated:YES];
+                HUD.labelText = NSLocalizedString(@"Please wait",nil);
+
                 UIViewController *moo = [[UIViewController alloc] init];
                 moo.view = webView;
                 NSURLRequest *req = nil;
@@ -589,14 +588,12 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     NSLog(@"Finish Load Web");
-    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-    [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+    [MBProgressHUD hideHUDForView:webView animated:NO];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     NSLog(@"Error Loading Web: %@",[error description]);
-    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-    [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+    [MBProgressHUD hideHUDForView:webView animated:NO];
 
     UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil)
                                                      message:NSLocalizedString(@"Error loading web, please try again.",nil)

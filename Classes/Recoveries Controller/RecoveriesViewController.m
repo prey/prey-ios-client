@@ -27,8 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-    HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
+    HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Please wait",nil);
 
     
@@ -88,14 +87,20 @@
             }
         }
     }
-    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-    [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+    [MBProgressHUD hideHUDForView:self.view animated:NO];
     [self loadTableView];
 }
 
 - (void) rssParser:(RSSParser *)parser errorOccurred:(NSError *)error
 {
+    NSLog(@"Error Loading Web: %@",[error description]);
+    [MBProgressHUD hideHUDForView:self.view animated:NO];
     
+    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil)
+                                                     message:NSLocalizedString(@"Error loading web, please try again.",nil)
+                                                    delegate:nil
+                                           cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+    [alerta show];
 }
 
 #pragma mark Table view data source
