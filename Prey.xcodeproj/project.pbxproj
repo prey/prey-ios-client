@@ -169,6 +169,7 @@
 		3B6003601A5DDAB300948F96 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; };
 		3B62F4451AE1C1770060C8D7 /* theft.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B62F4441AE1C1770060C8D7 /* theft.png */; };
 		3B656D791A0A47A1007C85E4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B656D6C1A0A47A1007C85E4 /* Localizable.strings */; };
+		3B65DD171AEAA892009235D2 /* DetachModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65DD161AEAA892009235D2 /* DetachModule.m */; };
 		3B65EE2A1805E358008EB7CF /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65EE291805E358008EB7CF /* MBProgressHUD.m */; };
 		3B675EF81891874500CE3D0D /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */; };
 		3B675EFA18918C6E00CE3D0D /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF918918C6E00CE3D0D /* Social.framework */; };
@@ -541,6 +542,8 @@
 		3B62F4441AE1C1770060C8D7 /* theft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = theft.png; sourceTree = "<group>"; };
 		3B656D6F1A0A47A1007C85E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3B656D701A0A47A1007C85E4 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3B65DD151AEAA892009235D2 /* DetachModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetachModule.h; sourceTree = "<group>"; };
+		3B65DD161AEAA892009235D2 /* DetachModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetachModule.m; sourceTree = "<group>"; };
 		3B65EE281805E358008EB7CF /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
 		3B65EE291805E358008EB7CF /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 		3B675EF11891874500CE3D0D /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
@@ -1054,6 +1057,8 @@
 				071323F3134632C900F7EFD8 /* AlertModule.m */,
 				3B71AB1317FA215D0091FE14 /* CamouflageModule.h */,
 				3B71AB1417FA215D0091FE14 /* CamouflageModule.m */,
+				3B65DD151AEAA892009235D2 /* DetachModule.h */,
+				3B65DD161AEAA892009235D2 /* DetachModule.m */,
 			);
 			name = "Action Modules";
 			sourceTree = "<group>";
@@ -1889,6 +1894,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B9EF01B18ECE2E60060FFAE /* AFURLConnectionOperation.m in Sources */,
+				3B65DD171AEAA892009235D2 /* DetachModule.m in Sources */,
 				3B9EF01718ECE2E60060FFAE /* AFImageRequestOperation.m in Sources */,
 				3B67DCC31976B549003D80D4 /* UserController.m in Sources */,
 				3B1BA22017271C8500200251 /* Location.m in Sources */,
