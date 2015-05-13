@@ -241,6 +241,9 @@
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*1, 0) animated:NO];
         [self.tipl setHidden:YES];
         [self configButtonsForCamouflage:YES];
+        
+        if ( (IS_OS_8_OR_LATER) && ([PreyConfig instance].isTouchIDEnabled) )
+            [self loginWithTouchID];
     }
     else
     {
