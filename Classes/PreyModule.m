@@ -26,6 +26,7 @@
 #import "Location.h"
 #import "CamouflageModule.h"
 #import "ContactsModule.h"
+#import "DetachModule.h"
 
 @implementation PreyModule
 
@@ -50,7 +51,10 @@
 	}
     if ([moduleName isEqualToString:@"camouflage"]) {
 		return [[CamouflageModule alloc] init];
-	}    
+	}
+    if ([moduleName isEqualToString:@"detach"]) {
+        return [[DetachModule alloc] init];
+    }
     if ([moduleName isEqualToString:@"report"])
     {
         NSInteger requestNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"requestNumber"] + 1;
