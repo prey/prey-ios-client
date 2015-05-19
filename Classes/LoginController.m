@@ -160,6 +160,15 @@
         [self loginWithTouchID];
 }
 
+- (void)runWebForgot
+{
+    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_FORGOT_PANEL];
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    if (controller)
+        [appDelegate.viewController presentViewController:controller animated:YES completion:NULL];
+}
+
 - (void)loginWithTouchID
 {
     LAContext   *context  = [[LAContext alloc] init];
@@ -257,6 +266,21 @@
     }
     
     [self.loginPassword addTarget:self action:@selector(checkLoginPassword:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    
+    // Add forgot password
+    UIButton *btnForgotPwd;
+    btnForgotPwd = [[UIButton alloc] initWithFrame:tipl.frame];
+    [btnForgotPwd setBackgroundColor:[UIColor clearColor]];
+    [btnForgotPwd.titleLabel setFont:tipl.font];
+    [btnForgotPwd setTitleColor:[UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1.f] forState:UIControlStateNormal];
+    [btnForgotPwd setTitleColor:[UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:.7] forState:UIControlStateHighlighted];
+    btnForgotPwd.titleLabel.textAlignment = UITextAlignmentCenter;
+    [btnForgotPwd setTitle:NSLocalizedString(@"Forgot your password?",nil) forState:UIControlStateNormal];
+    [btnForgotPwd addTarget:self action:@selector(runWebForgot) forControlEvents:UIControlEventTouchUpInside];
+    [scrollView addSubview:btnForgotPwd];
+
+    tipl.hidden = YES;
+
     
     [super viewDidLoad];
 }
