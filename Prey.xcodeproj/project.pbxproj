@@ -186,6 +186,7 @@
 		3B7FBB04191027250057EBC4 /* MKSKProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFC191027250057EBC4 /* MKSKProduct.m */; };
 		3B7FBB05191027250057EBC4 /* MKSKSubscriptionProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFE191027250057EBC4 /* MKSKSubscriptionProduct.m */; };
 		3B7FBB06191027250057EBC4 /* MKStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBB01191027250057EBC4 /* MKStoreManager.m */; };
+		3B860F411AFAC32000F60649 /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B860F401AFAC32000F60649 /* MKStoreKitConfigs.plist */; };
 		3B8AC75D19F9C96700464098 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC74319F9C96700464098 /* Default-568h@2x.png */; };
 		3B8AC75E19F9C96700464098 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC74419F9C96700464098 /* Default-Portrait~ipad.png */; };
 		3B8AC75F19F9C96700464098 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC74519F9C96700464098 /* Default@2x~iphone.png */; };
@@ -580,6 +581,7 @@
 		3B7FBAFF191027250057EBC4 /* MKStoreKitConfigs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreKitConfigs.h; sourceTree = "<group>"; };
 		3B7FBB00191027250057EBC4 /* MKStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreManager.h; sourceTree = "<group>"; };
 		3B7FBB01191027250057EBC4 /* MKStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStoreManager.m; sourceTree = "<group>"; };
+		3B860F401AFAC32000F60649 /* MKStoreKitConfigs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MKStoreKitConfigs.plist; sourceTree = "<group>"; };
 		3B8AC74319F9C96700464098 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3B8AC74419F9C96700464098 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		3B8AC74519F9C96700464098 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
@@ -1229,6 +1231,7 @@
 				3B7FBAFD191027250057EBC4 /* MKSKSubscriptionProduct.h */,
 				3B7FBAFE191027250057EBC4 /* MKSKSubscriptionProduct.m */,
 				3B7FBAFF191027250057EBC4 /* MKStoreKitConfigs.h */,
+				3B860F401AFAC32000F60649 /* MKStoreKitConfigs.plist */,
 				3B7FBB00191027250057EBC4 /* MKStoreManager.h */,
 				3B7FBB01191027250057EBC4 /* MKStoreManager.m */,
 			);
@@ -1761,6 +1764,7 @@
 				3B8AC76E19F9C96700464098 /* Icon-Small-50@2x.png in Resources */,
 				3B8AC79C19F9D0C800464098 /* camouflage-iPhone5 in Resources */,
 				3B45851A1AB785F400B07BC1 /* cameraIcon.png in Resources */,
+				3B860F411AFAC32000F60649 /* MKStoreKitConfigs.plist in Resources */,
 				3BA1816118CE7C4C00E7700B /* CongratulationsController-iPhone-568h.xib in Resources */,
 				3BAB3CF51A098877003BFCCE /* protected@2x.png in Resources */,
 				3B8AC76819F9C96700464098 /* Icon-76@2x.png in Resources */,
