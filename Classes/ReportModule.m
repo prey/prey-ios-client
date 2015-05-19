@@ -13,6 +13,8 @@
 #import "PreyAppDelegate.h"
 #import "LocationController.h"
 #import "PhotoController.h"
+#import "Wifi-Info.h"
+#import <SystemConfiguration/CaptiveNetwork.h>
 
 @implementation ReportModule
 
@@ -127,6 +129,9 @@
 - (void) send
 {
     PreyLogMessage(@"Report", 5, @"Attempting to send the report.");
+    
+    // Add Wifi Info
+    [[ReportModule instance] addWifiInfo];
     
     if (waitForLocation) {
         PreyLogMessage(@"Report", 5, @"Have to wait for a location before send the report.");
@@ -265,6 +270,23 @@
 
     waitForLocation = NO;
 	[self sendIfConditionsMatch];
+}
+
+- (void)addWifiInfo
+{
+    NSDictionary *wifiDevice        = [Wifi_Info getSSIDInfo];
+    NSMutableDictionary *wifiData   = [[NSMutableDictionary alloc] init];
+    
+    if (wifiDevice != nil)
+    {
+        [wifiData setValue:[wifiDevice objectForKey:(id)kCNNetworkInfoKeySSID]
+                    forKey:[NSString stringWithFormat:@"%@[%@]",@"active_access_point",@"ssid"]];
+        
+        [wifiData setValue:[wifiDevice objectForKey:(id)kCNNetworkInfoKeyBSSID]
+                    forKey:[NSString stringWithFormat:@"%@[%@]",@"active_access_point",@"mac_address"]];
+        
+        [reportData addEntriesFromDictionary:wifiData];
+    }
 }
 
 @end

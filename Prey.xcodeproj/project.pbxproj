@@ -349,6 +349,7 @@
 		3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
+		3BE034B21AEFDC08003E88B1 /* Wifi-Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE034B11AEFDC08003E88B1 /* Wifi-Info.m */; };
 		3BE24A761ABB915100464C1D /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A5E1ABB915100464C1D /* TFHpple.m */; };
 		3BE24A771ABB915100464C1D /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A601ABB915100464C1D /* TFHppleElement.m */; };
 		3BE24A781ABB915100464C1D /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A621ABB915100464C1D /* XPathQuery.m */; };
@@ -769,6 +770,8 @@
 		3BD74797170F7EFB00F44E2C /* LoggerClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
 		3BD74798170F7EFB00F44E2C /* LoggerClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = "NSLogger/Client Logger/iOS/LoggerClient.m"; sourceTree = "<group>"; };
 		3BD74799170F7EFB00F44E2C /* LoggerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
+		3BE034B01AEFDC08003E88B1 /* Wifi-Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Wifi-Info.h"; sourceTree = "<group>"; };
+		3BE034B11AEFDC08003E88B1 /* Wifi-Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Wifi-Info.m"; sourceTree = "<group>"; };
 		3BE24A5D1ABB915100464C1D /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		3BE24A5E1ABB915100464C1D /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		3BE24A5F1ABB915100464C1D /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -975,6 +978,8 @@
 				07E1ABFA16A5FE2700803187 /* PublicIp.m */,
 				07E1AC0016A600DD00803187 /* PrivateIp.h */,
 				07E1AC0116A600DE00803187 /* PrivateIp.m */,
+				3BE034B01AEFDC08003E88B1 /* Wifi-Info.h */,
+				3BE034B11AEFDC08003E88B1 /* Wifi-Info.m */,
 				07E1AC0616A601AA00803187 /* FirmwareInfo.h */,
 				07E1AC0716A601AB00803187 /* FirmwareInfo.m */,
 				075E6D2E16AEF2EF00F5DB91 /* BatteryStatus.h */,
@@ -1947,6 +1952,7 @@
 				3B8E69221AD43124002F489B /* PostViewController.m in Sources */,
 				07D4CBB81670EDE100DD1CB9 /* GeofencingModule.m in Sources */,
 				3BE24A781ABB915100464C1D /* XPathQuery.m in Sources */,
+				3BE034B21AEFDC08003E88B1 /* Wifi-Info.m in Sources */,
 				07D4CBBB1670FA2400DD1CB9 /* PreyGeofencingController.m in Sources */,
 				3BF0371F167847920086A7A7 /* ReviewRequest.m in Sources */,
 				3B7FBB03191027250057EBC4 /* SFHFKeychainUtils.m in Sources */,
