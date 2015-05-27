@@ -13,9 +13,6 @@
 #import "AFHTTPRequestOperation.h"
 #import "IphoneInformationHelper.h"
 
-#define EXP_SHORTHAND YES
-#import "Expecta.h"
-//#import "OCMock.h"
 
 #define newEmailTest    @"newUser@mail.com"
 #define emailTest       @"name@mail.com"
@@ -30,13 +27,11 @@
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-    [Expecta setAsynchronousTestTimeout:5.0];
+
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
 }
 
@@ -44,7 +39,8 @@
 {
     __block id blockError = nil;
     __block NSInteger statusCode;
-
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Prey Expecta"];
+    
     [PreyRestHttp setPushRegistrationId:5 withToken:@"t3stT0k3n"
                               withBlock:^(NSHTTPURLResponse *response, NSError *error)
     {
@@ -54,16 +50,22 @@
             XCTAssertEqual(statusCode, 200, @"status code was not 200; was %ld", (long)statusCode);
         }
         blockError = error;
+        XCTAssertNil(blockError,@"was an error: %@", [error description]);
+        [expectation fulfill];
     }];
     
-    expect(statusCode).will.equal(200);
-    expect(blockError).will.beNil();
+    [self waitForExpectationsWithTimeout:15.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Timeout Error: %@", error);
+        }
+    }];
 }
 
 - (void)testRestCreateDeviceKeyForDevice
 {
     __block id blockError;
     __block NSString *blockDevicekey;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Prey Expecta"];
     
     Device *newDevice = [[Device alloc] init];
 	IphoneInformationHelper *iphoneInfo = [IphoneInformationHelper instance];
@@ -90,19 +92,25 @@
           {
               blockDevicekey = deviceKey;
               blockError     = error;
+              XCTAssertNotNil(blockDevicekey,@"deviceKey is nil");
+              XCTAssertFalse( [deviceKey length] == 0,@"deviceKey is empty");
+              XCTAssertNil(blockError,@"was an error: %@", [error description]);
+              [expectation fulfill];
           }];
      }];
     
-    expect(blockDevicekey).willNot.beNil();
-    expect(blockDevicekey).willNot.beEmpty();
-    
-    expect(blockError).will.beNil();
+    [self waitForExpectationsWithTimeout:15.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Timeout Error: %@", error);
+        }
+    }];
 }
 
 - (void)testRestCreateApiKey
 {
     __block id blockError;
     __block NSString *blockApikey;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Prey Expecta"];
     
     User *newUser = [[User alloc] init];
     
@@ -120,20 +128,26 @@
      {
          blockApikey = apiKey;
          blockError  = error;
+         XCTAssertNotNil(blockApikey,@"deviceKey is nil");
+         XCTAssertFalse( [blockApikey length] == 0,@"deviceKey is empty");
+         XCTAssertNil(blockError,@"was an error: %@", [error description]);
+         [expectation fulfill];
      }
      ];
     
-    expect(blockApikey).willNot.beNil();
-    expect(blockApikey).willNot.beEmpty();
-    
-    expect(blockError).will.beNil();
+    [self waitForExpectationsWithTimeout:15.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Timeout Error: %@", error);
+        }
+    }];
 }
 
 - (void)testRestCheckTransactionInAppPurchase
 {
     __block id blockError = nil;
     __block NSInteger statusCode;
-
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Prey Expecta"];
+    
     NSString *receiptDataString = @"th1s4t3st";
     
     [PreyRestHttp checkTransaction:5 withString:receiptDataString
@@ -142,20 +156,26 @@
          if ([response isKindOfClass:[NSHTTPURLResponse class]])
          {
              statusCode = [(NSHTTPURLResponse *) response statusCode];
+             XCTAssertEqual(statusCode, 200, @"status code was not 200; was %ld", (long)statusCode);
          }
          
          blockError = error;
+         XCTAssertNil(blockError,@"was an error: %@", [error description]);
+         [expectation fulfill];
      }];
     
-    // Just check if endpoint is valid
-    expect(statusCode).will.equal(401); // should be 200
-    expect(blockError).willNot.beNil(); // should be nil
+    [self waitForExpectationsWithTimeout:15.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Timeout Error: %@", error);
+        }
+    }];
 }
 
 - (void)testRestGetCurrentControlPanelApiKey
 {
     __block id blockError;
     __block NSString *blockApikey;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Prey Expecta"];
     
     User *newUser = [[User alloc] init];
 
@@ -168,18 +188,26 @@
      {
          blockApikey = apiKey;
          blockError  = error;
+         
+         XCTAssertNotNil(blockApikey,@"deviceKey is nil");
+         XCTAssertFalse( [blockApikey length] == 0,@"deviceKey is empty");
+         XCTAssertNil(blockError,@"was an error: %@", [error description]);
+         [expectation fulfill];
+
      }];
 
-    expect(blockApikey).willNot.beNil();
-    expect(blockApikey).willNot.beEmpty();
-
-    expect(blockError).will.beNil();
+    [self waitForExpectationsWithTimeout:15.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Timeout Error: %@", error);
+        }
+    }];
 }
 
 - (void)testRestCheckStatusForDevice
 {
     __block id blockError = nil;
     __block NSInteger statusCode;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Prey Expecta"];
     
     [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
         
@@ -190,16 +218,22 @@
         }
         
         blockError = error;
+        XCTAssertNil(blockError,@"was an error: %@", [error description]);
+        [expectation fulfill];
     }];
     
-    expect(statusCode).will.equal(200);
-    expect(blockError).will.beNil();
+    [self waitForExpectationsWithTimeout:15.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Timeout Error: %@", error);
+        }
+    }];
 }
 
 - (void)testRestDeleteDevice
 {
     __block id blockError = nil;
     __block NSInteger statusCode;
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Prey Expecta"];
     
     [PreyRestHttp deleteDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error)
      {
@@ -210,10 +244,15 @@
          }
          
          blockError = error;
+         XCTAssertNil(blockError,@"was an error: %@", [error description]);
+         [expectation fulfill];
      }];
     
-    expect(statusCode).will.equal(200);
-    expect(blockError).will.beNil();
+    [self waitForExpectationsWithTimeout:15.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Timeout Error: %@", error);
+        }
+    }];
 }
 
 @end

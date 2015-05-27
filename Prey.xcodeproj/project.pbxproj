@@ -332,7 +332,6 @@
 		3BBAB00918B9085C00ADE493 /* LoginController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAB00818B9085C00ADE493 /* LoginController-iPhone-568h.xib */; };
 		3BBB678F196B2A070006A955 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */; };
 		3BBB6796196B2A580006A955 /* wwanconnect.c in Sources */ = {isa = PBXBuildFile; fileRef = 07E1AC0316A6014D00803187 /* wwanconnect.c */; };
-		3BBB6818196B4AE40006A955 /* libExpecta-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BBB6815196B4AE40006A955 /* libExpecta-iOS.a */; };
 		3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
@@ -558,44 +557,6 @@
 		3B7B0C8F17171CAD002B6E2D /* RemainingStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemainingStorage.m; sourceTree = "<group>"; };
 		3B7C148A1909506E0080C606 /* PhotoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoController.h; sourceTree = "<group>"; };
 		3B7C148B1909506E0080C606 /* PhotoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoController.m; sourceTree = "<group>"; };
-		3B7DB1C91B0D3CD600BF6F88 /* EXPBackwardCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPBackwardCompatibility.h; path = "Classes/Expecta/build/Release-iphoneos/EXPBackwardCompatibility.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1CA1B0D3CD600BF6F88 /* EXPBlockDefinedMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPBlockDefinedMatcher.h; path = "Classes/Expecta/build/Release-iphoneos/EXPBlockDefinedMatcher.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1CB1B0D3CD600BF6F88 /* EXPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPDefines.h; path = "Classes/Expecta/build/Release-iphoneos/EXPDefines.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1CC1B0D3CD600BF6F88 /* EXPDoubleTuple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPDoubleTuple.h; path = "Classes/Expecta/build/Release-iphoneos/EXPDoubleTuple.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1CD1B0D3CD600BF6F88 /* Expecta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Expecta.h; path = "Classes/Expecta/build/Release-iphoneos/Expecta.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1CE1B0D3CD600BF6F88 /* ExpectaSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExpectaSupport.h; path = "Classes/Expecta/build/Release-iphoneos/ExpectaSupport.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1CF1B0D3CD600BF6F88 /* EXPExpect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPExpect.h; path = "Classes/Expecta/build/Release-iphoneos/EXPExpect.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1D01B0D3CD600BF6F88 /* EXPFloatTuple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPFloatTuple.h; path = "Classes/Expecta/build/Release-iphoneos/EXPFloatTuple.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1D11B0D3CD600BF6F88 /* EXPMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPMatcher.h; path = "Classes/Expecta/build/Release-iphoneos/EXPMatcher.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1D21B0D3CD600BF6F88 /* EXPMatcherHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPMatcherHelpers.h; path = "Classes/Expecta/build/Release-iphoneos/EXPMatcherHelpers.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1D31B0D3CD600BF6F88 /* EXPMatchers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPMatchers.h; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1D41B0D3CD600BF6F88 /* EXPMatchers+beCloseTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beCloseTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beCloseTo.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1D51B0D3CD600BF6F88 /* EXPMatchers+beFalsy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beFalsy.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beFalsy.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1D61B0D3CD600BF6F88 /* EXPMatchers+beginWith.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beginWith.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beginWith.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1D71B0D3CD600BF6F88 /* EXPMatchers+beGreaterThan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beGreaterThan.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beGreaterThan.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1D81B0D3CD600BF6F88 /* EXPMatchers+beGreaterThanOrEqualTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beGreaterThanOrEqualTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beGreaterThanOrEqualTo.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1D91B0D3CD600BF6F88 /* EXPMatchers+beIdenticalTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beIdenticalTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beIdenticalTo.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1DA1B0D3CD600BF6F88 /* EXPMatchers+beInstanceOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beInstanceOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beInstanceOf.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1DB1B0D3CD600BF6F88 /* EXPMatchers+beInTheRangeOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beInTheRangeOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beInTheRangeOf.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1DC1B0D3CD600BF6F88 /* EXPMatchers+beKindOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beKindOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beKindOf.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1DD1B0D3CD600BF6F88 /* EXPMatchers+beLessThan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beLessThan.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beLessThan.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1DE1B0D3CD600BF6F88 /* EXPMatchers+beLessThanOrEqualTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beLessThanOrEqualTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beLessThanOrEqualTo.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1DF1B0D3CD600BF6F88 /* EXPMatchers+beNil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beNil.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beNil.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1E01B0D3CD600BF6F88 /* EXPMatchers+beSubclassOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beSubclassOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beSubclassOf.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1E11B0D3CD600BF6F88 /* EXPMatchers+beSupersetOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beSupersetOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beSupersetOf.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1E21B0D3CD600BF6F88 /* EXPMatchers+beTruthy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beTruthy.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+beTruthy.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1E31B0D3CD600BF6F88 /* EXPMatchers+conformTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+conformTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+conformTo.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1E41B0D3CD600BF6F88 /* EXPMatchers+contain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+contain.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+contain.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1E51B0D3CD600BF6F88 /* EXPMatchers+endWith.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+endWith.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+endWith.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1E61B0D3CD600BF6F88 /* EXPMatchers+equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+equal.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+equal.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1E71B0D3CD600BF6F88 /* EXPMatchers+haveCountOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+haveCountOf.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+haveCountOf.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1E81B0D3CD600BF6F88 /* EXPMatchers+notify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+notify.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+notify.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1E91B0D3CD600BF6F88 /* EXPMatchers+raise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+raise.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+raise.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1EA1B0D3CD600BF6F88 /* EXPMatchers+raiseWithReason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+raiseWithReason.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+raiseWithReason.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1EB1B0D3CD600BF6F88 /* EXPMatchers+respondTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+respondTo.h"; path = "Classes/Expecta/build/Release-iphoneos/EXPMatchers+respondTo.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1EC1B0D3CD600BF6F88 /* EXPUnsupportedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPUnsupportedObject.h; path = "Classes/Expecta/build/Release-iphoneos/EXPUnsupportedObject.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1ED1B0D3CD600BF6F88 /* NSObject+Expecta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Expecta.h"; path = "Classes/Expecta/build/Release-iphoneos/NSObject+Expecta.h"; sourceTree = SOURCE_ROOT; };
-		3B7DB1EE1B0D3CD600BF6F88 /* NSValue+Expecta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSValue+Expecta.h"; path = "Classes/Expecta/build/Release-iphoneos/NSValue+Expecta.h"; sourceTree = SOURCE_ROOT; };
 		3B7FBAF7191027250057EBC4 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
 		3B7FBAF8191027250057EBC4 /* NSData+MKBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MKBase64.m"; sourceTree = "<group>"; };
 		3B7FBAF9191027250057EBC4 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
@@ -717,7 +678,6 @@
 		3BAE4E4B190AB96F0093ECA2 /* GrettingsProViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrettingsProViewController.m; sourceTree = "<group>"; };
 		3BBAB00418B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPhone-568h.xib"; path = "Classes/WelcomeController-iPhone-568h.xib"; sourceTree = "<group>"; };
 		3BBAB00818B9085C00ADE493 /* LoginController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPhone-568h.xib"; path = "Classes/LoginController-iPhone-568h.xib"; sourceTree = "<group>"; };
-		3BBB6815196B4AE40006A955 /* libExpecta-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libExpecta-iOS.a"; path = "Classes/Expecta/build/Release-iphoneos/libExpecta-iOS.a"; sourceTree = SOURCE_ROOT; };
 		3BC8A0A0193F7751000408BA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		3BD482E31678CAE300F25DC8 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewController.h; path = Classes/UIWebViewController.h; sourceTree = "<group>"; };
 		3BD482E41678CAE300F25DC8 /* UIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewController.m; path = Classes/UIWebViewController.m; sourceTree = "<group>"; };
@@ -826,7 +786,6 @@
 				3B9086971966FDC50015BB45 /* MapKit.framework in Frameworks */,
 				3B9086961966FD8C0015BB45 /* CoreLocation.framework in Frameworks */,
 				3B90867F1966F6060015BB45 /* XCTest.framework in Frameworks */,
-				3BBB6818196B4AE40006A955 /* libExpecta-iOS.a in Frameworks */,
 				3B9086811966F6060015BB45 /* UIKit.framework in Frameworks */,
 				3B9086801966F6060015BB45 /* Foundation.framework in Frameworks */,
 			);
@@ -1180,53 +1139,6 @@
 			path = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		3B7DB1461B0CEC8E00BF6F88 /* Expecta */ = {
-			isa = PBXGroup;
-			children = (
-				3B7DB1C91B0D3CD600BF6F88 /* EXPBackwardCompatibility.h */,
-				3B7DB1CA1B0D3CD600BF6F88 /* EXPBlockDefinedMatcher.h */,
-				3B7DB1CB1B0D3CD600BF6F88 /* EXPDefines.h */,
-				3B7DB1CC1B0D3CD600BF6F88 /* EXPDoubleTuple.h */,
-				3B7DB1CD1B0D3CD600BF6F88 /* Expecta.h */,
-				3B7DB1CE1B0D3CD600BF6F88 /* ExpectaSupport.h */,
-				3B7DB1CF1B0D3CD600BF6F88 /* EXPExpect.h */,
-				3B7DB1D01B0D3CD600BF6F88 /* EXPFloatTuple.h */,
-				3B7DB1D11B0D3CD600BF6F88 /* EXPMatcher.h */,
-				3B7DB1D21B0D3CD600BF6F88 /* EXPMatcherHelpers.h */,
-				3B7DB1D31B0D3CD600BF6F88 /* EXPMatchers.h */,
-				3B7DB1D41B0D3CD600BF6F88 /* EXPMatchers+beCloseTo.h */,
-				3B7DB1D51B0D3CD600BF6F88 /* EXPMatchers+beFalsy.h */,
-				3B7DB1D61B0D3CD600BF6F88 /* EXPMatchers+beginWith.h */,
-				3B7DB1D71B0D3CD600BF6F88 /* EXPMatchers+beGreaterThan.h */,
-				3B7DB1D81B0D3CD600BF6F88 /* EXPMatchers+beGreaterThanOrEqualTo.h */,
-				3B7DB1D91B0D3CD600BF6F88 /* EXPMatchers+beIdenticalTo.h */,
-				3B7DB1DA1B0D3CD600BF6F88 /* EXPMatchers+beInstanceOf.h */,
-				3B7DB1DB1B0D3CD600BF6F88 /* EXPMatchers+beInTheRangeOf.h */,
-				3B7DB1DC1B0D3CD600BF6F88 /* EXPMatchers+beKindOf.h */,
-				3B7DB1DD1B0D3CD600BF6F88 /* EXPMatchers+beLessThan.h */,
-				3B7DB1DE1B0D3CD600BF6F88 /* EXPMatchers+beLessThanOrEqualTo.h */,
-				3B7DB1DF1B0D3CD600BF6F88 /* EXPMatchers+beNil.h */,
-				3B7DB1E01B0D3CD600BF6F88 /* EXPMatchers+beSubclassOf.h */,
-				3B7DB1E11B0D3CD600BF6F88 /* EXPMatchers+beSupersetOf.h */,
-				3B7DB1E21B0D3CD600BF6F88 /* EXPMatchers+beTruthy.h */,
-				3B7DB1E31B0D3CD600BF6F88 /* EXPMatchers+conformTo.h */,
-				3B7DB1E41B0D3CD600BF6F88 /* EXPMatchers+contain.h */,
-				3B7DB1E51B0D3CD600BF6F88 /* EXPMatchers+endWith.h */,
-				3B7DB1E61B0D3CD600BF6F88 /* EXPMatchers+equal.h */,
-				3B7DB1E71B0D3CD600BF6F88 /* EXPMatchers+haveCountOf.h */,
-				3B7DB1E81B0D3CD600BF6F88 /* EXPMatchers+notify.h */,
-				3B7DB1E91B0D3CD600BF6F88 /* EXPMatchers+raise.h */,
-				3B7DB1EA1B0D3CD600BF6F88 /* EXPMatchers+raiseWithReason.h */,
-				3B7DB1EB1B0D3CD600BF6F88 /* EXPMatchers+respondTo.h */,
-				3B7DB1EC1B0D3CD600BF6F88 /* EXPUnsupportedObject.h */,
-				3B7DB1ED1B0D3CD600BF6F88 /* NSObject+Expecta.h */,
-				3B7DB1EE1B0D3CD600BF6F88 /* NSValue+Expecta.h */,
-				3BBB6815196B4AE40006A955 /* libExpecta-iOS.a */,
-			);
-			name = Expecta;
-			path = Classes/Expecta/Expecta;
-			sourceTree = SOURCE_ROOT;
-		};
 		3B7FBAF5191027250057EBC4 /* MKStore */ = {
 			isa = PBXGroup;
 			children = (
@@ -1311,7 +1223,6 @@
 		3B9086821966F6060015BB45 /* PreyTests */ = {
 			isa = PBXGroup;
 			children = (
-				3B7DB1461B0CEC8E00BF6F88 /* Expecta */,
 				3B9086881966F6070015BB45 /* PreyRestTests.m */,
 				3B9086831966F6060015BB45 /* Supporting Files */,
 			);
@@ -2067,7 +1978,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
-					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
 					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
@@ -2101,7 +2011,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
-					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
 					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
 				);
 				ONLY_ACTIVE_ARCH = NO;
@@ -2135,7 +2044,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
-					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
 					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
@@ -2201,9 +2109,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
-					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
-					"$(PROJECT_DIR)/Classes/Expecta/build/Release-iphoneos",
-					"$(PROJECT_DIR)/Classes/Expecta/",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -2267,9 +2172,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
-					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
-					"$(PROJECT_DIR)/Classes/Expecta/build/Release-iphoneos",
-					"$(PROJECT_DIR)/Classes/Expecta/",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -2332,9 +2234,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Classes/GoogleAnalytics",
-					"$(PROJECT_DIR)/Classes/Expecta/build/Release",
-					"$(PROJECT_DIR)/Classes/Expecta/build/Release-iphoneos",
-					"$(PROJECT_DIR)/Classes/Expecta/",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
