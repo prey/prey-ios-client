@@ -29,7 +29,7 @@ static NSString * const KeySessionCountSinceLastAsked = @"ReviewRequestSessionCo
 	{
 	case 0: // remind me later
 	{
-		const double nextTime = CFAbsoluteTimeGetCurrent() + 60*60*23; // check again in 23 hours
+		const double nextTime = CFAbsoluteTimeGetCurrent() + 60*60*23*30; // check again in 23 hours
 		[defaults setDouble:nextTime forKey:KeyNextTimeToAsk];
 		break;
 	}
