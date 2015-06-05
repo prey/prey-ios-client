@@ -487,12 +487,16 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+    
     if (IS_OS_7_OR_LATER)
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+    
     if (IS_OS_7_OR_LATER)
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
 }
@@ -518,56 +522,52 @@
 
 - (BOOL)isSocialFrameworkAvailable
 {
-    if([SLComposeViewController class])
-        return YES;
-    else
-        return NO;
+    return ([SLComposeViewController class]) ? YES : NO;
 }
 
 - (void)postToSocialFramework:(NSString *)socialNetwork
 {
     BOOL isAvailable = [SLComposeViewController isAvailableForServiceType:socialNetwork];
-    if (isAvailable)
+    SLComposeViewController *composeVC = [SLComposeViewController composeViewControllerForServiceType:socialNetwork];
+    
+    if ( (isAvailable) && (composeVC) )
     {
-        SLComposeViewController *composeVC = [SLComposeViewController composeViewControllerForServiceType:socialNetwork];
-        if (composeVC)
+        SLComposeViewControllerCompletionHandler myBlock = ^(SLComposeViewControllerResult result)
         {
-            SLComposeViewControllerCompletionHandler myBlock = ^(SLComposeViewControllerResult result)
-            {
-                if (result == SLComposeViewControllerResultCancelled)
-                    NSLog(@"Cancelled");
-                else
-                    [self displayErrorAlert:NSLocalizedString(@"Thanks, you have made the world a better and safer place.", nil)
-                                      title:NSLocalizedString(@"Message", nil)];
-                
-                [composeVC dismissViewControllerAnimated:YES completion:Nil];
-            };
-            
-            composeVC.completionHandler = myBlock;
-            
-            int rnd = 1 + arc4random() % 5;
-            NSString *textToShare;
-            NSString *urlString;
-            NSString *socialMedia   = ([socialNetwork isEqualToString:SLServiceTypeFacebook]) ? @"facebook" : @"twitter";
-            NSString *language      = [[[NSBundle mainBundle] preferredLocalizations] objectAtIndex:0];
-            
-            if ([language isEqualToString:@"es"])
-            {
-                textToShare = [NSString stringWithFormat:textsToShareArrayES[rnd-1],[UIDevice currentDevice].model];
-                urlString   = [NSString stringWithFormat:@"https://preyproject.com/?utm_source=iOS-social-share&utm_medium=%@&utm_campaign=es-message%d",socialMedia,rnd];
-            }
+            if (result == SLComposeViewControllerResultCancelled)
+                NSLog(@"Cancelled");
             else
-            {
-                textToShare = [NSString stringWithFormat:textsToShareArrayEN[rnd-1],[UIDevice currentDevice].model];
-                urlString   = [NSString stringWithFormat:@"https://preyproject.com/?utm_source=iOS-social-share&utm_medium=%@&utm_campaign=en-message%d",socialMedia,rnd];
-            }
+                [self displayErrorAlert:NSLocalizedString(@"Thanks, you have made the world a better and safer place.", nil)
+                                  title:NSLocalizedString(@"Message", nil)];
             
-            
-            [composeVC setInitialText:textToShare];
-            [composeVC addURL:[NSURL URLWithString:urlString]];
-            
-            [self presentViewController: composeVC animated: YES completion: nil];
+            [composeVC dismissViewControllerAnimated:YES completion:Nil];
+        };
+        
+        composeVC.completionHandler = myBlock;
+        
+        int rnd = 1 + arc4random() % 5;
+        NSString *textToShare;
+        NSString *urlString;
+        NSString *socialMedia   = ([socialNetwork isEqualToString:SLServiceTypeFacebook]) ? @"facebook" : @"twitter";
+        NSString *language      = [[[NSBundle mainBundle] preferredLocalizations] objectAtIndex:0];
+        
+        if ([language isEqualToString:@"es"])
+        {
+            textToShare = [NSString stringWithFormat:textsToShareArrayES[rnd-1],[UIDevice currentDevice].model];
+            urlString   = [NSString stringWithFormat:@"https://preyproject.com/?utm_source=iOS-social-share&utm_medium=%@&utm_campaign=es-message%d",socialMedia,rnd];
         }
+        else
+        {
+            textToShare = [NSString stringWithFormat:textsToShareArrayEN[rnd-1],[UIDevice currentDevice].model];
+            urlString   = [NSString stringWithFormat:@"https://preyproject.com/?utm_source=iOS-social-share&utm_medium=%@&utm_campaign=en-message%d",socialMedia,rnd];
+        }
+        
+        
+        [composeVC setInitialText:textToShare];
+        [composeVC addURL:[NSURL URLWithString:urlString]];
+        
+        [self presentViewController:composeVC animated:YES
+                         completion:nil];
     }
     else
         [self displayErrorAlert:NSLocalizedString(@"Is not available",nil) title:NSLocalizedString(@"Access Denied",nil)];

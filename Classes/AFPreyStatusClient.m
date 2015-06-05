@@ -39,14 +39,14 @@
 }
 
 -(NSString *)userAgent {
-    NSString *deviceName;
-    NSString *OSName;
+    //NSString *deviceName;
+    //NSString *OSName;
     NSString *OSVersion;
     //NSString *locale = [[NSLocale currentLocale] localeIdentifier];
     
     UIDevice *device = [UIDevice currentDevice];
-    deviceName = [device model];
-    OSName = [device systemName];
+    //deviceName = [device model];
+    //OSName = [device systemName];
     OSVersion = [device systemVersion];
     
     // Takes the form "My Application 1.0 (Macintosh; Mac OS X 10.5.7; en_GB)"

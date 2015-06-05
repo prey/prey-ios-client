@@ -321,6 +321,8 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+    
     BOOL isRegisteredNotifications = NO;
     
     if (IS_OS_8_OR_LATER)
