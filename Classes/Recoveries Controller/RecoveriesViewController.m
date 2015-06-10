@@ -31,7 +31,7 @@
     HUD.labelText = NSLocalizedString(@"Please wait",nil);
 
     
-    RSSParser *parser = [[RSSParser alloc] initWithUrl:@"https://preyproject.com/feed" synchronous:NO];
+    RSSParser *parser = [[RSSParser alloc] initWithUrl:@"https://preyproject.com/blog/cat/recoveries/feed" synchronous:NO];
     parser.delegate = self;
     [parser parse];
     

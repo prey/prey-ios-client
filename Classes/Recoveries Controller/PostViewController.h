@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "GAITrackedViewController.h"
 
-@interface PostViewController : GAITrackedViewController
+@interface PostViewController : GAITrackedViewController <UIWebViewDelegate>
 
-@property (nonatomic,strong) UILabel     *titlePost;
-@property (nonatomic,strong) UIImageView *imagePost;
-@property (nonatomic, strong) UIWebView  *contentView;
+@property (nonatomic,strong) UIScrollView *scrollView;
+@property (nonatomic,strong) UILabel      *titlePost;
+@property (nonatomic,strong) UIImageView  *imagePost;
+@property (nonatomic,strong) UIWebView   *contentView;
 
 @end
