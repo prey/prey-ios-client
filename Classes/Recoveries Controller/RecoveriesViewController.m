@@ -33,16 +33,20 @@
     
     RSSParser *parser = [[RSSParser alloc] initWithUrl:@"https://preyproject.com/blog/cat/recoveries/feed" synchronous:NO];
     parser.delegate = self;
-    [parser parse];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        [parser parse];
+    });
+    
     
     self.screenName = @"Recoveries";
     
     self.title = NSLocalizedString(@"Recoveries", nil);
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    [tableViewInfo reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self.navigationController setToolbarHidden:YES animated:NO];
+
+    if (tableViewInfo != nil) [tableViewInfo reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -201,8 +205,8 @@
                     }
                     else
                     {
-                        dispatch_queue_t bgQueue = dispatch_queue_create("Image queue", DISPATCH_QUEUE_SERIAL);
-                        dispatch_async(bgQueue, ^{
+                        dispatch_queue_t bgQueueImg = dispatch_queue_create("Img queue", DISPATCH_QUEUE_SERIAL);
+                        dispatch_async(bgQueueImg, ^{
                             NSData      *imgData    = [NSData dataWithContentsOfURL:[NSURL URLWithString:postStory.imageMainUrl]];
                             
                             if (imgData) {
