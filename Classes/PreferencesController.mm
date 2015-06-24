@@ -531,16 +531,19 @@
     SLComposeViewController *composeVC = [SLComposeViewController composeViewControllerForServiceType:socialNetwork];
     
     if ( (isAvailable) && (composeVC) )
-    {
+    {        
         SLComposeViewControllerCompletionHandler myBlock = ^(SLComposeViewControllerResult result)
         {
-            if (result == SLComposeViewControllerResultCancelled)
-                NSLog(@"Cancelled");
-            else
-                [self displayErrorAlert:NSLocalizedString(@"Thanks, you have made the world a better and safer place.", nil)
-                                  title:NSLocalizedString(@"Message", nil)];
-            
-            [composeVC dismissViewControllerAnimated:YES completion:Nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (result == SLComposeViewControllerResultCancelled)
+                    NSLog(@"Cancelled");
+                else
+                    [self displayErrorAlert:NSLocalizedString(@"Thanks, you have made the world a better and safer place.", nil)
+                                      title:NSLocalizedString(@"Message", nil)];
+                
+                [self dismissViewControllerAnimated:NO completion:Nil];
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
+            });
         };
         
         composeVC.completionHandler = myBlock;
@@ -566,11 +569,37 @@
         [composeVC setInitialText:textToShare];
         [composeVC addURL:[NSURL URLWithString:urlString]];
         
-        [self presentViewController:composeVC animated:YES
-                         completion:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            HUD.labelText = NSLocalizedString(@"Please wait",nil);
+            
+            [self presentViewController:composeVC animated:YES completion:^{[self dismissHUDview:socialNetwork];}];
+        });
     }
     else
         [self displayErrorAlert:NSLocalizedString(@"Is not available",nil) title:NSLocalizedString(@"Access Denied",nil)];
+}
+
+- (void)dismissHUDview:(NSString*)socialNetwork
+{
+    static int fbLoad = 0;
+    static int twLoad = 0;
+    int delay = 5;
+    
+    if ([socialNetwork isEqualToString:SLServiceTypeFacebook])
+    {
+        fbLoad++;
+        delay = (fbLoad > 3) ? 0 : 5;
+    }
+    else
+    {
+        twLoad++;
+        delay = (twLoad > 3) ? 0 : 5;
+    }
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+    });
 }
 
 - (void)displayErrorAlert: (NSString *)alertMessage title:(NSString*)titleMessage
