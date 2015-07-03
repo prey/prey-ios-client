@@ -554,105 +554,25 @@ static MKStoreManager* _sharedStoreManager;
 #endif
 
 #pragma mark In-App purchases callbacks
-// In most cases you don't have to touch these methods
--(void) provideContent: (NSString*) productIdentifier
-            forReceipt:(NSData*) receiptData
-         hostedContent:(NSArray*) hostedContent
-{
-  MKSKSubscriptionProduct *subscriptionProduct = [self.subscriptionProducts objectForKey:productIdentifier];
-  if(subscriptionProduct)
-  {
-    // MAC In App Purchases can never be a subscription product (at least as on Dec 2011)
-    // so this can be safely ignored.
-    
-    subscriptionProduct.receipt = receiptData;
-    [subscriptionProduct verifyReceiptOnComplete:^(NSNumber* isActive)
-     {
-       [[NSNotificationCenter defaultCenter] postNotificationName:kSubscriptionsPurchasedNotification
-                                                           object:productIdentifier];
-       
-       [MKStoreManager setObject:receiptData forKey:productIdentifier];
-       if(self.onTransactionCompleted)
-         self.onTransactionCompleted(productIdentifier, receiptData, hostedContent);
-     }
-                                         onError:^(NSError* error)
-     {
-       NSLog(@"%@", [error description]);
-     }];
-  }
-  else
-  {
-    if(!receiptData) {
-      
-      // could be a mac in app receipt.
-      // read from receipts and verify here
-      receiptData = [self receiptFromBundle];
-      if(!receiptData) {
-        if(self.onTransactionCancelled)
-        {
-          self.onTransactionCancelled(productIdentifier);
-        }
-        else
-        {
-          NSLog(@"Receipt invalid");
-        }
-      }
-    }
-      
-      MKSKProduct *thisProduct = [[MKSKProduct alloc] initWithProductId:productIdentifier receiptData:receiptData];
-      
-      [thisProduct verifyReceiptOnCompletePrey:^
-       {
-           [self rememberPurchaseOfProduct:productIdentifier withReceipt:receiptData];
-           if(self.onTransactionCompleted)
-               self.onTransactionCompleted(productIdentifier, receiptData, hostedContent);
-       }
-                                   onError:^(NSError* error)
-       {
-           if(self.onTransactionCancelled)
-           {
-               self.onTransactionCancelled(productIdentifier);
-           }
-           else
-           {
-               NSLog(@"The receipt could not be verified");
-           }
-       }];
 
-/*
-    if(OWN_SERVER && SERVER_PRODUCT_MODEL)
-    {
-      // ping server and get response before serializing the product
-      // this is a blocking call to post receipt data to your server
-      // it should normally take a couple of seconds on a good 3G connection
-      MKSKProduct *thisProduct = [[MKSKProduct alloc] initWithProductId:productIdentifier receiptData:receiptData];
-      
-      [thisProduct verifyReceiptOnComplete:^
-       {
+- (void)provideContent:(NSString*)productIdentifier forReceipt:(NSData*)receiptData hostedContent:(NSArray*)hostedContent
+{
+    MKSKProduct *thisProduct = [[MKSKProduct alloc] initWithProductId:productIdentifier receiptData:receiptData];
+    
+    [thisProduct verifyReceiptOnCompletePrey:^
+     {
          [self rememberPurchaseOfProduct:productIdentifier withReceipt:receiptData];
+     
          if(self.onTransactionCompleted)
-           self.onTransactionCompleted(productIdentifier, receiptData, hostedContent);
-       }
-                                   onError:^(NSError* error)
-       {
-         if(self.onTransactionCancelled)
-         {
-           self.onTransactionCancelled(productIdentifier);
-         }
+             self.onTransactionCompleted(productIdentifier, receiptData, hostedContent);
+     }
+                                     onError:^(NSError* error)
+     {
+         if (self.onTransactionCancelled)
+             self.onTransactionCancelled(productIdentifier);
          else
-         {
-           NSLog(@"The receipt could not be verified");
-         }
-       }];
-    }
-    else
-    {
-      [self rememberPurchaseOfProduct:productIdentifier withReceipt:receiptData];
-      if(self.onTransactionCompleted)
-        self.onTransactionCompleted(productIdentifier, receiptData, hostedContent);
-    }
- */
-  }
+             NSLog(@"The receipt could not be verified");
+     }];
 }
 
 
