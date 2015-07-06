@@ -15,6 +15,7 @@
 #import "OnboardingView.h"
 #import "PreferencesController.h"
 #import "RecoveriesViewController.h"
+#import "Constants.h"
 
 @implementation DetachModule
 

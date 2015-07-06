@@ -147,6 +147,15 @@
     [[NSUserDefaults standardUserDefaults] setObject:version forKey:@"version_preference"];
 
     
+    // Preloads keyboard so there's no lag on initial keyboard appearance.
+    UITextField *lagFreeField = [[UITextField alloc] init];
+    lagFreeField.hidden = YES;
+    [self.window addSubview:lagFreeField];
+    [lagFreeField becomeFirstResponder];
+    [lagFreeField resignFirstResponder];
+    [lagFreeField removeFromSuperview];
+    
+    
     // Reset RequestNumber
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"requestNumber"];
     

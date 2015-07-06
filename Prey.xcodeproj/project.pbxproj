@@ -332,6 +332,10 @@
 		3BBAB00918B9085C00ADE493 /* LoginController-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BBAB00818B9085C00ADE493 /* LoginController-iPhone-568h.xib */; };
 		3BBB678F196B2A070006A955 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */; };
 		3BBB6796196B2A580006A955 /* wwanconnect.c in Sources */ = {isa = PBXBuildFile; fileRef = 07E1AC0316A6014D00803187 /* wwanconnect.c */; };
+		3BC582911B4AC8BB00636F6A /* OnboardingSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC582901B4AC8BB00636F6A /* OnboardingSubView.m */; };
+		3BC582921B4AC8BB00636F6A /* OnboardingSubView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC582901B4AC8BB00636F6A /* OnboardingSubView.m */; };
+		3BC582951B4ADD3A00636F6A /* DeviceAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC582941B4ADD3A00636F6A /* DeviceAuth.m */; };
+		3BC582961B4ADD3A00636F6A /* DeviceAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC582941B4ADD3A00636F6A /* DeviceAuth.m */; };
 		3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
@@ -678,6 +682,10 @@
 		3BAE4E4B190AB96F0093ECA2 /* GrettingsProViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrettingsProViewController.m; sourceTree = "<group>"; };
 		3BBAB00418B8F57F00ADE493 /* WelcomeController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomeController-iPhone-568h.xib"; path = "Classes/WelcomeController-iPhone-568h.xib"; sourceTree = "<group>"; };
 		3BBAB00818B9085C00ADE493 /* LoginController-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPhone-568h.xib"; path = "Classes/LoginController-iPhone-568h.xib"; sourceTree = "<group>"; };
+		3BC5828F1B4AC8BB00636F6A /* OnboardingSubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OnboardingSubView.h; path = Classes/OnboardingSubView.h; sourceTree = "<group>"; };
+		3BC582901B4AC8BB00636F6A /* OnboardingSubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OnboardingSubView.m; path = Classes/OnboardingSubView.m; sourceTree = "<group>"; };
+		3BC582931B4ADD3A00636F6A /* DeviceAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceAuth.h; path = Classes/DeviceAuth.h; sourceTree = "<group>"; };
+		3BC582941B4ADD3A00636F6A /* DeviceAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceAuth.m; path = Classes/DeviceAuth.m; sourceTree = "<group>"; };
 		3BC8A0A0193F7751000408BA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		3BD482E31678CAE300F25DC8 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewController.h; path = Classes/UIWebViewController.h; sourceTree = "<group>"; };
 		3BD482E41678CAE300F25DC8 /* UIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewController.m; path = Classes/UIWebViewController.m; sourceTree = "<group>"; };
@@ -1270,6 +1278,10 @@
 			children = (
 				3BA73C661AA519F5002080CB /* OnboardingView.h */,
 				3BA73C671AA519F5002080CB /* OnboardingView.m */,
+				3BC5828F1B4AC8BB00636F6A /* OnboardingSubView.h */,
+				3BC582901B4AC8BB00636F6A /* OnboardingSubView.m */,
+				3BC582931B4ADD3A00636F6A /* DeviceAuth.h */,
+				3BC582941B4ADD3A00636F6A /* DeviceAuth.m */,
 				3B39B55F1AB0D74B00B313AD /* OnboardingView-iPad.xib */,
 				3BA73C6A1AA51E85002080CB /* OnboardingView-iPhone.xib */,
 				3BA73C651AA519F5002080CB /* OnboardingView-iPhone-568h.xib */,
@@ -1744,9 +1756,11 @@
 				071324111346343C00F7EFD8 /* Device.m in Sources */,
 				3BE24A771ABB915100464C1D /* TFHppleElement.m in Sources */,
 				3B7FBB04191027250057EBC4 /* MKSKProduct.m in Sources */,
+				3BC582911B4AC8BB00636F6A /* OnboardingSubView.m in Sources */,
 				3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */,
 				071324151346346F00F7EFD8 /* IphoneInformationHelper.m in Sources */,
 				3BFF783F189C592500694625 /* DeviceMapController.m in Sources */,
+				3BC582951B4ADD3A00636F6A /* DeviceAuth.m in Sources */,
 				071324181346348400F7EFD8 /* FakeWebView.m in Sources */,
 				3BAE4E54190AB96F0093ECA2 /* GrettingsProViewController.m in Sources */,
 				07132424134634D900F7EFD8 /* OldUserController.m in Sources */,
@@ -1837,9 +1851,11 @@
 				3B3CCB6F196B28820000F56C /* FakeWebView.m in Sources */,
 				3B3CCB70196B28820000F56C /* GrettingsProViewController.m in Sources */,
 				3B3CCB72196B28820000F56C /* SignificantLocationController.m in Sources */,
+				3BC582921B4AC8BB00636F6A /* OnboardingSubView.m in Sources */,
 				3B3CCB73196B28820000F56C /* LocationController.m in Sources */,
 				3B3CCB74196B28820000F56C /* PreyGeofencingController.m in Sources */,
 				3B3CCB75196B28820000F56C /* PhotoController.m in Sources */,
+				3BC582961B4ADD3A00636F6A /* DeviceAuth.m in Sources */,
 				3B3CCB76196B28820000F56C /* AlertModuleController.m in Sources */,
 				3B3CCB77196B28820000F56C /* LoginController.m in Sources */,
 				3B7DB1B61B0D2A1100BF6F88 /* Wifi-Info.m in Sources */,

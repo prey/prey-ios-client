@@ -8,27 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import <AVFoundation/AVFoundation.h>
-#import "NewUserController.h"
-#import "OldUserController.h"
 
 @interface OnboardingView : UIViewController <UIScrollViewDelegate>
 
-@property (nonatomic, strong) NewUserController *nuController;
-@property (nonatomic, strong) OldUserController *ouController;
 @property (nonatomic) CGFloat widthScreen;
 @property (nonatomic) CGFloat heightScreen;
 @property (nonatomic) CGFloat posYiPhone;
 @property (nonatomic) CGFloat posYiPhoneBtn;
-@property (nonatomic) BOOL cameraAuth;
-@property (nonatomic) BOOL locationAuth;
-@property (nonatomic) BOOL notifyAuth;
 @property (nonatomic) CGRect tmpRect;
-@property (nonatomic) CLLocationManager *authLocation;
-@property (nonatomic, strong) UISwitch *cameraSwitch;
-@property (nonatomic, strong) UISwitch *locationSwitch;
-@property (nonatomic, strong) UISwitch *notifySwitch;
-
 
 - (void)initScrollViewAndPageControl;
 - (UIScrollView*)createScrollView:(int)numberPages tagID:(int)value;
