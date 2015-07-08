@@ -78,11 +78,6 @@
 		3B2A3BD017CE68B3000D5B9D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B2A3BCF17CE68B3000D5B9D /* Settings.bundle */; };
 		3B39B5601AB0D74B00B313AD /* OnboardingView-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B39B55F1AB0D74B00B313AD /* OnboardingView-iPad.xib */; };
 		3B3CCB5D196B28820000F56C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65EE291805E358008EB7CF /* MBProgressHUD.m */; };
-		3B3CCB5E196B28820000F56C /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAF8191027250057EBC4 /* NSData+MKBase64.m */; };
-		3B3CCB5F196B28820000F56C /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFA191027250057EBC4 /* SFHFKeychainUtils.m */; };
-		3B3CCB60196B28820000F56C /* MKSKProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFC191027250057EBC4 /* MKSKProduct.m */; };
-		3B3CCB61196B28820000F56C /* MKSKSubscriptionProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFE191027250057EBC4 /* MKSKSubscriptionProduct.m */; };
-		3B3CCB62196B28820000F56C /* MKStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBB01191027250057EBC4 /* MKStoreManager.m */; };
 		3B3CCB63196B28820000F56C /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00318ECE2E60060FFAE /* AFHTTPClient.m */; };
 		3B3CCB64196B28820000F56C /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00518ECE2E60060FFAE /* AFHTTPRequestOperation.m */; };
 		3B3CCB65196B28820000F56C /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B9EF00718ECE2E60060FFAE /* AFImageRequestOperation.m */; };
@@ -182,6 +177,12 @@
 		3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */; };
 		3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71AB1417FA215D0091FE14 /* CamouflageModule.m */; };
 		3B7C148C1909506E0080C606 /* PhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7C148B1909506E0080C606 /* PhotoController.m */; };
+		3B7D4FAD1B4D67A400F000B1 /* PreyStoreProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7D4FAC1B4D67A400F000B1 /* PreyStoreProduct.m */; };
+		3B7D4FAE1B4D67A400F000B1 /* PreyStoreProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7D4FAC1B4D67A400F000B1 /* PreyStoreProduct.m */; };
+		3B7D4FB41B4D972200F000B1 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7D4FB11B4D972200F000B1 /* NSData+MKBase64.m */; };
+		3B7D4FB51B4D972200F000B1 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7D4FB11B4D972200F000B1 /* NSData+MKBase64.m */; };
+		3B7D4FB61B4D972200F000B1 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7D4FB31B4D972200F000B1 /* SFHFKeychainUtils.m */; };
+		3B7D4FB71B4D972200F000B1 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7D4FB31B4D972200F000B1 /* SFHFKeychainUtils.m */; };
 		3B7DB1B61B0D2A1100BF6F88 /* Wifi-Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE034B11AEFDC08003E88B1 /* Wifi-Info.m */; };
 		3B7DB1B71B0D2A2B00BF6F88 /* DetachModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B65DD161AEAA892009235D2 /* DetachModule.m */; };
 		3B7DB1B81B0D2A3500BF6F88 /* OnboardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA73C671AA519F5002080CB /* OnboardingView.m */; };
@@ -201,12 +202,6 @@
 		3B7DB1C61B0D2BC400BF6F88 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE24A811ABB91A800464C1D /* libxml2.dylib */; };
 		3B7DB1C71B0D2C1900BF6F88 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA73C791AA53713002080CB /* QuartzCore.framework */; };
 		3B7DB1C81B0D381D00BF6F88 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; };
-		3B7FBB02191027250057EBC4 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAF8191027250057EBC4 /* NSData+MKBase64.m */; };
-		3B7FBB03191027250057EBC4 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFA191027250057EBC4 /* SFHFKeychainUtils.m */; };
-		3B7FBB04191027250057EBC4 /* MKSKProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFC191027250057EBC4 /* MKSKProduct.m */; };
-		3B7FBB05191027250057EBC4 /* MKSKSubscriptionProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBAFE191027250057EBC4 /* MKSKSubscriptionProduct.m */; };
-		3B7FBB06191027250057EBC4 /* MKStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7FBB01191027250057EBC4 /* MKStoreManager.m */; };
-		3B860F411AFAC32000F60649 /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B860F401AFAC32000F60649 /* MKStoreKitConfigs.plist */; };
 		3B8AC75D19F9C96700464098 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC74319F9C96700464098 /* Default-568h@2x.png */; };
 		3B8AC75E19F9C96700464098 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC74419F9C96700464098 /* Default-Portrait~ipad.png */; };
 		3B8AC75F19F9C96700464098 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC74519F9C96700464098 /* Default@2x~iphone.png */; };
@@ -285,6 +280,8 @@
 		3B9086AB1966FFFA0015BB45 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B675EF918918C6E00CE3D0D /* Social.framework */; };
 		3B9086AC1966FFFA0015BB45 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A73C0FD146ADD4F00AB32E9 /* StoreKit.framework */; };
 		3B9086AD1966FFFA0015BB45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0780561C12564F1C00E4CCE5 /* SystemConfiguration.framework */; };
+		3B99866D1B4C10C6009D0A00 /* PreyStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B99866C1B4C10C6009D0A00 /* PreyStoreManager.m */; };
+		3B99866E1B4C10C6009D0A00 /* PreyStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B99866C1B4C10C6009D0A00 /* PreyStoreManager.m */; };
 		3B9B4FED1AA675E8001D3027 /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B9B4FEC1AA675E8001D3027 /* libAdIdAccess.a */; };
 		3B9B4FEE1AA6767E001D3027 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD546D017FE10CF00ABFDBC /* AdSupport.framework */; };
 		3B9D47C4189C5D2A00E6F7A2 /* LoginController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B9D47C2189C5D2A00E6F7A2 /* LoginController-iPhone.xib */; };
@@ -561,18 +558,12 @@
 		3B7B0C8F17171CAD002B6E2D /* RemainingStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemainingStorage.m; sourceTree = "<group>"; };
 		3B7C148A1909506E0080C606 /* PhotoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoController.h; sourceTree = "<group>"; };
 		3B7C148B1909506E0080C606 /* PhotoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoController.m; sourceTree = "<group>"; };
-		3B7FBAF7191027250057EBC4 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
-		3B7FBAF8191027250057EBC4 /* NSData+MKBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MKBase64.m"; sourceTree = "<group>"; };
-		3B7FBAF9191027250057EBC4 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
-		3B7FBAFA191027250057EBC4 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
-		3B7FBAFB191027250057EBC4 /* MKSKProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSKProduct.h; sourceTree = "<group>"; };
-		3B7FBAFC191027250057EBC4 /* MKSKProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSKProduct.m; sourceTree = "<group>"; };
-		3B7FBAFD191027250057EBC4 /* MKSKSubscriptionProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSKSubscriptionProduct.h; sourceTree = "<group>"; };
-		3B7FBAFE191027250057EBC4 /* MKSKSubscriptionProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSKSubscriptionProduct.m; sourceTree = "<group>"; };
-		3B7FBAFF191027250057EBC4 /* MKStoreKitConfigs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreKitConfigs.h; sourceTree = "<group>"; };
-		3B7FBB00191027250057EBC4 /* MKStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreManager.h; sourceTree = "<group>"; };
-		3B7FBB01191027250057EBC4 /* MKStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStoreManager.m; sourceTree = "<group>"; };
-		3B860F401AFAC32000F60649 /* MKStoreKitConfigs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MKStoreKitConfigs.plist; sourceTree = "<group>"; };
+		3B7D4FAB1B4D67A400F000B1 /* PreyStoreProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyStoreProduct.h; path = PreyStore/PreyStoreProduct.h; sourceTree = "<group>"; };
+		3B7D4FAC1B4D67A400F000B1 /* PreyStoreProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyStoreProduct.m; path = PreyStore/PreyStoreProduct.m; sourceTree = "<group>"; };
+		3B7D4FB01B4D972200F000B1 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
+		3B7D4FB11B4D972200F000B1 /* NSData+MKBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MKBase64.m"; sourceTree = "<group>"; };
+		3B7D4FB21B4D972200F000B1 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		3B7D4FB31B4D972200F000B1 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		3B8AC74319F9C96700464098 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3B8AC74419F9C96700464098 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		3B8AC74519F9C96700464098 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
@@ -625,6 +616,9 @@
 		3B9086861966F6070015BB45 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3B9086881966F6070015BB45 /* PreyRestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreyRestTests.m; sourceTree = "<group>"; };
 		3B90868A1966F6070015BB45 /* PreyTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PreyTests-Prefix.pch"; sourceTree = "<group>"; };
+		3B99866B1B4C10C6009D0A00 /* PreyStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyStoreManager.h; path = PreyStore/PreyStoreManager.h; sourceTree = "<group>"; };
+		3B99866C1B4C10C6009D0A00 /* PreyStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyStoreManager.m; path = PreyStore/PreyStoreManager.m; sourceTree = "<group>"; };
+		3B9986701B4C11F2009D0A00 /* PreyStoreConfigs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyStoreConfigs.h; path = PreyStore/PreyStoreConfigs.h; sourceTree = "<group>"; };
 		3B9B4FEC1AA675E8001D3027 /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
 		3B9D47C2189C5D2A00E6F7A2 /* LoginController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPhone.xib"; path = "Classes/LoginController-iPhone.xib"; sourceTree = "<group>"; };
 		3B9EF00218ECE2E60060FFAE /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPClient.h; path = "AFNetworking-1.x/AFNetworking/AFHTTPClient.h"; sourceTree = "<group>"; };
@@ -1012,6 +1006,7 @@
 				07178F3B12675C2C007B290C /* Controllers */,
 				07805429125542EF00E4CCE5 /* Prey Utils */,
 				0780541E1255421800E4CCE5 /* Prey Http */,
+				3B99866F1B4C10D7009D0A00 /* PreyStore */,
 				07435EF51681021C00FBD54B /* Prey Modules */,
 				1D3623240D0F684500981E51 /* PreyAppDelegate.h */,
 				1D3623250D0F684500981E51 /* PreyAppDelegate.m */,
@@ -1147,31 +1142,16 @@
 			path = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		3B7FBAF5191027250057EBC4 /* MKStore */ = {
+		3B7D4FAF1B4D972200F000B1 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
-				3B7FBAF6191027250057EBC4 /* Externals */,
-				3B7FBAFB191027250057EBC4 /* MKSKProduct.h */,
-				3B7FBAFC191027250057EBC4 /* MKSKProduct.m */,
-				3B7FBAFD191027250057EBC4 /* MKSKSubscriptionProduct.h */,
-				3B7FBAFE191027250057EBC4 /* MKSKSubscriptionProduct.m */,
-				3B7FBAFF191027250057EBC4 /* MKStoreKitConfigs.h */,
-				3B860F401AFAC32000F60649 /* MKStoreKitConfigs.plist */,
-				3B7FBB00191027250057EBC4 /* MKStoreManager.h */,
-				3B7FBB01191027250057EBC4 /* MKStoreManager.m */,
+				3B7D4FB01B4D972200F000B1 /* NSData+MKBase64.h */,
+				3B7D4FB11B4D972200F000B1 /* NSData+MKBase64.m */,
+				3B7D4FB21B4D972200F000B1 /* SFHFKeychainUtils.h */,
+				3B7D4FB31B4D972200F000B1 /* SFHFKeychainUtils.m */,
 			);
-			path = MKStore;
-			sourceTree = "<group>";
-		};
-		3B7FBAF6191027250057EBC4 /* Externals */ = {
-			isa = PBXGroup;
-			children = (
-				3B7FBAF7191027250057EBC4 /* NSData+MKBase64.h */,
-				3B7FBAF8191027250057EBC4 /* NSData+MKBase64.m */,
-				3B7FBAF9191027250057EBC4 /* SFHFKeychainUtils.h */,
-				3B7FBAFA191027250057EBC4 /* SFHFKeychainUtils.m */,
-			);
-			path = Externals;
+			name = Externals;
+			path = PreyStore/Externals;
 			sourceTree = "<group>";
 		};
 		3B8AC78519F9D0C800464098 /* Images */ = {
@@ -1245,6 +1225,19 @@
 				3B90868A1966F6070015BB45 /* PreyTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3B99866F1B4C10D7009D0A00 /* PreyStore */ = {
+			isa = PBXGroup;
+			children = (
+				3B7D4FAF1B4D972200F000B1 /* Externals */,
+				3B99866B1B4C10C6009D0A00 /* PreyStoreManager.h */,
+				3B99866C1B4C10C6009D0A00 /* PreyStoreManager.m */,
+				3B7D4FAB1B4D67A400F000B1 /* PreyStoreProduct.h */,
+				3B7D4FAC1B4D67A400F000B1 /* PreyStoreProduct.m */,
+				3B9986701B4C11F2009D0A00 /* PreyStoreConfigs.h */,
+			);
+			name = PreyStore;
 			sourceTree = "<group>";
 		};
 		3B9EF00118ECE2860060FFAE /* AFNetworking-1.x */ = {
@@ -1340,7 +1333,6 @@
 			isa = PBXGroup;
 			children = (
 				3B1C2BB5191AE4DD00DFD677 /* MBProgressHUD */,
-				3B7FBAF5191027250057EBC4 /* MKStore */,
 				3B9EF00118ECE2860060FFAE /* AFNetworking-1.x */,
 				07E1ABFF16A5FF3A00803187 /* UIDevice */,
 				07CEDA9812E9DD77002B4EB5 /* NSLogger */,
@@ -1594,7 +1586,6 @@
 				3B8AC76E19F9C96700464098 /* Icon-Small-50@2x.png in Resources */,
 				3B8AC79C19F9D0C800464098 /* camouflage-iPhone5 in Resources */,
 				3B45851A1AB785F400B07BC1 /* cameraIcon.png in Resources */,
-				3B860F411AFAC32000F60649 /* MKStoreKitConfigs.plist in Resources */,
 				3BA1816118CE7C4C00E7700B /* CongratulationsController-iPhone-568h.xib in Resources */,
 				3BAB3CF51A098877003BFCCE /* protected@2x.png in Resources */,
 				3B8AC76819F9C96700464098 /* Icon-76@2x.png in Resources */,
@@ -1746,7 +1737,6 @@
 				071323F6134632C900F7EFD8 /* AlarmModule.m in Sources */,
 				071323F7134632C900F7EFD8 /* AlertModule.m in Sources */,
 				071323F8134632C900F7EFD8 /* AlertModuleController.m in Sources */,
-				3B7FBB05191027250057EBC4 /* MKSKSubscriptionProduct.m in Sources */,
 				3BE24A801ABB915100464C1D /* RecoveriesViewController.m in Sources */,
 				3B6D2E471A0AF4DD00DF1EE7 /* AppStoreViewController.m in Sources */,
 				3BE24A761ABB915100464C1D /* TFHpple.m in Sources */,
@@ -1755,7 +1745,7 @@
 				071324101346343C00F7EFD8 /* Constants.m in Sources */,
 				071324111346343C00F7EFD8 /* Device.m in Sources */,
 				3BE24A771ABB915100464C1D /* TFHppleElement.m in Sources */,
-				3B7FBB04191027250057EBC4 /* MKSKProduct.m in Sources */,
+				3B7D4FB41B4D972200F000B1 /* NSData+MKBase64.m in Sources */,
 				3BC582911B4AC8BB00636F6A /* OnboardingSubView.m in Sources */,
 				3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */,
 				071324151346346F00F7EFD8 /* IphoneInformationHelper.m in Sources */,
@@ -1764,6 +1754,7 @@
 				071324181346348400F7EFD8 /* FakeWebView.m in Sources */,
 				3BAE4E54190AB96F0093ECA2 /* GrettingsProViewController.m in Sources */,
 				07132424134634D900F7EFD8 /* OldUserController.m in Sources */,
+				3B7D4FAD1B4D67A400F000B1 /* PreyStoreProduct.m in Sources */,
 				07132427134634E600F7EFD8 /* NewUserController.m in Sources */,
 				0713242F1346350100F7EFD8 /* LocationController.m in Sources */,
 				3BE24A7A1ABB915100464C1D /* NSMutableString+RSSKit.m in Sources */,
@@ -1772,6 +1763,7 @@
 				0713243F1346357500F7EFD8 /* SignificantLocationController.m in Sources */,
 				071324421346358600F7EFD8 /* PreyModule.m in Sources */,
 				3B9EF01C18ECE2E60060FFAE /* AFXMLRequestOperation.m in Sources */,
+				3B99866D1B4C10C6009D0A00 /* PreyStoreManager.m in Sources */,
 				07132449134635A100F7EFD8 /* PreyConfig.m in Sources */,
 				3BE24A791ABB915100464C1D /* PostStory.m in Sources */,
 				0713244A134635A100F7EFD8 /* ReportModule.m in Sources */,
@@ -1780,9 +1772,7 @@
 				07132450134635C400F7EFD8 /* PreyRestHttp.m in Sources */,
 				3B9EF01618ECE2E60060FFAE /* AFHTTPRequestOperation.m in Sources */,
 				3B9EF01818ECE2E60060FFAE /* AFJSONRequestOperation.m in Sources */,
-				3B7FBB02191027250057EBC4 /* NSData+MKBase64.m in Sources */,
 				3B477ED918B2AA7B003A32CE /* PreyDeployment.m in Sources */,
-				3B7FBB06191027250057EBC4 /* MKStoreManager.m in Sources */,
 				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
 				3B9EF01D18ECE2E60060FFAE /* UIImageView+AFNetworking.m in Sources */,
 				3BE24A7C1ABB915100464C1D /* RSSCloudService.m in Sources */,
@@ -1792,8 +1782,8 @@
 				3BE034B21AEFDC08003E88B1 /* Wifi-Info.m in Sources */,
 				07D4CBBB1670FA2400DD1CB9 /* PreyGeofencingController.m in Sources */,
 				3BF0371F167847920086A7A7 /* ReviewRequest.m in Sources */,
-				3B7FBB03191027250057EBC4 /* SFHFKeychainUtils.m in Sources */,
 				3B7C148C1909506E0080C606 /* PhotoController.m in Sources */,
+				3B7D4FB61B4D972200F000B1 /* SFHFKeychainUtils.m in Sources */,
 				3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */,
 				3B65EE2A1805E358008EB7CF /* MBProgressHUD.m in Sources */,
 				07435EF41680FDA000FBD54B /* JsonConfigParser.m in Sources */,
@@ -1825,14 +1815,9 @@
 				3BBB6796196B2A580006A955 /* wwanconnect.c in Sources */,
 				3B3CCB5D196B28820000F56C /* MBProgressHUD.m in Sources */,
 				3B56DF1B197EB92300FE7218 /* UserController.m in Sources */,
-				3B3CCB5E196B28820000F56C /* NSData+MKBase64.m in Sources */,
-				3B3CCB5F196B28820000F56C /* SFHFKeychainUtils.m in Sources */,
 				3B7DB1BB1B0D2A5400BF6F88 /* PostStory.m in Sources */,
-				3B3CCB60196B28820000F56C /* MKSKProduct.m in Sources */,
 				3B7DB1BA1B0D2A5000BF6F88 /* PostViewController.m in Sources */,
 				3B7DB1BD1B0D2A5E00BF6F88 /* TFHppleElement.m in Sources */,
-				3B3CCB61196B28820000F56C /* MKSKSubscriptionProduct.m in Sources */,
-				3B3CCB62196B28820000F56C /* MKStoreManager.m in Sources */,
 				3B3CCB63196B28820000F56C /* AFHTTPClient.m in Sources */,
 				3B3CCB64196B28820000F56C /* AFHTTPRequestOperation.m in Sources */,
 				3B7DB1C21B0D2A7000BF6F88 /* RSSEntry.m in Sources */,
@@ -1853,12 +1838,14 @@
 				3B3CCB72196B28820000F56C /* SignificantLocationController.m in Sources */,
 				3BC582921B4AC8BB00636F6A /* OnboardingSubView.m in Sources */,
 				3B3CCB73196B28820000F56C /* LocationController.m in Sources */,
+				3B7D4FB51B4D972200F000B1 /* NSData+MKBase64.m in Sources */,
 				3B3CCB74196B28820000F56C /* PreyGeofencingController.m in Sources */,
 				3B3CCB75196B28820000F56C /* PhotoController.m in Sources */,
 				3BC582961B4ADD3A00636F6A /* DeviceAuth.m in Sources */,
 				3B3CCB76196B28820000F56C /* AlertModuleController.m in Sources */,
 				3B3CCB77196B28820000F56C /* LoginController.m in Sources */,
 				3B7DB1B61B0D2A1100BF6F88 /* Wifi-Info.m in Sources */,
+				3B7D4FAE1B4D67A400F000B1 /* PreyStoreProduct.m in Sources */,
 				3B3CCB79196B28820000F56C /* WelcomeController.m in Sources */,
 				3B3CCB7C196B28820000F56C /* DeviceMapController.m in Sources */,
 				3B3CCB7E196B28820000F56C /* PreferencesController.mm in Sources */,
@@ -1867,6 +1854,7 @@
 				3B7DB1B71B0D2A2B00BF6F88 /* DetachModule.m in Sources */,
 				3B3CCB81196B28820000F56C /* CongratulationsController.m in Sources */,
 				3B3CCB82196B28820000F56C /* ReviewRequest.m in Sources */,
+				3B99866E1B4C10C6009D0A00 /* PreyStoreManager.m in Sources */,
 				3B3CCB83196B28820000F56C /* UIWebViewController.m in Sources */,
 				3B7DB1C41B0D2A7600BF6F88 /* RSSParser.m in Sources */,
 				3B3CCB84196B28820000F56C /* PreyLogger.m in Sources */,
@@ -1889,6 +1877,7 @@
 				3B3CCB92196B28820000F56C /* ProcessorInfo.m in Sources */,
 				3B7DB1B91B0D2A4C00BF6F88 /* RecoveriesViewController.m in Sources */,
 				3B7DB1C51B0D2A8100BF6F88 /* AppStoreViewController.m in Sources */,
+				3B7D4FB71B4D972200F000B1 /* SFHFKeychainUtils.m in Sources */,
 				3B3CCB93196B28820000F56C /* Uptime.m in Sources */,
 				3B3CCB94196B28820000F56C /* RemainingStorage.m in Sources */,
 				3B3CCB95196B28820000F56C /* Location.m in Sources */,

@@ -7,7 +7,7 @@
 //
 
 #import "AppStoreViewController.h"
-#import "MKStoreManager.h"
+#import "PreyStoreManager.h"
 #import "GrettingsProViewController.h"
 #import "PreyConfig.h"
 #import "Constants.h"
@@ -41,9 +41,9 @@
     [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     
     
-    if ( [[MKStoreManager sharedManager].purchasableObjects count] == 1 )
+    if ( [[PreyStoreManager instance].purchasableObjects count] == 1 )
     {
-        SKProduct *productYear  = [[MKStoreManager sharedManager].purchasableObjects objectAtIndex:0];
+        SKProduct *productYear  = [[PreyStoreManager instance].purchasableObjects objectAtIndex:0];
 
         // Year Button
         [numberFormatter setLocale:productYear.priceLocale];
@@ -81,17 +81,17 @@
     // Dispose of any resources that can be recreated.
 }
 
--(IBAction)buySubscription:(id)sender
+- (IBAction)buySubscription:(id)sender
 {
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Please wait",nil);
     
-    if ( [[MKStoreManager sharedManager].purchasableObjects count] == 1 )
+    if ( [[PreyStoreManager instance].purchasableObjects count] == 1 )
     {
-        SKProduct *product = [[MKStoreManager sharedManager].purchasableObjects objectAtIndex:0];
+        SKProduct *product = [[PreyStoreManager instance].purchasableObjects objectAtIndex:0];
         
-        [[MKStoreManager sharedManager] buyFeature:product.productIdentifier
+        [[PreyStoreManager instance] buyFeature:product.productIdentifier
                                         onComplete:^(NSString* purchasedFeature,
                                                      NSData* purchasedReceipt,
                                                      NSArray* availableDownloads)

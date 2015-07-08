@@ -32,5 +32,6 @@
     @property (nonatomic) NSString *uuid;
 
 + (IphoneInformationHelper*)instance;
++ (NSString*)deviceId;
 
 @end

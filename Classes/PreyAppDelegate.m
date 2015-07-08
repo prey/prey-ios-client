@@ -19,7 +19,7 @@
 #import "ReportModule.h"
 #import "AlertModule.h"
 #import "GAI.h"
-#import "MKStoreManager.h"
+#import "PreyStoreManager.h"
 #import "OnboardingView.h"
 
 @implementation PreyAppDelegate
@@ -190,7 +190,7 @@
 
         // In-App Purchase Instance
         if (!config.isPro)
-            [MKStoreManager sharedManager];
+            [PreyStoreManager instance];
     }
     
     [self displayScreen];

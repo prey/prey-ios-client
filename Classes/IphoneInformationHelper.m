@@ -11,7 +11,6 @@
 #import "IphoneInformationHelper.h"
 #import "UIDevice-Hardware.h"
 #import <sys/utsname.h>
-#import "MKStore/MKSKProduct.h"
 #import "Constants.h"
 
 @implementation IphoneInformationHelper
@@ -39,12 +38,34 @@
         if (IS_OS_6_OR_LATER)
             instance.uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
         else
-            instance.uuid = [MKSKProduct deviceId];
+            instance.uuid = [IphoneInformationHelper deviceId];
 
     });
     
     return instance;
 }
+
++ (NSString*)deviceId
+{
+    NSString *uniqueID;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    id uuid = [defaults objectForKey:@"uniqueID"];
+    
+    if (uuid)
+        uniqueID = (NSString *)uuid;
+    else
+    {
+        CFUUIDRef cfUuid = CFUUIDCreate(NULL);
+        CFStringRef cfUuidString = CFUUIDCreateString(NULL, cfUuid);
+        CFRelease(cfUuid);
+        uniqueID = (__bridge NSString *)cfUuidString;
+        [defaults setObject:uniqueID forKey:@"uniqueID"];
+        CFRelease(cfUuidString);
+    }
+    
+    return uniqueID;
+}
+
 
 + (NSString *)deviceModel
 {
