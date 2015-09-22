@@ -6,8 +6,12 @@
 	url = git://github.com/fpillet/NSLogger.git
 [submodule "Classes/AFNetworking-1.x"]
 	path = Classes/AFNetworking-1.x
-	url = https://github.com/AFNetworking/AFNetworking
+url=https://github.com/jCalaU/AFNetworking
 	branch = 1.x
 [submodule "Classes/UIDevice-Extension"]
 	path = Classes/UIDevice-Extension
 	url = https://github.com/jCalaU/uidevice-extension
+[submodule "Classes/AFNetworking"]
+	path = Classes/AFNetworking
+	url = https://github.com/AFNetworking/AFNetworking
+	branch = master
