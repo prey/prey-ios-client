@@ -10,7 +10,7 @@
 #import "PreyRestHttp.h"
 #import "PreyConfig.h"
 #import "Constants.h"
-#import "AFHTTPRequestOperation.h"
+#import "PreyAFHTTPRequestOperation.h"
 #import "IphoneInformationHelper.h"
 
 

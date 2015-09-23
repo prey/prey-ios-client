@@ -10,7 +10,7 @@
 
 #import "PreyRestHttp.h"
 #import "ReportModule.h"
-#import "AFNetworking.h"
+#import "PreyAFNetworking.h"
 #import "AFPreyStatusClient.h"
 #import "PreyConfig.h"
 #import "Constants.h"
@@ -29,14 +29,14 @@
     
     [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingString:@"/subscriptions/receipt"]
                                      parameters:requestData
-                                        success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"subscriptions/receipt: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
          if (block)
              block(operation.response, nil);
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
      {
          if ( ([operation.response statusCode] == 503) && (reload > 0) )
          {
@@ -63,7 +63,7 @@
     
     [[AFPreyStatusClient sharedClient] getPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/profile.json"]
                                     parameters:nil
-                                       success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                       success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
@@ -77,7 +77,7 @@
              [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:user.apiKey password:@"x"];
          }
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
      {
          if ( ([operation.response statusCode] == 503) && (reload > 0) )
          {
@@ -123,7 +123,7 @@
     
     [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/signup.json"]
                                      parameters:requestData
-                                        success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"POST signup.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
@@ -135,7 +135,7 @@
          if (block)
              block(userKey, nil);
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
      {
          if ( ([operation.response statusCode] == 503) && (reload > 0) )
          {
@@ -183,7 +183,7 @@
     
     [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices.json"]
                                      parameters:requestData
-                                        success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"POST devices.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
@@ -195,7 +195,7 @@
          if (block)
              block(deviceKeyString, nil);
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
      {
          if ( ([operation.response statusCode] == 503) && (reload > 0) )
          {
@@ -232,7 +232,7 @@
 {
     [[AFPreyStatusClient sharedClient] deletePath:[[PreyConfig instance] deviceCheckPathWithExtension:@""]
                                        parameters:nil
-                                          success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                          success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"DELETE device: %@ : %ld",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding], (long)[operation.response statusCode]);
          
@@ -242,7 +242,7 @@
          if (block)
              block(operation.response, nil);
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
      {
          if ( ([operation.response statusCode] == 503) && (reload > 0) )
          {
@@ -273,14 +273,14 @@
     
     [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",deviceKey]
                                      parameters:params
-                                        success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"POST notificationID: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
          if (block)
              block(operation.response, nil);
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
      {
          if ( ([operation.response statusCode] == 503) && (reload > 0) )
          {
@@ -321,11 +321,11 @@
     
     [[AFPreyStatusClient sharedClient] getPath:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
                                     parameters:nil
-                                       success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                       success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error) {
          PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
      }];
 }
@@ -336,7 +336,7 @@
     
     [[AFPreyStatusClient sharedClient] getPath:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
                                     parameters:nil
-                                       success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                       success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
@@ -357,7 +357,7 @@
          if (block)
              block(operation.response,nil);
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
      {
          if ( ([operation.response statusCode] == 503) && (reload > 0) )
          {
@@ -384,7 +384,7 @@
     
     [[AFPreyStatusClient sharedClient] postPath:url
                                      parameters:jsonData
-                                        success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          if (block)
@@ -392,7 +392,7 @@
          
          [appDelegate checkedCompletionHandler];
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
      {
          if ( ([operation.response statusCode] == 503) && (reload > 0) )
          {
@@ -426,7 +426,7 @@
 {
     NSMutableURLRequest *request;
     request = [[AFPreyStatusClient sharedClient] multipartFormRequestWithMethod:@"POST" path:url parameters:jsonData
-                                                      constructingBodyWithBlock: ^(id <AFMultipartFormData>formData)
+                                                      constructingBodyWithBlock: ^(id <PreyAFMultipartFormData>formData)
                {
                    if ([rawData objectForKey:@"picture"]!=nil)
                        [formData appendPartWithFileData:[rawData objectForKey:@"picture"] name:@"picture" fileName:@"picture.jpg" mimeType:@"image/png"];
@@ -435,11 +435,11 @@
                        [formData appendPartWithFileData:[rawData objectForKey:@"screenshot"] name:@"screenshot" fileName:@"screenshot.jpg" mimeType:@"image/png"];
                }];
     
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    PreyAFHTTPRequestOperation *operation = [[PreyAFHTTPRequestOperation alloc] initWithRequest:request];
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     
     
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject)
+    [operation setCompletionBlockWithSuccess:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
@@ -448,7 +448,7 @@
          
          [appDelegate checkedCompletionHandler];
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
      {
          if ( ([operation.response statusCode] == 503) && (reload > 0) )
          {
@@ -486,14 +486,14 @@
     
     [[AFPreyStatusClient sharedClient] postPath:endpoint
                                      parameters:requestData
-                                        success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"POST: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
          if (block)
              block(operation.response, nil);
          
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
      {
          if ( ([operation.response statusCode] == 503) && (reload > 0) )
          {

@@ -7,7 +7,7 @@
 //
 
 #import "AFPreyStatusClient.h"
-#import "AFHTTPRequestOperation.h"
+#import "PreyAFHTTPRequestOperation.h"
 #import "Constants.h"
 #import "PreyConfig.h"
 
@@ -29,7 +29,7 @@
         return nil;
     }
     
-    [self registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+    [self registerHTTPOperationClass:[PreyAFHTTPRequestOperation class]];
     [self setDefaultHeader:@"User-Agent" value:[self userAgent]];
     [self setDefaultHeader:@"Content-Type" value:@"application/json"];
     [self setParameterEncoding:AFFormURLParameterEncoding];
