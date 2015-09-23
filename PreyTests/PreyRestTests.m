@@ -41,7 +41,7 @@
     __block NSInteger statusCode;
     XCTestExpectation *expectation = [self expectationWithDescription:@"Prey Expecta"];
     
-    [PreyRestHttp setPushRegistrationId:5 withToken:@"t3stT0k3n"
+    [[PreyRestHttp getClassVersion] setPushRegistrationId:5 withToken:@"t3stT0k3n"
                               withBlock:^(NSHTTPURLResponse *response, NSError *error)
     {
         if ([response isKindOfClass:[NSHTTPURLResponse class]])
@@ -84,10 +84,10 @@
 	newUser.email = emailTest;
 	newUser.password = passwTest;
     
-    [PreyRestHttp getCurrentControlPanelApiKey:5 withUser:newUser
+    [[PreyRestHttp getClassVersion] getCurrentControlPanelApiKey:5 withUser:newUser
                                      withBlock:^(NSString *apiKey, NSError *error)
      {
-         [PreyRestHttp createDeviceKeyForDevice:5 withDevice:newDevice usingApiKey:apiKey
+         [[PreyRestHttp getClassVersion] createDeviceKeyForDevice:5 withDevice:newDevice usingApiKey:apiKey
                                       withBlock:^(NSString *deviceKey, NSError *error)
           {
               blockDevicekey = deviceKey;
@@ -124,7 +124,7 @@
 	[newUser setPassword:passwTest];
 	[newUser setRepassword:passwTest];
     
-    [PreyRestHttp createApiKey:5 withUser:newUser withBlock:^(NSString *apiKey, NSError *error)
+    [[PreyRestHttp getClassVersion] createApiKey:5 withUser:newUser withBlock:^(NSString *apiKey, NSError *error)
      {
          blockApikey = apiKey;
          blockError  = error;
@@ -150,7 +150,7 @@
     
     NSString *receiptDataString = @"th1s4t3st";
     
-    [PreyRestHttp checkTransaction:5 withString:receiptDataString
+    [[PreyRestHttp getClassVersion] checkTransaction:5 withString:receiptDataString
                          withBlock:^(NSHTTPURLResponse *response, NSError *error)
      {
          if ([response isKindOfClass:[NSHTTPURLResponse class]])
@@ -183,7 +183,7 @@
 	newUser.email = emailTest;
 	newUser.password = passwTest;
     
-    [PreyRestHttp getCurrentControlPanelApiKey:5 withUser:newUser
+    [[PreyRestHttp getClassVersion] getCurrentControlPanelApiKey:5 withUser:newUser
                                      withBlock:^(NSString *apiKey, NSError *error)
      {
          blockApikey = apiKey;
@@ -209,7 +209,7 @@
     __block NSInteger statusCode;
     XCTestExpectation *expectation = [self expectationWithDescription:@"Prey Expecta"];
     
-    [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+    [[PreyRestHttp getClassVersion] checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
         
         if ([response isKindOfClass:[NSHTTPURLResponse class]])
         {
@@ -235,7 +235,7 @@
     __block NSInteger statusCode;
     XCTestExpectation *expectation = [self expectationWithDescription:@"Prey Expecta"];
     
-    [PreyRestHttp deleteDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error)
+    [[PreyRestHttp getClassVersion] deleteDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error)
      {
          if ([response isKindOfClass:[NSHTTPURLResponse class]])
          {

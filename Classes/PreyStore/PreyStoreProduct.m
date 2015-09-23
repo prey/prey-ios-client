@@ -33,7 +33,7 @@ static void (^onReviewRequestVerificationFailed)();
     
     NSString *receiptDataString = [self.receipt base64EncodedString];
     
-    [PreyRestHttp checkTransaction:5 withString:receiptDataString
+    [[PreyRestHttp getClassVersion] checkTransaction:5 withString:receiptDataString
                          withBlock:^(NSHTTPURLResponse *response, NSError *error)
      {
          if ( (!error) && (self.onReceiptVerificationSucceeded) )

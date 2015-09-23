@@ -65,7 +65,7 @@
     
     [[AFPreyStatusClient sharedClient] setDefaultHeader:@"X-Prey-Status" value:jsonString];
     
-    [PreyRestHttp sendJsonData:5 withData:parameters
+    [[PreyRestHttp getClassVersion] sendJsonData:5 withData:parameters
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/events",[[PreyConfig instance] deviceKey]]
                      withBlock:^(NSHTTPURLResponse *response, NSError *error) {
                          if (error) {
@@ -86,7 +86,7 @@
     
     NSLog(@"info: %@", [data description]);
     
-    [PreyRestHttp sendJsonData:5 withData:data
+    [[PreyRestHttp getClassVersion] sendJsonData:5 withData:data
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/response",[[PreyConfig instance] deviceKey]]
                      withBlock:^(NSHTTPURLResponse *response, NSError *error) {
                          if (error) {
@@ -100,7 +100,7 @@
 
 - (void)sendHttp:(NSMutableDictionary*)data
 {
-    [PreyRestHttp sendJsonData:5 withData:data
+    [[PreyRestHttp getClassVersion] sendJsonData:5 withData:data
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",[[PreyConfig instance] deviceKey]]
                      withBlock:^(NSHTTPURLResponse *response, NSError *error) {
         if (error) {
@@ -113,7 +113,7 @@
 
 - (void)sendHttp:(NSMutableDictionary*)data andRaw:(NSMutableDictionary*) rawData
 {
-    [PreyRestHttp sendJsonData:5 withData:data andRawData:rawData
+    [[PreyRestHttp getClassVersion] sendJsonData:5 withData:data andRawData:rawData
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/reports",[[PreyConfig instance] deviceKey]]
                      withBlock:^(NSHTTPURLResponse *response, NSError *error) {
                          if (error) {

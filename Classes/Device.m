@@ -38,7 +38,7 @@
     [newDevice setRam_size:[NSString stringWithFormat:@"%lu",(unsigned long)([[UIDevice currentDevice] totalMemory]/1024/1024)]];
 
     
-    [PreyRestHttp createDeviceKeyForDevice:5 withDevice:newDevice usingApiKey:[userKey apiKey]
+    [[PreyRestHttp getClassVersion] createDeviceKeyForDevice:5 withDevice:newDevice usingApiKey:[userKey apiKey]
                                  withBlock:^(NSString *deviceKey, NSError *error)
     {
         if (error)

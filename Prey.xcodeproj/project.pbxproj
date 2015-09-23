@@ -312,6 +312,8 @@
 		3BA73C681AA519F5002080CB /* OnboardingView-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA73C651AA519F5002080CB /* OnboardingView-iPhone-568h.xib */; };
 		3BA73C691AA519F5002080CB /* OnboardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA73C671AA519F5002080CB /* OnboardingView.m */; };
 		3BA73C6B1AA51E85002080CB /* OnboardingView-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA73C6A1AA51E85002080CB /* OnboardingView-iPhone.xib */; };
+		3BAA98701BB3437000CB4125 /* PreyRestHttpV1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA986D1BB3437000CB4125 /* PreyRestHttpV1.m */; };
+		3BAA98711BB3437000CB4125 /* PreyRestHttpV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA986F1BB3437000CB4125 /* PreyRestHttpV2.m */; };
 		3BAB3CED1A09874E003BFCCE /* bg-welcome-iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CEC1A09874E003BFCCE /* bg-welcome-iPhone@2x.png */; };
 		3BAB3CEF1A0987E7003BFCCE /* ok-congratulations@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CEE1A0987E7003BFCCE /* ok-congratulations@2x.png */; };
 		3BAB3CF41A098877003BFCCE /* protected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CF01A098877003BFCCE /* protected.png */; };
@@ -428,8 +430,8 @@
 		07132446134635A100F7EFD8 /* ReportModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ReportModule.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		07132447134635A100F7EFD8 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = Classes/User.h; sourceTree = "<group>"; };
 		07132448134635A100F7EFD8 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = Classes/User.m; sourceTree = "<group>"; };
-		0713244C134635C400F7EFD8 /* PreyRestHttp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreyRestHttp.h; sourceTree = "<group>"; };
-		0713244D134635C400F7EFD8 /* PreyRestHttp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreyRestHttp.m; sourceTree = "<group>"; };
+		0713244C134635C400F7EFD8 /* PreyRestHttp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyRestHttp.h; path = Classes/PreyRestHttp.h; sourceTree = "<group>"; };
+		0713244D134635C400F7EFD8 /* PreyRestHttp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyRestHttp.m; path = Classes/PreyRestHttp.m; sourceTree = "<group>"; };
 		071324541346363300F7EFD8 /* AlertModuleController-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPhone.xib"; path = "Classes/AlertModuleController-iPhone.xib"; sourceTree = "<group>"; };
 		071324551346363300F7EFD8 /* MainWindow-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow-iPhone.xib"; sourceTree = "<group>"; };
 		07178F2512675AD3007B290C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -670,6 +672,10 @@
 		3BA73C671AA519F5002080CB /* OnboardingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OnboardingView.m; path = Classes/OnboardingView.m; sourceTree = "<group>"; };
 		3BA73C6A1AA51E85002080CB /* OnboardingView-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "OnboardingView-iPhone.xib"; path = "Classes/OnboardingView-iPhone.xib"; sourceTree = "<group>"; };
 		3BA73C791AA53713002080CB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3BAA986C1BB3437000CB4125 /* PreyRestHttpV1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyRestHttpV1.h; path = Classes/PreyRestHttpV1.h; sourceTree = "<group>"; };
+		3BAA986D1BB3437000CB4125 /* PreyRestHttpV1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyRestHttpV1.m; path = Classes/PreyRestHttpV1.m; sourceTree = "<group>"; };
+		3BAA986E1BB3437000CB4125 /* PreyRestHttpV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyRestHttpV2.h; path = Classes/PreyRestHttpV2.h; sourceTree = "<group>"; };
+		3BAA986F1BB3437000CB4125 /* PreyRestHttpV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyRestHttpV2.m; path = Classes/PreyRestHttpV2.m; sourceTree = "<group>"; };
 		3BAB3CEC1A09874E003BFCCE /* bg-welcome-iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-welcome-iPhone@2x.png"; sourceTree = "<group>"; };
 		3BAB3CEE1A0987E7003BFCCE /* ok-congratulations@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ok-congratulations@2x.png"; sourceTree = "<group>"; };
 		3BAB3CF01A098877003BFCCE /* protected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = protected.png; sourceTree = "<group>"; };
@@ -958,6 +964,12 @@
 			children = (
 				3BA3EAA818F19AAA00B3CA80 /* AFPreyStatusClient.h */,
 				3BA3EAA918F19AAA00B3CA80 /* AFPreyStatusClient.m */,
+				0713244C134635C400F7EFD8 /* PreyRestHttp.h */,
+				0713244D134635C400F7EFD8 /* PreyRestHttp.m */,
+				3BAA986C1BB3437000CB4125 /* PreyRestHttpV1.h */,
+				3BAA986D1BB3437000CB4125 /* PreyRestHttpV1.m */,
+				3BAA986E1BB3437000CB4125 /* PreyRestHttpV2.h */,
+				3BAA986F1BB3437000CB4125 /* PreyRestHttpV2.m */,
 				07435EF21680FDA000FBD54B /* JsonConfigParser.h */,
 				07435EF31680FDA000FBD54B /* JsonConfigParser.m */,
 				07132447134635A100F7EFD8 /* User.h */,
@@ -1042,8 +1054,6 @@
 				3B477ED818B2AA7B003A32CE /* PreyDeployment.m */,
 				07132443134635A100F7EFD8 /* PreyConfig.h */,
 				07132444134635A100F7EFD8 /* PreyConfig.m */,
-				0713244C134635C400F7EFD8 /* PreyRestHttp.h */,
-				0713244D134635C400F7EFD8 /* PreyRestHttp.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1820,6 +1830,7 @@
 				071324331346353C00F7EFD8 /* WelcomeController.m in Sources */,
 				0713243B1346356300F7EFD8 /* PreyLogger.m in Sources */,
 				0713243F1346357500F7EFD8 /* SignificantLocationController.m in Sources */,
+				3BAA98711BB3437000CB4125 /* PreyRestHttpV2.m in Sources */,
 				071324421346358600F7EFD8 /* PreyModule.m in Sources */,
 				3B9EF01C18ECE2E60060FFAE /* AFXMLRequestOperation.m in Sources */,
 				3B99866D1B4C10C6009D0A00 /* PreyStoreManager.m in Sources */,
@@ -1833,6 +1844,7 @@
 				3B9EF01618ECE2E60060FFAE /* PreyAFHTTPRequestOperation.m in Sources */,
 				3B9EF01818ECE2E60060FFAE /* AFJSONRequestOperation.m in Sources */,
 				3B477ED918B2AA7B003A32CE /* PreyDeployment.m in Sources */,
+				3BAA98701BB3437000CB4125 /* PreyRestHttpV1.m in Sources */,
 				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
 				3B9EF01D18ECE2E60060FFAE /* UIImageView+AFNetworking.m in Sources */,
 				3BC057D21BB201F1006C1DB7 /* AFHTTPSessionManager.m in Sources */,

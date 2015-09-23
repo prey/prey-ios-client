@@ -399,7 +399,7 @@
                                  stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]] 
                                 stringByReplacingOccurrencesOfString:@" " withString:@""];
     
-    [PreyRestHttp setPushRegistrationId:5 withToken:tokenAsString
+    [[PreyRestHttp getClassVersion] setPushRegistrationId:5 withToken:tokenAsString
                               withBlock:^(NSHTTPURLResponse *response, NSError *error) {
     PreyLogMessage(@"App Delegate", 10, @"Did register for remote notifications - Device Token");
     }];
@@ -413,7 +413,7 @@
 
 - (void)checkRemoteNotification:(UIApplication*)application remoteNotification:(NSDictionary *)userInfo
 {
-    [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+    [[PreyRestHttp getClassVersion] checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
         if (error) {
             PreyLogMessage(@"PreyAppDelegate", 10,@"Error: %@",error);
         } else {
@@ -441,7 +441,7 @@
     {
         if ([userInfo objectForKey:@"cmd"] == nil)
         {
-            [PreyRestHttp checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+            [[PreyRestHttp getClassVersion] checkStatusForDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
                 if (error)
                 {
                     [self checkedCompletionHandlerError];
@@ -452,11 +452,11 @@
             }];
         }
         else
-            [PreyRestHttp checkCommandJsonForDevice:[userInfo objectForKey:@"cmd"]];
+            [[PreyRestHttp getClassVersion] checkCommandJsonForDevice:[userInfo objectForKey:@"cmd"]];
     }
     else
     {        
-        [PreyRestHttp checkStatusInBackground:5 withURL:[userInfo objectForKey:@"url-echo"] withBlock:^(NSHTTPURLResponse *response, NSError *error)
+        [[PreyRestHttp getClassVersion] checkStatusInBackground:5 withURL:[userInfo objectForKey:@"url-echo"] withBlock:^(NSHTTPURLResponse *response, NSError *error)
          {
              if (error)
              {
