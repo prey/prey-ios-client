@@ -107,7 +107,7 @@
 		3B3CCB82196B28820000F56C /* ReviewRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0371E167847920086A7A7 /* ReviewRequest.m */; };
 		3B3CCB83196B28820000F56C /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3B3CCB84196B28820000F56C /* PreyLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324381346356300F7EFD8 /* PreyLogger.m */; };
-		3B3CCB86196B28820000F56C /* AFPreyStatusClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3EAA918F19AAA00B3CA80 /* AFPreyStatusClient.m */; };
+		3B3CCB86196B28820000F56C /* PreyStatusClientV1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3EAA918F19AAA00B3CA80 /* PreyStatusClientV1.m */; };
 		3B3CCB87196B28820000F56C /* JsonConfigParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 07435EF31680FDA000FBD54B /* JsonConfigParser.m */; };
 		3B3CCB88196B28820000F56C /* ActionModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABF216A0A02C00803187 /* ActionModule.m */; };
 		3B3CCB89196B28820000F56C /* AlarmModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 071323F1134632C900F7EFD8 /* AlarmModule.m */; };
@@ -305,7 +305,7 @@
 		3BA232941A0C2F76005E5145 /* store_discount-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA232931A0C2F76005E5145 /* store_discount-iPad@2x.png */; };
 		3BA232971A0C2F85005E5145 /* store_pro-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA232951A0C2F85005E5145 /* store_pro-iPad.png */; };
 		3BA232981A0C2F85005E5145 /* store_pro-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA232961A0C2F85005E5145 /* store_pro-iPad@2x.png */; };
-		3BA3EAAA18F19AAA00B3CA80 /* AFPreyStatusClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3EAA918F19AAA00B3CA80 /* AFPreyStatusClient.m */; };
+		3BA3EAAA18F19AAA00B3CA80 /* PreyStatusClientV1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3EAA918F19AAA00B3CA80 /* PreyStatusClientV1.m */; };
 		3BA6A22F16769566005323EB /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A22E16769566005323EB /* MainWindow-iPad.xib */; };
 		3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */; };
 		3BA6AD1918D1199E00CAADAC /* LoginController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA6AD1818D1199E00CAADAC /* LoginController-iPad.xib */; };
@@ -314,6 +314,10 @@
 		3BA73C6B1AA51E85002080CB /* OnboardingView-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BA73C6A1AA51E85002080CB /* OnboardingView-iPhone.xib */; };
 		3BAA98701BB3437000CB4125 /* PreyRestHttpV1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA986D1BB3437000CB4125 /* PreyRestHttpV1.m */; };
 		3BAA98711BB3437000CB4125 /* PreyRestHttpV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA986F1BB3437000CB4125 /* PreyRestHttpV2.m */; };
+		3BAA98741BB3538F00CB4125 /* PreyStatusClientV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA98731BB3538F00CB4125 /* PreyStatusClientV2.m */; };
+		3BAA98751BB3546000CB4125 /* PreyStatusClientV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA98731BB3538F00CB4125 /* PreyStatusClientV2.m */; };
+		3BAA98761BB3546800CB4125 /* PreyRestHttpV1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA986D1BB3437000CB4125 /* PreyRestHttpV1.m */; };
+		3BAA98771BB3546C00CB4125 /* PreyRestHttpV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAA986F1BB3437000CB4125 /* PreyRestHttpV2.m */; };
 		3BAB3CED1A09874E003BFCCE /* bg-welcome-iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CEC1A09874E003BFCCE /* bg-welcome-iPhone@2x.png */; };
 		3BAB3CEF1A0987E7003BFCCE /* ok-congratulations@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CEE1A0987E7003BFCCE /* ok-congratulations@2x.png */; };
 		3BAB3CF41A098877003BFCCE /* protected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BAB3CF01A098877003BFCCE /* protected.png */; };
@@ -662,8 +666,8 @@
 		3BA232931A0C2F76005E5145 /* store_discount-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "store_discount-iPad@2x.png"; sourceTree = "<group>"; };
 		3BA232951A0C2F85005E5145 /* store_pro-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "store_pro-iPad.png"; sourceTree = "<group>"; };
 		3BA232961A0C2F85005E5145 /* store_pro-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "store_pro-iPad@2x.png"; sourceTree = "<group>"; };
-		3BA3EAA818F19AAA00B3CA80 /* AFPreyStatusClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPreyStatusClient.h; path = Classes/AFPreyStatusClient.h; sourceTree = "<group>"; };
-		3BA3EAA918F19AAA00B3CA80 /* AFPreyStatusClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFPreyStatusClient.m; path = Classes/AFPreyStatusClient.m; sourceTree = "<group>"; };
+		3BA3EAA818F19AAA00B3CA80 /* PreyStatusClientV1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyStatusClientV1.h; path = Classes/PreyStatusClientV1.h; sourceTree = "<group>"; };
+		3BA3EAA918F19AAA00B3CA80 /* PreyStatusClientV1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyStatusClientV1.m; path = Classes/PreyStatusClientV1.m; sourceTree = "<group>"; };
 		3BA6A22E16769566005323EB /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		3BA6A26B1676A56E005323EB /* CongratulationsController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "CongratulationsController-iPad.xib"; path = "Classes/CongratulationsController-iPad.xib"; sourceTree = "<group>"; };
 		3BA6AD1818D1199E00CAADAC /* LoginController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "LoginController-iPad.xib"; path = "Classes/LoginController-iPad.xib"; sourceTree = "<group>"; };
@@ -676,6 +680,8 @@
 		3BAA986D1BB3437000CB4125 /* PreyRestHttpV1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyRestHttpV1.m; path = Classes/PreyRestHttpV1.m; sourceTree = "<group>"; };
 		3BAA986E1BB3437000CB4125 /* PreyRestHttpV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyRestHttpV2.h; path = Classes/PreyRestHttpV2.h; sourceTree = "<group>"; };
 		3BAA986F1BB3437000CB4125 /* PreyRestHttpV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyRestHttpV2.m; path = Classes/PreyRestHttpV2.m; sourceTree = "<group>"; };
+		3BAA98721BB3538F00CB4125 /* PreyStatusClientV2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyStatusClientV2.h; path = Classes/PreyStatusClientV2.h; sourceTree = "<group>"; };
+		3BAA98731BB3538F00CB4125 /* PreyStatusClientV2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyStatusClientV2.m; path = Classes/PreyStatusClientV2.m; sourceTree = "<group>"; };
 		3BAB3CEC1A09874E003BFCCE /* bg-welcome-iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-welcome-iPhone@2x.png"; sourceTree = "<group>"; };
 		3BAB3CEE1A0987E7003BFCCE /* ok-congratulations@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ok-congratulations@2x.png"; sourceTree = "<group>"; };
 		3BAB3CF01A098877003BFCCE /* protected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = protected.png; sourceTree = "<group>"; };
@@ -962,8 +968,10 @@
 		0780541E1255421800E4CCE5 /* Prey Http */ = {
 			isa = PBXGroup;
 			children = (
-				3BA3EAA818F19AAA00B3CA80 /* AFPreyStatusClient.h */,
-				3BA3EAA918F19AAA00B3CA80 /* AFPreyStatusClient.m */,
+				3BA3EAA818F19AAA00B3CA80 /* PreyStatusClientV1.h */,
+				3BA3EAA918F19AAA00B3CA80 /* PreyStatusClientV1.m */,
+				3BAA98721BB3538F00CB4125 /* PreyStatusClientV2.h */,
+				3BAA98731BB3538F00CB4125 /* PreyStatusClientV2.m */,
 				0713244C134635C400F7EFD8 /* PreyRestHttp.h */,
 				0713244D134635C400F7EFD8 /* PreyRestHttp.m */,
 				3BAA986C1BB3437000CB4125 /* PreyRestHttpV1.h */,
@@ -1795,7 +1803,7 @@
 				1D3623260D0F684500981E51 /* PreyAppDelegate.m in Sources */,
 				3BC057D81BB201F1006C1DB7 /* AFURLSessionManager.m in Sources */,
 				3BC057D71BB201F1006C1DB7 /* AFURLResponseSerialization.m in Sources */,
-				3BA3EAAA18F19AAA00B3CA80 /* AFPreyStatusClient.m in Sources */,
+				3BA3EAAA18F19AAA00B3CA80 /* PreyStatusClientV1.m in Sources */,
 				07CD96251253E13800590FCD /* LoginController.m in Sources */,
 				07DA037E132013D900FECCAD /* PreferencesController.mm in Sources */,
 				3BA73C691AA519F5002080CB /* OnboardingView.m in Sources */,
@@ -1872,6 +1880,7 @@
 				07E1ABFB16A5FE2700803187 /* PublicIp.m in Sources */,
 				3BC057D01BB201F1006C1DB7 /* AFHTTPRequestOperation.m in Sources */,
 				3B9EF01A18ECE2E60060FFAE /* AFPropertyListRequestOperation.m in Sources */,
+				3BAA98741BB3538F00CB4125 /* PreyStatusClientV2.m in Sources */,
 				07E1ABFE16A5FF2E00803187 /* UIDevice-Reachability.m in Sources */,
 				3BE24A7F1ABB915100464C1D /* RSSParser.m in Sources */,
 				07E1AC0216A600DE00803187 /* PrivateIp.m in Sources */,
@@ -1906,6 +1915,7 @@
 				3B3CCB6A196B28820000F56C /* AFXMLRequestOperation.m in Sources */,
 				3B3CCB6B196B28820000F56C /* UIImageView+AFNetworking.m in Sources */,
 				3B7DB1C11B0D2A6D00BF6F88 /* RSSCloudService.m in Sources */,
+				3BAA98761BB3546800CB4125 /* PreyRestHttpV1.m in Sources */,
 				3B7DB1BF1B0D2A6800BF6F88 /* NSMutableString+RSSKit.m in Sources */,
 				3B3CCB6C196B28820000F56C /* UIDevice-Reachability.m in Sources */,
 				3B3CCB6D196B28820000F56C /* UIDevice-Hardware.m in Sources */,
@@ -1913,6 +1923,7 @@
 				3B3CCB6F196B28820000F56C /* FakeWebView.m in Sources */,
 				3B3CCB70196B28820000F56C /* GrettingsProViewController.m in Sources */,
 				3B3CCB72196B28820000F56C /* SignificantLocationController.m in Sources */,
+				3BAA98771BB3546C00CB4125 /* PreyRestHttpV2.m in Sources */,
 				3BC582921B4AC8BB00636F6A /* OnboardingSubView.m in Sources */,
 				3B3CCB73196B28820000F56C /* LocationController.m in Sources */,
 				3B7D4FB51B4D972200F000B1 /* NSData+MKBase64.m in Sources */,
@@ -1935,7 +1946,7 @@
 				3B3CCB83196B28820000F56C /* UIWebViewController.m in Sources */,
 				3B7DB1C41B0D2A7600BF6F88 /* RSSParser.m in Sources */,
 				3B3CCB84196B28820000F56C /* PreyLogger.m in Sources */,
-				3B3CCB86196B28820000F56C /* AFPreyStatusClient.m in Sources */,
+				3B3CCB86196B28820000F56C /* PreyStatusClientV1.m in Sources */,
 				3B3CCB87196B28820000F56C /* JsonConfigParser.m in Sources */,
 				3B3CCB88196B28820000F56C /* ActionModule.m in Sources */,
 				3B3CCB89196B28820000F56C /* AlarmModule.m in Sources */,
@@ -1955,6 +1966,7 @@
 				3B7DB1B91B0D2A4C00BF6F88 /* RecoveriesViewController.m in Sources */,
 				3B7DB1C51B0D2A8100BF6F88 /* AppStoreViewController.m in Sources */,
 				3B7D4FB71B4D972200F000B1 /* SFHFKeychainUtils.m in Sources */,
+				3BAA98751BB3546000CB4125 /* PreyStatusClientV2.m in Sources */,
 				3B3CCB93196B28820000F56C /* Uptime.m in Sources */,
 				3B3CCB94196B28820000F56C /* RemainingStorage.m in Sources */,
 				3B3CCB95196B28820000F56C /* Location.m in Sources */,

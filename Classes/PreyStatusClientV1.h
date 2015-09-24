@@ -1,5 +1,5 @@
 //
-//  AFPreyStatusClient.h
+//  PreyStatusClientV1.h
 //  Prey
 //
 //  Created by Javier Cala Uribe on 6/4/14.
@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "AFHTTPClient.h"
 
-@interface AFPreyStatusClient : AFHTTPClient
+@interface PreyStatusClientV1 : AFHTTPClient
 
-+ (AFPreyStatusClient *)sharedClient;
++ (PreyStatusClientV1 *)sharedClient;
 - (NSString *)userAgent;
 
 @end

@@ -1,23 +1,23 @@
 //
-//  AFPreyStatusClient.m
+//  PreyStatusClientV1.m
 //  Prey
 //
 //  Created by Javier Cala Uribe on 6/4/14.
 //  Copyright (c) 2014 Fork Ltd. All rights reserved.
 //
 
-#import "AFPreyStatusClient.h"
+#import "PreyStatusClientV1.h"
 #import "PreyAFHTTPRequestOperation.h"
 #import "Constants.h"
 #import "PreyConfig.h"
 
-@implementation AFPreyStatusClient
+@implementation PreyStatusClientV1
 
-+ (AFPreyStatusClient *)sharedClient {
-    static AFPreyStatusClient *_sharedClient = nil;
++ (PreyStatusClientV1 *)sharedClient {
+    static PreyStatusClientV1 *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[AFPreyStatusClient alloc] initWithBaseURL:[NSURL URLWithString:DEFAULT_CONTROL_PANEL_HOST]];
+        _sharedClient = [[PreyStatusClientV1 alloc] initWithBaseURL:[NSURL URLWithString:DEFAULT_CONTROL_PANEL_HOST]];
     });
     
     return _sharedClient;

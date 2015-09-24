@@ -10,8 +10,8 @@
 
 #import "PreyRestHttpV2.h"
 #import "ReportModule.h"
-#import "PreyAFNetworking.h"
-#import "AFPreyStatusClient.h"
+#import "AFNetworking.h"
+#import "PreyStatusClientV2.h"
 #import "PreyConfig.h"
 #import "Constants.h"
 #import "JsonConfigParser.h"
@@ -27,31 +27,33 @@
     if (receiptData)
         [requestData setObject:receiptData forKey:@"receipt-data"];
     
-    [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingString:@"/subscriptions/receipt"]
-                                     parameters:requestData
-                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
-     {
-         PreyLogMessage(@"PreyRestHttp", 21, @"subscriptions/receipt: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-         
+    [[PreyStatusClientV2 sharedClient] POST:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingString:@"/subscriptions/receipt"]
+                                 parameters:requestData
+                                    success:^(NSURLSessionDataTask *operation, id responseObject)
+    {
+        PreyLogMessage(@"PreyRestHttp", 21, @"subscriptions/receipt: %@",responseObject);
+
+        NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
          if (block)
-             block(operation.response, nil);
+             block(resp, nil);
          
-     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
+     }failure:^(NSURLSessionDataTask *operation, NSError *error)
      {
-         if ( ([operation.response statusCode] == 503) && (reload > 0) )
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         if ( ([resp statusCode] == 503) && (reload > 0) )
          {
              // Call method again
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                  [self checkTransaction:reload -1 withString:receiptData withBlock:block];
              });
          }
-            // When reload <= 0 then return statusCode:503
-         else if ( ([operation.response statusCode] == 503) && (reload <= 0) )
+         // When reload <= 0 then return statusCode:503
+         else if ( ([resp statusCode] == 503) && (reload <= 0) )
              [self returnStatusCode503:block checkCompletionHandler:NO];
          
-            // Return response to block
+         // Return response to block
          else if (block)
-             block(operation.response, error);
+             block(resp, error);
          
          PreyLogMessage(@"PreyRestHttp", 10,@"Error /subscriptions: %@",error);
      }];
@@ -59,27 +61,29 @@
 
 + (void)getCurrentControlPanelApiKey:(NSInteger)reload withUser:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block
 {
-    [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:[user email] password:[user password]];
+    [[PreyStatusClientV2 sharedClient].requestSerializer setAuthorizationHeaderFieldWithUsername:[user email] password:[user password]];
     
-    [[AFPreyStatusClient sharedClient] getPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/profile.json"]
+    [[PreyStatusClientV2 sharedClient] GET:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/profile.json"]
                                     parameters:nil
-                                       success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
+                                       success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",responseObject);
          
-         NSError *error2;
-         NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-         JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
-         [configParser parseRequest:respString forUser:user parseError:&error2];
+         if (responseObject != nil)
+         {
+             user.apiKey = [responseObject objectForKey:@"key"];
+             user.pro    = [[responseObject objectForKey:@"pro_account"] boolValue];
+         }
          
          if (block) {
              block(user.apiKey, nil);
-             [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:user.apiKey password:@"x"];
+             [[PreyStatusClientV2 sharedClient].requestSerializer setAuthorizationHeaderFieldWithUsername:user.apiKey password:@"x"];
          }
          
-     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(NSURLSessionDataTask *operation, NSError *error)
      {
-         if ( ([operation.response statusCode] == 503) && (reload > 0) )
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         if ( ([resp statusCode] == 503) && (reload > 0) )
          {
              // Call method again
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -87,7 +91,7 @@
              });
          }
          // When reload <= 0 then return statusCode:503
-         else if ( ([operation.response statusCode] == 503) && (reload <= 0) )
+         else if ( ([resp statusCode] == 503) && (reload <= 0) )
              [self returnStatusCode503WithString:block checkCompletionHandler:NO];
          
          // Return response to block
@@ -95,16 +99,17 @@
          {
              NSString  *showMessage = ([error localizedRecoverySuggestion] != nil) ? [error localizedRecoverySuggestion] : [error localizedDescription];
              
-             if ( ([operation.response statusCode] == 401) && ([PreyConfig instance].email != nil) )
+             if ( ([resp statusCode] == 401) && ([PreyConfig instance].email != nil) )
                  showMessage = NSLocalizedString(@"Please make sure the password you entered is valid.",nil);
                  
-             else if ( ([operation.response statusCode] == 401) && ([PreyConfig instance].email == nil) )
+             else if ( ([resp statusCode] == 401) && ([PreyConfig instance].email == nil) )
                  showMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
                   
              [self displayErrorAlert:showMessage title:NSLocalizedString(@"Couldn't check your password",nil)];
              
              block(nil, error);
-             [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:[[PreyConfig instance] apiKey] password:@"x"];
+             [[PreyStatusClientV2 sharedClient].requestSerializer setAuthorizationHeaderFieldWithUsername:[[PreyConfig instance] apiKey]
+                                                                                                 password:@"x"];
          }
          
          PreyLogMessage(@"PreyRestHttp", 10,@"Error profile.json: %@",error);
@@ -121,23 +126,21 @@
     [requestData setObject:[user repassword] forKey:@"password_confirmation"];
     [requestData setObject:@"" forKey:@"referer_user_id"];
     
-    [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/signup.json"]
+    [[PreyStatusClientV2 sharedClient] POST:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/signup.json"]
                                      parameters:requestData
-                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
+                                        success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST signup.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         PreyLogMessage(@"PreyRestHttp", 21, @"POST signup.json: %@",responseObject);
          
-         NSError *error2;
-         NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-         JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
-         NSString *userKey = [configParser parseKey:respString parseError:&error2];
+         NSString *userKey = [responseObject objectForKey:@"key"];
          
          if (block)
              block(userKey, nil);
          
-     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(NSURLSessionDataTask *operation, NSError *error)
      {
-         if ( ([operation.response statusCode] == 503) && (reload > 0) )
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         if ( ([resp statusCode] == 503) && (reload > 0) )
          {
              // Call method again
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -145,7 +148,7 @@
              });
          }
             // When reload <= 0 then return statusCode:503
-         else if ( ([operation.response statusCode] == 503) && (reload <= 0) )
+         else if ( ([resp statusCode] == 503) && (reload <= 0) )
              [self returnStatusCode503WithString:block checkCompletionHandler:NO];
 
             // Return response to block
@@ -179,25 +182,23 @@
     [requestData setObject:[device cpu_cores] forKey:@"hardware_attributes[cpu_cores]"];
     [requestData setObject:[device ram_size] forKey:@"hardware_attributes[ram_size]"];
     
-    [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:apiKey password:@"x"];
+    [[PreyStatusClientV2 sharedClient].requestSerializer setAuthorizationHeaderFieldWithUsername:apiKey password:@"x"];
     
-    [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices.json"]
+    [[PreyStatusClientV2 sharedClient] POST:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices.json"]
                                      parameters:requestData
-                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
+                                        success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST devices.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         PreyLogMessage(@"PreyRestHttp", 21, @"POST devices.json: %@",responseObject);
          
-         NSError *error2 = nil;
-         JsonConfigParser *configParser     = [[JsonConfigParser alloc] init];
-         NSString         *deviceKeyString  = [configParser parseKey:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]
-                                                          parseError:&error2];
+         NSString *deviceKeyString  = [responseObject objectForKey:@"key"];;
          
          if (block)
              block(deviceKeyString, nil);
          
-     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(NSURLSessionDataTask *operation, NSError *error)
      {
-         if ( ([operation.response statusCode] == 503) && (reload > 0) )
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         if ( ([resp statusCode] == 503) && (reload > 0) )
          {
              // Call method again
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -205,13 +206,13 @@
              });
          }
              // When reload <= 0 then return statusCode:503
-         else if ( ([operation.response statusCode] == 503) && (reload <= 0) )
+         else if ( ([resp statusCode] == 503) && (reload <= 0) )
              [self returnStatusCode503WithString:block checkCompletionHandler:NO];
          
              // Return response to block
          else if (block)
          {
-             NSInteger  statusCode  = [operation.response statusCode];
+             NSInteger  statusCode  = [resp statusCode];
              NSString  *showMessage = ([error localizedRecoverySuggestion] != nil) ? [error localizedRecoverySuggestion] : [error localizedDescription];
              
              if ((statusCode == 302) || (statusCode == 403))
@@ -230,21 +231,23 @@
 
 + (void)deleteDevice:(NSInteger)reload withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
-    [[AFPreyStatusClient sharedClient] deletePath:[[PreyConfig instance] deviceCheckPathWithExtension:@""]
+    [[PreyStatusClientV2 sharedClient] DELETE:[[PreyConfig instance] deviceCheckPathWithExtension:@""]
                                        parameters:nil
-                                          success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
+                                          success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"DELETE device: %@ : %ld",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding], (long)[operation.response statusCode]);
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         PreyLogMessage(@"PreyRestHttp", 21, @"DELETE device: %@ : %ld",responseObject, (long)[resp statusCode]);
          
          if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
              [[ReportModule instance] stopSendReport];
          
          if (block)
-             block(operation.response, nil);
+             block(resp, nil);
          
-     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(NSURLSessionDataTask *operation, NSError *error)
      {
-         if ( ([operation.response statusCode] == 503) && (reload > 0) )
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         if ( ([resp statusCode] == 503) && (reload > 0) )
          {
              // Call method again
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -252,14 +255,14 @@
              });
          }
              // When reload <= 0 then return statusCode:503
-         else if ( ([operation.response statusCode] == 503) && (reload <= 0) )
+         else if ( ([resp statusCode] == 503) && (reload <= 0) )
              [self returnStatusCode503:block checkCompletionHandler:NO];
          
              // Return response to block
          else if (block)
          {
              [self displayErrorAlert:NSLocalizedString(@"Device not ready!",nil) title:NSLocalizedString(@"Access Denied",nil)];
-             block(operation.response, error);
+             block(resp, error);
          }
          
          PreyLogMessage(@"PreyRestHttp", 10,@"Error DELETE: %@",error);
@@ -271,18 +274,20 @@
     NSDictionary    *params     = [NSDictionary dictionaryWithObjectsAndKeys: tokenId, @"notification_id", nil];
     NSString        *deviceKey  = [[PreyConfig instance] deviceKey];
     
-    [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",deviceKey]
+    [[PreyStatusClientV2 sharedClient] POST:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",deviceKey]
                                      parameters:params
-                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
+                                        success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST notificationID: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         PreyLogMessage(@"PreyRestHttp", 21, @"POST notificationID: %@",responseObject);
          
          if (block)
-             block(operation.response, nil);
+             block(resp, nil);
          
-     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(NSURLSessionDataTask *operation, NSError *error)
      {
-         if ( ([operation.response statusCode] == 503) && (reload > 0) )
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         if ( ([resp statusCode] == 503) && (reload > 0) )
          {
              // Call method again
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -290,12 +295,12 @@
              });
          }
              // When reload <= 0 then return statusCode:503
-         else if ( ([operation.response statusCode] == 503) && (reload <= 0) )
+         else if ( ([resp statusCode] == 503) && (reload <= 0) )
              [self returnStatusCode503:block checkCompletionHandler:NO];
          
              // Return response to block
          else if (block)
-             block(operation.response, error);
+             block(resp, error);
          
          PreyLogMessage(@"PreyRestHttp", 10,@"Error notificationID: %@",error);
      }];
@@ -319,13 +324,13 @@
         [modulesConfig runAllModules];
 
     
-    [[AFPreyStatusClient sharedClient] getPath:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
+    [[PreyStatusClientV2 sharedClient] GET:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
                                     parameters:nil
-                                       success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
+                                       success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,responseObject);
          
-     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error) {
+     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
          PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
      }];
 }
@@ -334,17 +339,18 @@
 {
     NSString *deviceKey = [[PreyConfig instance] deviceKey];
     
-    [[AFPreyStatusClient sharedClient] getPath:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
+    [[PreyStatusClientV2 sharedClient] GET:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
                                     parameters:nil
-                                       success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
+                                       success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,responseObject);
          
-         NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-         JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
+         NewModulesConfig *modulesConfig = [[NewModulesConfig alloc] init];
          
-         NSError *error2;
-         NewModulesConfig *modulesConfig = [configParser parseModulesConfig:respString parseError:&error2];
+         for (NSDictionary *dict in responseObject)
+         {
+             [modulesConfig addModule:dict];
+         }
          
          if ([modulesConfig checkAllModulesEmpty])
          {
@@ -354,12 +360,14 @@
          else
              [modulesConfig runAllModules];
          
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
          if (block)
-             block(operation.response,nil);
+             block(resp,nil);
          
-     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(NSURLSessionDataTask *operation, NSError *error)
      {
-         if ( ([operation.response statusCode] == 503) && (reload > 0) )
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         if ( ([resp statusCode] == 503) && (reload > 0) )
          {
              // Call method again
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -367,12 +375,12 @@
              });
          }
              // When reload <= 0 then return statusCode:503
-         else if ( ([operation.response statusCode] == 503) && (reload <= 0) )
+         else if ( ([resp statusCode] == 503) && (reload <= 0) )
              [self returnStatusCode503:block checkCompletionHandler:NO];
          
              // Return response to block
          else if (block)
-             block(operation.response, error);
+             block(resp, error);
          
          PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
      }];
@@ -382,19 +390,21 @@
 {
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     
-    [[AFPreyStatusClient sharedClient] postPath:url
+    [[PreyStatusClientV2 sharedClient] POST:url
                                      parameters:jsonData
-                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
+                                        success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,responseObject);
          if (block)
-             block(operation.response, nil);
+             block(resp, nil);
          
          [appDelegate checkedCompletionHandler];
          
-     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(NSURLSessionDataTask *operation, NSError *error)
      {
-         if ( ([operation.response statusCode] == 503) && (reload > 0) )
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         if ( ([resp statusCode] == 503) && (reload > 0) )
          {
              // Call method again
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -402,19 +412,19 @@
              });
          }
              // When reload <= 0 then return statusCode:503
-         else if ( ([operation.response statusCode] == 503) && (reload <= 0) )
+         else if ( ([resp statusCode] == 503) && (reload <= 0) )
              [self returnStatusCode503:block checkCompletionHandler:YES];
          
              // Return response to block
          else if (block)
          {
-             if ([operation.response statusCode] == 409)
+             if ([resp statusCode] == 409)
              {
                  [[ReportModule instance] stopSendReport];
                  [appDelegate checkedCompletionHandler];
              }
              
-             block(operation.response, error);
+             block(resp, error);
              [appDelegate checkedCompletionHandler];
          }
          
@@ -424,59 +434,57 @@
 
 + (void)sendJsonData:(NSInteger)reload withData:(NSDictionary*)jsonData andRawData:(NSDictionary*)rawData toEndpoint:(NSString *)url withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
-    NSMutableURLRequest *request;
-    request = [[AFPreyStatusClient sharedClient] multipartFormRequestWithMethod:@"POST" path:url parameters:jsonData
-                                                      constructingBodyWithBlock: ^(id <PreyAFMultipartFormData>formData)
-               {
-                   if ([rawData objectForKey:@"picture"]!=nil)
-                       [formData appendPartWithFileData:[rawData objectForKey:@"picture"] name:@"picture" fileName:@"picture.jpg" mimeType:@"image/png"];
-                   
-                   if ([rawData objectForKey:@"screenshot"]!=nil)
-                       [formData appendPartWithFileData:[rawData objectForKey:@"screenshot"] name:@"screenshot" fileName:@"screenshot.jpg" mimeType:@"image/png"];
-               }];
-    
-    PreyAFHTTPRequestOperation *operation = [[PreyAFHTTPRequestOperation alloc] initWithRequest:request];
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-    
-    
-    [operation setCompletionBlockWithSuccess:^(PreyAFHTTPRequestOperation *operation, id responseObject)
-     {
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-         
-         if (block)
-             block(operation.response, nil);
-         
-         [appDelegate checkedCompletionHandler];
-         
-     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
-     {
-         if ( ([operation.response statusCode] == 503) && (reload > 0) )
-         {
-             // Call method again
-             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                 [self sendJsonData:reload - 1 withData:jsonData andRawData:rawData toEndpoint:url withBlock:block];
-             });
-         }
-             // When reload <= 0 then return statusCode:503
-         else if ( ([operation.response statusCode] == 503) && (reload <= 0) )
-             [self returnStatusCode503:block checkCompletionHandler:YES];
-         
-             // Return response to block
-         else if (block)
-         {
-             if ([operation.response statusCode] == 409)
-             {
-                 [[ReportModule instance] stopSendReport];
-                 [appDelegate checkedCompletionHandler];
-             }
-             
-             block(operation.response, error);
-             [appDelegate checkedCompletionHandler];
-         }
-         
-         PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
-     }];
-    [[AFPreyStatusClient sharedClient] enqueueHTTPRequestOperation:operation];
+
+    [[PreyStatusClientV2 sharedClient] POST:url
+                                 parameters:jsonData
+                  constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                      
+                      if ([rawData objectForKey:@"picture"]!=nil)
+                          [formData appendPartWithFileData:[rawData objectForKey:@"picture"] name:@"picture" fileName:@"picture.jpg" mimeType:@"image/png"];
+                      
+                      if ([rawData objectForKey:@"screenshot"]!=nil)
+                          [formData appendPartWithFileData:[rawData objectForKey:@"screenshot"] name:@"screenshot" fileName:@"screenshot.jpg" mimeType:@"image/png"];
+                      
+    } success:^(NSURLSessionDataTask *operation, id responseObject) {
+        
+        NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+        PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,responseObject);
+        
+        if (block)
+            block(resp, nil);
+        
+        [appDelegate checkedCompletionHandler];
+
+    } failure:^(NSURLSessionDataTask *operation, NSError *error) {
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+        if ( ([resp statusCode] == 503) && (reload > 0) )
+        {
+            // Call method again
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [self sendJsonData:reload - 1 withData:jsonData andRawData:rawData toEndpoint:url withBlock:block];
+            });
+        }
+        // When reload <= 0 then return statusCode:503
+        else if ( ([resp statusCode] == 503) && (reload <= 0) )
+            [self returnStatusCode503:block checkCompletionHandler:YES];
+        
+        // Return response to block
+        else if (block)
+        {
+            if ([resp statusCode] == 409)
+            {
+                [[ReportModule instance] stopSendReport];
+                [appDelegate checkedCompletionHandler];
+            }
+            
+            block(resp, error);
+            [appDelegate checkedCompletionHandler];
+        }
+        
+        PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
+
+    }];
 }
 
 + (void)checkStatusInBackground:(NSInteger)reload withURL:(NSString*)endpoint withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
@@ -484,74 +492,36 @@
     NSMutableDictionary *requestData = [[NSMutableDictionary alloc] init];
     [requestData setObject:[[PreyConfig instance] deviceKey] forKey:@"device_key"];
     
-    [[AFPreyStatusClient sharedClient] postPath:endpoint
+    [[PreyStatusClientV2 sharedClient] POST:endpoint
                                      parameters:requestData
-                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
+                                        success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         PreyLogMessage(@"PreyRestHttp", 21, @"POST: %@",responseObject);
          
          if (block)
-             block(operation.response, nil);
+             block(resp, nil);
          
-     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
+     } failure:^(NSURLSessionDataTask *operation, NSError *error)
      {
-         if ( ([operation.response statusCode] == 503) && (reload > 0) )
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         if ( ([resp statusCode] == 503) && (reload > 0) )
          {
              // Call method again
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                 [self checkStatusForDevice:reload - 1 withBlock:block];
+                 [self checkStatusInBackground:reload - 1  withURL:endpoint withBlock:block];
              });
          }
              // When reload <= 0 then return statusCode:503
-         else if ( ([operation.response statusCode] == 503) && (reload <= 0) )
+         else if ( ([resp statusCode] == 503) && (reload <= 0) )
              [self returnStatusCode503:block checkCompletionHandler:NO];
          
              // Return response to block
          else if (block)
-             block(operation.response, error);
+             block(resp, error);
          
          PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
      }];
-}
-
-#pragma mark --
-
-+ (void)returnStatusCode503:(void (^)(NSHTTPURLResponse *response, NSError *error))block checkCompletionHandler:(BOOL)callHandler
-{
-    if (block)
-    {
-        NSError *error = [NSError errorWithDomain:@"StatusCode503Reload" code:700 userInfo:nil];
-        block(nil, error);
-
-        if (callHandler) {
-            PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-            [appDelegate checkedCompletionHandler];
-        }
-    }
-}
-
-+ (void)returnStatusCode503WithString:(void (^)(NSString *response, NSError *error))block checkCompletionHandler:(BOOL)callHandler
-{
-    if (block)
-    {
-        NSError *error = [NSError errorWithDomain:@"StatusCode503Reload" code:700 userInfo:nil];
-        block(nil, error);
-        
-        if (callHandler) {
-            PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-            [appDelegate checkedCompletionHandler];
-        }
-    }
-}
-
-+ (void)displayErrorAlert:(NSString *)alertMessage title:(NSString*)titleMessage
-{
-    UIAlertView * anAlert = [[UIAlertView alloc] initWithTitle:titleMessage
-                                                       message:alertMessage
-                                                      delegate:self
-                                             cancelButtonTitle:NSLocalizedString(@"OK",nil)
-                                             otherButtonTitles:nil];
-    [anAlert show];
 }
 
 @end

@@ -11,7 +11,7 @@
 #import "PreyRestHttpV1.h"
 #import "ReportModule.h"
 #import "PreyAFNetworking.h"
-#import "AFPreyStatusClient.h"
+#import "PreyStatusClientV1.h"
 #import "PreyConfig.h"
 #import "Constants.h"
 #import "JsonConfigParser.h"
@@ -27,7 +27,7 @@
     if (receiptData)
         [requestData setObject:receiptData forKey:@"receipt-data"];
     
-    [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingString:@"/subscriptions/receipt"]
+    [[PreyStatusClientV1 sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingString:@"/subscriptions/receipt"]
                                      parameters:requestData
                                         success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
@@ -59,9 +59,9 @@
 
 + (void)getCurrentControlPanelApiKey:(NSInteger)reload withUser:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block
 {
-    [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:[user email] password:[user password]];
+    [[PreyStatusClientV1 sharedClient] setAuthorizationHeaderWithUsername:[user email] password:[user password]];
     
-    [[AFPreyStatusClient sharedClient] getPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/profile.json"]
+    [[PreyStatusClientV1 sharedClient] getPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/profile.json"]
                                     parameters:nil
                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
@@ -74,7 +74,7 @@
          
          if (block) {
              block(user.apiKey, nil);
-             [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:user.apiKey password:@"x"];
+             [[PreyStatusClientV1 sharedClient] setAuthorizationHeaderWithUsername:user.apiKey password:@"x"];
          }
          
      } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
@@ -104,7 +104,7 @@
              [self displayErrorAlert:showMessage title:NSLocalizedString(@"Couldn't check your password",nil)];
              
              block(nil, error);
-             [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:[[PreyConfig instance] apiKey] password:@"x"];
+             [[PreyStatusClientV1 sharedClient] setAuthorizationHeaderWithUsername:[[PreyConfig instance] apiKey] password:@"x"];
          }
          
          PreyLogMessage(@"PreyRestHttp", 10,@"Error profile.json: %@",error);
@@ -121,7 +121,7 @@
     [requestData setObject:[user repassword] forKey:@"password_confirmation"];
     [requestData setObject:@"" forKey:@"referer_user_id"];
     
-    [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/signup.json"]
+    [[PreyStatusClientV1 sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/signup.json"]
                                      parameters:requestData
                                         success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
@@ -179,9 +179,9 @@
     [requestData setObject:[device cpu_cores] forKey:@"hardware_attributes[cpu_cores]"];
     [requestData setObject:[device ram_size] forKey:@"hardware_attributes[ram_size]"];
     
-    [[AFPreyStatusClient sharedClient] setAuthorizationHeaderWithUsername:apiKey password:@"x"];
+    [[PreyStatusClientV1 sharedClient] setAuthorizationHeaderWithUsername:apiKey password:@"x"];
     
-    [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices.json"]
+    [[PreyStatusClientV1 sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices.json"]
                                      parameters:requestData
                                         success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
@@ -230,7 +230,7 @@
 
 + (void)deleteDevice:(NSInteger)reload withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
-    [[AFPreyStatusClient sharedClient] deletePath:[[PreyConfig instance] deviceCheckPathWithExtension:@""]
+    [[PreyStatusClientV1 sharedClient] deletePath:[[PreyConfig instance] deviceCheckPathWithExtension:@""]
                                        parameters:nil
                                           success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
@@ -271,7 +271,7 @@
     NSDictionary    *params     = [NSDictionary dictionaryWithObjectsAndKeys: tokenId, @"notification_id", nil];
     NSString        *deviceKey  = [[PreyConfig instance] deviceKey];
     
-    [[AFPreyStatusClient sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",deviceKey]
+    [[PreyStatusClientV1 sharedClient] postPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/data",deviceKey]
                                      parameters:params
                                         success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
@@ -319,7 +319,7 @@
         [modulesConfig runAllModules];
 
     
-    [[AFPreyStatusClient sharedClient] getPath:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
+    [[PreyStatusClientV1 sharedClient] getPath:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
                                     parameters:nil
                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
@@ -334,7 +334,7 @@
 {
     NSString *deviceKey = [[PreyConfig instance] deviceKey];
     
-    [[AFPreyStatusClient sharedClient] getPath:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
+    [[PreyStatusClientV1 sharedClient] getPath:[NSString stringWithFormat:@"/api/v2/devices/%@.json", deviceKey]
                                     parameters:nil
                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
@@ -382,7 +382,7 @@
 {
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     
-    [[AFPreyStatusClient sharedClient] postPath:url
+    [[PreyStatusClientV1 sharedClient] postPath:url
                                      parameters:jsonData
                                         success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
@@ -425,7 +425,7 @@
 + (void)sendJsonData:(NSInteger)reload withData:(NSDictionary*)jsonData andRawData:(NSDictionary*)rawData toEndpoint:(NSString *)url withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
     NSMutableURLRequest *request;
-    request = [[AFPreyStatusClient sharedClient] multipartFormRequestWithMethod:@"POST" path:url parameters:jsonData
+    request = [[PreyStatusClientV1 sharedClient] multipartFormRequestWithMethod:@"POST" path:url parameters:jsonData
                                                       constructingBodyWithBlock: ^(id <PreyAFMultipartFormData>formData)
                {
                    if ([rawData objectForKey:@"picture"]!=nil)
@@ -476,7 +476,7 @@
          
          PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
      }];
-    [[AFPreyStatusClient sharedClient] enqueueHTTPRequestOperation:operation];
+    [[PreyStatusClientV1 sharedClient] enqueueHTTPRequestOperation:operation];
 }
 
 + (void)checkStatusInBackground:(NSInteger)reload withURL:(NSString*)endpoint withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
@@ -484,7 +484,7 @@
     NSMutableDictionary *requestData = [[NSMutableDictionary alloc] init];
     [requestData setObject:[[PreyConfig instance] deviceKey] forKey:@"device_key"];
     
-    [[AFPreyStatusClient sharedClient] postPath:endpoint
+    [[PreyStatusClientV1 sharedClient] postPath:endpoint
                                      parameters:requestData
                                         success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
@@ -499,7 +499,7 @@
          {
              // Call method again
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                 [self checkStatusForDevice:reload - 1 withBlock:block];
+                 [self checkStatusInBackground:reload - 1  withURL:endpoint withBlock:block];
              });
          }
              // When reload <= 0 then return statusCode:503

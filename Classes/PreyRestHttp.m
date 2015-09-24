@@ -11,7 +11,6 @@
 #import "PreyRestHttp.h"
 #import "ReportModule.h"
 #import "PreyAFNetworking.h"
-#import "AFPreyStatusClient.h"
 #import "PreyConfig.h"
 #import "Constants.h"
 #import "JsonConfigParser.h"

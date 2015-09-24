@@ -10,7 +10,6 @@
 #import "PreyRestHttp.h"
 #import "PreyConfig.h"
 #import "Constants.h"
-#import "AFPreyStatusClient.h"
 
 @implementation DataModule
 
@@ -62,8 +61,6 @@
     
     if (jsonData)
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
-    [[AFPreyStatusClient sharedClient] setDefaultHeader:@"X-Prey-Status" value:jsonString];
     
     [[PreyRestHttp getClassVersion] sendJsonData:5 withData:parameters
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/events",[[PreyConfig instance] deviceKey]]
