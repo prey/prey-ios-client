@@ -22,11 +22,10 @@
         [config setHTTPAdditionalHeaders:@{ @"User-Agent" : [self userAgent]}];
         [config setHTTPAdditionalHeaders:@{ @"Content-Type" : @"application/json"}];
         
+        _sharedClient = [[PreyStatusClientV2 alloc] initWithBaseURL:baseURL sessionConfiguration:config];
         _sharedClient.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
         _sharedClient.requestSerializer  = [AFJSONRequestSerializer serializer];
         [_sharedClient.requestSerializer setAuthorizationHeaderFieldWithUsername:[[PreyConfig instance] apiKey] password:@"x"];
-        
-        _sharedClient = [[PreyStatusClientV2 alloc] initWithBaseURL:baseURL sessionConfiguration:config];
     });
     
     return _sharedClient;

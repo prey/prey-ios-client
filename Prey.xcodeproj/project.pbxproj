@@ -968,14 +968,11 @@
 		0780541E1255421800E4CCE5 /* Prey Http */ = {
 			isa = PBXGroup;
 			children = (
-				3BA3EAA818F19AAA00B3CA80 /* PreyStatusClientV1.h */,
-				3BA3EAA918F19AAA00B3CA80 /* PreyStatusClientV1.m */,
+				3B6F80DD1BB44E5200961E6F /* V1 */,
 				3BAA98721BB3538F00CB4125 /* PreyStatusClientV2.h */,
 				3BAA98731BB3538F00CB4125 /* PreyStatusClientV2.m */,
 				0713244C134635C400F7EFD8 /* PreyRestHttp.h */,
 				0713244D134635C400F7EFD8 /* PreyRestHttp.m */,
-				3BAA986C1BB3437000CB4125 /* PreyRestHttpV1.h */,
-				3BAA986D1BB3437000CB4125 /* PreyRestHttpV1.m */,
 				3BAA986E1BB3437000CB4125 /* PreyRestHttpV2.h */,
 				3BAA986F1BB3437000CB4125 /* PreyRestHttpV2.m */,
 				07435EF21680FDA000FBD54B /* JsonConfigParser.h */,
@@ -1186,6 +1183,17 @@
 				3B656D6C1A0A47A1007C85E4 /* Localizable.strings */,
 			);
 			path = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		3B6F80DD1BB44E5200961E6F /* V1 */ = {
+			isa = PBXGroup;
+			children = (
+				3BA3EAA818F19AAA00B3CA80 /* PreyStatusClientV1.h */,
+				3BA3EAA918F19AAA00B3CA80 /* PreyStatusClientV1.m */,
+				3BAA986C1BB3437000CB4125 /* PreyRestHttpV1.h */,
+				3BAA986D1BB3437000CB4125 /* PreyRestHttpV1.m */,
+			);
+			name = V1;
 			sourceTree = "<group>";
 		};
 		3B7D4FAF1B4D972200F000B1 /* Externals */ = {
