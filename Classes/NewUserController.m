@@ -78,7 +78,7 @@
         [email becomeFirstResponder];
         return;
     }
-    
+
     if ([name.text length] < 1)
     {
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil) message:NSLocalizedString(@"Name can't be blank",nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -243,7 +243,7 @@
     scrollView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
     
     // Check email inputs
-    strEmailMatchstring =   @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
+    strEmailMatchstring =   kStrEmailRegExp;
 
     // Main View Color:White
     [self.view setBackgroundColor:[UIColor whiteColor]];

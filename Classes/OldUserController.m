@@ -227,7 +227,7 @@
     scrollView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
     
     // Check email inputs
-    strEmailMatchstring =   @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,6})\\b";
+    strEmailMatchstring =   kStrEmailRegExp;
     
     // Main View Color:White
     [self.view setBackgroundColor:[UIColor whiteColor]];

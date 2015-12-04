@@ -41,6 +41,8 @@
 #define kTagNotifySwitch   3303
 
 
+#define kStrEmailRegExp @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b";
+
 #define kGAIcode @"UA-8743344-7"
 
 #define kLabelTag	4096
