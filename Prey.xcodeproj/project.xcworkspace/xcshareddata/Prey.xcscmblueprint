@@ -1,0 +1,58 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "B8AFC418E4AD7753C47B407DD923BBCD0CA9DFC1",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2B858CE492C59A91F1112F6810689C5505846642" : 0,
+    "A1F2DF57605D01F240A56F2D16A22892BAF74E87" : 0,
+    "B8AFC418E4AD7753C47B407DD923BBCD0CA9DFC1" : 0,
+    "4182765C525509B305166AB949D5935FD5C85212" : 0,
+    "DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8" : 0,
+    "8884BD3B878631A1500EC9895E6A3CF4CB0AB3DB" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "643F7D28-A1BE-4F71-A816-F931418F7F6A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2B858CE492C59A91F1112F6810689C5505846642" : "prey-ios-clientClasses\/NSLogger",
+    "A1F2DF57605D01F240A56F2D16A22892BAF74E87" : "prey-ios-clientClasses\/UIDevice-Extension",
+    "B8AFC418E4AD7753C47B407DD923BBCD0CA9DFC1" : "prey-ios-client",
+    "4182765C525509B305166AB949D5935FD5C85212" : "prey-ios-clientClasses\/MBProgressHUD",
+    "DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8" : "prey-ios-clientClasses\/AFNetworking-1.x",
+    "8884BD3B878631A1500EC9895E6A3CF4CB0AB3DB" : "prey-ios-clientClasses\/Expecta"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Prey",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Prey.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git:\/\/github.com\/fpillet\/NSLogger.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2B858CE492C59A91F1112F6810689C5505846642"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git:\/\/github.com\/jdg\/MBProgressHUD.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "4182765C525509B305166AB949D5935FD5C85212"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/specta\/expecta",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8884BD3B878631A1500EC9895E6A3CF4CB0AB3DB"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git:\/\/github.com\/erica\/uidevice-extension.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A1F2DF57605D01F240A56F2D16A22892BAF74E87"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/prey\/prey-ios-client.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B8AFC418E4AD7753C47B407DD923BBCD0CA9DFC1"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/AFNetworking\/AFNetworking",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8"
+    }
+  ]
+}
