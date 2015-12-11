@@ -116,6 +116,10 @@
 		<string>OpenSans-Regular.ttf</string>
 		<string>Roboto-Regular.ttf</string>
 		<string>large9.ttf</string>
+		<string>magdacleanmono-regular.otf</string>
+		<string>magdacleanmono-bold.ttf</string>
+		<string>TitilliumWeb-Regular.ttf</string>
+		<string>TitilliumWeb-Bold.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

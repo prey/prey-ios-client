@@ -161,6 +161,8 @@
 		3B4B24DB1A115C76002B64E8 /* close_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D51A115C76002B64E8 /* close_on@2x.png */; };
 		3B4B24DC1A115C76002B64E8 /* close_on@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D61A115C76002B64E8 /* close_on@3x.png */; };
 		3B56DF1B197EB92300FE7218 /* UserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B67DCC21976B549003D80D4 /* UserController.m */; };
+		3B5F0B341C18D68000A7B3E1 /* StatusDeviceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5F0B321C18D68000A7B3E1 /* StatusDeviceVC.m */; };
+		3B5F0B351C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B5F0B331C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib */; };
 		3B6003601A5DDAB300948F96 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; };
 		3B62F4451AE1C1770060C8D7 /* theft.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B62F4441AE1C1770060C8D7 /* theft.png */; };
 		3B656D791A0A47A1007C85E4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B656D6C1A0A47A1007C85E4 /* Localizable.strings */; };
@@ -175,6 +177,14 @@
 		3B6D2E461A0AF4DD00DF1EE7 /* AppStoreViewController-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6D2E411A0AF4DD00DF1EE7 /* AppStoreViewController-iPhone.xib */; };
 		3B6D2E471A0AF4DD00DF1EE7 /* AppStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D2E431A0AF4DD00DF1EE7 /* AppStoreViewController.m */; };
 		3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */; };
+		3B6FEA681C1B182200790B30 /* StatusDevice-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA671C1B182200790B30 /* StatusDevice-iPhone.xib */; };
+		3B6FEA6A1C1B1B2600790B30 /* StatusDevice-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA691C1B1B2600790B30 /* StatusDevice-iPad.xib */; };
+		3B6FEA6E1C1B214600790B30 /* SignUpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FEA6C1C1B214600790B30 /* SignUpVC.m */; };
+		3B6FEA6F1C1B214600790B30 /* SignUpVC-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA6D1C1B214600790B30 /* SignUpVC-iPhone-568h.xib */; };
+		3B6FEA721C1B22F200790B30 /* bg-register.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA701C1B22F200790B30 /* bg-register.png */; };
+		3B6FEA731C1B22F200790B30 /* bg-register@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA711C1B22F200790B30 /* bg-register@2x.png */; };
+		3B6FEA761C1B2CBD00790B30 /* line-input.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA741C1B2CBD00790B30 /* line-input.png */; };
+		3B6FEA771C1B2CBD00790B30 /* line-input@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA751C1B2CBD00790B30 /* line-input@2x.png */; };
 		3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71AB1417FA215D0091FE14 /* CamouflageModule.m */; };
 		3B7C148C1909506E0080C606 /* PhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7C148B1909506E0080C606 /* PhotoController.m */; };
 		3B7D4FAD1B4D67A400F000B1 /* PreyStoreProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7D4FAC1B4D67A400F000B1 /* PreyStoreProduct.m */; };
@@ -351,6 +361,14 @@
 		3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
+		3BD920441C1A1BCC00F630C5 /* prey-logo-txt-mono.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BD920401C1A1BCC00F630C5 /* prey-logo-txt-mono.png */; };
+		3BD920451C1A1BCC00F630C5 /* prey-logo-txt-mono@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BD920411C1A1BCC00F630C5 /* prey-logo-txt-mono@2x.png */; };
+		3BD920461C1A1BCC00F630C5 /* shield.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BD920421C1A1BCC00F630C5 /* shield.png */; };
+		3BD920471C1A1BCC00F630C5 /* shield@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BD920431C1A1BCC00F630C5 /* shield@2x.png */; };
+		3BD920491C1A24DE00F630C5 /* magdacleanmono-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BD920481C1A24DE00F630C5 /* magdacleanmono-regular.otf */; };
+		3BD9204B1C1A26A300F630C5 /* magdacleanmono-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BD9204A1C1A26A300F630C5 /* magdacleanmono-bold.ttf */; };
+		3BD9204D1C1A2C6F00F630C5 /* TitilliumWeb-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BD9204C1C1A2C6F00F630C5 /* TitilliumWeb-Regular.ttf */; };
+		3BD9204F1C1A2D1A00F630C5 /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BD9204E1C1A2D1A00F630C5 /* TitilliumWeb-Bold.ttf */; };
 		3BE034B21AEFDC08003E88B1 /* Wifi-Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE034B11AEFDC08003E88B1 /* Wifi-Info.m */; };
 		3BE24A761ABB915100464C1D /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A5E1ABB915100464C1D /* TFHpple.m */; };
 		3BE24A771ABB915100464C1D /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A601ABB915100464C1D /* TFHppleElement.m */; };
@@ -540,6 +558,9 @@
 		3B4B24D51A115C76002B64E8 /* close_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_on@2x.png"; sourceTree = "<group>"; };
 		3B4B24D61A115C76002B64E8 /* close_on@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_on@3x.png"; sourceTree = "<group>"; };
 		3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		3B5F0B311C18D68000A7B3E1 /* StatusDeviceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusDeviceVC.h; path = "Classes/Onboarding 2/StatusDeviceVC.h"; sourceTree = "<group>"; };
+		3B5F0B321C18D68000A7B3E1 /* StatusDeviceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusDeviceVC.m; path = "Classes/Onboarding 2/StatusDeviceVC.m"; sourceTree = "<group>"; };
+		3B5F0B331C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "StatusDevice-iPhone-568h.xib"; path = "Classes/Onboarding 2/StatusDevice-iPhone-568h.xib"; sourceTree = "<group>"; };
 		3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		3B62F4441AE1C1770060C8D7 /* theft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = theft.png; sourceTree = "<group>"; };
 		3B656D6F1A0A47A1007C85E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -565,6 +586,15 @@
 		3B6D2E421A0AF4DD00DF1EE7 /* AppStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppStoreViewController.h; sourceTree = "<group>"; };
 		3B6D2E431A0AF4DD00DF1EE7 /* AppStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppStoreViewController.m; sourceTree = "<group>"; };
 		3B6FE83816FE34F500517B97 /* AlertModuleController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AlertModuleController-iPad.xib"; path = "Classes/AlertModuleController-iPad.xib"; sourceTree = "<group>"; };
+		3B6FEA671C1B182200790B30 /* StatusDevice-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "StatusDevice-iPhone.xib"; path = "Classes/Onboarding 2/StatusDevice-iPhone.xib"; sourceTree = "<group>"; };
+		3B6FEA691C1B1B2600790B30 /* StatusDevice-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "StatusDevice-iPad.xib"; path = "Classes/Onboarding 2/StatusDevice-iPad.xib"; sourceTree = "<group>"; };
+		3B6FEA6B1C1B214600790B30 /* SignUpVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignUpVC.h; path = "Classes/Onboarding 2/SignUpVC.h"; sourceTree = "<group>"; };
+		3B6FEA6C1C1B214600790B30 /* SignUpVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignUpVC.m; path = "Classes/Onboarding 2/SignUpVC.m"; sourceTree = "<group>"; };
+		3B6FEA6D1C1B214600790B30 /* SignUpVC-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "SignUpVC-iPhone-568h.xib"; path = "Classes/Onboarding 2/SignUpVC-iPhone-568h.xib"; sourceTree = "<group>"; };
+		3B6FEA701C1B22F200790B30 /* bg-register.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-register.png"; sourceTree = "<group>"; };
+		3B6FEA711C1B22F200790B30 /* bg-register@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-register@2x.png"; sourceTree = "<group>"; };
+		3B6FEA741C1B2CBD00790B30 /* line-input.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line-input.png"; sourceTree = "<group>"; };
+		3B6FEA751C1B2CBD00790B30 /* line-input@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line-input@2x.png"; sourceTree = "<group>"; };
 		3B71AB1317FA215D0091FE14 /* CamouflageModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamouflageModule.h; sourceTree = "<group>"; };
 		3B71AB1417FA215D0091FE14 /* CamouflageModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CamouflageModule.m; sourceTree = "<group>"; };
 		3B7B0C8C17171CAD002B6E2D /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -727,6 +757,14 @@
 		3BD74797170F7EFB00F44E2C /* LoggerClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
 		3BD74798170F7EFB00F44E2C /* LoggerClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = "NSLogger/Client Logger/iOS/LoggerClient.m"; sourceTree = "<group>"; };
 		3BD74799170F7EFB00F44E2C /* LoggerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
+		3BD920401C1A1BCC00F630C5 /* prey-logo-txt-mono.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-logo-txt-mono.png"; sourceTree = "<group>"; };
+		3BD920411C1A1BCC00F630C5 /* prey-logo-txt-mono@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-logo-txt-mono@2x.png"; sourceTree = "<group>"; };
+		3BD920421C1A1BCC00F630C5 /* shield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield.png; sourceTree = "<group>"; };
+		3BD920431C1A1BCC00F630C5 /* shield@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shield@2x.png"; sourceTree = "<group>"; };
+		3BD920481C1A24DE00F630C5 /* magdacleanmono-regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "magdacleanmono-regular.otf"; path = "Resources/Fonts/magdacleanmono-regular.otf"; sourceTree = "<group>"; };
+		3BD9204A1C1A26A300F630C5 /* magdacleanmono-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "magdacleanmono-bold.ttf"; path = "Resources/Fonts/magdacleanmono-bold.ttf"; sourceTree = "<group>"; };
+		3BD9204C1C1A2C6F00F630C5 /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "TitilliumWeb-Regular.ttf"; path = "Resources/Fonts/TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
+		3BD9204E1C1A2D1A00F630C5 /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "TitilliumWeb-Bold.ttf"; path = "Resources/Fonts/TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
 		3BE034B01AEFDC08003E88B1 /* Wifi-Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Wifi-Info.h"; sourceTree = "<group>"; };
 		3BE034B11AEFDC08003E88B1 /* Wifi-Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Wifi-Info.m"; sourceTree = "<group>"; };
 		3BE24A5D1ABB915100464C1D /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
@@ -880,6 +918,7 @@
 		07178F3B12675C2C007B290C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3B5F0B301C18D59A00A7B3E1 /* Onboarding 2 */,
 				3BE24A5B1ABB915100464C1D /* Recoveries Controller */,
 				3BA73C641AA519C9002080CB /* Onboarding Controller */,
 				3BD9FB82195C75EC0005FC57 /* FakeWebView Controller */,
@@ -1177,6 +1216,22 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
+		3B5F0B301C18D59A00A7B3E1 /* Onboarding 2 */ = {
+			isa = PBXGroup;
+			children = (
+				3BD9203F1C1A1BCC00F630C5 /* Onboarding 2 */,
+				3B5F0B311C18D68000A7B3E1 /* StatusDeviceVC.h */,
+				3B5F0B321C18D68000A7B3E1 /* StatusDeviceVC.m */,
+				3B6FEA691C1B1B2600790B30 /* StatusDevice-iPad.xib */,
+				3B6FEA671C1B182200790B30 /* StatusDevice-iPhone.xib */,
+				3B5F0B331C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib */,
+				3B6FEA6B1C1B214600790B30 /* SignUpVC.h */,
+				3B6FEA6C1C1B214600790B30 /* SignUpVC.m */,
+				3B6FEA6D1C1B214600790B30 /* SignUpVC-iPhone-568h.xib */,
+			);
+			name = "Onboarding 2";
+			sourceTree = "<group>";
+		};
 		3B656D6B1A0A47A1007C85E4 /* Localizable.strings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1444,6 +1499,10 @@
 			isa = PBXGroup;
 			children = (
 				3B8AC77719F9D01C00464098 /* large9.ttf */,
+				3BD920481C1A24DE00F630C5 /* magdacleanmono-regular.otf */,
+				3BD9204A1C1A26A300F630C5 /* magdacleanmono-bold.ttf */,
+				3BD9204E1C1A2D1A00F630C5 /* TitilliumWeb-Bold.ttf */,
+				3BD9204C1C1A2C6F00F630C5 /* TitilliumWeb-Regular.ttf */,
 				3B8AC77819F9D01C00464098 /* NewJuneBold.otf */,
 				3BAB3CFC1A099FBC003BFCCE /* OpenSans-Bold.ttf */,
 				3B8AC77919F9D01C00464098 /* OpenSans-Regular.ttf */,
@@ -1451,6 +1510,22 @@
 				3B8AC77B19F9D01C00464098 /* Roboto-Regular.ttf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		3BD9203F1C1A1BCC00F630C5 /* Onboarding 2 */ = {
+			isa = PBXGroup;
+			children = (
+				3B6FEA701C1B22F200790B30 /* bg-register.png */,
+				3B6FEA711C1B22F200790B30 /* bg-register@2x.png */,
+				3B6FEA741C1B2CBD00790B30 /* line-input.png */,
+				3B6FEA751C1B2CBD00790B30 /* line-input@2x.png */,
+				3BD920401C1A1BCC00F630C5 /* prey-logo-txt-mono.png */,
+				3BD920411C1A1BCC00F630C5 /* prey-logo-txt-mono@2x.png */,
+				3BD920421C1A1BCC00F630C5 /* shield.png */,
+				3BD920431C1A1BCC00F630C5 /* shield@2x.png */,
+			);
+			name = "Onboarding 2";
+			path = "Resources/Onboarding 2";
 			sourceTree = "<group>";
 		};
 		3BD9FB82195C75EC0005FC57 /* FakeWebView Controller */ = {
@@ -1654,6 +1729,7 @@
 				3B8AC76019F9C96700464098 /* Default~ipad.png in Resources */,
 				3B4585211AB785F400B07BC1 /* notifyIcon@2x.png in Resources */,
 				3B45851E1AB785F400B07BC1 /* logoType.png in Resources */,
+				3B6FEA6A1C1B1B2600790B30 /* StatusDevice-iPad.xib in Resources */,
 				3B8AC75F19F9C96700464098 /* Default@2x~iphone.png in Resources */,
 				3BAB3CED1A09874E003BFCCE /* bg-welcome-iPhone@2x.png in Resources */,
 				3B8AC77119F9C96700464098 /* Icon-Small@2x.png in Resources */,
@@ -1665,12 +1741,14 @@
 				3B8AC79B19F9D0C800464098 /* camouflage-iPhone in Resources */,
 				3B656D791A0A47A1007C85E4 /* Localizable.strings in Resources */,
 				07132400134633B800F7EFD8 /* CongratulationsController-iPhone.xib in Resources */,
+				3B6FEA681C1B182200790B30 /* StatusDevice-iPhone.xib in Resources */,
 				3B8AC76E19F9C96700464098 /* Icon-Small-50@2x.png in Resources */,
 				3B8AC79C19F9D0C800464098 /* camouflage-iPhone5 in Resources */,
 				3B45851A1AB785F400B07BC1 /* cameraIcon.png in Resources */,
 				3BA1816118CE7C4C00E7700B /* CongratulationsController-iPhone-568h.xib in Resources */,
 				3BAB3CF51A098877003BFCCE /* protected@2x.png in Resources */,
 				3B8AC76819F9C96700464098 /* Icon-76@2x.png in Resources */,
+				3B6FEA6F1C1B214600790B30 /* SignUpVC-iPhone-568h.xib in Resources */,
 				3B8AC7A819F9D0F200464098 /* siren.mp3 in Resources */,
 				3BA232901A0BA84D005E5145 /* store_discount-iPad.png in Resources */,
 				3BAB3CF91A098977003BFCCE /* prey-text-white@2x.png in Resources */,
@@ -1679,8 +1757,11 @@
 				071324581346363300F7EFD8 /* AlertModuleController-iPhone.xib in Resources */,
 				3B8AC7A219F9D0C800464098 /* prey-text@2x.png in Resources */,
 				071324591346363300F7EFD8 /* MainWindow-iPhone.xib in Resources */,
+				3B5F0B351C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib in Resources */,
+				3B6FEA761C1B2CBD00790B30 /* line-input.png in Resources */,
 				3BAB3CF41A098877003BFCCE /* protected.png in Resources */,
 				3BA2328B1A0B9757005E5145 /* store_pro.png in Resources */,
+				3BD920471C1A1BCC00F630C5 /* shield@2x.png in Resources */,
 				3BAB3CF71A098877003BFCCE /* unprotected@2x.png in Resources */,
 				3BA73C681AA519F5002080CB /* OnboardingView-iPhone-568h.xib in Resources */,
 				3B4585291AB785F400B07BC1 /* reportImage.png in Resources */,
@@ -1690,11 +1771,14 @@
 				3B8AC76F19F9C96700464098 /* Icon-Small-80.png in Resources */,
 				3B1C2BB2191AC7E000DFD677 /* ManagedAppConfig.plist in Resources */,
 				3B8AC77E19F9D01C00464098 /* OpenSans-Regular.ttf in Resources */,
+				3BD9204B1C1A26A300F630C5 /* magdacleanmono-bold.ttf in Resources */,
+				3B6FEA771C1B2CBD00790B30 /* line-input@2x.png in Resources */,
 				3B8AC76719F9C96700464098 /* Icon-76.png in Resources */,
 				3B8AC7A719F9D0F200464098 /* shutter.aiff in Resources */,
 				3BA232981A0C2F85005E5145 /* store_pro-iPad@2x.png in Resources */,
 				3BAE4E53190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib in Resources */,
 				3B8AC77D19F9D01C00464098 /* NewJuneBold.otf in Resources */,
+				3BD920451C1A1BCC00F630C5 /* prey-logo-txt-mono@2x.png in Resources */,
 				3BA2328E1A0B9DD4005E5145 /* bt-store.png in Resources */,
 				3BA73C6B1AA51E85002080CB /* OnboardingView-iPhone.xib in Resources */,
 				3B8AC75E19F9C96700464098 /* Default-Portrait~ipad.png in Resources */,
@@ -1705,6 +1789,7 @@
 				3BA6A26C1676A56E005323EB /* CongratulationsController-iPad.xib in Resources */,
 				3B4585231AB785F400B07BC1 /* preyIconBird.png in Resources */,
 				3B6D2E441A0AF4DD00DF1EE7 /* AppStoreViewController-iPad.xib in Resources */,
+				3BD9204D1C1A2C6F00F630C5 /* TitilliumWeb-Regular.ttf in Resources */,
 				3B4B24DA1A115C76002B64E8 /* close_on.png in Resources */,
 				3B4B24D91A115C76002B64E8 /* close_off@3x.png in Resources */,
 				3BA232921A0BB37A005E5145 /* GrettingsProViewController-iPhone-568h.xib in Resources */,
@@ -1729,6 +1814,7 @@
 				3BAB3CFB1A0993ED003BFCCE /* bt-welcome-press.png in Resources */,
 				3B6FE83916FE34F500517B97 /* AlertModuleController-iPad.xib in Resources */,
 				3B8AC77619F9C96700464098 /* iTunesArtwork@2x.png in Resources */,
+				3BD920461C1A1BCC00F630C5 /* shield.png in Resources */,
 				3B62F4451AE1C1770060C8D7 /* theft.png in Resources */,
 				3B4B24D71A115C76002B64E8 /* close_off.png in Resources */,
 				3B8AC75D19F9C96700464098 /* Default-568h@2x.png in Resources */,
@@ -1751,12 +1837,15 @@
 				3B8AC79919F9D0C800464098 /* bt-welcome.png in Resources */,
 				3B150F2C18D11B96003BD13E /* WelcomeController-iPhone.xib in Resources */,
 				3B4585181AB785F400B07BC1 /* arrowNext.png in Resources */,
+				3BD9204F1C1A2D1A00F630C5 /* TitilliumWeb-Bold.ttf in Resources */,
 				3B8AC76319F9C96700464098 /* Icon-60@2x.png in Resources */,
 				3B8AC77519F9C96700464098 /* iTunesArtwork.png in Resources */,
 				3B2A3BD017CE68B3000D5B9D /* Settings.bundle in Resources */,
 				3B8AC77C19F9D01C00464098 /* large9.ttf in Resources */,
 				3BAE4E52190AB96F0093ECA2 /* GrettingsProViewController-iPad.xib in Resources */,
 				3BAB3CFD1A099FBC003BFCCE /* OpenSans-Bold.ttf in Resources */,
+				3BD920441C1A1BCC00F630C5 /* prey-logo-txt-mono.png in Resources */,
+				3BD920491C1A24DE00F630C5 /* magdacleanmono-regular.otf in Resources */,
 				3B8AC79519F9D0C800464098 /* bg-welcome-iPad.png in Resources */,
 				3B8AC76B19F9C96700464098 /* Icon-Small-40@2x.png in Resources */,
 				3B4585241AB785F400B07BC1 /* preyIconBird@2x.png in Resources */,
@@ -1764,6 +1853,8 @@
 				3B4585251AB785F400B07BC1 /* preyIconBorder.png in Resources */,
 				3B8AC78019F9D01C00464098 /* Roboto-Regular.ttf in Resources */,
 				3B8AC79A19F9D0C800464098 /* camouflage-iPad in Resources */,
+				3B6FEA721C1B22F200790B30 /* bg-register.png in Resources */,
+				3B6FEA731C1B22F200790B30 /* bg-register@2x.png in Resources */,
 				3BA2328C1A0B9757005E5145 /* store_pro@2x.png in Resources */,
 				3B8AC76119F9C96700464098 /* Default~iphone.png in Resources */,
 			);
@@ -1835,6 +1926,7 @@
 				071324151346346F00F7EFD8 /* IphoneInformationHelper.m in Sources */,
 				3BC057D61BB201F1006C1DB7 /* AFURLRequestSerialization.m in Sources */,
 				3BFF783F189C592500694625 /* DeviceMapController.m in Sources */,
+				3B6FEA6E1C1B214600790B30 /* SignUpVC.m in Sources */,
 				3BC582951B4ADD3A00636F6A /* DeviceAuth.m in Sources */,
 				071324181346348400F7EFD8 /* FakeWebView.m in Sources */,
 				3BAE4E54190AB96F0093ECA2 /* GrettingsProViewController.m in Sources */,
@@ -1844,6 +1936,7 @@
 				0713242F1346350100F7EFD8 /* LocationController.m in Sources */,
 				3BE24A7A1ABB915100464C1D /* NSMutableString+RSSKit.m in Sources */,
 				071324331346353C00F7EFD8 /* WelcomeController.m in Sources */,
+				3B5F0B341C18D68000A7B3E1 /* StatusDeviceVC.m in Sources */,
 				0713243B1346356300F7EFD8 /* PreyLogger.m in Sources */,
 				0713243F1346357500F7EFD8 /* SignificantLocationController.m in Sources */,
 				3BAA98711BB3437000CB4125 /* PreyRestHttpV2.m in Sources */,
