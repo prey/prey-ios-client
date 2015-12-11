@@ -185,6 +185,13 @@
 		3B6FEA731C1B22F200790B30 /* bg-register@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA711C1B22F200790B30 /* bg-register@2x.png */; };
 		3B6FEA761C1B2CBD00790B30 /* line-input.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA741C1B2CBD00790B30 /* line-input.png */; };
 		3B6FEA771C1B2CBD00790B30 /* line-input@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA751C1B2CBD00790B30 /* line-input@2x.png */; };
+		3B6FEA791C1B413100790B30 /* SignUpVC-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA781C1B413000790B30 /* SignUpVC-iPhone.xib */; };
+		3B6FEA7B1C1B41B300790B30 /* SignUpVC-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA7A1C1B41B300790B30 /* SignUpVC-iPad.xib */; };
+		3B6FEA7E1C1B6B1200790B30 /* UserRegisterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FEA7D1C1B6B1100790B30 /* UserRegisterVC.m */; };
+		3B6FEA841C1B856E00790B30 /* SignInVC-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA7F1C1B856E00790B30 /* SignInVC-iPad.xib */; };
+		3B6FEA851C1B856E00790B30 /* SignInVC-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA801C1B856E00790B30 /* SignInVC-iPhone-568h.xib */; };
+		3B6FEA861C1B856E00790B30 /* SignInVC-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B6FEA811C1B856E00790B30 /* SignInVC-iPhone.xib */; };
+		3B6FEA871C1B856E00790B30 /* SignInVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FEA831C1B856E00790B30 /* SignInVC.m */; };
 		3B71AB1517FA215D0091FE14 /* CamouflageModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B71AB1417FA215D0091FE14 /* CamouflageModule.m */; };
 		3B7C148C1909506E0080C606 /* PhotoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7C148B1909506E0080C606 /* PhotoController.m */; };
 		3B7D4FAD1B4D67A400F000B1 /* PreyStoreProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7D4FAC1B4D67A400F000B1 /* PreyStoreProduct.m */; };
@@ -595,6 +602,15 @@
 		3B6FEA711C1B22F200790B30 /* bg-register@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-register@2x.png"; sourceTree = "<group>"; };
 		3B6FEA741C1B2CBD00790B30 /* line-input.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line-input.png"; sourceTree = "<group>"; };
 		3B6FEA751C1B2CBD00790B30 /* line-input@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line-input@2x.png"; sourceTree = "<group>"; };
+		3B6FEA781C1B413000790B30 /* SignUpVC-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "SignUpVC-iPhone.xib"; path = "Classes/Onboarding 2/SignUpVC-iPhone.xib"; sourceTree = "<group>"; };
+		3B6FEA7A1C1B41B300790B30 /* SignUpVC-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "SignUpVC-iPad.xib"; path = "Classes/Onboarding 2/SignUpVC-iPad.xib"; sourceTree = "<group>"; };
+		3B6FEA7C1C1B6B1100790B30 /* UserRegisterVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserRegisterVC.h; path = "Classes/Onboarding 2/UserRegisterVC.h"; sourceTree = "<group>"; };
+		3B6FEA7D1C1B6B1100790B30 /* UserRegisterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserRegisterVC.m; path = "Classes/Onboarding 2/UserRegisterVC.m"; sourceTree = "<group>"; };
+		3B6FEA7F1C1B856E00790B30 /* SignInVC-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "SignInVC-iPad.xib"; path = "Classes/Onboarding 2/SignInVC-iPad.xib"; sourceTree = "<group>"; };
+		3B6FEA801C1B856E00790B30 /* SignInVC-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "SignInVC-iPhone-568h.xib"; path = "Classes/Onboarding 2/SignInVC-iPhone-568h.xib"; sourceTree = "<group>"; };
+		3B6FEA811C1B856E00790B30 /* SignInVC-iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "SignInVC-iPhone.xib"; path = "Classes/Onboarding 2/SignInVC-iPhone.xib"; sourceTree = "<group>"; };
+		3B6FEA821C1B856E00790B30 /* SignInVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignInVC.h; path = "Classes/Onboarding 2/SignInVC.h"; sourceTree = "<group>"; };
+		3B6FEA831C1B856E00790B30 /* SignInVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignInVC.m; path = "Classes/Onboarding 2/SignInVC.m"; sourceTree = "<group>"; };
 		3B71AB1317FA215D0091FE14 /* CamouflageModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CamouflageModule.h; sourceTree = "<group>"; };
 		3B71AB1417FA215D0091FE14 /* CamouflageModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CamouflageModule.m; sourceTree = "<group>"; };
 		3B7B0C8C17171CAD002B6E2D /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -1225,9 +1241,18 @@
 				3B6FEA691C1B1B2600790B30 /* StatusDevice-iPad.xib */,
 				3B6FEA671C1B182200790B30 /* StatusDevice-iPhone.xib */,
 				3B5F0B331C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib */,
+				3B6FEA7C1C1B6B1100790B30 /* UserRegisterVC.h */,
+				3B6FEA7D1C1B6B1100790B30 /* UserRegisterVC.m */,
 				3B6FEA6B1C1B214600790B30 /* SignUpVC.h */,
 				3B6FEA6C1C1B214600790B30 /* SignUpVC.m */,
+				3B6FEA7A1C1B41B300790B30 /* SignUpVC-iPad.xib */,
+				3B6FEA781C1B413000790B30 /* SignUpVC-iPhone.xib */,
 				3B6FEA6D1C1B214600790B30 /* SignUpVC-iPhone-568h.xib */,
+				3B6FEA821C1B856E00790B30 /* SignInVC.h */,
+				3B6FEA831C1B856E00790B30 /* SignInVC.m */,
+				3B6FEA7F1C1B856E00790B30 /* SignInVC-iPad.xib */,
+				3B6FEA801C1B856E00790B30 /* SignInVC-iPhone-568h.xib */,
+				3B6FEA811C1B856E00790B30 /* SignInVC-iPhone.xib */,
 			);
 			name = "Onboarding 2";
 			sourceTree = "<group>";
@@ -1689,7 +1714,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Fork Ltd.";
 				TargetAttributes = {
 					3B90867D1966F6060015BB45 = {
@@ -1749,6 +1774,7 @@
 				3BAB3CF51A098877003BFCCE /* protected@2x.png in Resources */,
 				3B8AC76819F9C96700464098 /* Icon-76@2x.png in Resources */,
 				3B6FEA6F1C1B214600790B30 /* SignUpVC-iPhone-568h.xib in Resources */,
+				3B6FEA851C1B856E00790B30 /* SignInVC-iPhone-568h.xib in Resources */,
 				3B8AC7A819F9D0F200464098 /* siren.mp3 in Resources */,
 				3BA232901A0BA84D005E5145 /* store_discount-iPad.png in Resources */,
 				3BAB3CF91A098977003BFCCE /* prey-text-white@2x.png in Resources */,
@@ -1766,6 +1792,7 @@
 				3BA73C681AA519F5002080CB /* OnboardingView-iPhone-568h.xib in Resources */,
 				3B4585291AB785F400B07BC1 /* reportImage.png in Resources */,
 				3BA232971A0C2F85005E5145 /* store_pro-iPad.png in Resources */,
+				3B6FEA7B1C1B41B300790B30 /* SignUpVC-iPad.xib in Resources */,
 				3BAB3CF61A098877003BFCCE /* unprotected.png in Resources */,
 				3B6D2E451A0AF4DD00DF1EE7 /* AppStoreViewController-iPhone-568h.xib in Resources */,
 				3B8AC76F19F9C96700464098 /* Icon-Small-80.png in Resources */,
@@ -1791,6 +1818,7 @@
 				3B6D2E441A0AF4DD00DF1EE7 /* AppStoreViewController-iPad.xib in Resources */,
 				3BD9204D1C1A2C6F00F630C5 /* TitilliumWeb-Regular.ttf in Resources */,
 				3B4B24DA1A115C76002B64E8 /* close_on.png in Resources */,
+				3B6FEA861C1B856E00790B30 /* SignInVC-iPhone.xib in Resources */,
 				3B4B24D91A115C76002B64E8 /* close_off@3x.png in Resources */,
 				3BA232921A0BB37A005E5145 /* GrettingsProViewController-iPhone-568h.xib in Resources */,
 				3B8AC76D19F9C96700464098 /* Icon-Small-50.png in Resources */,
@@ -1801,6 +1829,7 @@
 				3B1C2BB4191ACAAF00DFD677 /* AppFeedback.plist in Resources */,
 				3B8AC76519F9C96700464098 /* Icon-72.png in Resources */,
 				3B4585271AB785F400B07BC1 /* reportImage-ipad.png in Resources */,
+				3B6FEA841C1B856E00790B30 /* SignInVC-iPad.xib in Resources */,
 				3B8AC76619F9C96700464098 /* Icon-72@2x.png in Resources */,
 				3BAB3CEF1A0987E7003BFCCE /* ok-congratulations@2x.png in Resources */,
 				3B4585171AB785F400B07BC1 /* arrowBack@2x.png in Resources */,
@@ -1817,6 +1846,7 @@
 				3BD920461C1A1BCC00F630C5 /* shield.png in Resources */,
 				3B62F4451AE1C1770060C8D7 /* theft.png in Resources */,
 				3B4B24D71A115C76002B64E8 /* close_off.png in Resources */,
+				3B6FEA791C1B413100790B30 /* SignUpVC-iPhone.xib in Resources */,
 				3B8AC75D19F9C96700464098 /* Default-568h@2x.png in Resources */,
 				3B4B24D81A115C76002B64E8 /* close_off@2x.png in Resources */,
 				3BA2328A1A0B9757005E5145 /* store_discount@2x.png in Resources */,
@@ -1955,6 +1985,7 @@
 				3B477ED918B2AA7B003A32CE /* PreyDeployment.m in Sources */,
 				3BAA98701BB3437000CB4125 /* PreyRestHttpV1.m in Sources */,
 				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
+				3B6FEA7E1C1B6B1200790B30 /* UserRegisterVC.m in Sources */,
 				3B9EF01D18ECE2E60060FFAE /* UIImageView+AFNetworking.m in Sources */,
 				3BC057D21BB201F1006C1DB7 /* AFHTTPSessionManager.m in Sources */,
 				3BE24A7C1ABB915100464C1D /* RSSCloudService.m in Sources */,
@@ -1989,6 +2020,7 @@
 				3BE24A7B1ABB915100464C1D /* RSSAttachedMedia.m in Sources */,
 				07E1AC0816A601AB00803187 /* FirmwareInfo.m in Sources */,
 				075E6D3016AEF2F100F5DB91 /* BatteryStatus.m in Sources */,
+				3B6FEA871C1B856E00790B30 /* SignInVC.m in Sources */,
 				075E6D3316AEFA6300F5DB91 /* ProcessorInfo.m in Sources */,
 				075E6D3616AEFD8E00F5DB91 /* Uptime.m in Sources */,
 				3BE24A7D1ABB915100464C1D /* RSSEntry.m in Sources */,
@@ -2180,6 +2212,7 @@
 					"-licucore",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2215,6 +2248,7 @@
 					"-licucore",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2248,6 +2282,7 @@
 					"-licucore",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = Prey;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2313,6 +2348,7 @@
 					"-licucore",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.prey.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				STRIP_STYLE = all;
@@ -2376,6 +2412,7 @@
 					"-licucore",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.prey.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				STRIP_STYLE = all;
@@ -2438,6 +2475,7 @@
 					"-licucore",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.prey.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				STRIP_STYLE = all;
@@ -2454,6 +2492,7 @@
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
