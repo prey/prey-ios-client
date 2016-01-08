@@ -19,6 +19,7 @@
 #import "Constants.h"
 #import "UIDevice-Reachability.h"
 #import <LocalAuthentication/LocalAuthentication.h>
+#import "PreyTourWebView.h"
 
 @implementation LoginController
 
@@ -209,6 +210,8 @@
     
     self.screenName = @"Login";
     
+#warning WIP
+/*
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         [devReady setFont:[UIFont fontWithName:@"Roboto-Regular" size:24]];
@@ -229,13 +232,12 @@
         [panelButton.titleLabel   setFont:[UIFont fontWithName:@"OpenSans" size:20]];
         [settingButton.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:20]];
     }
-    
     [settingButton setTitle:[NSLocalizedString(@"Manage Prey settings", nil) uppercaseString] forState: UIControlStateNormal];
     [panelButton setTitle:[NSLocalizedString(@"Go to Control Panel", nil) uppercaseString] forState: UIControlStateNormal];
     [loginButton setTitle:[NSLocalizedString(@"Log in to Prey", nil) uppercaseString] forState: UIControlStateNormal];
     [loginPassword setPlaceholder:NSLocalizedString(@"Type in your password", nil)];
     [tipl setText:NSLocalizedString(@"Swipe to go back", nil)];
-    
+*/
     PreyConfig *config = [PreyConfig instance];
     [self.scrollView setContentSize:CGSizeMake(scrollView.frame.size.width*2, scrollView.frame.size.height)];
     [self.loginPassword setBorderStyle:UITextBorderStyleRoundedRect];
@@ -281,8 +283,52 @@
 
     tipl.hidden = YES;
 
+    // Add Tap Gesture to Prey Tour
+    [self configTourTouch];
     
     [super viewDidLoad];
+}
+
+- (void)configTourTouch
+{
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(startPreyTour)];
+    [tap setDelegate:self];
+    
+    UIImageView *tourImg = (UIImageView*)[self.view viewWithTag:701];
+    [tourImg setUserInteractionEnabled:YES];
+    [tourImg addGestureRecognizer:tap];
+    
+    // Add target for close Tour Label
+    UIButton *closeTourBtn = (UIButton*)[self.view viewWithTag:702];
+    [closeTourBtn addTarget:self action:@selector(closeTourLabel) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)closeTourLabel
+{
+    UIImageView *tourImg   = (UIImageView*)[self.view viewWithTag:701];
+    UIButton *closeTourBtn = (UIButton*)[self.view viewWithTag:702];
+
+    [tourImg removeFromSuperview];
+    [closeTourBtn removeFromSuperview];
+}
+
+- (void)startPreyTour
+{
+    PreyTourWebView *controller;
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    if (IS_IPAD)
+        controller = [[PreyTourWebView alloc] initWithNibName:@"PreyTourWebView-iPad" bundle:nil];
+    else
+    {
+        if (IS_IPHONE5)
+            controller = [[PreyTourWebView alloc] initWithNibName:@"PreyTourWebView-iPhone-568h" bundle:nil];
+        else
+            controller = [[PreyTourWebView alloc] initWithNibName:@"PreyTourWebView-iPhone" bundle:nil];
+    }
+
+    if (controller)
+        [appDelegate.viewController presentViewController:controller animated:YES completion:NULL];
 }
 
 - (void)configButtonsForCamouflage:(BOOL)isCamouflage
@@ -292,28 +338,24 @@
         [loginButton setBackgroundImage:[UIImage imageNamed:@"bt-camouflage"] forState:UIControlStateNormal];
         [loginButton setBackgroundImage:[UIImage imageNamed:@"bt-camouflage"] forState:UIControlStateHighlighted];
     }
-    else
-    {
-        [loginButton setBackgroundImage:[UIImage imageNamed:@"bt-welcome"] forState:UIControlStateNormal];
-        [loginButton setBackgroundImage:[UIImage imageNamed:@"bt-welcome"] forState:UIControlStateHighlighted];
-    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
+#warning WIP
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized)
     {
-        [self.devReady setText:[NSLocalizedString(@"Device not ready!", nil) uppercaseString]];
-        [self.detail   setText:NSLocalizedString(@"Location services are disabled for Prey. Reports will not be sent.", nil)];
-        [nonCamuflageImage setImage:[UIImage imageNamed:@"unprotected.png"]];
+        //[self.devReady setText:[NSLocalizedString(@"Device not ready!", nil) uppercaseString]];
+        //[self.detail   setText:NSLocalizedString(@"Location services are disabled for Prey. Reports will not be sent.", nil)];
+        //[nonCamuflageImage setImage:[UIImage imageNamed:@"unprotected.png"]];
     }
     else
     {
-        [self.devReady setText:[NSLocalizedString(@"Device ready", nil) uppercaseString]];
-        [self.detail   setText:NSLocalizedString(@"Your device is protected and waiting for the activation signal.", nil)];
-        [nonCamuflageImage setImage:[UIImage imageNamed:@"protected.png"]];
+        //[self.devReady setText:[NSLocalizedString(@"Device ready", nil) uppercaseString]];
+        //[self.detail   setText:NSLocalizedString(@"Your device is protected and waiting for the activation signal.", nil)];
+        //[nonCamuflageImage setImage:[UIImage imageNamed:@"protected.png"]];
     }
     
     [self.navigationController setNavigationBarHidden:YES animated:NO];
@@ -342,13 +384,16 @@
         PreyLogMessage(@"App Delegate", 10, @"Alert notification set. Good!");
     else
     {
+#warning TEST
         PreyLogMessage(@"App Delegate", 10, @"User has disabled alert notifications");
+        /*
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert notification disabled",nil)
                                                             message:NSLocalizedString(@"You need to grant Prey access to show alert notifications in order to remotely mark it as missing.",nil)
                                                            delegate:nil
                                                   cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                   otherButtonTitles:nil];
 		[alertView show];
+        */
     }
 
 }

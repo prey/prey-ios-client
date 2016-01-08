@@ -16,7 +16,7 @@
 
 #define kOFFSET_FOR_KEYBOARD 150.0
 
-@interface LoginController : GAITrackedViewController <UIWebViewControllerDelegate, UIAlertViewDelegate>
+@interface LoginController : GAITrackedViewController <UIWebViewControllerDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
 {
     UIImageView *loginImage;
     UIScrollView *scrollView;
