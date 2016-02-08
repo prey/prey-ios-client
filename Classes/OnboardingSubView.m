@@ -7,14 +7,11 @@
 //
 
 #import "OnboardingSubView.h"
-#import "PhotoController.h"
-#import "DeviceAuth.h"
 #import "Constants.h"
 
 @implementation OnboardingSubView
 
-@synthesize cameraSwitch, locationSwitch, notifySwitch, tmpRect;
-@synthesize nuController, ouController;
+@synthesize tmpRect;
 
 #pragma mark Config PageViews
 
@@ -103,322 +100,218 @@
     [UIImageView commitAnimations];
 }
 
-// Config PageView 01
+- (void)addMessageOnView:(NSString*)message
+{
+    tmpRect = (IS_IPAD) ? CGRectMake(194, 120, 380, 100) : CGRectMake(10, 340, 300, 170);
+    UILabel *storyText = [[UILabel alloc] initWithFrame:tmpRect];
+    storyText.font = (IS_IPAD) ? [UIFont fontWithName:@"Roboto" size:36] : [UIFont fontWithName:@"Roboto" size:16];
+    storyText.textAlignment = UITextAlignmentCenter;
+    storyText.numberOfLines = 6;
+    storyText.backgroundColor = [UIColor clearColor];
+    storyText.textColor = [UIColor colorWithRed:(245/255.f) green:(245/255.f) blue:(245/255.f) alpha:1];
+    storyText.text = message;
+    [self addSubview:storyText];
+}
 
+// Config PageView 01
 - (void)configPageView1:(CGFloat)posYiPhone
 {
-    tmpRect = (IS_IPAD) ? CGRectMake(194, 120, 380, 100) : CGRectMake(45, 55+posYiPhone, 230, 70);
-    UILabel *welcomeText = [[UILabel alloc] initWithFrame:tmpRect];
-    welcomeText.font = (IS_IPAD) ? [UIFont fontWithName:@"Roboto" size:36] : [UIFont fontWithName:@"Roboto" size:22];
-    welcomeText.textAlignment = UITextAlignmentCenter;
-    welcomeText.numberOfLines = 2;
-    welcomeText.backgroundColor = [UIColor clearColor];
-    welcomeText.textColor = [UIColor colorWithRed:(255/255.f) green:(255/255.f) blue:(255/255.f) alpha:1];
-    welcomeText.text = NSLocalizedString(@"Protect your devices from theft",nil);
-    [self addSubview:welcomeText];
+    [self addMessageOnView:NSLocalizedString(@"Ashley uses Prey on all her devices: her Macbook, her iPhone and iPad. But one day, she was at the wrong place at the wrong time and someone stole her tablet.",nil)];
     
-    CGFloat iconEnablePosX = (IS_IPAD) ? 100 : 30;
-    tmpRect = (IS_IPAD) ? CGRectMake(iconEnablePosX, 350, 54, 40.5f) : CGRectMake(iconEnablePosX, 210+posYiPhone, 36, 27);
-    UIImageView *cameraIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cameraIcon"]];
-    cameraIcon.frame = tmpRect;
-    [self addSubview:cameraIcon];
-    
-    tmpRect = (IS_IPAD) ? CGRectMake(iconEnablePosX+11, 530, 33, 54) : CGRectMake(iconEnablePosX+7, 300+posYiPhone, 22, 36);
-    UIImageView *locationIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"locationIcon"]];
-    locationIcon.frame = tmpRect;
-    [self addSubview:locationIcon];
-    
-    tmpRect = (IS_IPAD) ? CGRectMake(iconEnablePosX, 710, 54, 51) : CGRectMake(iconEnablePosX, 390+posYiPhone, 36, 34);
-    UIImageView *notifyIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"notifyIcon"]];
-    notifyIcon.frame = tmpRect;
-    [self addSubview:notifyIcon];
-    
-    CGFloat textEnablePosX = (IS_IPAD) ? 230 : 90;
-    CGFloat fontZize = (IS_IPAD) ? 26 : 14;
-    CGFloat widthText = (IS_IPAD) ? 350 : 150;
-    CGFloat heightText = (IS_IPAD) ? 70 : 35;
-    
-    CGFloat textPosY = (IS_IPAD) ? 340 : 208+posYiPhone;
-    UILabel *cameraText = [[UILabel alloc] initWithFrame:CGRectMake(textEnablePosX, textPosY, widthText, heightText)];
-    cameraText.font = [UIFont fontWithName:@"Open Sans" size:fontZize];
-    cameraText.textAlignment = UITextAlignmentLeft;
-    cameraText.backgroundColor = [UIColor clearColor];
-    cameraText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
-    cameraText.text = NSLocalizedString(@"Enable Camera",nil);
-    [self addSubview:cameraText];
-    
-    textPosY = (IS_IPAD) ? 525 : 300+posYiPhone;
-    UILabel *locationText = [[UILabel alloc] initWithFrame:CGRectMake(textEnablePosX, textPosY, widthText, heightText)];
-    locationText.font = [UIFont fontWithName:@"Open Sans" size:fontZize];
-    locationText.textAlignment = UITextAlignmentLeft;
-    locationText.backgroundColor = [UIColor clearColor];
-    locationText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
-    locationText.text = NSLocalizedString(@"Enable Location",nil);
-    [self addSubview:locationText];
-    
-    textPosY = (IS_IPAD) ? 700 : 388+posYiPhone;
-    UILabel *notifyText = [[UILabel alloc] initWithFrame:CGRectMake(textEnablePosX, textPosY, widthText, heightText)];
-    notifyText.font = [UIFont fontWithName:@"Open Sans" size:fontZize];
-    notifyText.textAlignment = UITextAlignmentLeft;
-    notifyText.adjustsFontSizeToFitWidth = YES;
-    notifyText.backgroundColor = [UIColor clearColor];
-    notifyText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
-    notifyText.text = NSLocalizedString(@"Enable Notification",nil);
-    [self addSubview:notifyText];
-    
-    DeviceAuth *config = [DeviceAuth instance];
-    CGFloat switchModePosX = (IS_IPAD) ? 640 : 265;
-    cameraSwitch = [[UISwitch alloc]init];
-    cameraSwitch.center = (IS_IPAD) ? CGPointMake(switchModePosX, 370) : CGPointMake(switchModePosX, 223+posYiPhone);
-    cameraSwitch.tag = kTagCameraSwitch;
-    [cameraSwitch addTarget:self action:@selector(switchModeState:) forControlEvents:UIControlEventValueChanged];
-    [cameraSwitch setOn:config.cameraAuth];
-    [self addSubview:cameraSwitch];
-    
-    locationSwitch = [[UISwitch alloc]init];
-    locationSwitch.center = (IS_IPAD) ? CGPointMake(switchModePosX, 555) : CGPointMake(switchModePosX, 315+posYiPhone);
-    locationSwitch.tag = kTagLocationSwitch;
-    [locationSwitch addTarget:self action:@selector(switchModeState:) forControlEvents:UIControlEventValueChanged];
-    [locationSwitch setOn:config.locationAuth];
-    [self addSubview:locationSwitch];
-    
-    notifySwitch = [[UISwitch alloc]init];
-    notifySwitch.center = (IS_IPAD) ? CGPointMake(switchModePosX, 740) : CGPointMake(switchModePosX, 406+posYiPhone);
-    notifySwitch.tag = kTagNotifySwitch;
-    [notifySwitch addTarget:self action:@selector(switchModeState:) forControlEvents:UIControlEventValueChanged];
-    [notifySwitch setOn:config.notifyAuth];
-    [self addSubview:notifySwitch];
+    // Add girl to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(130, 130, 170, 203);
+    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ashley1"]];
+    girlImage.frame = tmpRect;
+    [self insertSubview:girlImage atIndex:101];
+
+    /*
+    storyText.alpha = 0;
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{ storyText.alpha = 1;}
+                     completion:nil];
+    */
 }
 
 // Config PageView 02
-
-- (void)configPageView2:(CGRect)frameView
+- (void)configPageView2
 {
-    UIView *flashView = [[UIView alloc] initWithFrame:frameView];
-    [flashView setBackgroundColor:[UIColor whiteColor]];
-    [flashView setTag:kTagFlashView];
-    [flashView setAlpha:0];
-    [self addSubview:flashView];
+    [self addMessageOnView:NSLocalizedString(@"Meet Steve, he steals objects left unattended.",nil)];
 }
 
 // Config PageView 03
-
 - (void)configPageView3
 {
-    [self setBackgroundColor:[UIColor whiteColor]];
+    [self addMessageOnView:NSLocalizedString(@"Losing a device means losing precious data, memories, information and some really expensive equipment.",nil)];
     
-    ouController = [[OldUserController alloc] init];
-    ouController.title = NSLocalizedString(@"Log in to Prey",nil);
-    ouController.view.tag = kTagOldUser;
-    ouController.view.center = (IS_IPAD) ? CGPointMake(ouController.view.frame.size.width/2, ouController.view.frame.size.height/2+50) : CGPointMake(ouController.view.frame.size.width/2, ouController.view.frame.size.height/2+50);
-    ouController.view.hidden = YES;
-    [self addSubview:ouController.view];
-    
-    
-    nuController = [[NewUserController alloc] init];
-    nuController.title = NSLocalizedString(@"Create Prey account",nil);
-    nuController.view.tag = kTagNewUser;
-    nuController.view.center = (IS_IPAD) ? CGPointMake(nuController.view.frame.size.width/2, nuController.view.frame.size.height/2+50) : CGPointMake(nuController.view.frame.size.width/2, nuController.view.frame.size.height/2+50);
-    nuController.view.hidden = NO;
-    [self addSubview:nuController.view];
-    
-    
-    NSArray *itemArray = [NSArray arrayWithObjects:NSLocalizedString(@"Sign Up",nil), NSLocalizedString(@"Log In",nil), nil];
-    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-    segmentedControl.frame = (IS_IPAD) ?  CGRectMake(259, 30, 250, 30) : CGRectMake(35, 10, 250, 30);
-    segmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
-    [segmentedControl addTarget:self action:@selector(segmentControlAction) forControlEvents: UIControlEventValueChanged];
-    segmentedControl.selectedSegmentIndex = 0;
-    segmentedControl.tag = kTagSegmentedControl;
-    [segmentedControl setBackgroundColor:[UIColor whiteColor]];
-    [self addSubview:segmentedControl];
+    // Add girl to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(110, 80, 170, 246);
+    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ashley2"]];
+    girlImage.frame = tmpRect;
+    [self insertSubview:girlImage atIndex:101];
 }
 
+// Config PageView 04
+- (void)configPageView4
+{
+    [self addMessageOnView:NSLocalizedString(@"Without him knowing it, Prey is silently capturing pictures, location, and sending the legitimate owner complete reports.\nAshley can also use Prey to remotely lock her device down and wipe her sensitive data.",nil)];
+}
+
+// Config PageView 05
+- (void)configPageView5
+{
+    [self addMessageOnView:NSLocalizedString(@"Good thing Ashley has PREY activated! She just got the reports from her stolen device, so now the police has accurate evidence to work with.",nil)];
+}
+
+
+// Config PageView 06
+- (void)configPageView6
+{
+    [self addMessageOnView:NSLocalizedString(@"With the detailed reports on the missing device, Ashley had more worries, she got her device back.",nil)];
+}
+
+// Config PageView 07
+- (void)configPageView7
+{
+    [self addMessageOnView:NSLocalizedString(@"Don\'t wait for the worst to happen to take action. Sign up, enter your registration details and set up Prey on your phone.",nil)];
+}
 
 #pragma mark Methods
 
-// Methods Page01
-
-- (IBAction)switchModeState:(UISwitch*)modeSwitch
-{
-    DeviceAuth *config = [DeviceAuth instance];
-    
-    switch (modeSwitch.tag) {
-        case kTagCameraSwitch:
-            [modeSwitch setOn:config.cameraAuth];
-            break;
-        case kTagLocationSwitch:
-            if (modeSwitch.on) [config checkLocationDeviceAuthorizationStatus:locationSwitch];
-            [modeSwitch setOn:config.locationAuth];
-            break;
-            
-        case kTagNotifySwitch:
-            if (modeSwitch.on) [config checkNotifyDeviceAuthorizationStatus:notifySwitch];
-            [modeSwitch setOn:config.notifyAuth];
-            break;
-    }
-}
-
-- (void)checkCameraAuth
-{
-    [[DeviceAuth instance] checkCameraDeviceAuthorizationStatus:cameraSwitch];
-}
-
 // Methods Page02
 
-- (void)checkConfigPage2:(CGFloat)posYiPhone
+- (void)startAnimatePage2
 {
-    UIView *tmpFlashView  = (UIView*)[self viewWithTag:kTagFlashView];
-    
-    if (tmpFlashView != nil)
-    {
-#if !(TARGET_IPHONE_SIMULATOR)
-        [self takeFirstPicture];
-#endif
-        [UIView animateWithDuration:0.5 animations:^{tmpFlashView.alpha = 1.0;}
-                         completion:^(BOOL finished){
-                             [self animateReportPage2:posYiPhone withFlashView:tmpFlashView];
-                         }];
-    }
+    // Add theft to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(130, 120, 170, 201);
+    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dude"]];
+    girlImage.frame = tmpRect;
+    [self insertSubview:girlImage atIndex:101];
 }
 
-- (void)animateReportPage2:(CGFloat)posYiPhone withFlashView:(UIView*)tmpFlashView
+// Methods Page04
+
+- (void)addElementsPage04
 {
-    [self playShutterSound];
+    // Add theft to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(40, 160, 170, 158);
+    UIImageView *dudeImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dude2"]];
+    dudeImage.tag = kTagDudeRoom;
+    dudeImage.frame = tmpRect;
+    [self insertSubview:dudeImage atIndex:101];
+
+    NSTimeInterval animationDelay = 1.0f;
     
-    NSString *reportImageFile = (IS_IPAD) ? @"reportImage-ipad" : @"reportImage";
-    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(10, 170+posYiPhone, 300, 210);
-    UIImageView *reportImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:reportImageFile]];
-    reportImage.frame = tmpRect;
-    [self addSubview:reportImage];
+    // Add Snapshot to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(130, 80, 100, 107);
+    UIImageView *featSnap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"featuresSnapshot"]];
+    featSnap.frame = tmpRect;
+    featSnap.transform = CGAffineTransformMakeScale(0.01, 0.01);
+    [self insertSubview:featSnap atIndex:101];
+    [self animateFeatureIcon:featSnap withDelay:animationDelay*0];
     
-    tmpRect = (IS_IPAD) ? CGRectMake(194, 120, 380, 100) : CGRectMake(45, 55+posYiPhone, 230, 70);
-    UILabel *theftText = [[UILabel alloc] initWithFrame:tmpRect];
-    theftText.font = (IS_IPAD) ? [UIFont fontWithName:@"Roboto" size:36] : [UIFont fontWithName:@"Roboto" size:22];
-    theftText.textAlignment = UITextAlignmentCenter;
-    theftText.numberOfLines = 2;
-    theftText.backgroundColor = [UIColor clearColor];
-    theftText.textColor = [UIColor colorWithRed:(255/255.f) green:(255/255.f) blue:(255/255.f) alpha:1];
-    theftText.text = NSLocalizedString(@"They can run but they can't hide",nil);
-    [self addSubview:theftText];
+    // Add Geo to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(220, 140, 100, 113);
+    UIImageView *featGeo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"featuresGeo"]];
+    featGeo.frame = tmpRect;
+    featGeo.transform = CGAffineTransformMakeScale(0, 0);
+    [self insertSubview:featGeo atIndex:101];
+    [self animateFeatureIcon:featGeo withDelay:animationDelay*1];
     
-    tmpRect = (IS_IPAD) ? CGRectMake(134, 760, 500, 200) : CGRectMake(33, 405+posYiPhone, 255, 100);
-    UILabel *infoText = [[UILabel alloc] initWithFrame:tmpRect];
-    infoText.font = (IS_IPAD) ? [UIFont fontWithName:@"Open Sans" size:24] : [UIFont fontWithName:@"Open Sans" size:14];
-    infoText.textAlignment = UITextAlignmentCenter;
-    infoText.numberOfLines = 5;
-    infoText.backgroundColor = [UIColor clearColor];
-    infoText.textColor = [UIColor colorWithRed:(148/255.f) green:(169/255.f) blue:(183/255.f) alpha:1];
-    infoText.text = NSLocalizedString(@"Sensitive data is gathered only when you request it, and is for your eyes only. Nothing is sent without your permission.",nil);
-    [self addSubview:infoText];
+    // Add Report to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(210, 250, 100, 113);
+    UIImageView *featReport = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"featuresReport"]];
+    featReport.frame = tmpRect;
+    featReport.transform = CGAffineTransformMakeScale(0, 0);
+    [self insertSubview:featReport atIndex:101];
+    [self animateFeatureIcon:featReport withDelay:animationDelay*2];
+}
+
+- (void)animateFeatureIcon:(UIImageView*)image withDelay:(NSTimeInterval)animationDelay
+{
+    CGFloat scaleX = (IS_IPAD) ? 0.30f : 1.0f;
+    CGFloat scaleY = (IS_IPAD) ? 0.30f : 1.0f;
     
-    
-    tmpRect = (IS_IPAD) ? CGRectMake(0,0,768,1024) : CGRectMake(0,90+posYiPhone,320,428);
-    UIImageView *photoImage = [[UIImageView alloc] initWithFrame:tmpRect];
-    [photoImage setBackgroundColor:[UIColor whiteColor]];
-    photoImage.tag = kTagPhotoImage;
-    CALayer *borderLayer = [CALayer layer];
-    CGRect borderFrame = CGRectMake(0, 0, (photoImage.frame.size.width), (photoImage.frame.size.height));
-    [borderLayer setBackgroundColor:[[UIColor clearColor] CGColor]];
-    [borderLayer setFrame:borderFrame];
-    [borderLayer setCornerRadius:2];
-    [borderLayer setBorderWidth:10];
-    [borderLayer setBorderColor:[[UIColor whiteColor] CGColor]];
-    [photoImage.layer addSublayer:borderLayer];
-    
-    [self addSubview:photoImage];
-    
-    CGFloat moveX = (IS_IPAD) ? -160 : -81;
-    CGFloat moveY = (IS_IPAD) ? 50 : -13;
-    CGFloat scaleX = (IS_IPAD) ? 0.30f : 0.37f;
-    CGFloat scaleY = (IS_IPAD) ? 0.30f : 0.37f;
-    
-    
-    
-    [UIView animateWithDuration:0.8 delay:0.7  options:UIViewAnimationOptionBeginFromCurrentState
+    [UIView animateWithDuration:1.0 delay:animationDelay  options:UIViewAnimationOptionBeginFromCurrentState
                      animations:(void (^)(void)) ^{
-                         
-                         photoImage.transform = CGAffineTransformConcat(CGAffineTransformMakeScale(scaleX, scaleY), CGAffineTransformMakeTranslation(moveX, moveY));
+                         image.transform = CGAffineTransformMakeScale(scaleX, scaleY);
+                     }completion:^(BOOL finished){
+                     }];
+}
+
+// Methods Page05
+
+- (void)addElementsPage05
+{
+    // Add police-2 to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(180, 140, 150, 152); // x:160
+    UIImageView *police2Image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"police2"]];
+    police2Image.tag = kTagPoliceRoom2;
+    police2Image.frame = tmpRect;
+    [self insertSubview:police2Image atIndex:0];
+
+    // Add police-1 to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(180, 190, 130, 126);
+    UIImageView *police1Image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"police1"]];
+    police1Image.tag = kTagPoliceRoom;
+    police1Image.frame = tmpRect;
+    [self insertSubview:police1Image atIndex:110];
+    
+    // Add girl to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(-100, 120, 130, 197);
+    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ashley3"]];
+    girlImage.frame = tmpRect;
+    [self insertSubview:girlImage atIndex:101];
+    
+    CGFloat moveX = (IS_IPAD) ? -160 : 120;
+    CGFloat moveY = (IS_IPAD) ? 50 : 0;
+    [UIView animateWithDuration:2.0 delay:0.1f  options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:(void (^)(void)) ^{
+                         girlImage.transform = CGAffineTransformMakeTranslation(moveX, moveY);
                      }completion:^(BOOL finished){
                      }];
     
-    [UIView animateWithDuration:0.7 delay:0.5 options:nil animations :^{tmpFlashView.alpha = 0.0;}
-                     completion:^(BOOL finished){
-                         
-                         [tmpFlashView removeFromSuperview];
-                         NSLog(@"animation finished");
+    moveX = (IS_IPAD) ? -160 : -20;
+    moveY = (IS_IPAD) ? 0 : 0;
+    [UIView animateWithDuration:1.0 delay:2.0f  options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:(void (^)(void)) ^{
+                         police2Image.transform = CGAffineTransformMakeTranslation(moveX, moveY);
+                     }completion:^(BOOL finished){
                      }];
 }
 
-- (void)playShutterSound
-{
-    SystemSoundID soundID;
-    NSURL* shutterFile = [NSURL fileURLWithPath:[[NSBundle mainBundle]
-                                                 pathForResource:@"shutter"
-                                                 ofType:@"aiff"]];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)shutterFile, &soundID);
-    AudioServicesPlaySystemSound(soundID);
-}
+// Methods Page06
 
-- (void)takeFirstPicture
+- (void)addElementsPage06
 {
-    [[PhotoController instance] changeCamera];
-    
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                     target:[PhotoController instance]
-                                   selector:@selector(snapStillImage)
-                                   userInfo:nil repeats:NO];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(pictureReady:)
-                                                 name:@"pictureReady"
-                                               object:nil];
-}
-
-- (void)pictureReady:(NSNotification *)notification
-{
-    UIImage *pictureTaken = (UIImage*)[notification object];
-    UIImageView *photoImage = (UIImageView*)[self viewWithTag:kTagPhotoImage];
-    photoImage.image = (pictureTaken != nil) ? pictureTaken : [UIImage imageNamed:@"theft"];
-    
-    NSLog(@"Picture finished");
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pictureReady" object:nil];
-}
-
-// Methods Page03
-
-- (void)preloadView
-{
-    [nuController keyboardWillShow];
-}
-
-- (void)segmentControlAction
-{
-    UIView *newUserView = (UIView*)[self viewWithTag:kTagNewUser];
-    UIView *oldUserView = (UIView*)[self viewWithTag:kTagOldUser];
-    
-    UISegmentedControl *segment = (UISegmentedControl*)[self viewWithTag:kTagSegmentedControl];
-    
-    UITextField *newField = (UITextField*)[nuController.view viewWithTag:kTagNameNewUser];
-    UITextField *oldField = (UITextField*)[ouController.view viewWithTag:kTagNameOldUser];
-    
-    [UIView setAnimationsEnabled:NO];
-    
-    if (segment.selectedSegmentIndex == 0)
+    /*
+    UIView      *tmpView   = [self superview];
+    UIImageView *police    = (UIImageView*)[tmpView viewWithTag:kTagPoliceRoom2];
+    if (police != nil)
     {
-        newUserView.hidden = NO;
-        oldUserView.hidden = YES;
-        
-        [newField becomeFirstResponder];
+        tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(160, 140, 150, 152);
+        police.frame = tmpRect;
+        [police stopAnimating];
     }
+    */
     
-    if (segment.selectedSegmentIndex == 1)
-    {
-        newUserView.hidden = YES;
-        oldUserView.hidden = NO;
-        
-        [oldField becomeFirstResponder];
-    }
+    // Add Ashley to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(120, 98, 150, 219);
+    UIImageView *ashleyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ashley4"]];
+    ashleyImage.tag = kTagAshleyRoom;
+    ashleyImage.frame = tmpRect;
+    [self insertSubview:ashleyImage atIndex:101];
+}
+
+// Methods Page07
+
+- (void)addElementsPage07
+{
+    // Add Ashley to page
+    tmpRect = (IS_IPAD) ? CGRectMake(84, 320, 600, 420) : CGRectMake(100, 118, 200, 200);
+    UIImageView *ashleyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ashley5"]];
+    ashleyImage.tag = kTagAshleyStreet;
+    ashleyImage.frame = tmpRect;
+    [self insertSubview:ashleyImage atIndex:101];
 }
 
 

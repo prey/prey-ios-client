@@ -25,16 +25,29 @@
 #define kTagOldUser        1201 
 #define kTagNewUser        1202
 
+#define kTagDudeRoom       2001
+#define kTagPoliceRoom     2002
+#define kTagAshleyRoom     2003
+#define kTagAshleyStreet   2004
+#define kTagPoliceRoom2    2005
+
 #define kTagButtonStart     200
 #define kTagButtonBack      201
 #define kTagButtonNext      202
+#define kTagButtonSignup    203
+#define kTagImagePreyLogo   204
+#define kTagImageRestBg     205
+#define kTagImageRoomBg     206
+#define kTagImagePoliceBg   207
+#define kTagImageRoomGirlBg 208
+#define kTagImageStreetBg   209
 
 #define kTagViewScroll      101
 #define kTagViewPage        102
 #define kPageWidth          100
 #define kPageHeight          20
 
-#define kNumberPages          4
+#define kNumberPages          8
 
 #define kTagCameraSwitch   3301
 #define kTagLocationSwitch 3302

@@ -7,26 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NewUserController.h"
-#import "OldUserController.h"
 
 @interface OnboardingSubView : UIView
 
 @property (nonatomic) CGRect tmpRect;
-@property (nonatomic, strong) UISwitch *cameraSwitch;
-@property (nonatomic, strong) UISwitch *locationSwitch;
-@property (nonatomic, strong) UISwitch *notifySwitch;
-@property (nonatomic, strong) NewUserController *nuController;
-@property (nonatomic, strong) OldUserController *ouController;
-
 
 - (void)configPageView0:(CGFloat)posYiPhone;
 - (void)configPageView1:(CGFloat)posYiPhone;
-- (void)configPageView2:(CGRect)frameView;
+- (void)configPageView2;
 - (void)configPageView3;
-- (void)checkCameraAuth;
-- (void)checkConfigPage2:(CGFloat)posYiPhone;
-- (void)segmentControlAction;
-- (void)preloadView;
+- (void)configPageView4;
+- (void)configPageView5;
+- (void)configPageView6;
+- (void)configPageView7;
+
+- (void)startAnimatePage2;
+
+- (void)addElementsPage04;
+- (void)addElementsPage05;
+- (void)addElementsPage06;
+- (void)addElementsPage07;
 
 @end

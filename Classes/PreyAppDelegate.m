@@ -21,7 +21,6 @@
 #import "GAI.h"
 #import "PreyStoreManager.h"
 #import "OnboardingView.h"
-#import "StatusDeviceVC.h"
 
 @implementation PreyAppDelegate
 
@@ -304,18 +303,6 @@
     {
         [PreyDeployment runPreyDeployment];
 
-#warning WIP
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {
-            if (IS_IPHONE5)
-                nextController = [[StatusDeviceVC alloc] initWithNibName:@"StatusDevice-iPhone-568h" bundle:nil];
-            else
-                nextController = [[StatusDeviceVC alloc] initWithNibName:@"StatusDevice-iPhone" bundle:nil];
-        }
-        else
-            nextController = [[StatusDeviceVC alloc] initWithNibName:@"StatusDevice-iPad" bundle:nil];
-
-/*
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
             if (IS_IPHONE5)
@@ -325,7 +312,6 @@
         }
         else
             nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPad" bundle:nil];
-*/
     }
     
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
