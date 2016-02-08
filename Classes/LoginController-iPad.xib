@@ -7,7 +7,7 @@
         <mutableArray key="magdacleanmono-bold.ttf">
             <string>MagdaCleanMono-Bold</string>
         </mutableArray>
-        <mutableArray key="magdacleanmono-regular-webfont.ttf">
+        <mutableArray key="magdacleanmono-regular.otf">
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
         </mutableArray>
@@ -15,6 +15,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginController">
             <connections>
+                <outlet property="configureLbl" destination="7gA-Fk-nrY" id="VhE-zg-2qm"/>
                 <outlet property="detail" destination="Fcv-mR-3D9" id="RrJ-y8-KRJ"/>
                 <outlet property="devReady" destination="aRv-Oa-gDs" id="3wS-Mz-97g"/>
                 <outlet property="loginButton" destination="V6b-Aj-XK1" id="mth-6z-LJE"/>
@@ -22,6 +23,9 @@
                 <outlet property="loginPassword" destination="6" id="14"/>
                 <outlet property="nonCamuflageImage" destination="oc7-wX-VQZ" id="yfy-bj-jMO"/>
                 <outlet property="panelButton" destination="1IZ-hU-YCB" id="igd-Bs-RQ8"/>
+                <outlet property="preyAccountLbl" destination="xj9-Av-KCt" id="OgH-Gc-KB5"/>
+                <outlet property="preySettingsLbl" destination="NfO-R2-GW9" id="dD2-L3-ohl"/>
+                <outlet property="remoteControlLbl" destination="Tt8-kN-hTW" id="mxN-cv-exe"/>
                 <outlet property="scrollView" destination="33" id="38"/>
                 <outlet property="settingButton" destination="2es-Cm-xCz" id="kcB-zs-Jei"/>
                 <outlet property="tipl" destination="40" id="42"/>
@@ -110,7 +114,7 @@
                                 <action selector="checkLoginPassword:" destination="-1" eventType="touchUpInside" id="8fu-zr-KOS"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REMOTE CONTROL FROM YOUR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tt8-kN-hTW">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REMOTE CONTROL FROM YOUR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tt8-kN-hTW">
                             <rect key="frame" x="127" y="54" width="350" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <animations/>
@@ -118,7 +122,7 @@
                             <color key="textColor" red="0.93725490196078431" green="0.91764705882352937" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PREY ACCOUNT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xj9-Av-KCt">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PREY ACCOUNT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xj9-Av-KCt">
                             <rect key="frame" x="127" y="75" width="243" height="45"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <animations/>
@@ -126,7 +130,7 @@
                             <color key="textColor" red="0.93725490199999995" green="0.91764705879999997" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONFIGURE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7gA-Fk-nrY">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONFIGURE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7gA-Fk-nrY">
                             <rect key="frame" x="127" y="144" width="350" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <animations/>
@@ -134,7 +138,7 @@
                             <color key="textColor" red="0.93725490199999995" green="0.91764705879999997" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PREY SETTINGS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NfO-R2-GW9">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PREY SETTINGS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NfO-R2-GW9">
                             <rect key="frame" x="127" y="165" width="243" height="45"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <animations/>

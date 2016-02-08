@@ -21,8 +21,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    language = [language substringToIndex:2];
+    NSString *indexPage = ([language isEqualToString:@"es"]) ? @"index-es" : @"index";
     
-    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:@"PreyTourWeb"]];
+    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:indexPage ofType:@"html" inDirectory:@"PreyTourWeb"]];
     
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     

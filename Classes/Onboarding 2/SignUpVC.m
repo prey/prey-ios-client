@@ -165,8 +165,9 @@
     _usernameField.placeholder          = NSLocalizedString(@"username", nil);
     _emailField.placeholder             = NSLocalizedString(@"email", nil);
     _passwordField.placeholder          = NSLocalizedString(@"password", nil);
-    _createAccountBtn.titleLabel.text   = NSLocalizedString(@"CREATE MY NEW ACCOUNT", nil);
-    _signInBtn.titleLabel.text          = NSLocalizedString(@"already have an account?", nil);
+    
+    [_createAccountBtn setTitle:[NSLocalizedString(@"CREATE MY NEW ACCOUNT", nil) uppercaseString] forState: UIControlStateNormal];
+    [_signInBtn setTitle:NSLocalizedString(@"already have an account?", nil) forState: UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -139,8 +139,9 @@
     _titleView.text                     = NSLocalizedString(@"SIGN IN", nil);
     _emailField.placeholder             = NSLocalizedString(@"email", nil);
     _passwordField.placeholder          = NSLocalizedString(@"password", nil);
-    _createAccountBtn.titleLabel.text   = NSLocalizedString(@"ACCESS TO MY ACCOUNT", nil);
-    _signInBtn.titleLabel.text          = NSLocalizedString(@"don’t have an account?", nil);
+    
+    [_createAccountBtn setTitle:[NSLocalizedString(@"ACCESS TO MY ACCOUNT", nil) uppercaseString] forState: UIControlStateNormal];
+    [_signInBtn setTitle:NSLocalizedString(@"don’t have an account?", nil) forState: UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {

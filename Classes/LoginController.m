@@ -210,7 +210,6 @@
     
     self.screenName = @"Login";
     
-#warning WIP
 /*
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
@@ -287,6 +286,20 @@
     [self configTourTouch];
     
     [super viewDidLoad];
+    
+    [self changeTexts];
+}
+
+- (void)changeTexts
+{
+    [loginButton setTitle:[NSLocalizedString(@"Log In", nil) uppercaseString] forState: UIControlStateNormal];
+    [loginPassword setPlaceholder:NSLocalizedString(@"Type in your password", nil)];
+
+    
+    _remoteControlLbl.text  = NSLocalizedString(@"REMOTE CONTROL FROM YOUR", nil);
+    _preyAccountLbl.text    = NSLocalizedString(@"PREY ACCOUNT", nil);
+    _configureLbl.text      = NSLocalizedString(@"CONFIGURE", nil);
+    _preySettingsLbl.text   = NSLocalizedString(@"PREY SETTINGS", nil);
 }
 
 - (void)configTourTouch
@@ -301,6 +314,13 @@
     // Add target for close Tour Label
     UIButton *closeTourBtn = (UIButton*)[self.view viewWithTag:702];
     [closeTourBtn addTarget:self action:@selector(closeTourLabel) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    language = [language substringToIndex:2];
+
+    if ([language isEqualToString:@"es"])
+        tourImg.image = [UIImage imageNamed:@"tour-es"];
 }
 
 - (void)closeTourLabel
@@ -344,17 +364,16 @@
 {
     [super viewWillAppear:animated];
     
-#warning WIP
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized)
     {
-        //[self.devReady setText:[NSLocalizedString(@"Device not ready!", nil) uppercaseString]];
-        //[self.detail   setText:NSLocalizedString(@"Location services are disabled for Prey. Reports will not be sent.", nil)];
+        [self.devReady setText:[NSLocalizedString(@"NOT PROTECTED", nil) uppercaseString]];
+        [self.detail   setText:NSLocalizedString(@"current device status", nil)];
         //[nonCamuflageImage setImage:[UIImage imageNamed:@"unprotected.png"]];
     }
     else
     {
-        //[self.devReady setText:[NSLocalizedString(@"Device ready", nil) uppercaseString]];
-        //[self.detail   setText:NSLocalizedString(@"Your device is protected and waiting for the activation signal.", nil)];
+        [self.devReady setText:[NSLocalizedString(@"PROTECTED", nil) uppercaseString]];
+        [self.detail   setText:NSLocalizedString(@"current device status", nil)];
         //[nonCamuflageImage setImage:[UIImage imageNamed:@"protected.png"]];
     }
     

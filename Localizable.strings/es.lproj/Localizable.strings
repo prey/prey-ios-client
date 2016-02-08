@@ -6,7 +6,7 @@
 
 "Losing a device means losing precious data, memories, information and some really expensive equipment." = "Perder un dispositivo significa también perder datos, recuerdos y un equipo bastante caro.";
 
-"Without him knowing it, Prey is silently capturing pictures, location, and sending the legitimate owner complete reports.\nAshley can also use Prey to remotely lock her device down and wipe her sensitive data." = "Sin que Steve lo sepa, Prey está silenciosamente tomando fotos, registrando la ubicación y enviándole a la dueña del equipo reportes con la información.\nAshley también puede usar Prey para bloquear su dispositivo remotamente y borrar datos sensibles.";
+"Without him knowing it, Prey is silently capturing pictures, location, and sending the legitimate owner complete reports.\nAshley can also use Prey to remotely lock her device down and wipe her sensitive data." = "Sin que Steve lo sepa, Prey está silenciosamente tomando fotos, registrando la ubicación y enviándole a la dueña del equipo reportes con la información.";
 
 "Good thing Ashley has PREY activated! She just got the reports from her stolen device, so now the police has accurate evidence to work with." = "Lo bueno es que Ashley tiene Prey activado. Ya recibió los reportes de su tablet robada y la policía tiene evidencia sólida para atrapar al ladrón.";
 
@@ -33,6 +33,20 @@
 "ACCESS TO MY ACCOUNT" = "INGRESAR A MI CUENTA";
 
 "don’t have an account?" = "¿No tienes cuenta aún?";
+
+"NOT PROTECTED" = "DESPROTEGIDO";
+
+"current device status" = "estado de tu dispositivo";
+
+"PROTECTED" = "PROTEGIDO";
+
+"REMOTE CONTROL FROM YOUR" = "CONTROLAR REMOTAMENTE";
+
+"PREY ACCOUNT" = "DESDE TU CUENTA PREY";
+
+"CONFIGURE" = "CONFIGURAR";
+
+"PREY SETTINGS" = "PREY";
 
 
 

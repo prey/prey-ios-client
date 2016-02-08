@@ -44,6 +44,12 @@
 @property (nonatomic) IBOutlet UIButton *panelButton;
 @property (nonatomic) IBOutlet UIButton *settingButton;
 
+@property (nonatomic) IBOutlet UILabel *remoteControlLbl;
+@property (nonatomic) IBOutlet UILabel *preyAccountLbl;
+@property (nonatomic) IBOutlet UILabel *configureLbl;
+@property (nonatomic) IBOutlet UILabel *preySettingsLbl;
+
+
 - (IBAction)checkLoginPassword:(id)sender;
 - (IBAction)goToControlPanel:(UIButton *)sender;
 - (IBAction)goToSettings:(UIButton *)sender;

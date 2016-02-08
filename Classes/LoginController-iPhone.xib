@@ -15,6 +15,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginController">
             <connections>
+                <outlet property="configureLbl" destination="7gA-Fk-nrY" id="clU-D9-mkY"/>
                 <outlet property="detail" destination="Fcv-mR-3D9" id="RrJ-y8-KRJ"/>
                 <outlet property="devReady" destination="aRv-Oa-gDs" id="3wS-Mz-97g"/>
                 <outlet property="loginButton" destination="V6b-Aj-XK1" id="mth-6z-LJE"/>
@@ -22,6 +23,9 @@
                 <outlet property="loginPassword" destination="6" id="14"/>
                 <outlet property="nonCamuflageImage" destination="oc7-wX-VQZ" id="yfy-bj-jMO"/>
                 <outlet property="panelButton" destination="1IZ-hU-YCB" id="igd-Bs-RQ8"/>
+                <outlet property="preyAccountLbl" destination="xj9-Av-KCt" id="Ldn-js-Tvj"/>
+                <outlet property="preySettingsLbl" destination="NfO-R2-GW9" id="5yr-V9-JGo"/>
+                <outlet property="remoteControlLbl" destination="Tt8-kN-hTW" id="05M-2k-5RY"/>
                 <outlet property="scrollView" destination="33" id="38"/>
                 <outlet property="settingButton" destination="2es-Cm-xCz" id="kcB-zs-Jei"/>
                 <outlet property="tipl" destination="40" id="42"/>
