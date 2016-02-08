@@ -14,18 +14,18 @@
 
 - (void)configPageView0:(CGFloat)posYiPhone;
 - (void)configPageView1:(CGFloat)posYiPhone;
-- (void)configPageView2;
-- (void)configPageView3;
-- (void)configPageView4;
-- (void)configPageView5;
-- (void)configPageView6;
-- (void)configPageView7;
+- (void)configPageView2:(CGFloat)posYiPhone;
+- (void)configPageView3:(CGFloat)posYiPhone;
+- (void)configPageView4:(CGFloat)posYiPhone;
+- (void)configPageView5:(CGFloat)posYiPhone;
+- (void)configPageView6:(CGFloat)posYiPhone;
+- (void)configPageView7:(CGFloat)posYiPhone;
 
-- (void)startAnimatePage2;
+- (void)startAnimatePage2:(CGFloat)posYiPhone;
 
-- (void)addElementsPage04;
-- (void)addElementsPage05;
-- (void)addElementsPage06;
-- (void)addElementsPage07;
+- (void)addElementsPage04:(CGFloat)posYiPhone;
+- (void)addElementsPage05:(CGFloat)posYiPhone;
+- (void)addElementsPage06:(CGFloat)posYiPhone;
+- (void)addElementsPage07:(CGFloat)posYiPhone;
 
 @end

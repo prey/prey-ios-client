@@ -37,7 +37,7 @@
         heightScreen  = (IS_IPHONE5) ? 568 : 480;
         bgImage       = (IS_IPHONE5) ? @"bg-welcome-iPhone5" : @"bg-welcome-iPhone";
         posYiPhone    = (IS_IPHONE5) ? 0 : -45;
-        posYiPhoneBtn = (IS_IPHONE5) ? 0 : -80;
+        posYiPhoneBtn = (IS_IPHONE5) ? 0 : -90;
     }
     
     UIImageView *bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:bgImage]];
@@ -296,7 +296,8 @@
 
 - (UIPageControl*)createPageControl:(int)numberPages tagID:(int)value
 {
-    tmpRect = (IS_IPAD) ? CGRectMake(334, 960, kPageWidth, kPageHeight) : CGRectMake(110, 330+posYiPhoneBtn, kPageWidth, kPageHeight);
+    CGFloat posYiPhonePageControl = (IS_IPHONE5)? 0:-50;
+    tmpRect = (IS_IPAD) ? CGRectMake(334, 960, kPageWidth, kPageHeight) : CGRectMake(110, 330+posYiPhonePageControl, kPageWidth, kPageHeight);
     UIPageControl *tmpPageControl    = [[UIPageControl alloc] initWithFrame:tmpRect];
     //tmpPageControl.backgroundColor = [UIColor colorWithRed:0.9294f green:0.9137f blue:0.8588f alpha:1.0f];
     tmpPageControl.backgroundColor   = [UIColor clearColor];
@@ -368,22 +369,22 @@
             [pageView configPageView1:posYiPhone];
             break;
         case 2:
-            [pageView configPageView2];
+            [pageView configPageView2:posYiPhone];
             break;
         case 3:
-            [pageView configPageView3];
+            [pageView configPageView3:posYiPhone];
             break;
         case 4:
-            [pageView configPageView4];
+            [pageView configPageView4:posYiPhone];
             break;
         case 5:
-            [pageView configPageView5];
+            [pageView configPageView5:posYiPhone];
             break;
         case 6:
-            [pageView configPageView6];
+            [pageView configPageView6:posYiPhone];
             break;
         case 7:
-            [pageView configPageView7];
+            [pageView configPageView7:posYiPhone];
             break;
     }
 }
@@ -414,7 +415,7 @@
         [self.view endEditing:YES];
         
         OnboardingSubView *currentView2 = (OnboardingSubView*)[self.view viewWithTag:302];
-        [currentView2 startAnimatePage2];
+        [currentView2 startAnimatePage2:posYiPhone];
     }
 }
 
@@ -443,7 +444,7 @@
         
         UIImageView *checkImage = (UIImageView*)[currentView viewWithTag:kTagDudeRoom];
         if (checkImage == nil)
-            [currentView addElementsPage04];
+            [currentView addElementsPage04:posYiPhone];
     }
 }
 
@@ -464,7 +465,7 @@
         
         UIImageView *checkImage = (UIImageView*)[currentView viewWithTag:kTagPoliceRoom];
         if (checkImage == nil)
-            [currentView addElementsPage05];
+            [currentView addElementsPage05:posYiPhone];
     }
     
 }
@@ -486,7 +487,7 @@
         
         UIImageView *checkImage = (UIImageView*)[currentView viewWithTag:kTagAshleyRoom];
         if (checkImage == nil)
-            [currentView addElementsPage06];
+            [currentView addElementsPage06:posYiPhone];
     }
     
 }
@@ -508,7 +509,7 @@
         
         UIImageView *checkImage = (UIImageView*)[currentView viewWithTag:kTagAshleyRoom];
         if (checkImage == nil)
-            [currentView addElementsPage07];
+            [currentView addElementsPage07:posYiPhone];
     }
     
 }
