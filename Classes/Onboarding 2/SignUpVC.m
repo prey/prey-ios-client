@@ -154,6 +154,19 @@
     
     UIButton *callSignInBtn = (UIButton*)[self.view viewWithTag:202];
     [callSignInBtn addTarget:self action:@selector(callSignInView) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self changeTexts];
+}
+
+- (void)changeTexts
+{
+    _subtitleView.text                  = NSLocalizedString(@"prey account",nil);
+    _titleView.text                     = NSLocalizedString(@"SIGN UP", nil);
+    _usernameField.placeholder          = NSLocalizedString(@"username", nil);
+    _emailField.placeholder             = NSLocalizedString(@"email", nil);
+    _passwordField.placeholder          = NSLocalizedString(@"password", nil);
+    _createAccountBtn.titleLabel.text   = NSLocalizedString(@"CREATE MY NEW ACCOUNT", nil);
+    _signInBtn.titleLabel.text          = NSLocalizedString(@"already have an account?", nil);
 }
 
 - (void)didReceiveMemoryWarning {

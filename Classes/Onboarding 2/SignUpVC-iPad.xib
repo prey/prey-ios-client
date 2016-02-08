@@ -17,6 +17,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignUpVC">
             <connections>
+                <outlet property="createAccountBtn" destination="7FY-Q0-Jec" id="NJu-kX-ZbG"/>
+                <outlet property="emailField" destination="j02-9H-LWE" id="3SP-Iw-HFN"/>
+                <outlet property="passwordField" destination="fyk-yi-qoF" id="LbV-cW-WDZ"/>
+                <outlet property="signInBtn" destination="ME8-xn-gyd" id="C3F-Hv-ksO"/>
+                <outlet property="subtitleView" destination="gEw-LX-4aw" id="WdM-8V-7rd"/>
+                <outlet property="titleView" destination="g20-mb-Tci" id="bjR-NI-fGG"/>
+                <outlet property="usernameField" destination="PTY-uE-WZi" id="X7Y-3w-Gad"/>
                 <outlet property="view" destination="1" id="23"/>
             </connections>
         </placeholder>

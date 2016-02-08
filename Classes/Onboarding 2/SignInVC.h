@@ -11,4 +11,11 @@
 
 @interface SignInVC : UserRegisterVC
 
+@property (nonatomic) IBOutlet UILabel *subtitleView;
+@property (nonatomic) IBOutlet UILabel *titleView;
+@property (nonatomic) IBOutlet UITextField *emailField;
+@property (nonatomic) IBOutlet UITextField *passwordField;
+@property (nonatomic) IBOutlet UIButton *createAccountBtn;
+@property (nonatomic) IBOutlet UIButton *signInBtn;
+
 @end
