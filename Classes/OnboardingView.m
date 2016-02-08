@@ -103,7 +103,7 @@
 
     
     // Prey Logo Image
-    tmpRect = (IS_IPAD) ? CGRectMake(259, 900, 250, 60) : CGRectMake(110, 10, 100, 27);
+    tmpRect = (IS_IPAD) ? CGRectMake(284, 40, 200, 54) : CGRectMake(110, 10, 100, 27);
     UIImageView *preyIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"prey-logo-txt-mono"]];
     preyIcon.frame = tmpRect;
     preyIcon.tag   = kTagImagePreyLogo;
@@ -137,7 +137,7 @@
     [self.view addSubview:signupButton];
 
     // Sign In Button
-    tmpRect = (IS_IPAD) ? CGRectMake(259, 900, 250, 60) : CGRectMake(60, 535+posYiPhoneBtn, 200, 40);
+    tmpRect = (IS_IPAD) ? CGRectMake(259, 950, 250, 60) : CGRectMake(60, 535+posYiPhoneBtn, 200, 40);
     UIButton *signinButton = [[UIButton alloc] initWithFrame:tmpRect];
     [signinButton setTitle:NSLocalizedString(@"already have an account?",nil) forState:UIControlStateNormal];
     [signinButton setBackgroundColor:[UIColor clearColor]];
@@ -149,7 +149,7 @@
 
     
     // Back Button
-    tmpRect = (IS_IPAD) ? CGRectMake(40, 950, 43, 37) : CGRectMake(20, 250+posYiPhoneBtn, 18, 40);
+    tmpRect = (IS_IPAD) ? CGRectMake(40, 450, 36, 80) : CGRectMake(20, 250+posYiPhoneBtn, 18, 40);
     UIButton *backButton = [[UIButton alloc] initWithFrame:tmpRect];
     [backButton setBackgroundImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
     //[self configNewButton:backButton withText:@"Skip Tour" clearBackground:NO];
@@ -160,7 +160,7 @@
     
 
     // Next Button
-    tmpRect = (IS_IPAD) ? CGRectMake(685, 950, 43, 37) : CGRectMake(276, 250+posYiPhoneBtn, 18, 40);
+    tmpRect = (IS_IPAD) ? CGRectMake(685, 450, 36, 80) : CGRectMake(276, 250+posYiPhoneBtn, 18, 40);
     UIButton *nextButton = [[UIButton alloc] initWithFrame:tmpRect];
     [nextButton setBackgroundImage:[UIImage imageNamed:@"arrowNext"] forState:UIControlStateNormal];
     //[self configNewButton:nextButton withText:@"next >" clearBackground:NO];
@@ -172,7 +172,7 @@
 
 - (void)addBackgroundImage:(UIImage*)image withTag:(NSInteger)tagImage
 {
-    tmpRect = (IS_IPAD) ? CGRectMake(0, 350, 54, 40.5f) : CGRectMake(0, 150+posYiPhone, 320, 167);
+    tmpRect = (IS_IPAD) ? CGRectMake(0, 300, 768, 334) : CGRectMake(0, 150+posYiPhone, 320, 167);
     UIImageView *imageBg = [[UIImageView alloc] initWithImage:image];
     imageBg.frame = tmpRect;
     imageBg.tag   = tagImage;
@@ -297,7 +297,7 @@
 - (UIPageControl*)createPageControl:(int)numberPages tagID:(int)value
 {
     CGFloat posYiPhonePageControl = (IS_IPHONE5)? 0:-50;
-    tmpRect = (IS_IPAD) ? CGRectMake(334, 960, kPageWidth, kPageHeight) : CGRectMake(110, 330+posYiPhonePageControl, kPageWidth, kPageHeight);
+    tmpRect = (IS_IPAD) ? CGRectMake(334, 660, kPageWidth, kPageHeight) : CGRectMake(110, 330+posYiPhonePageControl, kPageWidth, kPageHeight);
     UIPageControl *tmpPageControl    = [[UIPageControl alloc] initWithFrame:tmpRect];
     //tmpPageControl.backgroundColor = [UIColor colorWithRed:0.9294f green:0.9137f blue:0.8588f alpha:1.0f];
     tmpPageControl.backgroundColor   = [UIColor clearColor];
@@ -434,8 +434,10 @@
         UIImageView   *restBg      = (UIImageView*)[self.view viewWithTag:kTagImageRestBg];
         UIImageView   *roomBg      = (UIImageView*)[self.view viewWithTag:kTagImageRoomBg];
         
-        restBg.alpha = 1 - ((scrollMoveX-960)/widthScreen);
-        roomBg.alpha = ((scrollMoveX-960)/widthScreen);
+        CGFloat ratioScreen = widthScreen*3;
+        
+        restBg.alpha = 1 - ((scrollMoveX-ratioScreen)/widthScreen);
+        roomBg.alpha = ((scrollMoveX-ratioScreen)/widthScreen);
     }
     
     if (scrollMoveX == widthScreen*4)
@@ -455,8 +457,10 @@
         UIImageView   *roomBg      = (UIImageView*)[self.view viewWithTag:kTagImageRoomBg];
         UIImageView   *policeBg    = (UIImageView*)[self.view viewWithTag:kTagImagePoliceBg];
         
-        roomBg.alpha = 1 - ((scrollMoveX-1280)/widthScreen);
-        policeBg.alpha = ((scrollMoveX-1280)/widthScreen);
+        CGFloat ratioScreen = widthScreen*4;
+        
+        roomBg.alpha = 1 - ((scrollMoveX-ratioScreen)/widthScreen);
+        policeBg.alpha = ((scrollMoveX-ratioScreen)/widthScreen);
     }
     
     if (scrollMoveX == widthScreen*5)
@@ -477,8 +481,10 @@
         UIImageView   *policeBg    = (UIImageView*)[self.view viewWithTag:kTagImagePoliceBg];
         UIImageView   *roomGirlBg  = (UIImageView*)[self.view viewWithTag:kTagImageRoomGirlBg];
         
-        policeBg.alpha   = 1 - ((scrollMoveX-1600)/widthScreen);
-        roomGirlBg.alpha = ((scrollMoveX-1600)/widthScreen);
+        CGFloat ratioScreen = widthScreen*5;
+        
+        policeBg.alpha   = 1 - ((scrollMoveX-ratioScreen)/widthScreen);
+        roomGirlBg.alpha = ((scrollMoveX-ratioScreen)/widthScreen);
     }
     
     if (scrollMoveX == widthScreen*6)
@@ -499,8 +505,10 @@
         UIImageView   *roomGirlBg  = (UIImageView*)[self.view viewWithTag:kTagImageRoomGirlBg];
         UIImageView   *streetBg    = (UIImageView*)[self.view viewWithTag:kTagImageStreetBg];
         
-        roomGirlBg.alpha   = 1 - ((scrollMoveX-1920)/widthScreen);
-        streetBg.alpha = ((scrollMoveX-1920)/widthScreen);
+        CGFloat ratioScreen = widthScreen*6;
+        
+        roomGirlBg.alpha   = 1 - ((scrollMoveX-ratioScreen)/widthScreen);
+        streetBg.alpha = ((scrollMoveX-ratioScreen)/widthScreen);
     }
     
     if (scrollMoveX == widthScreen*7)
