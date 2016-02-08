@@ -295,6 +295,7 @@
     [loginButton setTitle:[NSLocalizedString(@"Log In", nil) uppercaseString] forState: UIControlStateNormal];
     [loginPassword setPlaceholder:NSLocalizedString(@"Type in your password", nil)];
     [loginPassword setBackgroundColor:[UIColor whiteColor]];
+    [loginPassword setTextColor:[UIColor blackColor]];
 
     
     _remoteControlLbl.text  = NSLocalizedString(@"REMOTE CONTROL FROM YOUR", nil);

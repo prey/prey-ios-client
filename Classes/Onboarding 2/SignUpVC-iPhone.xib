@@ -9,7 +9,7 @@
             <string>TitilliumWeb-Bold</string>
             <string>TitilliumWeb-Bold</string>
         </mutableArray>
-        <mutableArray key="magdacleanmono-regular.otf">
+        <mutableArray key="magdacleanmono-regular-webfont.ttf">
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
         </mutableArray>
@@ -82,7 +82,7 @@
                     <animations/>
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" name="TitilliumWeb-Bold" family="Titillium Web" pointSize="22"/>
-                    <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                    <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
                 </textField>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="line-input.png" id="T1U-3z-IVx">
                     <rect key="frame" x="10" y="278" width="300" height="10"/>
