@@ -10,6 +10,7 @@
 #import "OnboardingSubView.h"
 #import "Constants.h"
 #import "SignUpVC.h"
+#import "SignInVC.h"
 
 @interface OnboardingView ()
 
@@ -50,6 +51,24 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)callSignInView
+{
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    SignInVC *nextController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        if (IS_IPHONE5)
+            nextController = [[SignInVC alloc] initWithNibName:@"SignInVC-iPhone-568h" bundle:nil];
+        else
+            nextController = [[SignInVC alloc] initWithNibName:@"SignInVC-iPhone" bundle:nil];
+    }
+    else
+        nextController = [[SignInVC alloc] initWithNibName:@"SignInVC-iPad" bundle:nil];
+    
+    [appDelegate.viewController setViewControllers:[NSArray arrayWithObjects:nextController, nil] animated:NO];
 }
 
 - (void)callSignUpView
@@ -111,11 +130,22 @@
     // Sign Up Button
     tmpRect = (IS_IPAD) ? CGRectMake(259, 900, 250, 60) : CGRectMake(60, 500+posYiPhoneBtn, 200, 40);
     UIButton *signupButton = [[UIButton alloc] initWithFrame:tmpRect];
-    [self configNewButton:signupButton withText:NSLocalizedString(@"SIGN IN",nil) clearBackground:NO];
+    [self configNewButton:signupButton withText:NSLocalizedString(@"SIGN UP",nil) clearBackground:NO];
     signupButton.tag = kTagButtonSignup;
     signupButton.alpha = 0.0f;
     [signupButton addTarget:self action:@selector(callSignUpView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:signupButton];
+
+    // Sign In Button
+    tmpRect = (IS_IPAD) ? CGRectMake(259, 900, 250, 60) : CGRectMake(60, 535+posYiPhoneBtn, 200, 40);
+    UIButton *signinButton = [[UIButton alloc] initWithFrame:tmpRect];
+    [signinButton setTitle:NSLocalizedString(@"already have an account?",nil) forState:UIControlStateNormal];
+    [signinButton setBackgroundColor:[UIColor clearColor]];
+    [[signinButton titleLabel] setFont:[UIFont boldSystemFontOfSize:12]];
+    signinButton.tag = kTagButtonSignIN;
+    signinButton.alpha = 0.0f;
+    [signinButton addTarget:self action:@selector(callSignInView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:signinButton];
 
     
     // Back Button
@@ -362,6 +392,7 @@
 {
     UIButton *startButton  = (UIButton*)[self.view viewWithTag:kTagButtonStart];
     UIButton *signupButton = (UIButton*)[self.view viewWithTag:kTagButtonSignup];
+    UIButton *signinButton = (UIButton*)[self.view viewWithTag:kTagButtonSignIN];
     UIButton *backButton   = (UIButton*)[self.view viewWithTag:kTagButtonBack];
     UIButton *nextButton   = (UIButton*)[self.view viewWithTag:kTagButtonNext];
     UIPageControl *pageControl = (UIPageControl*)[self.view viewWithTag:kTagViewPage];
@@ -369,7 +400,7 @@
     UIImageView   *restBg      = (UIImageView*)[self.view viewWithTag:kTagImageRestBg];
     
     startButton.alpha = 1 - (scrollMoveX/320.0f);
-    backButton.alpha  = nextButton.alpha = pageControl.alpha = signupButton.alpha = (scrollMoveX/320.0f);
+    backButton.alpha  = nextButton.alpha = pageControl.alpha = signupButton.alpha = signinButton.alpha = (scrollMoveX/320.0f);
     restBg.alpha      = preyLogo.alpha = (scrollMoveX/320.0f);
 
     

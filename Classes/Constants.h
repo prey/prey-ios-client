@@ -35,6 +35,7 @@
 #define kTagButtonBack      201
 #define kTagButtonNext      202
 #define kTagButtonSignup    203
+#define kTagButtonSignIN    210
 #define kTagImagePreyLogo   204
 #define kTagImageRestBg     205
 #define kTagImageRoomBg     206
