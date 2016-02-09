@@ -254,6 +254,11 @@
         
         [loginButton setBackgroundColor:[UIColor clearColor]];
         
+        if (IS_IPHONE4S) {
+            scrollView.frame = CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y+30,
+                                          scrollView.frame.size.width, scrollView.frame.size.height);
+        }
+        
         if ( (IS_OS_8_OR_LATER) && ([PreyConfig instance].isTouchIDEnabled) )
             [self loginWithTouchID];
     }
