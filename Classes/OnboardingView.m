@@ -48,6 +48,12 @@
     [self initButtons];
 }
 
+- (void)viewDidUnload
+{
+    UIScrollView  *tmpScrollControl = (UIScrollView*) [self.view viewWithTag:kTagViewScroll];
+    tmpScrollControl = nil;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -55,6 +61,9 @@
 
 - (void)callSignInView
 {
+    UIScrollView  *tmpScrollControl = (UIScrollView*) [self.view viewWithTag:kTagViewScroll];
+    tmpScrollControl.delegate = nil;
+    
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     SignInVC *nextController;
     
@@ -73,6 +82,9 @@
 
 - (void)callSignUpView
 {
+    UIScrollView  *tmpScrollControl = (UIScrollView*) [self.view viewWithTag:kTagViewScroll];
+    tmpScrollControl.delegate = nil;
+    
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     SignUpVC *nextController;
     
