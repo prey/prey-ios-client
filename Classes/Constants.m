@@ -19,7 +19,7 @@ NSString * const URL_FORGOT_PANEL = @"https://panel.preyproject.com/forgot?embed
 
 NSString * const URL_TERMS_PREY = @"http://www.preyproject.com/terms";
 NSString * const URL_PRIVACY_PREY = @"http://www.preyproject.com/privacy";
-NSString * const URL_HELP_PREY = @"https://help.preyproject.com/articles";
+NSString * const URL_HELP_PREY = @"http://www.preyproject.com/help";
 
 NSString * const DEFAULT_CHECK_PATH = @"/devices/%@%@"; // /devices/abc123.xml
 BOOL const DEFAULT_SEND_CRASH_REPORTS = true;
