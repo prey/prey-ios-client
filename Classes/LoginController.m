@@ -288,6 +288,9 @@
     [super viewDidLoad];
     
     [self changeTexts];
+    
+    if ([[PreyConfig instance] hideTourWeb])
+        [self closeTourLabel];
 }
 
 - (void)changeTexts

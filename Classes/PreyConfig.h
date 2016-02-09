@@ -28,6 +28,7 @@
     BOOL intervalMode;
     BOOL isNotificationSettingsEnabled;
     BOOL isTouchIDEnabled;
+    BOOL hideTourWeb;
 }
 
 @property (nonatomic) NSString *checkUrl;
@@ -49,6 +50,7 @@
 @property (nonatomic) BOOL alertOnReport;
 @property (nonatomic) BOOL isNotificationSettingsEnabled;
 @property (nonatomic) BOOL isTouchIDEnabled;
+@property (nonatomic) BOOL hideTourWeb;
 @property (nonatomic) int delay;
 @property (getter = isPro) BOOL pro;
 

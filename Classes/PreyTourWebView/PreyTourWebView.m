@@ -85,6 +85,9 @@
 
     if ([[URL scheme] isEqualToString:@"closewebview"])
     {
+        [[PreyConfig instance] setHideTourWeb:YES];
+        [[PreyConfig instance] saveValues];
+        
         [self cancel:nil];        
         return NO;
     }

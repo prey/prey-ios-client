@@ -36,12 +36,13 @@ static NSString *const INTERVAL_MODE=@"interval_mode";
 static NSString *const PRO_ACCOUNT=@"pro_account";
 static NSString *const NOTIFICATION_SETTINGS=@"notification_settings";
 static NSString *const TOUCH_ID=@"touch_id";
+static NSString *const TOUR_WEB=@"tour_web";
 
 @implementation PreyConfig
 
 @synthesize checkUrl, controlPanelHost, checkPath, exceptionsEndpoint, dataEndpoint, apiKey, deviceKey, email, isNotificationSettingsEnabled;
 @synthesize desiredAccuracy,alertOnReport,sendCrashReports,delay,alreadyRegistered,missing,askForPassword,camouflageMode,intervalMode,pro;
-@synthesize isTouchIDEnabled;
+@synthesize isTouchIDEnabled, hideTourWeb;
 
 + (PreyConfig *)instance {
     static PreyConfig *instance = nil;
@@ -63,6 +64,7 @@ static NSString *const TOUCH_ID=@"touch_id";
         instance.intervalMode       = [defaults boolForKey:INTERVAL_MODE];
         instance.pro                = [defaults boolForKey:PRO_ACCOUNT];
         instance.isTouchIDEnabled   = [defaults boolForKey:TOUCH_ID];
+        instance.hideTourWeb        = [defaults boolForKey:TOUR_WEB];
         [instance loadDefaultValues];
     });
     
@@ -144,6 +146,7 @@ static NSString *const TOUCH_ID=@"touch_id";
     [defaults setBool:[self intervalMode] forKey:INTERVAL_MODE];
     [defaults setBool:[self isNotificationSettingsEnabled] forKey:NOTIFICATION_SETTINGS];
     [defaults setBool:[self isTouchIDEnabled] forKey:TOUCH_ID];
+    [defaults setBool:[self hideTourWeb] forKey:TOUR_WEB];
     [defaults synchronize]; // this method is optional
 }
 
@@ -168,6 +171,7 @@ static NSString *const TOUCH_ID=@"touch_id";
     [defaults removeObjectForKey:INTERVAL_MODE];
     [defaults removeObjectForKey:NOTIFICATION_SETTINGS];
     [defaults removeObjectForKey:TOUCH_ID];
+    [defaults removeObjectForKey:TOUR_WEB];
     [defaults synchronize]; // this method is optional
     
     [[PreyConfig instance] setEmail:nil];
