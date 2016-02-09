@@ -252,6 +252,8 @@
         [self.tipl setHidden:YES];
         [self configButtonsForCamouflage:YES];
         
+        [loginButton setBackgroundColor:[UIColor clearColor]];
+        
         if ( (IS_OS_8_OR_LATER) && ([PreyConfig instance].isTouchIDEnabled) )
             [self loginWithTouchID];
     }

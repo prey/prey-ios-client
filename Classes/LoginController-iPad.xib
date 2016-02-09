@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="9059" systemVersion="15C50" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="magdacleanmono-bold.ttf">
+        <mutableArray key="magdacleanmono-bold-webfont.ttf">
             <string>MagdaCleanMono-Bold</string>
         </mutableArray>
-        <mutableArray key="magdacleanmono-regular.otf">
+        <mutableArray key="magdacleanmono-regular-webfont.ttf">
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
         </mutableArray>
@@ -37,7 +38,7 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="camouflage-iPhone5" id="DKh-eC-hJ6">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="camouflage-iPhone5" id="DKh-eC-hJ6">
                     <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>

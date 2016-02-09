@@ -444,7 +444,7 @@
     // TableView Config
     CGRect frameTable;
     if (IS_IPAD)
-        frameTable = CGRectMake(149, 100, 470, 870);
+        frameTable = CGRectMake(149, 0, 470, 1000);
     else
         frameTable = self.view.frame;
     
