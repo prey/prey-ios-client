@@ -22,6 +22,10 @@
 #import "PreyStoreManager.h"
 #import "OnboardingView.h"
 
+#ifdef DEBUG
+#warning Linker warnings suppressed (-w in build settings) "Other Linker Flags"
+#endif
+
 @implementation PreyAppDelegate
 
 @synthesize window,viewController;
