@@ -27,11 +27,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    HUD.labelText = NSLocalizedString(@"Please wait",nil);
-
+    dispatch_async(dispatch_get_main_queue(), ^{
+        HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        HUD.labelText = NSLocalizedString(@"Please wait",nil);
+    });
     
-    RSSParser *parser = [[RSSParser alloc] initWithUrl:@"https://preyproject.com/blog/cat/recoveries/feed" synchronous:NO];
+    RSSParser *parser = [[RSSParser alloc] initWithUrl:@"http://preyproject.com/blog/cat/recoveries/feed" synchronous:NO];
     parser.delegate = self;
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         [parser parse];
@@ -91,20 +92,24 @@
             }
         }
     }
-    [MBProgressHUD hideHUDForView:self.view animated:NO];
-    [self loadTableView];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self loadTableView];
+    });
 }
 
 - (void) rssParser:(RSSParser *)parser errorOccurred:(NSError *)error
 {
-    NSLog(@"Error Loading Web: %@",[error description]);
-    [MBProgressHUD hideHUDForView:self.view animated:NO];
-    
-    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil)
-                                                     message:NSLocalizedString(@"Error loading web, please try again.",nil)
-                                                    delegate:nil
-                                           cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
-    [alerta show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"Error Loading Web: %@",[error description]);
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        
+        UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil)
+                                                         message:NSLocalizedString(@"Error loading web, please try again.",nil)
+                                                        delegate:nil
+                                               cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+        [alerta show];
+    });
 }
 
 #pragma mark Table view data source
