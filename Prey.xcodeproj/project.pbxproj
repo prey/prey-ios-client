@@ -2287,7 +2287,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";
@@ -2313,7 +2313,7 @@
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Prey-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
@@ -2322,6 +2322,7 @@
 				OTHER_LDFLAGS = (
 					"-licucore",
 					"-ObjC",
+					"-w",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = Prey;
@@ -2348,7 +2349,7 @@
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Prey-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"./Classes/GoogleAnalytics/**",
@@ -2358,6 +2359,7 @@
 				OTHER_LDFLAGS = (
 					"-licucore",
 					"-ObjC",
+					"-w",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = Prey;
@@ -2392,6 +2394,7 @@
 				OTHER_LDFLAGS = (
 					"-licucore",
 					"-ObjC",
+					"-w",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = Prey;
@@ -2609,7 +2612,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-licucore";
 				PROVISIONING_PROFILE = "";
@@ -2631,7 +2634,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-licucore";
