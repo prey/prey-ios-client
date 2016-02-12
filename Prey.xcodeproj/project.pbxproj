@@ -387,6 +387,10 @@
 		3BC582951B4ADD3A00636F6A /* DeviceAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC582941B4ADD3A00636F6A /* DeviceAuth.m */; };
 		3BC582961B4ADD3A00636F6A /* DeviceAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC582941B4ADD3A00636F6A /* DeviceAuth.m */; };
 		3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
+		3BD43E301C6CCCC4008DDC18 /* PreyModelData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3BD43E2E1C6CCCC4008DDC18 /* PreyModelData.xcdatamodeld */; };
+		3BD43E351C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD43E321C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.m */; };
+		3BD43E361C6CCECA008DDC18 /* GeofenceZones.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD43E341C6CCECA008DDC18 /* GeofenceZones.m */; };
+		3BD43E3A1C6CD234008DDC18 /* PreyCoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD43E391C6CD234008DDC18 /* PreyCoreData.m */; };
 		3BD482E51678CAE300F25DC8 /* UIWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD482E41678CAE300F25DC8 /* UIWebViewController.m */; };
 		3BD7479A170F7FD500F44E2C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
 		3BD920441C1A1BCC00F630C5 /* prey-logo-txt-mono.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BD920401C1A1BCC00F630C5 /* prey-logo-txt-mono.png */; };
@@ -818,6 +822,13 @@
 		3BC582931B4ADD3A00636F6A /* DeviceAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceAuth.h; path = Classes/DeviceAuth.h; sourceTree = "<group>"; };
 		3BC582941B4ADD3A00636F6A /* DeviceAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceAuth.m; path = Classes/DeviceAuth.m; sourceTree = "<group>"; };
 		3BC8A0A0193F7751000408BA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		3BD43E2F1C6CCCC4008DDC18 /* PreyModelData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PreyModelData.xcdatamodel; sourceTree = "<group>"; };
+		3BD43E311C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GeofenceZones+CoreDataProperties.h"; path = "CoreData/GeofenceZones+CoreDataProperties.h"; sourceTree = "<group>"; };
+		3BD43E321C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GeofenceZones+CoreDataProperties.m"; path = "CoreData/GeofenceZones+CoreDataProperties.m"; sourceTree = "<group>"; };
+		3BD43E331C6CCECA008DDC18 /* GeofenceZones.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeofenceZones.h; path = CoreData/GeofenceZones.h; sourceTree = "<group>"; };
+		3BD43E341C6CCECA008DDC18 /* GeofenceZones.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeofenceZones.m; path = CoreData/GeofenceZones.m; sourceTree = "<group>"; };
+		3BD43E381C6CD234008DDC18 /* PreyCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyCoreData.h; path = CoreData/PreyCoreData.h; sourceTree = "<group>"; };
+		3BD43E391C6CD234008DDC18 /* PreyCoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreyCoreData.m; path = CoreData/PreyCoreData.m; sourceTree = "<group>"; };
 		3BD482E31678CAE300F25DC8 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewController.h; path = Classes/UIWebViewController.h; sourceTree = "<group>"; };
 		3BD482E41678CAE300F25DC8 /* UIWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewController.m; path = Classes/UIWebViewController.m; sourceTree = "<group>"; };
 		3BD546D017FE10CF00ABFDBC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -1138,6 +1149,7 @@
 				0780541E1255421800E4CCE5 /* Prey Http */,
 				3B99866F1B4C10D7009D0A00 /* Prey Store */,
 				07435EF51681021C00FBD54B /* Prey Modules */,
+				3BD43E371C6CCEE7008DDC18 /* Core Data */,
 				1D3623240D0F684500981E51 /* PreyAppDelegate.h */,
 				1D3623250D0F684500981E51 /* PreyAppDelegate.m */,
 				3B477ED718B2AA7B003A32CE /* PreyDeployment.h */,
@@ -1560,6 +1572,20 @@
 				07CEDA9812E9DD77002B4EB5 /* NSLogger */,
 			);
 			name = External;
+			sourceTree = "<group>";
+		};
+		3BD43E371C6CCEE7008DDC18 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				3BD43E311C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.h */,
+				3BD43E321C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.m */,
+				3BD43E331C6CCECA008DDC18 /* GeofenceZones.h */,
+				3BD43E341C6CCECA008DDC18 /* GeofenceZones.m */,
+				3BD43E381C6CD234008DDC18 /* PreyCoreData.h */,
+				3BD43E391C6CD234008DDC18 /* PreyCoreData.m */,
+				3BD43E2E1C6CCCC4008DDC18 /* PreyModelData.xcdatamodeld */,
+			);
+			name = "Core Data";
 			sourceTree = "<group>";
 		};
 		3BD546C717FE102400ABFDBC /* GoogleAnalytics */ = {
@@ -2078,6 +2104,7 @@
 				071324181346348400F7EFD8 /* FakeWebView.m in Sources */,
 				3BAE4E54190AB96F0093ECA2 /* GrettingsProViewController.m in Sources */,
 				3B7D4FAD1B4D67A400F000B1 /* PreyStoreProduct.m in Sources */,
+				3BD43E361C6CCECA008DDC18 /* GeofenceZones.m in Sources */,
 				0713242F1346350100F7EFD8 /* LocationController.m in Sources */,
 				3BE24A7A1ABB915100464C1D /* NSMutableString+RSSKit.m in Sources */,
 				3B5F0B341C18D68000A7B3E1 /* StatusDeviceVC.m in Sources */,
@@ -2090,15 +2117,18 @@
 				07132449134635A100F7EFD8 /* PreyConfig.m in Sources */,
 				3BE24A791ABB915100464C1D /* PostStory.m in Sources */,
 				3BC057D41BB201F1006C1DB7 /* AFSecurityPolicy.m in Sources */,
+				3BD43E3A1C6CD234008DDC18 /* PreyCoreData.m in Sources */,
 				0713244A134635A100F7EFD8 /* ReportModule.m in Sources */,
 				3BE24A7E1ABB915100464C1D /* RSSFeed.m in Sources */,
 				0713244B134635A100F7EFD8 /* User.m in Sources */,
 				07132450134635C400F7EFD8 /* PreyRestHttp.m in Sources */,
 				3B9EF01618ECE2E60060FFAE /* PreyAFHTTPRequestOperation.m in Sources */,
 				3B9EF01818ECE2E60060FFAE /* AFJSONRequestOperation.m in Sources */,
+				3BD43E351C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.m in Sources */,
 				3B477ED918B2AA7B003A32CE /* PreyDeployment.m in Sources */,
 				3BAA98701BB3437000CB4125 /* PreyRestHttpV1.m in Sources */,
 				5A7A12AD146D74FC00B14176 /* UIDevice-Hardware.m in Sources */,
+				3BD43E301C6CCCC4008DDC18 /* PreyModelData.xcdatamodeld in Sources */,
 				3B6FEA7E1C1B6B1200790B30 /* UserRegisterVC.m in Sources */,
 				3B9EF01D18ECE2E60060FFAE /* UIImageView+AFNetworking.m in Sources */,
 				3BC057D21BB201F1006C1DB7 /* AFHTTPSessionManager.m in Sources */,
@@ -2679,6 +2709,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3BD43E2E1C6CCCC4008DDC18 /* PreyModelData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3BD43E2F1C6CCCC4008DDC18 /* PreyModelData.xcdatamodel */,
+			);
+			currentVersion = 3BD43E2F1C6CCCC4008DDC18 /* PreyModelData.xcdatamodel */;
+			path = PreyModelData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
 }
