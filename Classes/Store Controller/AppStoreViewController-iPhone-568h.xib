@@ -40,7 +40,7 @@
                     <rect key="frame" x="60" y="234" width="202" height="154"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <string key="text">10x reports per device
-Ultra-fast frecuency for reports
+Ultra-fast frequency for reports
 Keep record of checkins
 Scan hardware for changes
 Automatic remote update
