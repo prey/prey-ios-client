@@ -414,6 +414,7 @@
 		3BE24A7F1ABB915100464C1D /* RSSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A731ABB915100464C1D /* RSSParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3BE24A801ABB915100464C1D /* RecoveriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE24A751ABB915100464C1D /* RecoveriesViewController.m */; };
 		3BE24A821ABB91A800464C1D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE24A811ABB91A800464C1D /* libxml2.dylib */; };
+		3BE5B29A1C73BE21009D972D /* RegionAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BE5B2991C73BE21009D972D /* RegionAnnotation.m */; };
 		3BEFBE3A1C62883B00D08D79 /* policesBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BEFBE381C62883A00D08D79 /* policesBg.png */; };
 		3BEFBE3B1C62883B00D08D79 /* policesBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BEFBE391C62883B00D08D79 /* policesBg@2x.png */; };
 		3BEFBE3E1C62913F00D08D79 /* ashley3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BEFBE3C1C62913F00D08D79 /* ashley3.png */; };
@@ -870,6 +871,8 @@
 		3BE24A741ABB915100464C1D /* RecoveriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecoveriesViewController.h; sourceTree = "<group>"; };
 		3BE24A751ABB915100464C1D /* RecoveriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecoveriesViewController.m; sourceTree = "<group>"; };
 		3BE24A811ABB91A800464C1D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		3BE5B2981C73BE21009D972D /* RegionAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegionAnnotation.h; path = Classes/RegionAnnotation.h; sourceTree = "<group>"; };
+		3BE5B2991C73BE21009D972D /* RegionAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegionAnnotation.m; path = Classes/RegionAnnotation.m; sourceTree = "<group>"; };
 		3BEFBE381C62883A00D08D79 /* policesBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = policesBg.png; sourceTree = "<group>"; };
 		3BEFBE391C62883B00D08D79 /* policesBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "policesBg@2x.png"; sourceTree = "<group>"; };
 		3BEFBE3C1C62913F00D08D79 /* ashley3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ashley3.png; sourceTree = "<group>"; };
@@ -965,6 +968,8 @@
 			children = (
 				3BFF783C189C592500694625 /* DeviceMapController.h */,
 				3BFF783D189C592500694625 /* DeviceMapController.m */,
+				3BE5B2981C73BE21009D972D /* RegionAnnotation.h */,
+				3BE5B2991C73BE21009D972D /* RegionAnnotation.m */,
 				07CD95F11253D99500590FCD /* PreferencesController.h */,
 				07CD95F21253D99500590FCD /* PreferencesController.mm */,
 			);
@@ -2107,6 +2112,7 @@
 				3BD43E361C6CCECA008DDC18 /* GeofenceZones.m in Sources */,
 				0713242F1346350100F7EFD8 /* LocationController.m in Sources */,
 				3BE24A7A1ABB915100464C1D /* NSMutableString+RSSKit.m in Sources */,
+				3BE5B29A1C73BE21009D972D /* RegionAnnotation.m in Sources */,
 				3B5F0B341C18D68000A7B3E1 /* StatusDeviceVC.m in Sources */,
 				0713243B1346356300F7EFD8 /* PreyLogger.m in Sources */,
 				0713243F1346357500F7EFD8 /* SignificantLocationController.m in Sources */,

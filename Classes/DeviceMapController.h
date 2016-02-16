@@ -19,5 +19,6 @@
 
 @property (nonatomic) MKMapView *mapa;
 @property (nonatomic) CLLocationManager * MANG;
+@property (nonatomic, strong) NSMutableDictionary *colorsGeofence;
 
 @end

@@ -16,6 +16,7 @@
 
 + (PreyCoreData*)instance;
 
+- (NSArray*)getCurrentGeofenceZones;
 - (void)updateGeofenceZones:(id)response;
 
 @end
