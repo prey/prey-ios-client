@@ -17,7 +17,7 @@
 
 @implementation GeofenceMapController
 
-@synthesize colorsGeofence;
+@synthesize colorsGeofence, zoneDataSourceArray, zonePickerView, zoneInputs, currentGeofenceZone;
 
 - (void)viewDidLoad
 {
@@ -28,26 +28,46 @@
     mapa = [[MKMapView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:mapa];
     canUpdateUserLoc = NO;
-    [mapa setDelegate:self];
-    
-    if (![CLLocationManager locationServicesEnabled])
-        return;
-
-    MANG = [[CLLocationManager alloc] init];
-    [MANG startMonitoringSignificantLocationChanges];
-    if(MANG.location)
-        [mapa setRegion:MKCoordinateRegionMakeWithDistance(MANG.location.coordinate, 2000, 2000)];
-    
-    [MANG stopMonitoringSignificantLocationChanges];
-    [MANG stopUpdatingLocation];
-    // Do any additional setup after loading the view.
-    
-    [self goToUserLocation];
     
     HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     HUD.labelText = NSLocalizedString(@"Please wait",nil);
 
     [self addGeofenceZones];
+    
+    // Add info button
+    UIBarButtonItem *infoBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(showZones)];
+    self.navigationController.topViewController.navigationItem.rightBarButtonItem = infoBtn;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    zoneInputs      = [[UITextField alloc] initWithFrame:CGRectZero];    
+    [self.view addSubview:zoneInputs];
+    
+    zonePickerView  = [[UIPickerView alloc] initWithFrame:CGRectZero];
+    [zonePickerView setBackgroundColor:[UIColor whiteColor]];
+    zonePickerView.dataSource = self;
+    zonePickerView.delegate = self;
+    
+    UIToolbar *doneBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 44)];
+    [doneBar setBarStyle:UIBarStyleBlack];
+    [doneBar setTranslucent:YES];
+    UIBarButtonItem *spacer2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                             target:nil action:nil];
+    [doneBar setItems:[NSArray arrayWithObjects:spacer2, [[UIBarButtonItem alloc]
+                                                          initWithTitle:NSLocalizedString(@"Done",nil)
+                                                          style:UIBarButtonItemStyleDone
+                                                          target:zoneInputs
+                                                          action:@selector(resignFirstResponder)],nil ] animated:YES];
+    
+    [zoneInputs setInputAccessoryView:doneBar];
+    [zoneInputs setInputView:zonePickerView];
+}
+
+
+- (void)showZones
+{
+    [zoneInputs becomeFirstResponder];
 }
 
 - (void)addGeofenceZones
@@ -79,7 +99,22 @@
             
             RegionAnnotation *annotation = [[RegionAnnotation alloc] initWithCLRegion:region withTitle:info.name];
             [mapa addAnnotation:annotation];
+            
+            [mapa selectAnnotation:annotation animated:NO];
         }
+        
+        [mapa setDelegate:self];
+        
+        zoneDataSourceArray = [NSMutableArray new];
+        [zoneDataSourceArray addObjectsFromArray:geofenceZones];
+        
+        currentGeofenceZone = (GeofenceZones*)zoneDataSourceArray[0];
+        // Add MKCircle to MKMapView
+        CLLocationDegrees       center_lat  = [currentGeofenceZone.lat doubleValue];
+        CLLocationDegrees       center_lon  = [currentGeofenceZone.lng doubleValue];
+        CLLocationDistance      radius      = [currentGeofenceZone.radius doubleValue]*3;
+        CLLocationCoordinate2D  center      = CLLocationCoordinate2DMake(center_lat, center_lon);
+        [self goToGeoLocation:center withDistance:radius];
     }
 }
 
@@ -123,26 +158,64 @@
         return nil;
 }
 
-- (void)goToUserLocation {
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(mapa.userLocation.coordinate, 1000, 1000);
+- (void)goToGeoLocation:(CLLocationCoordinate2D)location withDistance:(CLLocationDistance)distance
+{
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location, distance, distance);
     @try {
         [mapa setRegion:region animated:YES];
-        canUpdateUserLoc = YES;
     } @catch (NSException *e) {
         //Strange exception happens sometimes. This blank catch solves it.
     }
 }
 
-#pragma mark MKMapViewDelegate
 
-- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
-    if(!canUpdateUserLoc) return;
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 1000, 1000);
-    @try {
-        [mapa setRegion:region animated:YES];
-    } @catch (NSException *e) {
-        //Strange exception happens sometimes. This blank catch solves it.
-    }
+#pragma mark -
+#pragma mark PickerView Data Source
+- (NSInteger)numberOfComponentsInPickerView: (UIPickerView *)pickerView
+{
+    return 1;
+}
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return  zoneDataSourceArray.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    GeofenceZones *item = (GeofenceZones*)zoneDataSourceArray[row];
+    return item.name;
+}
+
+#pragma mark PickerView Delegate
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    GeofenceZones *item = (GeofenceZones*)zoneDataSourceArray[row];
+    
+    // Add MKCircle to MKMapView
+    CLLocationDegrees       center_lat  = [item.lat doubleValue];
+    CLLocationDegrees       center_lon  = [item.lng doubleValue];
+    CLLocationDistance      radius      = [item.radius doubleValue]*3;
+    CLLocationCoordinate2D  center      = CLLocationCoordinate2DMake(center_lat, center_lon);
+    
+    [self goToGeoLocation:center withDistance:radius];
+}
+
+#pragma mark UITextFieldDelegate Methods
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end
