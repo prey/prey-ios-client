@@ -27,7 +27,9 @@
         _region = newRegion;
         _coordinate = newRegion.center;
         _radius = newRegion.radius;
-        _title = titleRegion;
+        
+        NSString *titleTranslate = NSLocalizedString(@"Geofence",nil);
+        _title = [NSString stringWithFormat:@"%@: %@",titleTranslate ,titleRegion];
     }
     
     return self;

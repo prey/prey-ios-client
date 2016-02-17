@@ -14,11 +14,14 @@
 @interface DeviceMapController : GAITrackedViewController <MKMapViewDelegate> {
     MKMapView *mapa;
     CLLocationManager * MANG;
-    MBProgressHUD *HUD;    
+    MBProgressHUD *HUD;
+    BOOL canUpdateUserLoc;
 }
 
 @property (nonatomic) MKMapView *mapa;
 @property (nonatomic) CLLocationManager * MANG;
-@property (nonatomic, strong) NSMutableDictionary *colorsGeofence;
+@property (nonatomic) BOOL canUpdateUserLoc;
+
+- (void)goToUserLocation;
 
 @end

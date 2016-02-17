@@ -387,6 +387,7 @@
 		3BC582951B4ADD3A00636F6A /* DeviceAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC582941B4ADD3A00636F6A /* DeviceAuth.m */; };
 		3BC582961B4ADD3A00636F6A /* DeviceAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC582941B4ADD3A00636F6A /* DeviceAuth.m */; };
 		3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
+		3BCBF92E1C74B70700998290 /* GeofenceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF92D1C74B70700998290 /* GeofenceMapController.m */; };
 		3BD43E301C6CCCC4008DDC18 /* PreyModelData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3BD43E2E1C6CCCC4008DDC18 /* PreyModelData.xcdatamodeld */; };
 		3BD43E351C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD43E321C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.m */; };
 		3BD43E361C6CCECA008DDC18 /* GeofenceZones.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD43E341C6CCECA008DDC18 /* GeofenceZones.m */; };
@@ -823,6 +824,8 @@
 		3BC582931B4ADD3A00636F6A /* DeviceAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceAuth.h; path = Classes/DeviceAuth.h; sourceTree = "<group>"; };
 		3BC582941B4ADD3A00636F6A /* DeviceAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceAuth.m; path = Classes/DeviceAuth.m; sourceTree = "<group>"; };
 		3BC8A0A0193F7751000408BA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		3BCBF92C1C74B70700998290 /* GeofenceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeofenceMapController.h; path = Classes/GeofenceMapController.h; sourceTree = "<group>"; };
+		3BCBF92D1C74B70700998290 /* GeofenceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeofenceMapController.m; path = Classes/GeofenceMapController.m; sourceTree = "<group>"; };
 		3BD43E2F1C6CCCC4008DDC18 /* PreyModelData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PreyModelData.xcdatamodel; sourceTree = "<group>"; };
 		3BD43E311C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GeofenceZones+CoreDataProperties.h"; path = "CoreData/GeofenceZones+CoreDataProperties.h"; sourceTree = "<group>"; };
 		3BD43E321C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GeofenceZones+CoreDataProperties.m"; path = "CoreData/GeofenceZones+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -968,6 +971,8 @@
 			children = (
 				3BFF783C189C592500694625 /* DeviceMapController.h */,
 				3BFF783D189C592500694625 /* DeviceMapController.m */,
+				3BCBF92C1C74B70700998290 /* GeofenceMapController.h */,
+				3BCBF92D1C74B70700998290 /* GeofenceMapController.m */,
 				3BE5B2981C73BE21009D972D /* RegionAnnotation.h */,
 				3BE5B2991C73BE21009D972D /* RegionAnnotation.m */,
 				07CD95F11253D99500590FCD /* PreferencesController.h */,
@@ -2106,6 +2111,7 @@
 				3BFF783F189C592500694625 /* DeviceMapController.m in Sources */,
 				3B6FEA6E1C1B214600790B30 /* SignUpVC.m in Sources */,
 				3BC582951B4ADD3A00636F6A /* DeviceAuth.m in Sources */,
+				3BCBF92E1C74B70700998290 /* GeofenceMapController.m in Sources */,
 				071324181346348400F7EFD8 /* FakeWebView.m in Sources */,
 				3BAE4E54190AB96F0093ECA2 /* GrettingsProViewController.m in Sources */,
 				3B7D4FAD1B4D67A400F000B1 /* PreyStoreProduct.m in Sources */,

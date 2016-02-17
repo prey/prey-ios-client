@@ -25,6 +25,8 @@
 #import "UIDevice-Reachability.h"
 #import "OnboardingView.h"
 #import <LocalAuthentication/LocalAuthentication.h>
+#import "PreyCoreData.h"
+#import "GeofenceMapController.h"
 
 @interface UIActionSheet(DismissAlert)
 - (void)hide;
@@ -62,6 +64,9 @@
         case 0:
             if (![[PreyConfig instance] isPro])
                 numberRow++;
+            
+            if ([[PreyCoreData instance] isGeofenceActive])
+                numberRow++;            
             
             if ([self isSocialFrameworkAvailable])
                 numberRow+=2;
@@ -175,7 +180,7 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             else if ([indexPath row] == 4) {
-                cell.textLabel.text = NSLocalizedString(@"Upgrade to Pro",nil);
+                cell.textLabel.text = ([[PreyCoreData instance] isGeofenceActive]) ? NSLocalizedString(@"Your Geofences",nil): NSLocalizedString(@"Upgrade to Pro",nil);
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             break;
@@ -270,20 +275,10 @@
             }
             else if ([indexPath row] == 4)
             {
-                AppStoreViewController *viewController;
-               
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-                {
-                    if (IS_IPHONE5)
-                        viewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone-568h" bundle:nil];
-                    else
-                        viewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone" bundle:nil];
-                }
+                if ([[PreyCoreData instance] isGeofenceActive])
+                    [self showGeofenceMapVC];
                 else
-                    viewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPad" bundle:nil];
-
-                
-                [self.navigationController pushViewController:viewController animated:YES];
+                    [self showAppStoreVC];
             }
             break;
 		case 1:
@@ -361,6 +356,25 @@
             [self detachDevice];
         }
 	}
+}
+
+- (void)showAppStoreVC
+{
+    AppStoreViewController *viewController;
+    
+    if (IS_IPAD)
+        viewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPad" bundle:nil];
+    else
+        viewController = (IS_IPHONE5) ? [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone-568h" bundle:nil] :
+                                        [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone" bundle:nil];
+    
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)showGeofenceMapVC
+{
+    GeofenceMapController *geofenceMapController = [[GeofenceMapController alloc] init];
+    [self.navigationController pushViewController:geofenceMapController animated:YES];
 }
 
 - (void) detachDevice

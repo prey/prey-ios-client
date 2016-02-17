@@ -213,6 +213,24 @@
     return fetchedObjects;
 }
 
+- (BOOL)isGeofenceActive
+{
+    BOOL isActive = NO;
+
+    NSManagedObjectContext *context = [self managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity  = [NSEntityDescription entityForName:@"GeofenceZones" inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error;
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+
+    if ( (fetchedObjects.count > 0) && (IS_OS_7_OR_LATER) )
+        isActive = YES;
+    
+    return isActive;
+}
+
 #pragma mark - Core Data stack
 
 - (NSManagedObjectContext *)managedObjectContext

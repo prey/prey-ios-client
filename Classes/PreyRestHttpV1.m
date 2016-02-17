@@ -65,7 +65,7 @@
                                     parameters:nil
                                        success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+         //PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
          NSError *error2;
          NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
