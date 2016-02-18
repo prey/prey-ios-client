@@ -388,6 +388,8 @@
 		3BC582961B4ADD3A00636F6A /* DeviceAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC582941B4ADD3A00636F6A /* DeviceAuth.m */; };
 		3BC8A0A1193F7751000408BA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BC8A0A0193F7751000408BA /* MediaPlayer.framework */; };
 		3BCBF92E1C74B70700998290 /* GeofenceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF92D1C74B70700998290 /* GeofenceMapController.m */; };
+		3BCBF9301C74F09000998290 /* PreferencesController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3BCBF92F1C74F09000998290 /* PreferencesController-iPad.xib */; };
+		3BCBF9331C74F33400998290 /* PreferencesController-iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBF9321C74F33400998290 /* PreferencesController-iPad.m */; };
 		3BD43E301C6CCCC4008DDC18 /* PreyModelData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3BD43E2E1C6CCCC4008DDC18 /* PreyModelData.xcdatamodeld */; };
 		3BD43E351C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD43E321C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.m */; };
 		3BD43E361C6CCECA008DDC18 /* GeofenceZones.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD43E341C6CCECA008DDC18 /* GeofenceZones.m */; };
@@ -826,6 +828,9 @@
 		3BC8A0A0193F7751000408BA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		3BCBF92C1C74B70700998290 /* GeofenceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeofenceMapController.h; path = Classes/GeofenceMapController.h; sourceTree = "<group>"; };
 		3BCBF92D1C74B70700998290 /* GeofenceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeofenceMapController.m; path = Classes/GeofenceMapController.m; sourceTree = "<group>"; };
+		3BCBF92F1C74F09000998290 /* PreferencesController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "PreferencesController-iPad.xib"; path = "Classes/PreferencesController-iPad.xib"; sourceTree = "<group>"; };
+		3BCBF9311C74F33400998290 /* PreferencesController-iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PreferencesController-iPad.h"; path = "Classes/PreferencesController-iPad.h"; sourceTree = "<group>"; };
+		3BCBF9321C74F33400998290 /* PreferencesController-iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PreferencesController-iPad.m"; path = "Classes/PreferencesController-iPad.m"; sourceTree = "<group>"; };
 		3BD43E2F1C6CCCC4008DDC18 /* PreyModelData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PreyModelData.xcdatamodel; sourceTree = "<group>"; };
 		3BD43E311C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GeofenceZones+CoreDataProperties.h"; path = "CoreData/GeofenceZones+CoreDataProperties.h"; sourceTree = "<group>"; };
 		3BD43E321C6CCECA008DDC18 /* GeofenceZones+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GeofenceZones+CoreDataProperties.m"; path = "CoreData/GeofenceZones+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -847,6 +852,7 @@
 		3BD9204A1C1A26A300F630C5 /* magdacleanmono-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "magdacleanmono-bold.ttf"; path = "Resources/Fonts/magdacleanmono-bold.ttf"; sourceTree = "<group>"; };
 		3BD9204C1C1A2C6F00F630C5 /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "TitilliumWeb-Regular.ttf"; path = "Resources/Fonts/TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
 		3BD9204E1C1A2D1A00F630C5 /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "TitilliumWeb-Bold.ttf"; path = "Resources/Fonts/TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
+		3BDC8F391C7601A300836D3E /* PreyItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreyItems.h; path = Classes/PreyItems.h; sourceTree = "<group>"; };
 		3BE034B01AEFDC08003E88B1 /* Wifi-Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Wifi-Info.h"; sourceTree = "<group>"; };
 		3BE034B11AEFDC08003E88B1 /* Wifi-Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Wifi-Info.m"; sourceTree = "<group>"; };
 		3BE24A5D1ABB915100464C1D /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
@@ -977,6 +983,9 @@
 				3BE5B2991C73BE21009D972D /* RegionAnnotation.m */,
 				07CD95F11253D99500590FCD /* PreferencesController.h */,
 				07CD95F21253D99500590FCD /* PreferencesController.mm */,
+				3BCBF9311C74F33400998290 /* PreferencesController-iPad.h */,
+				3BCBF9321C74F33400998290 /* PreferencesController-iPad.m */,
+				3BCBF92F1C74F09000998290 /* PreferencesController-iPad.xib */,
 			);
 			name = "Preferences Controller";
 			sourceTree = "<group>";
@@ -1093,6 +1102,7 @@
 			children = (
 				0713240A1346343C00F7EFD8 /* Constants.h */,
 				0713240B1346343C00F7EFD8 /* Constants.m */,
+				3BDC8F391C7601A300836D3E /* PreyItems.h */,
 				3BF0371D167847920086A7A7 /* ReviewRequest.h */,
 				3BF0371E167847920086A7A7 /* ReviewRequest.m */,
 				3BD482E31678CAE300F25DC8 /* UIWebViewController.h */,
@@ -1985,6 +1995,7 @@
 				3BD920461C1A1BCC00F630C5 /* shield.png in Resources */,
 				3B4868201C623ACC00C915EF /* featuresGeo@2x.png in Resources */,
 				3B62F4451AE1C1770060C8D7 /* theft.png in Resources */,
+				3BCBF9301C74F09000998290 /* PreferencesController-iPad.xib in Resources */,
 				3B4B24D71A115C76002B64E8 /* close_off.png in Resources */,
 				3B6FEA791C1B413100790B30 /* SignUpVC-iPhone.xib in Resources */,
 				3B8AC75D19F9C96700464098 /* Default-568h@2x.png in Resources */,
@@ -2075,6 +2086,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BCBF9331C74F33400998290 /* PreferencesController-iPad.m in Sources */,
 				3B9EF01B18ECE2E60060FFAE /* PreyAFURLConnectionOperation.m in Sources */,
 				3B65DD171AEAA892009235D2 /* DetachModule.m in Sources */,
 				3B9EF01718ECE2E60060FFAE /* AFImageRequestOperation.m in Sources */,

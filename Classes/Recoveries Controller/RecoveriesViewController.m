@@ -171,7 +171,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor clearColor];
         
-        CGRect frameLabel = (IS_IPAD) ? CGRectMake(50,420,668,70) : CGRectMake(10,210,cell.frame.size.width-20,50);
+        CGRect frameLabel = (IS_IPAD) ? CGRectMake(50,420,418,70) : CGRectMake(10,210,cell.frame.size.width-20,50);
         UILabel *titlePost = [[UILabel alloc] initWithFrame:frameLabel];
         titlePost.tag  = kTagLabelPost;
         titlePost.textAlignment = UITextAlignmentLeft;
@@ -183,7 +183,7 @@
         titlePost.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview:titlePost];
         
-        CGRect frameImage = (IS_IPAD) ? CGRectMake(0, 0, 768, 420) : CGRectMake(0, 0, 320, 210);
+        CGRect frameImage = (IS_IPAD) ? CGRectMake(0, 0, 518, 420) : CGRectMake(0, 0, 320, 210);
         UIImageView *tmpImage = [[UIImageView alloc] initWithFrame:frameImage];
         tmpImage.tag = kTagImagePost;
         tmpImage.contentMode = UIViewContentModeScaleAspectFill;

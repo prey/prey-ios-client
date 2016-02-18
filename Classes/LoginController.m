@@ -21,6 +21,10 @@
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "PreyTourWebView.h"
 
+#import "PreyRestHttpV2.h"
+#import "PreyGeofencingController.h"
+#import "PreferencesController-iPad.h"
+
 @implementation LoginController
 
 @synthesize loginImage, scrollView, loginPassword, nonCamuflageImage, preyLogo, devReady, detail, tipl;
@@ -55,11 +59,19 @@
 
 - (void)showPreferencesController
 {
-    PreferencesController *preferencesController = [[PreferencesController alloc] init];
-    preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    PreyAppDelegate *appDelegate                    = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    PreferencesController *preferencesController    = [[PreferencesController alloc] init];
+    preferencesController.modalTransitionStyle      = UIModalTransitionStyleFlipHorizontal;
+    if (IS_IPAD)
+    {
+        PreferencesController_iPad *viewController  = [[PreferencesController_iPad alloc] initWithNibName:@"PreferencesController-iPad" bundle:nil];
+        viewController.leftViewController = preferencesController;
+        [appDelegate.viewController pushViewController:viewController animated:YES];
+    }
+    else
+        [appDelegate.viewController pushViewController:preferencesController animated:YES];
+
     [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
-    [appDelegate.viewController pushViewController:preferencesController animated:YES];
 }
 
 - (IBAction) checkLoginPassword: (id) sender

@@ -6,6 +6,7 @@
 //  Copyright 2010 Fork Ltd.. All rights reserved.
 //
 
+
 #import <Foundation/Foundation.h>
 
 @interface Constants : NSObject {
@@ -54,6 +55,8 @@
 #define kTagLocationSwitch 3302
 #define kTagNotifySwitch   3303
 
+
+#define kDetachAction  1;
 
 #define kStrEmailRegExp @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b";
 

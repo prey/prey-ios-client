@@ -9,10 +9,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Social/Social.h>
 #import "MBProgressHUD.h"
 #import "GAITrackedViewController.h"
-
-#define kDetachAction  1;
 
 @interface PreferencesController : GAITrackedViewController <UIWebViewDelegate,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 {
@@ -27,5 +26,10 @@
 @property (nonatomic) UITableView *tableViewInfo;
 @property (nonatomic, strong) NSArray *textsToShareArrayEN;
 @property (nonatomic, strong) NSArray *textsToShareArrayES;
+
+- (void)postToSocialFramework:(NSString *)socialNetwork;
+- (void)showAppStoreVC;
+- (void)showGeofenceMapVC;
+- (void)showDetachDeviceAction;
 
 @end
