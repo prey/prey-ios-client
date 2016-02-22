@@ -975,12 +975,6 @@
 		07178DA5126605A0007B290C /* Preferences Controller */ = {
 			isa = PBXGroup;
 			children = (
-				3BFF783C189C592500694625 /* DeviceMapController.h */,
-				3BFF783D189C592500694625 /* DeviceMapController.m */,
-				3BCBF92C1C74B70700998290 /* GeofenceMapController.h */,
-				3BCBF92D1C74B70700998290 /* GeofenceMapController.m */,
-				3BE5B2981C73BE21009D972D /* RegionAnnotation.h */,
-				3BE5B2991C73BE21009D972D /* RegionAnnotation.m */,
 				07CD95F11253D99500590FCD /* PreferencesController.h */,
 				07CD95F21253D99500590FCD /* PreferencesController.mm */,
 				3BCBF9311C74F33400998290 /* PreferencesController-iPad.h */,
@@ -1003,6 +997,7 @@
 				3BF862B31714ACDF00BA27F0 /* Photo Controller */,
 				3BF862B21714A89300BA27F0 /* Alert Controller */,
 				07178FA81268A47F007B290C /* Login Controller */,
+				3BC511701C7647F000B665D8 /* Map Controller */,
 				07178DA5126605A0007B290C /* Preferences Controller */,
 				3B3B2FCA1714BEE700BABCAE /* Main Windows Xib */,
 			);
@@ -1580,6 +1575,19 @@
 			);
 			name = AFNetworking;
 			path = AFNetworking/AFNetworking;
+			sourceTree = "<group>";
+		};
+		3BC511701C7647F000B665D8 /* Map Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3BFF783C189C592500694625 /* DeviceMapController.h */,
+				3BFF783D189C592500694625 /* DeviceMapController.m */,
+				3BCBF92C1C74B70700998290 /* GeofenceMapController.h */,
+				3BCBF92D1C74B70700998290 /* GeofenceMapController.m */,
+				3BE5B2981C73BE21009D972D /* RegionAnnotation.h */,
+				3BE5B2991C73BE21009D972D /* RegionAnnotation.m */,
+			);
+			name = "Map Controller";
 			sourceTree = "<group>";
 		};
 		3BCD1C5516693E9600D609D9 /* External */ = {

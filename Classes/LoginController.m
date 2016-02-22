@@ -297,6 +297,8 @@
     btnForgotPwd.titleLabel.textAlignment = UITextAlignmentCenter;
     [btnForgotPwd setTitle:NSLocalizedString(@"Forgot your password?",nil) forState:UIControlStateNormal];
     [btnForgotPwd addTarget:self action:@selector(runWebForgot) forControlEvents:UIControlEventTouchUpInside];
+    CGFloat fontSize = (IS_IPAD) ? 18 : 12;
+    [btnForgotPwd.titleLabel   setFont:[UIFont fontWithName:@"OpenSans" size:fontSize]];
     [scrollView addSubview:btnForgotPwd];
 
     tipl.hidden = YES;

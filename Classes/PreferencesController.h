@@ -28,7 +28,6 @@
 @property (nonatomic, strong) NSArray *textsToShareArrayES;
 
 - (void)postToSocialFramework:(NSString *)socialNetwork;
-- (void)showAppStoreVC;
 - (void)showGeofenceMapVC;
 - (void)showDetachDeviceAction;
 

@@ -20,5 +20,6 @@
 
 @property (nonatomic) UITableView *tableViewInfo;
 @property (nonatomic, strong) NSMutableArray *postArray;
+@property (nonatomic, strong) RSSParser *parser;
 
 @end

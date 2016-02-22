@@ -10,6 +10,7 @@
 #import "PreferencesController.h"
 #import "DeviceMapController.h"
 #import "RecoveriesViewController.h"
+#import "AppStoreViewController.h"
 
 @interface PreferencesController_iPad : PreferencesController <UIWebViewDelegate,UITableViewDelegate,UIActionSheetDelegate>
 
@@ -19,5 +20,6 @@
 @property (nonatomic, strong) UIViewController *leftViewController;
 @property (nonatomic, strong) DeviceMapController *mapController;
 @property (nonatomic, strong) RecoveriesViewController *recoveriesViewController;
+@property (nonatomic, strong) AppStoreViewController *appStoreViewController;
 
 @end

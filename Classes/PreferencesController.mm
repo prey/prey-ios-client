@@ -327,7 +327,7 @@
             
             // Upgrade To Pro
             else if (indexPath.row == PreyPreferencesSectionInformationUpgradeToPro)
-                [self showAppStoreVC];
+                [self showAppStoreVC:NO];
             
             break;
             
@@ -386,7 +386,7 @@
 	}
 }
 
-- (void)showAppStoreVC
+- (void)showAppStoreVC:(BOOL)isGeofencing
 {
     AppStoreViewController *viewController;
     
@@ -395,6 +395,8 @@
     else
         viewController = (IS_IPHONE5) ? [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone-568h" bundle:nil] :
                                         [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone" bundle:nil];
+
+    viewController.isGeofencingView = isGeofencing;
     
     [self.navigationController pushViewController:viewController animated:YES];
 }
@@ -406,14 +408,16 @@
         GeofenceMapController *geofenceMapController = [[GeofenceMapController alloc] init];
         [self.navigationController pushViewController:geofenceMapController animated:YES];
     }
-    else
+    else if ([[PreyConfig instance] isPro])
     {
         UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
-                                                         message:NSLocalizedString(@"The internet connection appears to be offline",nil)
+                                                         message:NSLocalizedString(@"You don't have geofences",nil)
                                                         delegate:nil
                                                cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
         [alerta show];
     }
+    else
+        [self showAppStoreVC:YES];
 }
 
 - (void)showDeviceMapController
@@ -576,11 +580,6 @@
     
     [self initTextToShareSocialMedia];
     
-    if (!IS_IPAD) {
-        NSIndexPath *indexPath = [tableViewInfo indexPathForSelectedRow];
-        [tableViewInfo deselectRowAtIndexPath:indexPath animated:YES];
-    }
-    
     [super viewDidLoad];
 }
 
@@ -600,6 +599,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    if (!IS_IPAD) {
+        NSIndexPath *indexPath = [tableViewInfo indexPathForSelectedRow];
+        [tableViewInfo deselectRowAtIndexPath:indexPath animated:YES];
+    }
     
     if (IS_OS_7_OR_LATER)
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;

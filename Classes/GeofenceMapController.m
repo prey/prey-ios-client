@@ -29,8 +29,11 @@
     [self.view addSubview:mapa];
     canUpdateUserLoc = NO;
     
-    HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    HUD.labelText = NSLocalizedString(@"Please wait",nil);
+
+    if (!IS_IPAD) {
+        HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        HUD.labelText = NSLocalizedString(@"Please wait",nil);        
+    }
 
     [self addGeofenceZones];
     
@@ -41,7 +44,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    zoneInputs      = [[UITextField alloc] initWithFrame:CGRectZero];    
+    zoneInputs      = [[UITextField alloc] initWithFrame:CGRectZero];
     [self.view addSubview:zoneInputs];
     
     zonePickerView  = [[UIPickerView alloc] initWithFrame:CGRectZero];
@@ -62,6 +65,12 @@
     
     [zoneInputs setInputAccessoryView:doneBar];
     [zoneInputs setInputView:zonePickerView];
+    
+    if (IS_IPAD) {
+        UITextInputAssistantItem* item = [zoneInputs inputAssistantItem];
+        item.leadingBarButtonGroups = @[];
+        item.trailingBarButtonGroups = @[];
+    }
 }
 
 

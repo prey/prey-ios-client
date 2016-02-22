@@ -22,7 +22,7 @@
 #define kTagLabelPost   20150202
 #define kTagImagePost   20150101
 
-@synthesize tableViewInfo, postArray;
+@synthesize tableViewInfo, postArray, parser;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,7 +32,7 @@
         HUD.labelText = NSLocalizedString(@"Please wait",nil);
     });
     
-    RSSParser *parser = [[RSSParser alloc] initWithUrl:@"http://preyproject.com/blog/cat/recoveries/feed" synchronous:NO];
+    parser = [[RSSParser alloc] initWithUrl:@"http://preyproject.com/blog/cat/recoveries/feed" synchronous:NO];
     parser.delegate = self;
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         [parser parse];

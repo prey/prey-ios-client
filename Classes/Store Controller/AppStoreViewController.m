@@ -19,7 +19,7 @@
 
 @implementation AppStoreViewController
 
-@synthesize yearButton;
+@synthesize yearButton, iconPro, titleView, description, planName;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,6 +35,36 @@
 {
     self.screenName = @"Upgrade to Pro II";
     
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+    
+    if (_isGeofencingView)
+        [self changeLanguageTextForGeofencing];
+    else
+        [self changeLanguageTextForUpgradePro];
+
+}
+
+- (void)changeLanguageTextForUpgradePro
+{
+    titleView.text   = NSLocalizedString(@"FULL PROTECTION FOR YOUR DEVICES", nil);
+    description.text = NSLocalizedString(@"100 reports per device \nUltra-fast frecuency for reports \nScan hardware for changes \nGeofencing for Home plans and over \nPriority support", nil);
+    planName.text    = NSLocalizedString(@"UPGRADE NOW", nil);
+    
+    [self changeTextYearButton];
+}
+
+- (void)changeLanguageTextForGeofencing
+{
+    titleView.text   = NSLocalizedString(@"KEEP TRACK OF YOUR DEVICES WITH GEOFENCING", nil);
+    description.text = NSLocalizedString(@"Get our Home plan and use our Geofencing feature to get notifications whenever your devices leave or enter an area", nil);
+    planName.text    = NSLocalizedString(@"UPGRADE NOW", nil);
+    
+    [self changeTextYearButtonToGeofencing];
+}
+
+- (void)changeTextYearButton
+{
     NSString *formattedString;
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
@@ -44,34 +74,41 @@
     if ( [[PreyStoreManager instance].purchasableObjects count] == 1 )
     {
         SKProduct *productYear  = [[PreyStoreManager instance].purchasableObjects objectAtIndex:0];
-
+        
         // Year Button
         [numberFormatter setLocale:productYear.priceLocale];
         formattedString = [NSString stringWithFormat:@"%@",[numberFormatter stringFromNumber:productYear.price]];
         [yearButton setTitle:formattedString forState:UIControlStateNormal];
+        
+        [yearButton removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
+        [yearButton addTarget:self action:@selector(buySubscription:) forControlEvents:UIControlEventTouchUpInside];
     }
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 }
 
--(void)showCongratsPro
+- (void)changeTextYearButtonToGeofencing
+{
+    [yearButton setTitle:@"Buy" forState:UIControlStateNormal];
+
+    [yearButton removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
+    [yearButton addTarget:self action:@selector(goToPanelWeb) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)goToPanelWeb
+{
+    NSLog(@"inside");
+}
+
+- (void)showCongratsPro
 {
     GrettingsProViewController *controller;
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        if (IS_IPHONE5)
-            controller = [[GrettingsProViewController alloc] initWithNibName:@"GrettingsProViewController-iPhone-568h" bundle:nil];
-        else
-            controller = [[GrettingsProViewController alloc] initWithNibName:@"GrettingsProViewController-iPhone" bundle:nil];
-    }
-    else
+    if (IS_IPAD)
         controller = [[GrettingsProViewController alloc] initWithNibName:@"GrettingsProViewController-iPad" bundle:nil];
-    
-    if ([self.navigationController respondsToSelector:@selector(presentViewController:animated:completion:)]) // Check iOS 5.0 or later
-        [self.navigationController presentViewController:controller animated:YES completion:NULL];
     else
-        [[self navigationController] presentModalViewController:controller animated:YES];
+        controller = (IS_IPHONE5) ? [[GrettingsProViewController alloc] initWithNibName:@"GrettingsProViewController-iPhone-568h" bundle:nil] :
+                                    [[GrettingsProViewController alloc] initWithNibName:@"GrettingsProViewController-iPhone" bundle:nil];
+
+    [self.navigationController presentViewController:controller animated:YES completion:NULL];
 }
 
 

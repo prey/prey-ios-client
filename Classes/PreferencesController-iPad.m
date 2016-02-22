@@ -10,14 +10,17 @@
 #import "RecoveriesViewController.h"
 #import "UIDevice-Reachability.h"
 #import "DeviceMapController.h"
+#import "GeofenceMapController.h"
 #import "PreyAppDelegate.h"
 #import "PreyCoreData.h"
+#import "PreyConfig.h"
 #import "Constants.h"
 #import "PreyItems.h"
 
 @implementation PreferencesController_iPad
 
-@synthesize leftView, rightView, leftViewController, mapController, recoveriesViewController;
+@synthesize leftView, rightView, leftViewController;
+@synthesize mapController, recoveriesViewController, appStoreViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -114,6 +117,56 @@
     [rightView addSubview:vc.view];
 }
 
+- (void)showAppStoreVC
+{
+    [self removePreviewViewController];
+    
+    if (!appStoreViewController) {
+        appStoreViewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPad" bundle:nil];
+        appStoreViewController.view.frame = CGRectMake(0, 0, rightView.frame.size.width, rightView.frame.size.height);
+    }
+
+    appStoreViewController.isGeofencingView = NO;
+    [appStoreViewController changeLanguageTextForUpgradePro];
+    
+    [rightView addSubview:appStoreViewController.view];
+    
+    [self addViewControllerToMainVC:appStoreViewController];
+}
+
+- (void)showGeofenceMapVC
+{
+    if ([[PreyCoreData instance] isGeofenceActive])
+    {
+        GeofenceMapController *geofenceMapController = [[GeofenceMapController alloc] init];
+        [self.navigationController pushViewController:geofenceMapController animated:YES];
+    }
+    else if ([[PreyConfig instance] isPro])
+    {
+        UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
+                                                         message:NSLocalizedString(@"You don't have geofences",nil)
+                                                        delegate:nil
+                                               cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+        [alerta show];
+    }
+    else
+    {
+        [self removePreviewViewController];
+        
+        if (!appStoreViewController) {
+            appStoreViewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPad" bundle:nil];
+            appStoreViewController.view.frame = CGRectMake(0, 0, rightView.frame.size.width, rightView.frame.size.height);
+        }
+        
+#warning WIP change ACTION BUTTON
+        appStoreViewController.isGeofencingView = YES;
+        [appStoreViewController changeLanguageTextForGeofencing];
+        
+        [rightView addSubview:appStoreViewController.view];
+        
+        [self addViewControllerToMainVC:appStoreViewController];
+    }
+}
 
 #pragma mark -
 #pragma mark Table view delegate
