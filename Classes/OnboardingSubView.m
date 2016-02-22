@@ -124,7 +124,8 @@
     
     // Add girl to page
     tmpRect = (IS_IPAD) ? CGRectMake(260, 260, 340, 406) : CGRectMake(130, 130+posYiPhone, 170, 203);
-    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ashley1"]];
+    NSString *ashleyImg = (IS_IPAD) ? @"ashley1-ipad" : @"ashley1";
+    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:ashleyImg]];
     girlImage.frame = tmpRect;
     [self insertSubview:girlImage atIndex:101];
 
@@ -148,8 +149,9 @@
     [self addMessageOnView:NSLocalizedString(@"Losing a device means losing precious data, memories, information and some really expensive equipment.",nil)];
     
     // Add girl to page
-    tmpRect = (IS_IPAD) ? CGRectMake(220, 160, 340, 492) : CGRectMake(110, 80+posYiPhone, 170, 246);
-    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ashley2"]];
+    tmpRect = (IS_IPAD) ? CGRectMake(220, 142, 340, 492) : CGRectMake(110, 80+posYiPhone, 170, 246);
+    NSString *ashleyImg = (IS_IPAD) ? @"ashley2-ipad" : @"ashley2";
+    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:ashleyImg]];
     girlImage.frame = tmpRect;
     [self insertSubview:girlImage atIndex:101];
 }
@@ -186,8 +188,9 @@
 - (void)startAnimatePage2:(CGFloat)posYiPhone
 {
     // Add theft to page
-    tmpRect = (IS_IPAD) ? CGRectMake(260, 240, 340, 402) : CGRectMake(130, 120+posYiPhone, 170, 201);
-    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dude"]];
+    tmpRect = (IS_IPAD) ? CGRectMake(260, 232, 340, 402) : CGRectMake(130, 120+posYiPhone, 170, 201);
+    NSString *dudeImg = (IS_IPAD) ? @"dude-ipad" : @"dude";
+    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:dudeImg]];
     girlImage.frame = tmpRect;
     [self insertSubview:girlImage atIndex:101];
 }
@@ -197,8 +200,9 @@
 - (void)addElementsPage04:(CGFloat)posYiPhone
 {
     // Add theft to page
-    tmpRect = (IS_IPAD) ? CGRectMake(80, 320, 340, 316) : CGRectMake(40, 160+posYiPhone, 170, 158);
-    UIImageView *dudeImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dude2"]];
+    tmpRect = (IS_IPAD) ? CGRectMake(80, 318, 340, 316) : CGRectMake(40, 160+posYiPhone, 170, 158);
+    NSString *dudeImg = (IS_IPAD) ? @"dude2-ipad" : @"dude2";
+    UIImageView *dudeImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:dudeImg]];
     dudeImage.tag = kTagDudeRoom;
     dudeImage.frame = tmpRect;
     [self insertSubview:dudeImage atIndex:101];
@@ -209,7 +213,8 @@
     CGFloat elementPosYiPhone = (IS_IPHONE5) ? 0 : -65;
     // Add Snapshot to page
     tmpRect = (IS_IPAD) ? CGRectMake(260, 120, 200, 214) : CGRectMake(130, 80+elementPosYiPhone, 100, 107);
-    UIImageView *featSnap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"featuresSnapshot"]];
+    NSString *featureImg = (IS_IPAD) ? @"featuresSnapshot-ipad" : @"featuresSnapshot";
+    UIImageView *featSnap = [[UIImageView alloc] initWithImage:[UIImage imageNamed:featureImg]];
     featSnap.frame = tmpRect;
     featSnap.transform = CGAffineTransformMakeScale(0.01, 0.01);
     [self insertSubview:featSnap atIndex:101];
@@ -217,7 +222,8 @@
     
     // Add Geo to page
     tmpRect = (IS_IPAD) ? CGRectMake(440, 240, 200, 226) : CGRectMake(220, 140+elementPosYiPhone, 100, 113);
-    UIImageView *featGeo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"featuresGeo"]];
+    featureImg           = (IS_IPAD) ? @"featuresGeo-ipad" : @"featuresGeo";
+    UIImageView *featGeo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:featureImg]];
     featGeo.frame = tmpRect;
     featGeo.transform = CGAffineTransformMakeScale(0, 0);
     [self insertSubview:featGeo atIndex:101];
@@ -225,7 +231,8 @@
     
     // Add Report to page
     tmpRect = (IS_IPAD) ? CGRectMake(420, 460, 200, 226) : CGRectMake(210, 250+elementPosYiPhone, 100, 113);
-    UIImageView *featReport = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"featuresReport"]];
+    featureImg           = (IS_IPAD) ? @"featuresReport-ipad" : @"featuresReport";
+    UIImageView *featReport = [[UIImageView alloc] initWithImage:[UIImage imageNamed:featureImg]];
     featReport.frame = tmpRect;
     featReport.transform = CGAffineTransformMakeScale(0, 0);
     [self insertSubview:featReport atIndex:101];
@@ -249,22 +256,25 @@
 - (void)addElementsPage05:(CGFloat)posYiPhone
 {
     // Add police-2 to page
-    tmpRect = (IS_IPAD) ? CGRectMake(440, 280, 300, 304) : CGRectMake(180, 140+posYiPhone, 150, 152); // x:160
-    UIImageView *police2Image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"police2"]];
+    tmpRect = (IS_IPAD) ? CGRectMake(448, 280, 300, 304) : CGRectMake(180, 140+posYiPhone, 150, 152); // x:160
+    NSString *police2Img = (IS_IPAD) ? @"police2-ipad" : @"police2";
+    UIImageView *police2Image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:police2Img]];
     police2Image.tag = kTagPoliceRoom2;
     police2Image.frame = tmpRect;
     [self insertSubview:police2Image atIndex:0];
 
     // Add police-1 to page
-    tmpRect = (IS_IPAD) ? CGRectMake(470, 380, 260, 252) : CGRectMake(180, 190+posYiPhone, 130, 126);
-    UIImageView *police1Image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"police1"]];
+    tmpRect = (IS_IPAD) ? CGRectMake(488, 383, 260, 252) : CGRectMake(180, 190+posYiPhone, 130, 126);
+    NSString *police1Img = (IS_IPAD) ? @"police1-ipad" : @"police1";
+    UIImageView *police1Image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:police1Img]];
     police1Image.tag = kTagPoliceRoom;
     police1Image.frame = tmpRect;
     [self insertSubview:police1Image atIndex:110];
     
     // Add girl to page
     tmpRect = (IS_IPAD) ? CGRectMake(-200, 240, 260, 394) : CGRectMake(-100, 120+posYiPhone, 130, 197);
-    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ashley3"]];
+    NSString *ashleyImg = (IS_IPAD) ? @"ashley3-ipad" : @"ashley3";
+    UIImageView *girlImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:ashleyImg]];
     girlImage.frame = tmpRect;
     [self insertSubview:girlImage atIndex:101];
     
@@ -276,7 +286,7 @@
                      }completion:^(BOOL finished){
                      }];
     
-    moveX = (IS_IPAD) ? -40 : -20;
+    moveX = (IS_IPAD) ? -30 : -20;
     moveY = (IS_IPAD) ? 0 : 0;
     [UIView animateWithDuration:1.0 delay:2.0f  options:UIViewAnimationOptionBeginFromCurrentState
                      animations:(void (^)(void)) ^{
@@ -302,7 +312,8 @@
     
     // Add Ashley to page
     tmpRect = (IS_IPAD) ? CGRectMake(240, 196, 300, 438) : CGRectMake(120, 98+posYiPhone, 150, 219);
-    UIImageView *ashleyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ashley4"]];
+    NSString *ashleyImg = (IS_IPAD) ? @"ashley4-ipad" : @"ashley4";
+    UIImageView *ashleyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:ashleyImg]];
     ashleyImage.tag = kTagAshleyRoom;
     ashleyImage.frame = tmpRect;
     [self insertSubview:ashleyImage atIndex:101];
@@ -314,7 +325,8 @@
 {
     // Add Ashley to page
     tmpRect = (IS_IPAD) ? CGRectMake(200, 236, 400, 400) : CGRectMake(100, 118+posYiPhone, 200, 200);
-    UIImageView *ashleyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ashley5"]];
+    NSString *ashleyImg = (IS_IPAD) ? @"ashley5-ipad" : @"ashley5";
+    UIImageView *ashleyImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:ashleyImg]];
     ashleyImage.tag = kTagAshleyStreet;
     ashleyImage.frame = tmpRect;
     [self insertSubview:ashleyImage atIndex:101];

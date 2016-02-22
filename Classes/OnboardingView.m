@@ -116,7 +116,8 @@
     
     // Prey Logo Image
     tmpRect = (IS_IPAD) ? CGRectMake(284, 40, 200, 54) : CGRectMake(110, 10, 100, 27);
-    UIImageView *preyIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"prey-logo-txt-mono"]];
+    NSString *preyLogoImg = (IS_IPAD) ? @"prey-logo-txt-mono-ipad" : @"prey-logo-txt-mono";
+    UIImageView *preyIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:preyLogoImg]];
     preyIcon.frame = tmpRect;
     preyIcon.tag   = kTagImagePreyLogo;
     preyIcon.alpha = 0.0f;
@@ -130,7 +131,8 @@
     [self addBackgroundImage:[UIImage imageNamed:@"roomBg"] withTag:kTagImageRoomBg];
 
     // Police Background Image
-    [self addBackgroundImage:[UIImage imageNamed:@"policesBg"] withTag:kTagImagePoliceBg];
+    NSString *bgImg = (IS_IPAD) ? @"policesBg-ipad" : @"policesBg";
+    [self addBackgroundImage:[UIImage imageNamed:bgImg] withTag:kTagImagePoliceBg];
 
     // Room Girl Background Image
     [self addBackgroundImage:[UIImage imageNamed:@"roomGirl"] withTag:kTagImageRoomGirlBg];
@@ -150,10 +152,11 @@
 
     // Sign In Button
     tmpRect = (IS_IPAD) ? CGRectMake(259, 950, 250, 60) : CGRectMake(60, 535+posYiPhoneBtn, 200, 40);
+    CGFloat fontSize = (IS_IPAD) ? 16.0f : 12.0f;
     UIButton *signinButton = [[UIButton alloc] initWithFrame:tmpRect];
     [signinButton setTitle:NSLocalizedString(@"already have an account?",nil) forState:UIControlStateNormal];
     [signinButton setBackgroundColor:[UIColor clearColor]];
-    [[signinButton titleLabel] setFont:[UIFont boldSystemFontOfSize:12]];
+    [[signinButton titleLabel] setFont:[UIFont boldSystemFontOfSize:fontSize]];
     signinButton.tag = kTagButtonSignIN;
     signinButton.alpha = 0.0f;
     [signinButton addTarget:self action:@selector(callSignInView) forControlEvents:UIControlEventTouchUpInside];
@@ -163,7 +166,8 @@
     // Back Button
     tmpRect = (IS_IPAD) ? CGRectMake(40, 450, 36, 80) : CGRectMake(20, 250+posYiPhoneBtn, 18, 40);
     UIButton *backButton = [[UIButton alloc] initWithFrame:tmpRect];
-    [backButton setBackgroundImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    NSString *arrowImg = (IS_IPAD) ? @"arrowBack-ipad" : @"arrowBack";
+    [backButton setBackgroundImage:[UIImage imageNamed:arrowImg] forState:UIControlStateNormal];
     //[self configNewButton:backButton withText:@"Skip Tour" clearBackground:NO];
     backButton.tag = kTagButtonBack;
     backButton.alpha = 0.0f;
@@ -174,7 +178,8 @@
     // Next Button
     tmpRect = (IS_IPAD) ? CGRectMake(685, 450, 36, 80) : CGRectMake(276, 250+posYiPhoneBtn, 18, 40);
     UIButton *nextButton = [[UIButton alloc] initWithFrame:tmpRect];
-    [nextButton setBackgroundImage:[UIImage imageNamed:@"arrowNext"] forState:UIControlStateNormal];
+    arrowImg             = (IS_IPAD) ? @"arrowNext-ipad" : @"arrowNext";
+    [nextButton setBackgroundImage:[UIImage imageNamed:arrowImg] forState:UIControlStateNormal];
     //[self configNewButton:nextButton withText:@"next >" clearBackground:NO];
     nextButton.tag = kTagButtonNext;
     nextButton.alpha = 0.0f;
@@ -213,9 +218,9 @@
         tmpButton.layer.borderWidth = 1;
         tmpButton.layer.cornerRadius = 3;
     }
-    
+    CGFloat fontSize = (IS_IPAD) ? 22.0f : 17.0f;
     [tmpButton setTitle:titleText forState:UIControlStateNormal];
-    [[tmpButton titleLabel] setFont:[UIFont boldSystemFontOfSize:17]];
+    [[tmpButton titleLabel] setFont:[UIFont boldSystemFontOfSize:fontSize]];
     [[tmpButton titleLabel] setShadowColor:[UIColor colorWithWhite:0 alpha:.4]];
     [[tmpButton titleLabel] setShadowOffset:CGSizeMake(0, 1)];
     

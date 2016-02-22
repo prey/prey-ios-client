@@ -162,6 +162,38 @@
 		3B5F0B341C18D68000A7B3E1 /* StatusDeviceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5F0B321C18D68000A7B3E1 /* StatusDeviceVC.m */; };
 		3B5F0B351C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B5F0B331C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib */; };
 		3B6003601A5DDAB300948F96 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; };
+		3B60DB4C1C7B860A00552A67 /* prey-logo-txt-mono-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB4A1C7B860A00552A67 /* prey-logo-txt-mono-ipad.png */; };
+		3B60DB4D1C7B860A00552A67 /* prey-logo-txt-mono-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB4B1C7B860A00552A67 /* prey-logo-txt-mono-ipad@2x.png */; };
+		3B60DB501C7B89E300552A67 /* ashley1-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB4E1C7B89E300552A67 /* ashley1-ipad.png */; };
+		3B60DB511C7B89E300552A67 /* ashley1-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB4F1C7B89E300552A67 /* ashley1-ipad@2x.png */; };
+		3B60DB541C7B8C1200552A67 /* dude-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB521C7B8C1200552A67 /* dude-ipad.png */; };
+		3B60DB551C7B8C1200552A67 /* dude-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB531C7B8C1200552A67 /* dude-ipad@2x.png */; };
+		3B60DB5A1C7B8E7C00552A67 /* arrowBack-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB561C7B8E7C00552A67 /* arrowBack-ipad.png */; };
+		3B60DB5B1C7B8E7C00552A67 /* arrowBack-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB571C7B8E7C00552A67 /* arrowBack-ipad@2x.png */; };
+		3B60DB5C1C7B8E7C00552A67 /* arrowNext-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB581C7B8E7C00552A67 /* arrowNext-ipad.png */; };
+		3B60DB5D1C7B8E7C00552A67 /* arrowNext-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB591C7B8E7C00552A67 /* arrowNext-ipad@2x.png */; };
+		3B60DB601C7B8FD000552A67 /* ashley2-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB5E1C7B8FD000552A67 /* ashley2-ipad.png */; };
+		3B60DB611C7B8FD000552A67 /* ashley2-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB5F1C7B8FD000552A67 /* ashley2-ipad@2x.png */; };
+		3B60DB641C7B91D300552A67 /* dude2-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB621C7B91D300552A67 /* dude2-ipad.png */; };
+		3B60DB651C7B91D300552A67 /* dude2-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB631C7B91D300552A67 /* dude2-ipad@2x.png */; };
+		3B60DB681C7B933B00552A67 /* featuresSnapshot-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB661C7B933B00552A67 /* featuresSnapshot-ipad.png */; };
+		3B60DB691C7B933B00552A67 /* featuresSnapshot-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB671C7B933B00552A67 /* featuresSnapshot-ipad@2x.png */; };
+		3B60DB6C1C7B946C00552A67 /* featuresGeo-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB6A1C7B946C00552A67 /* featuresGeo-ipad.png */; };
+		3B60DB6D1C7B946C00552A67 /* featuresGeo-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB6B1C7B946C00552A67 /* featuresGeo-ipad@2x.png */; };
+		3B60DB701C7B947500552A67 /* featuresReport-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB6E1C7B947500552A67 /* featuresReport-ipad.png */; };
+		3B60DB711C7B947500552A67 /* featuresReport-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB6F1C7B947500552A67 /* featuresReport-ipad@2x.png */; };
+		3B60DB741C7B978800552A67 /* policesBg-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB721C7B978800552A67 /* policesBg-ipad.png */; };
+		3B60DB751C7B978800552A67 /* policesBg-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB731C7B978800552A67 /* policesBg-ipad@2x.png */; };
+		3B60DB781C7B98B700552A67 /* ashley3-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB761C7B98B700552A67 /* ashley3-ipad.png */; };
+		3B60DB791C7B98B700552A67 /* ashley3-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB771C7B98B700552A67 /* ashley3-ipad@2x.png */; };
+		3B60DB7C1C7B9A0E00552A67 /* police1-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB7A1C7B9A0E00552A67 /* police1-ipad.png */; };
+		3B60DB7D1C7B9A0E00552A67 /* police1-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB7B1C7B9A0E00552A67 /* police1-ipad@2x.png */; };
+		3B60DB801C7B9B5F00552A67 /* police2-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB7E1C7B9B5F00552A67 /* police2-ipad.png */; };
+		3B60DB811C7B9B5F00552A67 /* police2-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB7F1C7B9B5F00552A67 /* police2-ipad@2x.png */; };
+		3B60DB841C7B9C8100552A67 /* ashley4-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB821C7B9C8100552A67 /* ashley4-ipad.png */; };
+		3B60DB851C7B9C8100552A67 /* ashley4-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB831C7B9C8100552A67 /* ashley4-ipad@2x.png */; };
+		3B60DB881C7B9EBE00552A67 /* ashley5-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB861C7B9EBE00552A67 /* ashley5-ipad.png */; };
+		3B60DB891C7B9EBE00552A67 /* ashley5-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB871C7B9EBE00552A67 /* ashley5-ipad@2x.png */; };
 		3B629DDF1C40655D001B24E5 /* restaurantBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B629DDD1C40655C001B24E5 /* restaurantBg.png */; };
 		3B629DE01C40655D001B24E5 /* restaurantBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B629DDE1C40655C001B24E5 /* restaurantBg@2x.png */; };
 		3B629DE31C406B41001B24E5 /* ashley1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B629DE11C406B41001B24E5 /* ashley1.png */; };
@@ -605,6 +637,38 @@
 		3B5F0B321C18D68000A7B3E1 /* StatusDeviceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusDeviceVC.m; path = "Classes/Onboarding 2/StatusDeviceVC.m"; sourceTree = "<group>"; };
 		3B5F0B331C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "StatusDevice-iPhone-568h.xib"; path = "Classes/Onboarding 2/StatusDevice-iPhone-568h.xib"; sourceTree = "<group>"; };
 		3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		3B60DB4A1C7B860A00552A67 /* prey-logo-txt-mono-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-logo-txt-mono-ipad.png"; sourceTree = "<group>"; };
+		3B60DB4B1C7B860A00552A67 /* prey-logo-txt-mono-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-logo-txt-mono-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB4E1C7B89E300552A67 /* ashley1-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ashley1-ipad.png"; sourceTree = "<group>"; };
+		3B60DB4F1C7B89E300552A67 /* ashley1-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ashley1-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB521C7B8C1200552A67 /* dude-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dude-ipad.png"; sourceTree = "<group>"; };
+		3B60DB531C7B8C1200552A67 /* dude-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dude-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB561C7B8E7C00552A67 /* arrowBack-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrowBack-ipad.png"; path = "Resources/Onboarding/arrowBack-ipad.png"; sourceTree = SOURCE_ROOT; };
+		3B60DB571C7B8E7C00552A67 /* arrowBack-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrowBack-ipad@2x.png"; path = "Resources/Onboarding/arrowBack-ipad@2x.png"; sourceTree = SOURCE_ROOT; };
+		3B60DB581C7B8E7C00552A67 /* arrowNext-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrowNext-ipad.png"; path = "Resources/Onboarding/arrowNext-ipad.png"; sourceTree = SOURCE_ROOT; };
+		3B60DB591C7B8E7C00552A67 /* arrowNext-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrowNext-ipad@2x.png"; path = "Resources/Onboarding/arrowNext-ipad@2x.png"; sourceTree = SOURCE_ROOT; };
+		3B60DB5E1C7B8FD000552A67 /* ashley2-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ashley2-ipad.png"; sourceTree = "<group>"; };
+		3B60DB5F1C7B8FD000552A67 /* ashley2-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ashley2-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB621C7B91D300552A67 /* dude2-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dude2-ipad.png"; sourceTree = "<group>"; };
+		3B60DB631C7B91D300552A67 /* dude2-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dude2-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB661C7B933B00552A67 /* featuresSnapshot-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "featuresSnapshot-ipad.png"; sourceTree = "<group>"; };
+		3B60DB671C7B933B00552A67 /* featuresSnapshot-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "featuresSnapshot-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB6A1C7B946C00552A67 /* featuresGeo-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "featuresGeo-ipad.png"; sourceTree = "<group>"; };
+		3B60DB6B1C7B946C00552A67 /* featuresGeo-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "featuresGeo-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB6E1C7B947500552A67 /* featuresReport-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "featuresReport-ipad.png"; sourceTree = "<group>"; };
+		3B60DB6F1C7B947500552A67 /* featuresReport-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "featuresReport-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB721C7B978800552A67 /* policesBg-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "policesBg-ipad.png"; sourceTree = "<group>"; };
+		3B60DB731C7B978800552A67 /* policesBg-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "policesBg-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB761C7B98B700552A67 /* ashley3-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ashley3-ipad.png"; sourceTree = "<group>"; };
+		3B60DB771C7B98B700552A67 /* ashley3-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ashley3-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB7A1C7B9A0E00552A67 /* police1-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "police1-ipad.png"; sourceTree = "<group>"; };
+		3B60DB7B1C7B9A0E00552A67 /* police1-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "police1-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB7E1C7B9B5F00552A67 /* police2-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "police2-ipad.png"; sourceTree = "<group>"; };
+		3B60DB7F1C7B9B5F00552A67 /* police2-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "police2-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB821C7B9C8100552A67 /* ashley4-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ashley4-ipad.png"; sourceTree = "<group>"; };
+		3B60DB831C7B9C8100552A67 /* ashley4-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ashley4-ipad@2x.png"; sourceTree = "<group>"; };
+		3B60DB861C7B9EBE00552A67 /* ashley5-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ashley5-ipad.png"; sourceTree = "<group>"; };
+		3B60DB871C7B9EBE00552A67 /* ashley5-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ashley5-ipad@2x.png"; sourceTree = "<group>"; };
 		3B629DDD1C40655C001B24E5 /* restaurantBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restaurantBg.png; sourceTree = "<group>"; };
 		3B629DDE1C40655C001B24E5 /* restaurantBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "restaurantBg@2x.png"; sourceTree = "<group>"; };
 		3B629DE11C406B41001B24E5 /* ashley1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ashley1.png; sourceTree = "<group>"; };
@@ -1323,30 +1387,56 @@
 		3B629DDC1C40655C001B24E5 /* Comic */ = {
 			isa = PBXGroup;
 			children = (
+				3B60DB4E1C7B89E300552A67 /* ashley1-ipad.png */,
+				3B60DB4F1C7B89E300552A67 /* ashley1-ipad@2x.png */,
 				3B629DE11C406B41001B24E5 /* ashley1.png */,
 				3B629DE21C406B41001B24E5 /* ashley1@2x.png */,
+				3B60DB5E1C7B8FD000552A67 /* ashley2-ipad.png */,
+				3B60DB5F1C7B8FD000552A67 /* ashley2-ipad@2x.png */,
 				3BADAC911C5FAE8E006981A5 /* ashley2.png */,
 				3BADAC921C5FAE8E006981A5 /* ashley2@2x.png */,
+				3B60DB761C7B98B700552A67 /* ashley3-ipad.png */,
+				3B60DB771C7B98B700552A67 /* ashley3-ipad@2x.png */,
 				3BEFBE3C1C62913F00D08D79 /* ashley3.png */,
 				3BEFBE3D1C62913F00D08D79 /* ashley3@2x.png */,
 				3BB745831C63C71A0081C74B /* ashley4.png */,
 				3BB745841C63C71A0081C74B /* ashley4@2x.png */,
+				3B60DB821C7B9C8100552A67 /* ashley4-ipad.png */,
+				3B60DB831C7B9C8100552A67 /* ashley4-ipad@2x.png */,
 				3BB745871C63CD410081C74B /* ashley5.png */,
 				3BB745881C63CD410081C74B /* ashley5@2x.png */,
+				3B60DB861C7B9EBE00552A67 /* ashley5-ipad.png */,
+				3B60DB871C7B9EBE00552A67 /* ashley5-ipad@2x.png */,
+				3B60DB521C7B8C1200552A67 /* dude-ipad.png */,
+				3B60DB531C7B8C1200552A67 /* dude-ipad@2x.png */,
 				3BADAC8D1C5FA868006981A5 /* dude.png */,
 				3BADAC8E1C5FA868006981A5 /* dude@2x.png */,
+				3B60DB621C7B91D300552A67 /* dude2-ipad.png */,
+				3B60DB631C7B91D300552A67 /* dude2-ipad@2x.png */,
 				3BADAC991C5FE2A4006981A5 /* dude2.png */,
 				3BADAC9A1C5FE2A4006981A5 /* dude2@2x.png */,
+				3B60DB6A1C7B946C00552A67 /* featuresGeo-ipad.png */,
+				3B60DB6B1C7B946C00552A67 /* featuresGeo-ipad@2x.png */,
 				3B4868191C623ACC00C915EF /* featuresGeo.png */,
 				3B48681A1C623ACC00C915EF /* featuresGeo@2x.png */,
+				3B60DB6E1C7B947500552A67 /* featuresReport-ipad.png */,
+				3B60DB6F1C7B947500552A67 /* featuresReport-ipad@2x.png */,
 				3B48681B1C623ACC00C915EF /* featuresReport.png */,
 				3B48681C1C623ACC00C915EF /* featuresReport@2x.png */,
+				3B60DB661C7B933B00552A67 /* featuresSnapshot-ipad.png */,
+				3B60DB671C7B933B00552A67 /* featuresSnapshot-ipad@2x.png */,
 				3B48681D1C623ACC00C915EF /* featuresSnapshot.png */,
 				3B48681E1C623ACC00C915EF /* featuresSnapshot@2x.png */,
+				3B60DB7A1C7B9A0E00552A67 /* police1-ipad.png */,
+				3B60DB7B1C7B9A0E00552A67 /* police1-ipad@2x.png */,
 				3BEFBE401C62915200D08D79 /* police1.png */,
 				3BEFBE411C62915200D08D79 /* police1@2x.png */,
+				3B60DB7E1C7B9B5F00552A67 /* police2-ipad.png */,
+				3B60DB7F1C7B9B5F00552A67 /* police2-ipad@2x.png */,
 				3BEFBE421C62915200D08D79 /* police2.png */,
 				3BEFBE431C62915200D08D79 /* police2@2x.png */,
+				3B60DB721C7B978800552A67 /* policesBg-ipad.png */,
+				3B60DB731C7B978800552A67 /* policesBg-ipad@2x.png */,
 				3BEFBE381C62883A00D08D79 /* policesBg.png */,
 				3BEFBE391C62883B00D08D79 /* policesBg@2x.png */,
 				3B629DDD1C40655C001B24E5 /* restaurantBg.png */,
@@ -1654,6 +1744,10 @@
 		3BD9203F1C1A1BCC00F630C5 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				3B60DB561C7B8E7C00552A67 /* arrowBack-ipad.png */,
+				3B60DB571C7B8E7C00552A67 /* arrowBack-ipad@2x.png */,
+				3B60DB581C7B8E7C00552A67 /* arrowNext-ipad.png */,
+				3B60DB591C7B8E7C00552A67 /* arrowNext-ipad@2x.png */,
 				3B4585011AB785F400B07BC1 /* arrowBack.png */,
 				3B4585021AB785F400B07BC1 /* arrowBack@2x.png */,
 				3B4585031AB785F400B07BC1 /* arrowNext.png */,
@@ -1669,6 +1763,8 @@
 				3B6FEA711C1B22F200790B30 /* bg-register@2x.png */,
 				3B6FEA741C1B2CBD00790B30 /* line-input.png */,
 				3B6FEA751C1B2CBD00790B30 /* line-input@2x.png */,
+				3B60DB4A1C7B860A00552A67 /* prey-logo-txt-mono-ipad.png */,
+				3B60DB4B1C7B860A00552A67 /* prey-logo-txt-mono-ipad@2x.png */,
 				3BD920401C1A1BCC00F630C5 /* prey-logo-txt-mono.png */,
 				3BD920411C1A1BCC00F630C5 /* prey-logo-txt-mono@2x.png */,
 				3B2E21E01C1C69F100BF8570 /* preyIcon.png */,
@@ -1886,12 +1982,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B8AC7A019F9D0C800464098 /* prey-text-white.png in Resources */,
+				3B60DB511C7B89E300552A67 /* ashley1-ipad@2x.png in Resources */,
 				3B4585221AB785F400B07BC1 /* preyIconBird-ipad.png in Resources */,
+				3B60DB781C7B98B700552A67 /* ashley3-ipad.png in Resources */,
 				3B8AC76019F9C96700464098 /* Default~ipad.png in Resources */,
 				3B45851E1AB785F400B07BC1 /* logoType.png in Resources */,
 				3B6FEA6A1C1B1B2600790B30 /* StatusDevice-iPad.xib in Resources */,
+				3B60DB711C7B947500552A67 /* featuresReport-ipad@2x.png in Resources */,
 				3B8AC75F19F9C96700464098 /* Default@2x~iphone.png in Resources */,
 				3BAB3CED1A09874E003BFCCE /* bg-welcome-iPhone@2x.png in Resources */,
+				3B60DB601C7B8FD000552A67 /* ashley2-ipad.png in Resources */,
+				3B60DB5A1C7B8E7C00552A67 /* arrowBack-ipad.png in Resources */,
 				3B8AC77119F9C96700464098 /* Icon-Small@2x.png in Resources */,
 				3B8AC77019F9C96700464098 /* Icon-Small.png in Resources */,
 				3BB7458A1C63CD410081C74B /* ashley5@2x.png in Resources */,
@@ -1900,10 +2001,12 @@
 				3BB745861C63C71A0081C74B /* ashley4@2x.png in Resources */,
 				3B8AC76C19F9C96700464098 /* Icon-Small-40@3x.png in Resources */,
 				3B8AC77F19F9D01C00464098 /* OpenSans-Semibold.ttf in Resources */,
+				3B60DB501C7B89E300552A67 /* ashley1-ipad.png in Resources */,
 				3B8AC79B19F9D0C800464098 /* camouflage-iPhone.png in Resources */,
 				3B656D791A0A47A1007C85E4 /* Localizable.strings in Resources */,
 				3B2E21E41C1C69F100BF8570 /* preyIcon.png in Resources */,
 				3BEFBE451C62915200D08D79 /* police1@2x.png in Resources */,
+				3B60DB811C7B9B5F00552A67 /* police2-ipad@2x.png in Resources */,
 				07132400134633B800F7EFD8 /* CongratulationsController-iPhone.xib in Resources */,
 				3B6FEA681C1B182200790B30 /* StatusDevice-iPhone.xib in Resources */,
 				3B8AC76E19F9C96700464098 /* Icon-Small-50@2x.png in Resources */,
@@ -1921,6 +2024,7 @@
 				3B4585261AB785F400B07BC1 /* preyIconBorder@2x.png in Resources */,
 				071324581346363300F7EFD8 /* AlertModuleController-iPhone.xib in Resources */,
 				3B8AC7A219F9D0C800464098 /* prey-text@2x.png in Resources */,
+				3B60DB801C7B9B5F00552A67 /* police2-ipad.png in Resources */,
 				3B2E21EF1C1C84B600BF8570 /* tour-es@2x.png in Resources */,
 				071324591346363300F7EFD8 /* MainWindow-iPhone.xib in Resources */,
 				3B5F0B351C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib in Resources */,
@@ -1949,17 +2053,23 @@
 				3BADAC931C5FAE8E006981A5 /* ashley2.png in Resources */,
 				3B2E21EC1C1C84B600BF8570 /* tour-en.png in Resources */,
 				3BA983391C400930006D3FCC /* PreyTourWebView-iPhone.xib in Resources */,
+				3B60DB751C7B978800552A67 /* policesBg-ipad@2x.png in Resources */,
 				3B8AC76719F9C96700464098 /* Icon-76.png in Resources */,
 				3B8AC7A719F9D0F200464098 /* shutter.aiff in Resources */,
 				3B4868231C623ACC00C915EF /* featuresSnapshot.png in Resources */,
+				3B60DB741C7B978800552A67 /* policesBg-ipad.png in Resources */,
 				3BA232981A0C2F85005E5145 /* store_pro-iPad@2x.png in Resources */,
 				3BAE4E53190AB96F0093ECA2 /* GrettingsProViewController-iPhone.xib in Resources */,
 				3B8AC77D19F9D01C00464098 /* NewJuneBold.otf in Resources */,
 				3BD920451C1A1BCC00F630C5 /* prey-logo-txt-mono@2x.png in Resources */,
+				3B60DB611C7B8FD000552A67 /* ashley2-ipad@2x.png in Resources */,
+				3B60DB6D1C7B946C00552A67 /* featuresGeo-ipad@2x.png in Resources */,
+				3B60DB6C1C7B946C00552A67 /* featuresGeo-ipad.png in Resources */,
 				3B2E21E71C1C69F100BF8570 /* settingsIcon@2x.png in Resources */,
 				3BA2328E1A0B9DD4005E5145 /* bt-store.png in Resources */,
 				3BA73C6B1AA51E85002080CB /* OnboardingView-iPhone.xib in Resources */,
 				3B8AC75E19F9C96700464098 /* Default-Portrait~ipad.png in Resources */,
+				3B60DB701C7B947500552A67 /* featuresReport-ipad.png in Resources */,
 				3BB7458E1C63CD510081C74B /* streetBg@2x.png in Resources */,
 				3B8AC77319F9C96700464098 /* Icon.png in Resources */,
 				3B8AC79819F9D0C800464098 /* bt-camouflage.png in Resources */,
@@ -1976,22 +2086,30 @@
 				3B4B24D91A115C76002B64E8 /* close_off@3x.png in Resources */,
 				3BA232921A0BB37A005E5145 /* GrettingsProViewController-iPhone-568h.xib in Resources */,
 				3B8AC76D19F9C96700464098 /* Icon-Small-50.png in Resources */,
+				3B60DB641C7B91D300552A67 /* dude2-ipad.png in Resources */,
 				3B8011161C400467009BD2F1 /* PreyTourWeb in Resources */,
+				3B60DB851C7B9C8100552A67 /* ashley4-ipad@2x.png in Resources */,
 				3B8AC77219F9C96700464098 /* Icon-Small@3x.png in Resources */,
 				3B8AC76419F9C96700464098 /* Icon-60@3x.png in Resources */,
 				3BA232941A0C2F76005E5145 /* store_discount-iPad@2x.png in Resources */,
 				3B1C2BB4191ACAAF00DFD677 /* AppFeedback.plist in Resources */,
 				3B8AC76519F9C96700464098 /* Icon-72.png in Resources */,
+				3B60DB881C7B9EBE00552A67 /* ashley5-ipad.png in Resources */,
 				3B6FEA841C1B856E00790B30 /* SignInVC-iPad.xib in Resources */,
 				3BB745851C63C71A0081C74B /* ashley4.png in Resources */,
+				3B60DB541C7B8C1200552A67 /* dude-ipad.png in Resources */,
 				3B8AC76619F9C96700464098 /* Icon-72@2x.png in Resources */,
 				3BAB3CEF1A0987E7003BFCCE /* ok-congratulations@2x.png in Resources */,
 				3B4585171AB785F400B07BC1 /* arrowBack@2x.png in Resources */,
 				3BA983381C400930006D3FCC /* PreyTourWebView-iPhone-568h.xib in Resources */,
 				3B8AC76219F9C96700464098 /* Icon-60.png in Resources */,
+				3B60DB841C7B9C8100552A67 /* ashley4-ipad.png in Resources */,
 				3BADAC901C5FA868006981A5 /* dude@2x.png in Resources */,
+				3B60DB891C7B9EBE00552A67 /* ashley5-ipad@2x.png in Resources */,
+				3B60DB4D1C7B860A00552A67 /* prey-logo-txt-mono-ipad@2x.png in Resources */,
 				3B629DE31C406B41001B24E5 /* ashley1.png in Resources */,
 				3B45851F1AB785F400B07BC1 /* logoType@2x.png in Resources */,
+				3B60DB5D1C7B8E7C00552A67 /* arrowNext-ipad@2x.png in Resources */,
 				3B4585161AB785F400B07BC1 /* arrowBack.png in Resources */,
 				3BA232891A0B9757005E5145 /* store_discount.png in Resources */,
 				3B4B24DC1A115C76002B64E8 /* close_on@3x.png in Resources */,
@@ -2005,6 +2123,7 @@
 				3B62F4451AE1C1770060C8D7 /* theft.png in Resources */,
 				3BCBF9301C74F09000998290 /* PreferencesController-iPad.xib in Resources */,
 				3B4B24D71A115C76002B64E8 /* close_off.png in Resources */,
+				3B60DB691C7B933B00552A67 /* featuresSnapshot-ipad@2x.png in Resources */,
 				3B6FEA791C1B413100790B30 /* SignUpVC-iPhone.xib in Resources */,
 				3B8AC75D19F9C96700464098 /* Default-568h@2x.png in Resources */,
 				3B4B24D81A115C76002B64E8 /* close_off@2x.png in Resources */,
@@ -2018,6 +2137,7 @@
 				3B8AC79D19F9D0C800464098 /* ok-congratulations.png in Resources */,
 				3B8AC79719F9D0C800464098 /* bg-welcome-iPhone5.png in Resources */,
 				3B39B5601AB0D74B00B313AD /* OnboardingView-iPad.xib in Resources */,
+				3B60DB5B1C7B8E7C00552A67 /* arrowBack-ipad@2x.png in Resources */,
 				3B9D47C4189C5D2A00E6F7A2 /* LoginController-iPhone.xib in Resources */,
 				3BBAB00918B9085C00ADE493 /* LoginController-iPhone-568h.xib in Resources */,
 				3BB745821C63C7020081C74B /* roomGirl@2x.png in Resources */,
@@ -2027,9 +2147,11 @@
 				3B8AC76A19F9C96700464098 /* Icon-Small-40.png in Resources */,
 				3B2E21EE1C1C84B600BF8570 /* tour-es.png in Resources */,
 				3B8AC79919F9D0C800464098 /* bt-welcome.png in Resources */,
+				3B60DB7D1C7B9A0E00552A67 /* police1-ipad@2x.png in Resources */,
 				3B2E21DF1C1C65F900BF8570 /* shield-on@2x.png in Resources */,
 				3B4868221C623ACC00C915EF /* featuresReport@2x.png in Resources */,
 				3B4585181AB785F400B07BC1 /* arrowNext.png in Resources */,
+				3B60DB7C1C7B9A0E00552A67 /* police1-ipad.png in Resources */,
 				3BADAC981C5FB42A006981A5 /* roomBg@2x.png in Resources */,
 				3BA983371C400930006D3FCC /* PreyTourWebView-iPad.xib in Resources */,
 				3BADAC9C1C5FE2A4006981A5 /* dude2@2x.png in Resources */,
@@ -2039,6 +2161,8 @@
 				3B8AC77519F9C96700464098 /* iTunesArtwork.png in Resources */,
 				3B629DE01C40655D001B24E5 /* restaurantBg@2x.png in Resources */,
 				3BADAC8F1C5FA868006981A5 /* dude.png in Resources */,
+				3B60DB791C7B98B700552A67 /* ashley3-ipad@2x.png in Resources */,
+				3B60DB4C1C7B860A00552A67 /* prey-logo-txt-mono-ipad.png in Resources */,
 				3B2A3BD017CE68B3000D5B9D /* Settings.bundle in Resources */,
 				3B8AC77C19F9D01C00464098 /* large9.ttf in Resources */,
 				3B2E21F11C1C86C900BF8570 /* tour-close.png in Resources */,
@@ -2048,6 +2172,9 @@
 				3BAB3CFD1A099FBC003BFCCE /* OpenSans-Bold.ttf in Resources */,
 				3BD920441C1A1BCC00F630C5 /* prey-logo-txt-mono.png in Resources */,
 				3BD920491C1A24DE00F630C5 /* magdacleanmono-regular.otf in Resources */,
+				3B60DB651C7B91D300552A67 /* dude2-ipad@2x.png in Resources */,
+				3B60DB551C7B8C1200552A67 /* dude-ipad@2x.png in Resources */,
+				3B60DB681C7B933B00552A67 /* featuresSnapshot-ipad.png in Resources */,
 				3B8AC79519F9D0C800464098 /* bg-welcome-iPad.png in Resources */,
 				3B8AC76B19F9C96700464098 /* Icon-Small-40@2x.png in Resources */,
 				3B4585241AB785F400B07BC1 /* preyIconBird@2x.png in Resources */,
@@ -2055,6 +2182,7 @@
 				3BADAC9B1C5FE2A4006981A5 /* dude2.png in Resources */,
 				3B4585251AB785F400B07BC1 /* preyIconBorder.png in Resources */,
 				3B8AC78019F9D01C00464098 /* Roboto-Regular.ttf in Resources */,
+				3B60DB5C1C7B8E7C00552A67 /* arrowNext-ipad.png in Resources */,
 				3B8AC79A19F9D0C800464098 /* camouflage-iPad.png in Resources */,
 				3B6FEA721C1B22F200790B30 /* bg-register.png in Resources */,
 				3B6FEA731C1B22F200790B30 /* bg-register@2x.png in Resources */,
