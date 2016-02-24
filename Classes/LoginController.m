@@ -312,6 +312,13 @@
     
     if ([[PreyConfig instance] hideTourWeb])
         [self closeTourLabel];
+    
+    // Check geofencing on panel
+    if ([PreyConfig instance].isPro) {
+        [PreyRestHttpV2 checkGeofenceZones:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+            PreyLogMessage(@"App Delegate", 10, @"Geofence");
+        }];
+    }
 }
 
 - (void)changeTexts

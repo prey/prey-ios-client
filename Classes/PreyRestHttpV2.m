@@ -111,7 +111,7 @@
                                     parameters:nil
                                        success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",responseObject);
+         //PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",responseObject);
          
          if (responseObject != nil)
          {

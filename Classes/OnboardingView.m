@@ -475,8 +475,8 @@
         tmp = (432.0f - 79.0f)/2.0f;
         moveX = 79.0f + (tmp/160.0f)*scrollMoveX;
         
-        tmp = (13.0f - 114.5f)/2.0f;
-        moveY = 114.5f + (tmp/160.0f)*scrollMoveX;
+        tmp = (13.0f - 114.5f - posYiPhone)/2.0f;
+        moveY = 114.5f + (tmp/160.0f)*scrollMoveX + posYiPhone;
         
         tmp = 93.5f - 162.0f;
         moveWidth = 162.0f + (tmp/160.0f)*scrollMoveX;
@@ -513,8 +513,8 @@
         tmp = (465.0f - 72.5f)/2.0f;
         moveX = 72.5f + (tmp/160.0f)*scrollMoveX;
         
-        tmp = (18.0f - 285.5f)/2.0f;
-        moveY = 285.5f + (tmp/160.0f)*scrollMoveX;
+        tmp = (18.0f - 285.5f - posYiPhone)/2.0f;
+        moveY = 285.5f + (tmp/160.0f)*scrollMoveX + posYiPhone;
         
         tmp = 118.5f - 175.0f;
         moveWidth = 175.0f + (tmp/160.0f)*scrollMoveX;

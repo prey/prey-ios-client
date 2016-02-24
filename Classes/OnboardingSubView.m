@@ -29,7 +29,7 @@
     
     UIImageView *iconBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"preyIconBorder"]];
     //iconBorder.frame = (IS_IPAD) ? CGRectMake(312, 265, 144, 172) : CGRectMake(99.5, 114.5+posYiPhone, 121, 142);
-    iconBorder.frame = (IS_IPAD) ? CGRectMake(24, 0, 144, 172) : CGRectMake(20.5f, 0+posYiPhone, 121, 142);
+    iconBorder.frame = (IS_IPAD) ? CGRectMake(24, 0, 144, 172) : CGRectMake(20.5f, 0, 121, 142);
     iconBorder.autoresizingMask = UIViewAutoresizingFlexibleWidth+UIViewAutoresizingFlexibleHeight+UIViewAutoresizingFlexibleTopMargin+UIViewAutoresizingFlexibleBottomMargin+UIViewAutoresizingFlexibleLeftMargin+UIViewAutoresizingFlexibleRightMargin;
     [logoView addSubview:iconBorder];
     
@@ -52,7 +52,7 @@
     
     NSString *iconBirdFile = (IS_IPAD) ? @"preyIconBird-ipad" : @"preyIconBird";
     CGSize tmSize = (IS_IPAD) ? CGSizeMake(96, 128.7f) : CGSizeMake(81, 107);
-    tmpRect = (IS_IPAD) ? CGRectMake(0.0f, 0.0f, 96, 128.7f) : CGRectMake(0.0f, 0.0f, 81, 107);
+    tmpRect = (IS_IPAD) ? CGRectMake(0.0f, 0.0f, 96, 128.7f) : CGRectMake(0.0f, 0.0f+posYiPhone, 81, 107);
     UIImageView *iconBirdFull = [[UIImageView alloc] initWithImage:[UIImage imageNamed:iconBirdFile]];
     UIGraphicsBeginImageContextWithOptions(tmSize,NO,0.0f);
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -69,7 +69,7 @@
     //iconBird.transform = CGAffineTransformMakeScale(0.1, 0.1);
     
     //CGPoint tmpPoint = (IS_IPAD) ? CGPointMake(384, 265) : CGPointMake(160, 114.5+posYiPhone); origin
-    CGPoint tmpPoint = (IS_IPAD) ? CGPointMake(384, 265) : CGPointMake(160, 114.5+posYiPhone);
+    CGPoint tmpPoint = (IS_IPAD) ? CGPointMake(384, 265) : CGPointMake(160, 114.5f+posYiPhone);
     UIImageView *iconBirdLeft = [[UIImageView alloc] initWithImage:leftImageBird];
     iconBirdLeft.center = tmpPoint;
     iconBirdLeft.layer.anchorPoint = CGPointMake( 1, 0);
