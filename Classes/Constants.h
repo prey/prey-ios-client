@@ -25,6 +25,7 @@
 #define kTagPhotoImage     1101
 #define kTagOldUser        1201 
 #define kTagNewUser        1202
+#define kTagLogoImage      1301
 
 #define kTagDudeRoom       2001
 #define kTagPoliceRoom     2002

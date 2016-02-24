@@ -19,9 +19,19 @@
 
 - (void)configPageView0:(CGFloat)posYiPhone
 {
+    // Prey Logo Image
+    tmpRect = (IS_IPAD) ? CGRectMake(288, 265, 192, 172) : CGRectMake(79, 114.5+posYiPhone, 162, 142);
+    UIView *logoView = [[UIView alloc] initWithFrame:tmpRect];
+    logoView.tag = kTagLogoImage;
+    [logoView setBackgroundColor:[UIColor clearColor]];
+    [self addSubview:logoView];
+    
+    
     UIImageView *iconBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"preyIconBorder"]];
-    iconBorder.frame = (IS_IPAD) ? CGRectMake(312, 265, 144, 172) : CGRectMake(99.5, 114.5+posYiPhone, 121, 142);
-    [self addSubview:iconBorder];
+    //iconBorder.frame = (IS_IPAD) ? CGRectMake(312, 265, 144, 172) : CGRectMake(99.5, 114.5+posYiPhone, 121, 142);
+    iconBorder.frame = (IS_IPAD) ? CGRectMake(24, 0, 144, 172) : CGRectMake(20.5f, 0+posYiPhone, 121, 142);
+    iconBorder.autoresizingMask = UIViewAutoresizingFlexibleWidth+UIViewAutoresizingFlexibleHeight+UIViewAutoresizingFlexibleTopMargin+UIViewAutoresizingFlexibleBottomMargin+UIViewAutoresizingFlexibleLeftMargin+UIViewAutoresizingFlexibleRightMargin;
+    [logoView addSubview:iconBorder];
     
     UIImageView *logoType = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logoType"]];
     logoType.frame = (IS_IPAD) ? CGRectMake(279, 470, 210, 42) : CGRectMake(72.5, 285.5+posYiPhone, 175, 35);
@@ -58,6 +68,7 @@
     //iconBird.frame = CGRectMake(80, 114.5, 162, 107);  Complete image
     //iconBird.transform = CGAffineTransformMakeScale(0.1, 0.1);
     
+    //CGPoint tmpPoint = (IS_IPAD) ? CGPointMake(384, 265) : CGPointMake(160, 114.5+posYiPhone); origin
     CGPoint tmpPoint = (IS_IPAD) ? CGPointMake(384, 265) : CGPointMake(160, 114.5+posYiPhone);
     UIImageView *iconBirdLeft = [[UIImageView alloc] initWithImage:leftImageBird];
     iconBirdLeft.center = tmpPoint;
@@ -71,6 +82,10 @@
     iconBirdRight.alpha = 0.9;
     [self addSubview:iconBirdRight];
     
+    iconBirdFull.hidden = YES;
+    iconBirdFull.autoresizingMask = UIViewAutoresizingFlexibleWidth+UIViewAutoresizingFlexibleHeight+UIViewAutoresizingFlexibleTopMargin+UIViewAutoresizingFlexibleBottomMargin+UIViewAutoresizingFlexibleLeftMargin+UIViewAutoresizingFlexibleRightMargin;
+    [logoView addSubview:iconBirdFull];
+    
     
     CATransform3D rotationTransform = CATransform3DIdentity;
     iconBirdLeft.layer.transform  = CATransform3DRotate(rotationTransform, M_PI_2, 0, 1, 0);
@@ -82,22 +97,21 @@
     [iconBirdRight.layer setSublayerTransform:t];
     
     
-    [UIImageView beginAnimations:nil context:NULL];
-    [UIImageView setAnimationDuration:1.5];
-    [UIImageView setAnimationCurve:UIViewAnimationCurveEaseOut];
-    //[UIImageView setAnimationRepeatAutoreverses:YES];
-    //[UIImageView setAnimationRepeatCount:1.5];
-    
-    CATransform3D transform       = CATransform3DMakeRotation(M_PI, 0, 1, 0);
-    
-    iconBirdLeft.layer.transform  = transform;
-    iconBirdRight.layer.transform = transform;
-    
-    iconBirdLeft.alpha = 1;
-    iconBirdRight.alpha = 1;
-    logoType.alpha = 1;
-    
-    [UIImageView commitAnimations];
+    [UIImageView animateWithDuration:1.5f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+    {
+        CATransform3D transform       = CATransform3DMakeRotation(M_PI, 0, 1, 0);
+        
+        iconBirdLeft.layer.transform  = transform;
+        iconBirdRight.layer.transform = transform;
+        
+        iconBirdLeft.alpha = 1;
+        iconBirdRight.alpha = 1;
+        logoType.alpha = 1;
+    } completion:^(BOOL finish)
+    {
+        iconBirdRight.hidden = iconBirdLeft.hidden  = YES;
+        iconBirdFull.hidden  = NO;
+    }];
 }
 
 - (void)addMessageOnView:(NSString*)message
@@ -106,13 +120,13 @@
         tmpRect = CGRectMake(84, 600, 600, 340);
     else
         tmpRect = (IS_IPHONE5) ? CGRectMake(10, 340, 300, 170) : CGRectMake(10, 270, 300, 170);
-    
+
     UILabel *storyText = [[UILabel alloc] initWithFrame:tmpRect];
-    storyText.font = (IS_IPAD) ? [UIFont fontWithName:@"Roboto" size:27] : [UIFont fontWithName:@"Roboto" size:16];
+    storyText.font = (IS_IPAD) ? [UIFont fontWithName:@"Open Sans" size:24] : [UIFont fontWithName:@"Open Sans" size:14];
     storyText.textAlignment = UITextAlignmentCenter;
     storyText.numberOfLines = 6;
     storyText.backgroundColor = [UIColor clearColor];
-    storyText.textColor = [UIColor colorWithRed:(245/255.f) green:(245/255.f) blue:(245/255.f) alpha:1];
+    storyText.textColor = [UIColor colorWithRed:(235/255.f) green:(235/255.f) blue:(235/255.f) alpha:1];
     storyText.text = message;
     [self addSubview:storyText];
 }
