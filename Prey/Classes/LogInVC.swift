@@ -77,11 +77,11 @@ class LogInVC: UIViewController {
     func keyboardWillChangeFrameWithNotification(notification: NSNotification, showsKeyboard: Bool) {
         let userInfo = notification.userInfo!
         
-        let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as NSNumber).doubleValue
+        let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         
         // Convert the keyboard frame from screen to view coordinates.
-        let keyboardScreenBeginFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as NSValue).CGRectValue()
-        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue()
+        let keyboardScreenBeginFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
         let keyboardViewBeginFrame = view.convertRect(keyboardScreenBeginFrame, fromView: view.window)
         let keyboardViewEndFrame = view.convertRect(keyboardScreenEndFrame, fromView: view.window)
@@ -99,6 +99,74 @@ class LogInVC: UIViewController {
     
     // MARK: Actions
     @IBAction func addDeviceAction(sender: UIButton) {
-        println("addDeviceAction")
+        print("email:\(emailTextField.text)  password:\(passwordTextField.text)")
+        
+        /*
+        if (countElements(passwordTextField.text) < 6)
+        {
+            var alert = UIAlertController(title:NSLocalizedString("We have a situation!", comment:""),
+                                        message:NSLocalizedString("Password must be at least 6 characters", comment:""),
+                                 preferredStyle:UIAlertControllerStyle.Alert)
+            
+            alert.addAction(UIAlertAction(title:NSLocalizedString("OK", comment:""),
+                style:UIAlertActionStyle.Default, handler:nil))
+            self.presentViewController(alert, animated:true, completion:nil)
+            
+            passwordTextField.becomeFirstResponder()
+            
+            return
+        }
+
+        PreyHTTPClient.manager.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+            .response { (request, response, data, error) in
+                print(request)
+                print(response)
+                print(error)
+        }
+        */
     }
 }
+
+
+/*
+if (![email.text isMatchedByRegex:strEmailMatchstring]){
+    UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Try Again",nil),nil];
+    [objAlert show];
+    
+    [email becomeFirstResponder];
+    return;
+}
+
+[self hideKeyboard];
+
+HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+HUD.delegate = self;
+HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
+
+[User allocWithEmail:[email text] password:[password text]
+withBlock:^(User *user, NSError *error)
+{
+if (!error) // User Login
+{
+[Device newDeviceForApiKey:user
+withBlock:^(User *user, Device *dev, NSError *error)
+{
+[MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+
+if (!error) // Device created
+{
+PreyConfig *config = [PreyConfig initWithUser:user andDevice:dev];
+if (config != nil)
+{
+NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
+[(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
+[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
+}
+}
+}]; // End Block Device
+}
+else
+[MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
+}]; // End Block User
+
+*/
