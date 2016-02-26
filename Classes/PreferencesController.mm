@@ -26,7 +26,6 @@
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "PreyCoreData.h"
 #import "GeofenceMapController.h"
-
 #import "PreyItems.h"
 
 @interface UIActionSheet(DismissAlert)
@@ -111,7 +110,6 @@
 	return titleSection;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
@@ -154,8 +152,22 @@
 
             // Geofence
             else if (indexPath.row == PreyPreferencesSectionInformationGeofence) {
+                
+                NSString *fontLabel = @"OpenSans-Bold";
+                CGFloat  fontSize   = (IS_IPAD) ? 16.0f : 14.0f;
+                [cell.textLabel setFont:[UIFont fontWithName:fontLabel size:fontSize]];
+                
+                UILabel *accessoryLbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 30)];
+                [accessoryLbl setBackgroundColor:[UIColor colorWithRed:(209.0f/255.0f) green:(157.0f/255.0f) blue:(35.0f/255.0f) alpha:1.0f]];
+                [accessoryLbl setText:NSLocalizedString(@"New",nil)];
+                [accessoryLbl setTextAlignment:NSTextAlignmentCenter];
+                [accessoryLbl setFont:[UIFont fontWithName:fontLabel size:fontSize]];
+                cell.accessoryView = accessoryLbl;
+                
+                [self shakeAnimation:accessoryLbl];
+                
                 cell.textLabel.text = NSLocalizedString(@"Your Geofences",nil);
-                cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
+                cell.accessoryType  = UITableViewCellAccessoryNone;
             }
 
             // Recovery Stories
@@ -520,6 +532,17 @@
              [appDelegate.viewController setViewControllers:[NSArray arrayWithObject:onboardingVC] animated:NO];
          }
      }];
+}
+
+- (void)shakeAnimation:(UILabel*)label
+{
+    CABasicAnimation* shake = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    shake.fromValue         = [NSNumber numberWithFloat:-0.1];
+    shake.toValue           = [NSNumber numberWithFloat:+0.1];
+    shake.duration          = 0.08;
+    shake.autoreverses      = YES;
+    shake.repeatCount       = 5;
+    [label.layer addAnimation:shake forKey:@"buttonShake"];
 }
 
 #pragma mark Touch ID
