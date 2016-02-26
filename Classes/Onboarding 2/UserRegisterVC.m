@@ -44,6 +44,9 @@
     NSError *error = nil;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
     
+    if (string == nil)
+        string = @"";
+    
     NSRange textRange = NSMakeRange(0, string.length);
     NSRange matchRange = [regex rangeOfFirstMatchInString:string options:NSMatchingReportProgress range:textRange];
     

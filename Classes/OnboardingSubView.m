@@ -114,7 +114,7 @@
     }];
 }
 
-- (void)addMessageOnView:(NSString*)message
+- (void)addMessageOnView:(NSString*)message withTag:(NSInteger)txtTag
 {
     if (IS_IPAD)
         tmpRect = CGRectMake(84, 600, 600, 340);
@@ -128,13 +128,15 @@
     storyText.backgroundColor = [UIColor clearColor];
     storyText.textColor = [UIColor colorWithRed:(235/255.f) green:(235/255.f) blue:(235/255.f) alpha:1];
     storyText.text = message;
+    storyText.tag = txtTag;
+    storyText.alpha = 0;
     [self addSubview:storyText];
 }
 
 // Config PageView 01
 - (void)configPageView1:(CGFloat)posYiPhone
 {
-    [self addMessageOnView:NSLocalizedString(@"Ashley uses Prey on all her devices: her Macbook, her iPhone and iPad. But one day, she was at the wrong place at the wrong time and someone stole her tablet.",nil)];
+    [self addMessageOnView:NSLocalizedString(@"Ashley uses Prey on all her devices: her Macbook, her iPhone and iPad. But one day, she was at the wrong place at the wrong time and someone stole her tablet.",nil) withTag:kTagMessage1];
     
     // Add girl to page
     tmpRect = (IS_IPAD) ? CGRectMake(260, 260, 340, 406) : CGRectMake(130, 130+posYiPhone, 170, 203);
@@ -154,13 +156,13 @@
 // Config PageView 02
 - (void)configPageView2:(CGFloat)posYiPhone
 {
-    [self addMessageOnView:NSLocalizedString(@"Meet Steve, he steals objects left unattended.",nil)];
+    [self addMessageOnView:NSLocalizedString(@"Meet Steve, he steals objects left unattended.",nil) withTag:kTagMessage2];
 }
 
 // Config PageView 03
 - (void)configPageView3:(CGFloat)posYiPhone
 {
-    [self addMessageOnView:NSLocalizedString(@"Losing a device means losing precious data, memories, information and some really expensive equipment.",nil)];
+    [self addMessageOnView:NSLocalizedString(@"Losing a device means losing precious data, memories, information and some really expensive equipment.",nil) withTag:kTagMessage3];
     
     // Add girl to page
     tmpRect = (IS_IPAD) ? CGRectMake(220, 142, 340, 492) : CGRectMake(110, 80+posYiPhone, 170, 246);
@@ -173,26 +175,26 @@
 // Config PageView 04
 - (void)configPageView4:(CGFloat)posYiPhone
 {
-    [self addMessageOnView:NSLocalizedString(@"Without him knowing it, Prey is silently capturing pictures, location, and sending the legitimate owner complete reports.\nAshley can also use Prey to remotely lock her device down and wipe her sensitive data.",nil)];
+    [self addMessageOnView:NSLocalizedString(@"Without him knowing it, Prey is silently capturing pictures, location, and sending the legitimate owner complete reports.\nAshley can also use Prey to remotely lock her device down and wipe her sensitive data.",nil) withTag:kTagMessage4];
 }
 
 // Config PageView 05
 - (void)configPageView5:(CGFloat)posYiPhone
 {
-    [self addMessageOnView:NSLocalizedString(@"Good thing Ashley has PREY activated! She just got the reports from her stolen device, so now the police has accurate evidence to work with.",nil)];
+    [self addMessageOnView:NSLocalizedString(@"Good thing Ashley has PREY activated! She just got the reports from her stolen device, so now the police has accurate evidence to work with.",nil) withTag:kTagMessage5];
 }
 
 
 // Config PageView 06
 - (void)configPageView6:(CGFloat)posYiPhone
 {
-    [self addMessageOnView:NSLocalizedString(@"With the detailed reports on the missing device, Ashley had more worries, she got her device back.",nil)];
+    [self addMessageOnView:NSLocalizedString(@"With the detailed reports on the missing device, Ashley had more worries, she got her device back.",nil) withTag:kTagMessage6];
 }
 
 // Config PageView 07
 - (void)configPageView7:(CGFloat)posYiPhone
 {
-    [self addMessageOnView:NSLocalizedString(@"Don\'t wait for the worst to happen to take action. Sign up, enter your registration details and set up Prey on your phone.",nil)];
+    [self addMessageOnView:NSLocalizedString(@"Don\'t wait for the worst to happen to take action. Sign up, enter your registration details and set up Prey on your phone.",nil) withTag:kTagMessage7];
 }
 
 #pragma mark Methods

@@ -52,6 +52,7 @@
          if (!error) // User Login
          {
              [config setPro:user.isPro];
+             [config saveValues];
              [self showPreferencesController];
          }
      }]; // End Block User

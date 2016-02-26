@@ -20,6 +20,14 @@
 
 #define kTagSegmentedControl 2010
 
+#define kTagMessage1        701
+#define kTagMessage2        702
+#define kTagMessage3        703
+#define kTagMessage4        704
+#define kTagMessage5        705
+#define kTagMessage6        706
+#define kTagMessage7        707
+
 #define kTagLogoType       1000
 #define kTagFlashView      1100
 #define kTagPhotoImage     1101

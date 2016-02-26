@@ -113,6 +113,7 @@
 {
     if (buttonIndex == 1) {
         [PreyConfig instance].isTouchIDEnabled = YES;
+        [[PreyConfig instance] saveValues];
     }
 }
 

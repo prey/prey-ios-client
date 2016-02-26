@@ -388,6 +388,8 @@
         [[PreyConfig instance] setIsNotificationSettingsEnabled:NO];
     else
         [[PreyConfig instance] setIsNotificationSettingsEnabled:YES];
+    
+    [[PreyConfig instance] saveValues];
 }
 #endif
 

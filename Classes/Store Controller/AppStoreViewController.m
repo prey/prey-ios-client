@@ -139,6 +139,7 @@
              [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
              
              [[PreyConfig instance] setPro:YES];
+             [[PreyConfig instance] saveValues];
              [self showCongratsPro];
          }
                                        onCancelled:^

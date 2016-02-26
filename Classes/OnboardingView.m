@@ -526,6 +526,18 @@
     logoText.frame = CGRectMake(moveX, moveY, moveWidth, moveHeight);
 }
 
+- (void)animateMessageWithTag:(NSInteger)messageTag
+{
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn
+                     animations:^
+    {
+        UILabel *messageView = (UILabel*)[self.view viewWithTag:messageTag];
+        messageView.alpha    = 1.0f;
+    }
+                     completion:nil];
+
+}
+
 - (void)animatePage1:(CGFloat)scrollMoveX1
 {
     if (scrollMoveX1 == widthScreen*1)
@@ -534,6 +546,8 @@
         
         OnboardingSubView *currentView2 = (OnboardingSubView*)[self.view viewWithTag:302];
         [currentView2 startAnimatePage2:posYiPhone];
+        
+        [self animateMessageWithTag:kTagMessage1];
     }
     
     if (scrollMoveX1 > widthScreen*1)
@@ -561,6 +575,7 @@
     if (scrollMoveX == widthScreen*2)
     {
         [self.view endEditing:YES];
+        [self animateMessageWithTag:kTagMessage2];
     }
 }
 
@@ -585,6 +600,11 @@
         if (checkImage == nil)
             [currentView addElementsPage04:posYiPhone];
     }
+    
+    if (scrollMoveX == widthScreen*3)
+        [self animateMessageWithTag:kTagMessage3];
+    if (scrollMoveX == widthScreen*4)
+        [self animateMessageWithTag:kTagMessage4];
 }
 
 - (void)animatePage6:(CGFloat)scrollMoveX
@@ -609,6 +629,8 @@
             [currentView addElementsPage05:posYiPhone];
     }
     
+    if (scrollMoveX == widthScreen*5)
+        [self animateMessageWithTag:kTagMessage5];
 }
 
 - (void)animatePage7:(CGFloat)scrollMoveX
@@ -633,6 +655,8 @@
             [currentView addElementsPage06:posYiPhone];
     }
     
+    if (scrollMoveX == widthScreen*6)
+        [self animateMessageWithTag:kTagMessage6];
 }
 
 - (void)animatePage8:(CGFloat)scrollMoveX
@@ -657,6 +681,8 @@
             [currentView addElementsPage07:posYiPhone];
     }
     
+    if (scrollMoveX == widthScreen*7)
+        [self animateMessageWithTag:kTagMessage7];
 }
 
 

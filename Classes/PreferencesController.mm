@@ -366,10 +366,12 @@
 
 - (IBAction)camouflageModeState:(UISwitch*)camouflageModeSwitch{
     [[PreyConfig instance] setCamouflageMode:camouflageModeSwitch.on];
+    [[PreyConfig instance] saveValues];
 }
 
 - (IBAction)touchIDModeState:(UISwitch*)touchIDModeSwitch{
     [[PreyConfig instance] setIsTouchIDEnabled:touchIDModeSwitch.on];
+    [[PreyConfig instance] saveValues];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
