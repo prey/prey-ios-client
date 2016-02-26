@@ -6,6 +6,7 @@
 //  Copyright 2010 Fork Ltd.. All rights reserved.
 //
 
+
 #import <Foundation/Foundation.h>
 
 @interface Constants : NSObject {
@@ -19,11 +20,20 @@
 
 #define kTagSegmentedControl 2010
 
+#define kTagMessage1        701
+#define kTagMessage2        702
+#define kTagMessage3        703
+#define kTagMessage4        704
+#define kTagMessage5        705
+#define kTagMessage6        706
+#define kTagMessage7        707
+
 #define kTagLogoType       1000
 #define kTagFlashView      1100
 #define kTagPhotoImage     1101
 #define kTagOldUser        1201 
 #define kTagNewUser        1202
+#define kTagLogoImage      1301
 
 #define kTagDudeRoom       2001
 #define kTagPoliceRoom     2002
@@ -55,6 +65,8 @@
 #define kTagNotifySwitch   3303
 
 
+#define kDetachAction  1;
+
 #define kStrEmailRegExp @"\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b";
 
 #define kGAIcode @"UA-8743344-7"
@@ -80,6 +92,8 @@ extern BOOL const SHOULD_LOG;
 
 extern NSString * const URL_LOGIN_PANEL;
 extern NSString * const URL_FORGOT_PANEL;
+
+extern NSString * const URL_GEOFENCE_POST;
 
 extern NSString * const URL_TERMS_PREY;
 extern NSString * const URL_PRIVACY_PREY;

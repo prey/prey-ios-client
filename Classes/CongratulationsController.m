@@ -59,7 +59,7 @@
     }
     else
     {
-        [congratsTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:34]];
+        [congratsTitle setFont:[UIFont fontWithName:@"Roboto-Regular" size:36]];
         [congratsMsg   setFont:[UIFont fontWithName:@"OpenSans" size:20]];
         [ok.titleLabel setFont:[UIFont fontWithName:@"OpenSans" size:30]];
     }
@@ -113,6 +113,7 @@
 {
     if (buttonIndex == 1) {
         [PreyConfig instance].isTouchIDEnabled = YES;
+        [[PreyConfig instance] saveValues];
     }
 }
 

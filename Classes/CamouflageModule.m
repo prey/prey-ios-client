@@ -22,6 +22,7 @@
     [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
 
     [[PreyConfig instance] setCamouflageMode:YES];
+    [[PreyConfig instance] saveValues];
 
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
     {
@@ -54,6 +55,7 @@
     [[NSUserDefaults standardUserDefaults] setInteger:requestNumber forKey:@"requestNumber"];
 
     [[PreyConfig instance] setCamouflageMode:NO];
+    [[PreyConfig instance] saveValues];
     
     if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground)
     {

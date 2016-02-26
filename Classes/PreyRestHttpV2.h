@@ -10,4 +10,7 @@
 
 @interface PreyRestHttpV2 : PreyRestHttp
 
++ (void)checkGeofenceZones:(NSInteger)reload withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block;
+
+
 @end

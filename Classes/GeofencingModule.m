@@ -9,6 +9,7 @@
 #import "GeofencingModule.h"
 #import "PreyGeofencingController.h"
 #import "Constants.h"
+#import "PreyRestHttpV2.h"
 
 @implementation GeofencingModule
 
@@ -40,6 +41,12 @@
         void (*func)(id, SEL, CLRegion *) = (void *)imp;
         func(self, selector, region);
     }
+}
+
+- (void)start{
+    [PreyRestHttpV2 checkGeofenceZones:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+        PreyLogMessage(@"App Delegate", 10, @"Geofence check");
+    }];
 }
 
 - (void)start: (CLRegion *)region {

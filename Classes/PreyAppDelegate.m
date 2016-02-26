@@ -21,6 +21,7 @@
 #import "GAI.h"
 #import "PreyStoreManager.h"
 #import "OnboardingView.h"
+#import "PreyGeofencingController.h"
 
 #ifdef DEBUG
 #warning Linker warnings suppressed (-w in build settings) "Other Linker Flags"
@@ -169,6 +170,16 @@
 	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
   
     PreyLogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS %@!!", [launchOptions description]);
+
+    // Check CLRegion In/Out
+    id locationLaunch = [launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey];
+    if (locationLaunch)
+    {
+        PreyLogMessage(@"App Delegate", 10, @"Prey geofence received while not running!: %@",locationLaunch);
+        [PreyGeofencingController instance];
+    }
+
+    
     
     // Check remote notification clicked
     id remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -192,8 +203,10 @@
     {
         [self registerForRemoteNotifications];
 
-        // In-App Purchase Instance
-        if (!config.isPro)
+        // Geofence / In-App Purchase Instance
+        if (config.isPro)
+            [PreyGeofencingController instance];
+        else
             [PreyStoreManager instance];
     }
     
@@ -375,6 +388,8 @@
         [[PreyConfig instance] setIsNotificationSettingsEnabled:NO];
     else
         [[PreyConfig instance] setIsNotificationSettingsEnabled:YES];
+    
+    [[PreyConfig instance] saveValues];
 }
 #endif
 

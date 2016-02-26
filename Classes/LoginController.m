@@ -21,6 +21,10 @@
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "PreyTourWebView.h"
 
+#import "PreyRestHttpV2.h"
+#import "PreyGeofencingController.h"
+#import "PreferencesController-iPad.h"
+
 @implementation LoginController
 
 @synthesize loginImage, scrollView, loginPassword, nonCamuflageImage, preyLogo, devReady, detail, tipl;
@@ -48,6 +52,7 @@
          if (!error) // User Login
          {
              [config setPro:user.isPro];
+             [config saveValues];
              [self showPreferencesController];
          }
      }]; // End Block User
@@ -55,11 +60,19 @@
 
 - (void)showPreferencesController
 {
-    PreferencesController *preferencesController = [[PreferencesController alloc] init];
-    preferencesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    PreyAppDelegate *appDelegate                    = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    PreferencesController *preferencesController    = [[PreferencesController alloc] init];
+    preferencesController.modalTransitionStyle      = UIModalTransitionStyleFlipHorizontal;
+    if (IS_IPAD)
+    {
+        PreferencesController_iPad *viewController  = [[PreferencesController_iPad alloc] initWithNibName:@"PreferencesController-iPad" bundle:nil];
+        viewController.leftViewController = preferencesController;
+        [appDelegate.viewController pushViewController:viewController animated:YES];
+    }
+    else
+        [appDelegate.viewController pushViewController:preferencesController animated:YES];
+
     [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
-    [appDelegate.viewController pushViewController:preferencesController animated:YES];
 }
 
 - (IBAction) checkLoginPassword: (id) sender
@@ -285,6 +298,8 @@
     btnForgotPwd.titleLabel.textAlignment = UITextAlignmentCenter;
     [btnForgotPwd setTitle:NSLocalizedString(@"Forgot your password?",nil) forState:UIControlStateNormal];
     [btnForgotPwd addTarget:self action:@selector(runWebForgot) forControlEvents:UIControlEventTouchUpInside];
+    CGFloat fontSize = (IS_IPAD) ? 18 : 12;
+    [btnForgotPwd.titleLabel   setFont:[UIFont fontWithName:@"OpenSans" size:fontSize]];
     [scrollView addSubview:btnForgotPwd];
 
     tipl.hidden = YES;
@@ -298,6 +313,13 @@
     
     if ([[PreyConfig instance] hideTourWeb])
         [self closeTourLabel];
+    
+    // Check geofencing on panel
+    if ([PreyConfig instance].isPro) {
+        [PreyRestHttpV2 checkGeofenceZones:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+            PreyLogMessage(@"App Delegate", 10, @"Geofence");
+        }];
+    }
 }
 
 - (void)changeTexts
@@ -415,16 +437,13 @@
         PreyLogMessage(@"App Delegate", 10, @"Alert notification set. Good!");
     else
     {
-#warning TEST
         PreyLogMessage(@"App Delegate", 10, @"User has disabled alert notifications");
-        /*
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert notification disabled",nil)
                                                             message:NSLocalizedString(@"You need to grant Prey access to show alert notifications in order to remotely mark it as missing.",nil)
                                                            delegate:nil
                                                   cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                   otherButtonTitles:nil];
 		[alertView show];
-        */
     }
 
 }

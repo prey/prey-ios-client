@@ -16,10 +16,54 @@
 #import "Constants.h"
 #import "JsonConfigParser.h"
 #import "PreyAppDelegate.h"
+#import "PreyCoreData.h"
 
 @implementation PreyRestHttpV2
 
 #pragma mark Init
+
++ (void)checkGeofenceZones:(NSInteger)reload withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
+{
+    NSString  *deviceKey  = [[PreyConfig instance] deviceKey];
+
+    [[PreyStatusClientV2 sharedClient] GET:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat:@"/devices/%@/geofencing.json",deviceKey]
+                                parameters:nil
+                                   success:^(NSURLSessionDataTask *operation, id responseObject)
+     {
+         PreyLogMessage(@"PreyRestHttp", 21, @"GET geofencing.json: %@",responseObject);
+         
+         if (responseObject != nil) {
+             [[PreyCoreData instance] updateGeofenceZones:responseObject];
+         }
+         
+         if (block) {
+             block(nil, nil);
+         }
+         
+     } failure:^(NSURLSessionDataTask *operation, NSError *error)
+     {
+         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
+         if ( ([resp statusCode] == 503) && (reload > 0) )
+         {
+             // Call method again
+             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                 [self checkGeofenceZones:reload-1 withBlock:block];
+             });
+         }
+         // When reload <= 0 then return statusCode:503
+         else if ( ([resp statusCode] == 503) && (reload <= 0) )
+             [self returnStatusCode503:block checkCompletionHandler:NO];
+         
+         // Return response to block
+         else if (block)
+         {
+             block(nil, error);
+         }
+         
+         PreyLogMessage(@"PreyRestHttp", 10,@"Error profile.json: %@",error);
+     }];
+}
+
 
 + (void)checkTransaction:(NSInteger)reload withString:(NSString *)receiptData withBlock:(void (^)(NSHTTPURLResponse *response, NSError *error))block
 {
@@ -67,7 +111,7 @@
                                     parameters:nil
                                        success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",responseObject);
+         //PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",responseObject);
          
          if (responseObject != nil)
          {

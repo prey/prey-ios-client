@@ -7,7 +7,7 @@
 //
 
 
-#define kSubscription1Year  @"1year_personal_plan_non_renewing"
+#define kSubscription1Year  @"1year_personal_plan_non_renewing_full"
 
 
 #ifndef NDEBUG

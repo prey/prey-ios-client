@@ -9,14 +9,9 @@
 #import "DeviceMapController.h"
 #import "PreyAppDelegate.h"
 
-@interface DeviceMapController()
-@property (nonatomic) BOOL canUpdateUserLoc;
-@end
-
 @implementation DeviceMapController
 
 @synthesize mapa, canUpdateUserLoc, MANG;
-
 
 - (void)viewDidLoad
 {
@@ -50,17 +45,7 @@
     HUD.labelText = NSLocalizedString(@"Please wait",nil);
 }
 
-- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
-    if(!canUpdateUserLoc) return;
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 200, 200);
-    @try {
-        [mapa setRegion:region animated:YES];
-    } @catch (NSException *e) {
-        //Strange exception happens sometimes. This blank catch solves it.
-    }
-}
-
--(void)goToUserLocation {
+- (void)goToUserLocation {
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(mapa.userLocation.coordinate, 200, 200);
     @try {
         [mapa setRegion:region animated:YES];
@@ -75,11 +60,25 @@
     [super viewDidUnload];
 }
 
+#pragma mark MKMapViewDelegate
+
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+    if(!canUpdateUserLoc) return;
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, 200, 200);
+    @try {
+        [mapa setRegion:region animated:YES];
+    } @catch (NSException *e) {
+        //Strange exception happens sometimes. This blank catch solves it.
+    }
+}
+
 - (void)mapViewWillStartLoadingMap:(MKMapView *)mapView{
 }
+
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView{
     [MBProgressHUD hideHUDForView:self.view animated:NO];
 }
+
 - (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error{
     [MBProgressHUD hideHUDForView:self.view animated:NO];
     UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil)
@@ -88,6 +87,5 @@
                                            cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
     [alerta show];
 }
-
 
 @end

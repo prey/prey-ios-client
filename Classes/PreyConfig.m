@@ -71,7 +71,7 @@ static NSString *const TOUR_WEB=@"tour_web";
     return instance;
 }
 
-+ (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device
++ (PreyConfig*)initWithUser:(User*)user andDevice:(Device*)device
 {
 	PreyConfig *newConfig = [PreyConfig instance];
     newConfig.controlPanelHost = DEFAULT_CONTROL_PANEL_HOST;
@@ -85,15 +85,15 @@ static NSString *const TOUR_WEB=@"tour_web";
 	newConfig.deviceKey = [device deviceKey];
 	newConfig.email = [user email];
 	[newConfig loadDefaultValues];
-    [newConfig saveValues];
     newConfig.alreadyRegistered = YES;
+    [newConfig saveValues];
 
     return newConfig;
 }
 
-+ (PreyConfig*) initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device
++ (PreyConfig*)initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device
 {
-	PreyConfig *newConfig = [PreyConfig instance];;
+	PreyConfig *newConfig = [PreyConfig instance];
     newConfig.controlPanelHost = DEFAULT_CONTROL_PANEL_HOST;
     newConfig.checkPath = DEFAULT_CHECK_PATH;
     newConfig.sendCrashReports = DEFAULT_SEND_CRASH_REPORTS;
@@ -105,27 +105,28 @@ static NSString *const TOUR_WEB=@"tour_web";
 	newConfig.deviceKey = [device deviceKey];
 	newConfig.email = apiKeyUser;
 	[newConfig loadDefaultValues];
-    [newConfig saveValues];
     newConfig.alreadyRegistered = YES;
+    [newConfig saveValues];
     
 	return newConfig;
 }
 
 
-- (void) loadDefaultValues {
+- (void)loadDefaultValues {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	double accSet = [defaults doubleForKey:ACCURACY];
 	self.desiredAccuracy = accSet != 0 ? accSet : kCLLocationAccuracyHundredMeters;
 	int delaySet = (int)[defaults integerForKey:DELAY];
 	self.delay = delaySet > 0 ? delaySet : 20*60;
-	self.alreadyRegistered =[defaults boolForKey:ALREADY_REGISTERED];
+	self.alreadyRegistered = [defaults boolForKey:ALREADY_REGISTERED];
+    self.isTouchIDEnabled  = [defaults boolForKey:TOUCH_ID];
 	self.alertOnReport = [defaults boolForKey:ALERT_ON_REPORT];
 	self.missing = NO;
     self.askForPassword = YES;
     
 }
 
-- (void) saveValues
+- (void)saveValues
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[self controlPanelHost] forKey:CONTROL_PANEL_HOST];
@@ -138,7 +139,7 @@ static NSString *const TOUR_WEB=@"tour_web";
 	[defaults setObject:[self deviceKey] forKey:DEVICE_KEY];
 	[defaults setObject:[self email] forKey:EMAIL];
     [defaults setBool:[self isPro] forKey:PRO_ACCOUNT];
-	[defaults setBool:YES forKey:ALREADY_REGISTERED];
+	[defaults setBool:[self alreadyRegistered] forKey:ALREADY_REGISTERED];
     [defaults setDouble:[self desiredAccuracy] forKey:ACCURACY];
 	[defaults setInteger:[self delay] forKey:DELAY];
     [defaults setBool:[self askForPassword] forKey:ASK_FOR_PASSWORD];

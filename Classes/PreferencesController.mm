@@ -15,7 +15,6 @@
 #import "DeviceMapController.h"
 #import "AppStoreViewController.h"
 #import "Constants.h"
-#import <Social/Social.h>
 #import "GAI.h"
 #import "GAIDictionaryBuilder.h"
 #import "GAIFields.h"
@@ -25,12 +24,16 @@
 #import "UIDevice-Reachability.h"
 #import "OnboardingView.h"
 #import <LocalAuthentication/LocalAuthentication.h>
+#import "PreyCoreData.h"
+#import "GeofenceMapController.h"
+#import "PreyItems.h"
 
 @interface UIActionSheet(DismissAlert)
 - (void)hide;
 @end
 
 @implementation UIActionSheet(DismissAlert)
+
 - (void)hide{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIApplicationDidEnterBackgroundNotification" object:nil];
@@ -49,85 +52,62 @@
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 3;
+    return PreyPreferencesSectionNumberToDataSourceDelegate;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    int numberRow = 2;
+    
+    NSInteger numberRows;
+    
 	switch (section)
     {
-        case 0:
-            if (![[PreyConfig instance] isPro])
-                numberRow++;
+            // === INFORMATION ===
+        case PreyPreferencesSectionInformation:
+            numberRows = PreyPreferencesSectionInformationNumberToDataSourceDelegate;
             
-            if ([self isSocialFrameworkAvailable])
-                numberRow+=2;
+            if ([[PreyConfig instance] isPro])
+                numberRows--;
             
-            return numberRow;
+            if (![self isSocialFrameworkAvailable])
+                numberRows-=2;
+            
             break;
-		case 1:
-            return [self isTouchIDAvailable] ? 3 : 2;
+            
+            // === SETTINGS ===
+		case PreyPreferencesSectionSettings:
+            numberRows = PreyPreferencesSectionSettingsNumberToDataSourceDelegate;
+            
+            if (![self isTouchIDAvailable])
+                numberRows--;
+            
 			break;
-		case 2:
-			return 4;
-			break;
-        default:
-            return 1;
+
+            // === ABOUT ===
+        case PreyPreferencesSectionAbout:
+            numberRows = PreyPreferencesSectionAboutNumberToDataSourceDelegate;
+            
 			break;
 	}
     
+    return numberRows;
 }
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
-    if (IS_OS_7_OR_LATER)
-    {
-        if (section == 0)
-            return 35;
-        else
-            return nil;
-    }
-    else
-        return -1;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (IS_OS_7_OR_LATER)
-        return nil;
-    else
-        return -1;
-}
-
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
+    NSString *titleSection;
+    
     switch (section) {
-        case 0:
-            return NSLocalizedString(@"Information",nil);;
+        case PreyPreferencesSectionInformation:
+            titleSection = NSLocalizedString(@"Information",nil);;
             break;
-        case 1:
-			return NSLocalizedString(@"Settings",nil);
+        case PreyPreferencesSectionSettings:
+			titleSection = NSLocalizedString(@"Settings",nil);
 			break;
-		case 2:
-			return NSLocalizedString(@"About",nil);
+		case PreyPreferencesSectionAbout:
+			titleSection = NSLocalizedString(@"About",nil);
 			break;
 	}
-	return nil;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
-{
-    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-    
-    if (IS_IPAD)
-        [header.textLabel  setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:17]];
-    else
-        [header.textLabel  setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:12]];
-    
-    [header.textLabel  setTextColor:[UIColor colorWithRed:(72/255.f) green:(84/255.f) blue:(102/255.f) alpha:.3]];
+	return titleSection;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -142,8 +122,8 @@
         
         if (IS_IPAD)
         {
-            [cell.textLabel  setFont:[UIFont fontWithName:@"OpenSans" size:20]];
-            [cell.detailTextLabel setFont:[UIFont fontWithName:@"OpenSans" size:20]];
+            [cell.textLabel  setFont:[UIFont fontWithName:@"OpenSans" size:16]];
+            [cell.detailTextLabel setFont:[UIFont fontWithName:@"OpenSans" size:16]];
         }
         else
         {
@@ -157,75 +137,140 @@
     
     PreyConfig *config = [PreyConfig instance];
     switch ([indexPath section]) {
-        case 0:
-            if ([indexPath row] == 0) {
-                cell.textLabel.text = NSLocalizedString(@"Current Location",nil);
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
-            else if ([indexPath row] == 1) {
-                cell.textLabel.text = NSLocalizedString(@"Recovery Stories",nil);
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
-            else if ([indexPath row] == 2) {
-                cell.textLabel.text = NSLocalizedString(@"Share on Facebook",nil);
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
-            else if ([indexPath row] == 3) {
-                cell.textLabel.text = NSLocalizedString(@"Share on Twitter",nil);
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
-            else if ([indexPath row] == 4) {
-                cell.textLabel.text = NSLocalizedString(@"Upgrade to Pro",nil);
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
-            break;
-		case 1:
+        
+            // === INFORMATION ===
+        
+        case PreyPreferencesSectionInformation:
             
-            if ([indexPath row] == 0) {
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+
+            // Current Location
+            if (indexPath.row == PreyPreferencesSectionInformationCurrentLocation) {
+                cell.textLabel.text = NSLocalizedString(@"Current Location",nil);
+                cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
+            }
+
+            // Geofence
+            else if (indexPath.row == PreyPreferencesSectionInformationGeofence) {
+                
+                NSString *fontLabel = @"OpenSans-Bold";
+                CGFloat  fontSize   = (IS_IPAD) ? 16.0f : 14.0f;
+                [cell.textLabel setFont:[UIFont fontWithName:fontLabel size:fontSize]];
+                
+                UILabel *accessoryLbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 30)];
+                [accessoryLbl setBackgroundColor:[UIColor colorWithRed:(209.0f/255.0f) green:(157.0f/255.0f) blue:(35.0f/255.0f) alpha:1.0f]];
+                [accessoryLbl setText:NSLocalizedString(@"New",nil)];
+                [accessoryLbl setTextAlignment:NSTextAlignmentCenter];
+                [accessoryLbl setFont:[UIFont fontWithName:fontLabel size:fontSize]];
+                cell.accessoryView = accessoryLbl;
+                
+                [self shakeAnimation:accessoryLbl];
+                
+                cell.textLabel.text = NSLocalizedString(@"Your Geofences",nil);
+                cell.accessoryType  = UITableViewCellAccessoryNone;
+            }
+
+            // Recovery Stories
+            else if (indexPath.row == PreyPreferencesSectionInformationRecoveryStories) {
+                cell.textLabel.text = NSLocalizedString(@"Recovery Stories",nil);
+                cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
+            }
+            
+            // Share on Facebook
+            else if (indexPath.row == PreyPreferencesSectionInformationShareOnFacebook) {
+                cell.textLabel.text = NSLocalizedString(@"Share on Facebook",nil);
+                cell.accessoryType  = UITableViewCellAccessoryNone;
+            }
+            
+            // Share on Twitter
+            else if (indexPath.row == PreyPreferencesSectionInformationShareOnTwitter) {
+                cell.textLabel.text = NSLocalizedString(@"Share on Twitter",nil);
+                cell.accessoryType  = UITableViewCellAccessoryNone;
+            }
+            
+            // Upgrade to Pro
+            else if (indexPath.row == PreyPreferencesSectionInformationUpgradeToPro) {
+                cell.textLabel.text = NSLocalizedString(@"Upgrade to Pro",nil);
+                cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
+            }
+            
+            break;
+            
+            
+            // === SETTINGS ===
+            
+		case PreyPreferencesSectionSettings:
+            
+            // Camouflage
+            if (indexPath.row == PreyPreferencesSectionSettingsCamouglafeMode) {
                 UISwitch *camouflageMode = [[UISwitch alloc]init];
-                cell.textLabel.text = NSLocalizedString(@"Camouflage mode",nil);
+                cell.textLabel.text      = NSLocalizedString(@"Camouflage mode",nil);
                 [camouflageMode addTarget: self action: @selector(camouflageModeState:) forControlEvents:UIControlEventValueChanged];
                 [camouflageMode setOn:config.camouflageMode];
-                cell.accessoryView = camouflageMode;
+                cell.accessoryView       = camouflageMode;
             }
-            else if ([indexPath row] == 1) {
+            
+            // Detach Device
+            else if (indexPath.row == PreyPreferencesSectionSettingsDetachDevice) {
 				cell.textLabel.text = NSLocalizedString(@"Detach device",nil);
-				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				cell.accessoryType  = UITableViewCellAccessoryNone;
 				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-                cell.accessoryView = nil;
+                cell.accessoryView  = nil;
             }
-            else if ([indexPath row] == 2) {
+            
+            // Touch ID
+            else if (indexPath.row == PreyPreferencesSectionSettingsTouchID) {
                 UISwitch *touchIDMode = [[UISwitch alloc]init];
-                cell.textLabel.text = NSLocalizedString(@"Touch ID",nil);
+                cell.textLabel.text   = NSLocalizedString(@"Touch ID",nil);
                 [touchIDMode addTarget: self action: @selector(touchIDModeState:) forControlEvents:UIControlEventValueChanged];
                 [touchIDMode setOn:config.isTouchIDEnabled];
-                cell.accessoryView = touchIDMode;
+                cell.accessoryView    = touchIDMode;
             }
 
 			break;
-		case 2:
+            
+            
+            // === ABOUT ===
+            
+		case PreyPreferencesSectionAbout:
+            
             cell.detailTextLabel.text = @"";
-            if (cell.accessoryView) {
+            
+            if (cell.accessoryView)
                 [cell.accessoryView removeFromSuperview];
-            }
+            
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.accessoryView = nil;
-			if (indexPath.row == 0) {
-                cell.detailTextLabel.text = [Constants appVersion];
-                cell.textLabel.text = NSLocalizedString(@"Version",nil);
-            } else if (indexPath.row == 2) {
-                cell.textLabel.text = NSLocalizedString(@"Terms of Service", nil);
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            } else if (indexPath.row == 3) {
-                cell.textLabel.text = NSLocalizedString(@"Privacy Policy", nil);
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            } else if (indexPath.row == 1) {
-                cell.textLabel.text = NSLocalizedString(@"Help", nil);
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            
+            // Version
+			if (indexPath.row == PreyPreferencesSectionAboutVersion) {
+                cell.detailTextLabel.text   = [Constants appVersion];
+                cell.textLabel.text         = NSLocalizedString(@"Version",nil);
             }
+            
+            // Help
+            else if (indexPath.row == PreyPreferencesSectionAboutHelp) {
+                cell.textLabel.text = NSLocalizedString(@"Help", nil);
+                cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
+                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            }
+
+            // Term of Service
+            else if (indexPath.row == PreyPreferencesSectionAboutTermService) {
+                cell.textLabel.text = NSLocalizedString(@"Terms of Service", nil);
+                cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
+				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            }
+            
+            // Privacy Policy
+            else if (indexPath.row == PreyPreferencesSectionAboutPrivacyPolicy) {
+                cell.textLabel.text = NSLocalizedString(@"Privacy Policy", nil);
+                cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
+				cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            }
+            
 			break;
-        default:
-            break;
 	}
     
     return cell;
@@ -234,108 +279,98 @@
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-	switch ([indexPath section]) {
-        case 0:
-            if ([indexPath row] == 0)
-            {
-                DeviceMapController *deviceMapController = [[DeviceMapController alloc] init];
-                [self.navigationController pushViewController:deviceMapController animated:YES];
-            }
-            else if ([indexPath row] == 1) {
-                
-                if ([[UIDevice currentDevice] networkAvailable])
-                {
-                    RecoveriesViewController *recoveriesController = [[RecoveriesViewController alloc] init];
-                    recoveriesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-                    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
-                    [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
-                    [appDelegate.viewController pushViewController:recoveriesController animated:YES];
-                }
-                else
-                {
-                    UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
-                                                                     message:NSLocalizedString(@"The internet connection appears to be offline",nil)
-                                                                    delegate:nil
-                                                           cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
-                    [alerta show];
-                }
-            }
-            else if ([indexPath row] == 2) {
-                [self postToSocialFramework:SLServiceTypeFacebook];
-            }
-            else if ([indexPath row] == 3) {
-                [self postToSocialFramework:SLServiceTypeTwitter];
-            }
-            else if ([indexPath row] == 4)
-            {
-                AppStoreViewController *viewController;
-               
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-                {
-                    if (IS_IPHONE5)
-                        viewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone-568h" bundle:nil];
-                    else
-                        viewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone" bundle:nil];
-                }
-                else
-                    viewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPad" bundle:nil];
+    if (IS_OS_7_OR_LATER)
+    {
+        if (section == 0)
+            return 35;
+        else
+            return nil;
+    }
+    else
+        return -1;
+}
 
-                
-                [self.navigationController pushViewController:viewController animated:YES];
-            }
-            break;
-		case 1:
-            if ([indexPath row] == 1){
-				UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil)
-                                                                         delegate:self
-                                                                cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil)
-                                                           destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil)
-                                                                otherButtonTitles:nil];
-                if (IS_IPAD)
-                    [actionSheet addButtonWithTitle:NSLocalizedString(@"No, don't delete",nil)];
-                
-                actionSheet.tag = kDetachAction;
-				[actionSheet showInView:self.view];
-                
-                [[NSNotificationCenter defaultCenter] addObserver:actionSheet
-                                                         selector:@selector(hide)
-                                                             name:@"UIApplicationDidEnterBackgroundNotification"
-                                                           object:nil];
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (IS_OS_7_OR_LATER)
+        return nil;
+    else
+        return -1;
+}
 
-			}
-			break;
-		case 2:
-            if (indexPath.row != 0) {
-                
-                UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-                HUD = [MBProgressHUD showHUDAddedTo:webView animated:YES];
-                HUD.labelText = NSLocalizedString(@"Please wait",nil);
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    CGFloat sizeFontSection             = (IS_IPAD) ? 14.0f : 12.0f;
+    header.textLabel.font               = [UIFont fontWithName:@"OpenSans-Semibold" size:sizeFontSection];
+    
+    [header.textLabel  setTextColor:[UIColor colorWithRed:(72/255.f) green:(84/255.f) blue:(102/255.f) alpha:.3]];
+}
 
-                UIViewController *moo = [[UIViewController alloc] init];
-                moo.view = webView;
-                NSURLRequest *req = nil;
-                if (indexPath.row == 2) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL_TERMS_PREY]];
-                    moo.title = NSLocalizedString(@"Terms of Service", nil);
-                } else if (indexPath.row == 3) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL_PRIVACY_PREY]];
-                    moo.title = NSLocalizedString(@"Privacy Policy", nil);
-                } else if (indexPath.row == 1) {
-                    req = [NSURLRequest requestWithURL:[NSURL URLWithString:URL_HELP_PREY]];
-                    moo.title = NSLocalizedString(@"Help", nil);
-                }
-                [webView setDelegate:self];
-                [webView loadRequest:req];
-                [webView setScalesPageToFit:YES];
-                [self.navigationController pushViewController:moo animated:YES];
-            }
-			break;
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section)
+    {
+            // === INFORMATION ===
+        case PreyPreferencesSectionInformation:
             
-		default:
-			break;
-	}
+            // Current Location
+            if (indexPath.row == PreyPreferencesSectionInformationCurrentLocation)
+                [self showDeviceMapController];
+            
+            // Geofence
+            else if (indexPath.row == PreyPreferencesSectionInformationGeofence)
+                [self showGeofenceMapVC];
+            
+            // Recovery Stories
+            else if (indexPath.row == PreyPreferencesSectionInformationRecoveryStories)
+                [self showRecoveriesController];
+            
+            // Share on Facebook
+            else if (indexPath.row == PreyPreferencesSectionInformationShareOnFacebook)
+                [self postToSocialFramework:SLServiceTypeFacebook];
+            
+            // Share on Twitter
+            else if (indexPath.row == PreyPreferencesSectionInformationShareOnTwitter)
+                [self postToSocialFramework:SLServiceTypeTwitter];
+            
+            // Upgrade To Pro
+            else if (indexPath.row == PreyPreferencesSectionInformationUpgradeToPro)
+                [self showAppStoreVC:NO];
+            
+            break;
+            
+            
+            // === SETTINGS ===
+        case PreyPreferencesSectionSettings:
+            
+            // Detach Device
+            if (indexPath.row == PreyPreferencesSectionSettingsDetachDevice)
+                [self showDetachDeviceAction];
+            
+            break;
+            
+            
+            // === ABOUT ===
+        case PreyPreferencesSectionAbout:
+            
+            // Help
+            if (indexPath.row == PreyPreferencesSectionAboutHelp)
+                [self showWebController:URL_HELP_PREY withTitle:NSLocalizedString(@"Help", nil)];
+            
+            // Term of Service
+            else if (indexPath.row == PreyPreferencesSectionAboutTermService)
+                [self showWebController:URL_TERMS_PREY withTitle:NSLocalizedString(@"Terms of Service", nil)];
+            
+            // Privacy Policy
+            else if (indexPath.row == PreyPreferencesSectionAboutPrivacyPolicy)
+                [self showWebController:URL_PRIVACY_PREY withTitle:NSLocalizedString(@"Privacy Policy", nil)];
+            
+            break;
+    }
 }
 
 #pragma mark -
@@ -343,10 +378,12 @@
 
 - (IBAction)camouflageModeState:(UISwitch*)camouflageModeSwitch{
     [[PreyConfig instance] setCamouflageMode:camouflageModeSwitch.on];
+    [[PreyConfig instance] saveValues];
 }
 
 - (IBAction)touchIDModeState:(UISwitch*)touchIDModeSwitch{
     [[PreyConfig instance] setIsTouchIDEnabled:touchIDModeSwitch.on];
+    [[PreyConfig instance] saveValues];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -363,7 +400,106 @@
 	}
 }
 
-- (void) detachDevice
+- (void)showAppStoreVC:(BOOL)isGeofencing
+{
+    AppStoreViewController *viewController;
+    
+    if (IS_IPAD)
+        viewController = [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPad" bundle:nil];
+    else
+        viewController = (IS_IPHONE5) ? [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone-568h" bundle:nil] :
+                                        [[AppStoreViewController alloc] initWithNibName:@"AppStoreViewController-iPhone" bundle:nil];
+
+    viewController.isGeofencingView = isGeofencing;
+    
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)showGeofenceMapVC
+{
+    if ([[PreyCoreData instance] isGeofenceActive])
+    {
+        GeofenceMapController *geofenceMapController = [[GeofenceMapController alloc] init];
+        [self.navigationController pushViewController:geofenceMapController animated:YES];
+    }
+    else if ([[PreyConfig instance] isPro])
+    {
+        UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
+                                                         message:NSLocalizedString(@"You don't have geofences",nil)
+                                                        delegate:nil
+                                               cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+        [alerta show];
+    }
+    else
+        [self showAppStoreVC:YES];
+}
+
+- (void)showDeviceMapController
+{
+    DeviceMapController *deviceMapController = [[DeviceMapController alloc] init];
+    [self.navigationController pushViewController:deviceMapController animated:YES];
+}
+
+- (void)showRecoveriesController
+{
+    if ([[UIDevice currentDevice] networkAvailable])
+    {
+        RecoveriesViewController *recoveriesController = [[RecoveriesViewController alloc] init];
+        recoveriesController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        [appDelegate.viewController setNavigationBarHidden:NO animated:NO];
+        [appDelegate.viewController pushViewController:recoveriesController animated:YES];
+    }
+    else
+    {
+        UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
+                                                         message:NSLocalizedString(@"The internet connection appears to be offline",nil)
+                                                        delegate:nil
+                                               cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
+        [alerta show];
+    }
+}
+
+- (void)showDetachDeviceAction
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"You're about to delete this device from the Control Panel.\n Are you sure?",nil)
+                                                             delegate:self
+                                                    cancelButtonTitle:NSLocalizedString(@"No, don't delete",nil)
+                                               destructiveButtonTitle:NSLocalizedString(@"Yes, remove from my account",nil)
+                                                    otherButtonTitles:nil];
+    if (IS_IPAD)
+        [actionSheet addButtonWithTitle:NSLocalizedString(@"No, don't delete",nil)];
+    
+    actionSheet.tag = kDetachAction;
+    [actionSheet showInView:self.view];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:actionSheet
+                                             selector:@selector(hide)
+                                                 name:@"UIApplicationDidEnterBackgroundNotification"
+                                               object:nil];
+}
+
+- (void)showWebController:(NSString*)url withTitle:(NSString*)titleTxt
+{
+    UIWebView *webView      = [[UIWebView alloc] initWithFrame:CGRectZero];
+    HUD                     = [MBProgressHUD showHUDAddedTo:webView animated:YES];
+    HUD.labelText           = NSLocalizedString(@"Please wait",nil);
+    
+    UIViewController *vc    = [[UIViewController alloc] init];
+    vc.view                 = webView;
+    
+    NSURLRequest *req       = nil;
+    req                     = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    vc.title                = titleTxt;
+    
+    [webView setDelegate:self];
+    [webView loadRequest:req];
+    [webView setScalesPageToFit:YES];
+    
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)detachDevice
 {
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
@@ -381,17 +517,12 @@
              
              UIViewController *onboardingVC;
              
-             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-             {
-                 if (IS_IPHONE5)
-                     onboardingVC = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone-568h" bundle:nil];
-                 else
-                     onboardingVC = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone" bundle:nil];
-             }
-             else
+             if (IS_IPAD)
                  onboardingVC = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPad" bundle:nil];
-
-                            
+             else
+                 onboardingVC = (IS_IPHONE5) ? [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone-568h" bundle:nil] :
+                                               [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone" bundle:nil];
+             
              tableViewInfo.delegate   = nil;
              tableViewInfo.dataSource = nil;
              tableViewInfo = nil;
@@ -403,7 +534,17 @@
      }];
 }
 
-#pragma mark - 
+- (void)shakeAnimation:(UILabel*)label
+{
+    CABasicAnimation* shake = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    shake.fromValue         = [NSNumber numberWithFloat:-0.1];
+    shake.toValue           = [NSNumber numberWithFloat:+0.1];
+    shake.duration          = 0.08;
+    shake.autoreverses      = YES;
+    shake.repeatCount       = 5;
+    [label.layer addAnimation:shake forKey:@"buttonShake"];
+}
+
 #pragma mark Touch ID
 
 - (BOOL)isTouchIDAvailable
@@ -442,20 +583,15 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     // TableView Config
-    CGRect frameTable;
-    if (IS_IPAD)
-        frameTable = CGRectMake(149, 0, 470, 1000);
-    else
-        frameTable = self.view.frame;
+    CGRect frameTable = (IS_IPAD) ? CGRectMake(0,44, 250, 980) : self.view.frame;
     
     tableViewInfo = [[UITableView alloc] initWithFrame:frameTable style:UITableViewStyleGrouped];
     [tableViewInfo setBackgroundView:nil];
     [tableViewInfo setBackgroundColor:[UIColor whiteColor]];
     [tableViewInfo setSeparatorColor:[UIColor colorWithRed:(240/255.f) green:(243/255.f) blue:(247/255.f) alpha:1]];
-    tableViewInfo.rowHeight  = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) ? 44 : 72.5;
+    tableViewInfo.rowHeight  = (IS_IPAD) ? 65 : 44;
     tableViewInfo.delegate   = self;
     tableViewInfo.dataSource = self;
-    if (IS_IPAD) tableViewInfo.scrollEnabled = NO;
     [self.view addSubview:tableViewInfo];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData:) name:@"proUpdated" object:nil];
@@ -488,6 +624,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    if (!IS_IPAD) {
+        NSIndexPath *indexPath = [tableViewInfo indexPathForSelectedRow];
+        [tableViewInfo deselectRowAtIndexPath:indexPath animated:YES];
+    }
     
     if (IS_OS_7_OR_LATER)
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
@@ -607,6 +748,9 @@
     UIAlertView * anAlert = [[UIAlertView alloc] initWithTitle:titleMessage message: alertMessage delegate:self cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil];
     
     [anAlert show];
+    
+    NSIndexPath *indexPath = [tableViewInfo indexPathForSelectedRow];
+    [tableViewInfo deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 

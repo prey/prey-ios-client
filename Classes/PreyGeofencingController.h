@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PreyGeofencingController : NSObject <CLLocationManagerDelegate> {
-}
+@interface PreyGeofencingController : NSObject <CLLocationManagerDelegate>
 
-+(PreyGeofencingController *) instance;
 @property (nonatomic) CLLocationManager *geofencingManager;
-- (void)addNewregion: (CLRegion *) region;
-- (void)removeRegion: (NSString *) id;
+
++ (PreyGeofencingController *)instance;
+- (void)addNewregion:(CLRegion *)region;
+- (void)removeRegion:(NSString *)id;
 
 @end
 

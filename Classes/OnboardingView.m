@@ -112,15 +112,16 @@
     [self configNewButton:startButton withText:NSLocalizedString(@"Get Rolling",nil) clearBackground:NO];
     startButton.tag = kTagButtonStart;
     [self.view addSubview:startButton];
-
     
-    // Prey Logo Image
+    
     tmpRect = (IS_IPAD) ? CGRectMake(284, 40, 200, 54) : CGRectMake(110, 10, 100, 27);
-    UIImageView *preyIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"prey-logo-txt-mono"]];
+    NSString *preyLogoImg = (IS_IPAD) ? @"prey-logo-txt-mono-ipad" : @"prey-logo-txt-mono";
+    UIImageView *preyIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:preyLogoImg]];
     preyIcon.frame = tmpRect;
     preyIcon.tag   = kTagImagePreyLogo;
     preyIcon.alpha = 0.0f;
-    [self.view addSubview:preyIcon];
+    //[self.view addSubview:preyIcon];
+    
 
     
     // Restaurant Background Image
@@ -130,7 +131,8 @@
     [self addBackgroundImage:[UIImage imageNamed:@"roomBg"] withTag:kTagImageRoomBg];
 
     // Police Background Image
-    [self addBackgroundImage:[UIImage imageNamed:@"policesBg"] withTag:kTagImagePoliceBg];
+    NSString *bgImg = (IS_IPAD) ? @"policesBg-ipad" : @"policesBg";
+    [self addBackgroundImage:[UIImage imageNamed:bgImg] withTag:kTagImagePoliceBg];
 
     // Room Girl Background Image
     [self addBackgroundImage:[UIImage imageNamed:@"roomGirl"] withTag:kTagImageRoomGirlBg];
@@ -150,10 +152,11 @@
 
     // Sign In Button
     tmpRect = (IS_IPAD) ? CGRectMake(259, 950, 250, 60) : CGRectMake(60, 535+posYiPhoneBtn, 200, 40);
+    CGFloat fontSize = (IS_IPAD) ? 16.0f : 12.0f;
     UIButton *signinButton = [[UIButton alloc] initWithFrame:tmpRect];
     [signinButton setTitle:NSLocalizedString(@"already have an account?",nil) forState:UIControlStateNormal];
     [signinButton setBackgroundColor:[UIColor clearColor]];
-    [[signinButton titleLabel] setFont:[UIFont boldSystemFontOfSize:12]];
+    [[signinButton titleLabel] setFont:[UIFont boldSystemFontOfSize:fontSize]];
     signinButton.tag = kTagButtonSignIN;
     signinButton.alpha = 0.0f;
     [signinButton addTarget:self action:@selector(callSignInView) forControlEvents:UIControlEventTouchUpInside];
@@ -163,7 +166,8 @@
     // Back Button
     tmpRect = (IS_IPAD) ? CGRectMake(40, 450, 36, 80) : CGRectMake(20, 250+posYiPhoneBtn, 18, 40);
     UIButton *backButton = [[UIButton alloc] initWithFrame:tmpRect];
-    [backButton setBackgroundImage:[UIImage imageNamed:@"arrowBack"] forState:UIControlStateNormal];
+    NSString *arrowImg = (IS_IPAD) ? @"arrowBack-ipad" : @"arrowBack";
+    [backButton setBackgroundImage:[UIImage imageNamed:arrowImg] forState:UIControlStateNormal];
     //[self configNewButton:backButton withText:@"Skip Tour" clearBackground:NO];
     backButton.tag = kTagButtonBack;
     backButton.alpha = 0.0f;
@@ -174,7 +178,8 @@
     // Next Button
     tmpRect = (IS_IPAD) ? CGRectMake(685, 450, 36, 80) : CGRectMake(276, 250+posYiPhoneBtn, 18, 40);
     UIButton *nextButton = [[UIButton alloc] initWithFrame:tmpRect];
-    [nextButton setBackgroundImage:[UIImage imageNamed:@"arrowNext"] forState:UIControlStateNormal];
+    arrowImg             = (IS_IPAD) ? @"arrowNext-ipad" : @"arrowNext";
+    [nextButton setBackgroundImage:[UIImage imageNamed:arrowImg] forState:UIControlStateNormal];
     //[self configNewButton:nextButton withText:@"next >" clearBackground:NO];
     nextButton.tag = kTagButtonNext;
     nextButton.alpha = 0.0f;
@@ -184,7 +189,11 @@
 
 - (void)addBackgroundImage:(UIImage*)image withTag:(NSInteger)tagImage
 {
-    tmpRect = (IS_IPAD) ? CGRectMake(0, 300, 768, 334) : CGRectMake(0, 150+posYiPhone, 320, 167);
+    if (tagImage == kTagImageRestBg)
+        tmpRect = (IS_IPAD) ? CGRectMake(768, 300, 768, 334) : CGRectMake(320, 150+posYiPhone, 320, 167);
+    else
+        tmpRect = (IS_IPAD) ? CGRectMake(0, 300, 768, 334) : CGRectMake(0, 150+posYiPhone, 320, 167);
+
     UIImageView *imageBg = [[UIImageView alloc] initWithImage:image];
     imageBg.frame = tmpRect;
     imageBg.tag   = tagImage;
@@ -213,9 +222,9 @@
         tmpButton.layer.borderWidth = 1;
         tmpButton.layer.cornerRadius = 3;
     }
-    
+    CGFloat fontSize = (IS_IPAD) ? 22.0f : 17.0f;
     [tmpButton setTitle:titleText forState:UIControlStateNormal];
-    [[tmpButton titleLabel] setFont:[UIFont boldSystemFontOfSize:17]];
+    [[tmpButton titleLabel] setFont:[UIFont boldSystemFontOfSize:fontSize]];
     [[tmpButton titleLabel] setShadowColor:[UIColor colorWithWhite:0 alpha:.4]];
     [[tmpButton titleLabel] setShadowOffset:CGSizeMake(0, 1)];
     
@@ -418,6 +427,115 @@
 
     
     [self.view endEditing:YES];
+    
+    if ( (scrollMoveX >= 0) && (scrollMoveX <= widthScreen))
+    {
+        OnboardingSubView *currentView0 = (OnboardingSubView*)[self.view viewWithTag:300];
+        
+        UIView *logoImageView = (UIView*)[self.view viewWithTag:kTagLogoImage];
+        UIImageView *logoText = (UIImageView*)[self.view viewWithTag:kTagLogoType];
+        
+        [currentView0 addSubview:logoImageView];
+        [currentView0 addSubview:logoText];
+
+        
+        UIImageView *restBg     = (UIImageView*)[self.view viewWithTag:kTagImageRestBg];
+        CGFloat     moveX       = widthScreen - scrollMoveX;
+        restBg.frame            = CGRectMake(moveX, restBg.frame.origin.y, restBg.frame.size.width, restBg.frame.size.height);
+
+        
+        [self animateLogoText:scrollMoveX];
+        [self animateLogoImage:scrollMoveX];
+    }
+}
+
+- (void)animateLogoImage:(CGFloat)scrollMoveX
+{
+    CGFloat tmp, moveX, moveY, moveWidth, moveHeight;
+    UIView *logoImageView = (UIView*)[self.view viewWithTag:kTagLogoImage];
+    logoImageView.hidden  = NO;
+    
+    if (IS_IPAD) {
+        // iPad
+        tmp = (1055.0f - 288.0f)/2.0f;
+        moveX = 288.0f + (tmp/384.0f)*scrollMoveX;
+
+        tmp = (42.0f - 265.0f)/2.0f;
+        moveY = 265.0f + (tmp/384.0f)*scrollMoveX;
+        
+        tmp = 122.5f - 192.0f;
+        moveWidth = 192.0f + (tmp/384.0f)*scrollMoveX;
+        
+        tmp = 112.0f - 172.0f;
+        moveHeight = 172.0f + (tmp/384.0f)*scrollMoveX;
+    }
+    else
+    {
+        // iPhone
+        tmp = (432.0f - 79.0f)/2.0f;
+        moveX = 79.0f + (tmp/160.0f)*scrollMoveX;
+        
+        tmp = (13.0f - 114.5f - posYiPhone)/2.0f;
+        moveY = 114.5f + (tmp/160.0f)*scrollMoveX + posYiPhone;
+        
+        tmp = 93.5f - 162.0f;
+        moveWidth = 162.0f + (tmp/160.0f)*scrollMoveX;
+        
+        tmp = 82.5f - 142.0f;
+        moveHeight = 142.0f + (tmp/160.0f)*scrollMoveX;
+    }
+    
+    logoImageView.frame = CGRectMake(moveX, moveY, moveWidth, moveHeight);
+}
+
+- (void)animateLogoText:(CGFloat)scrollMoveX
+{
+    CGFloat tmp, moveX, moveY, moveWidth, moveHeight;
+    UIImageView *logoText = (UIImageView*)[self.view viewWithTag:kTagLogoType];
+    logoText.hidden = NO;
+
+    if (IS_IPAD) {
+        // iPad
+        tmp = (1120.0f - 279.0f)/2.0f;
+        moveX = 279.0f + (tmp/384.0f)*scrollMoveX;
+        
+        moveY = 470.0f - (206.5f/384.0f)*scrollMoveX;
+        
+        tmp = 170.0f - 210.0f;
+        moveWidth = 210.0f + (tmp/384.0f)*scrollMoveX;
+        
+        tmp = 33.5f - 42.0f;
+        moveHeight = 42.0f + (tmp/384.0f)*scrollMoveX;
+    }
+    else
+    {
+        // iPhone
+        tmp = (465.0f - 72.5f)/2.0f;
+        moveX = 72.5f + (tmp/160.0f)*scrollMoveX;
+        
+        tmp = (18.0f - 285.5f - posYiPhone)/2.0f;
+        moveY = 285.5f + (tmp/160.0f)*scrollMoveX + posYiPhone;
+        
+        tmp = 118.5f - 175.0f;
+        moveWidth = 175.0f + (tmp/160.0f)*scrollMoveX;
+        
+        tmp = 23.5f - 35.0f;
+        moveHeight = 35.0f + (tmp/160.0f)*scrollMoveX;
+    }
+    
+    logoText.frame = CGRectMake(moveX, moveY, moveWidth, moveHeight);
+}
+
+- (void)animateMessageWithTag:(NSInteger)messageTag
+{
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn
+                     animations:^
+    {
+        UILabel *messageView = (UILabel*)[self.view viewWithTag:messageTag];
+        messageView.alpha    = 1.0f;
+    }
+                     completion:nil];
+
 }
 
 - (void)animatePage1:(CGFloat)scrollMoveX1
@@ -428,6 +546,27 @@
         
         OnboardingSubView *currentView2 = (OnboardingSubView*)[self.view viewWithTag:302];
         [currentView2 startAnimatePage2:posYiPhone];
+        
+        [self animateMessageWithTag:kTagMessage1];
+    }
+    
+    if (scrollMoveX1 > widthScreen*1)
+    {
+        UIView *logoImageView = (UIView*)[self.view viewWithTag:kTagLogoImage];
+        UIImageView *logoText = (UIImageView*)[self.view viewWithTag:kTagLogoType];
+
+        //NSLog(@"x:%f y:%f w:%f h:%f",logoText.frame.origin.x, logoText.frame.origin.y, logoText.frame.size.width, logoText.frame.size.height);
+        
+        CGFloat posX = (IS_IPAD) ? 287 : 112;
+        CGFloat posY = (IS_IPAD) ?  42 :  13;
+        logoImageView.frame = CGRectMake(posX, posY, logoImageView.frame.size.width, logoImageView.frame.size.height);
+
+        posX = (IS_IPAD) ? 352 : 145;
+        posY = (IS_IPAD) ?  57 :  18;
+        logoText.frame      = CGRectMake(posX, posY, logoText.frame.size.width, logoText.frame.size.height);
+        
+        [self.view addSubview:logoImageView];
+        [self.view addSubview:logoText];
     }
 }
 
@@ -436,6 +575,7 @@
     if (scrollMoveX == widthScreen*2)
     {
         [self.view endEditing:YES];
+        [self animateMessageWithTag:kTagMessage2];
     }
 }
 
@@ -460,6 +600,11 @@
         if (checkImage == nil)
             [currentView addElementsPage04:posYiPhone];
     }
+    
+    if (scrollMoveX == widthScreen*3)
+        [self animateMessageWithTag:kTagMessage3];
+    if (scrollMoveX == widthScreen*4)
+        [self animateMessageWithTag:kTagMessage4];
 }
 
 - (void)animatePage6:(CGFloat)scrollMoveX
@@ -484,6 +629,8 @@
             [currentView addElementsPage05:posYiPhone];
     }
     
+    if (scrollMoveX == widthScreen*5)
+        [self animateMessageWithTag:kTagMessage5];
 }
 
 - (void)animatePage7:(CGFloat)scrollMoveX
@@ -508,6 +655,8 @@
             [currentView addElementsPage06:posYiPhone];
     }
     
+    if (scrollMoveX == widthScreen*6)
+        [self animateMessageWithTag:kTagMessage6];
 }
 
 - (void)animatePage8:(CGFloat)scrollMoveX
@@ -532,6 +681,8 @@
             [currentView addElementsPage07:posYiPhone];
     }
     
+    if (scrollMoveX == widthScreen*7)
+        [self animateMessageWithTag:kTagMessage7];
 }
 
 
