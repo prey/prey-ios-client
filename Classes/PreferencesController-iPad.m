@@ -158,7 +158,6 @@
             appStoreViewController.view.frame = CGRectMake(0, 0, rightView.frame.size.width, rightView.frame.size.height);
         }
         
-#warning WIP change ACTION BUTTON
         appStoreViewController.isGeofencingView = YES;
         [appStoreViewController changeLanguageTextForGeofencing];
         

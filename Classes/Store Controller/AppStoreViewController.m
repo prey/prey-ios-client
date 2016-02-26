@@ -19,7 +19,7 @@
 
 @implementation AppStoreViewController
 
-@synthesize yearButton, iconPro, titleView, description, planName;
+@synthesize yearButton, iconPro, titleView, descriptionTxt, planName;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,8 +48,8 @@
 - (void)changeLanguageTextForUpgradePro
 {
     titleView.text   = NSLocalizedString(@"FULL PROTECTION FOR YOUR DEVICES", nil);
-    description.text = NSLocalizedString(@"100 reports per device \nUltra-fast frecuency for reports \nScan hardware for changes \nGeofencing for Home plans and over \nPriority support", nil);
-    planName.text    = NSLocalizedString(@"UPGRADE NOW", nil);
+    descriptionTxt.text = NSLocalizedString(@"100 reports per device \nUltra-fast frecuency for reports \nScan hardware for changes \nGeofencing for Home plans and over \nPriority support", nil);
+    planName.text    = NSLocalizedString(@"Personal Plan, 1 year", nil);
     
     [self changeTextYearButton];
 }
@@ -57,8 +57,8 @@
 - (void)changeLanguageTextForGeofencing
 {
     titleView.text   = NSLocalizedString(@"KEEP TRACK OF YOUR DEVICES WITH GEOFENCING", nil);
-    description.text = NSLocalizedString(@"Get our Home plan and use our Geofencing feature to get notifications whenever your devices leave or enter an area", nil);
-    planName.text    = NSLocalizedString(@"UPGRADE NOW", nil);
+    descriptionTxt.text = NSLocalizedString(@"Get our Home plan and use our Geofencing feature to get notifications whenever your devices leave or enter an area", nil);
+    planName.text    = NSLocalizedString(@"", nil);
     
     [self changeTextYearButtonToGeofencing];
 }
@@ -87,7 +87,7 @@
 
 - (void)changeTextYearButtonToGeofencing
 {
-    [yearButton setTitle:@"Buy" forState:UIControlStateNormal];
+    [yearButton setTitle:NSLocalizedString(@"Read More", nil) forState:UIControlStateNormal];
 
     [yearButton removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
     [yearButton addTarget:self action:@selector(goToPanelWeb) forControlEvents:UIControlEventTouchUpInside];
@@ -95,7 +95,11 @@
 
 - (void)goToPanelWeb
 {
-    NSLog(@"inside");
+    UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_GEOFENCE_POST];
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    if (controller)
+        [appDelegate.viewController presentViewController:controller animated:YES completion:NULL];
 }
 
 - (void)showCongratsPro

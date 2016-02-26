@@ -437,16 +437,13 @@
         PreyLogMessage(@"App Delegate", 10, @"Alert notification set. Good!");
     else
     {
-#warning TEST
         PreyLogMessage(@"App Delegate", 10, @"User has disabled alert notifications");
-        /*
         UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert notification disabled",nil)
                                                             message:NSLocalizedString(@"You need to grant Prey access to show alert notifications in order to remotely mark it as missing.",nil)
                                                            delegate:nil
                                                   cancelButtonTitle:NSLocalizedString(@"OK",nil)
                                                   otherButtonTitles:nil];
 		[alertView show];
-        */
     }
 
 }

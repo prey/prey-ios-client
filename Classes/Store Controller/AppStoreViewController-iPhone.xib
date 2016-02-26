@@ -19,7 +19,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AppStoreViewController">
             <connections>
-                <outlet property="description" destination="zMa-NC-pvS" id="vy4-lI-q6r"/>
+                <outlet property="descriptionTxt" destination="zMa-NC-pvS" id="k0G-Z5-JQo"/>
                 <outlet property="iconPro" destination="mWR-6d-k1x" id="WbX-Mo-Qqg"/>
                 <outlet property="planName" destination="uIO-da-Wkm" id="o20-c1-K6f"/>
                 <outlet property="titleView" destination="iKB-0K-gua" id="jwC-0F-fHs"/>

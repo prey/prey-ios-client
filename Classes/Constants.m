@@ -17,6 +17,8 @@ NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://solid.preyproject.com/ap
 NSString * const URL_LOGIN_PANEL  = @"https://panel.preyproject.com/login?embeddable=true";
 NSString * const URL_FORGOT_PANEL = @"https://panel.preyproject.com/forgot?embeddable=true";
 
+NSString * const URL_GEOFENCE_POST = @"https://preyproject.com/blog/2016/01/use-geofencing-to-actively-keep-track-of-your-devices";
+
 NSString * const URL_TERMS_PREY = @"http://www.preyproject.com/terms";
 NSString * const URL_PRIVACY_PREY = @"http://www.preyproject.com/privacy";
 NSString * const URL_HELP_PREY = @"http://www.preyproject.com/help";
