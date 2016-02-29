@@ -31,7 +31,14 @@ NSString * const DEFAULT_DATA_ENDPOINT_LOCATION = @"data_endpoint_location";
 
 BOOL  const ASK_FOR_LOGIN = YES;
 BOOL const	USE_CONTROL_PANEL_DELAY=YES; //use the preferences page's instead.
-BOOL const	SHOULD_LOG=YES;
+
+
+#ifndef NDEBUG
+BOOL const	SHOULD_LOG = YES;
+#else
+BOOL const	SHOULD_LOG = NO;
+#endif
+
 
 +(NSString *) appName {
     return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];

@@ -579,7 +579,9 @@
 {
     self.screenName = @"Preferences";
     
-    self.title = NSLocalizedString(@"Preferences", nil);
+    self.title = [[UIDevice currentDevice] name];    
+    //self.title = NSLocalizedString(@"Preferences", nil);
+
     self.view.backgroundColor = [UIColor whiteColor];
     
     // TableView Config

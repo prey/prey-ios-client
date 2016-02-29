@@ -305,30 +305,22 @@
     {
 		if (config.askForPassword)
         {
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            {
-                if (IS_IPHONE5)
-                    nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil];
-                else
-                    nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
-            }
-            else
+            if (IS_IPAD)
                 nextController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
+            else
+                nextController = (IS_IPHONE5) ? [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil] :
+                                                [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
         }
     }
     else
     {
         [PreyDeployment runPreyDeployment];
 
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {
-            if (IS_IPHONE5)
-                nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone-568h" bundle:nil];
-            else
-                nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone" bundle:nil];
-        }
-        else
+        if (IS_IPAD)
             nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPad" bundle:nil];
+        else
+            nextController = (IS_IPHONE5) ? [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone-568h" bundle:nil] :
+                                            [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPhone" bundle:nil];
     }
     
 	viewController = [[UINavigationController alloc] initWithRootViewController:nextController];
@@ -336,42 +328,32 @@
 	[viewController setNavigationBarHidden:YES animated:NO];
     
     
-    if ([viewController respondsToSelector:@selector(isBeingDismissed)])  // Supports iOS5 or later
+    UIFont *fontTitle, *fontItem;
+    UIColor *colorTitle = [UIColor colorWithRed:.3019f green:.3411f blue:.4f alpha:1];
+    UIColor *colorItem  = [UIColor colorWithRed:0 green:.5058f blue:.7607f alpha:1];
+    
+    CGFloat iTemFontSize  = (IS_IPAD) ? 18 : 12;
+    CGFloat titleFontSize = (IS_IPAD) ? 20 : 13;
+    
+    fontItem  = [UIFont fontWithName:@"OpenSans-Bold" size:iTemFontSize];
+    fontTitle = [UIFont fontWithName:@"OpenSans-Semibold" size:titleFontSize];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                          colorTitle, UITextAttributeTextColor,
+                                                          fontTitle,UITextAttributeFont,nil]];
+    
+    NSDictionary *barButtonAppearanceDict = @{UITextAttributeFont:fontItem, UITextAttributeTextColor:colorItem};
+    [[UIBarButtonItem appearance] setTitleTextAttributes:barButtonAppearanceDict forState:UIControlStateNormal];
+    
+    
+    if (IS_OS_7_OR_LATER)
     {
-        UIFont *fontTitle, *fontItem;
-        UIColor *colorTitle = [UIColor colorWithRed:.3019f green:.3411f blue:.4f alpha:1];
-        UIColor *colorItem  = [UIColor colorWithRed:0 green:.5058f blue:.7607f alpha:1];
-        
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {
-            fontItem = [UIFont fontWithName:@"OpenSans-Bold" size:12];
-            fontTitle = [UIFont fontWithName:@"OpenSans-Semibold" size:13];
-        }
-        else
-        {
-            fontItem = [UIFont fontWithName:@"OpenSans-Bold" size:18];
-            fontTitle = [UIFont fontWithName:@"OpenSans-Semibold" size:20];
-        }
-        
-        [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                              colorTitle, UITextAttributeTextColor,
-                                                              fontTitle,UITextAttributeFont,nil]];
-
-        NSDictionary *barButtonAppearanceDict = @{UITextAttributeFont:fontItem, UITextAttributeTextColor:colorItem};
-        [[UIBarButtonItem appearance] setTitleTextAttributes:barButtonAppearanceDict forState:UIControlStateNormal];
-        
-        
-        if (IS_OS_7_OR_LATER)
-        {
-            [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
-            // Back arrow color
-            [[UINavigationBar appearance] setTintColor:colorItem];
-        }
-        else
-        {
-            [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-        }
+        [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
+        // Back arrow color
+        [[UINavigationBar appearance] setTintColor:colorItem];
     }
+    else
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
     
     [window setRootViewController:viewController];
