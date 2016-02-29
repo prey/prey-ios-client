@@ -81,7 +81,7 @@
     [data setObject:action forKey:@"command"];
     [data setObject:reason forKey:@"reason"];
     
-    NSLog(@"info: %@", [data description]);
+    //NSLog(@"info: %@", [data description]);
     
     [[PreyRestHttp getClassVersion] sendJsonData:5 withData:data
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/response",[[PreyConfig instance] deviceKey]]

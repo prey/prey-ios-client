@@ -27,13 +27,6 @@
         instance = [[ReportModule alloc] init];
         instance.reportData = [[NSMutableDictionary alloc] init];
         PreyLogMessage(@"Report Module", 0,@"Registering ReportModule to receive location updates notifications");
-        
-        [[NSNotificationCenter defaultCenter] addObserver:instance
-                                                 selector:@selector(locationUpdated:)
-                                                     name:@"locationUpdated"
-                                                   object:nil];
-        
-        [[LocationController instance] startUpdatingLocation];
     });
     return instance;
 }
@@ -135,6 +128,11 @@
     
     if (waitForLocation) {
         PreyLogMessage(@"Report", 5, @"Have to wait for a location before send the report.");
+
+        [[LocationController instance] startUpdatingLocation];
+
+        [[NSNotificationCenter defaultCenter] removeObserver:[ReportModule instance] name:@"locationUpdated" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:[ReportModule instance] selector:@selector(locationUpdated:) name:@"locationUpdated" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"accuracyUpdated" object:nil];
     }
     

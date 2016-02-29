@@ -45,8 +45,13 @@
 }
 
 - (void)startUpdatingLocation {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"accuracyUpdated" object:nil];    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accuracyUpdated:) name:@"accuracyUpdated" object:nil];
 	[accurateLocationManager startUpdatingLocation];
+
+    if (IS_OS_9_OR_LATER)
+        [accurateLocationManager setAllowsBackgroundLocationUpdates:YES];
+    
     //[accurateLocationManager startMonitoringSignificantLocationChanges];
 	PreyLogMessage(@"Prey Location Controller", 5, @"Accurate location updating started.");
 }
@@ -63,12 +68,13 @@
            fromLocation:(CLLocation *)oldLocation
 {
 	PreyLogMessage(@"Prey Location Controller", 3, @"New location received[%@]: %@",[manager description], [newLocation description]);
-	NSDate* eventDate = newLocation.timestamp;
-    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-    if (fabs(howRecent) < 15.0)
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"locationUpdated" object:newLocation];
-	else
-		PreyLogMessage(@"Prey Location Controller", 10, @"Location received too old, discarded!");
+	//NSDate* eventDate = newLocation.timestamp;
+    //NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    //if (fabs(howRecent) < 15.0)
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"locationUpdated" object:newLocation];
+	//else
+	//	PreyLogMessage(@"Prey Location Controller", 10, @"Location received too old, discarded!");
 }
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -92,7 +98,7 @@
             break;
     }
     
-    [super notifyCommandResponse:@"get" withTarget:@"report" withStatus:@"failed" withReason:errorString];
+    //[super notifyCommandResponse:@"get" withTarget:@"report" withStatus:@"failed" withReason:errorString];
     
     PreyLogMessage(@"Prey LocationController", 0, @"Error getting location: %@", [error description]);
 }
