@@ -176,6 +176,9 @@ static NSString *const TOUR_WEB=@"tour_web";
     [defaults synchronize]; // this method is optional
     
     [[PreyConfig instance] setEmail:nil];
+    [[PreyConfig instance] setApiKey:nil];
+    [[PreyConfig instance] setDeviceKey:nil];
+    [[PreyConfig instance] setHideTourWeb:NO];
     [[PreyConfig instance] setAlreadyRegistered:NO];
 }
 

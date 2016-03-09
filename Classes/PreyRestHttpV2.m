@@ -105,7 +105,8 @@
 
 + (void)getCurrentControlPanelApiKey:(NSInteger)reload withUser:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block
 {
-    [[PreyStatusClientV2 sharedClient].requestSerializer setAuthorizationHeaderFieldWithUsername:[user email] password:[user password]];
+    NSString *username = ([PreyConfig instance].apiKey) ? [PreyConfig instance].apiKey : user.email;
+    [[PreyStatusClientV2 sharedClient].requestSerializer setAuthorizationHeaderFieldWithUsername:username password:[user password]];
     
     [[PreyStatusClientV2 sharedClient] GET:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/profile.json"]
                                     parameters:nil
