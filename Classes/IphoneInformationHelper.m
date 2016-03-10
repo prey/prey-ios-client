@@ -23,23 +23,13 @@
     dispatch_once(&onceToken, ^{
         instance = [[IphoneInformationHelper alloc] init];
         instance.name = [[UIDevice currentDevice] name];
-        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            instance.type = @"Tablet";
-        else
-            instance.type = @"Phone";
-        
+        instance.type = (IS_IPAD) ? @"Tablet" : @"Phone";
         instance.os = @"iOS";
         instance.vendor = @"Apple";
         instance.model = [self deviceModel];
         instance.version = [[UIDevice currentDevice] systemVersion];
         instance.macAddress = [[UIDevice currentDevice] macaddress] != NULL ? [[UIDevice currentDevice] macaddress] :@"";
-        
-        if (IS_OS_6_OR_LATER)
-            instance.uuid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-        else
-            instance.uuid = [IphoneInformationHelper deviceId];
-
+        instance.uuid = (IS_OS_6_OR_LATER) ? [[[UIDevice currentDevice] identifierForVendor] UUIDString] : [IphoneInformationHelper deviceId];
     });
     
     return instance;
@@ -93,8 +83,10 @@
       @"iPhone5,4":    @"iPhone 5c(GSM+CDMA)",
       @"iPhone6,1":    @"iPhone 5s(GSM)",
       @"iPhone6,2":    @"iPhone 5s(GSM+CDMA)",
-      @"iPhone7,2":    @"iPhone 6",
       @"iPhone7,1":    @"iPhone 6 Plus",
+      @"iPhone7,2":    @"iPhone 6",
+      @"iPhone8,1":    @"iPhone 6S",
+      @"iPhone8,2":    @"iPhone 6S Plus",
       
       @"iPad1,1":  @"iPad",
       @"iPad2,1":  @"iPad 2(WiFi)",
@@ -119,14 +111,19 @@
       @"iPad4,7":  @"iPad Mini 3(WiFi)",
       @"iPad4,8":  @"iPad Mini 3(WiFi+Cellular)",
       @"iPad4,9":  @"iPad Mini 3(WiFi+Cellular CN)",
+      @"iPad5,1":  @"iPad Mini 4(WiFi)",
+      @"iPad5,2":  @"iPad Mini 4(WiFi+Cellular)",
       @"iPad5,3":  @"iPad Air 2 (Wifi)",
       @"iPad5,4":  @"iPad Air 2 (Wifi+Cellular)",
+      @"iPad6,7":  @"iPad Pro (Wifi)",
+      @"iPad6,8":  @"iPad Pro (Wifi+Cellular)",
       
       @"iPod1,1":  @"iPod Touch 1G",
       @"iPod2,1":  @"iPod Touch 2G",
       @"iPod3,1":  @"iPod Touch 3G",
       @"iPod4,1":  @"iPod Touch 4G",
       @"iPod5,1":  @"iPod Touch 5G",
+      @"iPod7,1":  @"iPod Touch 6G",
       };
     
     NSString *deviceName = commonNamesDictionary[machineName];
