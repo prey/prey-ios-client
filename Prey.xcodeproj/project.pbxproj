@@ -16,7 +16,6 @@
 		071324101346343C00F7EFD8 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713240B1346343C00F7EFD8 /* Constants.m */; };
 		071324111346343C00F7EFD8 /* Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713240D1346343C00F7EFD8 /* Device.m */; };
 		071324151346346F00F7EFD8 /* IphoneInformationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324141346346F00F7EFD8 /* IphoneInformationHelper.m */; };
-		071324181346348400F7EFD8 /* FakeWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324171346348400F7EFD8 /* FakeWebView.m */; };
 		0713242F1346350100F7EFD8 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713242C1346350100F7EFD8 /* LocationController.m */; };
 		0713243B1346356300F7EFD8 /* PreyLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324381346356300F7EFD8 /* PreyLogger.m */; };
 		0713243F1346357500F7EFD8 /* SignificantLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243E1346357500F7EFD8 /* SignificantLocationController.m */; };
@@ -96,7 +95,6 @@
 		3B3CCB6C196B28820000F56C /* UIDevice-Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E1ABFD16A5FF2E00803187 /* UIDevice-Reachability.m */; };
 		3B3CCB6D196B28820000F56C /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A12AC146D74FC00B14176 /* UIDevice-Hardware.m */; };
 		3B3CCB6E196B28820000F56C /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD74798170F7EFB00F44E2C /* LoggerClient.m */; };
-		3B3CCB6F196B28820000F56C /* FakeWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 071324171346348400F7EFD8 /* FakeWebView.m */; };
 		3B3CCB70196B28820000F56C /* GrettingsProViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4E4B190AB96F0093ECA2 /* GrettingsProViewController.m */; };
 		3B3CCB72196B28820000F56C /* SignificantLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713243E1346357500F7EFD8 /* SignificantLocationController.m */; };
 		3B3CCB73196B28820000F56C /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0713242C1346350100F7EFD8 /* LocationController.m */; };
@@ -503,8 +501,6 @@
 		0713240D1346343C00F7EFD8 /* Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Device.m; path = Classes/Device.m; sourceTree = "<group>"; };
 		071324131346346F00F7EFD8 /* IphoneInformationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = IphoneInformationHelper.h; path = Classes/IphoneInformationHelper.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		071324141346346F00F7EFD8 /* IphoneInformationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = IphoneInformationHelper.m; path = Classes/IphoneInformationHelper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		071324161346348400F7EFD8 /* FakeWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = FakeWebView.h; path = Classes/FakeWebView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		071324171346348400F7EFD8 /* FakeWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = FakeWebView.m; path = Classes/FakeWebView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0713242B1346350100F7EFD8 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = LocationController.h; path = Classes/LocationController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0713242C1346350100F7EFD8 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = LocationController.m; path = Classes/LocationController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		071324371346356300F7EFD8 /* PreyLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PreyLogger.h; path = Classes/PreyLogger.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1049,7 +1045,6 @@
 				3BA73C641AA519C9002080CB /* Onboarding Controller */,
 				3B298F9A1C68D55000F9E7BE /* UserRegister Controller */,
 				3BE24A5B1ABB915100464C1D /* Recoveries Controller */,
-				3BD9FB82195C75EC0005FC57 /* FakeWebView Controller */,
 				3BAE4E47190AB96F0093ECA2 /* Store Controller */,
 				3B3B2FC91714B63C00BABCAE /* Location Controller */,
 				3BF862B31714ACDF00BA27F0 /* Photo Controller */,
@@ -1776,15 +1771,6 @@
 			path = "Resources/Onboarding 2";
 			sourceTree = "<group>";
 		};
-		3BD9FB82195C75EC0005FC57 /* FakeWebView Controller */ = {
-			isa = PBXGroup;
-			children = (
-				071324161346348400F7EFD8 /* FakeWebView.h */,
-				071324171346348400F7EFD8 /* FakeWebView.m */,
-			);
-			name = "FakeWebView Controller";
-			sourceTree = "<group>";
-		};
 		3BE24A5B1ABB915100464C1D /* Recoveries Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -2248,7 +2234,6 @@
 				3B6FEA6E1C1B214600790B30 /* SignUpVC.m in Sources */,
 				3BC582951B4ADD3A00636F6A /* DeviceAuth.m in Sources */,
 				3BCBF92E1C74B70700998290 /* GeofenceMapController.m in Sources */,
-				071324181346348400F7EFD8 /* FakeWebView.m in Sources */,
 				3BAE4E54190AB96F0093ECA2 /* GrettingsProViewController.m in Sources */,
 				3B7D4FAD1B4D67A400F000B1 /* PreyStoreProduct.m in Sources */,
 				3BD43E361C6CCECA008DDC18 /* GeofenceZones.m in Sources */,
@@ -2345,7 +2330,6 @@
 				3B3CCB6C196B28820000F56C /* UIDevice-Reachability.m in Sources */,
 				3B3CCB6D196B28820000F56C /* UIDevice-Hardware.m in Sources */,
 				3B3CCB6E196B28820000F56C /* LoggerClient.m in Sources */,
-				3B3CCB6F196B28820000F56C /* FakeWebView.m in Sources */,
 				3B3CCB70196B28820000F56C /* GrettingsProViewController.m in Sources */,
 				3B3CCB72196B28820000F56C /* SignificantLocationController.m in Sources */,
 				3BAA98771BB3546C00CB4125 /* PreyRestHttpV2.m in Sources */,
