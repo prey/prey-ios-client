@@ -29,7 +29,7 @@
 - (void)detachDevice
 {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
-        [[ReportModule instance] stopSendReport];
+        [[ReportModule instance] stop];
     
     [[PreyConfig instance] resetValues];
     

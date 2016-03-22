@@ -92,10 +92,10 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
         [self get];
     else
-        [self stopSendReport];
+        [self stop];
 }
 
-- (void)stopSendReport
+- (void)stop
 {
     [runReportTimer invalidate];
     runReportTimer = nil;

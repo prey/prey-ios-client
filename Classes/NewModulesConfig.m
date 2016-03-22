@@ -45,17 +45,17 @@
     
     PreyModule *module;
     
-	for (module in dataModules){
-        [module performSelectorOnMainThread:NSSelectorFromString(module.command) withObject:nil waitUntilDone:YES];
-        //[module performSelector:NSSelectorFromString(module.command)];
+	for (module in dataModules) {
+        if ([module respondsToSelector:NSSelectorFromString(module.command)])
+            [module performSelectorOnMainThread:NSSelectorFromString(module.command) withObject:nil waitUntilDone:YES];;
 	}
-    for (module in actionModules){
-        [module performSelectorOnMainThread:NSSelectorFromString(module.command) withObject:nil waitUntilDone:YES];
-        //[module performSelector:NSSelectorFromString(module.command)];
+    for (module in actionModules) {
+        if ([module respondsToSelector:NSSelectorFromString(module.command)])
+            [module performSelectorOnMainThread:NSSelectorFromString(module.command) withObject:nil waitUntilDone:YES];;
 	}
-    for (module in settingModules){
-        [module performSelectorOnMainThread:NSSelectorFromString(module.command) withObject:nil waitUntilDone:YES];
-        //[module performSelector:NSSelectorFromString(module.command)];
+    for (module in settingModules) {
+        if ([module respondsToSelector:NSSelectorFromString(module.command)])
+            [module performSelectorOnMainThread:NSSelectorFromString(module.command) withObject:nil waitUntilDone:YES];;
 	}
 }
 - (BOOL) checkAllModulesEmpty

@@ -29,6 +29,6 @@
 
 + (ReportModule *)instance;
 - (void)send;
-- (void)stopSendReport;
+- (void)stop;
 
 @end

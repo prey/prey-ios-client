@@ -284,7 +284,7 @@
          PreyLogMessage(@"PreyRestHttp", 21, @"DELETE device: %@ : %ld",responseObject, (long)[resp statusCode]);
          
          if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
-             [[ReportModule instance] stopSendReport];
+             [[ReportModule instance] stop];
          
          if (block)
              block(resp, nil);
@@ -465,7 +465,7 @@
          {
              if ([resp statusCode] == 409)
              {
-                 [[ReportModule instance] stopSendReport];
+                 [[ReportModule instance] stop];
                  [appDelegate checkedCompletionHandler];
              }
              
@@ -519,7 +519,7 @@
         {
             if ([resp statusCode] == 409)
             {
-                [[ReportModule instance] stopSendReport];
+                [[ReportModule instance] stop];
                 [appDelegate checkedCompletionHandler];
             }
             
