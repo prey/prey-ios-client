@@ -503,7 +503,7 @@
 {
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
-    HUD.labelText = NSLocalizedString(@"Detaching device ...",nil);
+    HUD.label.text = NSLocalizedString(@"Detaching device ...",nil);
 
     
     [[PreyRestHttp getClassVersion] deleteDevice:5 withBlock:^(NSHTTPURLResponse *response, NSError *error)
@@ -714,7 +714,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            HUD.labelText = NSLocalizedString(@"Please wait",nil);
+            HUD.label.text = NSLocalizedString(@"Please wait",nil);
             
             [self presentViewController:composeVC animated:YES completion:^{[self dismissHUDview:socialNetwork];}];
         });

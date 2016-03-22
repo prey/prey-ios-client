@@ -89,7 +89,7 @@
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.label.text = NSLocalizedString(@"Please wait",nil);
-    HUD.detailsLabelText = NSLocalizedString(@"Checking your password...",nil);
+    HUD.detailsLabel.text = NSLocalizedString(@"Checking your password...",nil);
     [self checkPassword];
 }
 
