@@ -65,7 +65,7 @@
     
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
-    HUD.labelText = NSLocalizedString(@"Creating account...",nil);
+    HUD.label.text = NSLocalizedString(@"Creating account...",nil);
     
     [User createNew:[name text] email:[email text] password:[password text] repassword:[password text]
           withBlock:^(User *user, NSError *error)

@@ -100,7 +100,7 @@
 {
     UIWebView *webView      = [[UIWebView alloc] initWithFrame:CGRectZero];
     HUD                     = [MBProgressHUD showHUDAddedTo:webView animated:YES];
-    HUD.labelText           = NSLocalizedString(@"Please wait",nil);
+    HUD.label.text          = NSLocalizedString(@"Please wait",nil);
     
     UIViewController *vc    = [[UIViewController alloc] init];
     vc.view                 = webView;

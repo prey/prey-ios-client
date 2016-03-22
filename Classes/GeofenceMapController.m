@@ -32,7 +32,7 @@
 
     if (!IS_IPAD) {
         HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        HUD.labelText = NSLocalizedString(@"Please wait",nil);        
+        HUD.label.text = NSLocalizedString(@"Please wait",nil);        
     }
 
     [self addGeofenceZones];

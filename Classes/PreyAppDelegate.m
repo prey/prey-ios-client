@@ -122,7 +122,7 @@
     PreyLogMessage(@"App Delegate", 20,  @"Attempting to show the HUD");
     
     MBProgressHUD *HUD2 = [MBProgressHUD showHUDAddedTo:webView animated:YES];
-    HUD2.labelText = NSLocalizedString(@"Accessing your account...",nil);
+    HUD2.label.text     = NSLocalizedString(@"Accessing your account...",nil);
     HUD2.removeFromSuperViewOnHide=YES;
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView {

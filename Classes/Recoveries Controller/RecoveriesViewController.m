@@ -29,7 +29,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        HUD.labelText = NSLocalizedString(@"Please wait",nil);
+        HUD.label.text = NSLocalizedString(@"Please wait",nil);
     });
     
     parser = [[RSSParser alloc] initWithUrl:@"http://preyproject.com/blog/cat/recoveries/feed" synchronous:NO];

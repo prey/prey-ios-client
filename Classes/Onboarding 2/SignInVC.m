@@ -47,7 +47,7 @@
     
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
-    HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
+    HUD.label.text = NSLocalizedString(@"Attaching device...",nil);
     
     [User allocWithEmail:[email text] password:[password text]
                withBlock:^(User *user, NSError *error)
