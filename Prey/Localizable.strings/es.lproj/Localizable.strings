@@ -1,0 +1,264 @@
+
+"Read More" = "Leer más";
+
+"New" = "Nuevo";
+
+"You don't have geofences" = "No tienes Geocercas agregadas";
+
+"KEEP TRACK OF YOUR DEVICES WITH GEOFENCING" = "NUNCA PIERDAS DE VISTA TUS EQUIPOS CON GEOCERCAS";
+
+"Get our Home plan and use our Geofencing feature to get notifications whenever your devices leave or enter an area" = "Suscríbete a nuestro plan Home y usa Geocercas para recibir notificaciones cuando tus dispositivos entren o salgan de un área";
+
+"FULL PROTECTION FOR YOUR DEVICES" = "PROTECCIÓN COMPLETA PARA TUS DISPOSITIVOS";
+
+"100 reports per device \nUltra-fast frecuency for reports \nScan hardware for changes \nGeofencing for Home plans and over \nPriority support" = "100 reportes por dispositivo \nAlta frecuenta de reportes \nDetección de cambios en el hardware \nGeocercas para planes Home en adelante \nSoporte prioritario";
+
+"Personal Plan, 1 year" = "Plan Personal, 1 año";
+
+"Recovery Stories" = "Historias de recuperación";
+
+"Done" = "Listo";
+
+"Geofence" = "Geocerca";
+
+"Your Geofences" = "Tus geocercas";
+
+"Ashley uses Prey on all her devices: her Macbook, her iPhone and iPad. But one day, she was at the wrong place at the wrong time and someone stole her tablet." = "Ashley usa Prey en todos sus dispositivos: su Macbook, su iPhone y su iPad. Un día, estando en el lugar y momento equivocado, alguien robó su tablet.";
+
+"Meet Steve, he steals objects left unattended." = "Saluden a Steve, suele robar objetos cuando ve la oportunidad.";
+
+"Losing a device means losing precious data, memories, information and some really expensive equipment." = "Perder un dispositivo significa también perder datos, recuerdos y un equipo bastante caro.";
+
+"Without him knowing it, Prey is silently capturing pictures, location, and sending the legitimate owner complete reports.\nAshley can also use Prey to remotely lock her device down and wipe her sensitive data." = "Sin que Steve lo sepa, Prey está silenciosamente tomando fotos, registrando la ubicación y enviándole a la dueña del equipo reportes con la información.";
+
+"Good thing Ashley has PREY activated! She just got the reports from her stolen device, so now the police has accurate evidence to work with." = "Lo bueno es que Ashley tiene Prey activado. Ya recibió los reportes de su tablet robada y la policía tiene evidencia sólida para atrapar al ladrón.";
+
+"With the detailed reports on the missing device, Ashley had more worries, she got her device back." = "Con el trabajo de Prey y la policía, Ashley pudo recuperar su dispositivo.";
+
+"Don\'t wait for the worst to happen to take action. Sign up, enter your registration details and set up Prey on your phone." = "No esperes a que pase lo peor para actuar.\nRegístrate, ingresa tus datos y configura Prey en tu teléfono.";
+
+"SIGN IN" = "INGRESAR";
+
+"prey account" = "cuenta Prey";
+
+"SIGN UP" = "REGÍSTRATE";
+
+"username" = "usuario";
+
+"email" = "correo";
+
+"password" = "contraseña";
+
+"CREATE MY NEW ACCOUNT" = "CREAR MI NUEVA CUENTA";
+
+"already have an account?" = "¿Ya tienes una cuenta?";
+
+"ACCESS TO MY ACCOUNT" = "INGRESAR A MI CUENTA";
+
+"don’t have an account?" = "¿No tienes cuenta aún?";
+
+"NOT PROTECTED" = "DESPROTEGIDO";
+
+"current device status" = "estado de tu dispositivo";
+
+"PROTECTED" = "PROTEGIDO";
+
+"REMOTE CONTROL FROM YOUR" = "CONTROLAR REMOTAMENTE";
+
+"PREY ACCOUNT" = "DESDE TU CUENTA PREY";
+
+"CONFIGURE" = "CONFIGURAR";
+
+"PREY SETTINGS" = "PREY";
+
+
+
+
+"About" = "Acerca de";
+
+"Access Denied" = "Acceso denegado";
+
+"Accessing your account..." = "Accediendo a tu cuenta...";
+
+"Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address." = "¡Cuenta creada! Recibirás un correo de confirmación dentro de unos minutos.";
+
+"Add this device!" = "¡Agregar este dispositivo!";
+
+"Already a Prey user" = "Ya soy usuario";
+
+"An unknown error has occurred" = "Ha ocurrido un error desconocido";
+
+"Attaching device..." = "Agregando dispositivo...";
+
+"Camouflage mode" = "Modo camuflado";
+
+"Checking your password..." = "Comprobando contraseña...";
+
+"Choose a password of at least 6 characters" = "Contraseña debe ser mínimo de 6 caracteres";
+
+"Congratulations!" = "Felicitaciones!";
+
+"Congratulations! You have successfully associated this iOS device with your Prey account." = "¡Felicitaciones! Tu dispositivo ha sido registrado bajo tu cuenta Prey. Desde ahora puedes monitorearlo remotamente desde preyproject.com.\nDescansa tranquilo!";
+
+"Couldn't add your device" = "No pudimos agregar tu dispositivo.";
+
+"Couldn't check your password" = "No pudimos confirmar tu contraseña";
+
+"Create my account!" = "Crear mi cuenta";
+
+"Create Prey account" = "Crear una cuenta Prey";
+
+"Creating account..." = "Creando cuenta...";
+
+"Current Location" = "Ubicación actual";
+
+"Detach device" = "Eliminar dispositivo";
+
+"Device not ready!" = "Dispositivo no protegido";
+
+"Device ready" = "Dispositivo protegido";
+
+"Enter a valid e-mail address" = "Ingresa un e-mail válido";
+
+"Help" = "Ayuda";
+
+"It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "No tienes capacidad para agregar más dispositivos en tu cuenta Prey.\n\Para aumentar la capacidad disponible, puedes contratar una cuenta Prey Pro.";
+
+"Location services are disabled for Prey. Reports will not be sent." = "Servicio de localización para Prey no está activo. No se podrán enviar reportes.";
+
+"Log in to Prey" = "Ingresa a Prey";
+
+"New user" = "Nuevo usuario";
+
+"No, don't delete" = "No borrar";
+
+"OK" = "OK";
+
+"Password must be at least 6 characters" = "Contraseña debe tener al menos 6 caracteres";
+
+"Passwords do not match" = "Contraseñas no coinciden";
+
+"Please wait" = "Espera un segundo";
+
+"Please make sure the password you entered is valid." = "Por favor asegúrate que la contraseña ingresada sea válida.";
+
+"Preferences" = "Preferencias";
+
+"Privacy Policy" = "Política de privacidad";
+
+"Repeat your password" = "Repite tu contraseña";
+
+"Settings" = "Preferencias";
+
+"Terms of Service" = "Términos del servicio";
+
+"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password." = "Hubo un problema obteniendo la información de tu cuenta. Por favor asegúrate que tanto el email como la contraseña ingresada son válidas.";
+
+"Unable to access Location Services.\n You need to grant Prey access if you wish to track your device." = "No pudimos acceder a los servicios de localización.\n Necesitas darle acceso a Prey si deseas localizar el dispositivo.";
+
+"Unable to fetch location data. Is this device on airplane mode?" = "No fue posible obtener información de localización. ¿Está el dispositivo en modo avión?";
+
+"Upgrade to Pro" = "Cámbiate a Pro";
+
+"User couldn't be created" = "El usuario no pudo ser creado";
+
+"Version" = "Versión";
+
+"Warning" = "Advertencia";
+
+"We have a situation!" = "¡Tenemos un problema!";
+
+"Wrong password. Try again." = "Contraseña incorrecta. Recuerda que tienes que verificar tu email para poder ingresar.";
+
+"Yes, remove from my account" = "Sí, remover de mi cuenta";
+
+"You have successfully associated this device with your Prey Control Panel account." = "Has asociado exitosamente el dispositivo con tu cuenta del Panel de Control de Prey";
+
+"You're about to delete this device from the Control Panel.\n Are you sure?" = "Vas a remover este dispositivo del Panel de Control. ¿Estás seguro?";
+
+"Your device is protected and waiting for the activation signal." = "Tu dispositivo está protegido y a la espera de la señal de activación.";
+
+"Your email" = "Tu email";
+
+"Your name" = "Tu nombre";
+
+"Rate us" = "Califícanos";
+
+"Give us ★★★★★ on the App Store if you like Prey." = "Dános ★★★★★ en la App Store si te gusta Prey.";
+
+"Remind me later" = "Más tarde";
+
+"Yes, rate Prey!" = "Sí, calificar a Prey!";
+
+"Information" = "Información";
+
+"Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team." = "Ahora tienes acceso a todas las características Pro de Prey, como por ejemplo el soporte directo con nuestro equipo técnico.";
+
+"Congrats,\nyou're now Pro" = "Enhorabuena,\nYa eres Pro";
+
+"Your password" = "Contraseña";
+
+"Forgot your password?" = "¿Contraseña olvidada?";
+
+"Try Again" = "Volver a intentar";
+
+"Device set up!" = "Dispositivo configurado!";
+
+"Manage Prey settings" = "Configurar las opciones de Prey";
+
+"Go to Control Panel" = "Acceder al panel de control";
+
+"Type in your password" = "Introduzca la contraseña";
+
+"Swipe to go back" = "Deslizar para volver atrás";
+
+"Share on Facebook" = "Compartir en Facebook";
+
+"Share on Twitter" = "Compartir en Twitter";
+
+"Detaching device ..." = "Desvinculando el dispositivo...";
+
+"Is not available" = "No está disponible";
+
+"Canceled transaction, please try again." = "Transacción cancelada. Vuelva a intentarlo más tarde.";
+
+"Alert notification disabled" = "Notificaciones de alerta deshabilitadas";
+
+"You need to grant Prey access to show alert notifications in order to remotely mark it as missing." = "Es necesario garantizar el acceso a Prey para poder mostrar las notificaciones de alerta al marcarlo como perdido.";
+
+"Keep Prey in background to enable all of its features." = "Mantener Prey en segundo plano para activar todas las características.";
+
+"The internet connection appears to be offline" = "La conexión a internet parece estar desactivada";
+
+"Authenticate for login?" = "¿Autenticar para inicio de sesión?";
+
+"There was a problem verifying your identity" = "Hubo un problema verificando su identidad";
+
+"Prey will track your laptop, phone and tablet if they ever go missing, whether you're in town or abroad." = "Prey te ayudará a localizar tu teléfono, computador o tableta en caso de robo o pérdida, tanto en tu ciudad como en el extranjero.";
+
+"Get Rolling" = "Comencemos";
+
+"Protect your devices from theft" = "Protege tus equipos del robo";
+
+"Enable Camera" = "Habilita la cámara";
+
+"Enable Location" = "Habilita la ubicación";
+
+"Enable Notification" = "Habilita las notificaciones";
+
+"They can run but they can't hide" = "Pueden correr, pero no pueden esconderse";
+
+"Sensitive data is gathered only when you request it, and is for your eyes only. Nothing is sent without your permission." = "La información sensible sólo será recolectada una vez que tú la pidas, y sólo tú tendrás acceso a ella. Nada será enviado sin tu permiso.";
+
+"Thanks, you have made the world a better and safer place." = "Gracias, has hecho del mundo un lugar mejor y más seguro.";
+
+"Message" = "Mensaje";
+
+"Sign Up" = "Registrarse";
+
+"Log In" = "Ingresar";
+
+"Name can't be blank" = "El nombre no puede estar en blanco";
+
+"Would you like to use Touch ID to access the Prey settings?" = "¿Te gustaría usar Touch ID para acceder a la configuración de Prey?";
+

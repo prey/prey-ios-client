@@ -24,6 +24,10 @@
 		3BB7EAC41A1E78DC003FC312 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC01A1E78DC003FC312 /* OpenSans-Regular.ttf */; };
 		3BB7EAC51A1E78DC003FC312 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC11A1E78DC003FC312 /* OpenSans-Semibold.ttf */; };
 		3BB7EAC61A1E78DC003FC312 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC21A1E78DC003FC312 /* Roboto-Regular.ttf */; };
+		3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3C0971C9733BA00D08D62 /* Constants.swift */; };
+		3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */; };
+		3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */; };
+		3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BCD4C8C1C98942900CDEE1C /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +76,11 @@
 		3BB7EAC01A1E78DC003FC312 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		3BB7EAC11A1E78DC003FC312 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		3BB7EAC21A1E78DC003FC312 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		3BC3C0971C9733BA00D08D62 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Classes/Constants.swift; sourceTree = "<group>"; };
+		3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyConfig.swift; path = Classes/PreyConfig.swift; sourceTree = "<group>"; };
+		3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyDevice.swift; path = Classes/PreyDevice.swift; sourceTree = "<group>"; };
+		3BCD4C8D1C98942900CDEE1C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3BCD4C8E1C98942900CDEE1C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				3B8283EF199198E6000E4545 /* Prey */,
+				3BCD4C8B1C98942900CDEE1C /* Localizable.strings */,
 				3B828402199198E6000E4545 /* PreyTests */,
 				3B8283EE199198E6000E4545 /* Products */,
 			);
@@ -116,7 +126,10 @@
 				3B8E57CD1A2E71B30027179E /* ViewController */,
 				3B8E57D21A2E7B530027179E /* AppDelegate.swift */,
 				3B77804D1A600CCE0050C747 /* PreyUser.swift */,
+				3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */,
 				3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */,
+				3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */,
+				3BC3C0971C9733BA00D08D62 /* Constants.swift */,
 				3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */,
 				3B8283F9199198E6000E4545 /* Images.xcassets */,
 				3BB7EABE1A1E78DB003FC312 /* Fonts */,
@@ -173,6 +186,15 @@
 				3BB7EAC21A1E78DC003FC312 /* Roboto-Regular.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		3BCD4C8B1C98942900CDEE1C /* Localizable.strings */ = {
+			isa = PBXGroup;
+			children = (
+				3BCD4C8C1C98942900CDEE1C /* Localizable.strings */,
+			);
+			name = Localizable.strings;
+			path = Prey/Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,6 +264,7 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = 3B8283E4199198E6000E4545;
 			productRefGroup = 3B8283EE199198E6000E4545 /* Products */;
@@ -262,6 +285,7 @@
 				3BB7EAC61A1E78DC003FC312 /* Roboto-Regular.ttf in Resources */,
 				3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */,
 				3B8283FA199198E6000E4545 /* Images.xcassets in Resources */,
+				3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */,
 				3BB7EAC41A1E78DC003FC312 /* OpenSans-Regular.ttf in Resources */,
 				3BB7EAC31A1E78DC003FC312 /* OpenSans-Bold.ttf in Resources */,
 				3BB7EAC51A1E78DC003FC312 /* OpenSans-Semibold.ttf in Resources */,
@@ -282,10 +306,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */,
 				3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */,
+				3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
 				3B77804E1A600CCE0050C747 /* PreyUser.swift in Sources */,
 				3B8E57D11A2E7B4A0027179E /* WelcomeVC.swift in Sources */,
+				3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */,
 				3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */,
 				3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */,
 				3B8E57E11A2E7B530027179E /* SignUpVC.swift in Sources */,
@@ -330,6 +357,15 @@
 				3B8283F7199198E6000E4545 /* Base */,
 			);
 			name = PreyStoryBoard.storyboard;
+			sourceTree = "<group>";
+		};
+		3BCD4C8C1C98942900CDEE1C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3BCD4C8D1C98942900CDEE1C /* en */,
+				3BCD4C8E1C98942900CDEE1C /* es */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
