@@ -96,34 +96,33 @@ class LogInVC: UIViewController {
             }, completion: nil)
     }
 
-    
     // MARK: Actions
     @IBAction func addDeviceAction(sender: UIButton) {
-        print("email:\(emailTextField.text)  password:\(passwordTextField.text)")
         
-        /*
-        if (countElements(passwordTextField.text) < 6)
-        {
-            var alert = UIAlertController(title:NSLocalizedString("We have a situation!", comment:""),
-                                        message:NSLocalizedString("Password must be at least 6 characters", comment:""),
-                                 preferredStyle:UIAlertControllerStyle.Alert)
-            
-            alert.addAction(UIAlertAction(title:NSLocalizedString("OK", comment:""),
-                style:UIAlertActionStyle.Default, handler:nil))
-            self.presentViewController(alert, animated:true, completion:nil)
-            
+        // Check password length
+        if passwordTextField.text!.characters.count < 6 {
+            displayErrorAlert("Password must be at least 6 characters".localized, titleMessage:"We have a situation!".localized)
             passwordTextField.becomeFirstResponder()
-            
             return
         }
 
-        PreyHTTPClient.manager.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
-            .response { (request, response, data, error) in
-                print(request)
-                print(response)
-                print(error)
+        // Check valid email
+        if isInvalidEmail(emailTextField.text!, withPattern:emailRegExp) {
+            displayErrorAlert("Enter a valid e-mail address".localized, titleMessage:"We have a situation!".localized)
+            emailTextField.becomeFirstResponder()
+            return
         }
-        */
+        
+        let actInd = UIActivityIndicatorView(activityIndicatorStyle:UIActivityIndicatorViewStyle.Gray)
+        actInd.center = self.view.center
+        actInd.hidesWhenStopped = true
+        self.view.addSubview(actInd)
+        actInd.startAnimating()
+        
+        PreyUser.logInToPrey(emailTextField.text!, userPassword: passwordTextField.text!, onCompletion: {(isSuccess: Bool?) in
+            actInd.stopAnimating()
+            print("Done: LogIn")
+        })
     }
 }
 
