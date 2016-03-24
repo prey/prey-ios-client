@@ -20,7 +20,36 @@ class PreyUser {
     var apiKey: String?
     var isPro: Bool?
     
+    class func getCountryName() -> String? {
+        let locale          = NSLocale.currentLocale()
+        let countryCode     = locale.objectForKey(NSLocaleCountryCode) as! String
+        let countryName     = locale.displayNameForKey(NSLocaleCountryCode, value:countryCode)
+        
+        return countryName
+    }
+    
     // MARK: Functions
+    class func signUpToPrey(userName: String, userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool?) -> Void) {
+        
+        let preyUser        = PreyUser()
+        preyUser.name       = userName
+        preyUser.email      = userEmail
+        preyUser.password   = userPassword
+        preyUser.isPro      = false
+        preyUser.country    = getCountryName()
+
+        let params:[String: AnyObject] = [
+            "name"                  : preyUser.name!,
+            "email"                 : preyUser.email!,
+            "country_name"          : preyUser.country!,
+            "password"              : preyUser.password!,
+            "password_confirmation" : preyUser.password!,
+            "referer_user_id"       : ""]
+
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(preyUser, params:params, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:({(data, response, error) in
+            print("PreyUser: data:\(data) \nresponse:\(response) \nerror:\(error)")
+        }))
+    }
     
     class func logInToPrey(userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool?) -> Void) {
         
@@ -29,7 +58,8 @@ class PreyUser {
         preyUser.password   = userPassword
         preyUser.isPro      = false
         
-        PreyHTTPClient.sharedInstance.userLogInToPrey(reloadConnection, preyUser: preyUser, onCompletion:({(data, response, error) in
+        
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(preyUser, params:nil, httpMethod:Method.GET.rawValue, endPoint:logInEndpoint, onCompletion:({(data, response, error) in
             
             // Check error with NSURLSession request
             guard error == nil else {
@@ -50,7 +80,7 @@ class PreyUser {
             
             switch httpURLResponse.statusCode {
                 
-                // === Success
+            // === Success
             case 200:
                 let jsonObject: NSDictionary
                 
@@ -66,7 +96,7 @@ class PreyUser {
                     print("json error: \(error.localizedDescription)")
                 }
                 
-                // === Client Error
+            // === Client Error
             case 401:
                 let alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
                 
@@ -76,23 +106,23 @@ class PreyUser {
                 onCompletion(isSuccess:false)
                 
                 // === Server Error
-            /*case 503:
-                if reload > 0 {
-                    // Retrying
-                    let timeValue = dispatch_time(DISPATCH_TIME_NOW, Int64(delayTime * Double(NSEC_PER_SEC)))
-                    //dispatch_after(timeValue, dispatch_get_main_queue(), { () -> Void in
-                    //    self.userLogInToPrey(reload - 1, preyUser:preyUser, onCompletion:onCompletion)  })
-                } else {
-                    
-                    // Stop retrying
-                    let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion :
-                        error?.localizedDescription;
-                    dispatch_async(dispatch_get_main_queue()) {
-                        displayErrorAlert(alertMessage!.localized, titleMessage:"Server Error".localized)
-                    }
-                }*/
+                /*case 503:
+                 if reload > 0 {
+                 // Retrying
+                 let timeValue = dispatch_time(DISPATCH_TIME_NOW, Int64(delayTime * Double(NSEC_PER_SEC)))
+                 //dispatch_after(timeValue, dispatch_get_main_queue(), { () -> Void in
+                 //    self.userLogInToPrey(reload - 1, preyUser:preyUser, onCompletion:onCompletion)  })
+                 } else {
+                 
+                 // Stop retrying
+                 let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion :
+                 error?.localizedDescription;
+                 dispatch_async(dispatch_get_main_queue()) {
+                 displayErrorAlert(alertMessage!.localized, titleMessage:"Server Error".localized)
+                 }
+                 }*/
                 
-                // === Error
+            // === Error
             default:
                 let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion :
                     error?.localizedDescription;
@@ -102,5 +132,5 @@ class PreyUser {
                 onCompletion(isSuccess:false)
             }
         }))
-    }
+ }
 }

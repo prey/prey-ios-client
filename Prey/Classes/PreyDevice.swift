@@ -26,7 +26,9 @@ class PreyDevice {
     var cpuCores: String?
     var ramSize: String?
     
-
+    // MARK: Functions
+    
     class func addDeviceWith(preyUser: PreyUser, preyDevice:PreyDevice, onCompletion:(userApiKey: String?, error: NSError?)->Void) {
+        
     }
 }

@@ -15,6 +15,9 @@ public let URLControlPanel: String = "https://solid.preyproject.com/api/v2"
 // Endpoint for LogIn
 public let logInEndpoint: String = "/profile.json"
 
+// Endpoint for SignUp
+public let signUpEndpoint: String = "/signup.json"
+
 // Http method definitions
 public enum Method: String {
     case GET  = "GET"

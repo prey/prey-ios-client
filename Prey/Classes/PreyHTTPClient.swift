@@ -50,27 +50,37 @@ class PreyHTTPClient {
     
     // MARK: Requests to Prey API
     
-    // LogIn User to Control Panel
-    func userLogInToPrey(reload: Int, preyUser: PreyUser, onCompletion:(dataRequest: NSData?, responseRequest: NSURLResponse?, error: NSError?)->Void) {
+    // SignUp/LogIn User to Control Panel
+    func userRegisterToPrey(preyUser: PreyUser, params: [String: AnyObject]?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
         
         // If userApiKey is empty select userEmail
         let username = (PreyConfig.sharedInstance.userApiKey != nil) ? PreyConfig.sharedInstance.userApiKey : preyUser.email
         
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username!, preyUser.password!) as String)
-
+        
         // Set session Config
         let sessionConfig   = getSessionConfig(userAuthorization)
         let session         = NSURLSession(configuration: sessionConfig)
         
         // Set Endpoint
-        let requestURL      = NSURL(string: URLControlPanel.stringByAppendingString(logInEndpoint))
+        let requestURL      = NSURL(string: URLControlPanel.stringByAppendingString(endPoint))
         let request         = NSMutableURLRequest(URL:requestURL!)
-        request.HTTPMethod  = Method.GET.rawValue
-    
+        
+        // Set params
+        if params != nil  {
+            do {
+                request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(params!, options:NSJSONWritingOptions.PrettyPrinted)
+            } catch let error as NSError{
+                print("params error: \(error.localizedDescription)")
+            }
+        }
+
+        request.HTTPMethod  = httpMethod
+        
         // Prepare Request to Send
         let task = session.dataTaskWithRequest(request, completionHandler:getCompletionHandler(onCompletion))
-     
+        
         // Send Request
         task.resume()
     }
