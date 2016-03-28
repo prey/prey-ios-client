@@ -351,14 +351,17 @@
      }];
 }
 
-+ (void)checkCommandJsonForDevice:(NSString *)cmdString
++ (void)checkCommandJsonForDevice:(id)cmdString
 {
     NSString *deviceKey = [[PreyConfig instance] deviceKey];
     PreyLogMessage(@"PreyRestHttp", 21, @"GET CMD devices/%@.json: %@",deviceKey, cmdString);
     
-    NSError *error2;
-    JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
-    NewModulesConfig *modulesConfig = [configParser parseModulesConfig:cmdString parseError:&error2];
+    NewModulesConfig *modulesConfig = [[NewModulesConfig alloc] init];
+    
+    for (NSDictionary *dict in cmdString)
+    {
+        [modulesConfig addModule:dict];
+    }
     
     if ([modulesConfig checkAllModulesEmpty])
     {

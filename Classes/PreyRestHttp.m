@@ -55,7 +55,7 @@
  
 }
 
-+ (void)checkCommandJsonForDevice:(NSString *)cmdString
++ (void)checkCommandJsonForDevice:(id)cmdString
 {
 
 }

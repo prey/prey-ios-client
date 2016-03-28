@@ -33,11 +33,7 @@ BOOL  const ASK_FOR_LOGIN = YES;
 BOOL const	USE_CONTROL_PANEL_DELAY=YES; //use the preferences page's instead.
 
 
-#ifndef NDEBUG
-BOOL const	SHOULD_LOG = YES;
-#else
 BOOL const	SHOULD_LOG = NO;
-#endif
 
 
 +(NSString *) appName {
