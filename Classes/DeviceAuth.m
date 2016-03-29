@@ -66,30 +66,31 @@ static NSString *const NOTIFY_AUTH   = @"notifyAuth";
 
 #pragma mark Check Auth
 
-- (void)checkNotifyDeviceAuthorizationStatus:(UISwitch *)notifySwitch
+- (BOOL)checkAllDeviceAuthorization:(UIViewController*)viewController {
+    
+    BOOL isAllAuthAvailable = NO;
+    
+    if ( ([self checkNotifyDeviceAuthorizationStatus:viewController])   &&
+         ([self checkLocationDeviceAuthorizationStatus:viewController]) &&
+         ([self checkCameraDeviceAuthorizationStatus:viewController]) ) {
+        isAllAuthAvailable = YES;
+    }
+    
+    return isAllAuthAvailable;
+}
+
+- (BOOL)checkNotifyDeviceAuthorizationStatus:(UIViewController*)viewController
 {
     notifyAuth = NO;
     
-    [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
-    
-    if (IS_OS_8_OR_LATER)
-    {
+    if (IS_OS_8_OR_LATER) {
         UIUserNotificationSettings *notificationSettings = [[UIApplication sharedApplication]  currentUserNotificationSettings];
         notifyAuth = notificationSettings.types > 0;
-        notifySwitch.on = notifyAuth;
-        
-        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"askFirst"]) {
-            notifyAuth = YES;
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"askFirst"];
-        }
     }
-    else
-    {
+    else {
         UIRemoteNotificationType notificationTypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
-        if (notificationTypes & UIRemoteNotificationTypeAlert) {
+        if (notificationTypes & UIRemoteNotificationTypeAlert)
             notifyAuth = YES;
-            notifySwitch.on = notifyAuth;
-        }
     }
     
     if (notifyAuth)
@@ -97,18 +98,18 @@ static NSString *const NOTIFY_AUTH   = @"notifyAuth";
     else
     {
         PreyLogMessage(@"App Delegate", 10, @"User has disabled alert notifications");
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert notification disabled",nil)
-                                                            message:NSLocalizedString(@"You need to grant Prey access to show alert notifications in order to remotely mark it as missing.",nil)
-                                                           delegate:nil
-                                                  cancelButtonTitle:NSLocalizedString(@"OK",nil)
-                                                  otherButtonTitles:nil];
-        [alertView show];
+        
+        [self displayErrorAlert:NSLocalizedString(@"You need to grant Prey access to show alert notifications in order to remotely mark it as missing.",nil)
+                          title:NSLocalizedString(@"Alert notification disabled",nil)
+                       delegate:viewController];
     }
     
     [self saveValues];
+    
+    return notifyAuth;
 }
 
-- (void)checkLocationDeviceAuthorizationStatus:(UISwitch *)locationSwitch
+- (BOOL)checkLocationDeviceAuthorizationStatus:(UIViewController*)viewController
 {
     if ( [CLLocationManager locationServicesEnabled] &&
         ( [CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined) &&
@@ -116,82 +117,70 @@ static NSString *const NOTIFY_AUTH   = @"notifyAuth";
         ( [CLLocationManager authorizationStatus] != kCLAuthorizationStatusRestricted) )
     {
         locationAuth = YES;
-        locationSwitch.on = locationAuth;
     }
     else
-    {
-        authLocation = [[CLLocationManager alloc] init];
-        
-        if (IS_OS_8_OR_LATER)
-        {
-            [authLocation requestAlwaysAuthorization];
-        }
-        else
-        {
-            [authLocation  startUpdatingLocation];
-            [authLocation stopUpdatingLocation];
-        }
         locationAuth = NO;
-        locationSwitch.on = locationAuth;
+    
+    
+    if (locationAuth)
+        PreyLogMessage(@"App Delegate", 10, @"Location Services set Good!");
+    else
+    {
+        PreyLogMessage(@"App Delegate", 10, @"User has disabled Location services");
+        
+        [self displayErrorAlert:NSLocalizedString(@"Location services are disabled for Prey. Reports will not be sent.",nil)
+                          title:NSLocalizedString(@"Enable Location",nil)
+                       delegate:viewController];
     }
+
     
     [self saveValues];
+    
+    return locationAuth;
 }
 
-- (void)checkCameraDeviceAuthorizationStatus:(UISwitch *)cameraSwitch
+- (BOOL)checkCameraDeviceAuthorizationStatus:(UIViewController*)viewController
 {
+    cameraAuth = NO;
+    
     if (IS_OS_7_OR_LATER)
     {
         AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if (authStatus == AVAuthorizationStatusAuthorized)
-        {
             cameraAuth = YES;
-            cameraSwitch.on = cameraAuth;
-        }
-        else if (authStatus == AVAuthorizationStatusNotDetermined)
-        {
-            // Camera access not determined. Ask for permission
-            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-                if (granted)
-                {
-                    cameraAuth = YES;
-                    cameraSwitch.on = cameraAuth;
-                }
-                else
-                {
-                    [self cameraDeniedAccess:cameraSwitch];
-                }
-            }];
-        }
-        else
-        {
-            [self cameraDeniedAccess:cameraSwitch];
-        }
     }
     else
-    {
         cameraAuth = YES;
-        cameraSwitch.on = cameraAuth;
+    
+    
+    if (cameraAuth)
+        PreyLogMessage(@"App Delegate", 10, @"Location Services set Good!");
+    else
+    {
+        PreyLogMessage(@"App Delegate", 10, @"User has disabled Location services");
+        
+        [self displayErrorAlert:NSLocalizedString(@"Camera is disabled for Prey. Reports will not be sent.",nil)
+                          title:NSLocalizedString(@"Enable Camera",nil)
+                       delegate:viewController];
     }
     
     [self saveValues];
+    
+    return cameraAuth;
 }
 
-- (void)cameraDeniedAccess:(UISwitch *)cameraSwitch
+- (void)displayErrorAlert:(NSString *)alertMessage title:(NSString*)titleMessage delegate:(UIViewController*)viewController
 {
-    //Not granted access to mediaType
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[[UIAlertView alloc] initWithTitle:@"Camera Authorization"
-                                    message:@"Prey doesn't have permission to use Camera, please change privacy settings"
-                                   delegate:self
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil] show];
-        
-        cameraAuth = NO;
-        cameraSwitch.on = cameraAuth;
-        
-        [self saveValues];
-    });
+    NSString *acceptBtn = (IS_OS_8_OR_LATER) ? NSLocalizedString(@"Go to Settings",nil) : NSLocalizedString(@"OK",nil);
+    NSString *cancelBtn = (IS_OS_8_OR_LATER) ? NSLocalizedString(@"Cancel",nil) : nil;
+    
+    UIAlertView * anAlert = [[UIAlertView alloc] initWithTitle:titleMessage
+                                                       message:alertMessage
+                                                      delegate:viewController
+                                             cancelButtonTitle:acceptBtn
+                                             otherButtonTitles:cancelBtn,nil];
+    anAlert.tag = kTagAlertViewAuthDevice;
+    [anAlert show];
 }
 
 

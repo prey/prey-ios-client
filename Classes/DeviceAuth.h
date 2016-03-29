@@ -17,9 +17,9 @@
 @property (nonatomic) CLLocationManager *authLocation;
 
 + (DeviceAuth*)instance;
-- (void)checkNotifyDeviceAuthorizationStatus:(UISwitch *)notifySwitch;
-- (void)checkLocationDeviceAuthorizationStatus:(UISwitch *)locationSwitch;
-- (void)checkCameraDeviceAuthorizationStatus:(UISwitch *)cameraSwitch;
-
+- (BOOL)checkAllDeviceAuthorization:(UIViewController*)viewController;
+- (BOOL)checkNotifyDeviceAuthorizationStatus:(UIViewController*)viewController;
+- (BOOL)checkLocationDeviceAuthorizationStatus:(UIViewController*)viewController;
+- (BOOL)checkCameraDeviceAuthorizationStatus:(UIViewController*)viewController;
 
 @end

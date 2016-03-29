@@ -365,12 +365,7 @@
 #ifdef __IPHONE_8_0
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
-    if (notificationSettings.types == UIUserNotificationTypeNone)
-        [[PreyConfig instance] setIsNotificationSettingsEnabled:NO];
-    else
-        [[PreyConfig instance] setIsNotificationSettingsEnabled:YES];
-    
-    [[PreyConfig instance] saveValues];
+    PreyLogMessage(@"App Delegate", 10, @"Prey UIUserNotificationType");
 }
 #endif
 

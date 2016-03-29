@@ -73,6 +73,8 @@
 
 #define kLabelTag	4096
 
+#define kTagAlertViewAuthDevice 12345
+
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPhone)
 #define IS_IPHONE5 (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
 #define IS_IPHONE4S (([[UIScreen mainScreen] bounds].size.height-480)?NO:YES)

@@ -20,7 +20,7 @@
 #import "UIDevice-Reachability.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "PreyTourWebView.h"
-
+#import "DeviceAuth.h"
 #import "PreyRestHttpV2.h"
 #import "PreyGeofencingController.h"
 #import "PreferencesController-iPad.h"
@@ -97,7 +97,6 @@
 	[loginPassword resignFirstResponder];
 }
 
-#pragma mark -
 #pragma mark UI sliding methods
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -150,14 +149,9 @@
         UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_LOGIN_PANEL];
         
         if (controller)
-        {
-            if ([self.navigationController respondsToSelector:@selector(presentViewController:animated:completion:)]) // Check iOS 5.0 or later
-                [self.navigationController presentViewController:controller animated:YES completion:NULL];
-            else
-                [self.navigationController presentModalViewController:controller animated:YES];
-        }
+            [self.navigationController presentViewController:controller animated:YES completion:NULL];
     }
-    else{
+    else {
         UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
                                                          message:NSLocalizedString(@"The internet connection appears to be offline",nil)
                                                         delegate:nil
@@ -374,12 +368,8 @@
     if (IS_IPAD)
         controller = [[PreyTourWebView alloc] initWithNibName:@"PreyTourWebView-iPad" bundle:nil];
     else
-    {
-        if (IS_IPHONE5)
-            controller = [[PreyTourWebView alloc] initWithNibName:@"PreyTourWebView-iPhone-568h" bundle:nil];
-        else
-            controller = [[PreyTourWebView alloc] initWithNibName:@"PreyTourWebView-iPhone" bundle:nil];
-    }
+        controller = (IS_IPHONE5) ? [[PreyTourWebView alloc] initWithNibName:@"PreyTourWebView-iPhone-568h" bundle:nil] :
+                                    [[PreyTourWebView alloc] initWithNibName:@"PreyTourWebView-iPhone" bundle:nil];
 
     if (controller)
         [appDelegate.viewController presentViewController:controller animated:YES completion:NULL];
@@ -394,58 +384,18 @@
     }
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized)
-    {
-        [self.devReady setText:[NSLocalizedString(@"NOT PROTECTED", nil) uppercaseString]];
-        [self.detail   setText:NSLocalizedString(@"current device status", nil)];
-        //[nonCamuflageImage setImage:[UIImage imageNamed:@"unprotected.png"]];
-    }
-    else
-    {
-        [self.devReady setText:[NSLocalizedString(@"PROTECTED", nil) uppercaseString]];
-        [self.detail   setText:NSLocalizedString(@"current device status", nil)];
-        //[nonCamuflageImage setImage:[UIImage imageNamed:@"protected.png"]];
-    }
+
+    // Check Device Authorization
+    [self checkDeviceAuth];
     
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    BOOL isRegisteredNotifications = NO;
-    
-    if (IS_OS_8_OR_LATER)
-    {
-        if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications] && [[PreyConfig instance] isNotificationSettingsEnabled])
-            isRegisteredNotifications = YES;
-    }
-    else
-    {
-        UIRemoteNotificationType notificationTypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
-        if (notificationTypes & UIRemoteNotificationTypeAlert) {
-            isRegisteredNotifications = YES;
-        }
-    }
-    
-    if (isRegisteredNotifications)
-        PreyLogMessage(@"App Delegate", 10, @"Alert notification set. Good!");
-    else
-    {
-        PreyLogMessage(@"App Delegate", 10, @"User has disabled alert notifications");
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert notification disabled",nil)
-                                                            message:NSLocalizedString(@"You need to grant Prey access to show alert notifications in order to remotely mark it as missing.",nil)
-                                                           delegate:nil
-                                                  cancelButtonTitle:NSLocalizedString(@"OK",nil)
-                                                  otherButtonTitles:nil];
-		[alertView show];
-    }
-
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -462,6 +412,29 @@
         [self.scrollView setScrollEnabled:NO];
         [self.view endEditing:YES];
     }
+}
+
+#pragma mark UIAlertView Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+    if ( (alertView.tag == kTagAlertViewAuthDevice) && (&UIApplicationOpenSettingsURLString != NULL) && (buttonIndex == 0) ) {
+        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        [[UIApplication sharedApplication] openURL:url];
+    }
+}
+
+
+#pragma mark Device Authorization
+
+- (void)checkDeviceAuth {
+    
+    BOOL isAllAuthAvailable = [[DeviceAuth instance] checkAllDeviceAuthorization:self];
+    
+    self.devReady.text = (isAllAuthAvailable) ? [NSLocalizedString(@"PROTECTED", nil) uppercaseString] :
+                                                [NSLocalizedString(@"NOT PROTECTED", nil) uppercaseString];
+
+    self.detail.text   = NSLocalizedString(@"current device status", nil);
 }
 
 @end

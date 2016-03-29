@@ -26,7 +26,6 @@
 	BOOL alertOnReport;
     BOOL camouflageMode;
     BOOL intervalMode;
-    BOOL isNotificationSettingsEnabled;
     BOOL isTouchIDEnabled;
     BOOL hideTourWeb;
 }
@@ -48,7 +47,6 @@
 @property (nonatomic) BOOL camouflageMode;
 @property (nonatomic) BOOL intervalMode;
 @property (nonatomic) BOOL alertOnReport;
-@property (nonatomic) BOOL isNotificationSettingsEnabled;
 @property (nonatomic) BOOL isTouchIDEnabled;
 @property (nonatomic) BOOL hideTourWeb;
 @property (nonatomic) int delay;

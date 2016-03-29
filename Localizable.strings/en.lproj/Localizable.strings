@@ -124,6 +124,8 @@
 
 "Location services are disabled for Prey. Reports will not be sent." = "Location services are disabled for Prey. Reports will not be sent.";
 
+"Camera is disabled for Prey. Reports will not be sent." = "Camera is disabled for Prey. Reports will not be sent.";
+
 "Log in to Prey" = "Log in to Prey";
 
 "New user" = "New user";
@@ -206,6 +208,8 @@
 
 "Go to Control Panel" = "Go to Control Panel";
 
+"Go to Settings" = "Go to Settings";
+
 "Type in your password" = "Type in your password";
 
 "Swipe to go back" = "Swipe to go back";
@@ -219,6 +223,8 @@
 "Is not available" = "Is not available";
 
 "Canceled transaction, please try again." = "Canceled transaction, please try again.";
+
+"Cancel" = "Cancel";
 
 "Alert notification disabled" = "Alert notification disabled";
 

@@ -126,6 +126,8 @@
 
 "Location services are disabled for Prey. Reports will not be sent." = "Servicio de localización para Prey no está activo. No se podrán enviar reportes.";
 
+"Camera is disabled for Prey. Reports will not be sent." = "La Cámara para Prey no está activa. No se podrán enviar reportes.";
+
 "Log in to Prey" = "Ingresa a Prey";
 
 "New user" = "Nuevo usuario";
@@ -208,6 +210,8 @@
 
 "Go to Control Panel" = "Acceder al panel de control";
 
+"Go to Settings" = "Ir a preferencias";
+
 "Type in your password" = "Introduzca la contraseña";
 
 "Swipe to go back" = "Deslizar para volver atrás";
@@ -221,6 +225,8 @@
 "Is not available" = "No está disponible";
 
 "Canceled transaction, please try again." = "Transacción cancelada. Vuelva a intentarlo más tarde.";
+
+"Cancel" = "Cancelar";
 
 "Alert notification disabled" = "Notificaciones de alerta deshabilitadas";
 

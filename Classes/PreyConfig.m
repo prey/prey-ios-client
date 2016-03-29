@@ -34,13 +34,12 @@ static NSString *const ASK_FOR_PASSWORD=@"ask_for_pass";
 static NSString *const CAMOUFLAGE_MODE=@"camouflage_mode";
 static NSString *const INTERVAL_MODE=@"interval_mode";
 static NSString *const PRO_ACCOUNT=@"pro_account";
-static NSString *const NOTIFICATION_SETTINGS=@"notification_settings";
 static NSString *const TOUCH_ID=@"touch_id";
 static NSString *const TOUR_WEB=@"tour_web";
 
 @implementation PreyConfig
 
-@synthesize checkUrl, controlPanelHost, checkPath, exceptionsEndpoint, dataEndpoint, apiKey, deviceKey, email, isNotificationSettingsEnabled;
+@synthesize checkUrl, controlPanelHost, checkPath, exceptionsEndpoint, dataEndpoint, apiKey, deviceKey, email;
 @synthesize desiredAccuracy,alertOnReport,sendCrashReports,delay,alreadyRegistered,missing,askForPassword,camouflageMode,intervalMode,pro;
 @synthesize isTouchIDEnabled, hideTourWeb;
 
@@ -60,7 +59,6 @@ static NSString *const TOUR_WEB=@"tour_web";
         instance.deviceKey          = [defaults stringForKey: DEVICE_KEY];
         instance.email              = [defaults stringForKey: EMAIL];
         instance.camouflageMode     = [defaults boolForKey:CAMOUFLAGE_MODE];
-        instance.isNotificationSettingsEnabled = [defaults boolForKey:NOTIFICATION_SETTINGS];
         instance.intervalMode       = [defaults boolForKey:INTERVAL_MODE];
         instance.pro                = [defaults boolForKey:PRO_ACCOUNT];
         instance.isTouchIDEnabled   = [defaults boolForKey:TOUCH_ID];
@@ -145,7 +143,6 @@ static NSString *const TOUR_WEB=@"tour_web";
     [defaults setBool:[self askForPassword] forKey:ASK_FOR_PASSWORD];
     [defaults setBool:[self camouflageMode] forKey:CAMOUFLAGE_MODE];
     [defaults setBool:[self intervalMode] forKey:INTERVAL_MODE];
-    [defaults setBool:[self isNotificationSettingsEnabled] forKey:NOTIFICATION_SETTINGS];
     [defaults setBool:[self isTouchIDEnabled] forKey:TOUCH_ID];
     [defaults setBool:[self hideTourWeb] forKey:TOUR_WEB];
     [defaults synchronize]; // this method is optional
@@ -170,7 +167,6 @@ static NSString *const TOUR_WEB=@"tour_web";
 	[defaults removeObjectForKey:DELAY];
     [defaults removeObjectForKey:CAMOUFLAGE_MODE];
     [defaults removeObjectForKey:INTERVAL_MODE];
-    [defaults removeObjectForKey:NOTIFICATION_SETTINGS];
     [defaults removeObjectForKey:TOUCH_ID];
     [defaults removeObjectForKey:TOUR_WEB];
     [defaults synchronize]; // this method is optional
