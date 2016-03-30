@@ -249,6 +249,7 @@
 		3B7DB1C61B0D2BC400BF6F88 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE24A811ABB91A800464C1D /* libxml2.dylib */; };
 		3B7DB1C71B0D2C1900BF6F88 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA73C791AA53713002080CB /* QuartzCore.framework */; };
 		3B7DB1C81B0D381D00BF6F88 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; };
+		3B7EACA41CAC174C009E4215 /* QRCodeScannerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B7EACA31CAC174C009E4215 /* QRCodeScannerVC.m */; };
 		3B8011161C400467009BD2F1 /* PreyTourWeb in Resources */ = {isa = PBXBuildFile; fileRef = 3B8011151C400467009BD2F1 /* PreyTourWeb */; };
 		3B8AC75D19F9C96700464098 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC74319F9C96700464098 /* Default-568h@2x.png */; };
 		3B8AC75E19F9C96700464098 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC74419F9C96700464098 /* Default-Portrait~ipad.png */; };
@@ -719,6 +720,8 @@
 		3B7D4FB11B4D972200F000B1 /* NSData+MKBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MKBase64.m"; sourceTree = "<group>"; };
 		3B7D4FB21B4D972200F000B1 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		3B7D4FB31B4D972200F000B1 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
+		3B7EACA21CAC174C009E4215 /* QRCodeScannerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QRCodeScannerVC.h; path = "Classes/QR-Code-Scanner/QRCodeScannerVC.h"; sourceTree = "<group>"; };
+		3B7EACA31CAC174C009E4215 /* QRCodeScannerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QRCodeScannerVC.m; path = "Classes/QR-Code-Scanner/QRCodeScannerVC.m"; sourceTree = "<group>"; };
 		3B8011151C400467009BD2F1 /* PreyTourWeb */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PreyTourWeb; path = Resources/PreyTourWeb; sourceTree = "<group>"; };
 		3B8AC74319F9C96700464098 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3B8AC74419F9C96700464098 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
@@ -1043,6 +1046,7 @@
 			children = (
 				3BA983311C400930006D3FCC /* PreyTourWebView */,
 				3BA73C641AA519C9002080CB /* Onboarding Controller */,
+				3B7EACA51CAC1756009E4215 /* QR Code */,
 				3B298F9A1C68D55000F9E7BE /* UserRegister Controller */,
 				3BE24A5B1ABB915100464C1D /* Recoveries Controller */,
 				3BAE4E47190AB96F0093ECA2 /* Store Controller */,
@@ -1470,6 +1474,15 @@
 			);
 			name = Externals;
 			path = PreyStore/Externals;
+			sourceTree = "<group>";
+		};
+		3B7EACA51CAC1756009E4215 /* QR Code */ = {
+			isa = PBXGroup;
+			children = (
+				3B7EACA21CAC174C009E4215 /* QRCodeScannerVC.h */,
+				3B7EACA31CAC174C009E4215 /* QRCodeScannerVC.m */,
+			);
+			name = "QR Code";
 			sourceTree = "<group>";
 		};
 		3B8AC78519F9D0C800464098 /* Images */ = {
@@ -2301,6 +2314,7 @@
 				3B6FEA871C1B856E00790B30 /* SignInVC.m in Sources */,
 				075E6D3316AEFA6300F5DB91 /* ProcessorInfo.m in Sources */,
 				075E6D3616AEFD8E00F5DB91 /* Uptime.m in Sources */,
+				3B7EACA41CAC174C009E4215 /* QRCodeScannerVC.m in Sources */,
 				3BE24A7D1ABB915100464C1D /* RSSEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
