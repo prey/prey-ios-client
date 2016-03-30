@@ -313,7 +313,7 @@
     }
     else
     {
-        [PreyDeployment runPreyDeployment];
+        [[PreyDeployment instance] runPreyDeployment];
 
         if (IS_IPAD)
             nextController = [[OnboardingView alloc] initWithNibName:@"OnboardingView-iPad" bundle:nil];
