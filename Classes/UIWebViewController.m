@@ -39,12 +39,43 @@
 
 + (UIWebViewController *)controllerToEnterdelegate:(id<UIWebViewControllerDelegate>)delegate setURL:(NSString*)stringURL
 {
-	UIWebViewController     *controller = [[UIWebViewController alloc] initWithURL:stringURL];
+	UIWebViewController *controller = [[UIWebViewController alloc] initWithURL:stringURL];
 	controller.delegate = delegate;
 	return controller;
 }
 
-- (id) initWithURL:(NSString*)stringURL
++ (UIWebViewController *)controllerToEnterdelegate:(id<UIWebViewControllerDelegate>)delegate setURL:(NSString*)stringURL withParameters:(NSString*)params
+{
+    UIWebViewController *controller = [[UIWebViewController alloc] initWithURL:stringURL withParams:params];
+    controller.delegate = delegate;
+    return controller;
+}
+
+- (id)initWithURL:(NSString*)stringURL withParams:(NSString*)params
+{
+    self = [super init];
+    if (self)
+    {
+        CGRect frameWebView = [[UIScreen mainScreen] bounds];
+        if (IS_IPAD)
+            frameWebView = CGRectMake(0, 44, frameWebView.size.width, frameWebView.size.height-44);
+        
+        webViewPage = [[UIWebView alloc] initWithFrame:frameWebView];
+        self.view.backgroundColor = [UIColor blackColor];
+        webViewPage.backgroundColor = [UIColor blackColor];
+        webViewPage.delegate = self;
+        webViewPage.multipleTouchEnabled = YES;
+        [webViewPage setScalesPageToFit:YES];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:stringURL]];
+        [request setHTTPMethod: @"POST"];
+        [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
+        [webViewPage loadRequest:request];
+    }
+    return self;
+}
+
+- (id)initWithURL:(NSString*)stringURL
 {
     self = [super init];
 	if (self) 

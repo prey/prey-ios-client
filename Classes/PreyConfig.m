@@ -24,6 +24,7 @@ static NSString *const DATA_ENDPOINT_LOCATION = @"data_endpoint_location";
 //
 
 static NSString *const API_KEY = @"api_key";
+static NSString *const TOKEN_PANEL = @"token_panel";
 static NSString *const DEVICE_KEY = @"device_key";
 static NSString *const EMAIL = @"email";
 static NSString *const ALREADY_REGISTERED = @"already_registered";
@@ -41,7 +42,7 @@ static NSString *const TOUR_WEB=@"tour_web";
 
 @synthesize checkUrl, controlPanelHost, checkPath, exceptionsEndpoint, dataEndpoint, apiKey, deviceKey, email;
 @synthesize desiredAccuracy,alertOnReport,sendCrashReports,delay,alreadyRegistered,missing,askForPassword,camouflageMode,intervalMode,pro;
-@synthesize isTouchIDEnabled, hideTourWeb;
+@synthesize isTouchIDEnabled, hideTourWeb, tokenPanel;
 
 + (PreyConfig *)instance {
     static PreyConfig *instance = nil;
@@ -56,6 +57,7 @@ static NSString *const TOUR_WEB=@"tour_web";
         instance.dataEndpoint       = [defaults stringForKey: DATA_ENDPOINT_LOCATION];
         
         instance.apiKey             = [defaults stringForKey: API_KEY];
+        instance.tokenPanel         = [defaults stringForKey:TOKEN_PANEL];
         instance.deviceKey          = [defaults stringForKey: DEVICE_KEY];
         instance.email              = [defaults stringForKey: EMAIL];
         instance.camouflageMode     = [defaults boolForKey:CAMOUFLAGE_MODE];
@@ -134,6 +136,7 @@ static NSString *const TOUR_WEB=@"tour_web";
     [defaults setObject:[self dataEndpoint] forKey:DATA_ENDPOINT_LOCATION];
     
 	[defaults setObject:[self apiKey] forKey:API_KEY];
+    [defaults setObject:[self tokenPanel] forKey:TOKEN_PANEL];
 	[defaults setObject:[self deviceKey] forKey:DEVICE_KEY];
 	[defaults setObject:[self email] forKey:EMAIL];
     [defaults setBool:[self isPro] forKey:PRO_ACCOUNT];
@@ -158,6 +161,7 @@ static NSString *const TOUR_WEB=@"tour_web";
     [defaults removeObjectForKey:DATA_ENDPOINT_LOCATION];
     
 	[defaults removeObjectForKey:API_KEY];
+    [defaults removeObjectForKey:TOKEN_PANEL];
 	[defaults removeObjectForKey:DEVICE_KEY];
 	[defaults removeObjectForKey:PRO_ACCOUNT];
     [defaults removeObjectForKey:EMAIL];
@@ -173,6 +177,7 @@ static NSString *const TOUR_WEB=@"tour_web";
     
     [[PreyConfig instance] setEmail:nil];
     [[PreyConfig instance] setApiKey:nil];
+    [[PreyConfig instance] setTokenPanel:nil];
     [[PreyConfig instance] setDeviceKey:nil];
     [[PreyConfig instance] setHideTourWeb:NO];
     [[PreyConfig instance] setAlreadyRegistered:NO];

@@ -48,6 +48,22 @@
      }];
 }
 
++ (void)getTokenFromPanel:(NSString*)emailUser password:(NSString*)passwordUser  withBlock:(void (^)(NSString *token, NSError *error))block
+{
+    User *newUser = [[User alloc] init];
+    newUser.email = emailUser;
+    newUser.password = passwordUser;
+    
+    [[PreyRestHttp getClassVersion] getTokenFromControlPanel:5 withUser:newUser
+                                                       withBlock:^(NSString *token, NSError *error)
+     {
+         if (error)
+             block(nil, error);
+         else
+             block(token, nil);
+     }];
+}
+
 + (void)createNew:(NSString*)nameUser email:(NSString*)emailUser password:(NSString*)passwordUser repassword:(NSString*)repasswordUser  withBlock:(void (^)(User *user, NSError *error))block
 {
     User *newUser = [[User alloc] init];

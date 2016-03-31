@@ -57,6 +57,64 @@
      }];
 }
 
++ (void)getTokenFromControlPanel:(NSInteger)reload withUser:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block
+{
+    NSString *username = ([PreyConfig instance].apiKey) ? [PreyConfig instance].apiKey : user.email;
+    [[PreyStatusClientV1 sharedClient] setAuthorizationHeaderWithUsername:username password:[user password]];
+    
+    [[PreyStatusClientV1 sharedClient] getPath:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/get_token.json"]
+                                    parameters:nil
+                                       success:^(PreyAFHTTPRequestOperation *operation, id responseObject)
+     {
+         //PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+
+         NSError *error2;
+         NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+         
+         NSData *jsonData = [respString dataUsingEncoding:NSUTF8StringEncoding];
+         NSDictionary *jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error2];
+
+         NSString *tokenPanel;
+         if (jsonObjects != nil)
+             tokenPanel = [jsonObjects objectForKey:@"token"];
+         
+         if (block)
+             block(tokenPanel, nil);
+         
+     } failure:^(PreyAFHTTPRequestOperation *operation, NSError *error)
+     {
+         if ( ([operation.response statusCode] == 503) && (reload > 0) )
+         {
+             // Call method again
+             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                 [self getCurrentControlPanelApiKey:reload -1 withUser:user withBlock:block];
+             });
+         }
+         // When reload <= 0 then return statusCode:503
+         else if ( ([operation.response statusCode] == 503) && (reload <= 0) )
+             [self returnStatusCode503WithString:block checkCompletionHandler:NO];
+         
+         // Return response to block
+         else if (block)
+         {
+             NSString  *showMessage = ([error localizedRecoverySuggestion] != nil) ? [error localizedRecoverySuggestion] : [error localizedDescription];
+             
+             if ( ([operation.response statusCode] == 401) && ([PreyConfig instance].email != nil) )
+                 showMessage = NSLocalizedString(@"Please make sure the password you entered is valid.",nil);
+             
+             else if ( ([operation.response statusCode] == 401) && ([PreyConfig instance].email == nil) )
+                 showMessage = NSLocalizedString(@"There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password.",nil);
+             
+             [self displayErrorAlert:showMessage title:NSLocalizedString(@"Couldn't check your password",nil)];
+             
+             block(nil, error);
+             [[PreyStatusClientV1 sharedClient] setAuthorizationHeaderWithUsername:[[PreyConfig instance] apiKey] password:@"x"];
+         }
+         
+         PreyLogMessage(@"PreyRestHttp", 10,@"Error profile.json: %@",error);
+     }];
+}
+
 + (void)getCurrentControlPanelApiKey:(NSInteger)reload withUser:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block
 {
     NSString *username = ([PreyConfig instance].apiKey) ? [PreyConfig instance].apiKey : user.email;

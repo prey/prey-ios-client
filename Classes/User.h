@@ -29,6 +29,7 @@
 @property (nonatomic) NSArray *devices;
 @property (nonatomic, getter = isPro) BOOL pro;
 
++ (void)getTokenFromPanel:(NSString*)emailUser password:(NSString*)passwordUser  withBlock:(void (^)(NSString *token, NSError *error))block;
 + (void)allocWithEmail:(NSString*)emailUser password:(NSString*)passwordUser  withBlock:(void (^)(User *user, NSError *error))block;
 + (void)createNew:(NSString*)nameUser email:(NSString*)emailUser password:(NSString*)passwordUser repassword:(NSString*)repasswordUser  withBlock:(void (^)(User *user, NSError *error))block;
 

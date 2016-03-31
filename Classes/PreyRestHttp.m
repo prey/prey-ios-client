@@ -35,6 +35,10 @@
 {
 }
 
++ (void)getTokenFromControlPanel:(NSInteger)reload withUser:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block
+{
+}
+
 + (void)createApiKey:(NSInteger)reload withUser:(User *)user withBlock:(void (^)(NSString *apiKey, NSError *error))block
 {
 

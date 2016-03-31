@@ -34,5 +34,6 @@
 @property (nonatomic) UIButton *cancelButton;
 
 + (UIWebViewController *)controllerToEnterdelegate:(id<UIWebViewControllerDelegate>)delegate setURL:(NSString*)stringURL;
++ (UIWebViewController *)controllerToEnterdelegate:(id<UIWebViewControllerDelegate>)delegate setURL:(NSString*)stringURL withParameters:(NSString*)params;
 
 @end

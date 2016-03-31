@@ -15,6 +15,7 @@
 
 @interface PreyConfig : NSObject {
     NSString *apiKey;
+    NSString *tokenPanel;
 	NSString *deviceKey;
 	NSString *checkUrl;
 	NSString *email;
@@ -36,6 +37,7 @@
 @property (nonatomic) NSString *exceptionsEndpoint;
 @property (nonatomic) NSString *dataEndpoint;
 @property (nonatomic) NSString *apiKey;
+@property (nonatomic) NSString *tokenPanel;
 @property (nonatomic) NSString *deviceKey;
 @property (nonatomic) NSString *email;
 
