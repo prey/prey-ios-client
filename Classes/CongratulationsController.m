@@ -80,9 +80,10 @@
         
         // Authorization Camera
         [PhotoController instance];
-        
+
+        // Disable for JWT Login 2016.03.31
         // Check TouchID
-        [self checkTouchID];
+        //[self checkTouchID];
     }
     else
     {
@@ -93,6 +94,8 @@
 	[super viewDidLoad];
 }
 
+// Disable for JWT Login 2016.03.31
+/*
 - (void)checkTouchID
 {
     LAContext   *context  = [[LAContext alloc] init];
@@ -116,6 +119,8 @@
         [[PreyConfig instance] saveValues];
     }
 }
+*/
+
 
 - (void)viewWillAppear:(BOOL)animated {
 	/*

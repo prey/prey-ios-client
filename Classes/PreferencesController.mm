@@ -549,6 +549,9 @@
 
 - (BOOL)isTouchIDAvailable
 {
+    return NO;
+    // Disable for JWT Login 2016.03.31
+    /*
     BOOL isAvailable = NO;
     
     if (IS_OS_8_OR_LATER)
@@ -561,6 +564,7 @@
     }
     
     return isAvailable;
+    */
 }
 
 

@@ -14,6 +14,9 @@
 //NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://control.preyhq.com/api/v2";  // STG
 NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://solid.preyproject.com/api/v2";  // PRD
 
+//NSString * const URL_SESSION_PANEL = @"https://panel.preyhq.com/session"; // STG
+NSString * const URL_SESSION_PANEL = @"https://panel.preyproject.com/session"; // PRD
+
 NSString * const URL_LOGIN_PANEL  = @"https://panel.preyproject.com/login?embeddable=true";
 NSString * const URL_FORGOT_PANEL = @"https://panel.preyproject.com/forgot?embeddable=true";
 

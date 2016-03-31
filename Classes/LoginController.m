@@ -43,6 +43,23 @@
 - (void) checkPassword
 {
     PreyConfig *config = [PreyConfig instance];
+    [User getTokenFromPanel:config.email password:loginPassword.text
+                  withBlock:^(NSString *token, NSError *error)
+    {
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+        
+        if (!error) // User Login
+        {
+            [config setTokenPanel:token];
+            [config saveValues];
+            [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*0, 0) animated:YES];
+        }
+    }]; // End Block User
+  
+
+    // Disable for JWT Login 2016.03.31
+    /*
     [User allocWithEmail:config.email password:loginPassword.text
                withBlock:^(User *user, NSError *error)
      {
@@ -56,6 +73,7 @@
              [self showPreferencesController];
          }
      }]; // End Block User
+    */
 }
 
 - (void)showPreferencesController
@@ -145,13 +163,16 @@
 
 - (IBAction)goToControlPanel:(UIButton *)sender
 {
-    if ([[UIDevice currentDevice] networkAvailable]) {
-        UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_LOGIN_PANEL];
+    if ([[UIDevice currentDevice] networkAvailable])
+    {
+        NSString *body = [NSString stringWithFormat:@"token=%@",[PreyConfig instance].tokenPanel];
+        UIViewController *controller = [UIWebViewController controllerToEnterdelegate:self setURL:URL_SESSION_PANEL withParameters:body];
         
         if (controller)
             [self.navigationController presentViewController:controller animated:YES completion:NULL];
     }
-    else {
+    else
+    {
         UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Information",nil)
                                                          message:NSLocalizedString(@"The internet connection appears to be offline",nil)
                                                         delegate:nil
@@ -162,10 +183,15 @@
 
 - (IBAction)goToSettings:(UIButton *)sender
 {
+    [self showPreferencesController];
+    
+    // Disable for JWT Login 2016.03.31
+    /*
     [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width, 0) animated:YES];
     
     if ( (IS_OS_8_OR_LATER) && ([PreyConfig instance].isTouchIDEnabled) )
         [self loginWithTouchID];
+    */
 }
 
 - (void)runWebForgot
@@ -177,6 +203,8 @@
         [appDelegate.viewController presentViewController:controller animated:YES completion:NULL];
 }
 
+// Disable for JWT Login 2016.03.31
+/*
 - (void)loginWithTouchID
 {
     LAContext   *context  = [[LAContext alloc] init];
@@ -209,6 +237,7 @@
                           }];
     }
 }
+*/
 
 - (void)viewDidLoad
 {
@@ -266,8 +295,9 @@
                                           scrollView.frame.size.width, scrollView.frame.size.height);
         }
         
-        if ( (IS_OS_8_OR_LATER) && ([PreyConfig instance].isTouchIDEnabled) )
-            [self loginWithTouchID];
+        // Disable for JWT Login 2016.03.31
+        //if ( (IS_OS_8_OR_LATER) && ([PreyConfig instance].isTouchIDEnabled) )
+        //    [self loginWithTouchID];
     }
     else
     {
@@ -278,6 +308,9 @@
         [self.devReady setHidden:NO];
         [self.preyLogo setHidden:NO];
         [self configButtonsForCamouflage:NO];
+        
+        // Enable for JWT Login 2016.03.31
+        [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*1, 0) animated:NO];
     }
     
     [self.loginPassword addTarget:self action:@selector(checkLoginPassword:) forControlEvents:UIControlEventEditingDidEndOnExit];
@@ -401,10 +434,13 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     int page = floor(self.scrollView.contentOffset.x/self.scrollView.frame.size.width);
     if (page != 0) {
-        PreyConfig *config = [PreyConfig instance];
-        if (!config.camouflageMode) {
-            [self.scrollView setScrollEnabled:YES];
-        }
+
+        [self.scrollView setScrollEnabled:NO];
+
+        // Disable for JWT Login 2016.03.31
+        //PreyConfig *config = [PreyConfig instance];
+        //if (!config.camouflageMode)
+        //    [self.scrollView setScrollEnabled:YES];
     }
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {

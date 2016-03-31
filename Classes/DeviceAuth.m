@@ -154,7 +154,7 @@ static NSString *const NOTIFY_AUTH   = @"notifyAuth";
     
     
     if (cameraAuth)
-        PreyLogMessage(@"App Delegate", 10, @"Location Services set Good!");
+        PreyLogMessage(@"App Delegate", 10, @"Camera set Good!");
     else
     {
         PreyLogMessage(@"App Delegate", 10, @"User has disabled Location services");
