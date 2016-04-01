@@ -30,12 +30,16 @@
                                 parameters:nil
                                    success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"GET geofencing.json: %@",responseObject);
+         NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+         PreyLogMessage(@"PreyRestHttp", 21, @"GET geofencing.json: %@",respString);
          
-         if (responseObject != nil) {
-             [[PreyCoreData instance] updateGeofenceZones:responseObject];
-         }
+         NSError *error2;
+         NSData *jsonData = [respString dataUsingEncoding:NSUTF8StringEncoding];
+         NSDictionary *jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error2];
          
+         if (jsonObjects != nil)
+             [[PreyCoreData instance] updateGeofenceZones:jsonObjects];
+
          if (block) {
              block(nil, nil);
          }
@@ -75,12 +79,12 @@
                                  parameters:requestData
                                     success:^(NSURLSessionDataTask *operation, id responseObject)
     {
-        PreyLogMessage(@"PreyRestHttp", 21, @"subscriptions/receipt: %@",responseObject);
-
         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
-         if (block)
-             block(resp, nil);
-         
+        PreyLogMessage(@"PreyRestHttp", 21, @"subscriptions/receipt: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+        
+        if (block)
+            block(resp, nil);
+        
      }failure:^(NSURLSessionDataTask *operation, NSError *error)
      {
          NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
@@ -112,12 +116,16 @@
                                 parameters:nil
                                    success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         //PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",responseObject);
+         NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+         PreyLogMessage(@"PreyRestHttp", 21, @"GET get_token.json: %@",respString);
+         
+         NSError *error2;
+         NSData *jsonData = [respString dataUsingEncoding:NSUTF8StringEncoding];
+         NSDictionary *jsonObjects = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error2];
          
          NSString *tokenPanel;
-         if (responseObject != nil) {
-             tokenPanel = [responseObject objectForKey:@"token"];
-         }
+         if (jsonObjects != nil)
+             tokenPanel = [jsonObjects objectForKey:@"token"];
          
          if (block)
              block(tokenPanel, nil);
@@ -167,13 +175,12 @@
                                     parameters:nil
                                        success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         //PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",responseObject);
+         PreyLogMessage(@"PreyRestHttp", 21, @"GET profile.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
-         if (responseObject != nil)
-         {
-             user.apiKey = [responseObject objectForKey:@"key"];
-             user.pro    = [[responseObject objectForKey:@"pro_account"] boolValue];
-         }
+         NSError *error2;
+         NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+         JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
+         [configParser parseRequest:respString forUser:user parseError:&error2];
          
          if (block) {
              block(user.apiKey, nil);
@@ -230,9 +237,12 @@
                                      parameters:requestData
                                         success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST signup.json: %@",responseObject);
+         PreyLogMessage(@"PreyRestHttp", 21, @"POST signup.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
-         NSString *userKey = [responseObject objectForKey:@"key"];
+         NSError *error2;
+         NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+         JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
+         NSString *userKey = [configParser parseKey:respString parseError:&error2];
          
          if (block)
              block(userKey, nil);
@@ -288,9 +298,12 @@
                                      parameters:requestData
                                         success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST devices.json: %@",responseObject);
+         PreyLogMessage(@"PreyRestHttp", 21, @"POST devices.json: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
-         NSString *deviceKeyString  = [responseObject objectForKey:@"key"];;
+         NSError *error2 = nil;
+         JsonConfigParser *configParser     = [[JsonConfigParser alloc] init];
+         NSString         *deviceKeyString  = [configParser parseKey:[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]
+                                                          parseError:&error2];
          
          if (block)
              block(deviceKeyString, nil);
@@ -336,7 +349,7 @@
                                           success:^(NSURLSessionDataTask *operation, id responseObject)
      {
          NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
-         PreyLogMessage(@"PreyRestHttp", 21, @"DELETE device: %@ : %ld",responseObject, (long)[resp statusCode]);
+         PreyLogMessage(@"PreyRestHttp", 21, @"DELETE device: %@ : %ld",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding], (long)resp.statusCode);
          
          if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
              [[ReportModule instance] stop];
@@ -379,7 +392,7 @@
                                         success:^(NSURLSessionDataTask *operation, id responseObject)
      {
          NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST notificationID: %@",responseObject);
+         PreyLogMessage(@"PreyRestHttp", 21, @"POST notificationID: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
          if (block)
              block(resp, nil);
@@ -431,7 +444,7 @@
                                     parameters:nil
                                        success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,responseObject);
+         PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
      } failure:^(NSURLSessionDataTask *operation, NSError *error) {
          PreyLogMessage(@"PreyRestHttp", 10,@"Error: %@",error);
@@ -446,14 +459,13 @@
                                     parameters:nil
                                        success:^(NSURLSessionDataTask *operation, id responseObject)
      {
-         PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,responseObject);
+         PreyLogMessage(@"PreyRestHttp", 21, @"GET devices/%@.json: %@",deviceKey,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
-         NewModulesConfig *modulesConfig = [[NewModulesConfig alloc] init];
+         NSString *respString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+         JsonConfigParser *configParser = [[JsonConfigParser alloc] init];
          
-         for (NSDictionary *dict in responseObject)
-         {
-             [modulesConfig addModule:dict];
-         }
+         NSError *error2;
+         NewModulesConfig *modulesConfig = [configParser parseModulesConfig:respString parseError:&error2];
          
          if ([modulesConfig checkAllModulesEmpty])
          {
@@ -498,7 +510,7 @@
                                         success:^(NSURLSessionDataTask *operation, id responseObject)
      {
          NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,responseObject);
+         PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          if (block)
              block(resp, nil);
          
@@ -552,7 +564,7 @@
     } success:^(NSURLSessionDataTask *operation, id responseObject) {
         
         NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
-        PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,responseObject);
+        PreyLogMessage(@"PreyRestHttp", 21, @"POST %@: %@",url,[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
         
         if (block)
             block(resp, nil);
@@ -600,7 +612,7 @@
                                         success:^(NSURLSessionDataTask *operation, id responseObject)
      {
          NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
-         PreyLogMessage(@"PreyRestHttp", 21, @"POST: %@",responseObject);
+         PreyLogMessage(@"PreyRestHttp", 21, @"POST: %@",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
          
          if (block)
              block(resp, nil);
