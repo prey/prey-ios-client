@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "GAITrackedViewController.h"
 
-@interface OnboardingView : UIViewController <UIScrollViewDelegate>
+@interface OnboardingView : GAITrackedViewController <UIScrollViewDelegate>
 
 @property (nonatomic) CGFloat widthScreen;
 @property (nonatomic) CGFloat heightScreen;

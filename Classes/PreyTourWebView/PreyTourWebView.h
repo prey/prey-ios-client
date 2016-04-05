@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 #import "UIWebViewController.h"
+#import "GAITrackedViewController.h"
 
-@interface PreyTourWebView : UIViewController <UIWebViewControllerDelegate, UIWebViewDelegate, MBProgressHUDDelegate>
+@interface PreyTourWebView : GAITrackedViewController <UIWebViewControllerDelegate, UIWebViewDelegate, MBProgressHUDDelegate>
 {
     UIWebView       *tourWebView;
     MBProgressHUD   *HUD;

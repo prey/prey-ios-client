@@ -24,6 +24,9 @@
 {
     [super viewDidLoad];
     
+    // View title for GAnalytics
+    self.screenName = @"Onboarding";
+    
     NSString *bgImage;
     
     if (IS_IPAD) {

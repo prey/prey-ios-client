@@ -22,6 +22,9 @@
 {
     [super viewDidLoad];
 
+    // View title for GAnalytics
+    self.screenName = @"Prey Tour";
+    
     NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
     language = [language substringToIndex:2];
     NSString *indexPage = ([language isEqualToString:@"es"]) ? @"index-es" : @"index";

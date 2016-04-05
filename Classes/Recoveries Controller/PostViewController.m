@@ -61,6 +61,13 @@
     return self;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.screenName = @"Recoveries: Post";    
+}
+
+
 #pragma UIWebViewDelegate
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{

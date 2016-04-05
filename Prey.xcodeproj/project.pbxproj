@@ -295,6 +295,7 @@
 		3B8AC7A219F9D0C800464098 /* prey-text@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC79319F9D0C800464098 /* prey-text@2x.png */; };
 		3B8AC7A719F9D0F200464098 /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC7A519F9D0F200464098 /* shutter.aiff */; };
 		3B8AC7A819F9D0F200464098 /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC7A619F9D0F200464098 /* siren.mp3 */; };
+		3B8D736B1CB40C5B007D6979 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B8D736A1CB40C5B007D6979 /* GoogleService-Info.plist */; };
 		3B8E69221AD43124002F489B /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E69211AD43124002F489B /* PostViewController.m */; };
 		3B90867F1966F6060015BB45 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */; };
 		3B9086801966F6060015BB45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -765,6 +766,7 @@
 		3B8AC79319F9D0C800464098 /* prey-text@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "prey-text@2x.png"; sourceTree = "<group>"; };
 		3B8AC7A519F9D0F200464098 /* shutter.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = shutter.aiff; sourceTree = "<group>"; };
 		3B8AC7A619F9D0F200464098 /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siren.mp3; sourceTree = "<group>"; };
+		3B8D736A1CB40C5B007D6979 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B8E69201AD43124002F489B /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
 		3B8E69211AD43124002F489B /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
 		3B90867E1966F6060015BB45 /* PreyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1698,6 +1700,7 @@
 				3B31F1CE19D0CCA500769982 /* GAIEcommerceProduct.h */,
 				3B31F1CF19D0CCA500769982 /* GAIEcommerceProductAction.h */,
 				3B31F1D019D0CCA500769982 /* GAIEcommercePromotion.h */,
+				3B8D736A1CB40C5B007D6979 /* GoogleService-Info.plist */,
 				3B9B4FEC1AA675E8001D3027 /* libAdIdAccess.a */,
 				3B675EF71891874500CE3D0D /* libGoogleAnalyticsServices.a */,
 			);
@@ -2120,6 +2123,7 @@
 				3B8AC76A19F9C96700464098 /* Icon-Small-40.png in Resources */,
 				3B2E21EE1C1C84B600BF8570 /* tour-es.png in Resources */,
 				3B8AC79919F9D0C800464098 /* bt-welcome.png in Resources */,
+				3B8D736B1CB40C5B007D6979 /* GoogleService-Info.plist in Resources */,
 				3B60DB7D1C7B9A0E00552A67 /* police1-ipad@2x.png in Resources */,
 				3B2E21DF1C1C65F900BF8570 /* shield-on@2x.png in Resources */,
 				3B4868221C623ACC00C915EF /* featuresReport@2x.png in Resources */,
