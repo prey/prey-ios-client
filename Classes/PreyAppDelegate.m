@@ -309,6 +309,8 @@
             else
                 nextController = (IS_IPHONE5) ? [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil] :
                                                 [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+            
+            [(LoginController*)nextController setHideLogin:NO];
         }
     }
     else

@@ -67,6 +67,19 @@
     HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
     HUD.label.text = NSLocalizedString(@"Creating account...",nil);
     
+    // Get Token for Control Panel
+    PreyConfig *config = [PreyConfig instance];
+    [User getTokenFromPanel:email.text password:password.text
+                  withBlock:^(NSString *token, NSError *error)
+     {
+         if (!error) // User Login
+         {
+             [config setTokenPanel:token];
+             [config saveValues];
+         }
+     }]; // End Block User
+
+    // Add new device to Control Panel
     [User createNew:[name text] email:[email text] password:[password text] repassword:[password text]
           withBlock:^(User *user, NSError *error)
      {

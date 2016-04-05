@@ -29,15 +29,13 @@
         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
         
         LoginController *loginController;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {
-            if (IS_IPHONE5)
-                loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil];
-            else
-                loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
-        }
-        else
+        if (IS_IPAD)
             loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
+        else
+            loginController = (IS_IPHONE5) ? [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil] :
+                                             [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+
+        loginController.hideLogin = NO;
         
         if (appDelegate.viewController.presentedViewController)
             [appDelegate.viewController.presentedViewController dismissViewControllerAnimated:NO completion:NULL];
@@ -62,15 +60,13 @@
         PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
         
         LoginController *loginController;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {
-            if (IS_IPHONE5)
-                loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil];
-            else
-                loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
-        }
-        else
+        if (IS_IPAD)
             loginController = [[LoginController alloc] initWithNibName:@"LoginController-iPad" bundle:nil];
+        else
+            loginController = (IS_IPHONE5) ? [[LoginController alloc] initWithNibName:@"LoginController-iPhone-568h" bundle:nil] :
+                                             [[LoginController alloc] initWithNibName:@"LoginController-iPhone" bundle:nil];
+        
+        loginController.hideLogin = NO;
         
         if (appDelegate.viewController.presentedViewController)
             [appDelegate.viewController.presentedViewController dismissViewControllerAnimated:NO completion:NULL];

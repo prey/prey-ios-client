@@ -18,18 +18,19 @@
 
 @interface LoginController : GAITrackedViewController <UIWebViewControllerDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
 {
-    UIImageView *loginImage;
-    UIScrollView *scrollView;
-	UITextField *loginPassword;
-    UIImageView *nonCamuflageImage;
-    UIImageView *preyLogo;
-    UILabel *devReady;
-    UILabel *detail;
-    UILabel *tipl;
-    UIButton *loginButton;
-    UIButton *panelButton;
-    UIButton *settingButton;
-    MBProgressHUD *HUD;
+    UIImageView     *loginImage;
+    UIScrollView    *scrollView;
+	UITextField     *loginPassword;
+    UIImageView     *nonCamuflageImage;
+    UIImageView     *preyLogo;
+    UILabel         *devReady;
+    UILabel         *detail;
+    UILabel         *tipl;
+    UIButton        *loginButton;
+    UIButton        *panelButton;
+    UIButton        *settingButton;
+    MBProgressHUD   *HUD;
+    BOOL            hideLogin;
 }
 
 @property (nonatomic) IBOutlet UIImageView *loginImage;
@@ -48,7 +49,7 @@
 @property (nonatomic) IBOutlet UILabel *preyAccountLbl;
 @property (nonatomic) IBOutlet UILabel *configureLbl;
 @property (nonatomic) IBOutlet UILabel *preySettingsLbl;
-
+@property (nonatomic) BOOL hideLogin;
 
 - (IBAction)checkLoginPassword:(id)sender;
 - (IBAction)goToControlPanel:(UIButton *)sender;

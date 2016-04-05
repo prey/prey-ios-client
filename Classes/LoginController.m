@@ -28,7 +28,7 @@
 @implementation LoginController
 
 @synthesize loginImage, scrollView, loginPassword, nonCamuflageImage, preyLogo, devReady, detail, tipl;
-@synthesize loginButton, panelButton, settingButton;
+@synthesize loginButton, panelButton, settingButton, hideLogin;
 
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -310,7 +310,8 @@
         [self configButtonsForCamouflage:NO];
         
         // Enable for JWT Login 2016.03.31
-        [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*1, 0) animated:NO];
+        if (!hideLogin)
+            [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*1, 0) animated:NO];
     }
     
     [self.loginPassword addTarget:self action:@selector(checkLoginPassword:) forControlEvents:UIControlEventEditingDidEndOnExit];
