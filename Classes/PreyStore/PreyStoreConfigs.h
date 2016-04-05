@@ -10,7 +10,7 @@
 #define kSubscription1Year  @"1year_personal_plan_non_renewing_full"
 
 
-#ifndef NDEBUG
+#ifdef DEBUG
 #define kReceiptValidationURL @"https://sandbox.itunes.apple.com/verifyReceipt"
 #else
 #define kReceiptValidationURL @"https://buy.itunes.apple.com/verifyReceipt"

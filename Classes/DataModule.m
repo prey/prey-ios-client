@@ -55,13 +55,14 @@
 
 - (void)sendHttpEvent:(NSMutableDictionary*)event withParameters:(NSMutableDictionary*)parameters
 {
+    /*
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:event options:NSJSONWritingPrettyPrinted error:&error];
     NSString *jsonString;
     
     if (jsonData)
         jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
+    */
     [[PreyRestHttp getClassVersion] sendJsonData:5 withData:parameters
                     toEndpoint:[DEFAULT_CONTROL_PANEL_HOST stringByAppendingFormat: @"/devices/%@/events",[[PreyConfig instance] deviceKey]]
                      withBlock:^(NSHTTPURLResponse *response, NSError *error) {

@@ -100,7 +100,7 @@
     
     [self.purchasableObjects addObjectsFromArray:response.products];
     
-#ifndef NDEBUG
+#ifdef DEBUG
     for (int i=0;i<[self.purchasableObjects count];i++)
     {
         SKProduct *product = [self.purchasableObjects objectAtIndex:i];

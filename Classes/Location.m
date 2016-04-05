@@ -123,7 +123,7 @@
     
     //[super notifyCommandResponse:@"get" withTarget:[self getName] withStatus:@"failed" withReason:errorString];
     
-    PreyLogMessage(@"Prey Location", 0, @"Error getting location: %@", [error description]);
+    PreyLogMessage(@"Prey Location", 0, @"Error getting location: %@: %@", errorString, [error description]);
 }
 
 - (NSString *) getName {

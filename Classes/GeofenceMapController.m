@@ -44,6 +44,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];    
     zoneInputs      = [[UITextField alloc] initWithFrame:CGRectZero];
     [self.view addSubview:zoneInputs];
     

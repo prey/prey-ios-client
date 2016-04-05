@@ -163,10 +163,12 @@
     // Reset RequestNumber
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"requestNumber"];
     
-    //LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
-	//LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.105", 50000);
+#ifdef DEBUG
+    LoggerSetOptions(NULL, 0x01);  //Logs to console instead of nslogger.
+    //LoggerSetViewerHost(NULL, (CFStringRef)@"10.0.0.105", 50000);
     //LoggerSetupBonjour(NULL, NULL, (CFStringRef)@"cyh");
-	//LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
+    //LoggerSetBufferFile(NULL, (CFStringRef)@"/tmp/prey.log");
+#endif
   
     PreyLogMessage(@"App Delegate", 20,  @"DID FINISH WITH OPTIONS %@!!", [launchOptions description]);
 

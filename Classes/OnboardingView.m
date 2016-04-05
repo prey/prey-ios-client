@@ -55,6 +55,7 @@
 {
     UIScrollView  *tmpScrollControl = (UIScrollView*) [self.view viewWithTag:kTagViewScroll];
     tmpScrollControl = nil;
+    [super viewDidUnload];
 }
 
 - (void)didReceiveMemoryWarning

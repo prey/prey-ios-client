@@ -11,14 +11,22 @@
 
 @implementation Constants
 
-//NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://control.preyhq.com/api/v2";  // STG
+#ifdef DEBUG
+NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://control.preyhq.com/api/v2";  // STG
+NSString * const URL_SESSION_PANEL = @"https://panel.preyhq.com/session"; // STG
+NSString * const URL_LOGIN_PANEL  = @"https://panel.preyhq.com/login?embeddable=true";
+NSString * const URL_FORGOT_PANEL = @"https://panel.preyhq.com/forgot?embeddable=true";
+
+BOOL const	SHOULD_LOG = YES;
+#else
 NSString * const DEFAULT_CONTROL_PANEL_HOST = @"https://solid.preyproject.com/api/v2";  // PRD
-
-//NSString * const URL_SESSION_PANEL = @"https://panel.preyhq.com/session"; // STG
 NSString * const URL_SESSION_PANEL = @"https://panel.preyproject.com/session"; // PRD
-
 NSString * const URL_LOGIN_PANEL  = @"https://panel.preyproject.com/login?embeddable=true";
 NSString * const URL_FORGOT_PANEL = @"https://panel.preyproject.com/forgot?embeddable=true";
+
+BOOL const	SHOULD_LOG = NO;
+#endif
+
 
 NSString * const URL_GEOFENCE_POST = @"https://preyproject.com/blog/2016/01/use-geofencing-to-actively-keep-track-of-your-devices";
 
@@ -34,9 +42,6 @@ NSString * const DEFAULT_DATA_ENDPOINT_LOCATION = @"data_endpoint_location";
 
 BOOL  const ASK_FOR_LOGIN = YES;
 BOOL const	USE_CONTROL_PANEL_DELAY=YES; //use the preferences page's instead.
-
-
-BOOL const	SHOULD_LOG = NO;
 
 
 +(NSString *) appName {

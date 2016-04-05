@@ -100,7 +100,7 @@
     
     //[super notifyCommandResponse:@"get" withTarget:@"report" withStatus:@"failed" withReason:errorString];
     
-    PreyLogMessage(@"Prey LocationController", 0, @"Error getting location: %@", [error description]);
+    PreyLogMessage(@"Prey LocationController", 0, @"Error getting location: %@: %@",errorString, [error description]);
 }
 
 - (void)accuracyUpdated:(NSNotification *)notification
