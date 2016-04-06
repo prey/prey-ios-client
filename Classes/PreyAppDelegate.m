@@ -22,9 +22,9 @@
 #import "OnboardingView.h"
 #import "PreyGeofencingController.h"
 
-#ifdef DEBUG
-#warning Linker warnings suppressed (-w in build settings) "Other Linker Flags"
-#endif
+//#ifdef DEBUG
+//#warning Linker warnings suppressed (-w in build settings) "Other Linker Flags"
+//#endif
 
 @implementation PreyAppDelegate
 
