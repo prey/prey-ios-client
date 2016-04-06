@@ -148,6 +148,15 @@ static NSString *const NOTIFY_AUTH   = @"notifyAuth";
         AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if (authStatus == AVAuthorizationStatusAuthorized)
             cameraAuth = YES;
+        else
+        {
+            NSString *mediaType = AVMediaTypeVideo;
+            
+            [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
+                cameraAuth = granted;
+                [self saveValues];
+            }];
+        }
     }
     else
         cameraAuth = YES;
