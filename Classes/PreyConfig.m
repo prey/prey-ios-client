@@ -10,10 +10,12 @@
 
 #import "PreyConfig.h"
 #import "Constants.h"
+#import "PreyAppDelegate.h"
 //deprecated
 static NSString *const CHECK_URL = @"check_url";
 
-
+#define kiTunesLink_Prey @"https://itunes.apple.com/us/app/apple-store/id456755037?mt=8"
+static NSString *const KeyNextTimeToAskForUpdate = @"KeyNextTimeToAskForUpdate";
 //
 //Settings (can be updated by SettingModule)
 static NSString *const CONTROL_PANEL_HOST = @"control_panel_host";
@@ -235,5 +237,84 @@ static NSString *const MISSING=@"is_missing";
 	[defaults setBool:isInterval forKey:INTERVAL_MODE];
 	[defaults synchronize];
 }
+
+// Compare local version with App Store version
+- (void)checkLastVersionOnStore
+{
+    NSString        *appID          = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
+    NSURL           *url            = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?bundleId=%@", appID]];
+    NSData          *data           = [NSData dataWithContentsOfURL:url];
+    
+    if (data) {
+        NSError         *error      = nil;
+        NSDictionary    *lookup     = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+
+        if (!error) {
+            @try {
+                if ([lookup[@"resultCount"] integerValue] == 1) {
+                    NSString    *appStoreVersion = lookup[@"results"][0][@"version"];
+                    NSString    *currentVersion  = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+                    
+                    if ([appStoreVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending)
+                        [self displayMessageAlert:NSLocalizedString(@"There is a new version available. Do you want to update?", nil)
+                                       withCancel:NSLocalizedString(@"Remind me later", nil)];
+                }
+            } @catch(NSException *theException) {
+                PreyLogMessage(@"PreyConfig", 20,  @"An exception occurred: %@", theException.name);
+            } 
+        }
+    }
+}
+
+- (void)displayMessageAlert:(NSString *)titleMessage withCancel:(NSString*)cancelOption
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:titleMessage
+                                                                 delegate:self
+                                                        cancelButtonTitle:cancelOption
+                                                   destructiveButtonTitle:NSLocalizedString(@"Download", nil)
+                                                        otherButtonTitles:nil];
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        [actionSheet showInView:appDelegate.window.rootViewController.view];
+    });
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+            // Download Action
+        case 0:
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kiTunesLink_Prey]];
+            break;
+            
+            // Remind me later Action
+        case 1: {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            const double    nextTime = CFAbsoluteTimeGetCurrent() + 60*60*23*1; // check again in 23 hours
+            [defaults setDouble:nextTime forKey:KeyNextTimeToAskForUpdate];
+            break;
+        }
+    }
+}
+
+- (bool)shouldAskForUpdateApp
+{
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    const double currentTime = CFAbsoluteTimeGetCurrent();
+    if ([defaults objectForKey:KeyNextTimeToAskForUpdate] == nil)
+    {
+        const double nextTime = currentTime + 60*60*23*1;  // 1 days (minus 2 hours)
+        [defaults setDouble:nextTime forKey:KeyNextTimeToAskForUpdate];
+        return false;
+    }
+    
+    const double nextTime = [defaults doubleForKey:KeyNextTimeToAskForUpdate];
+    if (currentTime < nextTime)
+        return false;
+    
+    return true;
+}
+
 
 @end

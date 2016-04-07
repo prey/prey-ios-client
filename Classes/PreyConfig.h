@@ -13,7 +13,7 @@
 #import "Device.h"
 
 
-@interface PreyConfig : NSObject {
+@interface PreyConfig : NSObject <UIActionSheetDelegate> {
     NSString *apiKey;
     NSString *tokenPanel;
 	NSString *deviceKey;
@@ -62,4 +62,6 @@
 - (void) loadDefaultValues;
 - (void) saveValues;
 - (void)resetValues;
+- (void)checkLastVersionOnStore;
+- (bool)shouldAskForUpdateApp;
 @end

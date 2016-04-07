@@ -348,6 +348,14 @@
             PreyLogMessage(@"App Delegate", 10, @"Geofence");
         }];
     }
+    
+    // Check New Version on App Store
+    if ( (!config.isMissing) && ([config shouldAskForUpdateApp]) ) {
+        dispatch_queue_t bgQueue = dispatch_queue_create("App Version Queue", DISPATCH_QUEUE_SERIAL);
+        dispatch_async(bgQueue, ^{
+            [[PreyConfig instance] checkLastVersionOnStore];
+        });
+    }
 }
 
 - (void)changeTexts
