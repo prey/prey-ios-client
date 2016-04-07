@@ -161,7 +161,7 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     NSLog(@"Error Loading Web: %@",[error description]);
-    [MBProgressHUD hideHUDForView:self.view animated:NO];
+    [MBProgressHUD hideHUDForView:webView animated:NO];
     
     UIAlertView *alerta = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"We have a situation!",nil)
                                                      message:NSLocalizedString(@"Error loading web, please try again.",nil)
@@ -173,7 +173,7 @@
 - (void) webViewDidFinishLoad: (UIWebView *) webView
 {
     NSLog(@"Finish Load Web");
-    [MBProgressHUD hideHUDForView:self.view animated:NO];
+    [MBProgressHUD hideHUDForView:webView animated:NO];
 
 
     
@@ -192,7 +192,7 @@
 
 - (void) webViewDidStartLoad: (UIWebView *) webView {
     NSLog(@"Start Load Web");
-    HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    HUD = [MBProgressHUD showHUDAddedTo:webView animated:YES];
     HUD.label.text = NSLocalizedString(@"Please wait",nil);
 }
 
