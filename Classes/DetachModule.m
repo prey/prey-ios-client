@@ -28,7 +28,7 @@
 
 - (void)detachDevice
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+    if ([PreyConfig instance].isMissing)
         [[ReportModule instance] stop];
     
     [[PreyConfig instance] resetValues];

@@ -351,7 +351,7 @@
          NSHTTPURLResponse* resp = (NSHTTPURLResponse*)operation.response;
          PreyLogMessage(@"PreyRestHttp", 21, @"DELETE device: %@ : %ld",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding], (long)resp.statusCode);
          
-         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+         if ([PreyConfig instance].isMissing)
              [[ReportModule instance] stop];
          
          if (block)

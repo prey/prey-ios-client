@@ -283,7 +283,7 @@
 
 - (void)displayScreen
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+    if ([PreyConfig instance].isMissing)
     {
         PreyLogMessage(@"App Delegate", 10, @"Send Report: displayScreen");
         [[ReportModule instance] get];
@@ -420,7 +420,7 @@
         }
     }];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+    if ([PreyConfig instance].isMissing)
         [self configSendReport:userInfo];
 }
 
@@ -506,7 +506,7 @@
     
     self.onPreyVerificationSucceeded = completionHandler;
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+    if ([PreyConfig instance].isMissing)
         [[ReportModule instance] get];
     else
     {

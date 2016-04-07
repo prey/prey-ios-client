@@ -37,11 +37,12 @@ static NSString *const INTERVAL_MODE=@"interval_mode";
 static NSString *const PRO_ACCOUNT=@"pro_account";
 static NSString *const TOUCH_ID=@"touch_id";
 static NSString *const TOUR_WEB=@"tour_web";
+static NSString *const MISSING=@"is_missing";
 
 @implementation PreyConfig
 
 @synthesize checkUrl, controlPanelHost, checkPath, exceptionsEndpoint, dataEndpoint, apiKey, deviceKey, email;
-@synthesize desiredAccuracy,alertOnReport,sendCrashReports,delay,alreadyRegistered,missing,askForPassword,camouflageMode,intervalMode,pro;
+@synthesize desiredAccuracy,alertOnReport,sendCrashReports,delay,alreadyRegistered,isMissing,askForPassword,camouflageMode,intervalMode,pro;
 @synthesize isTouchIDEnabled, hideTourWeb, tokenPanel;
 
 + (PreyConfig *)instance {
@@ -65,6 +66,7 @@ static NSString *const TOUR_WEB=@"tour_web";
         instance.pro                = [defaults boolForKey:PRO_ACCOUNT];
         instance.isTouchIDEnabled   = [defaults boolForKey:TOUCH_ID];
         instance.hideTourWeb        = [defaults boolForKey:TOUR_WEB];
+        instance.isMissing          = [defaults boolForKey:MISSING];
         [instance loadDefaultValues];
     });
     
@@ -121,9 +123,8 @@ static NSString *const TOUR_WEB=@"tour_web";
 	self.alreadyRegistered = [defaults boolForKey:ALREADY_REGISTERED];
     self.isTouchIDEnabled  = [defaults boolForKey:TOUCH_ID];
 	self.alertOnReport = [defaults boolForKey:ALERT_ON_REPORT];
-	self.missing = NO;
+    self.isMissing      = [defaults boolForKey:MISSING];
     self.askForPassword = YES;
-    
 }
 
 - (void)saveValues
@@ -148,6 +149,7 @@ static NSString *const TOUR_WEB=@"tour_web";
     [defaults setBool:[self intervalMode] forKey:INTERVAL_MODE];
     [defaults setBool:[self isTouchIDEnabled] forKey:TOUCH_ID];
     [defaults setBool:[self hideTourWeb] forKey:TOUR_WEB];
+    [defaults setBool:[self isMissing] forKey:MISSING];
     [defaults synchronize]; // this method is optional
 }
 
@@ -173,6 +175,7 @@ static NSString *const TOUR_WEB=@"tour_web";
     [defaults removeObjectForKey:INTERVAL_MODE];
     [defaults removeObjectForKey:TOUCH_ID];
     [defaults removeObjectForKey:TOUR_WEB];
+    [defaults removeObjectForKey:MISSING];
     [defaults synchronize]; // this method is optional
     
     [[PreyConfig instance] setEmail:nil];

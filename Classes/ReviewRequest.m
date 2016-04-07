@@ -8,6 +8,7 @@
 //  Full license at "/LICENSE"
 //
 #include "ReviewRequest.h"
+#import "PreyConfig.h"
 #include "Constants.h"
 
 #define APP_ID 456755037
@@ -66,7 +67,7 @@ static NSString * const KeySessionCountSinceLastAsked = @"ReviewRequestSessionCo
 {
 	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
 
-    if ([defaults boolForKey:@"SendReport"])
+    if ([PreyConfig instance].isMissing)
         return false;
     
 	if ([defaults boolForKey:KeyDontAsk])

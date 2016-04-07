@@ -22,7 +22,7 @@
 	double desiredAccuracy;
 	int	delay;
 	BOOL alreadyRegistered;
-	BOOL missing;
+	BOOL isMissing;
     BOOL askForPassword;
 	BOOL alertOnReport;
     BOOL camouflageMode;
@@ -43,7 +43,7 @@
 
 @property BOOL sendCrashReports;
 @property BOOL alreadyRegistered;
-@property BOOL missing;
+@property BOOL isMissing;
 @property (nonatomic) double desiredAccuracy;
 @property (nonatomic) BOOL askForPassword;
 @property (nonatomic) BOOL camouflageMode;

@@ -295,7 +295,7 @@
      {
          PreyLogMessage(@"PreyRestHttp", 21, @"DELETE device: %@ : %ld",[[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding], (long)[operation.response statusCode]);
          
-         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+         if ([PreyConfig instance].isMissing)
              [[ReportModule instance] stop];
          
          if (block)

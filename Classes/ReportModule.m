@@ -14,6 +14,7 @@
 #import "LocationController.h"
 #import "PhotoController.h"
 #import "Wifi-Info.h"
+#import "PreyConfig.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 
 @implementation ReportModule
@@ -72,7 +73,8 @@
 
         runReportTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:[ReportModule instance] selector:@selector(runReportModule:) userInfo:nil repeats:YES];
         
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SendReport"];
+        [[PreyConfig instance] setIsMissing:YES];
+        [[PreyConfig instance] saveValues];
         
         if (IS_OS_7_OR_LATER)
             [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:interval];
@@ -89,7 +91,7 @@
 
 - (void)runReportModule:(NSTimer *)timer
 {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SendReport"])
+    if ([PreyConfig instance].isMissing)
         [self get];
     else
         [self stop];
@@ -103,7 +105,8 @@
     lastExecution = nil;
     [[NSUserDefaults standardUserDefaults] setObject:lastExecution forKey:@"lastExecutionKey"];
 
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SendReport"];
+    [[PreyConfig instance] setIsMissing:NO];
+    [[PreyConfig instance] saveValues];
     
     if (IS_OS_7_OR_LATER)
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
