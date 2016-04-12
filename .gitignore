@@ -93,7 +93,7 @@ xcuserdata
 # But if you're going to kill personal workspaces, at least keep the shared ones...
 #
 #
-!xcshareddata
+#!xcshareddata
 
 ####
 # XCode 4 build-schemes
