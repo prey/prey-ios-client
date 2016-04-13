@@ -94,4 +94,4 @@ xcode_scheme: Prey
 before_install:
     - brew update
     - brew uninstall xctool && brew install xctool --HEAD
-script: travis_wait 30 xctool -project Prey.xcodeproj -scheme Prey build test -test-sdk iphonesimulator -destination "${TEST_OS}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+script: xctool -project Prey.xcodeproj -scheme Prey build test -test-sdk iphonesimulator -destination "${TEST_OS}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO

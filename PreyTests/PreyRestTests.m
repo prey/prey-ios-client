@@ -44,7 +44,9 @@
     NSLocale *locale = [NSLocale currentLocale];
     NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
     NSString *countryName = [locale displayNameForKey:NSLocaleCountryCode value:countryCode];
-	
+
+    countryName = (countryName) ? countryName : @"";
+    
     double    currentTime = CFAbsoluteTimeGetCurrent();
     NSString *newMail     = [NSString stringWithFormat:@"test%f@prey.io",currentTime];
     
