@@ -1,6 +1,5 @@
 language: objective-c
 osx_image: xcode7.3
-install: travis_wait mvn install
 env:
   matrix:
     - TEST_OS="platform=iOS Simulator,name=iPhone 4s,OS=9.3"
@@ -95,4 +94,4 @@ xcode_scheme: Prey
 before_install:
     - brew update
     - brew uninstall xctool && brew install xctool --HEAD
-script: xctool -project Prey.xcodeproj -scheme Prey build test -test-sdk iphonesimulator -destination "${TEST_OS}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+script: travis_wait 30 xctool -project Prey.xcodeproj -scheme Prey build test -test-sdk iphonesimulator -destination "${TEST_OS}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
