@@ -14,6 +14,8 @@
 
 @implementation AlarmModule
 
+@synthesize checkVolumeTimer;
+
 - (void) start {
     PreyLogMessage(@"alarm", 10, @"Playing the alarm now!");
     
@@ -29,8 +31,8 @@
     if (IS_OS_6_OR_LATER)
         [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
     
-    [[MPMusicPlayerController applicationMusicPlayer] setVolume:0.25];
-    [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(incrementVolume:) userInfo:nil repeats:YES];
+    [[MPMusicPlayerController applicationMusicPlayer] setVolume:1.0];
+    checkVolumeTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(incrementVolume:) userInfo:nil repeats:YES];
 
     
     NSURL* musicFile = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"siren" ofType:@"mp3"]];
@@ -53,14 +55,7 @@
     float systemVolume = [[MPMusicPlayerController applicationMusicPlayer] volume];
     
     if ( (systemVolume < 1.0 ) && ([audioPlayer isPlaying]) )
-    {
-        [[MPMusicPlayerController applicationMusicPlayer] setVolume:(systemVolume+0.25)];
-    }
-    else
-    {
-        [timer invalidate];
-        timer = nil;
-    }
+        [[MPMusicPlayerController applicationMusicPlayer] setVolume:(1.0)];
 }
 
 
@@ -74,11 +69,15 @@
 - (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error
 {
     [super notifyCommandResponse:[self getName] withStatus:@"stopped"];
+
+    [checkVolumeTimer invalidate];
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
     [super notifyCommandResponse:[self getName] withStatus:@"stopped"];
+
+    [checkVolumeTimer invalidate];
 }
 
 @end

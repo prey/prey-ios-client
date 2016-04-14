@@ -17,9 +17,10 @@
 @class AVAudioPlayer;
 @interface AlarmModule : ActionModule <AVAudioPlayerDelegate>
 {
-    AVAudioPlayer *audioPlayer;
+    AVAudioPlayer   *audioPlayer;
+    NSTimer         *checkVolumeTimer;
 }
 
-
+@property (nonatomic, strong) NSTimer   *checkVolumeTimer;
 
 @end
