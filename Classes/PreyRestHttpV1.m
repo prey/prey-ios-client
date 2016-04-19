@@ -212,6 +212,9 @@
          {
              NSString  *showMessage = ([error localizedRecoverySuggestion] != nil) ? [error localizedRecoverySuggestion] : [error localizedDescription];
              
+             if ([operation.response statusCode] == 422)
+                 showMessage = NSLocalizedString(@"Did you already register?",nil);
+             
              [self displayErrorAlert:showMessage title:NSLocalizedString(@"User couldn't be created",nil)];
 
              block(nil, error);
