@@ -8,6 +8,7 @@
 
 #import "QRCodeScannerVC.h"
 #import "PreyDeployment.h"
+#import "PreyRestHttp.h"
 
 @interface QRCodeScannerVC ()
 
@@ -111,10 +112,18 @@
 
     //NSLog(@"Code: %@", aScannedValue);
     
+    NSString *checkQr  = [aScannedValue substringToIndex:13];
+    NSString *apikeyQr = [aScannedValue substringFromIndex:13];
+
     [self stopScanning];
-    
+
     [self dismissViewControllerAnimated:YES completion:^{
-        [[PreyDeployment instance] addDeviceForApiKey:aScannedValue fromQRCode:YES];
+        
+        if ([checkQr isEqualToString:@"prey?api_key="])
+            [[PreyDeployment instance] addDeviceForApiKey:apikeyQr fromQRCode:YES];
+        else
+            [PreyRestHttp displayErrorAlert:NSLocalizedString(@"Try Again", nil)
+                                      title:NSLocalizedString(@"Couldn't add your device",nil)];
     }];
 }
 
