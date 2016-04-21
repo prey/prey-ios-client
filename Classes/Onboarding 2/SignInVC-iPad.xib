@@ -89,9 +89,9 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pPg-z2-QTN">
-                    <rect key="frame" x="422" y="398" width="65" height="30"/>
+                    <rect key="frame" x="588" y="80" width="100" height="145"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="QR-Code"/>
+                    <state key="normal" backgroundImage="qr-scan-code.png"/>
                     <connections>
                         <action selector="addDeviceWithQRCode:" destination="-1" eventType="touchUpInside" id="HI2-Vd-tVc"/>
                     </connections>
@@ -105,5 +105,6 @@
     <resources>
         <image name="bg-register.png" width="320" height="570"/>
         <image name="line-input.png" width="293" height="13"/>
+        <image name="qr-scan-code.png" width="231" height="336"/>
     </resources>
 </document>

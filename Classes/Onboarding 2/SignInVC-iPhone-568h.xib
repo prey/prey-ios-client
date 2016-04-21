@@ -9,7 +9,7 @@
             <string>TitilliumWeb-Bold</string>
             <string>TitilliumWeb-Bold</string>
         </mutableArray>
-        <mutableArray key="magdacleanmono-regular-webfont.ttf">
+        <mutableArray key="magdacleanmono-regular.otf">
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
         </mutableArray>
@@ -89,9 +89,9 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lgm-1r-Vu3">
-                    <rect key="frame" x="183" y="217" width="67" height="30"/>
+                    <rect key="frame" x="230" y="20" width="70" height="102"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="QR-Code"/>
+                    <state key="normal" backgroundImage="qr-scan-code.png"/>
                     <connections>
                         <action selector="addDeviceWithQRCode:" destination="-1" eventType="touchUpInside" id="KGL-cQ-ysB"/>
                     </connections>
@@ -106,5 +106,6 @@
     <resources>
         <image name="bg-register.png" width="320" height="570"/>
         <image name="line-input.png" width="293" height="13"/>
+        <image name="qr-scan-code.png" width="231" height="336"/>
     </resources>
 </document>
