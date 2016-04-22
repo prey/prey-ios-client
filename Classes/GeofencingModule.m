@@ -44,9 +44,11 @@
 }
 
 - (void)start{
-    [PreyRestHttpV2 checkGeofenceZones:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
-        PreyLogMessage(@"App Delegate", 10, @"Geofence check");
-    }];
+    if (IS_OS_7_OR_LATER) {
+        [PreyRestHttpV2 checkGeofenceZones:5 withBlock:^(NSHTTPURLResponse *response, NSError *error) {
+            PreyLogMessage(@"App Delegate", 10, @"Geofence check");
+        }];
+    }
 }
 
 - (void)start: (CLRegion *)region {

@@ -159,7 +159,7 @@
 		3B4B24DC1A115C76002B64E8 /* close_on@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D61A115C76002B64E8 /* close_on@3x.png */; };
 		3B5F0B341C18D68000A7B3E1 /* StatusDeviceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5F0B321C18D68000A7B3E1 /* StatusDeviceVC.m */; };
 		3B5F0B351C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B5F0B331C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib */; };
-		3B6003601A5DDAB300948F96 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; };
+		3B6003601A5DDAB300948F96 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3B60DB4C1C7B860A00552A67 /* prey-logo-txt-mono-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB4A1C7B860A00552A67 /* prey-logo-txt-mono-ipad.png */; };
 		3B60DB4D1C7B860A00552A67 /* prey-logo-txt-mono-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB4B1C7B860A00552A67 /* prey-logo-txt-mono-ipad@2x.png */; };
 		3B60DB501C7B89E300552A67 /* ashley1-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B60DB4E1C7B89E300552A67 /* ashley1-ipad.png */; };
@@ -248,7 +248,7 @@
 		3B7DB1C51B0D2A8100BF6F88 /* AppStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D2E431A0AF4DD00DF1EE7 /* AppStoreViewController.m */; };
 		3B7DB1C61B0D2BC400BF6F88 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BE24A811ABB91A800464C1D /* libxml2.dylib */; };
 		3B7DB1C71B0D2C1900BF6F88 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA73C791AA53713002080CB /* QuartzCore.framework */; };
-		3B7DB1C81B0D381D00BF6F88 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; };
+		3B7DB1C81B0D381D00BF6F88 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3B8011161C400467009BD2F1 /* PreyTourWeb in Resources */ = {isa = PBXBuildFile; fileRef = 3B8011151C400467009BD2F1 /* PreyTourWeb */; };
 		3B8AC75D19F9C96700464098 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC74319F9C96700464098 /* Default-568h@2x.png */; };
 		3B8AC75E19F9C96700464098 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B8AC74419F9C96700464098 /* Default-Portrait~ipad.png */; };
