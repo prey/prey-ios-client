@@ -9,6 +9,7 @@
 #import "QRCodeScannerVC.h"
 #import "PreyDeployment.h"
 #import "PreyRestHttp.h"
+#import "Constants.h"
 
 @interface QRCodeScannerVC ()
 
@@ -88,6 +89,18 @@
     con.videoOrientation = AVCaptureVideoOrientationPortrait;
     
     [self.view.layer insertSublayer:self.preview atIndex:0];
+    
+    CGSize  screen   = [[UIScreen mainScreen] bounds].size;
+#warning Improve Label iPad/iPhone
+    CGFloat widthLbl = (IS_IPAD) ? 450 : 320;
+    
+    UILabel *infoQR         = [[UILabel alloc] initWithFrame:CGRectMake(screen.width/4, screen.height-50, widthLbl, 50)];
+    infoQR.backgroundColor  = [UIColor blueColor];
+    infoQR.textColor        = [UIColor whiteColor];
+    infoQR.textAlignment    = NSTextAlignmentCenter;
+    infoQR.text             = NSLocalizedString(@"Go to panel.preyproject.com/qr to find your QR Code",nil);
+    
+    [self.view addSubview:infoQR];
 }
 
 #pragma mark AVCaptureMetadataOutputObjectsDelegate
@@ -122,7 +135,7 @@
         if ([checkQr isEqualToString:@"prey?api_key="])
             [[PreyDeployment instance] addDeviceForApiKey:apikeyQr fromQRCode:YES];
         else
-            [PreyRestHttp displayErrorAlert:NSLocalizedString(@"Try Again", nil)
+            [PreyRestHttp displayErrorAlert:NSLocalizedString(@"The scanned QR code is invalid", nil)
                                       title:NSLocalizedString(@"Couldn't add your device",nil)];
     }];
 }
