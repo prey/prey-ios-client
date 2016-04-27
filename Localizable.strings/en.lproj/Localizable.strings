@@ -1,3 +1,4 @@
+
 "Did you already register?" = "Did you already register?";
 
 "There is a new version available. Do you want to update?" = "There is a new version available. Do you want to update?";
@@ -5,6 +6,8 @@
 "Continue" = "Continue";
 
 "Download" = "Download";
+
+"The scanned QR code is invalid" = "The scanned QR code is invalid";
 
 "Read More" = "Read More";
 

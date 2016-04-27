@@ -18,4 +18,6 @@
 @property (nonatomic) IBOutlet UIButton *createAccountBtn;
 @property (nonatomic) IBOutlet UIButton *signInBtn;
 
+- (IBAction)addDeviceWithQRCode:(id)sender;
+
 @end

@@ -24,9 +24,20 @@ static NSString * const kConfigurationApiKey = @"apiKeyPrey";
 static NSString * const kFeedbackSuccessKey = @"success";
 
 
-+ (void)runPreyDeployment;
++ (PreyDeployment *)instance {
+    static PreyDeployment *instance = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        instance = [[PreyDeployment alloc] init];
+    });
+    
+    return instance;
+}
+
+
+- (void)runPreyDeployment;
 {
-    if (![PreyDeployment readDefaultsValues])
+    if (![[PreyDeployment instance] readDefaultsValues])
     {
         NSMutableArray *preyFiles = [NSMutableArray array];
         
@@ -60,11 +71,11 @@ static NSString * const kFeedbackSuccessKey = @"success";
             return;
         
         
-        [PreyDeployment addDeviceForApiKey:apiKeyUser];
+        [[PreyDeployment instance] addDeviceForApiKey:apiKeyUser fromQRCode:NO];
     }
 }
 
-+ (BOOL)readDefaultsValues
+- (BOOL)readDefaultsValues
 {
     BOOL successValue;
     
@@ -75,13 +86,13 @@ static NSString * const kFeedbackSuccessKey = @"success";
     // If validation fails, be sure to set a sensible default value as a fallback, even if it is nil.
     if (serverApiKey && [serverApiKey isKindOfClass:[NSString class]])
     {
-        [PreyDeployment addDeviceForApiKey:serverApiKey];
+        [[PreyDeployment instance] addDeviceForApiKey:serverApiKey fromQRCode:NO];
         successValue = YES;
     }
     else
         successValue = NO;
     
-    [PreyDeployment successManagedAppConfig:successValue];
+    [[PreyDeployment instance] successManagedAppConfig:successValue];
     
     
     PreyLogMessage(@"PreyDeployment", 10, @"Deployment: %@", (successValue ? @"YES" : @"NO"));
@@ -89,7 +100,7 @@ static NSString * const kFeedbackSuccessKey = @"success";
     return successValue;
 }
 
-+ (void)successManagedAppConfig:(BOOL)isSuccess
+- (void)successManagedAppConfig:(BOOL)isSuccess
 {
     NSMutableDictionary *feedback = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:kFeedbackKey] mutableCopy];
     if (!feedback) {
@@ -99,14 +110,25 @@ static NSString * const kFeedbackSuccessKey = @"success";
     [[NSUserDefaults standardUserDefaults] setObject:feedback forKey:kFeedbackKey];
 }
 
-+ (void)addDeviceForApiKey:(NSString *)apiKeyUser
+- (void)addDeviceForApiKey:(NSString *)apiKeyUser fromQRCode:(BOOL)isFromQRCode
 {
     User *newUser = [[User alloc] init];
     [newUser setApiKey:apiKeyUser];
     
+    if (isFromQRCode) {
+        PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+        HUD = [MBProgressHUD showHUDAddedTo:appDelegate.viewController.view animated:YES];
+        HUD.label.text = NSLocalizedString(@"Attaching device...",nil);
+    }
+    
     [Device newDeviceForApiKey:newUser
                      withBlock:^(User *user, Device *dev, NSError *error)
      {
+         if (isFromQRCode) {
+             PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+             [MBProgressHUD hideHUDForView:appDelegate.viewController.view animated:NO];
+         }
+         
          if (!error) // Device created
          {
              PreyConfig *config = [PreyConfig initWithApiKey:apiKeyUser andDevice:dev];
@@ -114,25 +136,20 @@ static NSString * const kFeedbackSuccessKey = @"success";
              {
                  [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
                  NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
-                 [PreyDeployment performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
+                 [[PreyDeployment instance] performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
              }
          }
      }]; // End Block Device
 }
 
-+ (void)showCongratsView:(NSString*)congratsText
+- (void)showCongratsView:(NSString*)congratsText
 {
     CongratulationsController *congratsController;
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        if (IS_IPHONE5)
-            congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone-568h" bundle:nil];
-        else
-            congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone" bundle:nil];
-    }
-    else
+    if (IS_IPAD)
         congratsController = [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPad" bundle:nil];
+    else
+        congratsController = (IS_IPHONE5) ? [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone-568h" bundle:nil] : [[CongratulationsController alloc] initWithNibName:@"CongratulationsController-iPhone" bundle:nil];
     
     congratsController.txtToShow = (NSString*) congratsText;
     

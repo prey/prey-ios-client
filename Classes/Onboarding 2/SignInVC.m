@@ -10,12 +10,23 @@
 #import "SignUpVC.h"
 #import "GAIDictionaryBuilder.h"
 #import "GAI.h"
+#import "QRCodeScannerVC.h"
 
 @interface SignInVC ()
 
 @end
 
 @implementation SignInVC
+
+- (IBAction)addDeviceWithQRCode:(id)sender {
+    
+#warning Available only iOS 7 or later
+    UIViewController *controller = [[QRCodeScannerVC alloc] init];
+    PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    if (controller)
+        [appDelegate.viewController presentViewController:controller animated:YES completion:NULL];
+}
 
 - (void)addDeviceForCurrentUser
 {

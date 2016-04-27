@@ -8,9 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "CongratulationsController.h"
+#import "MBProgressHUD.h"
 
-@interface PreyDeployment : NSObject
+@interface PreyDeployment : NSObject {
+    MBProgressHUD   *HUD;
+}
 
-+ (void)runPreyDeployment;
++ (PreyDeployment*)instance;
+- (void)runPreyDeployment;
+- (void)addDeviceForApiKey:(NSString *)apiKeyUser fromQRCode:(BOOL)isFromQRCode;
 
 @end
