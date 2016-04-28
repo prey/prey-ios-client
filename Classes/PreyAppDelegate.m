@@ -21,6 +21,7 @@
 #import "PreyStoreManager.h"
 #import "OnboardingView.h"
 #import "PreyGeofencingController.h"
+#import "QRCodeScannerVC.h"
 
 //#ifdef DEBUG
 //#warning Linker warnings suppressed (-w in build settings) "Other Linker Flags"
@@ -265,7 +266,8 @@
     PreyLogMessage(@"App Delegate", 20,  @"DID BECOME ACTIVE!!");
     
     if ( ([viewController.view superview] == window) ||
-         ([viewController.presentedViewController isKindOfClass:[GrettingsProViewController class]]) )
+         ([viewController.presentedViewController isKindOfClass:[GrettingsProViewController class]]) ||
+         ([viewController.presentedViewController isKindOfClass:[QRCodeScannerVC class]]) )
         return;
 
     

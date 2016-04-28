@@ -29,7 +29,7 @@
     
     [self.view setBackgroundColor:[UIColor redColor]];
     
-    CGFloat widthScreen = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat widthScreen     = [[UIScreen mainScreen] bounds].size.width;
     UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame: CGRectMake(0, 0, widthScreen, 44)];
     navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
     [self.view addSubview:navBar];
@@ -80,27 +80,39 @@
     [self.output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
     self.output.metadataObjectTypes = @[AVMetadataObjectTypeQRCode];
     
-    self.preview = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
-    self.preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    self.preview.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.preview                    = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
+    self.preview.videoGravity       = AVLayerVideoGravityResizeAspectFill;
+    self.preview.frame              = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     
-    AVCaptureConnection *con = self.preview.connection;
-    
-    con.videoOrientation = AVCaptureVideoOrientationPortrait;
+    AVCaptureConnection *con        = self.preview.connection;
+    con.videoOrientation            = AVCaptureVideoOrientationPortrait;
     
     [self.view.layer insertSublayer:self.preview atIndex:0];
     
-    CGSize  screen   = [[UIScreen mainScreen] bounds].size;
-#warning Improve Label iPad/iPhone
-    CGFloat widthLbl = (IS_IPAD) ? 450 : 320;
+    CGSize  screen      = [[UIScreen mainScreen] bounds].size;
+    CGFloat widthLbl    = screen.width;
+    CGFloat fontSize    = (IS_IPAD) ? 16.f : 12.f;
+    NSString *message   = (IS_IPAD) ?   NSLocalizedString(@"Go to panel.preyproject.com/qr to find your QR Code",nil) :
+                                        NSLocalizedString(@"Go to panel.preyproject.com/qr \nto find your QR Code",nil);
     
-    UILabel *infoQR         = [[UILabel alloc] initWithFrame:CGRectMake(screen.width/4, screen.height-50, widthLbl, 50)];
-    infoQR.backgroundColor  = [UIColor blueColor];
+    UILabel *infoQR         = [[UILabel alloc] initWithFrame:CGRectMake(0, screen.height-50, widthLbl, 50)];
+    infoQR.backgroundColor  = [UIColor colorWithRed:(53/255.f) green:(120/255.f) blue:(187/255.f) alpha:1.0f];
     infoQR.textColor        = [UIColor whiteColor];
     infoQR.textAlignment    = NSTextAlignmentCenter;
-    infoQR.text             = NSLocalizedString(@"Go to panel.preyproject.com/qr to find your QR Code",nil);
+    infoQR.font             = [UIFont fontWithName:@"OpenSans-Bold" size:fontSize];
+    infoQR.text             = message;
+    infoQR.numberOfLines    = 2;
+    infoQR.adjustsFontSizeToFitWidth = YES;
     
     [self.view addSubview:infoQR];
+    
+    CGFloat qrZoneSize  = (IS_IPAD) ? screen.width*0.6f : screen.width*0.78f;
+    CGFloat qrZonePosY  = (screen.height - qrZoneSize)/2;
+    CGFloat qrZonePosX  = (screen.width  - qrZoneSize)/2;
+    UIImageView *qrZone = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"qr-zone"]];
+    qrZone.frame        = CGRectMake(qrZonePosX, qrZonePosY, qrZoneSize, qrZoneSize);
+    
+    [self.view addSubview:qrZone];
 }
 
 #pragma mark AVCaptureMetadataOutputObjectsDelegate
@@ -124,15 +136,15 @@
 - (void)scanViewController:(QRCodeScannerVC *)aCtler didSuccessfullyScan:(NSString *)aScannedValue {
 
     //NSLog(@"Code: %@", aScannedValue);
+    NSString *validQr  = @"prey?api_key=";
+    NSString *checkQr  = (aScannedValue.length > validQr.length) ? [aScannedValue substringToIndex:validQr.length]   : @"";
+    NSString *apikeyQr = (aScannedValue.length > validQr.length) ? [aScannedValue substringFromIndex:validQr.length] : @"";
     
-    NSString *checkQr  = [aScannedValue substringToIndex:13];
-    NSString *apikeyQr = [aScannedValue substringFromIndex:13];
-
     [self stopScanning];
 
     [self dismissViewControllerAnimated:YES completion:^{
         
-        if ([checkQr isEqualToString:@"prey?api_key="])
+        if ([checkQr isEqualToString:validQr])
             [[PreyDeployment instance] addDeviceForApiKey:apikeyQr fromQRCode:YES];
         else
             [PreyRestHttp displayErrorAlert:NSLocalizedString(@"The scanned QR code is invalid", nil)

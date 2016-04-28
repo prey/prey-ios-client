@@ -159,6 +159,8 @@
 		3B4B24DA1A115C76002B64E8 /* close_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D41A115C76002B64E8 /* close_on.png */; };
 		3B4B24DB1A115C76002B64E8 /* close_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D51A115C76002B64E8 /* close_on@2x.png */; };
 		3B4B24DC1A115C76002B64E8 /* close_on@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B4B24D61A115C76002B64E8 /* close_on@3x.png */; };
+		3B5150501CD15243008CFEA1 /* qr-zone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B51504E1CD15243008CFEA1 /* qr-zone.png */; };
+		3B5150511CD15243008CFEA1 /* qr-zone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B51504F1CD15243008CFEA1 /* qr-zone@2x.png */; };
 		3B5F0B341C18D68000A7B3E1 /* StatusDeviceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5F0B321C18D68000A7B3E1 /* StatusDeviceVC.m */; };
 		3B5F0B351C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B5F0B331C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib */; };
 		3B6003601A5DDAB300948F96 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B60035F1A5DDAB300948F96 /* LocalAuthentication.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -632,6 +634,8 @@
 		3B4B24D51A115C76002B64E8 /* close_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_on@2x.png"; sourceTree = "<group>"; };
 		3B4B24D61A115C76002B64E8 /* close_on@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_on@3x.png"; sourceTree = "<group>"; };
 		3B4F8E0B18E4EFAE00C7DB43 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		3B51504E1CD15243008CFEA1 /* qr-zone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qr-zone.png"; sourceTree = "<group>"; };
+		3B51504F1CD15243008CFEA1 /* qr-zone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qr-zone@2x.png"; sourceTree = "<group>"; };
 		3B5F0B311C18D68000A7B3E1 /* StatusDeviceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusDeviceVC.h; path = "Classes/Onboarding 2/StatusDeviceVC.h"; sourceTree = "<group>"; };
 		3B5F0B321C18D68000A7B3E1 /* StatusDeviceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusDeviceVC.m; path = "Classes/Onboarding 2/StatusDeviceVC.m"; sourceTree = "<group>"; };
 		3B5F0B331C18D68000A7B3E1 /* StatusDevice-iPhone-568h.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "StatusDevice-iPhone-568h.xib"; path = "Classes/Onboarding 2/StatusDevice-iPhone-568h.xib"; sourceTree = "<group>"; };
@@ -1519,6 +1523,8 @@
 				3B8AC79319F9D0C800464098 /* prey-text@2x.png */,
 				3B33D8C41CC96B99002F0084 /* qr-scan-code.png */,
 				3B33D8C51CC96B99002F0084 /* qr-scan-code@2x.png */,
+				3B51504E1CD15243008CFEA1 /* qr-zone.png */,
+				3B51504F1CD15243008CFEA1 /* qr-zone@2x.png */,
 				3BA232951A0C2F85005E5145 /* store_pro-iPad.png */,
 				3BA232961A0C2F85005E5145 /* store_pro-iPad@2x.png */,
 				3BA232871A0B9757005E5145 /* store_pro.png */,
@@ -2132,6 +2138,7 @@
 				3B629DDF1C40655D001B24E5 /* restaurantBg.png in Resources */,
 				3B8AC79D19F9D0C800464098 /* ok-congratulations.png in Resources */,
 				3B8AC79719F9D0C800464098 /* bg-welcome-iPhone5.png in Resources */,
+				3B5150511CD15243008CFEA1 /* qr-zone@2x.png in Resources */,
 				3BF5257F1C7E051B001003DA /* shield-on-ipad.png in Resources */,
 				3B39B5601AB0D74B00B313AD /* OnboardingView-iPad.xib in Resources */,
 				3B60DB5B1C7B8E7C00552A67 /* arrowBack-ipad@2x.png in Resources */,
@@ -2182,6 +2189,7 @@
 				3B8AC78019F9D01C00464098 /* Roboto-Regular.ttf in Resources */,
 				3B60DB5C1C7B8E7C00552A67 /* arrowNext-ipad.png in Resources */,
 				3B8AC79A19F9D0C800464098 /* camouflage-iPad.png in Resources */,
+				3B5150501CD15243008CFEA1 /* qr-zone.png in Resources */,
 				3B6FEA721C1B22F200790B30 /* bg-register.png in Resources */,
 				3B6FEA731C1B22F200790B30 /* bg-register@2x.png in Resources */,
 				3BF525781C7E01D0001003DA /* preyIcon-ipad@2x.png in Resources */,

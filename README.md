@@ -2,7 +2,7 @@
   <img src="https://pbs.twimg.com/profile_images/637039704228130817/xhKX1xSC.png" alt="Prey: iOS client" height="200" width="200"/>
 </p>
 #Prey 
-[![Build Status](https://travis-ci.org/jCalaU/prey-ios-client.svg?branch=master)](https://travis-ci.org/jCalaU/prey-ios-client) 
+[![Build Status](https://travis-ci.org/prey/prey-ios-client.svg?branch=master)](https://travis-ci.org/prey/prey-ios-client) 
 [![AUR](https://img.shields.io/aur/license/yaourt.svg?maxAge=2592000)](http://www.gnu.org/licenses/gpl-3.0.en.html)
 [![GitHub release](https://img.shields.io/badge/release-v1.5.2-blue.svg)](https://github.com/prey/prey-ios-client/releases)
 

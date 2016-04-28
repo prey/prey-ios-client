@@ -19,8 +19,8 @@
 @implementation SignInVC
 
 - (IBAction)addDeviceWithQRCode:(id)sender {
-    
-#warning Available only iOS 7 or later
+
+    // Available only on iOS 7 or later
     UIViewController *controller = [[QRCodeScannerVC alloc] init];
     PreyAppDelegate *appDelegate = (PreyAppDelegate*)[[UIApplication sharedApplication] delegate];
     
@@ -125,6 +125,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Hide QR Code < iOS 7
+    if (!IS_OS_7_OR_LATER) {
+        UIButton *qrBtn = (UIButton*)[self.view viewWithTag:1111];
+        qrBtn.hidden    = YES;
+    }
     
     // Config Keyboard
     if (IS_IPAD)
