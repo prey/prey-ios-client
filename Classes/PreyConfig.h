@@ -56,7 +56,7 @@
 
 + (PreyConfig*) instance;
 + (PreyConfig*) initWithUser:(User*)user andDevice:(Device*)device;
-+ (PreyConfig*) initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device;
++ (PreyConfig*) initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device fromQRCode:(BOOL)isFromQRCode;
 - (NSString *) deviceCheckPathWithExtension: (NSString *) extension;
 - (NSString *) readConfigValueForKey: (NSString *) key;
 - (void) loadDefaultValues;

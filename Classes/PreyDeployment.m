@@ -131,7 +131,7 @@ static NSString * const kFeedbackSuccessKey = @"success";
          
          if (!error) // Device created
          {
-             PreyConfig *config = [PreyConfig initWithApiKey:apiKeyUser andDevice:dev];
+             PreyConfig *config = [PreyConfig initWithApiKey:apiKeyUser andDevice:dev fromQRCode:isFromQRCode];
              if (config != nil)
              {
                  [(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];

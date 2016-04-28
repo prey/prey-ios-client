@@ -95,7 +95,7 @@ static NSString *const MISSING=@"is_missing";
     return newConfig;
 }
 
-+ (PreyConfig*)initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device
++ (PreyConfig*)initWithApiKey:(NSString*)apiKeyUser andDevice:(Device*)device fromQRCode:(BOOL)isFromQRCode
 {
 	PreyConfig *newConfig = [PreyConfig instance];
     newConfig.controlPanelHost = DEFAULT_CONTROL_PANEL_HOST;
@@ -105,7 +105,7 @@ static NSString *const MISSING=@"is_missing";
     newConfig.dataEndpoint = DEFAULT_DATA_ENDPOINT_LOCATION;
 	
     newConfig.apiKey = apiKeyUser;
-    newConfig.pro = YES;
+    newConfig.pro = (isFromQRCode) ? NO : YES;
 	newConfig.deviceKey = [device deviceKey];
 	newConfig.email = apiKeyUser;
 	[newConfig loadDefaultValues];
