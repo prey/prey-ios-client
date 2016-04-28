@@ -92,12 +92,12 @@
     CGSize  screen      = [[UIScreen mainScreen] bounds].size;
     CGFloat widthLbl    = screen.width;
     CGFloat fontSize    = (IS_IPAD) ? 16.f : 12.f;
-    NSString *message   = (IS_IPAD) ?   NSLocalizedString(@"Go to panel.preyproject.com/qr to find your QR Code",nil) :
-                                        NSLocalizedString(@"Go to panel.preyproject.com/qr \nto find your QR Code",nil);
+    NSString *message   = (IS_IPAD) ?   NSLocalizedString(@"Visit panel.preyproject.com/qr on your computer and scan the QR code",nil) :
+                                        NSLocalizedString(@"Visit panel.preyproject.com/qr \non your computer and scan the QR code",nil);
     
     UILabel *infoQR         = [[UILabel alloc] initWithFrame:CGRectMake(0, screen.height-50, widthLbl, 50)];
-    infoQR.backgroundColor  = [UIColor colorWithRed:(53/255.f) green:(120/255.f) blue:(187/255.f) alpha:1.0f];
-    infoQR.textColor        = [UIColor whiteColor];
+    infoQR.textColor        = [UIColor colorWithRed:.3019f green:.3411f blue:.4f alpha:0.7f];
+    infoQR.backgroundColor  = [UIColor whiteColor];
     infoQR.textAlignment    = NSTextAlignmentCenter;
     infoQR.font             = [UIFont fontWithName:@"OpenSans-Bold" size:fontSize];
     infoQR.text             = message;
