@@ -1,5 +1,5 @@
 //
-//  StringExtension.swift
+//  StringExt.swift
 //  Prey
 //
 //  Created by Javier Cala Uribe on 2/05/16.

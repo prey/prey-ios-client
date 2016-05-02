@@ -23,7 +23,7 @@ class LogInVC: UIViewController {
         configureTextButton()
         
         // Dismiss Keyboard on tap outside
-        let recognizer = UITapGestureRecognizer(target: self, action:Selector("dismissKeyboard:"))
+        let recognizer = UITapGestureRecognizer(target: self, action:#selector(LogInVC.dismissKeyboard(_:)))
         view.addGestureRecognizer(recognizer)
     }
 
@@ -37,8 +37,8 @@ class LogInVC: UIViewController {
         
         // Listen for changes to keyboard visibility so that we can adjust the text view accordingly.
         let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: "handleKeyboardWillShowNotification:", name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: "handleKeyboardWillHideNotification:", name: UIKeyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(LogInVC.handleKeyboardWillShowNotification(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(LogInVC.handleKeyboardWillHideNotification(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -113,34 +113,36 @@ class LogInVC: UIViewController {
             return
         }
         
-        let actInd = UIActivityIndicatorView(activityIndicatorStyle:UIActivityIndicatorViewStyle.Gray)
-        actInd.center = self.view.center
+        // Show ActivityIndicator
+        let actInd              = UIActivityIndicatorView(activityIndicatorStyle:UIActivityIndicatorViewStyle.Gray)
+        actInd.center           = self.view.center
         actInd.hidesWhenStopped = true
         self.view.addSubview(actInd)
         actInd.startAnimating()
         
-        PreyUser.logInToPrey(emailTextField.text!, userPassword: passwordTextField.text!, onCompletion: {(isSuccess: Bool?) in
-            actInd.stopAnimating()
-            print("Done: LogIn")
+        // LogIn to Panel Prey
+        PreyUser.logInToPrey(emailTextField.text!, userPassword: passwordTextField.text!, onCompletion: {(isSuccess: Bool) in
+
+            if isSuccess {
+                
+                // Add Device to Panel Prey
+                PreyDevice.addDeviceWith({(isSuccess: Bool) in
+                  
+                    
+                })
+                
+            } else {
+                // Hide ActivityIndicator
+                dispatch_async(dispatch_get_main_queue()) {
+                    actInd.stopAnimating()
+                }
+            }
         })
     }
 }
 
 
 /*
-if (![email.text isMatchedByRegex:strEmailMatchstring]){
-    UIAlertView *objAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:NSLocalizedString(@"Enter a valid e-mail address",nil) delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Try Again",nil),nil];
-    [objAlert show];
-    
-    [email becomeFirstResponder];
-    return;
-}
-
-[self hideKeyboard];
-
-HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-HUD.delegate = self;
-HUD.labelText = NSLocalizedString(@"Attaching device...",nil);
 
 [User allocWithEmail:[email text] password:[password text]
 withBlock:^(User *user, NSError *error)

@@ -10,7 +10,11 @@ import Foundation
 import UIKit
 
 // Definition of URLs
+#if DEBUG
+public let URLControlPanel: String = "https://control.preyhq.com/api/v2"
+#else
 public let URLControlPanel: String = "https://solid.preyproject.com/api/v2"
+#endif
 
 // Endpoint for LogIn
 public let logInEndpoint: String = "/profile.json"
@@ -18,11 +22,18 @@ public let logInEndpoint: String = "/profile.json"
 // Endpoint for SignUp
 public let signUpEndpoint: String = "/signup.json"
 
+// Endpoint for Add Devices
+public let devicesEndpoint: String = "/devices.json"
+
+
 // Http method definitions
 public enum Method: String {
     case GET  = "GET"
     case POST = "POST"
 }
+
+// Def type device
+public let IS_IPAD: Bool = (UIDevice.currentDevice().userInterfaceIdiom != UIUserInterfaceIdiom.Phone)
 
 // Number of Reload for Connection
 public let reloadConnection: Int = 5
@@ -30,16 +41,8 @@ public let reloadConnection: Int = 5
 // Delay for Reload connection
 public let delayTime: Double = 2
 
-
 // Email RegExp
 public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b"
-
-// Extension for NSLocalizedString
-extension String {
-    var localized: String {
-        return NSLocalizedString(self, tableName: nil, bundle: NSBundle.mainBundle(), value: "", comment: "")
-    }
-}
 
 
 // Validate email expression
@@ -77,6 +80,6 @@ public func displayErrorAlert(alertMessage: String, titleMessage:String) {
     let alert = UIAlertView()
     alert.title = titleMessage
     alert.message = alertMessage
-    alert.addButtonWithTitle("OK")
+    alert.addButtonWithTitle("OK".localized)
     alert.show()
 }

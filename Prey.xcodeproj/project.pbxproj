@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D709F1CD7D62A00DEB461 /* UIDeviceExt.swift */; };
+		3B6D70A31CD7E3D400DEB461 /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D70A21CD7E3D400DEB461 /* StringExt.swift */; };
 		3B77804E1A600CCE0050C747 /* PreyUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B77804D1A600CCE0050C747 /* PreyUser.swift */; };
 		3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */; };
 		3B8283FA199198E6000E4545 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F9199198E6000E4545 /* Images.xcassets */; };
@@ -55,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B6D709F1CD7D62A00DEB461 /* UIDeviceExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIDeviceExt.swift; path = Classes/UIDeviceExt.swift; sourceTree = "<group>"; };
+		3B6D70A21CD7E3D400DEB461 /* StringExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExt.swift; path = Classes/StringExt.swift; sourceTree = "<group>"; };
 		3B77804D1A600CCE0050C747 /* PreyUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyUser.swift; path = Classes/PreyUser.swift; sourceTree = "<group>"; };
 		3B8283ED199198E6000E4545 /* Prey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B8283F1199198E6000E4545 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,6 +105,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B6D70A11CD7E34800DEB461 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				3B6D709F1CD7D62A00DEB461 /* UIDeviceExt.swift */,
+				3B6D70A21CD7E3D400DEB461 /* StringExt.swift */,
+			);
+			name = Extension;
+			sourceTree = "<group>";
+		};
 		3B8283E4199198E6000E4545 = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +136,7 @@
 		3B8283EF199198E6000E4545 /* Prey */ = {
 			isa = PBXGroup;
 			children = (
+				3B6D70A11CD7E34800DEB461 /* Extension */,
 				3B8E57CD1A2E71B30027179E /* ViewController */,
 				3B8E57D21A2E7B530027179E /* AppDelegate.swift */,
 				3B77804D1A600CCE0050C747 /* PreyUser.swift */,
@@ -308,6 +322,7 @@
 			files = (
 				3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */,
 				3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */,
+				3B6D70A31CD7E3D400DEB461 /* StringExt.swift in Sources */,
 				3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
 				3B77804E1A600CCE0050C747 /* PreyUser.swift in Sources */,
@@ -319,6 +334,7 @@
 				3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */,
 				3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */,
 				3B8E57DD1A2E7B530027179E /* LogInVC.swift in Sources */,
+				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +474,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = Prey/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
