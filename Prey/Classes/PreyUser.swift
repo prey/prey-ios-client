@@ -20,6 +20,9 @@ class PreyUser {
     var apiKey: String?
     var isPro: Bool?
     
+    // MARK: Functions
+
+    // Get country name from NSLocale
     class func getCountryName() -> String? {
         let locale          = NSLocale.currentLocale()
         let countryCode     = locale.objectForKey(NSLocaleCountryCode) as! String
@@ -27,39 +30,96 @@ class PreyUser {
         
         return countryName
     }
-    
-    // MARK: Functions
+
+    // SignUp to Panel Prey
     class func signUpToPrey(userName: String, userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool?) -> Void) {
         
-        let preyUser        = PreyUser()
-        preyUser.name       = userName
-        preyUser.email      = userEmail
-        preyUser.password   = userPassword
-        preyUser.isPro      = false
-        preyUser.country    = getCountryName()
-
         let params:[String: AnyObject] = [
-            "name"                  : preyUser.name!,
-            "email"                 : preyUser.email!,
-            "country_name"          : preyUser.country!,
-            "password"              : preyUser.password!,
-            "password_confirmation" : preyUser.password!,
+            "name"                  : userName,
+            "email"                 : userEmail,
+            "country_name"          : getCountryName()!,
+            "password"              : userPassword,
+            "password_confirmation" : userPassword,
             "referer_user_id"       : ""]
-
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(preyUser, params:params, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:({(data, response, error) in
+        
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(userName, password:userPassword, params:params, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:({(data, response, error) in
+            
+            // Check error with NSURLSession request
+            guard error == nil else {
+                
+                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    displayErrorAlert(alertMessage!.localized, titleMessage:"User couldn't be created".localized)
+                }
+                onCompletion(isSuccess:false)
+                
+                return
+            }
+            
             print("PreyUser: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            
+            let httpURLResponse = response as! NSHTTPURLResponse
+            
+            switch httpURLResponse.statusCode {
+                
+            // === Success
+            case 201:
+                let jsonObject: NSDictionary
+                
+                do {
+                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                    
+                    let userApiKeyStr = jsonObject.objectForKey("key") as! String
+                    PreyConfig.sharedInstance.userApiKey = userApiKeyStr
+                    
+                    onCompletion(isSuccess:true)
+                    
+                } catch let error as NSError{
+                    print("json error: \(error.localizedDescription)")
+                }
+                
+            // === Client Error
+            case 422:
+                let alertMessage = "Did you already register?".localized
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
+                }
+                onCompletion(isSuccess:false)
+
+                // === Server Error
+                /*case 503:
+                 if reload > 0 {
+                 // Retrying
+                 let timeValue = dispatch_time(DISPATCH_TIME_NOW, Int64(delayTime * Double(NSEC_PER_SEC)))
+                 //dispatch_after(timeValue, dispatch_get_main_queue(), { () -> Void in
+                 //    self.userLogInToPrey(reload - 1, preyUser:preyUser, onCompletion:onCompletion)  })
+                 } else {
+                 
+                 // Stop retrying
+                 let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion :
+                 error?.localizedDescription;
+                 dispatch_async(dispatch_get_main_queue()) {
+                 displayErrorAlert(alertMessage!.localized, titleMessage:"Server Error".localized)
+                 }
+                 }*/
+                
+            // === Error
+            default:
+                let alertMessage = "Error";
+                dispatch_async(dispatch_get_main_queue()) {
+                    displayErrorAlert(alertMessage.localized, titleMessage:"User couldn't be created".localized)
+                }
+                onCompletion(isSuccess:false)
+            }
         }))
     }
     
-    class func logInToPrey(userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool?) -> Void) {
+    // LogIn to Panel Prey
+    class func logInToPrey(userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool) -> Void) {
         
-        let preyUser        = PreyUser()
-        preyUser.email      = userEmail
-        preyUser.password   = userPassword
-        preyUser.isPro      = false
-        
-        
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(preyUser, params:nil, httpMethod:Method.GET.rawValue, endPoint:logInEndpoint, onCompletion:({(data, response, error) in
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, httpMethod:Method.GET.rawValue, endPoint:logInEndpoint, onCompletion:({(data, response, error) in
             
             // Check error with NSURLSession request
             guard error == nil else {
@@ -124,10 +184,9 @@ class PreyUser {
                 
             // === Error
             default:
-                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion :
-                    error?.localizedDescription;
+                let alertMessage = "Error";
                 dispatch_async(dispatch_get_main_queue()) {
-                    displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't check your password".localized)
+                    displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
                 }
                 onCompletion(isSuccess:false)
             }

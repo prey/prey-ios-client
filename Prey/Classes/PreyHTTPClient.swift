@@ -51,13 +51,10 @@ class PreyHTTPClient {
     // MARK: Requests to Prey API
     
     // SignUp/LogIn User to Control Panel
-    func userRegisterToPrey(preyUser: PreyUser, params: [String: AnyObject]?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
-        
-        // If userApiKey is empty select userEmail
-        let username = (PreyConfig.sharedInstance.userApiKey != nil) ? PreyConfig.sharedInstance.userApiKey : preyUser.email
+    func userRegisterToPrey(username: String, password: String, params: [String: AnyObject]?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
         
         // Encode username and pwd
-        let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username!, preyUser.password!) as String)
+        let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
         
         // Set session Config
         let sessionConfig   = getSessionConfig(userAuthorization)
