@@ -32,7 +32,7 @@ class PreyUser {
     }
 
     // SignUp to Panel Prey
-    class func signUpToPrey(userName: String, userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool?) -> Void) {
+    class func signUpToPrey(userName: String, userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool) -> Void) {
         
         let params:[String: AnyObject] = [
             "name"                  : userName,
