@@ -12,21 +12,55 @@ enum PreyConfigDevice: String {
     case UserApiKey
     case UserEmail
     case DeviceKey
+    case IsRegistered
+    case IsPro
 }
 
 class PreyConfig {
     
+    // MARK: Singleton
+    
     static let sharedInstance = PreyConfig()
     private init() {
         
-        let defaultConfig = NSUserDefaults.standardUserDefaults()
-        userApiKey = defaultConfig.stringForKey(PreyConfigDevice.UserApiKey.rawValue)
-        userEmail  = defaultConfig.stringForKey(PreyConfigDevice.UserEmail.rawValue)
-        devicekey  = defaultConfig.stringForKey(PreyConfigDevice.DeviceKey.rawValue)
+        let defaultConfig   = NSUserDefaults.standardUserDefaults()
+        userApiKey          = defaultConfig.stringForKey(PreyConfigDevice.UserApiKey.rawValue)
+        userEmail           = defaultConfig.stringForKey(PreyConfigDevice.UserEmail.rawValue)
+        deviceKey           = defaultConfig.stringForKey(PreyConfigDevice.DeviceKey.rawValue)
+        isRegistered        = defaultConfig.boolForKey(PreyConfigDevice.IsRegistered.rawValue)
+        isPro               = defaultConfig.boolForKey(PreyConfigDevice.IsPro.rawValue)
     }
 
-    var userApiKey : String?
-    var userEmail : String?
-    var devicekey : String?
+    // MARK: Properties
     
+    var userApiKey  : String?
+    var userEmail   : String?
+    var deviceKey   : String?
+    var isRegistered: Bool
+    var isPro       : Bool
+    
+    // MARK: Functions
+    
+    // Save values on NSUserDefaults
+    func saveValues() {
+        
+        let defaultConfig   = NSUserDefaults.standardUserDefaults()
+        defaultConfig.setObject(userApiKey, forKey:PreyConfigDevice.UserApiKey.rawValue)
+        defaultConfig.setObject(userEmail, forKey:PreyConfigDevice.UserEmail.rawValue)
+        defaultConfig.setObject(deviceKey, forKey:PreyConfigDevice.DeviceKey.rawValue)
+        defaultConfig.setBool(isRegistered, forKey:PreyConfigDevice.IsRegistered.rawValue)
+        defaultConfig.setBool(isPro, forKey:PreyConfigDevice.IsPro.rawValue)
+    }
+    
+    // Reset values on NSUserDefaults
+    func resetValues() {
+        
+        userApiKey      = nil
+        userEmail       = nil
+        deviceKey       = nil
+        isRegistered    = false
+        isPro           = false
+        
+        saveValues()
+    }
 }

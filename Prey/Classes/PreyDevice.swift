@@ -87,15 +87,17 @@ class PreyDevice {
             switch httpURLResponse.statusCode {
                 
             // === Success
-            case 201:
+            case 200...299:
                 let jsonObject: NSDictionary
                 
                 do {
                     jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
                     
                     let deviceKeyStr = jsonObject.objectForKey("key") as! String
-                    PreyConfig.sharedInstance.devicekey = deviceKeyStr
-                    
+                    PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
+                    PreyConfig.sharedInstance.isRegistered  = true
+                    PreyConfig.sharedInstance.saveValues()
+
                     onCompletion(isSuccess:true)
                     
                 } catch let error as NSError{

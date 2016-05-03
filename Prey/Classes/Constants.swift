@@ -25,6 +25,8 @@ public let signUpEndpoint: String = "/signup.json"
 // Endpoint for Add Devices
 public let devicesEndpoint: String = "/devices.json"
 
+// Endpoint for Device Data 
+public let dataDeviceEndpoint: String = NSString(format:"/devices/%@/data",(PreyConfig.sharedInstance.deviceKey!)) as String
 
 // Http method definitions
 public enum Method: String {

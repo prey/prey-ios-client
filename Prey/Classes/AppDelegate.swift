@@ -18,9 +18,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: UIApplicationDelegate
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        // Check notification_id with server
+        if PreyConfig.sharedInstance.isRegistered {
+            PreyNotification.sharedInstance.registerForRemoteNotifications()
+        }
+        
         return true
     }    
-
+    
     func applicationWillResignActive(application: UIApplication) {
     }
 
@@ -34,6 +40,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(application: UIApplication) {
+    }
+    
+    // MARK: Notification
+    
+    // Did register notifications
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        PreyNotification.sharedInstance.didRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
+    }
+    
+    // Fail register notifications
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        print("Error Register Notification: \(error)")
     }
 }
 
