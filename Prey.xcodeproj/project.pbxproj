@@ -114,6 +114,16 @@
 			name = Extension;
 			sourceTree = "<group>";
 		};
+		3B6D70A41CD7EDCE00DEB461 /* Prey Http */ = {
+			isa = PBXGroup;
+			children = (
+				3B77804D1A600CCE0050C747 /* PreyUser.swift */,
+				3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */,
+				3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */,
+			);
+			name = "Prey Http";
+			sourceTree = "<group>";
+		};
 		3B8283E4199198E6000E4545 = {
 			isa = PBXGroup;
 			children = (
@@ -138,10 +148,8 @@
 			children = (
 				3B6D70A11CD7E34800DEB461 /* Extension */,
 				3B8E57CD1A2E71B30027179E /* ViewController */,
+				3B6D70A41CD7EDCE00DEB461 /* Prey Http */,
 				3B8E57D21A2E7B530027179E /* AppDelegate.swift */,
-				3B77804D1A600CCE0050C747 /* PreyUser.swift */,
-				3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */,
-				3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */,
 				3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */,
 				3BC3C0971C9733BA00D08D62 /* Constants.swift */,
 				3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */,

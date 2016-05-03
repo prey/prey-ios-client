@@ -48,10 +48,7 @@ class PreyUser {
             guard error == nil else {
                 
                 let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    displayErrorAlert(alertMessage!.localized, titleMessage:"User couldn't be created".localized)
-                }
+                displayErrorAlert(alertMessage!.localized, titleMessage:"User couldn't be created".localized)
                 onCompletion(isSuccess:false)
                 
                 return
@@ -82,10 +79,7 @@ class PreyUser {
             // === Client Error
             case 422:
                 let alertMessage = "Did you already register?".localized
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
-                }
+                displayErrorAlert(alertMessage, titleMessage:"Couldn't check your password".localized)
                 onCompletion(isSuccess:false)
 
                 // === Server Error
@@ -107,10 +101,8 @@ class PreyUser {
                 
             // === Error
             default:
-                let alertMessage = "Error";
-                dispatch_async(dispatch_get_main_queue()) {
-                    displayErrorAlert(alertMessage.localized, titleMessage:"User couldn't be created".localized)
-                }
+                let alertMessage = "Error".localized;
+                displayErrorAlert(alertMessage, titleMessage:"User couldn't be created".localized)
                 onCompletion(isSuccess:false)
             }
         }))
@@ -125,10 +117,7 @@ class PreyUser {
             guard error == nil else {
                 
                 let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't check your password".localized)
-                }
+                displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't check your password".localized)
                 onCompletion(isSuccess:false)
                 
                 return
@@ -159,10 +148,7 @@ class PreyUser {
             // === Client Error
             case 401:
                 let alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
-                }
+                displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
                 onCompletion(isSuccess:false)
                 
                 // === Server Error
@@ -185,9 +171,7 @@ class PreyUser {
             // === Error
             default:
                 let alertMessage = "Error";
-                dispatch_async(dispatch_get_main_queue()) {
-                    displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
-                }
+                displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
                 onCompletion(isSuccess:false)
             }
         }))

@@ -225,7 +225,7 @@
         <!--Device Set UpVC-->
         <scene sceneID="gDn-I4-Jdp">
             <objects>
-                <viewController id="ij3-kr-IhJ" customClass="DeviceSetUpVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="deviceSetUpStrbrd" id="ij3-kr-IhJ" customClass="DeviceSetUpVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xhA-fh-VlZ"/>
                         <viewControllerLayoutGuide type="bottom" id="vRK-1B-2K2"/>

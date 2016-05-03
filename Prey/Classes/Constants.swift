@@ -77,9 +77,11 @@ public func displayErrorAlert(alertMessage: String, titleMessage:String) {
     //self.presentViewController(alert, animated: true, completion: nil)
     */
     //if #available(iOS 7.0, *) {}
-    let alert = UIAlertView()
-    alert.title = titleMessage
-    alert.message = alertMessage
-    alert.addButtonWithTitle("OK".localized)
-    alert.show()
+    dispatch_async(dispatch_get_main_queue()) {
+        let alert       = UIAlertView()
+        alert.title     = titleMessage
+        alert.message   = alertMessage
+        alert.addButtonWithTitle("OK".localized)
+        alert.show()
+    }
 }

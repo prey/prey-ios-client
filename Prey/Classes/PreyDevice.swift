@@ -69,7 +69,53 @@ class PreyDevice {
         let username = (PreyConfig.sharedInstance.userApiKey != nil) ? PreyConfig.sharedInstance.userApiKey : ""
         
         PreyHTTPClient.sharedInstance.userRegisterToPrey(username!, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:devicesEndpoint, onCompletion:({(data, response, error) in
-            print("PreyUser: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            
+            // Check error with NSURLSession request
+            guard error == nil else {
+                
+                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
+                displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't add your device".localized)
+                onCompletion(isSuccess:false)
+                
+                return
+            }
+            
+            print("PreyDevice: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            
+            let httpURLResponse = response as! NSHTTPURLResponse
+            
+            switch httpURLResponse.statusCode {
+                
+            // === Success
+            case 201:
+                let jsonObject: NSDictionary
+                
+                do {
+                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                    
+                    let deviceKeyStr = jsonObject.objectForKey("key") as! String
+                    PreyConfig.sharedInstance.devicekey = deviceKeyStr
+                    
+                    onCompletion(isSuccess:true)
+                    
+                } catch let error as NSError{
+                    print("json error: \(error.localizedDescription)")
+                }
+                
+            // === Client Error
+            case 302, 403:
+                let titleMsg = "Couldn't add your device".localized
+                let alertMsg = "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.".localized
+                displayErrorAlert(alertMsg, titleMessage:titleMsg)
+                onCompletion(isSuccess:false)
+                
+            // === Error
+            default:
+                let titleMsg = "Couldn't add your device".localized
+                let alertMsg = "Error".localized
+                displayErrorAlert(alertMsg, titleMessage:titleMsg)
+                onCompletion(isSuccess:false)
+            }
         }))
     }
 }

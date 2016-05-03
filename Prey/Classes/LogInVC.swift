@@ -123,14 +123,26 @@ class LogInVC: UIViewController {
         // LogIn to Panel Prey
         PreyUser.logInToPrey(emailTextField.text!, userPassword: passwordTextField.text!, onCompletion: {(isSuccess: Bool) in
 
+            // LogIn Success
             if isSuccess {
                 
                 // Add Device to Panel Prey
                 PreyDevice.addDeviceWith({(isSuccess: Bool) in
-                  
                     
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        // Add Device Success
+                        if isSuccess {
+                            if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("deviceSetUpStrbrd") as? DeviceSetUpVC {
+                                self.presentViewController(resultController, animated: true, completion: nil)
+                            }
+                        }
+                        else {
+                            // Hide ActivityIndicator
+                            actInd.stopAnimating()
+                        }
+                    }
                 })
-                
             } else {
                 // Hide ActivityIndicator
                 dispatch_async(dispatch_get_main_queue()) {
@@ -140,34 +152,3 @@ class LogInVC: UIViewController {
         })
     }
 }
-
-
-/*
-
-[User allocWithEmail:[email text] password:[password text]
-withBlock:^(User *user, NSError *error)
-{
-if (!error) // User Login
-{
-[Device newDeviceForApiKey:user
-withBlock:^(User *user, Device *dev, NSError *error)
-{
-[MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
-
-if (!error) // Device created
-{
-PreyConfig *config = [PreyConfig initWithUser:user andDevice:dev];
-if (config != nil)
-{
-NSString *txtCongrats = NSLocalizedString(@"Congratulations! You have successfully associated this iOS device with your Prey account.",nil);
-[(PreyAppDelegate*)[UIApplication sharedApplication].delegate registerForRemoteNotifications];
-[self performSelectorOnMainThread:@selector(showCongratsView:) withObject:txtCongrats waitUntilDone:NO];
-}
-}
-}]; // End Block Device
-}
-else
-[MBProgressHUD hideHUDForView:self.navigationController.view animated:NO];
-}]; // End Block User
-
-*/

@@ -11,6 +11,7 @@ import Foundation
 enum PreyConfigDevice: String {
     case UserApiKey
     case UserEmail
+    case DeviceKey
 }
 
 class PreyConfig {
@@ -21,11 +22,11 @@ class PreyConfig {
         let defaultConfig = NSUserDefaults.standardUserDefaults()
         userApiKey = defaultConfig.stringForKey(PreyConfigDevice.UserApiKey.rawValue)
         userEmail  = defaultConfig.stringForKey(PreyConfigDevice.UserEmail.rawValue)
-        
+        devicekey  = defaultConfig.stringForKey(PreyConfigDevice.DeviceKey.rawValue)
     }
 
     var userApiKey : String?
     var userEmail : String?
-    
+    var devicekey : String?
     
 }
