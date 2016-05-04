@@ -65,59 +65,14 @@ class PreyDevice {
             "hardware_attributes[cpu_cores]"    : preyDevice.cpuCores!,
             "hardware_attributes[ram_size]"     : preyDevice.ramSize!]
         
-        // If userApiKey is empty select userEmail
-        let username = (PreyConfig.sharedInstance.userApiKey != nil) ? PreyConfig.sharedInstance.userApiKey : ""
-        
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(username!, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:devicesEndpoint, onCompletion:({(data, response, error) in
-            
-            // Check error with NSURLSession request
-            guard error == nil else {
-                
-                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
-                displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't add your device".localized)
-                onCompletion(isSuccess:false)
-                
-                return
-            }
-            
-            print("PreyDevice: data:\(data) \nresponse:\(response) \nerror:\(error)")
-            
-            let httpURLResponse = response as! NSHTTPURLResponse
-            
-            switch httpURLResponse.statusCode {
-                
-            // === Success
-            case 200...299:
-                let jsonObject: NSDictionary
-                
-                do {
-                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                    
-                    let deviceKeyStr = jsonObject.objectForKey("key") as! String
-                    PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
-                    PreyConfig.sharedInstance.isRegistered  = true
-                    PreyConfig.sharedInstance.saveValues()
-
-                    onCompletion(isSuccess:true)
-                    
-                } catch let error as NSError{
-                    print("json error: \(error.localizedDescription)")
-                }
-                
-            // === Client Error
-            case 302, 403:
-                let titleMsg = "Couldn't add your device".localized
-                let alertMsg = "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.".localized
-                displayErrorAlert(alertMsg, titleMessage:titleMsg)
-                onCompletion(isSuccess:false)
-                
-            // === Error
-            default:
-                let titleMsg = "Couldn't add your device".localized
-                let alertMsg = "Error".localized
-                displayErrorAlert(alertMsg, titleMessage:titleMsg)
-                onCompletion(isSuccess:false)
-            }
-        }))
+        // Check userApiKey isn't empty
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:devicesEndpoint, onCompletion:PreyHTTPResponse.checkAddDevice(onCompletion))
+        } else {
+            let titleMsg = "Couldn't add your device".localized
+            let alertMsg = "Error".localized
+            displayErrorAlert(alertMsg, titleMessage:titleMsg)
+            onCompletion(isSuccess:false)
+        }
     }
 }

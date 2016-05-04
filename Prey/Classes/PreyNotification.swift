@@ -51,34 +51,9 @@ class PreyNotification {
         
         let params:[String: AnyObject] = ["notification_id" : tokenAsString]
         
-        // If userApiKey is empty select userEmail
-        let username = (PreyConfig.sharedInstance.userApiKey != nil) ? PreyConfig.sharedInstance.userApiKey : ""
-        
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(username!, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:dataDeviceEndpoint, onCompletion:({(data, response, error) in
-            
-            // Check error with NSURLSession request
-            guard error == nil else {
-                
-                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
-                print("Error: \(alertMessage)")
-                
-                return
-            }
-            
-            print("Notification_id: data:\(data) \nresponse:\(response) \nerror:\(error)")
-            
-            let httpURLResponse = response as! NSHTTPURLResponse
-            
-            switch httpURLResponse.statusCode {
-                
-            // === Success
-            case 200...299:
-                print("Did register for remote notifications")
-                
-            // === Error
-            default:
-                print("Failed to register for remote notifications")
-            }
-        }))
+        // Check userApiKey isn't empty
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:dataDeviceEndpoint, onCompletion:PreyHTTPResponse.checkNotificationId())
+        }
     }
 }
