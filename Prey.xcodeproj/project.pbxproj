@@ -24,6 +24,9 @@
 		3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D71A2E7B530027179E /* PurchasesVC.swift */; };
 		3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D81A2E7B530027179E /* SettingsVC.swift */; };
 		3B8E57E11A2E7B530027179E /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D91A2E7B530027179E /* SignUpVC.swift */; };
+		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
+		3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC971CDB9CD70052A21D /* Location.swift */; };
+		3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC991CDBBF030052A21D /* PreyModule.swift */; };
 		3BB7EAC31A1E78DC003FC312 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EABF1A1E78DB003FC312 /* OpenSans-Bold.ttf */; };
 		3BB7EAC41A1E78DC003FC312 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC01A1E78DC003FC312 /* OpenSans-Regular.ttf */; };
 		3BB7EAC51A1E78DC003FC312 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC11A1E78DC003FC312 /* OpenSans-Semibold.ttf */; };
@@ -80,6 +83,9 @@
 		3B8E57D71A2E7B530027179E /* PurchasesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchasesVC.swift; path = Classes/PurchasesVC.swift; sourceTree = "<group>"; };
 		3B8E57D81A2E7B530027179E /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsVC.swift; path = Classes/SettingsVC.swift; sourceTree = "<group>"; };
 		3B8E57D91A2E7B530027179E /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpVC.swift; path = Classes/SignUpVC.swift; sourceTree = "<group>"; };
+		3B9DDC951CDB891C0052A21D /* PreyAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyAction.swift; path = Classes/PreyAction.swift; sourceTree = "<group>"; };
+		3B9DDC971CDB9CD70052A21D /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Classes/Location.swift; sourceTree = "<group>"; };
+		3B9DDC991CDBBF030052A21D /* PreyModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyModule.swift; path = Classes/PreyModule.swift; sourceTree = "<group>"; };
 		3BB7EABF1A1E78DB003FC312 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		3BB7EAC01A1E78DC003FC312 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		3BB7EAC11A1E78DC003FC312 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
@@ -153,6 +159,7 @@
 			children = (
 				3B6D70A11CD7E34800DEB461 /* Extension */,
 				3B8E57CD1A2E71B30027179E /* ViewController */,
+				3B9DDC9B1CDBD02D0052A21D /* PreyModules */,
 				3B6D70A41CD7EDCE00DEB461 /* Prey Http */,
 				3B8E57D21A2E7B530027179E /* AppDelegate.swift */,
 				3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */,
@@ -203,6 +210,16 @@
 				3B8E57D71A2E7B530027179E /* PurchasesVC.swift */,
 			);
 			name = ViewController;
+			sourceTree = "<group>";
+		};
+		3B9DDC9B1CDBD02D0052A21D /* PreyModules */ = {
+			isa = PBXGroup;
+			children = (
+				3B9DDC991CDBBF030052A21D /* PreyModule.swift */,
+				3B9DDC951CDB891C0052A21D /* PreyAction.swift */,
+				3B9DDC971CDB9CD70052A21D /* Location.swift */,
+			);
+			name = PreyModules;
 			sourceTree = "<group>";
 		};
 		3BB7EABE1A1E78DB003FC312 /* Fonts */ = {
@@ -348,9 +365,12 @@
 				3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */,
 				3B8E57E11A2E7B530027179E /* SignUpVC.swift in Sources */,
 				3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */,
+				3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */,
 				3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */,
 				3B8E57DD1A2E7B530027179E /* LogInVC.swift in Sources */,
+				3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */,
 				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,
+				3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,7 +511,7 @@
 				INFOPLIST_FILE = Prey/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -504,7 +524,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = Prey/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -199,6 +199,47 @@ class PreyHTTPResponse {
         
         return addDeviceResponse
     }
+
+    // Check action device response
+    class func checkActionDevice() -> (NSData?, NSURLResponse?, NSError?) -> Void {
+        
+        let actionDeviceResponse: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
+            
+            // Check error with NSURLSession request
+            guard error == nil else {
+                
+                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
+                print("Error: \(alertMessage)")
+                PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+                
+                return
+            }
+            
+            //print("GET Devices/: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            
+            let httpURLResponse = response as! NSHTTPURLResponse
+            
+            switch httpURLResponse.statusCode {
+                
+            // === Success
+            case 200...299:
+
+                if let actionArray: String = String(data: data!, encoding: NSUTF8StringEncoding) {
+                    PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
+                } else {
+                    print("Failed to check action from panel")
+                    PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)                    
+                }
+                
+            // === Error
+            default:
+                print("Failed to check action from panel")
+                PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            }
+        }
+        
+        return actionDeviceResponse
+    }
     
     // Check notificationID response
     class func checkNotificationId() -> (NSData?, NSURLResponse?, NSError?) -> Void {
@@ -214,7 +255,7 @@ class PreyHTTPResponse {
                 return
             }
             
-            print("Notification_id: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            //print("Notification_id: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! NSHTTPURLResponse
             

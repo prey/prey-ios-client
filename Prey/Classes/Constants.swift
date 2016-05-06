@@ -28,6 +28,10 @@ public let devicesEndpoint: String = "/devices.json"
 // Endpoint for Device Data 
 public let dataDeviceEndpoint: String = NSString(format:"/devices/%@/data",(PreyConfig.sharedInstance.deviceKey!)) as String
 
+// Endpoint for Device Actions
+public let actionsDeviceEndpoint: String = NSString(format:"/devices/%@.json",(PreyConfig.sharedInstance.deviceKey!)) as String
+
+
 // Http method definitions
 public enum Method: String {
     case GET  = "GET"

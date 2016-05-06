@@ -17,6 +17,8 @@ class PreyNotification {
     private init() {
     }
 
+    var requestVerificationSucceeded : ((UIBackgroundFetchResult) -> Void)?
+    
     // MARK: Functions
     
     // Register Device to Apple Push Notification Service
@@ -54,6 +56,33 @@ class PreyNotification {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:dataDeviceEndpoint, onCompletion:PreyHTTPResponse.checkNotificationId())
+        }
+    }
+    
+    // Did Receive Remote Notifications
+    func didReceiveRemoteNotifications(userInfo: [NSObject : AnyObject], completionHandler:(UIBackgroundFetchResult) -> Void) {
+        
+        print("Remote notification received \(userInfo.description)")
+        
+        // Set completionHandler for request
+        requestVerificationSucceeded = completionHandler
+        
+        // Check userApiKey isn't empty
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password: "x", params: nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint , onCompletion:PreyHTTPResponse.checkActionDevice())
+        } else {
+            checkRequestVerificationSucceded(false)
+        }
+        
+    }
+    
+    // Check request verification
+    func checkRequestVerificationSucceded(isSuccess:Bool) {
+        
+        if isSuccess {
+            requestVerificationSucceeded?(UIBackgroundFetchResult.NewData)
+        } else {
+            requestVerificationSucceeded?(UIBackgroundFetchResult.Failed)
         }
     }
 }
