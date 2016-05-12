@@ -77,7 +77,9 @@ class PreyModule {
         let actionOptions: NSDictionary? = jsonDict.objectForKey("options") as? NSDictionary
         
         // Add new Prey Action
-        if let action:PreyAction = PreyAction.newAction(actionName, withCommand: actionCmd, withOptions: actionOptions) {
+        if let action:PreyAction = PreyAction.newAction(actionName) {
+            action.command = actionCmd
+            action.options = actionOptions
             actionArray.append(action)
         }
     }

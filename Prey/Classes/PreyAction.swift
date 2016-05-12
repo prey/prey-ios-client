@@ -12,25 +12,20 @@ class PreyAction : NSOperation {
    
     // MARK: Properties
     
-    let command: String?
-    let options: NSDictionary?
-        
-    init(withCommand:String, withOptions: NSDictionary?) {
-        command = withCommand
-        options = withOptions
-    }
+    var command: String!
+    var options: NSDictionary?
     
     // MARK: Functions    
 
     // Return Prey New Action
-    class func newAction(withName:String, withCommand cmd:String, withOptions options:NSDictionary?) -> PreyAction? {
+    class func newAction(withName:String) -> PreyAction? {
         
         let actionItem: PreyAction
         
         switch withName {
 
         case "location":
-            actionItem = Location.sharedInstance//Location(withCommand:cmd, withOptions: options)
+            actionItem = Location.sharedInstance
        
         default:
             return nil

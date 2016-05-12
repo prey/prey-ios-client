@@ -9,19 +9,21 @@
 import Foundation
 import CoreLocation
 
-class Location: PreyAction, CLLocationManagerDelegate {
+class Location : PreyAction, CLLocationManagerDelegate {
     
     // MARK: Properties
     
     static let sharedInstance = Location()
     private override init() {
-    }
-
-    // MARK: Functions
+    }    
     
+    let locManager = CLLocationManager()
+    
+    // MARK: Functions    
+    
+    // Prey command
     func get() {
         
-        // TEST
         if #available(iOS 8.0, *) {
             locManager.requestAlwaysAuthorization()
         }
@@ -31,8 +33,6 @@ class Location: PreyAction, CLLocationManagerDelegate {
         locManager.startUpdatingLocation()
     }
     
-    let locManager = CLLocationManager()
-    
     // MARK: CLLocationManagerDelegate
     
     // Did Update Locations
@@ -40,5 +40,4 @@ class Location: PreyAction, CLLocationManagerDelegate {
         
         print("New location received \(locations.description)")
     }
-
 }

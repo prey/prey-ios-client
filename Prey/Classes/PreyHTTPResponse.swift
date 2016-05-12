@@ -225,7 +225,9 @@ class PreyHTTPResponse {
             case 200...299:
 
                 if let actionArray: String = String(data: data!, encoding: NSUTF8StringEncoding) {
-                    PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
+                    }
                 } else {
                     print("Failed to check action from panel")
                     PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)                    
