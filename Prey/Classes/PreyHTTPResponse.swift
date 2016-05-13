@@ -275,5 +275,37 @@ class PreyHTTPResponse {
         
         return notificationResponse
     }
+
+    // Check Data Send response
+    class func checkDataSend() -> (NSData?, NSURLResponse?, NSError?) -> Void {
+        
+        let dataResponse: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
+            
+            // Check error with NSURLSession request
+            guard error == nil else {
+                
+                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
+                print("Error: \(alertMessage)")
+                
+                return
+            }
+            
+            let httpURLResponse = response as! NSHTTPURLResponse
+            
+            switch httpURLResponse.statusCode {
+                
+            // === Success
+            case 200...299:
+                print("Data send: OK")
+                PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
+                
+            // === Error
+            default:
+                print("Failed data send")
+            }
+        }
+        
+        return dataResponse
+    }
 }
 

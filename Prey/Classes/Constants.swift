@@ -38,6 +38,13 @@ public enum Method: String {
     case POST = "POST"
 }
 
+// Prey actions definitions
+public enum kAction: String {
+    case LOCATION   = "location"
+    case REPORT     = "report"
+}
+
+
 // Def type device
 public let IS_IPAD: Bool = (UIDevice.currentDevice().userInterfaceIdiom != UIUserInterfaceIdiom.Phone)
 

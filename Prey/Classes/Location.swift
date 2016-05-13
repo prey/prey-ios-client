@@ -33,11 +33,43 @@ class Location : PreyAction, CLLocationManagerDelegate {
         locManager.startUpdatingLocation()
     }
     
+    // Location received
+    func locationReceived(location:[CLLocation]) {
+ 
+        if let loc = location.first {
+            
+            let params:[String: AnyObject] = [
+                "lng"    : loc.coordinate.longitude,
+                "lat"    : loc.coordinate.latitude,
+                "alt"    : loc.altitude,
+                "acc"    : loc.horizontalAccuracy,
+                "method" : "native"]
+            
+            let locParam:[String: AnyObject] = [kAction.LOCATION.rawValue : params]
+
+            self.sendData(locParam)
+        }
+    }
+    
     // MARK: CLLocationManagerDelegate
     
     // Did Update Locations
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("New location received: \(locations.description)")
         
-        print("New location received \(locations.description)")
+        if locations.first?.horizontalAccuracy < 0 {
+            return
+        }
+
+        if locations.first?.horizontalAccuracy <= 500 {
+            locationReceived(locations)
+            locManager.stopUpdatingLocation()
+            locManager.delegate = nil
+        }
+    }
+    
+    // Did fail with error
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("Error getting location: \(error.description)")
     }
 }

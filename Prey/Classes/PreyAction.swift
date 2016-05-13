@@ -24,7 +24,7 @@ class PreyAction : NSOperation {
         
         switch withName {
 
-        case "location":
+        case kAction.LOCATION.rawValue:
             actionItem = Location.sharedInstance
        
         default:
@@ -32,5 +32,15 @@ class PreyAction : NSOperation {
         }
         
         return actionItem
+    }
+    
+    // Send data to panel
+    func sendData(params:[String: AnyObject]) {
+        // Check userApiKey isn't empty
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:dataDeviceEndpoint, onCompletion:PreyHTTPResponse.checkDataSend())
+        } else {
+            print("Error send data auth")
+        }
     }
 }
