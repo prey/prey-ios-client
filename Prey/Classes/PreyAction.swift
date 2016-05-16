@@ -8,6 +8,25 @@
 
 import Foundation
 
+// Prey actions definitions
+enum kAction: String {
+    case LOCATION   = "location"
+    case REPORT     = "report"
+    case ALARM      = "alarm"
+}
+
+// Prey status definitions
+enum kStatus: String {
+    case STARTED    = "started"
+    case STOPPED    = "stopped"
+}
+
+// Prey command definitions
+enum kCommand: String {
+    case START    = "start"
+    case STOP     = "stop"
+}
+
 class PreyAction : NSOperation {
    
     // MARK: Properties
@@ -26,19 +45,34 @@ class PreyAction : NSOperation {
 
         case kAction.LOCATION.rawValue:
             actionItem = Location.sharedInstance
-       
+
+        case kAction.ALARM.rawValue:
+            actionItem = Alarm()
+            
         default:
             return nil
         }
         
         return actionItem
     }
+
+    // Return params to response endpoint
+    func getParamsTo(target:String, command:String, status:String) -> [String: AnyObject] {
+        
+        // Params struct
+        let params:[String: AnyObject] = [
+            "status"    : status,
+            "target"    : target,
+            "command"   : command]
+        
+        return params
+    }
     
     // Send data to panel
-    func sendData(params:[String: AnyObject]) {
+    func sendData(params:[String: AnyObject], toEndpoint:String) {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:dataDeviceEndpoint, onCompletion:PreyHTTPResponse.checkDataSend())
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend())
         } else {
             print("Error send data auth")
         }

@@ -47,7 +47,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
             
             let locParam:[String: AnyObject] = [kAction.LOCATION.rawValue : params]
 
-            self.sendData(locParam)
+            self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
         }
     }
     

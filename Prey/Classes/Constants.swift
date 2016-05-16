@@ -28,6 +28,10 @@ public let devicesEndpoint: String = "/devices.json"
 // Endpoint for Device Data 
 public let dataDeviceEndpoint: String = NSString(format:"/devices/%@/data",(PreyConfig.sharedInstance.deviceKey!)) as String
 
+// Endpoint for Response Data
+public let responseDeviceEndpoint: String = NSString(format:"/devices/%@/response",(PreyConfig.sharedInstance.deviceKey!)) as String
+
+
 // Endpoint for Device Actions
 public let actionsDeviceEndpoint: String = NSString(format:"/devices/%@.json",(PreyConfig.sharedInstance.deviceKey!)) as String
 
@@ -37,13 +41,6 @@ public enum Method: String {
     case GET  = "GET"
     case POST = "POST"
 }
-
-// Prey actions definitions
-public enum kAction: String {
-    case LOCATION   = "location"
-    case REPORT     = "report"
-}
-
 
 // Def type device
 public let IS_IPAD: Bool = (UIDevice.currentDevice().userInterfaceIdiom != UIUserInterfaceIdiom.Phone)
