@@ -277,7 +277,7 @@ class PreyHTTPResponse {
     }
 
     // Check Data Send response
-    class func checkDataSend() -> (NSData?, NSURLResponse?, NSError?) -> Void {
+    class func checkDataSend(action:PreyAction) -> (NSData?, NSURLResponse?, NSError?) -> Void {
         
         let dataResponse: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
             
@@ -297,7 +297,7 @@ class PreyHTTPResponse {
             // === Success
             case 200...299:
                 print("Data send: OK")
-                PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
+                PreyModule.sharedInstance.checkStatus(action)
                 
             // === Error
             default:

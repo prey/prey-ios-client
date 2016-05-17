@@ -13,10 +13,6 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // MARK: Properties
     
-    static let sharedInstance = Location()
-    private override init() {
-    }    
-    
     let locManager = CLLocationManager()
     
     // MARK: Functions    
@@ -31,6 +27,8 @@ class Location : PreyAction, CLLocationManagerDelegate {
         locManager.delegate = self
         locManager.desiredAccuracy = kCLLocationAccuracyBest
         locManager.startUpdatingLocation()
+        
+        isActive = true
     }
     
     // Location received
@@ -47,6 +45,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
             
             let locParam:[String: AnyObject] = [kAction.LOCATION.rawValue : params]
 
+            isActive = false
             self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
         }
     }

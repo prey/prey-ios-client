@@ -14,23 +14,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
  
     // MARK: Properties
 
-    var audioPlayer: AVAudioPlayer {
-        
-        let musicFile   = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("siren", ofType: "mp3")!)
-        var player      = AVAudioPlayer()
-        
-        do {
-            player =  try AVAudioPlayer.init(contentsOfURL: musicFile)
-            player.delegate = self
-            player.prepareToPlay()
-            player.volume = 1.0
-            
-        } catch let error as NSError {
-            print("AVAudioPlayer error reading file: \(error.localizedDescription)")
-        }
-        
-        return player
-    }
+    var audioPlayer: AVAudioPlayer!
     
     // MARK: Functions
 
@@ -48,9 +32,15 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
             UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
 
             // Play sound
+            let musicFile   = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("siren", ofType: "mp3")!)
+            try audioPlayer = AVAudioPlayer(contentsOfURL: musicFile)
+            audioPlayer.delegate = self
+            audioPlayer.prepareToPlay()
+            audioPlayer.volume = 1.0            
             audioPlayer.play()
             
             // Send start action
+            isActive = true
             let params = getParamsTo(kAction.ALARM.rawValue, command: kCommand.START.rawValue, status: kStatus.STARTED.rawValue)
             self.sendData(params, toEndpoint: responseDeviceEndpoint)
             
@@ -64,6 +54,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
     // Did Finish Playing
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
         // Send stop action
+        isActive = false
         let params = getParamsTo(kAction.ALARM.rawValue, command: kCommand.STOP.rawValue, status: kStatus.STOPPED.rawValue)
         self.sendData(params, toEndpoint: responseDeviceEndpoint)
     }
@@ -71,6 +62,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
     // Player Decode Error Did Occur
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
         // Send stop action
+        isActive = false
         let params = getParamsTo(kAction.ALARM.rawValue, command: kCommand.STOP.rawValue, status: kStatus.STOPPED.rawValue)
         self.sendData(params, toEndpoint: responseDeviceEndpoint)
     }

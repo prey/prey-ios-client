@@ -45,10 +45,9 @@ class PreyModule {
                 addAction(dict as! NSDictionary)
             }
             
-            // Run Actions
-            if actionArray.count > 0 {
-                runActions()
-            } else {
+            // Check ActionArray empty
+            if actionArray.count <= 0 {
+                print("Notification checkRequestVerificationSucceded OK")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
             }
             
@@ -62,13 +61,13 @@ class PreyModule {
     func addAction(jsonDict:NSDictionary) {
         
         // Action Name
-        guard let actionName: String = jsonDict.objectForKey("target") as? String else {
+        guard let actionName: kAction = kAction(rawValue:jsonDict.objectForKey("target") as! String) else {
             print("Error with ActionName")
             return
         }
         
         // Action Command
-        guard let actionCmd: String = jsonDict.objectForKey("command") as? String else {
+        guard let actionCmd: kCommand = kCommand(rawValue:jsonDict.objectForKey("command") as! String) else {
             print("Error with ActionCmd")
             return
         }
@@ -77,24 +76,48 @@ class PreyModule {
         let actionOptions: NSDictionary? = jsonDict.objectForKey("options") as? NSDictionary
         
         // Add new Prey Action
-        if let action:PreyAction = PreyAction.newAction(actionName) {
-            action.command = actionCmd
-            action.options = actionOptions
-            actionArray.append(action)
+        if let action:PreyAction = PreyAction.newAction(withName: actionName, withCommand: actionCmd, withOptions: actionOptions) {
+            runAction(action)
         }
     }
     
-    // Run actions
-    func runActions() {
+    // Run action
+    func runAction(action:PreyAction) {
+
+        print("Run \(action.target.rawValue) action")
         
-        print("Run all modules")
+        if action.respondsToSelector(NSSelectorFromString(action.command.rawValue)) {
+            actionArray.append(action)
+            action.performSelectorOnMainThread(NSSelectorFromString(action.command.rawValue), withObject: nil, waitUntilDone: true)
+        }
+    }
+    
+    // Check action status
+    func checkStatus(action: PreyAction) {
+        
+        print("Check \(action.target.rawValue) action")
+        
+        // Check if preyAction isn't active
+        if !action.isActive {
+            deleteAction(action.target)
+        }
+     
+        // Check ActionArray empty
+        if actionArray.count <= 0 {
+            print("Notification checkRequestVerificationSucceded OK")
+            PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
+        }
+    }
+    
+    // Delete action
+    func deleteAction(target: kAction) {
+        
+        print("Delete \(target) action")
         
         for action in actionArray {
-            if action.respondsToSelector(NSSelectorFromString(action.command)) {
-                action.performSelectorOnMainThread(NSSelectorFromString(action.command), withObject: nil, waitUntilDone: true)
+            if action.target == target {
+                actionArray.removeObject(action)
             }
         }
-        
-        actionArray.removeAll()
     }
 }
