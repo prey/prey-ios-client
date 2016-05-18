@@ -16,6 +16,8 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
 
     var audioPlayer: AVAudioPlayer!
     
+    var checkVolumeTimer: NSTimer?
+    
     // MARK: Functions
 
     // Prey command
@@ -29,14 +31,21 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
             try audioSession.setActive(true)
             try audioSession.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
             
+            // Config Volume System
             UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
-
+            let volumeView = MPVolumeView()
+            volumeView.volumeSlider.setValue(1.0, animated: false)
+            
+            // Check Volume level
+            checkVolumeTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(incrementVolume(_:)), userInfo: nil, repeats: true)
+            
             // Play sound
             let musicFile   = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("siren", ofType: "mp3")!)
             try audioPlayer = AVAudioPlayer(contentsOfURL: musicFile)
             audioPlayer.delegate = self
             audioPlayer.prepareToPlay()
-            audioPlayer.volume = 1.0            
+            audioPlayer.volume = 1.0
+            audioPlayer.numberOfLoops = 1
             audioPlayer.play()
             
             // Send start action
@@ -49,21 +58,34 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
         }
     }
     
+    // Check Volume Level
+    func incrementVolume(timer:NSTimer)  {
+
+        let volumeView = MPVolumeView()
+        if volumeView.volumeSlider.value < 1.0 {
+            volumeView.volumeSlider.setValue(1.0, animated: false)
+        }
+    }
+    
+    // Stop Action
+    func stopAction() {
+        isActive = false
+        checkVolumeTimer?.invalidate()
+        let params = getParamsTo(kAction.ALARM.rawValue, command: kCommand.STOP.rawValue, status: kStatus.STOPPED.rawValue)
+        self.sendData(params, toEndpoint: responseDeviceEndpoint)
+    }
+    
     // MARK: AVAudioPlayerDelegate
 
     // Did Finish Playing
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
         // Send stop action
-        isActive = false
-        let params = getParamsTo(kAction.ALARM.rawValue, command: kCommand.STOP.rawValue, status: kStatus.STOPPED.rawValue)
-        self.sendData(params, toEndpoint: responseDeviceEndpoint)
+        stopAction()
     }
     
     // Player Decode Error Did Occur
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
         // Send stop action
-        isActive = false
-        let params = getParamsTo(kAction.ALARM.rawValue, command: kCommand.STOP.rawValue, status: kStatus.STOPPED.rawValue)
-        self.sendData(params, toEndpoint: responseDeviceEndpoint)
+        stopAction()
     }
 }

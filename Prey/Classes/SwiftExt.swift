@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MediaPlayer
 
 // Extension for NSLocalizedString
 extension String {
@@ -22,5 +23,24 @@ extension Array where Element : Equatable {
         if let index = self.indexOf(object) {
             self.removeAtIndex(index)
         }
+    }
+}
+
+// Extension for Alarm action
+extension MPVolumeView {
+    var volumeSlider:UISlider {
+        self.showsRouteButton = false
+        self.showsVolumeSlider = false
+        self.hidden = true
+        var slider = UISlider()
+        for subview in self.subviews {
+            if subview.isKindOfClass(UISlider){
+                slider = subview as! UISlider
+                slider.continuous = false
+                (subview as! UISlider).value = AVAudioSession.sharedInstance().outputVolume
+                return slider
+            }
+        }
+        return slider
     }
 }
