@@ -61,8 +61,7 @@ class PreyAction : NSOperation {
             actionItem = Alarm(withTarget: kAction.ALARM, withCommand: cmd, withOptions: opt)
 
         case kAction.REPORT:
-            actionItem = Alarm(withTarget: kAction.REPORT, withCommand: cmd, withOptions: opt)
-            print("report")
+            actionItem = Report(withTarget: kAction.REPORT, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem
@@ -82,9 +81,25 @@ class PreyAction : NSOperation {
     
     // Send data to panel
     func sendData(params:[String: AnyObject], toEndpoint:String) {
+
+        print("data: \(params.description)")
+        
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))
+        } else {
+            print("Error send data auth")
+        }
+    }
+    
+    // Send report to panel
+    func sendDataReport(params:NSMutableDictionary?, toEndpoint:String) {
+        
+        print("data report: \(params!.description)")
+        
+        // Check userApiKey isn't empty
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.sendDataReportToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))
         } else {
             print("Error send data auth")
         }

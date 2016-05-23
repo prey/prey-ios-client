@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */; };
+		3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42B3FC1CECC38B009D07B2 /* Report.swift */; };
 		3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4F679E1CEA061E00F58FAD /* Alarm.swift */; };
 		3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A11CEA085200F58FAD /* shutter.aiff */; };
 		3B4F67A41CEA085200F58FAD /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A21CEA085200F58FAD /* siren.mp3 */; };
@@ -27,6 +28,7 @@
 		3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D71A2E7B530027179E /* PurchasesVC.swift */; };
 		3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D81A2E7B530027179E /* SettingsVC.swift */; };
 		3B8E57E11A2E7B530027179E /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D91A2E7B530027179E /* SignUpVC.swift */; };
+		3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */; };
 		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
 		3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC971CDB9CD70052A21D /* Location.swift */; };
 		3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC991CDBBF030052A21D /* PreyModule.swift */; };
@@ -67,6 +69,7 @@
 /* Begin PBXFileReference section */
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyNotification.swift; path = Classes/PreyNotification.swift; sourceTree = "<group>"; };
+		3B42B3FC1CECC38B009D07B2 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Report.swift; path = Classes/Report.swift; sourceTree = "<group>"; };
 		3B4F679E1CEA061E00F58FAD /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alarm.swift; path = Classes/Alarm.swift; sourceTree = "<group>"; };
 		3B4F67A11CEA085200F58FAD /* shutter.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = shutter.aiff; sourceTree = "<group>"; };
 		3B4F67A21CEA085200F58FAD /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siren.mp3; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 		3B8E57D71A2E7B530027179E /* PurchasesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchasesVC.swift; path = Classes/PurchasesVC.swift; sourceTree = "<group>"; };
 		3B8E57D81A2E7B530027179E /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsVC.swift; path = Classes/SettingsVC.swift; sourceTree = "<group>"; };
 		3B8E57D91A2E7B530027179E /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpVC.swift; path = Classes/SignUpVC.swift; sourceTree = "<group>"; };
+		3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportLocation.swift; path = Classes/ReportLocation.swift; sourceTree = "<group>"; };
 		3B9DDC951CDB891C0052A21D /* PreyAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyAction.swift; path = Classes/PreyAction.swift; sourceTree = "<group>"; };
 		3B9DDC971CDB9CD70052A21D /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Classes/Location.swift; sourceTree = "<group>"; };
 		3B9DDC991CDBBF030052A21D /* PreyModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyModule.swift; path = Classes/PreyModule.swift; sourceTree = "<group>"; };
@@ -235,6 +239,8 @@
 				3B9DDC951CDB891C0052A21D /* PreyAction.swift */,
 				3B9DDC971CDB9CD70052A21D /* Location.swift */,
 				3B4F679E1CEA061E00F58FAD /* Alarm.swift */,
+				3B42B3FC1CECC38B009D07B2 /* Report.swift */,
+				3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */,
 			);
 			name = PreyModules;
 			sourceTree = "<group>";
@@ -371,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */,
+				3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */,
 				3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */,
 				3B6D70A31CD7E3D400DEB461 /* SwiftExt.swift in Sources */,
 				3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */,
@@ -381,6 +388,7 @@
 				3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */,
 				3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */,
 				3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */,
+				3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */,
 				3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */,
 				3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */,
 				3B8E57E11A2E7B530027179E /* SignUpVC.swift in Sources */,

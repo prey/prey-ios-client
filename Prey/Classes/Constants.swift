@@ -28,6 +28,9 @@ public let devicesEndpoint: String = "/devices.json"
 // Endpoint for Device Data 
 public let dataDeviceEndpoint: String = NSString(format:"/devices/%@/data",(PreyConfig.sharedInstance.deviceKey!)) as String
 
+// Endpoint for Report Data
+public let reportDataDeviceEndpoint: String = NSString(format:"/devices/%@/reports",(PreyConfig.sharedInstance.deviceKey!)) as String
+
 // Endpoint for Response Data
 public let responseDeviceEndpoint: String = NSString(format:"/devices/%@/response",(PreyConfig.sharedInstance.deviceKey!)) as String
 

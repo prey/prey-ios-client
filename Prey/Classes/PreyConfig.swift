@@ -14,6 +14,7 @@ enum PreyConfigDevice: String {
     case DeviceKey
     case IsRegistered
     case IsPro
+    case IsMissing
 }
 
 class PreyConfig {
@@ -29,6 +30,7 @@ class PreyConfig {
         deviceKey           = defaultConfig.stringForKey(PreyConfigDevice.DeviceKey.rawValue)
         isRegistered        = defaultConfig.boolForKey(PreyConfigDevice.IsRegistered.rawValue)
         isPro               = defaultConfig.boolForKey(PreyConfigDevice.IsPro.rawValue)
+        isMissing           = defaultConfig.boolForKey(PreyConfigDevice.IsMissing.rawValue)
     }
 
     // MARK: Properties
@@ -38,6 +40,7 @@ class PreyConfig {
     var deviceKey   : String?
     var isRegistered: Bool
     var isPro       : Bool
+    var isMissing   : Bool
     
     // MARK: Functions
     
@@ -50,6 +53,7 @@ class PreyConfig {
         defaultConfig.setObject(deviceKey, forKey:PreyConfigDevice.DeviceKey.rawValue)
         defaultConfig.setBool(isRegistered, forKey:PreyConfigDevice.IsRegistered.rawValue)
         defaultConfig.setBool(isPro, forKey:PreyConfigDevice.IsPro.rawValue)
+        defaultConfig.setBool(isMissing, forKey: PreyConfigDevice.IsMissing.rawValue)
     }
     
     // Reset values on NSUserDefaults
@@ -60,6 +64,7 @@ class PreyConfig {
         deviceKey       = nil
         isRegistered    = false
         isPro           = false
+        isMissing       = false
         
         saveValues()
     }

@@ -50,6 +50,39 @@ class PreyHTTPClient {
     
     // MARK: Requests to Prey API
     
+    // Send Report Data to Control Panel
+    func sendDataReportToPrey(username: String, password: String, params:NSMutableDictionary?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
+        
+        // Encode username and pwd
+        let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
+        
+        // Set session Config
+        let sessionConfig   = getSessionConfig(userAuthorization)
+        let session         = NSURLSession(configuration: sessionConfig)
+        
+        // Set Endpoint
+        let requestURL      = NSURL(string: URLControlPanel.stringByAppendingString(endPoint))
+        let request         = NSMutableURLRequest(URL:requestURL!)
+        
+        // Set params
+        if params != nil  {
+            do {
+                request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(params!, options:NSJSONWritingOptions.PrettyPrinted)
+            } catch let error as NSError{
+                print("params error: \(error.localizedDescription)")
+            }
+        }
+        
+        request.HTTPMethod  = httpMethod
+        
+        // Prepare Request to Send
+        let task = session.dataTaskWithRequest(request, completionHandler:getCompletionHandler(onCompletion))
+        
+        // Send Request
+        task.resume()
+    }
+
+    
     // SignUp/LogIn User to Control Panel
     func userRegisterToPrey(username: String, password: String, params: [String: AnyObject]?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
         
