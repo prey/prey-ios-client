@@ -28,6 +28,22 @@ enum kCommand: String {
     case GET      = "get"
 }
 
+// Prey location params
+enum kLocation: String {
+    case LONGITURE  = "lng"
+    case LATITUDE   = "lat"
+    case ALTITUDE   = "alt"
+    case ACCURACY   = "accuracy"
+    case METHOD     = "method"
+}
+
+// Prey /Data Endpoint struct
+enum kData: String {
+    case STATUS     = "status"
+    case TARGET     = "target"
+    case COMMAND    = "command"
+}
+
 class PreyAction : NSOperation {
    
     // MARK: Properties
@@ -72,9 +88,9 @@ class PreyAction : NSOperation {
         
         // Params struct
         let params:[String: AnyObject] = [
-            "status"    : status,
-            "target"    : target,
-            "command"   : command]
+            kData.STATUS.rawValue   : status,
+            kData.TARGET.rawValue   : target,
+            kData.COMMAND.rawValue  : command]
         
         return params
     }

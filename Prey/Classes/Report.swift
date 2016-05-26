@@ -17,7 +17,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate {
     
     var runReportTimer: NSTimer?
     
-    var reportData:NSMutableDictionary?
+    var reportData = NSMutableDictionary()
     
     var reportLocation = ReportLocation()
     
@@ -72,17 +72,17 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate {
     func locationReceived(location:[CLLocation]) {
         
         if let loc = location.first {
+
+            let params:[String : AnyObject] = [
+                kLocation.LONGITURE.rawValue    : loc.coordinate.longitude,
+                kLocation.LATITUDE.rawValue     : loc.coordinate.latitude,
+                kLocation.ALTITUDE.rawValue     : loc.altitude,
+                kLocation.ACCURACY.rawValue     : loc.horizontalAccuracy]
             
-             let params:NSMutableDictionary = [
-                "geo[lng]"    : loc.coordinate.longitude,
-                "geo[lat]"    : loc.coordinate.latitude,
-                "geo[alt]"    : loc.altitude,
-                "geo[acc]"    : loc.horizontalAccuracy]
+            // Save location to reportData
+            reportData.addEntriesFromDictionary([kAction.LOCATION.rawValue : params])
             
-            //reportData.addEntriesFromDictionary(params)
-            
-            sendReport(params)
-            
+            sendReport(reportData)
             stop()
         }
     }

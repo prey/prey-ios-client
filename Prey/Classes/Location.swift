@@ -37,11 +37,11 @@ class Location : PreyAction, CLLocationManagerDelegate {
         if let loc = location.first {
             
             let params:[String: AnyObject] = [
-                "lng"    : loc.coordinate.longitude,
-                "lat"    : loc.coordinate.latitude,
-                "alt"    : loc.altitude,
-                "acc"    : loc.horizontalAccuracy,
-                "method" : "native"]
+                kLocation.LONGITURE.rawValue    : loc.coordinate.longitude,
+                kLocation.LATITUDE.rawValue     : loc.coordinate.latitude,
+                kLocation.ALTITUDE.rawValue     : loc.altitude,
+                kLocation.ACCURACY.rawValue     : loc.horizontalAccuracy,
+                kLocation.METHOD.rawValue       : "native"]
             
             let locParam:[String: AnyObject] = [kAction.LOCATION.rawValue : params]
 
