@@ -44,6 +44,9 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate {
             reportLocation.delegate = self
             reportLocation.startLocation()
             //getPhoto()
+            
+            addWifiInfo()
+            
         } else {
             stop()
         }
@@ -66,6 +69,20 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate {
         self.sendDataReport(param, toEndpoint: reportDataDeviceEndpoint)
     }
     
+    // Add wifi info
+    func addWifiInfo() {
+        
+        if let networkInfo = ReportWifi.getNetworkInfo() {
+            
+            let params:[String: AnyObject] = [
+                "ssid" : networkInfo["SSID"]!,
+                "mac_address": networkInfo["BSSID"]!]
+            
+            // Save network info to reportData
+            reportData.addEntriesFromDictionary(["active_access_point" : params])
+        }
+    }
+    
     // MARK: ReportLocation Delegate
     
     // Location received
@@ -82,7 +99,9 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate {
             // Save location to reportData
             reportData.addEntriesFromDictionary([kAction.LOCATION.rawValue : params])
             
+            // Send report to panel
             sendReport(reportData)
+            
             stop()
         }
     }
