@@ -8,8 +8,9 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
-class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate {
+class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, PhotoServiceDelegate {
  
     // MARK: Properties
     
@@ -20,6 +21,8 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate {
     var reportData = NSMutableDictionary()
     
     var reportLocation = ReportLocation()
+    
+    var reportPhoto = ReportPhoto()
     
     // MARK: Functions
     
@@ -41,10 +44,15 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate {
     func runReport(timer:NSTimer) {
         
         if PreyConfig.sharedInstance.isMissing {
+            // Get Location
             reportLocation.delegate = self
             reportLocation.startLocation()
-            //getPhoto()
             
+            // Get Photo
+            reportPhoto.delegate = self
+            reportPhoto.startSession()            
+            
+            // Get Wifi Info
             addWifiInfo()
             
         } else {
@@ -60,6 +68,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate {
         PreyConfig.sharedInstance.isMissing = false
         
         reportLocation.stopLocation()
+        reportPhoto.stopSession()
     }
     
     // Send report
@@ -75,12 +84,19 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate {
         if let networkInfo = ReportWifi.getNetworkInfo() {
             
             let params:[String: AnyObject] = [
-                "ssid" : networkInfo["SSID"]!,
-                "mac_address": networkInfo["BSSID"]!]
+                "ssid"          : networkInfo["SSID"]!,
+                "mac_address"   : networkInfo["BSSID"]!]
             
             // Save network info to reportData
             reportData.addEntriesFromDictionary(["active_access_point" : params])
         }
+    }
+    // MARK: ReportPhoto Delegate
+    
+    // Photos received
+    func photoReceived(photos:[UIImage]) {
+        
+        print("photo image: \(photos)")
     }
     
     // MARK: ReportLocation Delegate
