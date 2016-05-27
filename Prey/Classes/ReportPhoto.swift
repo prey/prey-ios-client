@@ -111,8 +111,11 @@ class ReportPhoto {
                 // Set flash off
                 self.setFlashModeOff(self.videoDeviceInput!.device)
                 
+                // Set shutter sound off
+                self.setShutterSoundOff()
+                
                 // Capture a still image
-                self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo), completionHandler: self.checkPhotoCapture())
+                self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo), completionHandler: self.checkPhotoCapture(true))
                 
             } catch let error as NSError {
                 print("AVCaptureDeviceInput error: \(error.localizedDescription)")
@@ -130,7 +133,7 @@ class ReportPhoto {
     // MARK: Functions
 
     // Completion Handler to Photo Capture
-    func checkPhotoCapture() -> (CMSampleBuffer!, NSError?) -> Void {
+    func checkPhotoCapture(isFirstPhoto:Bool) -> (CMSampleBuffer!, NSError?) -> Void {
         
         let actionPhotoCapture: (CMSampleBuffer!, NSError?) -> Void = { (sampleBuffer, error) in
             
@@ -152,13 +155,75 @@ class ReportPhoto {
             }
             self.photoArray.append(image)
             
-            // Send Photo Array to Delegate
-            self.delegate?.photoReceived(self.photoArray)
+            // Check if two camera available
+            if self.isTwoCameraAvailable && isFirstPhoto {
+                dispatch_async(self.sessionQueue) {
+                    self.getSecondPhoto()
+                }
+            } else {
+                // Send Photo Array to Delegate
+                self.delegate?.photoReceived(self.photoArray)
+            }
         }
      
         return actionPhotoCapture
     }
 
+    // Get second photo
+    func getSecondPhoto() {
+        
+        // Set captureDevice
+        guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.Front) else {
+            print("Error with AVCaptureDevice")
+            return
+        }
+        
+        // Set AVCaptureDeviceInput
+        do {
+            let frontDeviceInput = try AVCaptureDeviceInput(device:videoDevice)
+            
+            // Remove current device input
+            self.sessionDevice.beginConfiguration()
+            self.sessionDevice.removeInput(self.videoDeviceInput)
+            
+            // Add session input
+            guard self.sessionDevice.canAddInput(frontDeviceInput) else {
+                print("Error add session input")
+                return
+            }
+            self.sessionDevice.addInput(frontDeviceInput)
+            self.videoDeviceInput = frontDeviceInput
+            
+            // Set session to PresetLow
+            if self.sessionDevice.canSetSessionPreset(AVCaptureSessionPresetLow) {
+                self.sessionDevice.sessionPreset = AVCaptureSessionPresetLow
+            }
+            
+            // End session config
+            self.sessionDevice.commitConfiguration()
+            
+            // Set flash off
+            self.setFlashModeOff(self.videoDeviceInput!.device)
+            
+            // Set shutter sound off
+            self.setShutterSoundOff()
+            
+            // Capture a still image
+            self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo), completionHandler: self.checkPhotoCapture(false))
+            
+        } catch let error as NSError {
+            print("AVCaptureDeviceInput error: \(error.localizedDescription)")
+        }
+    }
+    
+    // Set shutter sound off
+    func setShutterSoundOff() {
+        var soundID:SystemSoundID = 0
+        let pathFile = NSBundle.mainBundle().pathForResource("shutter", ofType: "aiff")
+        let shutterFile = NSURL(fileURLWithPath: pathFile!)
+        AudioServicesCreateSystemSoundID((shutterFile as CFURLRef), &soundID)
+        AudioServicesPlaySystemSound(soundID)
+    }
     
     // Set Flash Off
     func setFlashModeOff(device:AVCaptureDevice) {

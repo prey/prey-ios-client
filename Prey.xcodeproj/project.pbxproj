@@ -10,6 +10,7 @@
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742161CF791D900E52B6C /* ReportPhoto.swift */; };
 		3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742181CF792CA00E52B6C /* ReportWifi.swift */; };
+		3B37421B1CF79F3C00E52B6C /* DeviceAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B37421A1CF79F3C00E52B6C /* DeviceAuth.swift */; };
 		3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */; };
 		3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42B3FC1CECC38B009D07B2 /* Report.swift */; };
 		3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4F679E1CEA061E00F58FAD /* Alarm.swift */; };
@@ -72,6 +73,7 @@
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B3742161CF791D900E52B6C /* ReportPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportPhoto.swift; path = Classes/ReportPhoto.swift; sourceTree = "<group>"; };
 		3B3742181CF792CA00E52B6C /* ReportWifi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportWifi.swift; path = Classes/ReportWifi.swift; sourceTree = "<group>"; };
+		3B37421A1CF79F3C00E52B6C /* DeviceAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceAuth.swift; sourceTree = "<group>"; };
 		3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyNotification.swift; path = Classes/PreyNotification.swift; sourceTree = "<group>"; };
 		3B42B3FC1CECC38B009D07B2 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Report.swift; path = Classes/Report.swift; sourceTree = "<group>"; };
 		3B4F679E1CEA061E00F58FAD /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alarm.swift; path = Classes/Alarm.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				3B8E57D21A2E7B530027179E /* AppDelegate.swift */,
 				3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */,
 				3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */,
+				3B37421A1CF79F3C00E52B6C /* DeviceAuth.swift */,
 				3BC3C0971C9733BA00D08D62 /* Constants.swift */,
 				3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */,
 				3B8283F9199198E6000E4545 /* Images.xcassets */,
@@ -387,6 +390,7 @@
 				3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */,
 				3B6D70A31CD7E3D400DEB461 /* SwiftExt.swift in Sources */,
 				3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */,
+				3B37421B1CF79F3C00E52B6C /* DeviceAuth.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
 				3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */,
 				3B77804E1A600CCE0050C747 /* PreyUser.swift in Sources */,
