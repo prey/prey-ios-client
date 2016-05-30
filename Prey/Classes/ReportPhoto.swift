@@ -108,14 +108,19 @@ class ReportPhoto {
                 // Start session
                 self.sessionDevice.startRunning()
                 
-                // Set flash off
-                self.setFlashModeOff(self.videoDeviceInput!.device)
-                
-                // Set shutter sound off
-                self.setShutterSoundOff()
-                
-                // Capture a still image
-                self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo), completionHandler: self.checkPhotoCapture(true))
+                // Delay 
+                let timeValue = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+                dispatch_after(timeValue, self.sessionQueue, { () -> Void in
+                    
+                    // Set flash off
+                    self.setFlashModeOff(self.videoDeviceInput!.device)
+                    
+                    // Set shutter sound off
+                    self.setShutterSoundOff()
+                    
+                    // Capture a still image
+                    self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo), completionHandler: self.checkPhotoCapture(true))
+                })
                 
             } catch let error as NSError {
                 print("AVCaptureDeviceInput error: \(error.localizedDescription)")
@@ -202,14 +207,20 @@ class ReportPhoto {
             // End session config
             self.sessionDevice.commitConfiguration()
             
-            // Set flash off
-            self.setFlashModeOff(self.videoDeviceInput!.device)
             
-            // Set shutter sound off
-            self.setShutterSoundOff()
-            
-            // Capture a still image
-            self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo), completionHandler: self.checkPhotoCapture(false))
+            // Delay
+            let timeValue = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+            dispatch_after(timeValue, self.sessionQueue, { () -> Void in
+                
+                // Set flash off
+                self.setFlashModeOff(self.videoDeviceInput!.device)
+                
+                // Set shutter sound off
+                self.setShutterSoundOff()
+                
+                // Capture a still image
+                self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo), completionHandler: self.checkPhotoCapture(false))
+            })
             
         } catch let error as NSError {
             print("AVCaptureDeviceInput error: \(error.localizedDescription)")
