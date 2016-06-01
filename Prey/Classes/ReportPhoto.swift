@@ -11,7 +11,7 @@ import AVFoundation
 import UIKit
 
 protocol PhotoServiceDelegate {
-    func photoReceived(photos:[UIImage])
+    func photoReceived(photos:NSMutableDictionary)
 }
 
 
@@ -36,7 +36,9 @@ class ReportPhoto {
     }
 
     // Photo array
-    var photoArray = [UIImage]()
+    var photoArray    = NSMutableDictionary()
+    
+    var waitForRequest = false
     
     // ReportPhoto Delegate
     var delegate: PhotoServiceDelegate?
@@ -158,7 +160,13 @@ class ReportPhoto {
                 print("Error NSData to UIImage")
                 return
             }
-            self.photoArray.append(image)
+            
+            if isFirstPhoto {
+                self.photoArray.removeAllObjects()
+                self.photoArray.setObject(image, forKey: "picture")
+            } else {
+                self.photoArray.setObject(image, forKey: "screenshot")
+            }
             
             // Check if two camera available
             if self.isTwoCameraAvailable && isFirstPhoto {

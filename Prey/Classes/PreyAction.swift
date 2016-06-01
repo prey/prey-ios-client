@@ -30,11 +30,11 @@ enum kCommand: String {
 
 // Prey location params
 enum kLocation: String {
-    case LONGITURE  = "lng"
-    case LATITUDE   = "lat"
-    case ALTITUDE   = "alt"
-    case ACCURACY   = "accuracy"
-    case METHOD     = "method"
+    case LONGITURE  = "geo[lng]"
+    case LATITUDE   = "geo[lat]"
+    case ALTITUDE   = "geo[alt]"
+    case ACCURACY   = "geo[accuracy]"
+    case METHOD     = "geo[method]"
 }
 
 // Prey /Data Endpoint struct
@@ -107,17 +107,15 @@ class PreyAction : NSOperation {
             print("Error send data auth")
         }
     }
-    
+
     // Send report to panel
-    func sendDataReport(params:NSMutableDictionary?, toEndpoint:String) {
-        
-        print("data report: \(params!.description)")
-        
+    func sendDataReport(params:NSMutableDictionary, images:NSMutableDictionary?, toEndpoint:String) {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.sendDataReportToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))
+            PreyHTTPClient.sharedInstance.sendDataReportToPrey(username, password:"x", params:params, images: images, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))
         } else {
             print("Error send data auth")
         }
+        
     }
 }

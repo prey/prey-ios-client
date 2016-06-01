@@ -14,15 +14,17 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
  
     // MARK: Properties
     
-    var interval:Double = 10
-    
     var runReportTimer: NSTimer?
     
-    var reportData = NSMutableDictionary()
+    var interval:Double = 10
     
-    var reportLocation = ReportLocation()
+    var reportData      = NSMutableDictionary()
     
-    var reportPhoto = ReportPhoto()
+    var reportImages    = NSMutableDictionary()
+    
+    var reportLocation  = ReportLocation()
+    
+    var reportPhoto     = ReportPhoto()
     
     // MARK: Functions
     
@@ -45,10 +47,12 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         
         if PreyConfig.sharedInstance.isMissing {
             // Get Location
+            reportLocation.waitForRequest = true
             reportLocation.delegate = self
             reportLocation.startLocation()
             
             // Get Photo
+            reportPhoto.waitForRequest = true
             reportPhoto.delegate = self
             reportPhoto.startSession()            
             
@@ -72,10 +76,11 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     }
     
     // Send report
-    func sendReport(param:NSMutableDictionary) {
+    func sendReport() {
         
-        
-        self.sendDataReport(param, toEndpoint: reportDataDeviceEndpoint)
+        if !reportPhoto.waitForRequest && !reportLocation.waitForRequest {
+            self.sendDataReport(reportData, images: reportImages, toEndpoint: reportDataDeviceEndpoint)
+        }
     }
     
     // Add wifi info
@@ -84,19 +89,28 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         if let networkInfo = ReportWifi.getNetworkInfo() {
             
             let params:[String: AnyObject] = [
-                "ssid"          : networkInfo["SSID"]!,
-                "mac_address"   : networkInfo["BSSID"]!]
+                "active_access_point[ssid]"          : networkInfo["SSID"]!,
+                "active_access_point[mac_address]"   : networkInfo["BSSID"]!]
             
             // Save network info to reportData
-            reportData.addEntriesFromDictionary(["active_access_point" : params])
+            reportData.addEntriesFromDictionary(params)
         }
     }
     // MARK: ReportPhoto Delegate
     
     // Photos received
-    func photoReceived(photos:[UIImage]) {
+    func photoReceived(photos:NSMutableDictionary) {
         
-        print("photo image: \(photos)")
+        print("get photos")
+        
+        // Set photos to reportImages
+        reportImages = photos
+        
+        // Set location wait
+        reportPhoto.waitForRequest = false
+
+        // Send report to panel
+        sendReport()
     }
     
     // MARK: ReportLocation Delegate
@@ -113,12 +127,13 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
                 kLocation.ACCURACY.rawValue     : loc.horizontalAccuracy]
             
             // Save location to reportData
-            reportData.addEntriesFromDictionary([kAction.LOCATION.rawValue : params])
+            reportData.addEntriesFromDictionary(params)
+            
+            // Set location wait
+            reportLocation.waitForRequest = false
             
             // Send report to panel
-            sendReport(reportData)
-            
-            stop()
+            sendReport()
         }
     }
 }

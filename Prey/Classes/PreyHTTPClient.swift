@@ -17,6 +17,11 @@ class PreyHTTPClient {
     private init() {
     }
     
+    // Encoding Character
+    struct EncodingCharacters {
+        static let CRLF = "\r\n"
+    }
+
     // Define UserAgent
     var userAgent : String {
         let systemVersion = UIDevice.currentDevice().systemVersion
@@ -46,12 +51,12 @@ class PreyHTTPClient {
         }
         return completionHandler
     }
-
+    
     
     // MARK: Requests to Prey API
     
     // Send Report Data to Control Panel
-    func sendDataReportToPrey(username: String, password: String, params:NSMutableDictionary?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
+    func sendDataReportToPrey(username: String, password: String, params:NSMutableDictionary, images:NSMutableDictionary?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
         
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
@@ -61,18 +66,44 @@ class PreyHTTPClient {
         let session         = NSURLSession(configuration: sessionConfig)
         
         // Set Endpoint
-        let requestURL      = NSURL(string: URLControlPanel.stringByAppendingString(endPoint))
+        let requestURL      = NSURL(string:URLControlPanel.stringByAppendingString(endPoint))
         let request         = NSMutableURLRequest(URL:requestURL!)
+
+        // HTTP Header boundary
+        let boundary = String(format: "prey.boundary-%08x%08x", arc4random(), arc4random())
         
-        // Set params
-        if params != nil  {
-            do {
-                request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(params!, options:NSJSONWritingOptions.PrettyPrinted)
-            } catch let error as NSError{
-                print("params error: \(error.localizedDescription)")
-            }
+        // Define the multipart request type
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        // Set bodyRequest for HTTPBody
+        let bodyRequest = NSMutableData()
+        
+        // Set params on request
+        for (key, value) in params {
+            
+            bodyRequest.appendString("--\(boundary)\(EncodingCharacters.CRLF)")
+            bodyRequest.appendString("Content-Disposition:form-data; name=\"\(key)\"\(EncodingCharacters.CRLF)\(EncodingCharacters.CRLF)")
+            bodyRequest.appendString("\(value)")
+            bodyRequest.appendString(EncodingCharacters.CRLF)
         }
         
+        // Set type to images
+        let mimetype = "image/png"
+        
+        // Set images on request
+        for (key, value) in images! {
+            
+            bodyRequest.appendString("--\(boundary)\(EncodingCharacters.CRLF)")
+            bodyRequest.appendString("Content-Disposition:form-data; name=\"\(key)\"; filename=\"\(key).jpg\"\(EncodingCharacters.CRLF)")
+            bodyRequest.appendString("Content-Type: \(mimetype)\(EncodingCharacters.CRLF)\(EncodingCharacters.CRLF)")
+            bodyRequest.appendData(UIImagePNGRepresentation(value as! UIImage)!)
+            bodyRequest.appendString(EncodingCharacters.CRLF)
+        }
+        
+        // End HTTPBody
+        bodyRequest.appendString("--\(boundary)--\(EncodingCharacters.CRLF)")
+        
+        request.HTTPBody    = bodyRequest
         request.HTTPMethod  = httpMethod
         
         // Prepare Request to Send
@@ -81,7 +112,6 @@ class PreyHTTPClient {
         // Send Request
         task.resume()
     }
-
     
     // SignUp/LogIn User to Control Panel
     func userRegisterToPrey(username: String, password: String, params: [String: AnyObject]?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {

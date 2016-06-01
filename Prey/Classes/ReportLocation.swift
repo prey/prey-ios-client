@@ -16,6 +16,8 @@ protocol LocationServiceDelegate {
 class ReportLocation: NSObject, CLLocationManagerDelegate {
 
     // MARK: Properties
+
+    var waitForRequest = false
     
     let locManager = CLLocationManager()
 
