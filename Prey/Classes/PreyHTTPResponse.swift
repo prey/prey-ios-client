@@ -241,43 +241,10 @@ class PreyHTTPResponse {
         }
         
         return actionDeviceResponse
-    }
-    
-    // Check notificationID response
-    class func checkNotificationId() -> (NSData?, NSURLResponse?, NSError?) -> Void {
-        
-        let notificationResponse: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
-            
-            // Check error with NSURLSession request
-            guard error == nil else {
-                
-                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
-                print("Error: \(alertMessage)")
-                
-                return
-            }
-            
-            //print("Notification_id: data:\(data) \nresponse:\(response) \nerror:\(error)")
-            
-            let httpURLResponse = response as! NSHTTPURLResponse
-            
-            switch httpURLResponse.statusCode {
-                
-            // === Success
-            case 200...299:
-                print("Did register for remote notifications")
-                
-            // === Error
-            default:
-                print("Failed to register for remote notifications")
-            }
-        }
-        
-        return notificationResponse
-    }
+    }    
 
     // Check Data Send response
-    class func checkDataSend(action:PreyAction) -> (NSData?, NSURLResponse?, NSError?) -> Void {
+    class func checkDataSend(action:PreyAction?) -> (NSData?, NSURLResponse?, NSError?) -> Void {
         
         let dataResponse: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
             
@@ -297,7 +264,9 @@ class PreyHTTPResponse {
             // === Success
             case 200...299:
                 print("Data send: OK")
-                PreyModule.sharedInstance.checkStatus(action)
+                if let preyAction = action {
+                    PreyModule.sharedInstance.checkStatus(preyAction)
+                }
                 
             // === Error
             default:

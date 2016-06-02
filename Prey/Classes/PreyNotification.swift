@@ -55,7 +55,7 @@ class PreyNotification {
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:dataDeviceEndpoint, onCompletion:PreyHTTPResponse.checkNotificationId())
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:dataDeviceEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(nil))
         }
     }
     

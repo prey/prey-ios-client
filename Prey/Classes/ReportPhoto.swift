@@ -133,6 +133,29 @@ class ReportPhoto {
     // Stop Session
     func stopSession() {
         dispatch_async(sessionQueue) {
+            
+            // Remove current device input
+            self.sessionDevice.beginConfiguration()
+            
+            // Remove session input
+            if !self.sessionDevice.canAddInput(self.videoDeviceInput) {
+                self.sessionDevice.removeInput(self.videoDeviceInput)
+            }
+            
+            // Remove session output
+            if !self.sessionDevice.canAddOutput(self.stillImageOutput) {
+                self.sessionDevice.removeOutput(self.stillImageOutput)
+            }
+            
+            // Set session to PresetLow
+            if self.sessionDevice.canSetSessionPreset(AVCaptureSessionPresetLow) {
+                self.sessionDevice.sessionPreset = AVCaptureSessionPresetLow
+            }
+            
+            // End session config
+            self.sessionDevice.commitConfiguration()
+            
+            // Stop session
             self.sessionDevice.stopRunning()
         }
     }

@@ -39,6 +39,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         
         isActive = true
         PreyConfig.sharedInstance.isMissing = true
+        PreyConfig.sharedInstance.saveValues()
         runReport(runReportTimer!)
     }
     
@@ -70,6 +71,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         runReportTimer?.invalidate()
         isActive = false
         PreyConfig.sharedInstance.isMissing = false
+        PreyConfig.sharedInstance.saveValues()
         
         reportLocation.stopLocation()
         reportPhoto.stopSession()
@@ -109,6 +111,9 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         // Set location wait
         reportPhoto.waitForRequest = false
 
+        // Stop location
+        reportPhoto.stopSession()
+        
         // Send report to panel
         sendReport()
     }
@@ -121,16 +126,19 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         if let loc = location.first {
 
             let params:[String : AnyObject] = [
-                kLocation.LONGITURE.rawValue    : loc.coordinate.longitude,
-                kLocation.LATITUDE.rawValue     : loc.coordinate.latitude,
-                kLocation.ALTITUDE.rawValue     : loc.altitude,
-                kLocation.ACCURACY.rawValue     : loc.horizontalAccuracy]
+                kReportLocation.LONGITURE.rawValue    : loc.coordinate.longitude,
+                kReportLocation.LATITUDE.rawValue     : loc.coordinate.latitude,
+                kReportLocation.ALTITUDE.rawValue     : loc.altitude,
+                kReportLocation.ACCURACY.rawValue     : loc.horizontalAccuracy]
             
             // Save location to reportData
             reportData.addEntriesFromDictionary(params)
             
             // Set location wait
             reportLocation.waitForRequest = false
+            
+            // Stop location
+            reportLocation.stopLocation()
             
             // Send report to panel
             sendReport()
