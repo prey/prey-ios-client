@@ -268,6 +268,13 @@ class PreyHTTPResponse {
                     PreyModule.sharedInstance.checkStatus(preyAction)
                 }
                 
+            // === Stop report
+            case 409:
+                print("Stop report")
+                if let preyAction = action {
+                    preyAction.stop()
+                }                
+                
             // === Error
             default:
                 print("Failed data send")

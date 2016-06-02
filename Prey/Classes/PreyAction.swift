@@ -72,6 +72,9 @@ class PreyAction : NSOperation {
         options = opt
     }
     
+    // Stop method
+    func stop () {}
+    
     // Return Prey New Action
     class func newAction(withName target:kAction, withCommand cmd:kCommand, withOptions opt: NSDictionary?) -> PreyAction? {
         

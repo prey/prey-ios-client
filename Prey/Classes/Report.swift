@@ -47,6 +47,11 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     func runReport(timer:NSTimer) {
         
         if PreyConfig.sharedInstance.isMissing {
+            
+            // Reset report info
+            reportImages.removeAllObjects()
+            reportData.removeAllObjects()
+            
             // Get Location
             reportLocation.waitForRequest = true
             reportLocation.delegate = self
@@ -66,7 +71,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     }
     
     // Stop report
-    func stop() {
+    override func stop() {
      
         runReportTimer?.invalidate()
         isActive = false
@@ -75,6 +80,8 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         
         reportLocation.stopLocation()
         reportPhoto.stopSession()
+        
+        PreyModule.sharedInstance.checkStatus(self)
     }
     
     // Send report
