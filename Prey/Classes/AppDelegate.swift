@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
+        print("Prey is in background")
     }
 
     func applicationWillEnterForeground(application: UIApplication) {

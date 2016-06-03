@@ -52,6 +52,9 @@ class PreyModule {
                 addAction(dict as! NSDictionary)
             }
             
+            // Run actions
+            runAction()
+            
             // Check ActionArray empty
             if actionArray.count <= 0 {
                 print("Notification checkRequestVerificationSucceded OK")
@@ -84,18 +87,19 @@ class PreyModule {
         
         // Add new Prey Action
         if let action:PreyAction = PreyAction.newAction(withName: actionName, withCommand: actionCmd, withOptions: actionOptions) {
-            runAction(action)
+            actionArray.append(action)
         }
     }
     
     // Run action
-    func runAction(action:PreyAction) {
+    func runAction() {
 
-        print("Run \(action.target.rawValue) action")
-        
-        if action.respondsToSelector(NSSelectorFromString(action.command.rawValue)) {
-            actionArray.append(action)
-            action.performSelectorOnMainThread(NSSelectorFromString(action.command.rawValue), withObject: nil, waitUntilDone: true)
+        for action in actionArray {
+            // Check selector
+            if (action.respondsToSelector(NSSelectorFromString(action.command.rawValue)) && !action.isActive) {
+                print("Run \(action.target.rawValue) action")
+                action.performSelectorOnMainThread(NSSelectorFromString(action.command.rawValue), withObject: nil, waitUntilDone: true)
+            }
         }
     }
     
@@ -106,7 +110,7 @@ class PreyModule {
         
         // Check if preyAction isn't active
         if !action.isActive {
-            deleteAction(action.target)
+            deleteAction(action)
         }
      
         // Check ActionArray empty
@@ -117,12 +121,12 @@ class PreyModule {
     }
     
     // Delete action
-    func deleteAction(target: kAction) {
+    func deleteAction(action: PreyAction) {
         
-        print("Delete \(target) action")
+        print("Delete \(action.target) action")
         
-        for action in actionArray {
-            if action.target == target {
+        for item in actionArray {
+            if ( (item.target == action.target) == (item.command == action.command) ) {
                 actionArray.removeObject(action)
             }
         }

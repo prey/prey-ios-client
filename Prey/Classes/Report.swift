@@ -52,15 +52,20 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
             reportImages.removeAllObjects()
             reportData.removeAllObjects()
             
+            // Stop location
+            reportLocation.stopLocation()
+
             // Get Location
             reportLocation.waitForRequest = true
             reportLocation.delegate = self
             reportLocation.startLocation()
             
             // Get Photo
-            reportPhoto.waitForRequest = true
-            reportPhoto.delegate = self
-            reportPhoto.startSession()            
+            if UIApplication.sharedApplication().applicationState != UIApplicationState.Background {
+                reportPhoto.waitForRequest = true
+                reportPhoto.delegate = self
+                reportPhoto.startSession()                
+            }
             
             // Get Wifi Info
             addWifiInfo()
@@ -105,6 +110,8 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
             reportData.addEntriesFromDictionary(params)
         }
     }
+    
+    
     // MARK: ReportPhoto Delegate
     
     // Photos received
@@ -118,8 +125,9 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         // Set location wait
         reportPhoto.waitForRequest = false
 
-        // Stop location
+        // Stop camera session
         reportPhoto.stopSession()
+        reportPhoto.removeObserverForImage()
         
         // Send report to panel
         sendReport()
@@ -143,9 +151,6 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
             
             // Set location wait
             reportLocation.waitForRequest = false
-            
-            // Stop location
-            reportLocation.stopLocation()
             
             // Send report to panel
             sendReport()

@@ -15,7 +15,11 @@ protocol PhotoServiceDelegate {
 }
 
 
-class ReportPhoto {
+// Context
+var CapturingStillImageContext = "CapturingStillImageContext"
+
+
+class ReportPhoto: NSObject {
  
     // MARK: Properties
     
@@ -34,7 +38,7 @@ class ReportPhoto {
         }
         return false
     }
-
+    
     // Photo array
     var photoArray    = NSMutableDictionary()
     
@@ -59,7 +63,7 @@ class ReportPhoto {
     // MARK: Init
     
     // Init camera session
-    init() {
+    override init() {
         
         // Create AVCaptureSession
         sessionDevice = AVCaptureSession()
@@ -110,15 +114,15 @@ class ReportPhoto {
                 // Start session
                 self.sessionDevice.startRunning()
                 
+                // KeyObserver
+                self.addObserver(self, forKeyPath:"stillImageOutput.capturingStillImage", options: ([.Old,.New]), context: &CapturingStillImageContext)
+                
                 // Delay 
                 let timeValue = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
                 dispatch_after(timeValue, self.sessionQueue, { () -> Void in
                     
                     // Set flash off
                     self.setFlashModeOff(self.videoDeviceInput!.device)
-                    
-                    // Set shutter sound off
-                    self.setShutterSoundOff()
                     
                     // Capture a still image
                     self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo), completionHandler: self.checkPhotoCapture(true))
@@ -162,6 +166,12 @@ class ReportPhoto {
     
     // MARK: Functions
 
+    // Remove observer
+    func removeObserverForImage() {
+        // Remove key oberver
+        self.removeObserver(self, forKeyPath:"stillImageOutput.capturingStillImage", context:&CapturingStillImageContext)
+    }
+    
     // Completion Handler to Photo Capture
     func checkPhotoCapture(isFirstPhoto:Bool) -> (CMSampleBuffer!, NSError?) -> Void {
         
@@ -246,9 +256,6 @@ class ReportPhoto {
                 // Set flash off
                 self.setFlashModeOff(self.videoDeviceInput!.device)
                 
-                // Set shutter sound off
-                self.setShutterSoundOff()
-                
                 // Capture a still image
                 self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo), completionHandler: self.checkPhotoCapture(false))
             })
@@ -280,6 +287,15 @@ class ReportPhoto {
             } catch let error as NSError {
                 print("AVCaptureFlashMode error: \(error.localizedDescription)")
             }
+        }
+    }
+    
+    // Observer Key
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        
+        if ( (context == &CapturingStillImageContext) && (change![NSKeyValueChangeNewKey]?.boolValue == true) ) {
+            // Set shutter sound off
+            self.setShutterSoundOff()
         }
     }
     

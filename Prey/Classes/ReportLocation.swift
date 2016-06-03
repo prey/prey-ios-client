@@ -30,6 +30,11 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
         locManager.delegate = self
         locManager.desiredAccuracy = kCLLocationAccuracyBest
         locManager.startUpdatingLocation()
+        locManager.pausesLocationUpdatesAutomatically = false
+        
+        if #available(iOS 9.0, *) {
+            locManager.allowsBackgroundLocationUpdates = true
+        }
     }
     
     // Stop Location
@@ -43,6 +48,10 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
     // Did Update Locations
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("New location received: \(locations.description)")
+        
+        if !waitForRequest {
+            return
+        }
         
         if locations.first?.horizontalAccuracy < 0 {
             return
