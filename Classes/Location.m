@@ -48,7 +48,7 @@
     [dict setObject:[NSString stringWithFormat:@"%f",location.coordinate.longitude] forKey:@"lng"];
 	[dict setObject:[NSString stringWithFormat:@"%f",location.coordinate.latitude] forKey:@"lat"];
 	[dict setObject:[NSString stringWithFormat:@"%f",location.altitude] forKey:@"alt"];
-	[dict setObject:[NSString stringWithFormat:@"%f",location.horizontalAccuracy] forKey:@"acc"];
+	[dict setObject:[NSString stringWithFormat:@"%f",location.horizontalAccuracy] forKey:@"accuracy"];
 	[dict setObject:@"native" forKey:@"method"];
     
     [super sendHttp:[super createResponseFromObject:dict withKey:[self getName]]];
