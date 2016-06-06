@@ -99,7 +99,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.5.5</string>
 	<key>CFBundleVersion</key>
-	<string>2016060301</string>
+	<string>2016060601</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -108,7 +108,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string>Prey needs your location to find your device through your account when you request it.</string>
 	<key>NSMainNibFile</key>
 	<string>MainWindow-iPhone</string>
 	<key>NSMainNibFile~ipad</key>
