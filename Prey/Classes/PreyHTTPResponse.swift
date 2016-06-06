@@ -243,6 +243,44 @@ class PreyHTTPResponse {
         return actionDeviceResponse
     }    
 
+    // Check add device response
+    class func checkGeofenceZones() -> (NSData?, NSURLResponse?, NSError?) -> Void {
+        
+        let geofenceZonesResponse: (NSData?, NSURLResponse?, NSError?) -> Void = ({(data, response, error) in
+            
+            // Check error with NSURLSession request
+            guard error == nil else {
+                print("PreyGeofenceZones error")
+                return
+            }
+            
+            print("PreyGeofence: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            
+            let httpURLResponse = response as! NSHTTPURLResponse
+            
+            switch httpURLResponse.statusCode {
+                
+            // === Success
+            case 200...299:
+                let jsonObject: NSDictionary
+                
+                do {
+                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                    PreyCoreData.sharedInstance.updateGeofenceZones(jsonObject)
+                    
+                } catch let error as NSError{
+                    print("json error: \(error.localizedDescription)")
+                }
+                
+            // === Error
+            default:
+                print("Failed data send")
+            }
+        })
+        
+        return geofenceZonesResponse
+    }
+    
     // Check Data Send response
     class func checkDataSend(action:PreyAction?) -> (NSData?, NSURLResponse?, NSError?) -> Void {
         

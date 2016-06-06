@@ -34,6 +34,8 @@ public let reportDataDeviceEndpoint: String = NSString(format:"/devices/%@/repor
 // Endpoint for Response Data
 public let responseDeviceEndpoint: String = NSString(format:"/devices/%@/response",(PreyConfig.sharedInstance.deviceKey!)) as String
 
+// Endpoint for Geofencing Data
+public let geofencingEndpoint: String = NSString(format:"/devices/%@/geofencing.json",(PreyConfig.sharedInstance.deviceKey!)) as String
 
 // Endpoint for Device Actions
 public let actionsDeviceEndpoint: String = NSString(format:"/devices/%@.json",(PreyConfig.sharedInstance.deviceKey!)) as String
@@ -56,7 +58,6 @@ public let delayTime: Double = 2
 
 // Email RegExp
 public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b"
-
 
 // Validate email expression
 public func isInvalidEmail(userEmail: String, withPattern: String) -> Bool {

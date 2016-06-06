@@ -75,4 +75,14 @@ class PreyDevice {
             onCompletion(isSuccess:false)
         }
     }
+    
+    // Check Geofence Zones
+    class func checkGeofenceZones() {
+        // Check userApiKey isn't empty
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, httpMethod:Method.GET.rawValue, endPoint:geofencingEndpoint, onCompletion:PreyHTTPResponse.checkGeofenceZones())
+        } else {         
+            print("Error auth check Geofence")
+        }        
+    }
 }
