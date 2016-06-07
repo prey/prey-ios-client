@@ -244,7 +244,7 @@ class PreyHTTPResponse {
     }    
 
     // Check add device response
-    class func checkGeofenceZones() -> (NSData?, NSURLResponse?, NSError?) -> Void {
+    class func checkGeofenceZones(action:Geofencing) -> (NSData?, NSURLResponse?, NSError?) -> Void {
         
         let geofenceZonesResponse: (NSData?, NSURLResponse?, NSError?) -> Void = ({(data, response, error) in
             
@@ -254,7 +254,7 @@ class PreyHTTPResponse {
                 return
             }
             
-            print("PreyGeofence: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            //print("PreyGeofence: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! NSHTTPURLResponse
             
@@ -262,11 +262,24 @@ class PreyHTTPResponse {
                 
             // === Success
             case 200...299:
-                let jsonObject: NSDictionary
+                
+                guard let jsonObject: String = String(data: data!, encoding: NSUTF8StringEncoding) else {
+                    print("Error reading json data")
+                    return
+                }
+                
+                // Convert actionsArray from String to NSData
+                guard let jsonData: NSData = jsonObject.dataUsingEncoding(NSUTF8StringEncoding) else {
+                    print("Error jsonObject to NSData")
+                    return
+                }
+                
+                // Convert NSData to NSArray
+                let jsonArray: NSArray
                 
                 do {
-                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                    PreyCoreData.sharedInstance.updateGeofenceZones(jsonObject)
+                    jsonArray = try NSJSONSerialization.JSONObjectWithData(jsonData, options:NSJSONReadingOptions.MutableContainers) as! NSArray
+                    action.updateGeofenceZones(jsonArray)
                     
                 } catch let error as NSError{
                     print("json error: \(error.localizedDescription)")

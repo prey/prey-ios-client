@@ -9,6 +9,11 @@
 import Foundation
 import UIKit
 
+@available(iOS, deprecated=1.0, message="I'm not deprecated, please ***FIXME**")
+func FIXME()
+{
+}
+
 // Definition of URLs
 #if DEBUG
 public let URLControlPanel: String = "https://control.preyhq.com/api/v2"

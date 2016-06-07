@@ -12,7 +12,6 @@
 		3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742181CF792CA00E52B6C /* ReportWifi.swift */; };
 		3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */; };
 		3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */; };
-		3B41BDAA1D05FF0A003DF0CE /* PreyModelData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDA81D05FF0A003DF0CE /* PreyModelData.xcdatamodeld */; };
 		3B41BDAD1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift */; };
 		3B41BDAE1D05FF9F003DF0CE /* GeofenceZones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDAC1D05FF9F003DF0CE /* GeofenceZones.swift */; };
 		3B41BDB11D05FFF0003DF0CE /* PreyCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */; };
@@ -26,6 +25,8 @@
 		3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */; };
 		3B8283FA199198E6000E4545 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F9199198E6000E4545 /* Images.xcassets */; };
 		3B828406199198E6000E4545 /* PreyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B828405199198E6000E4545 /* PreyTests.swift */; };
+		3B849AE81D0710E9002DB6CC /* PreyModelData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE61D0710E9002DB6CC /* PreyModelData.xcdatamodeld */; };
+		3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE91D071AF4002DB6CC /* Geofencing.swift */; };
 		3B8E57D11A2E7B4A0027179E /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */; };
 		3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D21A2E7B530027179E /* AppDelegate.swift */; };
 		3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */; };
@@ -79,7 +80,6 @@
 		3B3742181CF792CA00E52B6C /* ReportWifi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportWifi.swift; path = Classes/ReportWifi.swift; sourceTree = "<group>"; };
 		3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyNotification.swift; path = Classes/PreyNotification.swift; sourceTree = "<group>"; };
 		3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceAuth.swift; path = Classes/DeviceAuth.swift; sourceTree = "<group>"; };
-		3B41BDA91D05FF0A003DF0CE /* PreyModelData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PreyModelData.xcdatamodel; sourceTree = "<group>"; };
 		3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GeofenceZones+CoreDataProperties.swift"; path = "Classes/GeofenceZones+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3B41BDAC1D05FF9F003DF0CE /* GeofenceZones.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeofenceZones.swift; path = Classes/GeofenceZones.swift; sourceTree = "<group>"; };
 		3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyCoreData.swift; path = Classes/PreyCoreData.swift; sourceTree = "<group>"; };
@@ -97,6 +97,8 @@
 		3B8283FF199198E6000E4545 /* PreyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B828404199198E6000E4545 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B828405199198E6000E4545 /* PreyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyTests.swift; sourceTree = "<group>"; };
+		3B849AE71D0710E9002DB6CC /* PreyModelData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PreyModelData.xcdatamodel; sourceTree = "<group>"; };
+		3B849AE91D071AF4002DB6CC /* Geofencing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Geofencing.swift; path = Classes/Geofencing.swift; sourceTree = "<group>"; };
 		3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeVC.swift; path = Classes/WelcomeVC.swift; sourceTree = "<group>"; };
 		3B8E57D21A2E7B530027179E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Classes/AppDelegate.swift; sourceTree = "<group>"; };
 		3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceSetUpVC.swift; path = Classes/DeviceSetUpVC.swift; sourceTree = "<group>"; };
@@ -142,7 +144,7 @@
 		3B41BDAF1D05FFA7003DF0CE /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				3B41BDA81D05FF0A003DF0CE /* PreyModelData.xcdatamodeld */,
+				3B849AE61D0710E9002DB6CC /* PreyModelData.xcdatamodeld */,
 				3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift */,
 				3B41BDAC1D05FF9F003DF0CE /* GeofenceZones.swift */,
 				3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */,
@@ -270,6 +272,7 @@
 				3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */,
 				3B3742161CF791D900E52B6C /* ReportPhoto.swift */,
 				3B3742181CF792CA00E52B6C /* ReportWifi.swift */,
+				3B849AE91D071AF4002DB6CC /* Geofencing.swift */,
 			);
 			name = PreyModules;
 			sourceTree = "<group>";
@@ -405,7 +408,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B41BDAA1D05FF0A003DF0CE /* PreyModelData.xcdatamodeld in Sources */,
 				3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */,
 				3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */,
 				3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */,
@@ -418,6 +420,7 @@
 				3B8E57D11A2E7B4A0027179E /* WelcomeVC.swift in Sources */,
 				3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */,
 				3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */,
+				3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */,
 				3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */,
 				3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */,
 				3B41BDAD1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift in Sources */,
@@ -429,6 +432,7 @@
 				3B8E57E11A2E7B530027179E /* SignUpVC.swift in Sources */,
 				3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */,
 				3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */,
+				3B849AE81D0710E9002DB6CC /* PreyModelData.xcdatamodeld in Sources */,
 				3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */,
 				3B8E57DD1A2E7B530027179E /* LogInVC.swift in Sources */,
 				3B41BDAE1D05FF9F003DF0CE /* GeofenceZones.swift in Sources */,
@@ -663,14 +667,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		3B41BDA81D05FF0A003DF0CE /* PreyModelData.xcdatamodeld */ = {
+		3B849AE61D0710E9002DB6CC /* PreyModelData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				3B41BDA91D05FF0A003DF0CE /* PreyModelData.xcdatamodel */,
+				3B849AE71D0710E9002DB6CC /* PreyModelData.xcdatamodel */,
 			);
-			currentVersion = 3B41BDA91D05FF0A003DF0CE /* PreyModelData.xcdatamodel */;
+			currentVersion = 3B849AE71D0710E9002DB6CC /* PreyModelData.xcdatamodel */;
 			name = PreyModelData.xcdatamodeld;
-			path = CodeData/PreyModelData.xcdatamodeld;
+			path = CoreData/PreyModelData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

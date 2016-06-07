@@ -26,7 +26,7 @@ extension GeofenceZones {
     @NSManaged var radius: NSNumber?
     @NSManaged var state: String?
     @NSManaged var updated_at: String?
-    @NSManaged var zone_id: NSNumber?
+    @NSManaged var id: NSNumber?
     @NSManaged var zones: String?
 
 }

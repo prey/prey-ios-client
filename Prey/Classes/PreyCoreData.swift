@@ -13,79 +13,42 @@ class PreyCoreData {
     
     // MARK: Properties
 
+    // Object context
+    var managedObjectContext: NSManagedObjectContext
+
     static let sharedInstance = PreyCoreData()
     private init() {
-    }
-    
-    // Object context
-    var managedObjectContext: NSManagedObjectContext {
-        let objectCtx = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-        objectCtx.persistentStoreCoordinator = persistentStoreCoordinator
-        return objectCtx
-    }
-    
-    // Object model
-    var managedObjectModel: NSManagedObjectModel! {
-        if let modelURL = NSBundle.mainBundle().URLForResource("PreyModelData", withExtension: "momd") {
-            return NSManagedObjectModel(contentsOfURL: modelURL)
+        
+        // This resource is the same name as your xcdatamodeld contained in your project.
+        guard let modelURL = NSBundle.mainBundle().URLForResource("PreyModelData", withExtension:"momd") else {
+            fatalError("Error loading model from bundle")
         }
-        return nil
-    }
-    
-    // Persistent store
-    var persistentStoreCoordinator: NSPersistentStoreCoordinator {
-        let persistentStore = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        do {
-            let storeURL = applicationDocumentsDirectory.URLByAppendingPathComponent("PreyModelData.sqlite")
-            try persistentStore.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
-            try NSFileManager.defaultManager().removeItemAtURL(storeURL)
-        } catch let error as NSError {
-            print("CoreData error: \(error.localizedDescription)")
+        // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
+        guard let mom = NSManagedObjectModel(contentsOfURL: modelURL) else {
+            fatalError("Error initializing mom from: \(modelURL)")
         }
-        return persistentStore
-    }
-
-    let applicationDocumentsDirectory:NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains:.UserDomainMask).last!
-
-    
-    // MARK: Functions
-    
-
-    // Update Geofence Zones
-    func updateGeofenceZones(response:NSDictionary) {
         
-        let localZonesArray = getCurrentGeofenceZones()
-        
-        // Added zones events
-        
-    }
+        let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
+        managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        managedObjectContext.persistentStoreCoordinator = psc
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+            let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+            let docURL = urls[urls.endIndex-1]
+            /* The directory the application uses to store the Core Data store file.
+             This code uses a file named "DataModel.sqlite" in the application's documents directory.
+             */
+            let storeURL = docURL.URLByAppendingPathComponent("PreyModelData.sqlite")
+            do {
+                try psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
+                //try NSFileManager.defaultManager().removeItemAtURL(storeURL)
 
-    // Get Added Zones
-    func getAddedZones(serverResponse:NSDictionary, withLocalZones localZonesArray:[GeofenceZones]) -> NSMutableArray {
-        
-        let addedZones = NSMutableArray()
-        
-        for (key, value) in serverResponse {
-            
-            if key as! String == "id" {
-
-                let serverZone = NSNumber(float:value.floatValue)
-                var isLocalZone = false
-                
-                for localZone:GeofenceZones in localZonesArray {
-                    if serverZone == localZone.zone_id {
-                        isLocalZone = true
-                    }
-                }
-                
-                if isLocalZone == false {
-                    addedZones.addObject([key, value])
-                }
+            } catch {
+                fatalError("Error migrating store: \(error)")
             }
         }
-        
-        return addedZones
     }
+    
+    // MARK: Functions
     
     // Get current geofence zones
     func getCurrentGeofenceZones() -> NSArray {
@@ -93,14 +56,15 @@ class PreyCoreData {
         var fetchedObjects  = NSArray()
         let fetchRequest    = NSFetchRequest()
         
-        guard let entity = NSEntityDescription.entityForName("GeofenceZones", inManagedObjectContext: managedObjectContext) else {
+        guard let entity = NSEntityDescription.entityForName("GeofenceZones", inManagedObjectContext:managedObjectContext) else {
             return fetchedObjects
         }
         
         fetchRequest.entity = entity
         
         do {
-            fetchedObjects = try managedObjectContext.executeFetchRequest(fetchRequest)
+            let context = managedObjectContext
+            fetchedObjects = try context.executeFetchRequest(fetchRequest)
         } catch let error as NSError {
             print("CoreData error: \(error.localizedDescription)")
         }

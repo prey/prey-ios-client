@@ -13,6 +13,7 @@ enum kAction: String {
     case LOCATION   = "location"
     case REPORT     = "report"
     case ALARM      = "alarm"
+    case GEOFENCING = "geofencing"
 }
 
 // Prey status definitions
@@ -51,6 +52,7 @@ enum kData: String {
     case STATUS     = "status"
     case TARGET     = "target"
     case COMMAND    = "command"
+    case REASON     = "reason"
 }
 
 class PreyAction : NSOperation {
@@ -90,6 +92,9 @@ class PreyAction : NSOperation {
 
         case kAction.REPORT:
             actionItem = Report(withTarget: kAction.REPORT, withCommand: cmd, withOptions: opt)
+
+        case kAction.GEOFENCING:
+            actionItem = Geofencing(withTarget: kAction.GEOFENCING, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem
@@ -130,4 +135,15 @@ class PreyAction : NSOperation {
         }
         
     }
+    
+    // Check Geofence Zones
+    func checkGeofenceZones(action:Geofencing) {
+        // Check userApiKey isn't empty
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, httpMethod:Method.GET.rawValue, endPoint:geofencingEndpoint, onCompletion:PreyHTTPResponse.checkGeofenceZones(action))
+        } else {
+            print("Error auth check Geofence")
+        }
+    }
+
 }
