@@ -8,9 +8,14 @@
 
 import Foundation
 import CoreData
+import CoreLocation
 
-class Geofencing: PreyAction {
+class Geofencing: PreyAction, CLLocationManagerDelegate {
 
+    // MARK: Properties
+    
+    let geoManager = CLLocationManager()
+    
     
     // MARK: Functions
 
@@ -19,16 +24,16 @@ class Geofencing: PreyAction {
         
         print("Check geofencing zone")
         checkGeofenceZones(self)
+
+        isActive = true
     }
-    
-    
     
     // Update Geofence Zones
     func updateGeofenceZones(response:NSArray) {
         
-        let localZonesArray = PreyCoreData.sharedInstance.getCurrentGeofenceZones() as! [GeofenceZones]
+        let localZonesArray = PreyCoreData.sharedInstance.getCurrentGeofenceZones()
         
-        print("ZONES: \(response)")
+        //print("ZONES: \(response)")
         
         // Added zones events
         if let addedZones = getAddedZones(response, withLocalZones: localZonesArray) {
@@ -40,10 +45,22 @@ class Geofencing: PreyAction {
             sendEventToPanel(deletedZones, withCommand:kCommand.STOP , withStatus:kStatus.STOPPED)
         }
         
+        // Delete all regions on Device
+        deleteAllRegionsOnDevice()
         
-        FIXME()
-        // WIP: DELETE ALL REGIONS AND ADD ALL NEWS
+        // Delete all regionsOnCoreData
+        deleteAllRegionsOnCoreData(localZonesArray, withContext:PreyCoreData.sharedInstance.managedObjectContext)
         
+        // Add regions to CoreData
+        addRegionsToCoreData(response, withContext:PreyCoreData.sharedInstance.managedObjectContext)
+
+        // Add regions to Device
+        addRegionsToDevice()
+        
+        
+        isActive = false
+        // Remove geofencing action
+        PreyModule.sharedInstance.checkStatus(self)
     }
     
     // Send event to panel
@@ -64,7 +81,95 @@ class Geofencing: PreyAction {
             kData.REASON.rawValue   : zonesId.description]
         
         // Send info to panel
-        self.sendData(params, toEndpoint: responseDeviceEndpoint)
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:responseDeviceEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(nil))
+        } else {
+            print("Error send data auth")
+        }
+    }
+    
+    // Delete all regions on device
+    func deleteAllRegionsOnDevice() {
+        
+        if let regions:NSSet = geoManager.monitoredRegions {
+            for item in regions {
+                geoManager.stopMonitoringForRegion(item as! CLRegion)
+            }
+        }
+    }
+    
+    // Delete all regionsOnCoreData
+    func deleteAllRegionsOnCoreData(localZonesArray:[GeofenceZones], withContext context:NSManagedObjectContext) {
+        for localZone in localZonesArray {
+            context.deleteObject(localZone)
+        }
+    }
+    
+    // Add regions to CoreData
+    func addRegionsToCoreData(response:NSArray, withContext context:NSManagedObjectContext) {
+        
+        for serverZonesArray in response {
+            
+            // Init NSManagedObject type GeofenceZones
+            let geofenceZones = NSEntityDescription.insertNewObjectForEntityForName("GeofenceZones", inManagedObjectContext: PreyCoreData.sharedInstance.managedObjectContext)
+            
+            // Attributes from GeofenceZones
+            let attributes = geofenceZones.entity.attributesByName
+            
+            for (attribute,description) in attributes {
+
+                if var value = serverZonesArray.objectForKey(attribute) {
+                    
+                    switch description.attributeType {
+                        
+                    case .DoubleAttributeType:
+                        value = NSNumber(double: value.doubleValue)
+                        
+                    default:
+                        value = value.isKindOfClass(NSNull) ? "" : value as! String
+                    }
+                    
+                    // Save {value,key} in GeofenceZone item
+                    geofenceZones.setValue(value, forKey: attribute)
+                }
+            }
+        }
+        
+        // Save CoreData
+        do {
+            try context.save()
+        } catch {
+            print("Couldn't save: \(error)")
+        }
+    }
+    
+    // Add regions to Device
+    func addRegionsToDevice() {
+        
+        // Check if CLRegion is available
+        guard CLLocationManager.isMonitoringAvailableForClass(CLRegion) else {
+            print("CLRegion is not available")
+            return
+        }
+        
+        // Get current GeofenceZones
+        let fetchedObjects = PreyCoreData.sharedInstance.getCurrentGeofenceZones()
+        
+        for info in fetchedObjects {
+            
+            print("Name zone: \(info.name)")
+            
+            let center_lat  = info.lat?.doubleValue
+            let center_lon  = info.lng?.doubleValue
+            let radius      = info.radius?.doubleValue
+            let center      = CLLocationCoordinate2DMake(center_lat!, center_lon!)
+            
+            let zoneId      = String(format: "%f", (info.id?.floatValue)!)
+            
+            if let region:CLCircularRegion = CLCircularRegion(center: center, radius: radius!, identifier: zoneId) {
+                geoManager.startMonitoringForRegion(region)
+            }
+        }
     }
 
     // Get Deleted Zones
