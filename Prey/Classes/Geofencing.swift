@@ -26,6 +26,9 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         checkGeofenceZones(self)
 
         isActive = true
+        
+        FIXME()
+        // Pendiente in/out notificación
     }
     
     // Update Geofence Zones
@@ -49,7 +52,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         deleteAllRegionsOnDevice()
         
         // Delete all regionsOnCoreData
-        deleteAllRegionsOnCoreData(localZonesArray, withContext:PreyCoreData.sharedInstance.managedObjectContext)
+        deleteAllRegionsOnCoreData()
         
         // Add regions to CoreData
         addRegionsToCoreData(response, withContext:PreyCoreData.sharedInstance.managedObjectContext)
@@ -99,7 +102,11 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
     }
     
     // Delete all regionsOnCoreData
-    func deleteAllRegionsOnCoreData(localZonesArray:[GeofenceZones], withContext context:NSManagedObjectContext) {
+    func deleteAllRegionsOnCoreData() {
+        
+        let localZonesArray = PreyCoreData.sharedInstance.getCurrentGeofenceZones()
+        let context         = PreyCoreData.sharedInstance.managedObjectContext
+
         for localZone in localZonesArray {
             context.deleteObject(localZone)
         }
