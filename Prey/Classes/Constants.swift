@@ -39,6 +39,9 @@ public let reportDataDeviceEndpoint: String = NSString(format:"/devices/%@/repor
 // Endpoint for Response Data
 public let responseDeviceEndpoint: String = NSString(format:"/devices/%@/response",(PreyConfig.sharedInstance.deviceKey!)) as String
 
+// Endpoint for Events Data
+public let eventsDeviceEndpoint: String = NSString(format:"/devices/%@/events",(PreyConfig.sharedInstance.deviceKey!)) as String
+
 // Endpoint for Geofencing Data
 public let geofencingEndpoint: String = NSString(format:"/devices/%@/geofencing.json",(PreyConfig.sharedInstance.deviceKey!)) as String
 

@@ -24,6 +24,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PreyNotification.sharedInstance.registerForRemoteNotifications()
         }
         
+        // Check CLRegion In/Out
+        if let locationLaunch = launchOptions?[UIApplicationLaunchOptionsLocationKey] {
+            print("Prey Geofence received while not running: \(locationLaunch)")
+            GeofencingManager.sharedInstance
+        }
+ 
+        // Check user is Pro
+        if PreyConfig.sharedInstance.isPro {
+            // Init geofencing region
+            GeofencingManager.sharedInstance
+        }
+        
         return true
     }    
     
