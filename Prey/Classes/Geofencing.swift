@@ -26,9 +26,6 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         checkGeofenceZones(self)
 
         isActive = true
-        
-        FIXME()
-        // Pendiente in/out notificación
     }
     
     // Update Geofence Zones

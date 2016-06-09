@@ -123,13 +123,10 @@ class PreyModule {
     // Delete action
     func deleteAction(action: PreyAction) {
         
-        FIXME()
-        // start stop action fix
-        
         print("Delete \(action.target) action")
         
         for item in actionArray {
-            if ( (item.target == action.target) == (item.command == action.command) ) {
+            if ( item.target == action.target ) {
                 actionArray.removeObject(action)
             }
         }
