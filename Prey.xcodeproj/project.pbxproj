@@ -32,7 +32,7 @@
 		3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D21A2E7B530027179E /* AppDelegate.swift */; };
 		3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */; };
 		3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D41A2E7B530027179E /* HomeVC.swift */; };
-		3B8E57DD1A2E7B530027179E /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D51A2E7B530027179E /* LogInVC.swift */; };
+		3B8E57DD1A2E7B530027179E /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D51A2E7B530027179E /* SignInVC.swift */; };
 		3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */; };
 		3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D71A2E7B530027179E /* PurchasesVC.swift */; };
 		3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D81A2E7B530027179E /* SettingsVC.swift */; };
@@ -41,14 +41,14 @@
 		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
 		3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC971CDB9CD70052A21D /* Location.swift */; };
 		3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC991CDBBF030052A21D /* PreyModule.swift */; };
-		3BB7EAC31A1E78DC003FC312 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EABF1A1E78DB003FC312 /* OpenSans-Bold.ttf */; };
-		3BB7EAC41A1E78DC003FC312 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC01A1E78DC003FC312 /* OpenSans-Regular.ttf */; };
-		3BB7EAC51A1E78DC003FC312 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC11A1E78DC003FC312 /* OpenSans-Semibold.ttf */; };
-		3BB7EAC61A1E78DC003FC312 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BB7EAC21A1E78DC003FC312 /* Roboto-Regular.ttf */; };
 		3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3C0971C9733BA00D08D62 /* Constants.swift */; };
 		3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */; };
 		3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */; };
 		3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BCD4C8C1C98942900CDEE1C /* Localizable.strings */; };
+		3BE3DC511D0B044D00581327 /* magdacleanmono-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */; };
+		3BE3DC521D0B044D00581327 /* magdacleanmono-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */; };
+		3BE3DC531D0B044D00581327 /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4F1D0B044D00581327 /* TitilliumWeb-Bold.ttf */; };
+		3BE3DC541D0B044D00581327 /* TitilliumWeb-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC501D0B044D00581327 /* TitilliumWeb-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,7 +105,7 @@
 		3B8E57D21A2E7B530027179E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Classes/AppDelegate.swift; sourceTree = "<group>"; };
 		3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceSetUpVC.swift; path = Classes/DeviceSetUpVC.swift; sourceTree = "<group>"; };
 		3B8E57D41A2E7B530027179E /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeVC.swift; path = Classes/HomeVC.swift; sourceTree = "<group>"; };
-		3B8E57D51A2E7B530027179E /* LogInVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogInVC.swift; path = Classes/LogInVC.swift; sourceTree = "<group>"; };
+		3B8E57D51A2E7B530027179E /* SignInVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignInVC.swift; path = Classes/SignInVC.swift; sourceTree = "<group>"; };
 		3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPClient.swift; path = Classes/PreyHTTPClient.swift; sourceTree = "<group>"; };
 		3B8E57D71A2E7B530027179E /* PurchasesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchasesVC.swift; path = Classes/PurchasesVC.swift; sourceTree = "<group>"; };
 		3B8E57D81A2E7B530027179E /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsVC.swift; path = Classes/SettingsVC.swift; sourceTree = "<group>"; };
@@ -114,15 +114,15 @@
 		3B9DDC951CDB891C0052A21D /* PreyAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyAction.swift; path = Classes/PreyAction.swift; sourceTree = "<group>"; };
 		3B9DDC971CDB9CD70052A21D /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Classes/Location.swift; sourceTree = "<group>"; };
 		3B9DDC991CDBBF030052A21D /* PreyModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyModule.swift; path = Classes/PreyModule.swift; sourceTree = "<group>"; };
-		3BB7EABF1A1E78DB003FC312 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		3BB7EAC01A1E78DC003FC312 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
-		3BB7EAC11A1E78DC003FC312 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
-		3BB7EAC21A1E78DC003FC312 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		3BC3C0971C9733BA00D08D62 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Classes/Constants.swift; sourceTree = "<group>"; };
 		3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyConfig.swift; path = Classes/PreyConfig.swift; sourceTree = "<group>"; };
 		3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyDevice.swift; path = Classes/PreyDevice.swift; sourceTree = "<group>"; };
 		3BCD4C8D1C98942900CDEE1C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3BCD4C8E1C98942900CDEE1C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "magdacleanmono-bold.ttf"; sourceTree = "<group>"; };
+		3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "magdacleanmono-regular.otf"; sourceTree = "<group>"; };
+		3BE3DC4F1D0B044D00581327 /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
+		3BE3DC501D0B044D00581327 /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,7 +254,7 @@
 			children = (
 				3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */,
 				3B8E57D91A2E7B530027179E /* SignUpVC.swift */,
-				3B8E57D51A2E7B530027179E /* LogInVC.swift */,
+				3B8E57D51A2E7B530027179E /* SignInVC.swift */,
 				3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */,
 				3B8E57D41A2E7B530027179E /* HomeVC.swift */,
 				3B8E57D81A2E7B530027179E /* SettingsVC.swift */,
@@ -283,10 +283,10 @@
 		3BB7EABE1A1E78DB003FC312 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				3BB7EABF1A1E78DB003FC312 /* OpenSans-Bold.ttf */,
-				3BB7EAC01A1E78DC003FC312 /* OpenSans-Regular.ttf */,
-				3BB7EAC11A1E78DC003FC312 /* OpenSans-Semibold.ttf */,
-				3BB7EAC21A1E78DC003FC312 /* Roboto-Regular.ttf */,
+				3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */,
+				3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */,
+				3BE3DC4F1D0B044D00581327 /* TitilliumWeb-Bold.ttf */,
+				3BE3DC501D0B044D00581327 /* TitilliumWeb-Regular.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -385,15 +385,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BB7EAC61A1E78DC003FC312 /* Roboto-Regular.ttf in Resources */,
+				3BE3DC541D0B044D00581327 /* TitilliumWeb-Regular.ttf in Resources */,
 				3B4F67A41CEA085200F58FAD /* siren.mp3 in Resources */,
 				3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */,
+				3BE3DC531D0B044D00581327 /* TitilliumWeb-Bold.ttf in Resources */,
 				3B8283FA199198E6000E4545 /* Images.xcassets in Resources */,
+				3BE3DC511D0B044D00581327 /* magdacleanmono-bold.ttf in Resources */,
 				3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */,
-				3BB7EAC41A1E78DC003FC312 /* OpenSans-Regular.ttf in Resources */,
-				3BB7EAC31A1E78DC003FC312 /* OpenSans-Bold.ttf in Resources */,
-				3BB7EAC51A1E78DC003FC312 /* OpenSans-Semibold.ttf in Resources */,
 				3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */,
+				3BE3DC521D0B044D00581327 /* magdacleanmono-regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,7 +438,7 @@
 				3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */,
 				3B849AE81D0710E9002DB6CC /* PreyModelData.xcdatamodeld in Sources */,
 				3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */,
-				3B8E57DD1A2E7B530027179E /* LogInVC.swift in Sources */,
+				3B8E57DD1A2E7B530027179E /* SignInVC.swift in Sources */,
 				3B41BDAE1D05FF9F003DF0CE /* GeofenceZones.swift in Sources */,
 				3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */,
 				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,

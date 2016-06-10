@@ -11,10 +11,14 @@ import UIKit
 class SignUpVC: UIViewController {
 
     // MARK: Properties
+    
     @IBOutlet weak var addDeviceButton: UIButton!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    
+
+    // MARK: Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +30,43 @@ class SignUpVC: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+    
+    override func viewWillAppear(animated: Bool){
+        // Hide navigationBar when appear this ViewController
+        self.navigationController?.navigationBarHidden = true
+        
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(animated: Bool){
+        // Show navigationBar when disappear this ViewController
+        self.navigationController?.navigationBarHidden = false
+        
+        super.viewDidDisappear(animated)
+    }
+
     
     // MARK: Actions
+    
+    // Show SignIn view
+    @IBAction func showSignInVC(sender: UIButton) {
+        
+        // Get SharedApplication delegate
+        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+            print("error with sharedApplication")
+            return
+        }
+        
+        // Get SignUpVC from Storyboard
+        if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("signInVCStrbrd") {
+            
+            // Set controller to rootViewController
+            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+            navigationController.setViewControllers([controller], animated: false)
+        }
+    }
+    
     @IBAction func addDeviceAction(sender: UIButton) {
 
         // Check name length

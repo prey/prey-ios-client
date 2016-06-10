@@ -1,5 +1,5 @@
 //
-//  LogInVC.swift
+//  SignInVC.swift
 //  Prey
 //
 //  Created by Javier Cala Uribe on 20/11/14.
@@ -8,22 +8,24 @@
 
 import UIKit
 
-class LogInVC: UIViewController {
+class SignInVC: UIViewController {
 
     // MARK: Properties
+
     @IBOutlet weak var addDeviceButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
 
     
-    // MARK: View Life Cycle
+    // MARK: Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureTextButton()
         
         // Dismiss Keyboard on tap outside
-        let recognizer = UITapGestureRecognizer(target: self, action:#selector(LogInVC.dismissKeyboard(_:)))
+        let recognizer = UITapGestureRecognizer(target: self, action:#selector(SignInVC.dismissKeyboard(_:)))
         view.addGestureRecognizer(recognizer)
     }
 
@@ -34,15 +36,21 @@ class LogInVC: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+    
+        // Hide navigationBar when appear this ViewController
+        self.navigationController?.navigationBarHidden = true
         
         // Listen for changes to keyboard visibility so that we can adjust the text view accordingly.
         let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: #selector(LogInVC.handleKeyboardWillShowNotification(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(LogInVC.handleKeyboardWillHideNotification(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(SignInVC.handleKeyboardWillShowNotification(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(SignInVC.handleKeyboardWillHideNotification(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+
+        // Show navigationBar when disappear this ViewController
+        self.navigationController?.navigationBarHidden = false
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
@@ -51,6 +59,7 @@ class LogInVC: UIViewController {
 
     
     // MARK: Configuration
+    
     func configureTextButton() {
         //let buttonTitle = NSLocalizedString("Button", comment: "")
         //systemTextButton.setTitle(buttonTitle, forState: .Normal)
@@ -97,6 +106,25 @@ class LogInVC: UIViewController {
     }
 
     // MARK: Actions
+
+    // Show SignUp view
+    @IBAction func showSignUpVC(sender: UIButton) {
+    
+        // Get SharedApplication delegate
+        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+            print("error with sharedApplication")
+            return
+        }
+
+        // Get SignUpVC from Storyboard
+        if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("signUpVCStrbrd") {
+            
+            // Set controller to rootViewController
+            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+            navigationController.setViewControllers([controller], animated: false)
+        }
+    }
+    
     @IBAction func addDeviceAction(sender: UIButton) {
         
         // Check password length
