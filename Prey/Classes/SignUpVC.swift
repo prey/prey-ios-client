@@ -63,6 +63,11 @@ class SignUpVC: UIViewController {
             
             // Set controller to rootViewController
             let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+            
+            let transition:CATransition = CATransition()
+            transition.type = kCATransitionFade
+            navigationController.view.layer.addAnimation(transition, forKey: "")
+                        
             navigationController.setViewControllers([controller], animated: false)
         }
     }
