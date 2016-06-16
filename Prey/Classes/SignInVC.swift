@@ -8,13 +8,7 @@
 
 import UIKit
 
-class SignInVC: UIViewController {
-
-    // MARK: Properties
-
-    @IBOutlet weak var addDeviceButton: UIButton!
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
+class SignInVC: UserRegister {
 
     
     // MARK: Init
@@ -23,88 +17,24 @@ class SignInVC: UIViewController {
         super.viewDidLoad()
 
         configureTextButton()
-        
-        // Dismiss Keyboard on tap outside
-        let recognizer = UITapGestureRecognizer(target: self, action:#selector(SignInVC.dismissKeyboard(_:)))
-        view.addGestureRecognizer(recognizer)
     }
 
     override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
+        super.didReceiveMemoryWarning()        
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    
-        // Hide navigationBar when appear this ViewController
-        self.navigationController?.navigationBarHidden = true
-        
-        // Listen for changes to keyboard visibility so that we can adjust the text view accordingly.
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: #selector(SignInVC.handleKeyboardWillShowNotification(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(SignInVC.handleKeyboardWillHideNotification(_:)), name: UIKeyboardWillHideNotification, object: nil)
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        // Show navigationBar when disappear this ViewController
-        self.navigationController?.navigationBarHidden = false
-        
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
-    }
-
-    
-    // MARK: Configuration
     
     func configureTextButton() {
-        //let buttonTitle = NSLocalizedString("Button", comment: "")
-        //systemTextButton.setTitle(buttonTitle, forState: .Normal)
+        
+        subtitleView.text               = "prey account".localized
+        titleView.text                  = "SIGN IN".localized
+        emailTextField.placeholder      = "email".localized
+        passwordTextField.placeholder   = "password".localized
+        
+        addDeviceButton.setTitle("ACCESS TO MY ACCOUNT".localized, forState:.Normal)
+        changeViewBtn.setTitle("don’t have an account?".localized, forState:.Normal)
     }
     
-    // MARK: Keyboard Event Notifications
-    func handleKeyboardWillShowNotification(notification: NSNotification) {
-        keyboardWillChangeFrameWithNotification(notification, showsKeyboard: true)
-    }
     
-    func handleKeyboardWillHideNotification(notification: NSNotification) {
-        keyboardWillChangeFrameWithNotification(notification, showsKeyboard: false)
-    }
-
-    func dismissKeyboard(tapGesture: UITapGestureRecognizer) {
-        // Dismiss keyboard if is inside from UIView
-        if (CGRectContainsPoint(self.view.frame, tapGesture.locationInView(self.view))) {
-            self.view.endEditing(true);
-        }
-    }
-
-
-    // MARK: Convenience
-    func keyboardWillChangeFrameWithNotification(notification: NSNotification, showsKeyboard: Bool) {
-        let userInfo = notification.userInfo!
-        
-        let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
-        
-        // Convert the keyboard frame from screen to view coordinates.
-        let keyboardScreenBeginFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        
-        let keyboardViewBeginFrame = view.convertRect(keyboardScreenBeginFrame, fromView: view.window)
-        let keyboardViewEndFrame = view.convertRect(keyboardScreenEndFrame, fromView: view.window)
-        let originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y
-        
-        self.view.center.y += originDelta
-        
-        view.setNeedsUpdateConstraints()
-        
-        UIView.animateWithDuration(animationDuration, delay: 0, options: .BeginFromCurrentState, animations: {
-            self.view.layoutIfNeeded()
-            }, completion: nil)
-    }
-
     // MARK: Actions
 
     // Show SignUp view
@@ -129,8 +59,9 @@ class SignInVC: UIViewController {
             navigationController.setViewControllers([controller], animated: false)
         }
     }
-    
-    @IBAction func addDeviceAction(sender: UIButton) {
+
+    // Add device action    
+    @IBAction override func addDeviceAction(sender: UIButton?) {
         
         // Check password length
         if passwordTextField.text!.characters.count < 6 {
@@ -156,32 +87,32 @@ class SignInVC: UIViewController {
         // LogIn to Panel Prey
         PreyUser.logInToPrey(emailTextField.text!, userPassword: passwordTextField.text!, onCompletion: {(isSuccess: Bool) in
 
-            // LogIn Success
-            if isSuccess {
-                
-                // Add Device to Panel Prey
-                PreyDevice.addDeviceWith({(isSuccess: Bool) in
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        
-                        // Add Device Success
-                        if isSuccess {
-                            if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("deviceSetUpStrbrd") as? DeviceSetUpVC {
-                                self.presentViewController(resultController, animated: true, completion: nil)
-                            }
-                        }
-                        else {
-                            // Hide ActivityIndicator
-                            actInd.stopAnimating()
-                        }
-                    }
-                })
-            } else {
+            // LogIn isn't Success
+            guard isSuccess else {
                 // Hide ActivityIndicator
                 dispatch_async(dispatch_get_main_queue()) {
                     actInd.stopAnimating()
                 }
+                return
             }
+            
+            // Add Device to Panel Prey
+            PreyDevice.addDeviceWith({(isSuccess: Bool) in
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    // AddDevice isn't success
+                    guard isSuccess else {
+                        // Hide ActivityIndicator
+                        actInd.stopAnimating()
+                        return
+                    }
+                    
+                    // Add Device Success
+                    if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("deviceSetUpStrbrd") as? DeviceSetUpVC {
+                        self.presentViewController(resultController, animated: true, completion: nil)
+                    }
+                }
+            })
         })
     }
 }

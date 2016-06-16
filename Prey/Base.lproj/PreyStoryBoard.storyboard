@@ -647,9 +647,12 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="addDeviceButton" destination="1My-XX-XPO" id="1Ah-fb-Ab5"/>
+                        <outlet property="changeViewBtn" destination="XmI-be-BMr" id="cuE-rV-CzG"/>
                         <outlet property="emailTextField" destination="mi6-eF-si0" id="Dtm-ze-xYb"/>
                         <outlet property="nameTextField" destination="PAr-DQ-OPS" id="PjG-sP-hPc"/>
                         <outlet property="passwordTextField" destination="vdI-me-0O4" id="0mA-SQ-Axz"/>
+                        <outlet property="subtitleView" destination="V4e-Cx-qId" id="5Z8-Xa-1Tk"/>
+                        <outlet property="titleView" destination="gbX-Al-azc" id="61J-rA-RxX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bc0-Iv-4Gf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1421,8 +1424,11 @@ Priority support</string>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="addDeviceButton" destination="lQA-DK-QFB" id="vH4-YA-WtR"/>
+                        <outlet property="changeViewBtn" destination="g86-m4-Ilb" id="fJa-1D-cmS"/>
                         <outlet property="emailTextField" destination="GFJ-86-Zpf" id="46y-fD-Fkf"/>
                         <outlet property="passwordTextField" destination="c1W-8H-b2l" id="I4u-c7-BIL"/>
+                        <outlet property="subtitleView" destination="1CJ-kI-I98" id="WHU-YC-u7n"/>
+                        <outlet property="titleView" destination="0fq-hl-Bqx" id="017-h0-bZs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qLh-lv-xNe" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -8,22 +8,15 @@
 
 import UIKit
 
-class SignUpVC: UIViewController {
+class SignUpVC: UserRegister {
 
-    // MARK: Properties
     
-    @IBOutlet weak var addDeviceButton: UIButton!
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    
-
     // MARK: Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        configureTextButton()
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,21 +24,17 @@ class SignUpVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    
-    override func viewWillAppear(animated: Bool){
-        // Hide navigationBar when appear this ViewController
-        self.navigationController?.navigationBarHidden = true
+    func configureTextButton() {
         
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewWillDisappear(animated: Bool){
-        // Show navigationBar when disappear this ViewController
-        self.navigationController?.navigationBarHidden = false
+        subtitleView.text               = "prey account".localized
+        titleView.text                  = "SIGN UP".localized
+        nameTextField.placeholder       = "username".localized
+        emailTextField.placeholder      = "email".localized
+        passwordTextField.placeholder   = "password".localized
         
-        super.viewDidDisappear(animated)
+        addDeviceButton.setTitle("CREATE MY NEW ACCOUNT".localized, forState:.Normal)
+        changeViewBtn.setTitle("already have an account?".localized, forState:.Normal)
     }
-
     
     // MARK: Actions
     
@@ -72,7 +61,8 @@ class SignUpVC: UIViewController {
         }
     }
     
-    @IBAction func addDeviceAction(sender: UIButton) {
+    // Add device action
+    @IBAction override func addDeviceAction(sender: UIButton?) {
 
         // Check name length
         if nameTextField.text!.characters.count < 1 {
@@ -106,33 +96,32 @@ class SignUpVC: UIViewController {
         // SignUp to Panel Prey
         PreyUser.signUpToPrey(nameTextField.text!, userEmail:emailTextField.text!, userPassword:passwordTextField.text!, onCompletion: {(isSuccess: Bool) in
             
-            // LogIn Success
-            if isSuccess {
-                
-                // Add Device to Panel Prey
-                PreyDevice.addDeviceWith({(isSuccess: Bool) in
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        
-                        // Add Device Success
-                        if isSuccess {
-                            if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("deviceSetUpStrbrd") as? DeviceSetUpVC {
-                                self.presentViewController(resultController, animated: true, completion: nil)
-                            }
-                        }
-                        else {
-                            // Hide ActivityIndicator
-                            actInd.stopAnimating()
-                        }
-                    }
-                })
-            } else {
+            // LogIn isn't Success
+            guard isSuccess else {
                 // Hide ActivityIndicator
                 dispatch_async(dispatch_get_main_queue()) {
                     actInd.stopAnimating()
                 }
+                return
             }
+            
+            // Add Device to Panel Prey
+            PreyDevice.addDeviceWith({(isSuccess: Bool) in
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    // Add Device Success
+                    guard isSuccess else {
+                        // Hide ActivityIndicator
+                        actInd.stopAnimating()
+                        return
+                    }
+                    
+                    if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("deviceSetUpStrbrd") as? DeviceSetUpVC {
+                        self.presentViewController(resultController, animated: true, completion: nil)
+                    }
+                }
+            })
         })
-   
     }
 }
