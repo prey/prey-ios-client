@@ -7,14 +7,24 @@
 //
 
 import UIKit
+import CoreLocation
+import AVFoundation
 
 class DeviceSetUpVC: UIViewController {
 
+    
+    // MARK: Properties
+
+    @IBOutlet weak var titleLbl    : UILabel!
+    @IBOutlet weak var messageLbl  : UILabel!
+    
+    
+    // MARK: Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Register device to Apple Push Notification Service
-        PreyNotification.sharedInstance.registerForRemoteNotifications()        
+        
+        configureTextButton()
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,5 +44,52 @@ class DeviceSetUpVC: UIViewController {
         self.navigationController?.navigationBarHidden = false
         
         super.viewDidDisappear(animated)
+    }
+    
+    func configureTextButton() {
+        titleLbl.text = "Device set up!".localized.uppercaseString
+    }
+    
+    // MARK: Functions
+    
+    func requestDeviceAuth() {
+
+        // Register device to Apple Push Notification Service
+        PreyNotification.sharedInstance.registerForRemoteNotifications()
+
+        // Location Service Auth
+        let authLocation = CLLocationManager()
+
+        if #available(iOS 8.0, *) {
+            authLocation.requestAlwaysAuthorization()
+        } else {
+            authLocation.startUpdatingLocation()
+            authLocation.stopUpdatingLocation()
+        }
+        
+        // Camera Auth
+        AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: nil)
+    }
+    
+    // Ok pressed
+    @IBAction func showHomeView(sender: UIButton) {
+        
+        // Get SharedApplication delegate
+        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+            print("error with sharedApplication")
+            return
+        }
+        
+        if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("homeStrbrd") as? HomeVC {
+
+            // Set controller to rootViewController
+            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+            
+            //let transition:CATransition = CATransition()
+            //transition.type             = kCATransitionFade
+            //navigationController.view.layer.addAnimation(transition, forKey: "")
+            self.dismissViewControllerAnimated(true, completion: {})
+            navigationController.setViewControllers([resultController], animated: false)
+        }
     }
 }

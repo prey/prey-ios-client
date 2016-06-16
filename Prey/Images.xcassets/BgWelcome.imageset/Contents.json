@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x",
-      "filename" : "bg-welcome-iPhone.png"
+      "filename" : "bg-welcome-iPhone.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "bg-welcome-iPhone@2x.png"
+      "filename" : "bg-welcome-iPhone@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
@@ -22,8 +22,8 @@
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "bg-welcome-iPad.png"
+      "filename" : "bg-welcome-iPad.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
