@@ -77,13 +77,14 @@ class SignInVC: UserRegister {
             return
         }
         
+        // Hide keyboard
+        self.view.endEditing(true)
+
         // Show ActivityIndicator
-        let actInd              = UIActivityIndicatorView(activityIndicatorStyle:UIActivityIndicatorViewStyle.Gray)
-        actInd.center           = self.view.center
-        actInd.hidesWhenStopped = true
+        let actInd          = UIActivityIndicatorView(initInView: self.view, withText: "Attaching device...".localized)
         self.view.addSubview(actInd)
         actInd.startAnimating()
-        
+
         // LogIn to Panel Prey
         PreyUser.logInToPrey(emailTextField.text!, userPassword: passwordTextField.text!, onCompletion: {(isSuccess: Bool) in
 
@@ -91,7 +92,7 @@ class SignInVC: UserRegister {
             guard isSuccess else {
                 // Hide ActivityIndicator
                 dispatch_async(dispatch_get_main_queue()) {
-                    actInd.stopAnimating()
+                     actInd.stopAnimating()
                 }
                 return
             }
@@ -103,7 +104,7 @@ class SignInVC: UserRegister {
                     // AddDevice isn't success
                     guard isSuccess else {
                         // Hide ActivityIndicator
-                        actInd.stopAnimating()
+                         actInd.stopAnimating()
                         return
                     }
                     

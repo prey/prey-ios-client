@@ -84,15 +84,15 @@ class SignUpVC: UserRegister {
             emailTextField.becomeFirstResponder()
             return
         }
-
+        
+        // Hide keyboard
+        self.view.endEditing(true)
         
         // Show ActivityIndicator
-        let actInd              = UIActivityIndicatorView(activityIndicatorStyle:UIActivityIndicatorViewStyle.Gray)
-        actInd.center           = self.view.center
-        actInd.hidesWhenStopped = true
+        let actInd          = UIActivityIndicatorView(initInView: self.view, withText: "Creating account...".localized)
         self.view.addSubview(actInd)
-        actInd.startAnimating()
-
+        actInd.startAnimating()        
+        
         // SignUp to Panel Prey
         PreyUser.signUpToPrey(nameTextField.text!, userEmail:emailTextField.text!, userPassword:passwordTextField.text!, onCompletion: {(isSuccess: Bool) in
             
