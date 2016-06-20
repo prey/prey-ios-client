@@ -66,22 +66,25 @@ class SignUpVC: UserRegister {
 
         // Check name length
         if nameTextField.text!.characters.count < 1 {
-            displayErrorAlert("Name can't be blank".localized, titleMessage:"We have a situation!".localized)
-            nameTextField.becomeFirstResponder()
+            displayErrorAlert("Name can't be blank".localized,
+                              titleMessage:"We have a situation!".localized,
+                              returnToTextField: nameTextField)
             return
         }
         
         // Check password length
         if passwordTextField.text!.characters.count < 6 {
-            displayErrorAlert("Password must be at least 6 characters".localized, titleMessage:"We have a situation!".localized)
-            passwordTextField.becomeFirstResponder()
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage:"We have a situation!".localized,
+                              returnToTextField: passwordTextField)
             return
         }
         
         // Check valid email
         if isInvalidEmail(emailTextField.text!, withPattern:emailRegExp) {
-            displayErrorAlert("Enter a valid e-mail address".localized, titleMessage:"We have a situation!".localized)
-            emailTextField.becomeFirstResponder()
+            displayErrorAlert("Enter a valid e-mail address".localized,
+                              titleMessage:"We have a situation!".localized,
+                              returnToTextField: emailTextField)
             return
         }
         

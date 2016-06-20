@@ -63,17 +63,19 @@ class SignInVC: UserRegister {
     // Add device action    
     @IBAction override func addDeviceAction(sender: UIButton?) {
         
-        // Check password length
-        if passwordTextField.text!.characters.count < 6 {
-            displayErrorAlert("Password must be at least 6 characters".localized, titleMessage:"We have a situation!".localized)
-            passwordTextField.becomeFirstResponder()
+        // Check valid email
+        if isInvalidEmail(emailTextField.text!, withPattern:emailRegExp) {
+            displayErrorAlert("Enter a valid e-mail address".localized,
+                              titleMessage:"We have a situation!".localized,
+                              returnToTextField: emailTextField)
             return
         }
 
-        // Check valid email
-        if isInvalidEmail(emailTextField.text!, withPattern:emailRegExp) {
-            displayErrorAlert("Enter a valid e-mail address".localized, titleMessage:"We have a situation!".localized)
-            emailTextField.becomeFirstResponder()
+        // Check password length
+        if passwordTextField.text!.characters.count < 6 {
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage:"We have a situation!".localized,
+                              returnToTextField: passwordTextField)
             return
         }
         

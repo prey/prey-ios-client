@@ -121,4 +121,29 @@ class UserRegister: UIViewController, UITextFieldDelegate {
     // Add device action
     @IBAction func addDeviceAction(sender: UIButton?) {}
 
+    // Display error alert
+    func displayErrorAlert(alertMessage: String, titleMessage:String, returnToTextField:UITextField) {
+        
+        if #available(iOS 8.0, *) {
+            
+            let alert = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title:"OK".localized, style: UIAlertActionStyle.Default, handler: nil))
+            
+            // Get SharedApplication delegate
+            guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+                print("error with sharedApplication")
+                return
+            }
+            // Set controller to rootViewController
+            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+            navigationController.presentViewController(alert, animated: true, completion: { returnToTextField.becomeFirstResponder() })
+            
+        } else {
+            let alert       = UIAlertView()
+            alert.title     = titleMessage
+            alert.message   = alertMessage
+            alert.addButtonWithTitle("OK".localized)
+            alert.show()
+        }
+    }
 }

@@ -671,7 +671,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BgWelcome" translatesAutoresizingMaskIntoConstraints="NO" id="WSl-fj-IyS">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="CheckImage" translatesAutoresizingMaskIntoConstraints="NO" id="BGs-AR-2TI">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" ambiguous="YES" misplaced="YES" image="CheckImage" translatesAutoresizingMaskIntoConstraints="NO" id="BGs-AR-2TI">
                                 <rect key="frame" x="263" y="120" width="74" height="74"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="BGs-AR-2TI" secondAttribute="height" multiplier="1:1" id="0L6-lZ-vl4"/>
@@ -694,7 +694,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="DEVICE SET UP!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" preferredMaxLayoutWidth="255" translatesAutoresizingMaskIntoConstraints="NO" id="IpC-hL-KB9">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" misplaced="YES" text="DEVICE SET UP!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" preferredMaxLayoutWidth="255" translatesAutoresizingMaskIntoConstraints="NO" id="IpC-hL-KB9">
                                 <rect key="frame" x="214" y="234" width="172" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="IpC-hL-KB9" secondAttribute="height" multiplier="172:29" id="7ty-i5-B1V"/>
@@ -720,7 +720,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Good Job" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" minimumFontSize="12" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="Zah-vZ-LnW">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" misplaced="YES" text="Good Job" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" minimumFontSize="12" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="Zah-vZ-LnW">
                                 <rect key="frame" x="172" y="268" width="256" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="90" id="kdB-L0-lbZ"/>
@@ -752,7 +752,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hkT-i2-mdD">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hkT-i2-mdD">
                                 <rect key="frame" x="175" y="481" width="250" height="43"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="43" id="haF-0p-68n"/>
