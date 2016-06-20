@@ -28,7 +28,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string>Prey needs your location to find your device through your account when you request it.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>magdacleanmono-regular.otf</string>

@@ -19,6 +19,10 @@ class DeviceSetUpVC: UIViewController {
     @IBOutlet weak var messageLbl  : UILabel!
     
     var messageTxt = ""
+
+    // Location Service Auth
+    let authLocation = CLLocationManager()
+
     
     // MARK: Init
     
@@ -54,8 +58,6 @@ class DeviceSetUpVC: UIViewController {
         PreyNotification.sharedInstance.registerForRemoteNotifications()
 
         // Location Service Auth
-        let authLocation = CLLocationManager()
-
         if #available(iOS 8.0, *) {
             authLocation.requestAlwaysAuthorization()
         } else {
