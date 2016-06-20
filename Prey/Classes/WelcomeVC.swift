@@ -30,12 +30,5 @@ class WelcomeVC: UIViewController{
 
         super.viewWillAppear(animated)
     }
-    
-    override func viewWillDisappear(animated: Bool){
-        // Show navigationBar when disappear this ViewController
-        self.navigationController?.navigationBarHidden = false
-
-        super.viewDidDisappear(animated)
-    }
 }
 

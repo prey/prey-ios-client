@@ -18,6 +18,7 @@ class DeviceSetUpVC: UIViewController {
     @IBOutlet weak var titleLbl    : UILabel!
     @IBOutlet weak var messageLbl  : UILabel!
     
+    var messageTxt = ""
     
     // MARK: Init
     
@@ -25,6 +26,7 @@ class DeviceSetUpVC: UIViewController {
         super.viewDidLoad()
         
         configureTextButton()
+        requestDeviceAuth()
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,15 +41,9 @@ class DeviceSetUpVC: UIViewController {
         super.viewWillAppear(animated)
     }
     
-    override func viewWillDisappear(animated: Bool){
-        // Show navigationBar when disappear this ViewController
-        self.navigationController?.navigationBarHidden = false
-        
-        super.viewDidDisappear(animated)
-    }
-    
     func configureTextButton() {
-        titleLbl.text = "Device set up!".localized.uppercaseString
+        titleLbl.text   = "Device set up!".localized.uppercaseString
+        messageLbl.text =  messageTxt
     }
     
     // MARK: Functions

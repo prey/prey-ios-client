@@ -56,9 +56,6 @@ class UserRegister: UIViewController, UITextFieldDelegate {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
-        // Show navigationBar when disappear this ViewController
-        self.navigationController?.navigationBarHidden = false
-        
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         notificationCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)

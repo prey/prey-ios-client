@@ -122,8 +122,8 @@ class SignUpVC: UserRegister {
                     
                     if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("deviceSetUpStrbrd") as? DeviceSetUpVC {
                         
-                        self.presentViewController(resultController, animated: true, completion: nil)
-                        resultController.messageLbl.text = "Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.".localized
+                        resultController.messageTxt = "Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.".localized
+                        self.navigationController?.pushViewController(resultController, animated: true)
                     }
                 }
             })

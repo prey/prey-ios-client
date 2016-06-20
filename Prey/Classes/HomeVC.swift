@@ -26,12 +26,5 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBarHidden = true
         
         super.viewWillAppear(animated)
-    }
-    
-    override func viewWillDisappear(animated: Bool){
-        // Show navigationBar when disappear this ViewController
-        self.navigationController?.navigationBarHidden = false
-        
-        super.viewDidDisappear(animated)
-    }
+    }    
 }

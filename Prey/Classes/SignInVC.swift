@@ -112,9 +112,9 @@ class SignInVC: UserRegister {
                     
                     // Add Device Success
                     if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("deviceSetUpStrbrd") as? DeviceSetUpVC {
-                        
-                        self.presentViewController(resultController, animated: true, completion: nil)
-                        resultController.messageLbl.text = "Congratulations! You have successfully associated this iOS device with your Prey account.".localized
+
+                        resultController.messageTxt = "Congratulations! You have successfully associated this iOS device with your Prey account.".localized
+                        self.navigationController?.pushViewController(resultController, animated: true)
                     }
                 }
             })
