@@ -44,7 +44,7 @@
 		<string>remote-notification</string>
 	</array>
 	<key>UIMainStoryboardFile</key>
-	<string>PreyStoryBoard</string>
+	<string></string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

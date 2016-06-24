@@ -36,6 +36,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             GeofencingManager.sharedInstance
         }
         
+        // Config init UIViewController
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "PreyStoryBoard", bundle: nil)
+        let rootVC: UIViewController
+        
+        if PreyConfig.sharedInstance.isRegistered {
+            rootVC = mainStoryboard.instantiateViewControllerWithIdentifier("homeStrbrd")
+        } else {
+            rootVC = mainStoryboard.instantiateViewControllerWithIdentifier("navigationStrbrd")
+        }
+        
+        self.window?.rootViewController = rootVC
+        self.window?.makeKeyAndVisible()
+        
         return true
     }    
     

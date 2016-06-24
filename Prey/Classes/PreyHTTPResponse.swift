@@ -11,6 +11,62 @@ import Foundation
 class PreyHTTPResponse {
 
     // MARK: Functions
+
+    // Check Get Token response
+    class func checkToken(onCompletion:(isSuccess: Bool) -> Void) -> (NSData?, NSURLResponse?, NSError?) -> Void {
+        
+        let tokenResponse: (NSData?, NSURLResponse?, NSError?) -> Void = ({(data, response, error) in
+            
+            // Check error with NSURLSession request
+            guard error == nil else {
+                
+                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
+                displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't check your password".localized)
+                onCompletion(isSuccess:false)
+                
+                return
+            }
+            
+            print("PreyUser: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            
+            let httpURLResponse = response as! NSHTTPURLResponse
+            
+            switch httpURLResponse.statusCode {
+                
+            // === Success
+            case 200...299:
+                let jsonObject: NSDictionary
+                
+                do {
+                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                    
+                    let tokenPanelStr   = jsonObject.objectForKey("token") as! String
+                    
+                    PreyConfig.sharedInstance.tokenPanel    = tokenPanelStr
+                    PreyConfig.sharedInstance.saveValues()
+                    
+                    onCompletion(isSuccess:true)
+                    
+                } catch let error as NSError{
+                    print("json error: \(error.localizedDescription)")
+                }
+                
+            // === Client Error
+            case 401:
+                let alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
+                displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
+                onCompletion(isSuccess:false)
+                
+            // === Error
+            default:
+                let alertMessage = "Error";
+                displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
+                onCompletion(isSuccess:false)
+            }
+        })
+        
+        return tokenResponse
+    }
     
     // Check logIn response
     class func checkLogIn(onCompletion:(isSuccess: Bool) -> Void) -> (NSData?, NSURLResponse?, NSError?) -> Void {

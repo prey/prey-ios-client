@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LUo-0T-eaa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -42,7 +42,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Loy-eG-qgi">
             <objects>
-                <navigationController id="SgZ-Bd-7Zs" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="navigationStrbrd" id="SgZ-Bd-7Zs" sceneMemberID="viewController">
                     <nil key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bf5-Ws-aWZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -57,12 +57,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="voe-uF-3xn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-747" y="218"/>
+            <point key="canvasLocation" x="-1117.5" y="228.75"/>
         </scene>
         <!--WelcomeVC-->
         <scene sceneID="0pa-67-YZU">
             <objects>
-                <viewController id="wNb-UE-WhR" customClass="WelcomeVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="welcomeStrbrd" id="wNb-UE-WhR" customClass="WelcomeVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yo0-VB-qg0"/>
                         <viewControllerLayoutGuide type="bottom" id="rqy-DV-Rar"/>
@@ -71,7 +71,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg-welcome-iPhone5.png" translatesAutoresizingMaskIntoConstraints="NO" id="uBD-ki-3xg">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BgWelcome" translatesAutoresizingMaskIntoConstraints="NO" id="uBD-ki-3xg">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PreyLogoWhite" translatesAutoresizingMaskIntoConstraints="NO" id="SiQ-cd-cI6">
@@ -1046,6 +1046,9 @@
                                                         <include reference="Isa-9B-9q4"/>
                                                     </mask>
                                                 </variation>
+                                                <connections>
+                                                    <action selector="checkPassword:" destination="LUo-0T-eaa" eventType="touchUpInside" id="8wt-7g-X0N"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="REMOTE CONTROL FROM YOUR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ex-1B-5sm">
                                                 <rect key="frame" x="37" y="42" width="243" height="31"/>
@@ -1751,7 +1754,7 @@
         <!--SettingsVC-->
         <scene sceneID="UN1-RZ-N2V">
             <objects>
-                <viewController id="b1G-ow-zIc" customClass="SettingsVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="settingsStrbrd" id="b1G-ow-zIc" customClass="SettingsVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LXN-qH-fiK"/>
                         <viewControllerLayoutGuide type="bottom" id="cEt-fU-id3"/>

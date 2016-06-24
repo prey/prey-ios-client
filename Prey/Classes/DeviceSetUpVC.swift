@@ -80,6 +80,8 @@ class DeviceSetUpVC: UIViewController {
         
         if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("homeStrbrd") as? HomeVC {
 
+            resultController.hidePasswordInput = true
+            
             // Set controller to rootViewController
             let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
             

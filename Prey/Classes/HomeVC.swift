@@ -32,6 +32,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var tourImg              : UIImageView!
     @IBOutlet weak var tourBtn              : UIButton!
     
+    var hidePasswordInput = false
     
     // MARK: Init
     
@@ -43,12 +44,11 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         let recognizer = UITapGestureRecognizer(target: self, action:#selector(self.dismissKeyboard(_:)))
         view.addGestureRecognizer(recognizer)
         
-        FIXME()
-        accountBtn.hidden = true
-        passwordInput.hidden = true
-        loginBtn.hidden      = true
+        // Config init
+        hidePasswordInputOption(hidePasswordInput)
+        
+        // Hide camouflage image
         camouflageImg.hidden = true
-        forgotBtn.hidden     = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,6 +76,28 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         notificationCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     }
     
+    // Hide password input
+    func hidePasswordInputOption(value:Bool) {
+
+        UIView.animateWithDuration(10.0, animations: {
+            // Input subview
+            self.passwordInput.hidden   = value
+            self.loginBtn.hidden        = value
+            self.forgotBtn.hidden       = value
+            
+            // Menu subview
+            self.accountImg.hidden      = !value
+            self.accountSbtLbl.hidden   = !value
+            self.accountTlLbl.hidden    = !value
+            self.accountBtn.hidden      = !value
+            self.settingsImg.hidden     = !value
+            self.settingsSbtLbl.hidden  = !value
+            self.settingsTlLbl.hidden   = !value
+            self.settingsBtn.hidden     = !value
+            self.tourImg.hidden         = !value
+            self.tourBtn.hidden         = !value
+        })
+    }
     
     // MARK: Keyboard Event Notifications
     
@@ -124,9 +146,41 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         let nextResponder = textField.superview?.viewWithTag(nextTage) as UIResponder!
         
         if (nextResponder == nil) {
-            print("inside")
+            checkPassword(nil)
         }
         return false
     }
+    
+    // MARK: Functions
+    
+    // Check password
+    @IBAction func checkPassword(sender: UIButton?) {
+        
+        // Check password length
+        if passwordInput.text!.characters.count < 6 {
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+        
+        // Hide keyboard
+        self.view.endEditing(true)
+        
+        // Show ActivityIndicator
+        let actInd          = UIActivityIndicatorView(initInView: self.view, withText:"Please wait".localized)
+        self.view.addSubview(actInd)
+        actInd.startAnimating()
 
+        
+        // Get Token for Control Panel
+        PreyUser.getTokenFromPanel(PreyConfig.sharedInstance.userApiKey!, userPassword:self.passwordInput.text!, onCompletion:{(isSuccess: Bool) in
+
+            // Hide ActivityIndicator
+            dispatch_async(dispatch_get_main_queue()) {
+                actInd.stopAnimating()
+                // Change inputView
+                self.hidePasswordInputOption(true)
+            }            
+        })
+    }
 }

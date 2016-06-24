@@ -108,6 +108,9 @@ class SignUpVC: UserRegister {
                 return
             }
             
+            // Get Token for Control Panel
+            PreyUser.getTokenFromPanel(self.emailTextField.text!, userPassword:self.passwordTextField.text!, onCompletion: {_ in })
+            
             // Add Device to Panel Prey
             PreyDevice.addDeviceWith({(isSuccess: Bool) in
                 

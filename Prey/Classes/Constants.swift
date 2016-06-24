@@ -21,6 +21,9 @@ public let URLControlPanel: String = "https://control.preyhq.com/api/v2"
 public let URLControlPanel: String = "https://solid.preyproject.com/api/v2"
 #endif
 
+// Endpoint for Token
+public let tokenEndpoint: String = "/get_token.json"
+
 // Endpoint for LogIn
 public let logInEndpoint: String = "/profile.json"
 
