@@ -16,28 +16,39 @@ class HomeVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var titleLbl             : UILabel!
     @IBOutlet weak var subtitleLbl          : UILabel!
     @IBOutlet weak var camouflageImg        : UIImageView!
+    @IBOutlet weak var passwordInput        : UITextField!
+    @IBOutlet weak var loginBtn             : UIButton!
+    @IBOutlet weak var forgotBtn            : UIButton!
     
-
+    @IBOutlet weak var accountImg           : UIImageView!
+    @IBOutlet weak var accountSbtLbl        : UILabel!
+    @IBOutlet weak var accountTlLbl         : UILabel!
+    @IBOutlet weak var accountBtn           : UIButton!
+    @IBOutlet weak var settingsImg          : UIImageView!
+    @IBOutlet weak var settingsSbtLbl       : UILabel!
+    @IBOutlet weak var settingsTlLbl        : UILabel!
+    @IBOutlet weak var settingsBtn          : UIButton!
+    
+    @IBOutlet weak var tourImg              : UIImageView!
+    @IBOutlet weak var tourBtn              : UIButton!
+    
+    
     // MARK: Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        
         // Dismiss Keyboard on tap outside
         let recognizer = UITapGestureRecognizer(target: self, action:#selector(self.dismissKeyboard(_:)))
         view.addGestureRecognizer(recognizer)
         
-        // Config delegate UITextField
-        for view in self.view.subviews {
-            if view.isKindOfClass(UITextField) {
-                (view as! UITextField).delegate = self
-            }
-        }
-
-        
+        FIXME()
+        accountBtn.hidden = true
+        passwordInput.hidden = true
+        loginBtn.hidden      = true
         camouflageImg.hidden = true
+        forgotBtn.hidden     = true
     }
 
     override func didReceiveMemoryWarning() {
