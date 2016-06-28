@@ -14,6 +14,7 @@ enum kAction: String {
     case REPORT     = "report"
     case ALARM      = "alarm"
     case GEOFENCING = "geofencing"
+    case DETACH     = "detach"
 }
 
 // Prey status definitions
@@ -95,6 +96,9 @@ class PreyAction : NSOperation {
 
         case kAction.GEOFENCING:
             actionItem = Geofencing(withTarget: kAction.GEOFENCING, withCommand: cmd, withOptions: opt)
+
+        case kAction.DETACH:
+            actionItem = Detach(withTarget: kAction.DETACH, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem

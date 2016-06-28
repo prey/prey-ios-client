@@ -13,6 +13,7 @@ enum kInstruction: String {
     case TARGET     = "target"
     case COMMAND    = "command"
     case OPTIONS    = "options"
+    case CMD        = "cmd"
 }
 
 class PreyModule {
@@ -70,15 +71,30 @@ class PreyModule {
     // Add actions to Array
     func addAction(jsonDict:NSDictionary) {
         
+        // Check cmd command
+        if let jsonCMD = jsonDict.objectForKey(kInstruction.CMD.rawValue) as? NSDictionary {
+            // Recursive Function
+            addAction(jsonCMD)
+            return
+        }
+        
         // Action Name
-        guard let actionName: kAction = kAction(rawValue:jsonDict.objectForKey(kInstruction.TARGET.rawValue) as! String) else {
+        guard let jsonName = jsonDict.objectForKey(kInstruction.TARGET.rawValue) as? String else {
             print("Error with ActionName")
+            return
+        }
+        guard let actionName: kAction = kAction(rawValue: jsonName) else {
+            print("Error with ActionName:rawValue")
             return
         }
         
         // Action Command
-        guard let actionCmd: kCommand = kCommand(rawValue:jsonDict.objectForKey(kInstruction.COMMAND.rawValue) as! String) else {
+        guard let jsonCmd = jsonDict.objectForKey(kInstruction.COMMAND.rawValue) as? String else {
             print("Error with ActionCmd")
+            return
+        }
+        guard let actionCmd: kCommand = kCommand(rawValue: jsonCmd) else {
+            print("Error with ActionCmd:rawvalue")
             return
         }
         
