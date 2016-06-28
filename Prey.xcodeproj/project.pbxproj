@@ -11,6 +11,7 @@
 		3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742161CF791D900E52B6C /* ReportPhoto.swift */; };
 		3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742181CF792CA00E52B6C /* ReportWifi.swift */; };
 		3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38BA8E1D22C03D00B6799B /* WebVC.swift */; };
+		3B38BA911D23059900B6799B /* PreyTourWeb in Resources */ = {isa = PBXBuildFile; fileRef = 3B38BA901D23059900B6799B /* PreyTourWeb */; };
 		3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */; };
 		3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */; };
 		3B41BDAD1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift */; };
@@ -82,6 +83,7 @@
 		3B3742161CF791D900E52B6C /* ReportPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportPhoto.swift; path = Classes/ReportPhoto.swift; sourceTree = "<group>"; };
 		3B3742181CF792CA00E52B6C /* ReportWifi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportWifi.swift; path = Classes/ReportWifi.swift; sourceTree = "<group>"; };
 		3B38BA8E1D22C03D00B6799B /* WebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebVC.swift; path = Classes/WebVC.swift; sourceTree = "<group>"; };
+		3B38BA901D23059900B6799B /* PreyTourWeb */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PreyTourWeb; sourceTree = "<group>"; };
 		3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyNotification.swift; path = Classes/PreyNotification.swift; sourceTree = "<group>"; };
 		3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceAuth.swift; path = Classes/DeviceAuth.swift; sourceTree = "<group>"; };
 		3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GeofenceZones+CoreDataProperties.swift"; path = "Classes/GeofenceZones+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				3BC3C0971C9733BA00D08D62 /* Constants.swift */,
 				3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */,
 				3B8283F9199198E6000E4545 /* Images.xcassets */,
+				3B38BA901D23059900B6799B /* PreyTourWeb */,
 				3B4F67A01CEA085200F58FAD /* Sounds */,
 				3BB7EABE1A1E78DB003FC312 /* Fonts */,
 				3B8283F0199198E6000E4545 /* Supporting Files */,
@@ -396,6 +399,7 @@
 				3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */,
 				3BE3DC531D0B044D00581327 /* TitilliumWeb-Bold.ttf in Resources */,
 				3B8283FA199198E6000E4545 /* Images.xcassets in Resources */,
+				3B38BA911D23059900B6799B /* PreyTourWeb in Resources */,
 				3BE3DC511D0B044D00581327 /* magdacleanmono-bold.ttf in Resources */,
 				3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */,
 				3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */,

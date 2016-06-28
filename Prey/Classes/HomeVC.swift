@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeVC: UIViewController, UITextFieldDelegate {
+class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
 
     
     // MARK: Properties
@@ -46,6 +46,9 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         // Config init
         hidePasswordInputOption(hidePasswordInput)
+        
+        // Add tap gesture to Prey Tour
+        configPreyTour()
         
         // Hide camouflage image
         camouflageImg.hidden = true
@@ -97,6 +100,49 @@ class HomeVC: UIViewController, UITextFieldDelegate {
             self.tourImg.hidden         = !value
             self.tourBtn.hidden         = !value
         })
+    }
+    
+    // Config Prey Tour
+    func configPreyTour() {
+        
+        // Add tap gesture to View
+        let tap         = UITapGestureRecognizer(target:self, action:#selector(startPreyTour))
+        tap.delegate    = self
+        
+        // Add tap to tourImg
+        tourImg.userInteractionEnabled = true
+        tourImg.addGestureRecognizer(tap)
+        
+        // Add target to tourBtn
+        tourBtn.addTarget(self, action:#selector(closePreyTour), forControlEvents:.TouchUpInside)
+        
+        // Check language in tourImg
+        if let language:String = NSLocale.preferredLanguages()[0] as String {
+            if language == "es" {
+                tourImg.image = UIImage(named:"TourEs")
+            }
+        }
+    }
+    
+    // Start Prey Tour
+    func startPreyTour() {
+        
+        guard let language:String = NSLocale.preferredLanguages()[0] as String else {
+            print("Error get preferredLanguage")
+            return
+        }
+        
+        let indexPage   = (language == "es") ? "index-es" : "index"
+        let url         = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(indexPage, ofType:"html", inDirectory:"PreyTourWeb")!)
+        
+        let controller = WebVC(withURL:url, withParameters:nil)
+        self.presentViewController(controller, animated:true, completion:nil)        
+    }
+    
+    // Close Prey Tour
+    func closePreyTour() {
+        tourImg.removeFromSuperview()
+        tourBtn.removeFromSuperview()
     }
     
     // MARK: Keyboard Event Notifications
@@ -158,14 +204,14 @@ class HomeVC: UIViewController, UITextFieldDelegate {
     @IBAction func goToControlPanel(sender: UIButton) {
 
         let params      = String(format:"token=%@", PreyConfig.sharedInstance.tokenPanel!)
-        let controller  = WebVC(withURL:URLSessionPanel, withParameters:params)
+        let controller  = WebVC(withURL:NSURL(string:URLSessionPanel)!, withParameters:params)
         self.presentViewController(controller, animated:true, completion:nil)
     }
     
     // Run web forgot
     @IBAction func runWebForgot(sender: UIButton) {
      
-        let controller = WebVC(withURL:URLForgotPanel, withParameters:nil)
+        let controller = WebVC(withURL:NSURL(string:URLForgotPanel)!, withParameters:nil)
         self.presentViewController(controller, animated:true, completion:nil)
     }
     

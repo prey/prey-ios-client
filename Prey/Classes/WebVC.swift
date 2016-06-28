@@ -39,7 +39,7 @@ class WebVC: UIViewController, UIWebViewDelegate {
     }
     
     // Init customize
-    convenience init(withURL url: String, withParameters:String?) {
+    convenience init(withURL url: NSURL, withParameters:String?) {
         
         self.init()
         
@@ -54,7 +54,7 @@ class WebVC: UIViewController, UIWebViewDelegate {
         webView.multipleTouchEnabled    = true
         webView.scalesPageToFit         = true
         
-        let request                     = NSMutableURLRequest(URL:NSURL(string:url)!)
+        let request                     = NSMutableURLRequest(URL:url)
         
         // Set params to request
         if let params = withParameters {
@@ -138,6 +138,14 @@ class WebVC: UIViewController, UIWebViewDelegate {
             default:
                 return true
             }
+        }
+        
+        // Check scheme for PreyTourWeb
+        if request.URL?.scheme == "closewebview" {
+            PreyConfig.sharedInstance.hideTourWeb = true
+            PreyConfig.sharedInstance.saveValues()
+            cancel()
+            return false
         }
         
         return true
