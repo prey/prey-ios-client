@@ -152,6 +152,22 @@ class HomeVC: UIViewController, UITextFieldDelegate {
     }
     
     // MARK: Functions
+
+
+    // Go to Control Panel
+    @IBAction func goToControlPanel(sender: UIButton) {
+
+        let params      = String(format:"token=%@", PreyConfig.sharedInstance.tokenPanel!)
+        let controller  = WebVC(withURL:URLSessionPanel, withParameters:params)
+        self.presentViewController(controller, animated:true, completion:nil)
+    }
+    
+    // Run web forgot
+    @IBAction func runWebForgot(sender: UIButton) {
+     
+        let controller = WebVC(withURL:URLForgotPanel, withParameters:nil)
+        self.presentViewController(controller, animated:true, completion:nil)
+    }
     
     // Check password
     @IBAction func checkPassword(sender: UIButton?) {
@@ -178,9 +194,12 @@ class HomeVC: UIViewController, UITextFieldDelegate {
             // Hide ActivityIndicator
             dispatch_async(dispatch_get_main_queue()) {
                 actInd.stopAnimating()
+             
                 // Change inputView
-                self.hidePasswordInputOption(true)
-            }            
+                if isSuccess {
+                    self.hidePasswordInputOption(true)
+                }
+            }
         })
     }
 }

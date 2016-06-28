@@ -10,6 +10,7 @@
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742161CF791D900E52B6C /* ReportPhoto.swift */; };
 		3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742181CF792CA00E52B6C /* ReportWifi.swift */; };
+		3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38BA8E1D22C03D00B6799B /* WebVC.swift */; };
 		3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */; };
 		3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */; };
 		3B41BDAD1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift */; };
@@ -80,6 +81,7 @@
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B3742161CF791D900E52B6C /* ReportPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportPhoto.swift; path = Classes/ReportPhoto.swift; sourceTree = "<group>"; };
 		3B3742181CF792CA00E52B6C /* ReportWifi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportWifi.swift; path = Classes/ReportWifi.swift; sourceTree = "<group>"; };
+		3B38BA8E1D22C03D00B6799B /* WebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebVC.swift; path = Classes/WebVC.swift; sourceTree = "<group>"; };
 		3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyNotification.swift; path = Classes/PreyNotification.swift; sourceTree = "<group>"; };
 		3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceAuth.swift; path = Classes/DeviceAuth.swift; sourceTree = "<group>"; };
 		3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GeofenceZones+CoreDataProperties.swift"; path = "Classes/GeofenceZones+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				3B8E57D91A2E7B530027179E /* SignUpVC.swift */,
 				3B8E57D51A2E7B530027179E /* SignInVC.swift */,
 				3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */,
+				3B38BA8E1D22C03D00B6799B /* WebVC.swift */,
 				3B8E57D41A2E7B530027179E /* HomeVC.swift */,
 				3B8E57D81A2E7B530027179E /* SettingsVC.swift */,
 				3B8E57D71A2E7B530027179E /* PurchasesVC.swift */,
@@ -422,6 +425,7 @@
 				3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */,
 				3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
+				3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */,
 				3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */,
 				3B77804E1A600CCE0050C747 /* PreyUser.swift in Sources */,
 				3B8E57D11A2E7B4A0027179E /* WelcomeVC.swift in Sources */,

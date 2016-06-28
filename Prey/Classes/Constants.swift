@@ -16,10 +16,16 @@ func FIXME()
 
 // Definition of URLs
 #if DEBUG
-public let URLControlPanel: String = "https://control.preyhq.com/api/v2"
+public let URLControlPanel  : String = "https://control.preyhq.com/api/v2"
+public let URLForgotPanel   : String = "https://panel.preyhq.com/forgot?embeddable=true"
+public let URLSessionPanel  : String = "https://panel.preyhq.com/session"
 #else
-public let URLControlPanel: String = "https://solid.preyproject.com/api/v2"
+public let URLControlPanel  : String = "https://solid.preyproject.com/api/v2"
+public let URLForgotPanel   : String = "https://panel.preyproject.com/forgot?embeddable=true"
+public let URLSessionPanel  : String = "https://panel.preyproject.com/session"
 #endif
+
+public let URLHelpPrey      : String = "https://help.preyproject.com"
 
 // Endpoint for Token
 public let tokenEndpoint: String = "/get_token.json"
