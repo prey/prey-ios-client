@@ -13,6 +13,7 @@ enum kAction: String {
     case LOCATION   = "location"
     case REPORT     = "report"
     case ALARM      = "alarm"
+    case ALERT      = "alert"
     case GEOFENCING = "geofencing"
     case DETACH     = "detach"
     case CAMOUFLAGE = "camouflage"
@@ -92,6 +93,9 @@ class PreyAction : NSOperation {
         case kAction.ALARM:
             actionItem = Alarm(withTarget: kAction.ALARM, withCommand: cmd, withOptions: opt)
 
+        case kAction.ALERT:
+            actionItem = Alert(withTarget: kAction.ALERT, withCommand: cmd, withOptions: opt)
+            
         case kAction.REPORT:
             actionItem = Report(withTarget: kAction.REPORT, withCommand: cmd, withOptions: opt)
 

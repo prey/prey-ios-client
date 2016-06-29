@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B2445F71D245478005DF09C /* Camouflage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F61D245478005DF09C /* Camouflage.swift */; };
+		3B2445F91D2466CD005DF09C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F81D2466CD005DF09C /* Alert.swift */; };
+		3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445FA1D24717B005DF09C /* AlertVC.swift */; };
 		3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742161CF791D900E52B6C /* ReportPhoto.swift */; };
 		3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742181CF792CA00E52B6C /* ReportWifi.swift */; };
 		3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38BA8E1D22C03D00B6799B /* WebVC.swift */; };
@@ -83,6 +85,8 @@
 /* Begin PBXFileReference section */
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B2445F61D245478005DF09C /* Camouflage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camouflage.swift; path = Classes/Camouflage.swift; sourceTree = "<group>"; };
+		3B2445F81D2466CD005DF09C /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alert.swift; path = Classes/Alert.swift; sourceTree = "<group>"; };
+		3B2445FA1D24717B005DF09C /* AlertVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertVC.swift; path = Classes/AlertVC.swift; sourceTree = "<group>"; };
 		3B3742161CF791D900E52B6C /* ReportPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportPhoto.swift; path = Classes/ReportPhoto.swift; sourceTree = "<group>"; };
 		3B3742181CF792CA00E52B6C /* ReportWifi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportWifi.swift; path = Classes/ReportWifi.swift; sourceTree = "<group>"; };
 		3B38BA8E1D22C03D00B6799B /* WebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebVC.swift; path = Classes/WebVC.swift; sourceTree = "<group>"; };
@@ -272,6 +276,7 @@
 				3B8E57D41A2E7B530027179E /* HomeVC.swift */,
 				3B8E57D81A2E7B530027179E /* SettingsVC.swift */,
 				3B8E57D71A2E7B530027179E /* PurchasesVC.swift */,
+				3B2445FA1D24717B005DF09C /* AlertVC.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 				3B9DDC951CDB891C0052A21D /* PreyAction.swift */,
 				3B9DDC971CDB9CD70052A21D /* Location.swift */,
 				3B4F679E1CEA061E00F58FAD /* Alarm.swift */,
+				3B2445F81D2466CD005DF09C /* Alert.swift */,
 				3B2445F61D245478005DF09C /* Camouflage.swift */,
 				3B42B3FC1CECC38B009D07B2 /* Report.swift */,
 				3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */,
@@ -449,6 +455,7 @@
 				3B41BDB11D05FFF0003DF0CE /* PreyCoreData.swift in Sources */,
 				3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */,
 				3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */,
+				3B2445F91D2466CD005DF09C /* Alert.swift in Sources */,
 				3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */,
 				3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */,
 				3B8E57E11A2E7B530027179E /* SignUpVC.swift in Sources */,
@@ -461,6 +468,7 @@
 				3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */,
 				3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */,
 				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,
+				3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */,
 				3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */,
 				3B2445F71D245478005DF09C /* Camouflage.swift in Sources */,
 			);

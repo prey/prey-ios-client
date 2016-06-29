@@ -36,6 +36,7 @@
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
+            <string>MagdaCleanMono-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -1777,6 +1778,52 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nZO-JE-0P0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3136" y="218"/>
+        </scene>
+        <!--AlertVC-->
+        <scene sceneID="4FV-yU-h0U">
+            <objects>
+                <viewController storyboardIdentifier="alertStrbrd" id="GTa-lV-dKc" customClass="AlertVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hga-iT-0rv"/>
+                        <viewControllerLayoutGuide type="bottom" id="yat-tH-6Nd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1lh-2x-LvN">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tMJ-nH-VOo">
+                                <rect key="frame" x="20" y="20" width="560" height="478"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CFQ-Xc-tVD">
+                                <rect key="frame" x="10" y="518" width="580" height="72"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="CFQ-Xc-tVD" secondAttribute="height" multiplier="145:18" id="BSX-FV-HCJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="MagdaCleanMono-Regular" family="MagdaCleanMono" pointSize="14"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="tMJ-nH-VOo" firstAttribute="leading" secondItem="1lh-2x-LvN" secondAttribute="leading" constant="20" id="Cny-OG-eSs"/>
+                            <constraint firstAttribute="trailing" secondItem="CFQ-Xc-tVD" secondAttribute="trailing" constant="10" id="EPA-JA-RSZ"/>
+                            <constraint firstItem="tMJ-nH-VOo" firstAttribute="top" secondItem="hga-iT-0rv" secondAttribute="bottom" constant="20" id="MhE-Ro-A7e"/>
+                            <constraint firstAttribute="trailing" secondItem="tMJ-nH-VOo" secondAttribute="trailing" constant="20" id="iR5-GW-wYp"/>
+                            <constraint firstItem="CFQ-Xc-tVD" firstAttribute="top" secondItem="tMJ-nH-VOo" secondAttribute="bottom" constant="20" id="iiG-z5-f1q"/>
+                            <constraint firstItem="yat-tH-6Nd" firstAttribute="top" secondItem="CFQ-Xc-tVD" secondAttribute="bottom" constant="10" id="kvd-ne-wQ6"/>
+                            <constraint firstItem="CFQ-Xc-tVD" firstAttribute="leading" secondItem="1lh-2x-LvN" secondAttribute="leading" constant="10" id="yPj-5X-8vI"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9EX-39-Vce" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2853" y="862"/>
         </scene>
         <!--PurchasesVC-->
         <scene sceneID="mcB-k5-LVA">
