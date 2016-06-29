@@ -37,15 +37,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Config init UIViewController
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: "PreyStoryBoard", bundle: nil)
-        let rootVC: UIViewController
+        self.window                         = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let mainStoryboard: UIStoryboard    = UIStoryboard(name: "PreyStoryBoard", bundle: nil)
+        let rootVC: UINavigationController  = mainStoryboard.instantiateViewControllerWithIdentifier("navigationStrbrd") as! UINavigationController        
+        let controller: UIViewController    = (PreyConfig.sharedInstance.isRegistered) ? mainStoryboard.instantiateViewControllerWithIdentifier("homeStrbrd") :
+                                                                                         mainStoryboard.instantiateViewControllerWithIdentifier("welcomeStrbrd")
         
-        if PreyConfig.sharedInstance.isRegistered {
-            rootVC = mainStoryboard.instantiateViewControllerWithIdentifier("homeStrbrd")
-        } else {
-            rootVC = mainStoryboard.instantiateViewControllerWithIdentifier("navigationStrbrd")
-        }
+        rootVC.pushViewController(controller, animated:false)
         
         self.window?.rootViewController = rootVC
         self.window?.makeKeyAndVisible()

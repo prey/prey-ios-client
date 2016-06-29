@@ -17,6 +17,7 @@ enum PreyConfigDevice: String {
     case IsRegistered
     case IsPro
     case IsMissing
+    case IsCamouflageMode
 }
 
 class PreyConfig {
@@ -35,18 +36,20 @@ class PreyConfig {
         isRegistered        = defaultConfig.boolForKey(PreyConfigDevice.IsRegistered.rawValue)
         isPro               = defaultConfig.boolForKey(PreyConfigDevice.IsPro.rawValue)
         isMissing           = defaultConfig.boolForKey(PreyConfigDevice.IsMissing.rawValue)
+        isCamouflageMode    = defaultConfig.boolForKey(PreyConfigDevice.IsCamouflageMode.rawValue)
     }
 
     // MARK: Properties
     
-    var userApiKey  : String?
-    var userEmail   : String?
-    var deviceKey   : String?
-    var tokenPanel  : String?
-    var hideTourWeb : Bool
-    var isRegistered: Bool
-    var isPro       : Bool
-    var isMissing   : Bool
+    var userApiKey          : String?
+    var userEmail           : String?
+    var deviceKey           : String?
+    var tokenPanel          : String?
+    var hideTourWeb         : Bool
+    var isRegistered        : Bool
+    var isPro               : Bool
+    var isMissing           : Bool
+    var isCamouflageMode    : Bool
     
     // MARK: Functions
     
@@ -61,20 +64,22 @@ class PreyConfig {
         defaultConfig.setBool(hideTourWeb, forKey:PreyConfigDevice.HideTourWeb.rawValue)
         defaultConfig.setBool(isRegistered, forKey:PreyConfigDevice.IsRegistered.rawValue)
         defaultConfig.setBool(isPro, forKey:PreyConfigDevice.IsPro.rawValue)
-        defaultConfig.setBool(isMissing, forKey: PreyConfigDevice.IsMissing.rawValue)
+        defaultConfig.setBool(isMissing, forKey:PreyConfigDevice.IsMissing.rawValue)
+        defaultConfig.setBool(isCamouflageMode, forKey:PreyConfigDevice.IsCamouflageMode.rawValue)
     }
     
     // Reset values on NSUserDefaults
     func resetValues() {
         
-        userApiKey      = nil
-        userEmail       = nil
-        deviceKey       = nil
-        tokenPanel      = nil
-        hideTourWeb     = false
-        isRegistered    = false
-        isPro           = false
-        isMissing       = false
+        userApiKey       = nil
+        userEmail        = nil
+        deviceKey        = nil
+        tokenPanel       = nil
+        hideTourWeb      = false
+        isRegistered     = false
+        isPro            = false
+        isMissing        = false
+        isCamouflageMode = false
         
         saveValues()
     }

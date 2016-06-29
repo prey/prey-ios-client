@@ -15,6 +15,7 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
     
     @IBOutlet weak var titleLbl             : UILabel!
     @IBOutlet weak var subtitleLbl          : UILabel!
+    @IBOutlet weak var shieldImg            : UIImageView!
     @IBOutlet weak var camouflageImg        : UIImageView!
     @IBOutlet weak var passwordInput        : UITextField!
     @IBOutlet weak var loginBtn             : UIButton!
@@ -51,7 +52,7 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
         configPreyTour()
         
         // Hide camouflage image
-        camouflageImg.hidden = true
+        configCamouflageMode(PreyConfig.sharedInstance.isCamouflageMode)
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,10 +61,10 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
     }
     
     override func viewWillAppear(animated: Bool){
+        super.viewWillAppear(animated)
+        
         // Hide navigationBar when appear this ViewController
         self.navigationController?.navigationBarHidden = true
-        
-        super.viewWillAppear(animated)
         
         // Listen for changes to keyboard visibility so that we can adjust the text view accordingly.
         let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -73,6 +74,9 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+
+        // Hide navigationBar when appear this ViewController
+        self.navigationController?.navigationBarHidden = false
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
@@ -100,6 +104,15 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
             self.tourImg.hidden         = !value
             self.tourBtn.hidden         = !value
         })
+    }
+    
+    func configCamouflageMode(isCamouflage:Bool) {
+
+        subtitleLbl.hidden      = isCamouflage
+        titleLbl.hidden         = isCamouflage
+        shieldImg.hidden        = isCamouflage
+        
+        camouflageImg.hidden    = !isCamouflage
     }
     
     // Config Prey Tour
@@ -200,6 +213,14 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
     // MARK: Functions
 
 
+    // Go to Settings
+    @IBAction func goToSettings(sender: UIButton) {
+        
+        if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("settingsStrbrd") as? SettingsVC {
+            self.navigationController?.pushViewController(resultController, animated: true)
+        }
+    }
+    
     // Go to Control Panel
     @IBAction func goToControlPanel(sender: UIButton) {
 

@@ -10,14 +10,25 @@ import UIKit
 
 class SettingsVC: UIViewController {
 
+    
+    // MARK: Init
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
+   }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Hide navigationBar when appear this ViewController
+        self.navigationController?.navigationBarHidden = false
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
     }
 }

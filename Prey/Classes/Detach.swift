@@ -17,24 +17,27 @@ class Detach: PreyAction {
     // Prey command
     override func start() {
         print("Detach device")
-        isActive = true
-        
-        FIXME()
-        // check when report active
-        PreyConfig.sharedInstance.resetValues()
-
-        guard UIApplication.sharedApplication().applicationState != .Background else {
-            print("App in background")
-            return
-        }
-        
-        // Get SharedApplication delegate
-        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
-            print("error with sharedApplication")
-            return
-        }
 
         dispatch_async(dispatch_get_main_queue()) {
+            
+            self.isActive = true
+            
+            FIXME()
+            // check when report active
+            PreyConfig.sharedInstance.resetValues()
+            
+            guard UIApplication.sharedApplication().applicationState != .Background else {
+                print("App in background")
+                return
+            }
+            
+            // Get SharedApplication delegate
+            guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+                print("error with sharedApplication")
+                return
+            }
+            
+            
             let mainStoryboard: UIStoryboard = UIStoryboard(name: "PreyStoryBoard", bundle: nil)
             if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier("welcomeStrbrd") as? WelcomeVC {
                 // Set controller to rootViewController
