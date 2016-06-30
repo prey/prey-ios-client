@@ -1793,13 +1793,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tMJ-nH-VOo">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="tMJ-nH-VOo">
                                 <rect key="frame" x="20" y="20" width="560" height="470"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PREY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CFQ-Xc-tVD">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PREY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="580" translatesAutoresizingMaskIntoConstraints="NO" id="CFQ-Xc-tVD">
                                 <rect key="frame" x="10" y="490" width="580" height="110"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="CFQ-Xc-tVD" secondAttribute="height" multiplier="58:11" id="f1x-kX-d4z"/>
@@ -1834,7 +1834,7 @@
         <!--PurchasesVC-->
         <scene sceneID="mcB-k5-LVA">
             <objects>
-                <viewController id="dZW-Mi-Ce9" customClass="PurchasesVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="purchasesVC" id="dZW-Mi-Ce9" customClass="PurchasesVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Voq-C5-Qh4"/>
                         <viewControllerLayoutGuide type="bottom" id="CpQ-Xe-v3L"/>
@@ -1845,9 +1845,6 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg-welcome-iPhone5.png" translatesAutoresizingMaskIntoConstraints="NO" id="r6s-1s-scx">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
-                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
-                                </variation>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PreyProImage" translatesAutoresizingMaskIntoConstraints="NO" id="UIZ-0q-6O4">
                                 <rect key="frame" x="265" y="105" width="71" height="81"/>
