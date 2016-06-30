@@ -21,6 +21,8 @@
 		3B41BDAD1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift */; };
 		3B41BDAE1D05FF9F003DF0CE /* GeofenceZones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDAC1D05FF9F003DF0CE /* GeofenceZones.swift */; };
 		3B41BDB11D05FFF0003DF0CE /* PreyCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */; };
+		3B42A2671D2581EF002848C0 /* large9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B42A2661D2581EF002848C0 /* large9.ttf */; };
+		3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */; };
 		3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42B3FC1CECC38B009D07B2 /* Report.swift */; };
 		3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4F679E1CEA061E00F58FAD /* Alarm.swift */; };
 		3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A11CEA085200F58FAD /* shutter.aiff */; };
@@ -97,6 +99,8 @@
 		3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GeofenceZones+CoreDataProperties.swift"; path = "Classes/GeofenceZones+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3B41BDAC1D05FF9F003DF0CE /* GeofenceZones.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeofenceZones.swift; path = Classes/GeofenceZones.swift; sourceTree = "<group>"; };
 		3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyCoreData.swift; path = Classes/PreyCoreData.swift; sourceTree = "<group>"; };
+		3B42A2661D2581EF002848C0 /* large9.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = large9.ttf; sourceTree = "<group>"; };
+		3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyProtocol.swift; path = Classes/PreyProtocol.swift; sourceTree = "<group>"; };
 		3B42B3FC1CECC38B009D07B2 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Report.swift; path = Classes/Report.swift; sourceTree = "<group>"; };
 		3B4F679E1CEA061E00F58FAD /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alarm.swift; path = Classes/Alarm.swift; sourceTree = "<group>"; };
 		3B4F67A11CEA085200F58FAD /* shutter.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = shutter.aiff; sourceTree = "<group>"; };
@@ -285,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				3B9DDC991CDBBF030052A21D /* PreyModule.swift */,
+				3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */,
 				3B9DDC951CDB891C0052A21D /* PreyAction.swift */,
 				3B9DDC971CDB9CD70052A21D /* Location.swift */,
 				3B4F679E1CEA061E00F58FAD /* Alarm.swift */,
@@ -304,6 +309,7 @@
 		3BB7EABE1A1E78DB003FC312 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				3B42A2661D2581EF002848C0 /* large9.ttf */,
 				3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */,
 				3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */,
 				3BE3DC4F1D0B044D00581327 /* TitilliumWeb-Bold.ttf */,
@@ -410,6 +416,7 @@
 				3B4F67A41CEA085200F58FAD /* siren.mp3 in Resources */,
 				3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */,
 				3BE3DC531D0B044D00581327 /* TitilliumWeb-Bold.ttf in Resources */,
+				3B42A2671D2581EF002848C0 /* large9.ttf in Resources */,
 				3B8283FA199198E6000E4545 /* Images.xcassets in Resources */,
 				3B38BA911D23059900B6799B /* PreyTourWeb in Resources */,
 				3BE3DC511D0B044D00581327 /* magdacleanmono-bold.ttf in Resources */,
@@ -464,6 +471,7 @@
 				3B849AE81D0710E9002DB6CC /* PreyModelData.xcdatamodeld in Sources */,
 				3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */,
 				3B8E57DD1A2E7B530027179E /* SignInVC.swift in Sources */,
+				3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */,
 				3B41BDAE1D05FF9F003DF0CE /* GeofenceZones.swift in Sources */,
 				3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */,
 				3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */,

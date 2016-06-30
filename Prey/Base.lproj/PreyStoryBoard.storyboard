@@ -26,11 +26,13 @@
             <string>TitilliumWeb-Bold</string>
             <string>TitilliumWeb-Bold</string>
         </mutableArray>
-        <mutableArray key="magdacleanmono-bold-webfont.ttf">
+        <mutableArray key="large9.ttf">
+            <string>Large9Normal</string>
+        </mutableArray>
+        <mutableArray key="magdacleanmono-bold.ttf">
             <string>MagdaCleanMono-Bold</string>
         </mutableArray>
-        <mutableArray key="magdacleanmono-regular.otf">
-            <string>MagdaCleanMono-Regular</string>
+        <mutableArray key="magdacleanmono-regular-webfont.ttf">
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
@@ -1792,17 +1794,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tMJ-nH-VOo">
-                                <rect key="frame" x="20" y="20" width="560" height="478"/>
+                                <rect key="frame" x="20" y="20" width="560" height="470"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CFQ-Xc-tVD">
-                                <rect key="frame" x="10" y="518" width="580" height="72"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PREY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CFQ-Xc-tVD">
+                                <rect key="frame" x="10" y="490" width="580" height="110"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="CFQ-Xc-tVD" secondAttribute="height" multiplier="145:18" id="BSX-FV-HCJ"/>
+                                    <constraint firstAttribute="width" secondItem="CFQ-Xc-tVD" secondAttribute="height" multiplier="58:11" id="f1x-kX-d4z"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="MagdaCleanMono-Regular" family="MagdaCleanMono" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="Large9Normal" family="large9" pointSize="60"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1813,13 +1815,17 @@
                             <constraint firstAttribute="trailing" secondItem="CFQ-Xc-tVD" secondAttribute="trailing" constant="10" id="EPA-JA-RSZ"/>
                             <constraint firstItem="tMJ-nH-VOo" firstAttribute="top" secondItem="hga-iT-0rv" secondAttribute="bottom" constant="20" id="MhE-Ro-A7e"/>
                             <constraint firstAttribute="trailing" secondItem="tMJ-nH-VOo" secondAttribute="trailing" constant="20" id="iR5-GW-wYp"/>
-                            <constraint firstItem="CFQ-Xc-tVD" firstAttribute="top" secondItem="tMJ-nH-VOo" secondAttribute="bottom" constant="20" id="iiG-z5-f1q"/>
-                            <constraint firstItem="yat-tH-6Nd" firstAttribute="top" secondItem="CFQ-Xc-tVD" secondAttribute="bottom" constant="10" id="kvd-ne-wQ6"/>
+                            <constraint firstItem="CFQ-Xc-tVD" firstAttribute="top" secondItem="tMJ-nH-VOo" secondAttribute="bottom" id="iiG-z5-f1q"/>
+                            <constraint firstItem="yat-tH-6Nd" firstAttribute="top" secondItem="CFQ-Xc-tVD" secondAttribute="bottom" id="kvd-ne-wQ6"/>
                             <constraint firstItem="CFQ-Xc-tVD" firstAttribute="leading" secondItem="1lh-2x-LvN" secondAttribute="leading" constant="10" id="yPj-5X-8vI"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="messageLbl" destination="tMJ-nH-VOo" id="6aT-AO-9Ly"/>
+                        <outlet property="subtitleLbl" destination="CFQ-Xc-tVD" id="Fh5-dv-Yq7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9EX-39-Vce" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

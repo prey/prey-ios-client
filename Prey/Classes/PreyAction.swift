@@ -8,55 +8,6 @@
 
 import Foundation
 
-// Prey actions definitions
-enum kAction: String {
-    case LOCATION   = "location"
-    case REPORT     = "report"
-    case ALARM      = "alarm"
-    case ALERT      = "alert"
-    case GEOFENCING = "geofencing"
-    case DETACH     = "detach"
-    case CAMOUFLAGE = "camouflage"
-}
-
-// Prey status definitions
-enum kStatus: String {
-    case STARTED    = "started"
-    case STOPPED    = "stopped"
-}
-
-// Prey command definitions
-enum kCommand: String {
-    case START    = "start"
-    case STOP     = "stop"
-    case GET      = "get"
-}
-
-// Prey location params
-enum kLocation: String {
-    case LONGITURE  = "lng"
-    case LATITUDE   = "lat"
-    case ALTITUDE   = "alt"
-    case ACCURACY   = "accuracy"
-    case METHOD     = "method"
-}
-
-// Prey location params
-enum kReportLocation: String {
-    case LONGITURE  = "geo[lng]"
-    case LATITUDE   = "geo[lat]"
-    case ALTITUDE   = "geo[alt]"
-    case ACCURACY   = "geo[accuracy]"
-    case METHOD     = "geo[method]"
-}
-
-// Prey /Data Endpoint struct
-enum kData: String {
-    case STATUS     = "status"
-    case TARGET     = "target"
-    case COMMAND    = "command"
-    case REASON     = "reason"
-}
 
 class PreyAction : NSOperation {
    

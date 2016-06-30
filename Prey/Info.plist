@@ -31,6 +31,7 @@
 	<string>Prey needs your location to find your device through your account when you request it.</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>large9.ttf</string>
 		<string>magdacleanmono-regular.otf</string>
 		<string>magdacleanmono-bold.ttf</string>
 		<string>TitilliumWeb-Regular.ttf</string>

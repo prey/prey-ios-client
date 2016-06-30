@@ -14,56 +14,6 @@ func FIXME()
 {
 }
 
-// Definition of URLs
-#if DEBUG
-public let URLControlPanel  : String = "https://control.preyhq.com/api/v2"
-public let URLForgotPanel   : String = "https://panel.preyhq.com/forgot?embeddable=true"
-public let URLSessionPanel  : String = "https://panel.preyhq.com/session"
-#else
-public let URLControlPanel  : String = "https://solid.preyproject.com/api/v2"
-public let URLForgotPanel   : String = "https://panel.preyproject.com/forgot?embeddable=true"
-public let URLSessionPanel  : String = "https://panel.preyproject.com/session"
-#endif
-
-public let URLHelpPrey      : String = "https://help.preyproject.com"
-
-// Endpoint for Token
-public let tokenEndpoint: String = "/get_token.json"
-
-// Endpoint for LogIn
-public let logInEndpoint: String = "/profile.json"
-
-// Endpoint for SignUp
-public let signUpEndpoint: String = "/signup.json"
-
-// Endpoint for Add Devices
-public let devicesEndpoint: String = "/devices.json"
-
-// Endpoint for Device Data 
-public let dataDeviceEndpoint: String = NSString(format:"/devices/%@/data",(PreyConfig.sharedInstance.deviceKey!)) as String
-
-// Endpoint for Report Data
-public let reportDataDeviceEndpoint: String = NSString(format:"/devices/%@/reports",(PreyConfig.sharedInstance.deviceKey!)) as String
-
-// Endpoint for Response Data
-public let responseDeviceEndpoint: String = NSString(format:"/devices/%@/response",(PreyConfig.sharedInstance.deviceKey!)) as String
-
-// Endpoint for Events Data
-public let eventsDeviceEndpoint: String = NSString(format:"/devices/%@/events",(PreyConfig.sharedInstance.deviceKey!)) as String
-
-// Endpoint for Geofencing Data
-public let geofencingEndpoint: String = NSString(format:"/devices/%@/geofencing.json",(PreyConfig.sharedInstance.deviceKey!)) as String
-
-// Endpoint for Device Actions
-public let actionsDeviceEndpoint: String = NSString(format:"/devices/%@.json",(PreyConfig.sharedInstance.deviceKey!)) as String
-
-
-// Http method definitions
-public enum Method: String {
-    case GET  = "GET"
-    case POST = "POST"
-}
-
 // Def type device
 public let IS_IPAD: Bool = (UIDevice.currentDevice().userInterfaceIdiom != UIUserInterfaceIdiom.Phone)
 
