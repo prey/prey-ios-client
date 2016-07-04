@@ -29,10 +29,10 @@
         <mutableArray key="large9.ttf">
             <string>Large9Normal</string>
         </mutableArray>
-        <mutableArray key="magdacleanmono-bold.ttf">
+        <mutableArray key="magdacleanmono-bold-webfont.ttf">
             <string>MagdaCleanMono-Bold</string>
         </mutableArray>
-        <mutableArray key="magdacleanmono-regular-webfont.ttf">
+        <mutableArray key="magdacleanmono-regular.otf">
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
@@ -1772,14 +1772,49 @@
                     <view key="view" contentMode="scaleToFill" id="Pv8-DE-Wdt">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="jGz-JY-FhR">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="b1G-ow-zIc" id="hhQ-rd-n1H"/>
+                                    <outlet property="delegate" destination="b1G-ow-zIc" id="Rk5-hc-3b0"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="jGz-JY-FhR" secondAttribute="trailing" id="2hp-a8-MYH"/>
+                            <constraint firstItem="cEt-fU-id3" firstAttribute="top" secondItem="jGz-JY-FhR" secondAttribute="bottom" id="39Z-Nk-tgL"/>
+                            <constraint firstItem="jGz-JY-FhR" firstAttribute="top" secondItem="LXN-qH-fiK" secondAttribute="bottom" id="swP-Rn-gnp"/>
+                            <constraint firstItem="jGz-JY-FhR" firstAttribute="leading" secondItem="Pv8-DE-Wdt" secondAttribute="leading" id="taA-7K-NKQ"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="2hp-a8-MYH"/>
+                                <exclude reference="swP-Rn-gnp"/>
+                                <exclude reference="taA-7K-NKQ"/>
+                                <exclude reference="39Z-Nk-tgL"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="2hp-a8-MYH"/>
+                                <include reference="swP-Rn-gnp"/>
+                                <include reference="taA-7K-NKQ"/>
+                                <include reference="39Z-Nk-tgL"/>
+                            </mask>
+                        </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="jGz-JY-FhR" id="9bN-4g-lFa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nZO-JE-0P0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3136" y="218"/>
+            <point key="canvasLocation" x="3135" y="217.5"/>
         </scene>
         <!--AlertVC-->
         <scene sceneID="4FV-yU-h0U">
