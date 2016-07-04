@@ -48,8 +48,12 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
         // Config init
         hidePasswordInputOption(hidePasswordInput)
         
-        // Add tap gesture to Prey Tour
-        configPreyTour()
+        // Config Prey Tour
+        if PreyConfig.sharedInstance.hideTourWeb {
+            closePreyTour()
+        } else {
+            configPreyTour()
+        }
         
         // Hide camouflage image
         configCamouflageMode(PreyConfig.sharedInstance.isCamouflageMode)

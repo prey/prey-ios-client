@@ -93,6 +93,18 @@ class WebVC: UIViewController, UIWebViewDelegate {
         super.didReceiveMemoryWarning()
     }
     
+    func closePreyTourWebView() {
+        
+        if let controller = self.presentingViewController as? UINavigationController {
+            let homeVC = controller.topViewController as! HomeVC
+            homeVC.closePreyTour()
+        }
+        
+        PreyConfig.sharedInstance.hideTourWeb = true
+        PreyConfig.sharedInstance.saveValues()
+        cancel()
+    }
+    
     // MARK: UIWebViewDelegate
     
     func webViewDidStartLoad(webView: UIWebView) {
@@ -142,9 +154,7 @@ class WebVC: UIViewController, UIWebViewDelegate {
         
         // Check scheme for PreyTourWeb
         if request.URL?.scheme == "closewebview" {
-            PreyConfig.sharedInstance.hideTourWeb = true
-            PreyConfig.sharedInstance.saveValues()
-            cancel()
+            closePreyTourWebView()
             return false
         }
         
