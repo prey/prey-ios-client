@@ -33,6 +33,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: Properties
 
+    // Color Text
+    let colorTxtLbl          = UIColor(red: 72/255, green: 84/255, blue: 102/255, alpha: 1.0)
+    let colorDetailLbl       = UIColor(red: 72/255, green: 84/255, blue: 102/255, alpha: 0.3)
+    
+    // Font 
+    let fontTitilliumBold    =  "TitilliumWeb-Bold"
+    let fontTitilliumRegular =  "TitilliumWeb-Regular"
+    
     @IBOutlet weak var tableView     : UITableView!
     
     
@@ -40,6 +48,8 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.backgroundColor = UIColor.whiteColor()
    }
 
     override func didReceiveMemoryWarning() {
@@ -110,8 +120,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         case PreferencesViewSection.About.hashValue :
             titleSection = "About".localized
             
-        default:
-            titleSection = ""
+        default: break
         }
         
         return titleSection
@@ -120,19 +129,110 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // Cell for row
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        FIXME()
-        
+        // Config cell
+        var cell :UITableViewCell!
         let cellIdentifier  = "Cell"
-        let cell            = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)
+        cell                = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)
         
         if cell == nil  {
+            let sizeFont:CGFloat            = (IS_IPAD) ? 16 : 14
+            cell                            = UITableViewCell(style:UITableViewCellStyle.Value1, reuseIdentifier:cellIdentifier)
+            cell.selectionStyle             = UITableViewCellSelectionStyle.None
+            cell.backgroundColor            = UIColor.whiteColor()
+            cell.textLabel?.font            = UIFont(name:fontTitilliumRegular, size:sizeFont)
+            cell.detailTextLabel?.font      = UIFont(name:fontTitilliumRegular, size:sizeFont)
+            cell.textLabel?.textColor       = colorTxtLbl
+            cell.detailTextLabel?.textColor = colorDetailLbl
+        }
+        
+        // Set cell info
+        switch indexPath.section {
+
+        case PreferencesViewSection.Information.hashValue :
+            configCellForInformationSection(indexPath.row, withCell:cell)
             
-        } 
+        case PreferencesViewSection.Settings.hashValue :
+            configCellForSettingsSection(indexPath.row, withCell:cell)
+            
+        case PreferencesViewSection.About.hashValue :
+            configCellForAboutSection(indexPath.row, withCell:cell)
+            
+        default : break
+        }
         
-        
-        
-        return cell!
+        return cell
     }
+    
+    // Config InformationSection
+    func configCellForInformationSection(index:Int, withCell cell:UITableViewCell) {
+
+        cell.selectionStyle = UITableViewCellSelectionStyle.Blue
+        cell.accessoryType  = UITableViewCellAccessoryType.DisclosureIndicator
+        
+        switch index {
+            
+        case SectionInformation.CurrentLocation.hashValue :
+            cell.textLabel?.text    = "Current Location".localized
+            
+        case SectionInformation.Geofence.hashValue :
+            cell.textLabel?.text    = "Your Geofences".localized
+            
+        case SectionInformation.UpgradeToPro.hashValue :
+            cell.textLabel?.text    = "Upgrade to Pro".localized
+            
+        default : break
+        }
+    }
+    
+    // Config SettingsSection
+    func configCellForSettingsSection(index:Int, withCell cell:UITableViewCell) {
+        
+        switch index {
+            
+        case SectionSettings.CamouflageMode.hashValue :
+            let camouflageMode      = UISwitch()
+            camouflageMode.addTarget(self, action:#selector(camouflageModeState), forControlEvents:UIControlEvents.ValueChanged)
+            camouflageMode.setOn(PreyConfig.sharedInstance.isCamouflageMode, animated:false)
+            cell.accessoryView      = camouflageMode
+            cell.textLabel?.text    = "Camouflage mode".localized
+            
+        case SectionSettings.DetachDevice.hashValue :
+            cell.accessoryType      = UITableViewCellAccessoryType.None
+            cell.selectionStyle     = UITableViewCellSelectionStyle.Blue
+            cell.accessoryView      = nil
+            cell.textLabel?.text    = "Detach device".localized
+            
+        default : break
+        }
+    }
+    
+    // Config AboutSection
+    func configCellForAboutSection(index:Int, withCell cell:UITableViewCell) {
+        
+        cell.accessoryType          = UITableViewCellAccessoryType.DisclosureIndicator
+        cell.selectionStyle         = UITableViewCellSelectionStyle.Blue
+
+        switch index {
+            
+        case SectionAbout.Version.hashValue :
+            cell.accessoryType          = UITableViewCellAccessoryType.None
+            cell.selectionStyle         = UITableViewCellSelectionStyle.None
+            cell.detailTextLabel?.text  = appVersion
+            cell.textLabel?.text        = "Version".localized
+
+        case SectionAbout.Help.hashValue :
+            cell.textLabel?.text        = "Help".localized
+            
+        case SectionAbout.TermService.hashValue :
+            cell.textLabel?.text        = "Terms of Service".localized
+
+        case SectionAbout.PrivacyPolice.hashValue :
+            cell.textLabel?.text        = "Privacy Policy".localized
+            
+        default : break
+        }
+    }
+    
     
     // MARK: UITableViewDelegate
     
@@ -150,13 +250,33 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header                  = view as! UITableViewHeaderFooterView
         let sizeFont:CGFloat        = (IS_IPAD) ? 14 : 12
-        header.textLabel?.font      = UIFont(name: "TitilliumWeb-Bold", size:sizeFont)
-        header.textLabel?.textColor = UIColor(red: 72/255, green: 84/255, blue: 102/255, alpha: 0.3)
+        header.textLabel?.font      = UIFont(name:fontTitilliumBold, size:sizeFont)
+        header.textLabel?.textColor = colorDetailLbl
     }
-    /*
+    
     // Row selected
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-     
+        /*
+        // Set cell info
+        switch indexPath.section {
+            
+        case PreferencesViewSection.Information.hashValue :
+            
+        case PreferencesViewSection.Settings.hashValue :
+            
+        case PreferencesViewSection.About.hashValue :
+            
+        default : break
+        }
+         */
     }
-     */
+    
+    
+    // MARK: Methods
+    
+    // CamouflageMode State
+    func camouflageModeState(object:UISwitch) {
+        PreyConfig.sharedInstance.isCamouflageMode = object.on
+        PreyConfig.sharedInstance.saveValues()
+    }
 }

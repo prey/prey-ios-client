@@ -26,6 +26,9 @@ public let delayTime: Double = 2
 // Email RegExp
 public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b"
 
+// App Version
+public let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
+
 // Validate email expression
 public func isInvalidEmail(userEmail: String, withPattern: String) -> Bool {
 
