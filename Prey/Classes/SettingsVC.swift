@@ -98,8 +98,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         case PreferencesViewSection.About.hashValue :
             numberRows = SectionAbout.NumberSectionAbout.hashValue
             
-        default:
-            numberRows = 0
+        default : break
         }
         
         return numberRows
@@ -256,23 +255,89 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // Row selected
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        /*
+        
         // Set cell info
         switch indexPath.section {
             
+        // === INFORMATION ===
         case PreferencesViewSection.Information.hashValue :
             
+            switch indexPath.row {
+                
+                // Current Location
+            case SectionInformation.CurrentLocation.hashValue:
+                showLocationMapVC()
+                
+                // Geofence
+            case SectionInformation.Geofence.hashValue:
+                showGeofenceMapVC()
+                
+                // Upgrade to Pro
+            case SectionInformation.UpgradeToPro.hashValue:
+                showUpgradeToProVC()
+                
+            default : break
+            }
+
+        // === SETTINGS ===
         case PreferencesViewSection.Settings.hashValue :
+
+            // Detach Device
+            if indexPath.row == SectionSettings.DetachDevice.hashValue {
+                showDetachDeviceAction()
+            }
             
+        // === ABOUT ===
         case PreferencesViewSection.About.hashValue :
+            
+            switch indexPath.row {
+            
+                // Help
+            case SectionAbout.Help.hashValue :
+                showWebController(URLHelpPrey, withTitle:"Help".localized)
+                
+                // Term of Service
+            case SectionAbout.TermService.hashValue :
+                showWebController(URLTermsPrey, withTitle:"Terms of Service".localized)
+                
+                // Privacy Policy
+            case SectionAbout.PrivacyPolice.hashValue :
+                showWebController(URLPrivacyPrey, withTitle:"Privacy Policy".localized)
+                
+            default : break
+            }
             
         default : break
         }
-         */
     }
     
     
     // MARK: Methods
+    
+    // LocationMapVC
+    func showLocationMapVC() {
+        
+    }
+    
+    // GeofenceMapVC
+    func showGeofenceMapVC() {
+        
+    }
+    
+    // UpgradeToProVC
+    func showUpgradeToProVC() {
+        
+    }
+    
+    // DetachDeviceAction
+    func showDetachDeviceAction() {
+        
+    }
+    
+    // WebController
+    func showWebController(url:String, withTitle title:String) {
+        
+    }
     
     // CamouflageMode State
     func camouflageModeState(object:UISwitch) {

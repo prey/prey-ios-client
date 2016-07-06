@@ -77,6 +77,10 @@ enum kData: String {
 
 public let URLHelpPrey              : String = "https://help.preyproject.com"
 
+public let URLTermsPrey             : String = "http://www.preyproject.com/terms"
+
+public let URLPrivacyPrey           : String = "http://www.preyproject.com/privacy"
+
 // Endpoint for Token
 public let tokenEndpoint            : String = "/get_token.json"
 
