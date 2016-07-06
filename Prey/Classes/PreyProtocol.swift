@@ -75,7 +75,7 @@ enum kData: String {
     public let URLSessionPanel      : String = "https://panel.preyproject.com/session"
 #endif
 
-public let URLHelpPrey              : String = "https://help.preyproject.com"
+public let URLHelpPrey              : String = "http://help.preyproject.com"
 
 public let URLTermsPrey             : String = "http://www.preyproject.com/terms"
 

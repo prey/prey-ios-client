@@ -28,7 +28,7 @@ enum SectionAbout {
     case Version, Help, TermService, PrivacyPolice, NumberSectionAbout
 }
 
-class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
     
     // MARK: Properties
@@ -41,7 +41,9 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let fontTitilliumBold    =  "TitilliumWeb-Bold"
     let fontTitilliumRegular =  "TitilliumWeb-Regular"
     
-    @IBOutlet weak var tableView     : UITableView!
+    var actInd                      : UIActivityIndicatorView!
+    
+    @IBOutlet weak var tableView    : UITableView!
     
     
     // MARK: Init
@@ -337,11 +339,58 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // WebController
     func showWebController(url:String, withTitle title:String) {
         
+        let controller          = UIViewController()
+        let webView             = UIWebView(frame:CGRectZero)
+        let request             = NSURLRequest(URL:NSURL(string:url)!)
+        
+        controller.view         = webView
+        controller.title        = title
+        
+        webView.scalesPageToFit = true
+        webView.delegate        = self
+        webView.loadRequest(request)
+        
+        self.navigationController?.pushViewController(controller, animated:true)        
     }
     
     // CamouflageMode State
     func camouflageModeState(object:UISwitch) {
         PreyConfig.sharedInstance.isCamouflageMode = object.on
         PreyConfig.sharedInstance.saveValues()
+    }
+    
+    // MARK: UIWebViewDelegate
+    
+    func webViewDidStartLoad(webView: UIWebView) {
+        print("Start load web")
+        
+        // Show ActivityIndicator
+        if actInd == nil {
+            actInd          = UIActivityIndicatorView(initInView: self.view, withText:"Please wait".localized)
+            webView.addSubview(actInd)
+            actInd.startAnimating()
+        }
+    }
+    
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        print("Should load request")
+        return true
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        print("Finish load web")
+        
+        // Hide ActivityIndicator
+        actInd.stopAnimating()
+    }
+    
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        print("Error loading web")
+        
+        // Hide ActivityIndicator
+        actInd.stopAnimating()
+        
+        displayErrorAlert("Error loading web, please try again.".localized,
+                          titleMessage:"We have a situation!".localized)
     }
 }
