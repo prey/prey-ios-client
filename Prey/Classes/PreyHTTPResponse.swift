@@ -8,252 +8,191 @@
 
 import Foundation
 
+// Prey Request Tpype
+enum RequestType {
+    case GetToken, LogIn, SignUp, AddDevice
+}
+
+
 class PreyHTTPResponse {
 
     // MARK: Functions
 
-    // Check Get Token response
-    class func checkToken(onCompletion:(isSuccess: Bool) -> Void) -> (NSData?, NSURLResponse?, NSError?) -> Void {
-        
-        let tokenResponse: (NSData?, NSURLResponse?, NSError?) -> Void = ({(data, response, error) in
-            
+    // Check Response from Server
+    class func checkResponse(requestType:RequestType, onCompletion:(isSuccess: Bool) -> Void) -> (NSData?, NSURLResponse?, NSError?) -> Void {
+    
+
+        let completionResponse: (NSData?, NSURLResponse?, NSError?) -> Void = ({(data, response, error) in
+
             // Check error with NSURLSession request
             guard error == nil else {
-                
-                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
-                displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't check your password".localized)
-                onCompletion(isSuccess:false)
-                
+                callResponseWith(requestType, isResponseSuccess:false, withData:data, withError:error, statusCode:nil, onCompletion:onCompletion)
                 return
             }
-            
-            print("PreyUser: data:\(data) \nresponse:\(response) \nerror:\(error)")
+
+            print("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! NSHTTPURLResponse
-            
-            switch httpURLResponse.statusCode {
-                
-            // === Success
-            case 200...299:
-                let jsonObject: NSDictionary
-                
-                do {
-                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                    
-                    let tokenPanelStr   = jsonObject.objectForKey("token") as! String
-                    
-                    PreyConfig.sharedInstance.tokenPanel    = tokenPanelStr
-                    PreyConfig.sharedInstance.saveValues()
-                    
-                    onCompletion(isSuccess:true)
-                    
-                } catch let error as NSError{
-                    print("json error: \(error.localizedDescription)")
-                }
-                
-            // === Client Error
-            case 401:
-                let alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
-                displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
-                onCompletion(isSuccess:false)
-                
-            // === Error
-            default:
-                let alertMessage = "Error";
-                displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
-                onCompletion(isSuccess:false)
-            }
+            let code            = httpURLResponse.statusCode
+            let success         = (200...299 ~= code) ? true : false
+
+            callResponseWith(requestType, isResponseSuccess:success, withData:data, withError:error, statusCode:code, onCompletion:onCompletion)
         })
         
-        return tokenResponse
+        return completionResponse
     }
     
-    // Check logIn response
-    class func checkLogIn(onCompletion:(isSuccess: Bool) -> Void) -> (NSData?, NSURLResponse?, NSError?) -> Void {
+    // Check Request Type
+    class func callResponseWith(requestType:RequestType, isResponseSuccess:Bool, withData data:NSData?, withError error:NSError?, statusCode code:Int?, onCompletion:(isSuccess:Bool) -> Void) {
         
-        let logInResponse: (NSData?, NSURLResponse?, NSError?) -> Void = ({(data, response, error) in
+        switch requestType {
             
-            // Check error with NSURLSession request
-            guard error == nil else {
+        case .GetToken:
+            checkToken(isResponseSuccess, withData:data, withError:error, statusCode:code)
+            
+        case .LogIn:
+            checkLogIn(isResponseSuccess, withData:data, withError:error, statusCode:code)
+            
+        case .SignUp:
+            checkSignUp(isResponseSuccess, withData:data, withError:error, statusCode:code)
+            
+        case .AddDevice:
+            checkAddDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
+        }
+
+        onCompletion(isSuccess:isResponseSuccess)
+    }
+    
+    // Check Get Token response
+    class func checkToken(isSuccess:Bool, withData data:NSData?, withError error:NSError?, statusCode:Int?) {
+        
+        if isSuccess {
+            let jsonObject: NSDictionary
+            
+            do {
+                jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
                 
-                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
-                displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't check your password".localized)
-                onCompletion(isSuccess:false)
+                let tokenPanelStr   = jsonObject.objectForKey("token") as! String
                 
-                return
+                PreyConfig.sharedInstance.tokenPanel    = tokenPanelStr
+                PreyConfig.sharedInstance.saveValues()
+                
+            } catch let error as NSError{
+                print("json error: \(error.localizedDescription)")
             }
             
-            print("PreyUser: data:\(data) \nresponse:\(response) \nerror:\(error)")
-            
-            let httpURLResponse = response as! NSHTTPURLResponse
-            
-            switch httpURLResponse.statusCode {
-                
-            // === Success
-            case 200...299:
-                let jsonObject: NSDictionary
-                
-                do {
-                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                    
-                    let userApiKeyStr   = jsonObject.objectForKey("key") as! String
-                    let userIsPro       = jsonObject.objectForKey("pro_account")!.boolValue as Bool
-                    
-                    PreyConfig.sharedInstance.userApiKey    = userApiKeyStr
-                    PreyConfig.sharedInstance.isPro         = userIsPro
-                    PreyConfig.sharedInstance.saveValues()
-                    
-                    onCompletion(isSuccess:true)
-                    
-                } catch let error as NSError{
-                    print("json error: \(error.localizedDescription)")
-                }
-                
-            // === Client Error
-            case 401:
-                let alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
-                displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
-                onCompletion(isSuccess:false)
-                
-            // === Error
-            default:
-                let alertMessage = "Error";
-                displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
-                onCompletion(isSuccess:false)
-            }
-        })
+        } else {
+            showErrorLogIn(error, statusCode:statusCode)
+        }
+    }
+    
+    // Check LogIn response
+    class func checkLogIn(isSuccess:Bool, withData data:NSData?, withError error:NSError?, statusCode:Int?) {
         
-        return logInResponse
+        if isSuccess {
+            let jsonObject: NSDictionary
+            
+            do {
+                jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                
+                let userApiKeyStr   = jsonObject.objectForKey("key") as! String
+                let userIsPro       = jsonObject.objectForKey("pro_account")!.boolValue as Bool
+                
+                PreyConfig.sharedInstance.userApiKey    = userApiKeyStr
+                PreyConfig.sharedInstance.isPro         = userIsPro
+                PreyConfig.sharedInstance.saveValues()
+                
+            } catch let error as NSError{
+                print("json error: \(error.localizedDescription)")
+            }
+        } else {
+            showErrorLogIn(error, statusCode:statusCode)
+        }
+    }
+    
+    class func showErrorLogIn(error:NSError?, statusCode:Int?) {
+        // Check error with NSURLSession request
+        guard error == nil else {
+            let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
+            displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't check your password".localized)
+            return
+        }
+        
+        let alertMessage: String
+        
+        if statusCode == 401 {
+            alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
+        } else {
+            alertMessage = "Error"
+        }
+        
+        displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
     }
     
     // Check signUp response
-    class func checkSignUp(onCompletion:(isSuccess: Bool) -> Void) -> (NSData?, NSURLResponse?, NSError?) -> Void {
+    class func checkSignUp(isSuccess:Bool, withData data:NSData?, withError error:NSError?, statusCode:Int?) {
         
-        let signUpResponse: (NSData?, NSURLResponse?, NSError?) -> Void = ({(data, response, error) in
-
+        if isSuccess {
+            let jsonObject: NSDictionary
+            
+            do {
+                jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                
+                let userApiKeyStr = jsonObject.objectForKey("key") as! String
+                PreyConfig.sharedInstance.userApiKey = userApiKeyStr
+                PreyConfig.sharedInstance.saveValues()
+                
+            } catch let error as NSError{
+                print("json error: \(error.localizedDescription)")
+            }
+        } else {
             // Check error with NSURLSession request
             guard error == nil else {
-                
                 let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
                 displayErrorAlert(alertMessage!.localized, titleMessage:"User couldn't be created".localized)
-                onCompletion(isSuccess:false)
-                
                 return
             }
-            
-            print("PreyUser: data:\(data) \nresponse:\(response) \nerror:\(error)")
-            
-            let httpURLResponse = response as! NSHTTPURLResponse
-            
-            switch httpURLResponse.statusCode {
-                
-            // === Success
-            case 200...299:
-                let jsonObject: NSDictionary
-                
-                do {
-                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                    
-                    let userApiKeyStr = jsonObject.objectForKey("key") as! String
-                    PreyConfig.sharedInstance.userApiKey = userApiKeyStr
-                    PreyConfig.sharedInstance.saveValues()
-                    
-                    onCompletion(isSuccess:true)
-                    
-                } catch let error as NSError{
-                    print("json error: \(error.localizedDescription)")
-                }
-                
-            // === Client Error
-            case 422:
-                let alertMessage = "Did you already register?".localized
-                displayErrorAlert(alertMessage, titleMessage:"Couldn't check your password".localized)
-                onCompletion(isSuccess:false)
-                
-                // === Server Error
-                /*case 503:
-                 if reload > 0 {
-                 // Retrying
-                 let timeValue = dispatch_time(DISPATCH_TIME_NOW, Int64(delayTime * Double(NSEC_PER_SEC)))
-                 //dispatch_after(timeValue, dispatch_get_main_queue(), { () -> Void in
-                 //    self.userLogInToPrey(reload - 1, preyUser:preyUser, onCompletion:onCompletion)  })
-                 } else {
-                 
-                 // Stop retrying
-                 let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion :
-                 error?.localizedDescription;
-                 dispatch_async(dispatch_get_main_queue()) {
-                 displayErrorAlert(alertMessage!.localized, titleMessage:"Server Error".localized)
-                 }
-                 }*/
-                
-            // === Error
-            default:
-                let alertMessage = "Error".localized;
-                displayErrorAlert(alertMessage, titleMessage:"User couldn't be created".localized)
-                onCompletion(isSuccess:false)
-            }
-        })
-        
-        return signUpResponse
+
+            let alertMessage = (statusCode == 422) ? "Did you already register?".localized : "Error".localized
+            displayErrorAlert(alertMessage.localized, titleMessage:"User couldn't be created".localized)
+        }
     }
     
     // Check add device response
-    class func checkAddDevice(onCompletion:(isSuccess: Bool) -> Void) -> (NSData?, NSURLResponse?, NSError?) -> Void {
-        
-        let addDeviceResponse: (NSData?, NSURLResponse?, NSError?) -> Void = ({(data, response, error) in
+    class func checkAddDevice(isSuccess:Bool, withData data:NSData?, withError error:NSError?, statusCode:Int?) {
+
+        if isSuccess {
+            let jsonObject: NSDictionary
             
+            do {
+                jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                
+                let deviceKeyStr = jsonObject.objectForKey("key") as! String
+                PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
+                PreyConfig.sharedInstance.isRegistered  = true
+                PreyConfig.sharedInstance.saveValues()
+                
+            } catch let error as NSError{
+                print("json error: \(error.localizedDescription)")
+            }
+        } else {
             // Check error with NSURLSession request
             guard error == nil else {
-                
                 let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
                 displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't add your device".localized)
-                onCompletion(isSuccess: false)
-                
                 return
             }
 
-            print("PreyDevice: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            let alertMessage: String
             
-            let httpURLResponse = response as! NSHTTPURLResponse
-            
-            switch httpURLResponse.statusCode {
-                
-            // === Success
-            case 200...299:
-                let jsonObject: NSDictionary
-                
-                do {
-                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
-                    
-                    let deviceKeyStr = jsonObject.objectForKey("key") as! String
-                    PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
-                    PreyConfig.sharedInstance.isRegistered  = true
-                    PreyConfig.sharedInstance.saveValues()
-                    
-                    onCompletion(isSuccess:true)
-                    
-                } catch let error as NSError{
-                    print("json error: \(error.localizedDescription)")
-                }
-                
-            // === Client Error
-            case 302, 403:
-                let titleMsg = "Couldn't add your device".localized
-                let alertMsg = "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.".localized
-                displayErrorAlert(alertMsg, titleMessage:titleMsg)
-                onCompletion(isSuccess:false)
-                
-            // === Error
-            default:
-                let titleMsg = "Couldn't add your device".localized
-                let alertMsg = "Error".localized
-                displayErrorAlert(alertMsg, titleMessage:titleMsg)
-                onCompletion(isSuccess:false)
+            if ( (statusCode == 302) || (statusCode == 403) ) {
+                alertMessage = "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.".localized
+            } else {
+                alertMessage = "Error".localized
             }
-        })
-        
-        return addDeviceResponse
+
+            displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't add your device".localized)
+        }
     }
 
     // Check action device response
