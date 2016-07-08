@@ -333,7 +333,9 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
     
     // DetachDeviceAction
     func showDetachDeviceAction() {
-        
+        FIXME()
+        let detachModule = Detach(withTarget:kAction.DETACH, withCommand:kCommand.START, withOptions:nil)
+        detachModule.showDetachDeviceAction(self.view)
     }
     
     // WebController

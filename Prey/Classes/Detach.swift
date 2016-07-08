@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Detach: PreyAction {
+class Detach: PreyAction, UIActionSheetDelegate {
     
     
     // MARK: Functions
@@ -23,31 +23,81 @@ class Detach: PreyAction {
             self.isActive = true
             
             FIXME()
-            // check when report active
-            PreyConfig.sharedInstance.resetValues()
             
-            guard UIApplication.sharedApplication().applicationState != .Background else {
-                print("App in background")
-                return
-            }
-            
-            // Get SharedApplication delegate
-            guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
-                print("error with sharedApplication")
-                return
-            }
-            
-            
-            let mainStoryboard: UIStoryboard = UIStoryboard(name: "PreyStoryBoard", bundle: nil)
-            if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier("welcomeStrbrd") as? WelcomeVC {
-                // Set controller to rootViewController
-                let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-                navigationController.setViewControllers([resultController], animated: false)
-            }
+            // Update ViewController and reset PreyConfig value
+            self.detachDevice()
             
             self.isActive = false
-            // Remove geofencing action
+            // Remove detach action
             PreyModule.sharedInstance.checkStatus(self)
+        }
+    }
+    
+    // Update ViewController and reset PreyConfig value
+    func detachDevice() {
+        
+        // check when report active
+        PreyConfig.sharedInstance.resetValues()
+
+        guard UIApplication.sharedApplication().applicationState != .Background else {
+            print("App in background")
+            return
+        }
+        
+        // Get SharedApplication delegate
+        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+            print("error with sharedApplication")
+            return
+        }
+        
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "PreyStoryBoard", bundle: nil)
+        if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier("welcomeStrbrd") as? WelcomeVC {
+            // Set controller to rootViewController
+            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+            navigationController.setViewControllers([resultController], animated: false)
+        }
+    }
+    
+    // Send detachDevice to Panel
+    func sendDetachDeviceToPanel() {
+        
+        /*
+        // Show ActivityIndicator
+        let actInd          = UIActivityIndicatorView(initInView:self.view, withText:"Detaching device ...".localized)
+        self.view.addSubview(actInd)
+        actInd.startAnimating()
+         */
+        
+        self.sendDeleteDevice({(isSuccess: Bool) in
+            guard isSuccess else {
+                // Hide ActivityIndicator
+                //actInd.stopAnimating()
+                return
+            }
+            
+            self.detachDevice()
+        })
+    }
+    
+    // MARK: AlerView Message
+    
+    func showDetachDeviceAction(view:UIView) {
+        let actionSheet = UIActionSheet(title:"You're about to delete this device from the Control Panel.\n Are you sure?".localized,
+                                        delegate:self,
+                                        cancelButtonTitle:"No, don't delete".localized,
+                                        destructiveButtonTitle:"Yes, remove from my account".localized)
+        
+        if IS_IPAD {
+            actionSheet.addButtonWithTitle("No, don't delete".localized)
+        }
+        
+        actionSheet.showInView(view)
+    }
+    
+    // ActionSheetDelegate
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == 0 {
+            sendDetachDeviceToPanel()
         }
     }
 }

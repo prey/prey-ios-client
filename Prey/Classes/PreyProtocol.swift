@@ -114,7 +114,8 @@ public let actionsDeviceEndpoint    : String = NSString(format:"/devices/%@.json
 
 // Http method definitions
 public enum Method: String {
-    case GET  = "GET"
-    case POST = "POST"
+    case GET    = "GET"
+    case POST   = "POST"
+    case DELETE = "DELETE"
 }
 

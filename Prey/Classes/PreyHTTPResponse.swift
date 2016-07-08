@@ -10,7 +10,7 @@ import Foundation
 
 // Prey Request Tpype
 enum RequestType {
-    case GetToken, LogIn, SignUp, AddDevice
+    case GetToken, LogIn, SignUp, AddDevice, DeleteDevice
 }
 
 
@@ -58,6 +58,9 @@ class PreyHTTPResponse {
             
         case .AddDevice:
             checkAddDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
+            
+        case .DeleteDevice:
+            checkDeleteDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
         }
 
         onCompletion(isSuccess:isResponseSuccess)
@@ -195,6 +198,23 @@ class PreyHTTPResponse {
         }
     }
 
+    // Check delete device response
+    class func checkDeleteDevice(isSuccess:Bool, withData data:NSData?, withError error:NSError?, statusCode:Int?) {
+        
+        if !isSuccess {
+            // Check error with NSURLSession request
+            guard error == nil else {
+                let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
+                displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't delete your device".localized)
+                return
+            }
+            
+            let titleMsg = "Couldn't delete your device".localized
+            let alertMsg = "Device not ready!".localized
+            displayErrorAlert(alertMsg, titleMessage:titleMsg)
+        }
+    }
+    
     // Check action device response
     class func checkActionDevice() -> (NSData?, NSURLResponse?, NSError?) -> Void {
         
