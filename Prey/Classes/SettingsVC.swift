@@ -42,6 +42,7 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
     let fontTitilliumRegular =  "TitilliumWeb-Regular"
     
     var actInd                      : UIActivityIndicatorView!
+    var detachModule                : Detach!
     
     @IBOutlet weak var tableView    : UITableView!
     
@@ -333,8 +334,7 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
     
     // DetachDeviceAction
     func showDetachDeviceAction() {
-        FIXME()
-        let detachModule = Detach(withTarget:kAction.DETACH, withCommand:kCommand.START, withOptions:nil)
+        detachModule = Detach(withTarget:kAction.DETACH, withCommand:kCommand.START, withOptions:nil)
         detachModule.showDetachDeviceAction(self.view)
     }
     

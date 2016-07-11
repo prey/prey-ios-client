@@ -61,21 +61,22 @@ class Detach: PreyAction, UIActionSheetDelegate {
     // Send detachDevice to Panel
     func sendDetachDeviceToPanel() {
         
-        /*
+        let appWindow                                   = UIApplication.sharedApplication().delegate?.window
+        let navigationController:UINavigationController = appWindow??.rootViewController as! UINavigationController
+        
         // Show ActivityIndicator
-        let actInd          = UIActivityIndicatorView(initInView:self.view, withText:"Detaching device ...".localized)
-        self.view.addSubview(actInd)
+        let actInd          = UIActivityIndicatorView(initInView:navigationController.view, withText:"Detaching device ...".localized)
+        navigationController.view.addSubview(actInd)
         actInd.startAnimating()
-         */
         
         self.sendDeleteDevice({(isSuccess: Bool) in
-            guard isSuccess else {
+            dispatch_async(dispatch_get_main_queue()) {
                 // Hide ActivityIndicator
-                //actInd.stopAnimating()
-                return
-            }
-            
-            self.detachDevice()
+                actInd.stopAnimating()
+                guard isSuccess else {
+                    return
+                }
+                self.detachDevice()}
         })
     }
     

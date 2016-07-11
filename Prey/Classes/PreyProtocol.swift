@@ -109,7 +109,7 @@ public let eventsDeviceEndpoint     : String = NSString(format:"/devices/%@/even
 public let geofencingEndpoint       : String = NSString(format:"/devices/%@/geofencing.json",(PreyConfig.sharedInstance.deviceKey!)) as String
 
 // Endpoint for Device Actions
-public let actionsDeviceEndpoint    : String = NSString(format:"/devices/%@.json",(PreyConfig.sharedInstance.deviceKey!)) as String
+public let actionsDeviceEndpoint    : String = NSString(format:"/devices/%@",(PreyConfig.sharedInstance.deviceKey!)) as String
 
 
 // Http method definitions
