@@ -319,7 +319,9 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
     
     // LocationMapVC
     func showLocationMapVC() {
-        
+        if let controller = self.storyboard!.instantiateViewControllerWithIdentifier("currentLocationStrbrd") as? CurrentLocationVC {
+            self.navigationController?.pushViewController(controller, animated:true)
+        }
     }
     
     // GeofenceMapVC
