@@ -14,6 +14,11 @@ func FIXME()
 {
 }
 
+// Storyboard controllerId
+enum StoryboardIdVC: String {
+    case PreyStoryBoard, alert, navigation, home, welcome, signUp, signIn, deviceSetUp, currentLocation, purchases, settings
+}
+
 // Def type device
 public let IS_IPAD: Bool = (UIDevice.currentDevice().userInterfaceIdiom != UIUserInterfaceIdiom.Phone)
 

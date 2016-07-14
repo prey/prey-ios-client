@@ -78,7 +78,7 @@ class DeviceSetUpVC: UIViewController {
             return
         }
         
-        if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("homeStrbrd") as? HomeVC {
+        if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.home.rawValue) as? HomeVC {
 
             resultController.hidePasswordInput = true
             

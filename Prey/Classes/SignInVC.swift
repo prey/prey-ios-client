@@ -47,7 +47,7 @@ class SignInVC: UserRegister {
         }
 
         // Get SignUpVC from Storyboard
-        if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("signUpVCStrbrd") {
+        if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.signUp.rawValue) {
             
             // Set controller to rootViewController
             let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
@@ -114,7 +114,7 @@ class SignInVC: UserRegister {
                     }
                     
                     // Add Device Success
-                    if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("deviceSetUpStrbrd") as? DeviceSetUpVC {
+                    if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.deviceSetUp.rawValue) as? DeviceSetUpVC {
 
                         resultController.messageTxt = "Congratulations! You have successfully associated this iOS device with your Prey account.".localized
                         self.navigationController?.pushViewController(resultController, animated: true)

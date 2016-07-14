@@ -10,10 +10,7 @@ import Foundation
 
 // Prey Instructions struct
 enum kInstruction: String {
-    case TARGET     = "target"
-    case COMMAND    = "command"
-    case OPTIONS    = "options"
-    case CMD        = "cmd"
+    case target, command, options, cmd
 }
 
 class PreyModule {
@@ -72,14 +69,14 @@ class PreyModule {
     func addAction(jsonDict:NSDictionary) {
         
         // Check cmd command
-        if let jsonCMD = jsonDict.objectForKey(kInstruction.CMD.rawValue) as? NSDictionary {
+        if let jsonCMD = jsonDict.objectForKey(kInstruction.cmd.rawValue) as? NSDictionary {
             // Recursive Function
             addAction(jsonCMD)
             return
         }
         
         // Action Name
-        guard let jsonName = jsonDict.objectForKey(kInstruction.TARGET.rawValue) as? String else {
+        guard let jsonName = jsonDict.objectForKey(kInstruction.target.rawValue) as? String else {
             print("Error with ActionName")
             return
         }
@@ -89,7 +86,7 @@ class PreyModule {
         }
         
         // Action Command
-        guard let jsonCmd = jsonDict.objectForKey(kInstruction.COMMAND.rawValue) as? String else {
+        guard let jsonCmd = jsonDict.objectForKey(kInstruction.command.rawValue) as? String else {
             print("Error with ActionCmd")
             return
         }
@@ -99,7 +96,7 @@ class PreyModule {
         }
         
         // Action Options
-        let actionOptions: NSDictionary? = jsonDict.objectForKey(kInstruction.OPTIONS.rawValue) as? NSDictionary
+        let actionOptions: NSDictionary? = jsonDict.objectForKey(kInstruction.options.rawValue) as? NSDictionary
         
         // Add new Prey Action
         if let action:PreyAction = PreyAction.newAction(withName: actionName, withCommand: actionCmd, withOptions: actionOptions) {

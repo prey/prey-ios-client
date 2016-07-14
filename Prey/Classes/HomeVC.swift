@@ -220,7 +220,7 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
     // Go to Settings
     @IBAction func goToSettings(sender: UIButton) {
         
-        if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("settingsStrbrd") as? SettingsVC {
+        if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.settings.rawValue) as? SettingsVC {
             self.navigationController?.pushViewController(resultController, animated: true)
         }
     }

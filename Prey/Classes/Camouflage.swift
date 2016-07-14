@@ -29,7 +29,7 @@ class Camouflage: PreyAction {
         }
         
         // Send start action
-        let params = getParamsTo(kAction.CAMOUFLAGE.rawValue, command: kCommand.START.rawValue, status: kStatus.STARTED.rawValue)
+        let params = getParamsTo(kAction.camouflage.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
         self.sendData(params, toEndpoint:responseDeviceEndpoint)
     }
     
@@ -47,7 +47,7 @@ class Camouflage: PreyAction {
         }
         
         // Send stop action
-        let params = getParamsTo(kAction.CAMOUFLAGE.rawValue, command: kCommand.STOP.rawValue, status: kStatus.STOPPED.rawValue)
+        let params = getParamsTo(kAction.camouflage.rawValue, command: kCommand.stop.rawValue, status: kStatus.stopped.rawValue)
         self.sendData(params, toEndpoint:responseDeviceEndpoint)
     }
     
@@ -60,9 +60,9 @@ class Camouflage: PreyAction {
             return
         }
         
-        let mainStoryboard: UIStoryboard    = UIStoryboard(name: "PreyStoryBoard", bundle: nil)
+        let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         
-        if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier("homeStrbrd") as? HomeVC {
+        if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.home.rawValue) as? HomeVC {
             
             // Set controller to rootViewController
             let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController

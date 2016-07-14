@@ -21,7 +21,7 @@ class Alert: PreyAction {
         // Check message
         guard let message = self.options?.objectForKey(kAlert.MESSAGE.rawValue) as? String else {
             print("Alert: error reading message")
-            let parameters = getParamsTo(kAction.ALERT.rawValue, command: kCommand.STOP.rawValue, status: kStatus.STOPPED.rawValue)
+            let parameters = getParamsTo(kAction.alert.rawValue, command: kCommand.stop.rawValue, status: kStatus.stopped.rawValue)
             self.sendData(parameters, toEndpoint: responseDeviceEndpoint)
             return
         }
@@ -41,7 +41,7 @@ class Alert: PreyAction {
         }
         
         // Send start action
-        let params  = getParamsTo(kAction.ALERT.rawValue, command: kCommand.START.rawValue, status: kStatus.STARTED.rawValue)
+        let params  = getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
         self.sendData(params, toEndpoint: responseDeviceEndpoint)
     }
     
@@ -54,9 +54,9 @@ class Alert: PreyAction {
             return
         }
         
-        let mainStoryboard: UIStoryboard    = UIStoryboard(name: "PreyStoryBoard", bundle: nil)
+        let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         
-        if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier("alertStrbrd") as? AlertVC {
+        if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.alert.rawValue) as? AlertVC {
             
             resultController.messageToShow  = msg
             

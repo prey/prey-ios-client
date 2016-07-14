@@ -50,7 +50,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
             
             // Send start action
             isActive = true
-            let params = getParamsTo(kAction.ALARM.rawValue, command: kCommand.START.rawValue, status: kStatus.STARTED.rawValue)
+            let params = getParamsTo(kAction.alarm.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
             self.sendData(params, toEndpoint: responseDeviceEndpoint)
             
         } catch let error as NSError {
@@ -71,7 +71,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
     func stopAction() {
         isActive = false
         checkVolumeTimer?.invalidate()
-        let params = getParamsTo(kAction.ALARM.rawValue, command: kCommand.STOP.rawValue, status: kStatus.STOPPED.rawValue)
+        let params = getParamsTo(kAction.alarm.rawValue, command: kCommand.stop.rawValue, status: kStatus.stopped.rawValue)
         self.sendData(params, toEndpoint: responseDeviceEndpoint)
     }
     

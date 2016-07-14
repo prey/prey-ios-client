@@ -10,26 +10,17 @@ import Foundation
 
 // Prey actions definitions
 enum kAction: String {
-    case LOCATION   = "location"
-    case REPORT     = "report"
-    case ALARM      = "alarm"
-    case ALERT      = "alert"
-    case GEOFENCING = "geofencing"
-    case DETACH     = "detach"
-    case CAMOUFLAGE = "camouflage"
+    case location, report, alarm, alert, geofencing, detach, camouflage
 }
 
 // Prey status definitions
 enum kStatus: String {
-    case STARTED    = "started"
-    case STOPPED    = "stopped"
+    case started, stopped
 }
 
 // Prey command definitions
 enum kCommand: String {
-    case START      = "start"
-    case STOP       = "stop"
-    case GET        = "get"
+    case start, stop, get
 }
 
 // Prey alert params
@@ -40,11 +31,7 @@ enum kAlert: String {
 
 // Prey location params
 enum kLocation: String {
-    case LONGITURE  = "lng"
-    case LATITUDE   = "lat"
-    case ALTITUDE   = "alt"
-    case ACCURACY   = "accuracy"
-    case METHOD     = "method"
+    case lng, lat, alt, accuracy, method
 }
 
 // Prey location params
@@ -58,10 +45,7 @@ enum kReportLocation: String {
 
 // Prey /Data Endpoint struct
 enum kData: String {
-    case STATUS     = "status"
-    case TARGET     = "target"
-    case COMMAND    = "command"
-    case REASON     = "reason"
+    case status, target, command, reason
 }
 
 // Definition of URLs
@@ -114,8 +98,6 @@ public let actionsDeviceEndpoint    : String = NSString(format:"/devices/%@",(Pr
 
 // Http method definitions
 public enum Method: String {
-    case GET    = "GET"
-    case POST   = "POST"
-    case DELETE = "DELETE"
+    case GET, POST, DELETE
 }
 

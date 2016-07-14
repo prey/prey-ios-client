@@ -38,26 +38,26 @@ class PreyAction : NSOperation {
         
         switch target {
 
-        case kAction.LOCATION:
-            actionItem = Location(withTarget: kAction.LOCATION, withCommand: cmd, withOptions: opt)
+        case kAction.location:
+            actionItem = Location(withTarget: kAction.location, withCommand: cmd, withOptions: opt)
 
-        case kAction.ALARM:
-            actionItem = Alarm(withTarget: kAction.ALARM, withCommand: cmd, withOptions: opt)
+        case kAction.alarm:
+            actionItem = Alarm(withTarget: kAction.alarm, withCommand: cmd, withOptions: opt)
 
-        case kAction.ALERT:
-            actionItem = Alert(withTarget: kAction.ALERT, withCommand: cmd, withOptions: opt)
+        case kAction.alert:
+            actionItem = Alert(withTarget: kAction.alert, withCommand: cmd, withOptions: opt)
             
-        case kAction.REPORT:
-            actionItem = Report(withTarget: kAction.REPORT, withCommand: cmd, withOptions: opt)
+        case kAction.report:
+            actionItem = Report(withTarget: kAction.report, withCommand: cmd, withOptions: opt)
 
-        case kAction.GEOFENCING:
-            actionItem = Geofencing(withTarget: kAction.GEOFENCING, withCommand: cmd, withOptions: opt)
+        case kAction.geofencing:
+            actionItem = Geofencing(withTarget: kAction.geofencing, withCommand: cmd, withOptions: opt)
 
-        case kAction.DETACH:
-            actionItem = Detach(withTarget: kAction.DETACH, withCommand: cmd, withOptions: opt)
+        case kAction.detach:
+            actionItem = Detach(withTarget: kAction.detach, withCommand: cmd, withOptions: opt)
 
-        case kAction.CAMOUFLAGE:
-            actionItem = Camouflage(withTarget: kAction.CAMOUFLAGE, withCommand: cmd, withOptions: opt)
+        case kAction.camouflage:
+            actionItem = Camouflage(withTarget: kAction.camouflage, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem
@@ -68,9 +68,9 @@ class PreyAction : NSOperation {
         
         // Params struct
         let params:[String: AnyObject] = [
-            kData.STATUS.rawValue   : status,
-            kData.TARGET.rawValue   : target,
-            kData.COMMAND.rawValue  : command]
+            kData.status.rawValue   : status,
+            kData.target.rawValue   : target,
+            kData.command.rawValue  : command]
         
         return params
     }

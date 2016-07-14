@@ -52,6 +52,9 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set title
+        self.title = "Preferences".localized
+        
         tableView.backgroundColor = UIColor.whiteColor()
    }
 
@@ -269,7 +272,7 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
                 
                 // Current Location
             case SectionInformation.CurrentLocation.hashValue:
-                showLocationMapVC()
+                showViewControllerWithId(StoryboardIdVC.currentLocation.rawValue)
                 
                 // Geofence
             case SectionInformation.Geofence.hashValue:
@@ -277,7 +280,7 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
                 
                 // Upgrade to Pro
             case SectionInformation.UpgradeToPro.hashValue:
-                showUpgradeToProVC()
+                showViewControllerWithId(StoryboardIdVC.purchases.rawValue)
                 
             default : break
             }
@@ -317,9 +320,10 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
     
     // MARK: Methods
     
-    // LocationMapVC
-    func showLocationMapVC() {
-        if let controller = self.storyboard!.instantiateViewControllerWithIdentifier("currentLocationStrbrd") as? CurrentLocationVC {
+    
+    // Show ViewController
+    func showViewControllerWithId(controllerId:String) {
+        if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier(controllerId) {
             self.navigationController?.pushViewController(controller, animated:true)
         }
     }
@@ -329,14 +333,9 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
         
     }
     
-    // UpgradeToProVC
-    func showUpgradeToProVC() {
-        
-    }
-    
     // DetachDeviceAction
     func showDetachDeviceAction() {
-        detachModule = Detach(withTarget:kAction.DETACH, withCommand:kCommand.START, withOptions:nil)
+        detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
         detachModule.showDetachDeviceAction(self.view)
     }
     

@@ -47,8 +47,8 @@ class SignUpVC: UserRegister {
             return
         }
         
-        // Get SignUpVC from Storyboard
-        if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("signInVCStrbrd") {
+        // Get SignInVC from Storyboard
+        if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.signIn.rawValue) {
             
             // Set controller to rootViewController
             let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
@@ -123,7 +123,7 @@ class SignUpVC: UserRegister {
                         return
                     }
                     
-                    if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier("deviceSetUpStrbrd") as? DeviceSetUpVC {
+                    if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.deviceSetUp.rawValue) as? DeviceSetUpVC {
                         
                         resultController.messageTxt = "Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.".localized
                         self.navigationController?.pushViewController(resultController, animated: true)

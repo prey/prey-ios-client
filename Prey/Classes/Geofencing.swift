@@ -37,12 +37,12 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         
         // Added zones events
         if let addedZones = getAddedZones(response, withLocalZones: localZonesArray) {
-            sendEventToPanel(addedZones, withCommand:kCommand.START , withStatus:kStatus.STARTED)
+            sendEventToPanel(addedZones, withCommand:kCommand.start , withStatus:kStatus.started)
         }
         
         // Deleted zones events
         if let deletedZones = getDeletedZones(response, withLocalZones: localZonesArray) {
-            sendEventToPanel(deletedZones, withCommand:kCommand.STOP , withStatus:kStatus.STOPPED)
+            sendEventToPanel(deletedZones, withCommand:kCommand.stop , withStatus:kStatus.stopped)
         }
         
         // Delete all regions on Device
@@ -75,10 +75,10 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         
         // Params struct
         let params:[String: AnyObject] = [
-            kData.STATUS.rawValue   : status.rawValue,
-            kData.TARGET.rawValue   : kAction.GEOFENCING.rawValue,
-            kData.COMMAND.rawValue  : cmd.rawValue,
-            kData.REASON.rawValue   : zonesId.description]
+            kData.status.rawValue   : status.rawValue,
+            kData.target.rawValue   : kAction.geofencing.rawValue,
+            kData.command.rawValue  : cmd.rawValue,
+            kData.reason.rawValue   : zonesId.description]
         
         // Send info to panel
         if let username = PreyConfig.sharedInstance.userApiKey {
