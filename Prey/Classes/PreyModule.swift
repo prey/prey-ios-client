@@ -8,11 +8,6 @@
 
 import Foundation
 
-// Prey Instructions struct
-enum kInstruction: String {
-    case target, command, options, cmd
-}
-
 class PreyModule {
     
     // MARK: Properties

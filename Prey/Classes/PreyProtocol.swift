@@ -8,6 +8,11 @@
 
 import Foundation
 
+// Prey Instructions struct
+enum kInstruction: String {
+    case target, command, options, cmd
+}
+
 // Prey actions definitions
 enum kAction: String {
     case location, report, alarm, alert, geofencing, detach, camouflage
