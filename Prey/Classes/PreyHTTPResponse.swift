@@ -30,7 +30,7 @@ class PreyHTTPResponse {
                 return
             }
 
-            print("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            //print("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! NSHTTPURLResponse
             let code            = httpURLResponse.statusCode

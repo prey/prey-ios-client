@@ -55,6 +55,11 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
         // Set title
         self.title = "Preferences".localized
         
+        // Init PreyStoreManager
+        if !PreyConfig.sharedInstance.isPro {
+            PreyStoreManager.sharedInstance.requestProductData()
+        }
+        
         tableView.backgroundColor = UIColor.whiteColor()
    }
 

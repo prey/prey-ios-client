@@ -27,6 +27,7 @@
 		3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4F679E1CEA061E00F58FAD /* Alarm.swift */; };
 		3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A11CEA085200F58FAD /* shutter.aiff */; };
 		3B4F67A41CEA085200F58FAD /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A21CEA085200F58FAD /* siren.mp3 */; };
+		3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67A01B1D381A890028255E /* PreyStoreManager.swift */; };
 		3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D709F1CD7D62A00DEB461 /* UIDeviceExt.swift */; };
 		3B6D70A31CD7E3D400DEB461 /* SwiftExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D70A21CD7E3D400DEB461 /* SwiftExt.swift */; };
 		3B71E9DD1D09BF1D00D5F6D5 /* GeofencingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B71E9DC1D09BF1D00D5F6D5 /* GeofencingManager.swift */; };
@@ -106,6 +107,7 @@
 		3B4F679E1CEA061E00F58FAD /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alarm.swift; path = Classes/Alarm.swift; sourceTree = "<group>"; };
 		3B4F67A11CEA085200F58FAD /* shutter.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = shutter.aiff; sourceTree = "<group>"; };
 		3B4F67A21CEA085200F58FAD /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siren.mp3; sourceTree = "<group>"; };
+		3B67A01B1D381A890028255E /* PreyStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyStoreManager.swift; path = Classes/PreyStoreManager.swift; sourceTree = "<group>"; };
 		3B6D709F1CD7D62A00DEB461 /* UIDeviceExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIDeviceExt.swift; path = Classes/UIDeviceExt.swift; sourceTree = "<group>"; };
 		3B6D70A21CD7E3D400DEB461 /* SwiftExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftExt.swift; path = Classes/SwiftExt.swift; sourceTree = "<group>"; };
 		3B71E9DC1D09BF1D00D5F6D5 /* GeofencingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeofencingManager.swift; path = Classes/GeofencingManager.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				3B8E57D21A2E7B530027179E /* AppDelegate.swift */,
 				3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */,
 				3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */,
+				3B67A01B1D381A890028255E /* PreyStoreManager.swift */,
 				3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */,
 				3BC3C0971C9733BA00D08D62 /* Constants.swift */,
 				3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */,
@@ -451,6 +454,7 @@
 				3B6D70A31CD7E3D400DEB461 /* SwiftExt.swift in Sources */,
 				3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */,
 				3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */,
+				3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
 				3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */,
 				3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */,

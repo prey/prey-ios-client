@@ -34,6 +34,9 @@ public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]
 // App Version
 public let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
 
+// InAppPurchases
+public let subscription1Year = "1year_personal_plan_non_renewing_full"
+
 // Validate email expression
 public func isInvalidEmail(userEmail: String, withPattern: String) -> Bool {
 
