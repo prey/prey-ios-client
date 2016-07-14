@@ -23,7 +23,15 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     let purchasableObjects      = NSMutableArray()
 
     var productsRequest         :SKProductsRequest!
-     
+    
+    var onTransactionCancelled  : [() -> Void] = []
+    
+    var onTransactionCompleted  : [(productId:String, receiptData:NSData, downloads:NSArray) -> Void] = []
+    
+    var onRestoreFailed         : [(error:NSError) -> Void] = []
+    
+    var onRestoreCompleted      : [() -> Void] = []
+    
     
     // MARK: Methods
     
@@ -42,6 +50,31 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
         SKPaymentQueue.defaultQueue().addTransactionObserver(self)
     }
     
+    // BuyFeature
+    func buyFeature(featureId:String, onComplete:(productId:String, receiptData:NSData, downloads:NSArray) -> Void, onCancelled:() -> Void) {
+        
+        guard SKPaymentQueue.canMakePayments() else {
+            displayErrorAlert("Check your parental control settings and try again later".localized,
+                              titleMessage:"In-App Purchasing disabled".localized)
+            return
+        }
+
+        onTransactionCompleted.append(onComplete)
+        onTransactionCancelled.append(onCancelled)
+        
+        let allIds = purchasableObjects.valueForKey("productIdentifier")
+        
+        guard let index = allIds[featureId].index else {
+            return
+        }
+        
+        let thisProduct = purchasableObjects.objectAtIndex(index)
+        let payment     = SKPayment(product:thisProduct)
+        
+        SKPaymentQueue.defaultQueue().addPayment(payment)
+        FIXME() // complete implementation
+    }
+    
     
     // MARK: Transaction Methods
     
@@ -56,8 +89,8 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
         print("Failed transaction: \(transaction.description)")
         
         SKPaymentQueue.defaultQueue().finishTransaction(transaction)
-        
-        FIXME() // Add cancelled nil
+
+        onTransactionCancelled.first!()
     }
     
     // RestoreTransaction
@@ -100,13 +133,17 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     // restoreCompletedTransactionsFailedWithError
     func paymentQueue(queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: NSError) {
         print("restoreCompletedTransactionsFailedWithError SKPaymentQueue")
-        FIXME() // Add restoreFail nil
+        
+        onRestoreFailed.first?(error:error)
+        onRestoreFailed.removeAll()
     }
     
     // restoreCompletedTransactions
     func paymentQueueRestoreCompletedTransactionsFinished(queue: SKPaymentQueue) {
         print("paymentQueueRestoreCompletedTransactionsFinished SKPaymentQueue")
-        FIXME() // Add restoreCompleted nil
+        
+        onRestoreCompleted.first?()
+        onRestoreCompleted.removeAll()
     }
     
     // removedTransactions
