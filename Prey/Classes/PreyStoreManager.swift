@@ -20,13 +20,13 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
 
     // MARK: Properties
     
-    let purchasableObjects      = NSMutableArray()
+    var purchasableObjects      = [SKProduct]()
 
     var productsRequest         :SKProductsRequest!
     
     var onTransactionCancelled  : [() -> Void] = []
     
-    var onTransactionCompleted  : [(productId:String, receiptData:NSData, downloads:NSArray) -> Void] = []
+    var onTransactionCompleted  : [(productId:String, receiptData:NSData) -> Void] = []
     
     var onRestoreFailed         : [(error:NSError) -> Void] = []
     
@@ -51,7 +51,7 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     }
     
     // BuyFeature
-    func buyFeature(featureId:String, onComplete:(productId:String, receiptData:NSData, downloads:NSArray) -> Void, onCancelled:() -> Void) {
+    func buyFeature(featureId:String, onComplete:(productId:String, receiptData:NSData) -> Void, onCancelled:() -> Void) {
         
         guard SKPaymentQueue.canMakePayments() else {
             displayErrorAlert("Check your parental control settings and try again later".localized,
@@ -62,17 +62,13 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
         onTransactionCompleted.append(onComplete)
         onTransactionCancelled.append(onCancelled)
         
-        let allIds = purchasableObjects.valueForKey("productIdentifier")
-        
-        guard let index = allIds[featureId].index else {
-            return
+
+        for product in purchasableObjects {
+            if product.productIdentifier == featureId {
+                let payment     = SKPayment(product:product)
+                SKPaymentQueue.defaultQueue().addPayment(payment)
+            }
         }
-        
-        let thisProduct = purchasableObjects.objectAtIndex(index)
-        let payment     = SKPayment(product:thisProduct)
-        
-        SKPaymentQueue.defaultQueue().addPayment(payment)
-        FIXME() // complete implementation
     }
     
     
@@ -80,6 +76,8 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     
     // CompleteTransaction
     func completeTransaction(transaction:SKPaymentTransaction) {
+
+        provideContent(transaction.payment.productIdentifier, forReceipt:NSData(contentsOfURL:NSBundle.mainBundle().appStoreReceiptURL!)!)
 
         SKPaymentQueue.defaultQueue().finishTransaction(transaction)
     }
@@ -96,7 +94,33 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     // RestoreTransaction
     func restoreTransaction(transaction:SKPaymentTransaction) {
         
+        provideContent(transaction.originalTransaction!.payment.productIdentifier,
+                       forReceipt:NSData(contentsOfURL:NSBundle.mainBundle().appStoreReceiptURL!)!)
+
         SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+    }
+    
+    // ProvideContent
+    func provideContent(productIdentifier:String, forReceipt data:NSData) {
+
+        let product = PreyStoreProduct(initWithProductId:productIdentifier, receiptData:data)
+
+        // Verify receipt
+        product.verifyReceiptOnComplete({() in
+            // Success
+            self.savePurchaseOfProduct(productIdentifier, withReceipt:data)
+            self.onTransactionCompleted.first?(productId:productIdentifier, receiptData:data)
+            }, onError:{() in
+            // Error
+            self.onTransactionCancelled.first?()
+        })
+    }
+    
+    // Save purchase
+    func savePurchaseOfProduct(productIdentifier:String, withReceipt data:NSData) {
+     
+        FIXME()
+        // WIP  save purchase
     }
     
     
@@ -158,7 +182,7 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
         print("DidReceiveResponse SKProductsRequest")
         
         // Add object to purchableObjects from response
-        purchasableObjects.addObjectsFromArray(response.products)
+        purchasableObjects = response.products
         
         #if DEBUG
             for product in purchasableObjects {
