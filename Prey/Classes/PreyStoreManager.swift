@@ -118,9 +118,12 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     
     // Save purchase
     func savePurchaseOfProduct(productIdentifier:String, withReceipt data:NSData) {
-     
-        FIXME()
-        // WIP  save purchase
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey:productIdentifier)
+    }
+    
+    // Check is feature purchased
+    class func isFeaturePurchased(productIdentifier:String) -> Bool {
+        return NSUserDefaults.standardUserDefaults().boolForKey(productIdentifier)
     }
     
     

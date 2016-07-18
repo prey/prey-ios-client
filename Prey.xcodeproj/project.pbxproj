@@ -25,6 +25,7 @@
 		3B42A2671D2581EF002848C0 /* large9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B42A2661D2581EF002848C0 /* large9.ttf */; };
 		3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */; };
 		3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42B3FC1CECC38B009D07B2 /* Report.swift */; };
+		3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4E40611D3D3E2D00A45FBD /* GrettingsProVC.swift */; };
 		3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4F679E1CEA061E00F58FAD /* Alarm.swift */; };
 		3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A11CEA085200F58FAD /* shutter.aiff */; };
 		3B4F67A41CEA085200F58FAD /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A21CEA085200F58FAD /* siren.mp3 */; };
@@ -106,6 +107,7 @@
 		3B42A2661D2581EF002848C0 /* large9.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = large9.ttf; sourceTree = "<group>"; };
 		3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyProtocol.swift; path = Classes/PreyProtocol.swift; sourceTree = "<group>"; };
 		3B42B3FC1CECC38B009D07B2 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Report.swift; path = Classes/Report.swift; sourceTree = "<group>"; };
+		3B4E40611D3D3E2D00A45FBD /* GrettingsProVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrettingsProVC.swift; path = Classes/GrettingsProVC.swift; sourceTree = "<group>"; };
 		3B4F679E1CEA061E00F58FAD /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alarm.swift; path = Classes/Alarm.swift; sourceTree = "<group>"; };
 		3B4F67A11CEA085200F58FAD /* shutter.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = shutter.aiff; sourceTree = "<group>"; };
 		3B4F67A21CEA085200F58FAD /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siren.mp3; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				3B8E57D81A2E7B530027179E /* SettingsVC.swift */,
 				3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */,
 				3B8E57D71A2E7B530027179E /* PurchasesVC.swift */,
+				3B4E40611D3D3E2D00A45FBD /* GrettingsProVC.swift */,
 				3B2445FA1D24717B005DF09C /* AlertVC.swift */,
 			);
 			name = ViewController;
@@ -486,6 +489,7 @@
 				3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */,
 				3B41BDAE1D05FF9F003DF0CE /* GeofenceZones.swift in Sources */,
 				3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */,
+				3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */,
 				3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */,
 				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,
 				3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */,

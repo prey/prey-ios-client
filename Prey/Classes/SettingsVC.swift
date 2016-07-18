@@ -61,6 +61,7 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
         }
         
         tableView.backgroundColor = UIColor.whiteColor()
+        tableView.separatorColor  = UIColor.whiteColor()
    }
 
     override func didReceiveMemoryWarning() {
@@ -221,7 +222,8 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
         
         cell.accessoryType          = UITableViewCellAccessoryType.DisclosureIndicator
         cell.selectionStyle         = UITableViewCellSelectionStyle.Blue
-
+        cell.detailTextLabel?.text  = ""
+        
         switch index {
             
         case SectionAbout.Version.hashValue :
