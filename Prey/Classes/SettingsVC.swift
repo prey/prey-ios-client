@@ -15,7 +15,7 @@ enum PreferencesViewSection {
 
 // SectionInformation Items
 enum SectionInformation {
-    case CurrentLocation, Geofence, UpgradeToPro, NumberSectionInformation
+    case CurrentLocation, UpgradeToPro, NumberSectionInformation
 }
 
 // SectionSettings Items
@@ -185,9 +185,6 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
         case SectionInformation.CurrentLocation.hashValue :
             cell.textLabel?.text    = "Current Location".localized
             
-        case SectionInformation.Geofence.hashValue :
-            cell.textLabel?.text    = "Your Geofences".localized
-            
         case SectionInformation.UpgradeToPro.hashValue :
             cell.textLabel?.text    = "Upgrade to Pro".localized
             
@@ -281,10 +278,6 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
             case SectionInformation.CurrentLocation.hashValue:
                 showViewControllerWithId(StoryboardIdVC.currentLocation.rawValue)
                 
-                // Geofence
-            case SectionInformation.Geofence.hashValue:
-                showGeofenceMapVC()
-                
                 // Upgrade to Pro
             case SectionInformation.UpgradeToPro.hashValue:
                 showViewControllerWithId(StoryboardIdVC.purchases.rawValue)
@@ -333,12 +326,7 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
         if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier(controllerId) {
             self.navigationController?.pushViewController(controller, animated:true)
         }
-    }
-    
-    // GeofenceMapVC
-    func showGeofenceMapVC() {
-        
-    }
+    }    
     
     // DetachDeviceAction
     func showDetachDeviceAction() {

@@ -2528,6 +2528,12 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="buyBtn" destination="8Vc-bv-sDk" id="BHZ-52-puA"/>
+                        <outlet property="messagetxtbl" destination="qyI-cc-YwT" id="mrG-kn-n9t"/>
+                        <outlet property="planTxtLbl" destination="TAa-Rs-6Fr" id="7vB-Sg-Cg5"/>
+                        <outlet property="titleTxtLbl" destination="R9l-W1-gkL" id="qh6-jE-M7q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4xB-dO-txA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
