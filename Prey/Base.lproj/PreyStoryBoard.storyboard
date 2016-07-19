@@ -2694,7 +2694,7 @@
                                     <constraint firstAttribute="height" constant="81" id="Zmc-32-wIX"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TQZ-vZ-WdL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="TQZ-vZ-WdL">
                                 <rect key="frame" x="160" y="238" width="280" height="125"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="280" id="Rqc-eS-t6z"/>
@@ -2717,7 +2717,7 @@
                                     <action selector="goToSettings:" destination="fel-pZ-kXp" eventType="touchUpInside" id="Roc-Pg-OPH"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnc-gR-H4V">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="bnc-gR-H4V">
                                 <rect key="frame" x="140" y="180" width="320" height="58"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="E2F-YF-nhF"/>

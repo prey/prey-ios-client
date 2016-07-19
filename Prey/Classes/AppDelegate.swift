@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Check notification_id with server
         if PreyConfig.sharedInstance.isRegistered {
             PreyNotification.sharedInstance.registerForRemoteNotifications()
+        } else {
+            PreyDeployment.sharedInstance.runPreyDeployment()
         }
         
         // Check CLRegion In/Out

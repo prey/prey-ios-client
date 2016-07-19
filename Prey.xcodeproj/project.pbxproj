@@ -62,6 +62,9 @@
 		3BE3DC521D0B044D00581327 /* magdacleanmono-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */; };
 		3BE3DC531D0B044D00581327 /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4F1D0B044D00581327 /* TitilliumWeb-Bold.ttf */; };
 		3BE3DC541D0B044D00581327 /* TitilliumWeb-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC501D0B044D00581327 /* TitilliumWeb-Regular.ttf */; };
+		3BFF00801D3E7EAC00BEF7E0 /* PreyDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF007F1D3E7EAC00BEF7E0 /* PreyDeployment.swift */; };
+		3BFF00841D3E8A2400BEF7E0 /* AppFeedback.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00811D3E8A2400BEF7E0 /* AppFeedback.plist */; };
+		3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,7 +120,6 @@
 		3B71E9DC1D09BF1D00D5F6D5 /* GeofencingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeofencingManager.swift; path = Classes/GeofencingManager.swift; sourceTree = "<group>"; };
 		3B77804D1A600CCE0050C747 /* PreyUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyUser.swift; path = Classes/PreyUser.swift; sourceTree = "<group>"; };
 		3B8283ED199198E6000E4545 /* Prey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prey.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B8283F1199198E6000E4545 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B8283F7199198E6000E4545 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/PreyStoryBoard.storyboard; sourceTree = "<group>"; };
 		3B8283F9199198E6000E4545 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3B8283FF199198E6000E4545 /* PreyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,6 +151,10 @@
 		3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "magdacleanmono-regular.otf"; sourceTree = "<group>"; };
 		3BE3DC4F1D0B044D00581327 /* TitilliumWeb-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Bold.ttf"; sourceTree = "<group>"; };
 		3BE3DC501D0B044D00581327 /* TitilliumWeb-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TitilliumWeb-Regular.ttf"; sourceTree = "<group>"; };
+		3BFF007F1D3E7EAC00BEF7E0 /* PreyDeployment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyDeployment.swift; path = Classes/PreyDeployment.swift; sourceTree = "<group>"; };
+		3BFF00811D3E8A2400BEF7E0 /* AppFeedback.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFeedback.plist; path = Plist/AppFeedback.plist; sourceTree = "<group>"; };
+		3BFF00821D3E8A2400BEF7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plist/Info.plist; sourceTree = "<group>"; };
+		3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ManagedAppConfig.plist; path = Plist/ManagedAppConfig.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +246,7 @@
 				3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */,
 				3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */,
 				3B67A01B1D381A890028255E /* PreyStoreManager.swift */,
+				3BFF007F1D3E7EAC00BEF7E0 /* PreyDeployment.swift */,
 				3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */,
 				3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */,
 				3BC3C0971C9733BA00D08D62 /* Constants.swift */,
@@ -256,7 +263,9 @@
 		3B8283F0199198E6000E4545 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3B8283F1199198E6000E4545 /* Info.plist */,
+				3BFF00811D3E8A2400BEF7E0 /* AppFeedback.plist */,
+				3BFF00821D3E8A2400BEF7E0 /* Info.plist */,
+				3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -430,9 +439,11 @@
 				3BE3DC531D0B044D00581327 /* TitilliumWeb-Bold.ttf in Resources */,
 				3B42A2671D2581EF002848C0 /* large9.ttf in Resources */,
 				3B8283FA199198E6000E4545 /* Images.xcassets in Resources */,
+				3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */,
 				3B38BA911D23059900B6799B /* PreyTourWeb in Resources */,
 				3BE3DC511D0B044D00581327 /* magdacleanmono-bold.ttf in Resources */,
 				3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */,
+				3BFF00841D3E8A2400BEF7E0 /* AppFeedback.plist in Resources */,
 				3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */,
 				3BE3DC521D0B044D00581327 /* magdacleanmono-regular.otf in Resources */,
 			);
@@ -488,6 +499,7 @@
 				3B8E57DD1A2E7B530027179E /* SignInVC.swift in Sources */,
 				3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */,
 				3B41BDAE1D05FF9F003DF0CE /* GeofenceZones.swift in Sources */,
+				3BFF00801D3E7EAC00BEF7E0 /* PreyDeployment.swift in Sources */,
 				3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */,
 				3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */,
 				3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */,
@@ -632,7 +644,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				INFOPLIST_FILE = Prey/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
@@ -646,7 +658,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				INFOPLIST_FILE = Prey/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";

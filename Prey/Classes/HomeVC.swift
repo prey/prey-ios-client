@@ -228,9 +228,15 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
     // Go to Control Panel
     @IBAction func goToControlPanel(sender: UIButton) {
 
-        let params      = String(format:"token=%@", PreyConfig.sharedInstance.tokenPanel!)
-        let controller  = WebVC(withURL:NSURL(string:URLSessionPanel)!, withParameters:params)
-        self.presentViewController(controller, animated:true, completion:nil)
+        if let token = PreyConfig.sharedInstance.tokenPanel {
+            let params      = String(format:"token=%@", token)
+            let controller  = WebVC(withURL:NSURL(string:URLSessionPanel)!, withParameters:params)
+            self.presentViewController(controller, animated:true, completion:nil)
+            
+        } else {
+            displayErrorAlert("Error, retry later.".localized,
+                              titleMessage:"We have a situation!".localized)
+        }
     }
     
     // Run web forgot
