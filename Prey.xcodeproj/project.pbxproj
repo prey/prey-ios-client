@@ -29,6 +29,7 @@
 		3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4F679E1CEA061E00F58FAD /* Alarm.swift */; };
 		3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A11CEA085200F58FAD /* shutter.aiff */; };
 		3B4F67A41CEA085200F58FAD /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A21CEA085200F58FAD /* siren.mp3 */; };
+		3B51FFB21D3EB77C00CFE4E8 /* QRCodeScannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B51FFB11D3EB77C00CFE4E8 /* QRCodeScannerVC.swift */; };
 		3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67A01B1D381A890028255E /* PreyStoreManager.swift */; };
 		3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D709F1CD7D62A00DEB461 /* UIDeviceExt.swift */; };
 		3B6D70A31CD7E3D400DEB461 /* SwiftExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D70A21CD7E3D400DEB461 /* SwiftExt.swift */; };
@@ -114,6 +115,7 @@
 		3B4F679E1CEA061E00F58FAD /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alarm.swift; path = Classes/Alarm.swift; sourceTree = "<group>"; };
 		3B4F67A11CEA085200F58FAD /* shutter.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = shutter.aiff; sourceTree = "<group>"; };
 		3B4F67A21CEA085200F58FAD /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siren.mp3; sourceTree = "<group>"; };
+		3B51FFB11D3EB77C00CFE4E8 /* QRCodeScannerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QRCodeScannerVC.swift; path = Classes/QRCodeScannerVC.swift; sourceTree = "<group>"; };
 		3B67A01B1D381A890028255E /* PreyStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyStoreManager.swift; path = Classes/PreyStoreManager.swift; sourceTree = "<group>"; };
 		3B6D709F1CD7D62A00DEB461 /* UIDeviceExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIDeviceExt.swift; path = Classes/UIDeviceExt.swift; sourceTree = "<group>"; };
 		3B6D70A21CD7E3D400DEB461 /* SwiftExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftExt.swift; path = Classes/SwiftExt.swift; sourceTree = "<group>"; };
@@ -195,6 +197,20 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		3B51FFB01D3EB66C00CFE4E8 /* Prey Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */,
+				3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */,
+				3BFF007F1D3E7EAC00BEF7E0 /* PreyDeployment.swift */,
+				3B67A01B1D381A890028255E /* PreyStoreManager.swift */,
+				3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */,
+				3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */,
+				3BC3C0971C9733BA00D08D62 /* Constants.swift */,
+			);
+			name = "Prey Utils";
+			sourceTree = "<group>";
+		};
 		3B6D70A11CD7E34800DEB461 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,17 +255,11 @@
 			children = (
 				3B6D70A11CD7E34800DEB461 /* Extension */,
 				3B8E57CD1A2E71B30027179E /* ViewController */,
-				3B9DDC9B1CDBD02D0052A21D /* PreyModules */,
+				3B9DDC9B1CDBD02D0052A21D /* Prey Modules */,
 				3B6D70A41CD7EDCE00DEB461 /* Prey Http */,
+				3B51FFB01D3EB66C00CFE4E8 /* Prey Utils */,
 				3B41BDAF1D05FFA7003DF0CE /* Core Data */,
 				3B8E57D21A2E7B530027179E /* AppDelegate.swift */,
-				3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */,
-				3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */,
-				3B67A01B1D381A890028255E /* PreyStoreManager.swift */,
-				3BFF007F1D3E7EAC00BEF7E0 /* PreyDeployment.swift */,
-				3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */,
-				3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */,
-				3BC3C0971C9733BA00D08D62 /* Constants.swift */,
 				3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */,
 				3B8283F9199198E6000E4545 /* Images.xcassets */,
 				3B38BA901D23059900B6799B /* PreyTourWeb */,
@@ -294,6 +304,7 @@
 				3BBD4E3D1D13106900314381 /* UserRegisterVC.swift */,
 				3B8E57D91A2E7B530027179E /* SignUpVC.swift */,
 				3B8E57D51A2E7B530027179E /* SignInVC.swift */,
+				3B51FFB11D3EB77C00CFE4E8 /* QRCodeScannerVC.swift */,
 				3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */,
 				3B38BA8E1D22C03D00B6799B /* WebVC.swift */,
 				3B8E57D41A2E7B530027179E /* HomeVC.swift */,
@@ -306,7 +317,7 @@
 			name = ViewController;
 			sourceTree = "<group>";
 		};
-		3B9DDC9B1CDBD02D0052A21D /* PreyModules */ = {
+		3B9DDC9B1CDBD02D0052A21D /* Prey Modules */ = {
 			isa = PBXGroup;
 			children = (
 				3B9DDC991CDBBF030052A21D /* PreyModule.swift */,
@@ -324,7 +335,7 @@
 				3B71E9DC1D09BF1D00D5F6D5 /* GeofencingManager.swift */,
 				3B38BA921D231B1C00B6799B /* Detach.swift */,
 			);
-			name = PreyModules;
+			name = "Prey Modules";
 			sourceTree = "<group>";
 		};
 		3BB7EABE1A1E78DB003FC312 /* Fonts */ = {
@@ -485,6 +496,7 @@
 				3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */,
 				3B41BDAD1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift in Sources */,
 				3B41BDB11D05FFF0003DF0CE /* PreyCoreData.swift in Sources */,
+				3B51FFB21D3EB77C00CFE4E8 /* QRCodeScannerVC.swift in Sources */,
 				3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */,
 				3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */,
 				3B2445F91D2466CD005DF09C /* Alert.swift in Sources */,

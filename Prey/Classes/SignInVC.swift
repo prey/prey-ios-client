@@ -60,6 +60,14 @@ class SignInVC: UserRegister {
         }
     }
 
+    // Add device with QRCode
+    @IBAction func addDeviceWithQRCode(sender: UIButton?) {
+
+        if let controller:QRCodeScannerVC = QRCodeScannerVC() {
+            self.navigationController?.presentViewController(controller, animated:true, completion:nil)
+        }
+    }
+    
     // Add device action    
     @IBAction override func addDeviceAction(sender: UIButton?) {
         

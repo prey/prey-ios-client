@@ -103,6 +103,8 @@ class PreyDeployment {
     // Add Device with apiKey
     func addDeviceWith(apiKey:String, fromQRCode:Bool) {
         
+        FIXME() // Add loading for QrCode
+        
         PreyConfig.sharedInstance.userApiKey = apiKey
         
         // Add Device to Panel Prey
