@@ -45,7 +45,7 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
     var detachModule                : Detach!
     
     @IBOutlet weak var tableView    : UITableView!
-    
+    @IBOutlet weak var iPadView     : UIView!
     
     // MARK: Init
 
@@ -54,6 +54,11 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
         
         // Set title
         self.title = "Preferences".localized
+        
+        // Set iPadView
+        if IS_IPAD {
+            showViewControllerWithId(StoryboardIdVC.currentLocation.rawValue)
+        }
         
         // Init PreyStoreManager
         if !PreyConfig.sharedInstance.isPro {
@@ -324,9 +329,38 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
     // Show ViewController
     func showViewControllerWithId(controllerId:String) {
         if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier(controllerId) {
-            self.navigationController?.pushViewController(controller, animated:true)
+            if IS_IPAD {
+                showViewControllerOniPad(controller)
+            } else {
+                self.navigationController?.pushViewController(controller, animated:true)
+            }
         }
     }    
+    
+    // Show ViewController for iPad
+    func showViewControllerOniPad(controller:UIViewController) {
+
+        // RemovePreviewViewController
+        removePreviewViewControler()
+        
+        // Config container viewController
+        let rect                = CGRectMake(0, 0, iPadView.frame.width, iPadView.frame.height)
+        controller.view.frame   = rect
+        
+        iPadView.addSubview(controller.view)
+        
+        self.addChildViewController(controller)
+        controller.didMoveToParentViewController(self)
+    }
+    
+    // Remove PreviewViewController
+    func removePreviewViewControler() {
+        if let lastVC = self.childViewControllers.last {
+            lastVC.willMoveToParentViewController(nil)
+            lastVC.view.removeFromSuperview()
+            lastVC.removeFromParentViewController()
+        }
+    }
     
     // DetachDeviceAction
     func showDetachDeviceAction() {
@@ -348,7 +382,11 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
         webView.delegate        = self
         webView.loadRequest(request)
         
-        self.navigationController?.pushViewController(controller, animated:true)        
+        if IS_IPAD {
+            showViewControllerOniPad(controller)
+        } else {
+            self.navigationController?.pushViewController(controller, animated:true)
+        }
     }
     
     // CamouflageMode State
@@ -364,7 +402,7 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
         
         // Show ActivityIndicator
         if actInd == nil {
-            actInd          = UIActivityIndicatorView(initInView: self.view, withText:"Please wait".localized)
+            actInd          = UIActivityIndicatorView(initInView: webView, withText:"Please wait".localized)
             webView.addSubview(actInd)
             actInd.startAnimating()
         }
