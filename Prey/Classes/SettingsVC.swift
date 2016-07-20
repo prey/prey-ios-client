@@ -36,11 +36,7 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
     // Color Text
     let colorTxtLbl          = UIColor(red: 72/255, green: 84/255, blue: 102/255, alpha: 1.0)
     let colorDetailLbl       = UIColor(red: 72/255, green: 84/255, blue: 102/255, alpha: 0.3)
-    
-    // Font 
-    let fontTitilliumBold    =  "TitilliumWeb-Bold"
-    let fontTitilliumRegular =  "TitilliumWeb-Regular"
-    
+        
     var actInd                      : UIActivityIndicatorView!
     var detachModule                : Detach!
     
@@ -53,7 +49,7 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
         super.viewDidLoad()
         
         // Set title
-        self.title = "Preferences".localized
+        self.title = UIDevice.currentDevice().name
         
         // Set iPadView
         if IS_IPAD {

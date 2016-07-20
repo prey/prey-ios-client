@@ -50,6 +50,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = rootVC
         self.window?.makeKeyAndVisible()
         
+        // Config UINavigationBar
+        PreyConfig.sharedInstance.configNavigationBar()
+        
         return true
     }    
     

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum PreyConfigDevice: String {
     case UserApiKey
@@ -82,5 +83,24 @@ class PreyConfig {
         isCamouflageMode = false
         
         saveValues()
+    }
+    
+    // Config UINavigationBar
+    func configNavigationBar() {
+        
+        let colorTitle              = UIColor(red:0.3019, green:0.3411, blue:0.4, alpha:1.0)
+        let colorItem               = UIColor(red:0, green:0.5058, blue:0.7607, alpha:1.0)
+        
+        let itemFontSize:CGFloat    = IS_IPAD ? 18 : 12
+        let titleFontSize:CGFloat   = IS_IPAD ? 20 : 13
+        
+        let fontItem                = UIFont(name:fontTitilliumBold, size:itemFontSize)
+        let fontTitle               = UIFont(name:fontTitilliumRegular, size:titleFontSize)
+        
+        UINavigationBar.appearance().titleTextAttributes    = [NSFontAttributeName:fontTitle!,NSForegroundColorAttributeName:colorTitle]
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName:fontItem!,NSForegroundColorAttributeName:colorItem],forState:.Normal)
+        
+        UINavigationBar.appearance().barTintColor           = UIColor.whiteColor()
+        UINavigationBar.appearance().tintColor              = colorItem
     }
 }

@@ -102,8 +102,17 @@ class PreyDeployment {
     
     // Add Device with apiKey
     func addDeviceWith(apiKey:String, fromQRCode:Bool) {
+
+        var actInd = UIActivityIndicatorView()
         
-        FIXME() // Add loading for QrCode
+        if fromQRCode {
+            let appWindow   = UIApplication.sharedApplication().delegate?.window
+            let navigationController:UINavigationController = appWindow!!.rootViewController as! UINavigationController
+            // Show ActivityIndicator
+            actInd          = UIActivityIndicatorView(initInView: navigationController.view, withText: "Attaching device...".localized)
+            navigationController.view.addSubview(actInd)
+            actInd.startAnimating()
+        }
         
         PreyConfig.sharedInstance.userApiKey = apiKey
         
@@ -111,13 +120,17 @@ class PreyDeployment {
         PreyDevice.addDeviceWith({(isSuccess: Bool) in
             
             dispatch_async(dispatch_get_main_queue()) {
-                // AddDevice isn't success
-                guard isSuccess else {
-                    // Hide ActivityIndicator
-                    //actInd.stopAnimating()
-                    return
+
+                // Hide ActivityIndicator
+                if fromQRCode {
+                    actInd.stopAnimating()
                 }
 
+                // AddDevice isn't success
+                guard isSuccess else {
+                    return
+                }
+                
                 PreyConfig.sharedInstance.isPro = fromQRCode ? false : true
                 PreyConfig.sharedInstance.saveValues()
                 

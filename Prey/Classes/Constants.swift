@@ -37,6 +37,11 @@ public let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVers
 // InAppPurchases
 public let subscription1Year = "1year_personal_plan_non_renewing_full"
 
+// Font
+public let fontTitilliumBold    =  "TitilliumWeb-Bold"
+public let fontTitilliumRegular =  "TitilliumWeb-Regular"
+
+
 // Validate email expression
 public func isInvalidEmail(userEmail: String, withPattern: String) -> Bool {
 

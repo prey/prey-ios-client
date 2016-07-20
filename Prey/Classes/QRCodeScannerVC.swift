@@ -89,7 +89,6 @@ class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate 
         self.view.layer.insertSublayer(preview, atIndex:0)
 
         // Config label
-        let fontTitilliumRegular    =  "TitilliumWeb-Regular"
         let screen                  = UIScreen.mainScreen().bounds.size
         let widthLbl                = screen.width
         let fontSize:CGFloat        = IS_IPAD ? 16.0 : 12.0
