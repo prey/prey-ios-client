@@ -332,6 +332,10 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="bgImage" destination="uBD-ki-3xg" id="CBz-ls-ZDc"/>
+                        <outlet property="pageControl" destination="i48-86-z4s" id="h0c-A5-Yu6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rne-4Y-4ZS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B047EB01D400F01008B2D58 /* PreyOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B047EAF1D400F01008B2D58 /* PreyOnboarding.swift */; };
+		3B047EB21D400F26008B2D58 /* PreyOnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B047EB11D400F26008B2D58 /* PreyOnboardingPage.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B2445F71D245478005DF09C /* Camouflage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F61D245478005DF09C /* Camouflage.swift */; };
 		3B2445F91D2466CD005DF09C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F81D2466CD005DF09C /* Alert.swift */; };
@@ -93,6 +95,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B047EAF1D400F01008B2D58 /* PreyOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyOnboarding.swift; path = Classes/PreyOnboarding.swift; sourceTree = "<group>"; };
+		3B047EB11D400F26008B2D58 /* PreyOnboardingPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyOnboardingPage.swift; path = Classes/PreyOnboardingPage.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B2445F61D245478005DF09C /* Camouflage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camouflage.swift; path = Classes/Camouflage.swift; sourceTree = "<group>"; };
 		3B2445F81D2466CD005DF09C /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alert.swift; path = Classes/Alert.swift; sourceTree = "<group>"; };
@@ -301,6 +305,8 @@
 			isa = PBXGroup;
 			children = (
 				3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */,
+				3B047EAF1D400F01008B2D58 /* PreyOnboarding.swift */,
+				3B047EB11D400F26008B2D58 /* PreyOnboardingPage.swift */,
 				3BBD4E3D1D13106900314381 /* UserRegisterVC.swift */,
 				3B8E57D91A2E7B530027179E /* SignUpVC.swift */,
 				3B8E57D51A2E7B530027179E /* SignInVC.swift */,
@@ -482,6 +488,7 @@
 				3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */,
 				3B6D70A31CD7E3D400DEB461 /* SwiftExt.swift in Sources */,
 				3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */,
+				3B047EB01D400F01008B2D58 /* PreyOnboarding.swift in Sources */,
 				3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */,
 				3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
@@ -517,6 +524,7 @@
 				3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */,
 				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,
 				3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */,
+				3B047EB21D400F26008B2D58 /* PreyOnboardingPage.swift in Sources */,
 				3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */,
 				3B2445F71D245478005DF09C /* Camouflage.swift in Sources */,
 			);

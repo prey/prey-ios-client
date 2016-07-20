@@ -8,15 +8,27 @@
 
 import UIKit
 
-class WelcomeVC: UIViewController{
+class WelcomeVC: UIViewController, PreyOnboardingDelegate {
 
+    
+    // MARK: Properties
+    
+    @IBOutlet weak var bgImage     : UIImageView!
+    @IBOutlet weak var pageControl : UIPageControl!
+    
+    let preyOnboarding = PreyOnboarding(frame:UIScreen.mainScreen().bounds)
+    
     
     // MARK: Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view, typically from a nib.
+        // Config PreyOnboarding
+        preyOnboarding.configScrollView()
+        preyOnboarding.delegate = self
+        
+        self.view.insertSubview(preyOnboarding, aboveSubview:bgImage)
     }
     
     override func didReceiveMemoryWarning() {
@@ -30,6 +42,17 @@ class WelcomeVC: UIViewController{
 
         super.viewWillAppear(animated)
     }
+    
+    // MARK: PreyOnboardingDelegate
+    
+    func scrollDid(scrollView:UIScrollView) {
+        
+        let frame               = UIScreen.mainScreen().applicationFrame
+        let roundedValue        = round(scrollView.contentOffset.x / frame.size.width)
+        
+        pageControl.currentPage = Int(roundedValue)
+    }
+    
     
     // MARK: Actions
     
