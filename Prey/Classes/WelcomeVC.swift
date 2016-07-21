@@ -15,6 +15,9 @@ class WelcomeVC: UIViewController, PreyOnboardingDelegate {
     
     @IBOutlet weak var bgImage     : UIImageView!
     @IBOutlet weak var pageControl : UIPageControl!
+
+    @IBOutlet weak var nextPageBtn : UIButton!
+    @IBOutlet weak var backPageBtn : UIButton!
     
     let preyOnboarding = PreyOnboarding(frame:UIScreen.mainScreen().bounds)
     
@@ -25,7 +28,7 @@ class WelcomeVC: UIViewController, PreyOnboardingDelegate {
         super.viewDidLoad()
         
         // Config PreyOnboarding
-        preyOnboarding.configScrollView()
+        preyOnboarding.configInit()
         preyOnboarding.delegate = self
         
         self.view.insertSubview(preyOnboarding, aboveSubview:bgImage)
@@ -46,15 +49,27 @@ class WelcomeVC: UIViewController, PreyOnboardingDelegate {
     // MARK: PreyOnboardingDelegate
     
     func scrollDid(scrollView:UIScrollView) {
-        
         let frame               = UIScreen.mainScreen().applicationFrame
         let roundedValue        = round(scrollView.contentOffset.x / frame.size.width)
-        
         pageControl.currentPage = Int(roundedValue)
     }
     
     
     // MARK: Actions
+    
+    // Show next page
+    @IBAction func showNextPage(sender: UIButton) {
+        var scrollViewFrame = preyOnboarding.scrollView.frame
+        scrollViewFrame.origin.x = scrollViewFrame.size.width * CGFloat(pageControl.currentPage + 1) // +1 page
+        preyOnboarding.scrollView.scrollRectToVisible(scrollViewFrame, animated:true)
+    }
+
+    // Show back page
+    @IBAction func showBackPage(sender: UIButton) {
+        var scrollViewFrame = preyOnboarding.scrollView.frame
+        scrollViewFrame.origin.x = scrollViewFrame.size.width * CGFloat(pageControl.currentPage - 1) // -1 page
+        preyOnboarding.scrollView.scrollRectToVisible(scrollViewFrame, animated:true)
+    }
     
     // Show SignUp view
     @IBAction func showSignUpVC(sender: UIButton) {
