@@ -68,15 +68,16 @@ class PreyOnboarding: UIView, UIScrollViewDelegate {
     // Add background images
     func addBackgroundImage(bgImg:UIImage, withTag:Int) {
         
-        let ratioBgImg      = CGFloat(167.0 / 320.0) // :: height / width from bgImages
-        let heightScreen    = UIScreen.mainScreen().bounds.size.height
-        let widthScreen     = UIScreen.mainScreen().bounds.size.width
-        let bgFrame         = CGRectMake(0,heightScreen*0.27, widthScreen, widthScreen*ratioBgImg)
+        let fxiPhone4S:CGFloat  = IS_IPHONE4S ? 0.215 : 0.27
+        let ratioBgImg          = CGFloat(167.0 / 320.0) // :: height / width from bgImages
+        let heightScreen        = UIScreen.mainScreen().bounds.size.height
+        let widthScreen         = UIScreen.mainScreen().bounds.size.width
+        let bgFrame             = CGRectMake(0,heightScreen*fxiPhone4S, widthScreen, widthScreen*ratioBgImg)
         
-        let bgImageView     = UIImageView(image:bgImg)
-        bgImageView.frame   = bgFrame
-        bgImageView.tag     = withTag
-        bgImageView.alpha   = (withTag == tagBgImage.restaurant.rawValue) ? 1.0 : 0.0
+        let bgImageView         = UIImageView(image:bgImg)
+        bgImageView.frame       = bgFrame
+        bgImageView.tag         = withTag
+        bgImageView.alpha       = (withTag == tagBgImage.restaurant.rawValue) ? 1.0 : 0.0
         
         insertSubview(bgImageView, belowSubview:scrollView)
     }
