@@ -31,6 +31,9 @@ class WelcomeVC: UIViewController, PreyOnboardingDelegate {
         preyOnboarding.configInit()
         preyOnboarding.delegate = self
         
+        // First load
+        backPageBtn.alpha = 0
+        
         self.view.insertSubview(preyOnboarding, aboveSubview:bgImage)
     }
     
@@ -52,6 +55,19 @@ class WelcomeVC: UIViewController, PreyOnboardingDelegate {
         let frame               = UIScreen.mainScreen().applicationFrame
         let roundedValue        = round(scrollView.contentOffset.x / frame.size.width)
         pageControl.currentPage = Int(roundedValue)
+
+        // Config PageBtn
+        switch pageControl.currentPage {
+        
+        case 0:     backPageBtn.alpha = 0
+        
+        case 1...5: backPageBtn.alpha = 1.0
+                    nextPageBtn.alpha = 1.0
+        
+        case 6:     backPageBtn.alpha = 0
+                    nextPageBtn.alpha = 0
+        default:    break
+        }
     }
     
     

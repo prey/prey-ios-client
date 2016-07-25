@@ -118,6 +118,11 @@ class PreyOnboarding: UIView, UIScrollViewDelegate {
             animateBackgroundImage(tagBgImage.girlRoom.rawValue, nextBg:tagBgImage.street.rawValue, indexRatio:5)
         }
         
+        if (scrollView.contentOffset.x == 3*frame.size.width) {
+            let pageView: PreyOnboardingPage = viewWithTag(303) as! PreyOnboardingPage
+            pageView.animateImageForPage3()
+        }
+        
         
         // send to delegate
         delegate?.scrollDid(scrollView)
