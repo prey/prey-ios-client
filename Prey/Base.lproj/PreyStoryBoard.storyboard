@@ -241,6 +241,9 @@
                             </button>
                             <pageControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="7" translatesAutoresizingMaskIntoConstraints="NO" id="i48-86-z4s">
                                 <rect key="frame" x="167" y="384" width="120" height="37"/>
+                                <connections>
+                                    <action selector="changePageSlide:" destination="wNb-UE-WhR" eventType="valueChanged" id="w0J-18-BUd"/>
+                                </connections>
                             </pageControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

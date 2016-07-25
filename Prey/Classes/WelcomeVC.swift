@@ -72,6 +72,13 @@ class WelcomeVC: UIViewController, PreyOnboardingDelegate {
     
     
     // MARK: Actions
+
+    // Change page slide
+    @IBAction func changePageSlide(sender: UIPageControl) {
+        var frameScroll         = preyOnboarding.scrollView.frame
+        frameScroll.origin.x    = frameScroll.size.width * CGFloat(pageControl.currentPage)
+        preyOnboarding.scrollView.scrollRectToVisible(frameScroll, animated:true)
+    }
     
     // Show next page
     @IBAction func showNextPage(sender: UIButton) {
