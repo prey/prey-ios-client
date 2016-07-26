@@ -20,7 +20,7 @@ class PreyCoreData {
     private init() {
         
         // This resource is the same name as your xcdatamodeld contained in your project.
-        guard let modelURL = NSBundle.mainBundle().URLForResource("PreyModelData", withExtension:"momd") else {
+        guard let modelURL = NSBundle.mainBundle().URLForResource("PreyData", withExtension:"momd") else {
             PreyLogger("Error loading model from bundle")
             return
         }
@@ -38,9 +38,9 @@ class PreyCoreData {
         let docURL = urls[urls.endIndex-1]
         
         // The directory the application uses to store the Core Data store file.
-        // This code uses a file named "PreyModelData.sqlite" in the application's documents directory.
+        // This code uses a file named "PreyData.sqlite" in the application's documents directory.
         
-        let storeURL = docURL.URLByAppendingPathComponent("PreyModelData.sqlite")
+        let storeURL = docURL.URLByAppendingPathComponent("PreyData.sqlite")
         do {
             try psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
         } catch {
