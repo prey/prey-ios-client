@@ -40,6 +40,14 @@ class SignUpVC: UserRegister {
         changeViewBtn.setTitle("already have an account?".localized, forState:.Normal)
     }
     
+    // Send GAnalytics event
+    func sendEventGAnalytics() {
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            let params = GAIDictionaryBuilder.createEventWithCategory("Acquisition", action:"Sign Up", label:"Sign Up", value:nil).build() as [NSObject:AnyObject]
+            tracker.send(params)
+        }
+    }
+    
     // MARK: Actions
     
     // Show SignIn view
@@ -128,7 +136,7 @@ class SignUpVC: UserRegister {
                     }
                     
                     if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.deviceSetUp.rawValue) as? DeviceSetUpVC {
-                        
+                        self.sendEventGAnalytics()
                         resultController.messageTxt = "Account created! Remember to verify your account by opening your inbox and clicking on the link we sent to your email address.".localized
                         self.navigationController?.pushViewController(resultController, animated: true)
                     }
