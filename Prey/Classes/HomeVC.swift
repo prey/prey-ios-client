@@ -52,11 +52,13 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         hidePasswordInputOption(hidePasswordInput)
         
         // Config Prey Tour
-        if PreyConfig.sharedInstance.hideTourWeb {
-            closePreyTour()
-        } else {
-            configPreyTour()
-        }
+        configPreyTour()
+        
+        // Config texts
+        configureTexts()
+        
+        // Check device auth
+        checkDeviceAuth()
         
         // Check for Rate us
         PreyRateUs.sharedInstance.askForReview()
@@ -68,6 +70,25 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         configCamouflageMode(PreyConfig.sharedInstance.isCamouflageMode)
     }
 
+    func configureTexts() {
+
+        loginBtn.setTitle("Log In".localized, forState:.Normal)
+        forgotBtn.setTitle("Forgot your password?".localized, forState:.Normal)
+        
+        passwordInput.placeholder   = "Type in your password".localized
+        subtitleLbl.text            = "current device status".localized
+        accountTlLbl.text           = "PREY ACCOUNT".localized
+        accountSbtLbl.text          = "REMOTE CONTROL FROM YOUR".localized
+        settingsTlLbl.text          = "PREY SETTINGS".localized
+        settingsSbtLbl.text         = "CONFIGURE".localized
+    }
+    
+    // Check device auth
+    func checkDeviceAuth() {
+        let isAllAuthAvailable  = DeviceAuth.sharedInstance.checkAllDeviceAuthorization(self)
+        titleLbl.text    = isAllAuthAvailable ? "PROTECTED".localized.uppercaseString : "NOT PROTECTED".localized.uppercaseString
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -130,6 +151,11 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     
     // Config Prey Tour
     func configPreyTour() {
+        
+        if PreyConfig.sharedInstance.hideTourWeb {
+            closePreyTour()
+            return
+        }
         
         // Add tap gesture to View
         let tap         = UITapGestureRecognizer(target:self, action:#selector(startPreyTour))
@@ -224,7 +250,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     }
     
     // MARK: Functions
-
+    
     // Send GAnalytics event
     func sendEventGAnalytics() {
         if let tracker = GAI.sharedInstance().defaultTracker {

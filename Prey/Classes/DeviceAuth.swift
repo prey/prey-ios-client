@@ -10,5 +10,18 @@ import Foundation
 
 
 class DeviceAuth {
+
+    // MARK: Singleton
     
+    static let sharedInstance = DeviceAuth()
+    private init() {
+    }
+
+    // MARK: Methods
+    
+    // Check all device auth
+    func checkAllDeviceAuthorization(viewController:UIViewController) -> Bool{
+     
+        return false
+    }
 }
