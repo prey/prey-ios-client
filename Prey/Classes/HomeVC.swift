@@ -58,6 +58,9 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
             configPreyTour()
         }
         
+        // Check for Rate us
+        PreyRateUs.sharedInstance.askForReview()
+        
         // Check new version on App Store
         PreyConfig.sharedInstance.checkLastVersionOnStore()
         

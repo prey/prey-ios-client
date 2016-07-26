@@ -21,10 +21,6 @@ enum PreyConfigDevice: String {
     case IsCamouflageMode
 }
 
-enum PreyMessageAsk: String {
-    case UpdateApp
-}
-
 class PreyConfig: NSObject, UIActionSheetDelegate {
     
     // MARK: Singleton
