@@ -28,7 +28,7 @@ enum SectionAbout {
     case Version, Help, TermService, PrivacyPolice, NumberSectionAbout
 }
 
-class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource {
+class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
     
     // MARK: Properties
@@ -47,6 +47,9 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // View title for GAnalytics
+        self.screenName = "Preferences"
         
         // Set title
         self.title = UIDevice.currentDevice().name

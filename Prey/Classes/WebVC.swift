@@ -18,13 +18,15 @@ enum BlockHost: String {
     case SRCGOOGLE  = "www.google.com"
 }
 
-class WebVC: UIViewController, UIWebViewDelegate {
+class WebVC: GAITrackedViewController, UIWebViewDelegate {
 
     // MARK: Properties
 
     var webView     : UIWebView!
 
     var actInd      : UIActivityIndicatorView!
+    
+    var titleView   : String!
     
     // MARK: Init
     
@@ -39,9 +41,11 @@ class WebVC: UIViewController, UIWebViewDelegate {
     }
     
     // Init customize
-    convenience init(withURL url: NSURL, withParameters:String?) {
+    convenience init(withURL url: NSURL, withParameters:String?, withTitle:String) {
         
         self.init()
+        
+        self.titleView                  = withTitle
         
         self.view.backgroundColor       = UIColor.blackColor()
         
@@ -87,6 +91,9 @@ class WebVC: UIViewController, UIWebViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // View title for GAnalytics
+        self.screenName = titleView
     }
     
     override func didReceiveMemoryWarning() {

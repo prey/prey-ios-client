@@ -11,7 +11,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class CurrentLocationVC: UIViewController, MKMapViewDelegate {
+class CurrentLocationVC: GAITrackedViewController, MKMapViewDelegate {
 
     
     // MARK: Properties
@@ -26,6 +26,9 @@ class CurrentLocationVC: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // View title for GAnalytics
+        self.screenName = "Device Map"
         
         // Set title
         self.title = "Current Location".localized

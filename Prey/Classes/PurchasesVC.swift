@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PurchasesVC: UIViewController {
+class PurchasesVC: GAITrackedViewController {
 
     
     // MARK: Properties
@@ -24,6 +24,9 @@ class PurchasesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // View title for GAnalytics
+        self.screenName = "Upgrade to Pro II"        
+        
         self.title = "Upgrade to Pro".localized
         
         // Set texts

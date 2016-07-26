@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 import UIKit
 
-class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+class QRCodeScannerVC: GAITrackedViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     // MARK: Properties
     
@@ -25,6 +25,9 @@ class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        // View title for GAnalytics
+        self.screenName = "QRCodeScanner"        
+        
         // Set background color
         self.view.backgroundColor   = UIColor.blackColor()
         

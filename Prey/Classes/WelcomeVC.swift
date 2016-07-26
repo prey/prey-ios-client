@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WelcomeVC: UIViewController, PreyOnboardingDelegate {
+class WelcomeVC: GAITrackedViewController, PreyOnboardingDelegate {
 
     
     // MARK: Properties
@@ -26,6 +26,9 @@ class WelcomeVC: UIViewController, PreyOnboardingDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // View title for GAnalytics
+        self.screenName = "Onboarding"
         
         // Config PreyOnboarding
         preyOnboarding.configInit()

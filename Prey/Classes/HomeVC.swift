@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
+class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
 
     
     // MARK: Properties
@@ -40,6 +40,9 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        // View title for GAnalytics
+        self.screenName = "Login"        
         
         // Dismiss Keyboard on tap outside
         let recognizer = UITapGestureRecognizer(target: self, action:#selector(self.dismissKeyboard(_:)))
@@ -152,8 +155,8 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
         let indexPage   = (language == "es") ? "index-es" : "index"
         let url         = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(indexPage, ofType:"html", inDirectory:"PreyTourWeb")!)
         
-        let controller = WebVC(withURL:url, withParameters:nil)
-        self.presentViewController(controller, animated:true, completion:nil)        
+        let controller  = WebVC(withURL:url, withParameters:nil, withTitle:"Prey Tour")
+        self.presentViewController(controller, animated:true, completion:nil)
     }
     
     // Close Prey Tour
@@ -229,8 +232,8 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
     @IBAction func goToControlPanel(sender: UIButton) {
 
         if let token = PreyConfig.sharedInstance.tokenPanel {
-            let params      = String(format:"token=%@", token)
-            let controller  = WebVC(withURL:NSURL(string:URLSessionPanel)!, withParameters:params)
+            let params           = String(format:"token=%@", token)
+            let controller       = WebVC(withURL:NSURL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
             self.presentViewController(controller, animated:true, completion:nil)
             
         } else {
@@ -242,7 +245,7 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
     // Run web forgot
     @IBAction func runWebForgot(sender: UIButton) {
      
-        let controller = WebVC(withURL:NSURL(string:URLForgotPanel)!, withParameters:nil)
+        let controller       = WebVC(withURL:NSURL(string:URLForgotPanel)!, withParameters:nil, withTitle:"Forgot Password Web")
         self.presentViewController(controller, animated:true, completion:nil)
     }
     

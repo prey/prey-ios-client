@@ -58,6 +58,8 @@
 		3BA7219C1D46B7040043C9B9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BA721991D46B7040043C9B9 /* GoogleService-Info.plist */; };
 		3BA7219D1D46B7040043C9B9 /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA7219A1D46B7040043C9B9 /* libAdIdAccess.a */; };
 		3BA7219E1D46B7040043C9B9 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA7219B1D46B7040043C9B9 /* libGoogleAnalyticsServices.a */; };
+		3BB6E21A1D47AEA100074E97 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E2181D47AEA100074E97 /* libsqlite3.tbd */; };
+		3BB6E21B1D47AEA100074E97 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E2191D47AEA100074E97 /* libz.tbd */; };
 		3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD4E3D1D13106900314381 /* UserRegisterVC.swift */; };
 		3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3C0971C9733BA00D08D62 /* Constants.swift */; };
 		3BC4FC1F1D3699F800C58878 /* CurrentLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */; };
@@ -161,6 +163,9 @@
 		3BA721991D46B7040043C9B9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3BA7219A1D46B7040043C9B9 /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
 		3BA7219B1D46B7040043C9B9 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		3BB6E2171D47A97A00074E97 /* GABridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GABridgingHeader.h; sourceTree = "<group>"; };
+		3BB6E2181D47AEA100074E97 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		3BB6E2191D47AEA100074E97 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		3BBD4E3D1D13106900314381 /* UserRegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserRegisterVC.swift; path = Classes/UserRegisterVC.swift; sourceTree = "<group>"; };
 		3BC3C0971C9733BA00D08D62 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Classes/Constants.swift; sourceTree = "<group>"; };
 		3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CurrentLocationVC.swift; path = Classes/CurrentLocationVC.swift; sourceTree = "<group>"; };
@@ -183,6 +188,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BB6E21A1D47AEA100074E97 /* libsqlite3.tbd in Frameworks */,
+				3BB6E21B1D47AEA100074E97 /* libz.tbd in Frameworks */,
 				3BA7219D1D46B7040043C9B9 /* libAdIdAccess.a in Frameworks */,
 				3BA7219E1D46B7040043C9B9 /* libGoogleAnalyticsServices.a in Frameworks */,
 			);
@@ -365,6 +372,7 @@
 		3BA7218F1D46B7040043C9B9 /* GoogleAnalytics */ = {
 			isa = PBXGroup;
 			children = (
+				3BB6E2171D47A97A00074E97 /* GABridgingHeader.h */,
 				3BA721901D46B7040043C9B9 /* GAI.h */,
 				3BA721911D46B7040043C9B9 /* GAIDictionaryBuilder.h */,
 				3BA721921D46B7040043C9B9 /* GAIEcommerceProduct.h */,
@@ -377,6 +385,8 @@
 				3BA721991D46B7040043C9B9 /* GoogleService-Info.plist */,
 				3BA7219A1D46B7040043C9B9 /* libAdIdAccess.a */,
 				3BA7219B1D46B7040043C9B9 /* libGoogleAnalyticsServices.a */,
+				3BB6E2181D47AEA100074E97 /* libsqlite3.tbd */,
+				3BB6E2191D47AEA100074E97 /* libz.tbd */,
 			);
 			path = GoogleAnalytics;
 			sourceTree = "<group>";
@@ -711,6 +721,7 @@
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Prey/GoogleAnalytics/GABridgingHeader.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -728,6 +739,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Prey/GoogleAnalytics/GABridgingHeader.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

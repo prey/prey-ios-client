@@ -38,6 +38,9 @@ public let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVers
 // InAppPurchases
 public let subscription1Year = "1year_personal_plan_non_renewing_full"
 
+// GAI code
+public let GAICode  = "UA-8743344-7"
+
 // Font
 public let fontTitilliumBold    =  "TitilliumWeb-Bold"
 public let fontTitilliumRegular =  "TitilliumWeb-Regular"

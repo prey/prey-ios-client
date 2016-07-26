@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class UserRegister: UIViewController, UITextFieldDelegate {
+class UserRegister: GAITrackedViewController, UITextFieldDelegate {
 
     
     // MARK: Properties

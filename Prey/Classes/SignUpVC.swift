@@ -14,6 +14,10 @@ class SignUpVC: UserRegister {
     // MARK: Init
     
     override func viewDidLoad() {
+        
+        // View title for GAnalytics
+        self.screenName = "Sign Up"
+        
         super.viewDidLoad()
 
         configureTextButton()

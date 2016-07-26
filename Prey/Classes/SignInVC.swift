@@ -16,6 +16,9 @@ class SignInVC: UserRegister {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // View title for GAnalytics
+        self.screenName = "Sign In"
+
         configureTextButton()
     }
 

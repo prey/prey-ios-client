@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class GrettingsProVC: UIViewController {
+class GrettingsProVC: GAITrackedViewController {
     
 
     // MARK: Properties
@@ -24,6 +24,9 @@ class GrettingsProVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
      
+        // View title for GAnalytics
+        self.screenName = "Grettings Pro Accounts"
+        
         // Set texts
         configureTexts()
     }

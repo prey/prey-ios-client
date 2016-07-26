@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import AVFoundation
 
-class DeviceSetUpVC: UIViewController {
+class DeviceSetUpVC: GAITrackedViewController {
 
     
     // MARK: Properties
@@ -28,6 +28,9 @@ class DeviceSetUpVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // View title for GAnalytics
+        self.screenName = "Congratulations"
         
         configureTextButton()
         requestDeviceAuth()

@@ -19,6 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        // Config Google Analytics
+        GAI.sharedInstance().trackerWithTrackingId(GAICode)
+        GAI.sharedInstance().trackUncaughtExceptions                = true
+        GAI.sharedInstance().dispatchInterval                       = 120
+        GAI.sharedInstance().logger.logLevel                        = GAILogLevel.None
+        GAI.sharedInstance().defaultTracker.allowIDFACollection     = true
+
+        
         // Check notification_id with server
         if PreyConfig.sharedInstance.isRegistered {
             PreyNotification.sharedInstance.registerForRemoteNotifications()
