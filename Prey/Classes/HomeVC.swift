@@ -85,7 +85,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     
     // Check device auth
     func checkDeviceAuth() {
-        let isAllAuthAvailable  = DeviceAuth.sharedInstance.checkAllDeviceAuthorization(self)
+        let isAllAuthAvailable  = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
         titleLbl.text    = isAllAuthAvailable ? "PROTECTED".localized.uppercaseString : "NOT PROTECTED".localized.uppercaseString
     }
     

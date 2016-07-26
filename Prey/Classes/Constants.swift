@@ -20,8 +20,9 @@ enum StoryboardIdVC: String {
 }
 
 // Def type device
-public let IS_IPAD      : Bool  = (UIDevice.currentDevice().userInterfaceIdiom != UIUserInterfaceIdiom.Phone)
-public let IS_IPHONE4S  : Bool  = (UIScreen.mainScreen().bounds.size.height-480 == 0)
+public let IS_IPAD          : Bool  = (UIDevice.currentDevice().userInterfaceIdiom != UIUserInterfaceIdiom.Phone)
+public let IS_IPHONE4S      : Bool  = (UIScreen.mainScreen().bounds.size.height-480 == 0)
+public let IS_OS_8_OR_LATER : Bool  = ((UIDevice.currentDevice().systemVersion as NSString).floatValue >= 8.0)
 
 // Number of Reload for Connection
 public let reloadConnection: Int = 5
