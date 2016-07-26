@@ -22,7 +22,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
     // Prey command
     override func start() {
         
-        print("Check geofencing zone")
+        PreyLogger("Check geofencing zone")
         checkGeofenceZones(self)
 
         isActive = true
@@ -33,7 +33,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         
         let localZonesArray = PreyCoreData.sharedInstance.getCurrentGeofenceZones()
         
-        //print("ZONES: \(response)")
+        //PreyLogger("ZONES: \(response)")
         
         // Added zones events
         if let addedZones = getAddedZones(response, withLocalZones: localZonesArray) {
@@ -84,7 +84,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:responseDeviceEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(nil))
         } else {
-            print("Error send data auth")
+            PreyLogger("Error send data auth")
         }
     }
     
@@ -143,7 +143,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         do {
             try context.save()
         } catch {
-            print("Couldn't save: \(error)")
+            PreyLogger("Couldn't save: \(error)")
         }
     }
     
@@ -152,7 +152,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         
         // Check if CLRegion is available
         guard CLLocationManager.isMonitoringAvailableForClass(CLRegion) else {
-            print("CLRegion is not available")
+            PreyLogger("CLRegion is not available")
             return
         }
         
@@ -161,7 +161,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         
         for info in fetchedObjects {
             
-            print("Name zone: \(info.name)")
+            PreyLogger("Name zone: \(info.name)")
             
             let center_lat  = info.lat?.doubleValue
             let center_lon  = info.lng?.doubleValue

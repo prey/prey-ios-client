@@ -55,7 +55,7 @@ class PreyStoreProduct {
                 
             }))
         } else {
-            print("Error InAppPurchase")
+            PreyLogger("Error InAppPurchase")
             self.onReceiptVerificationFailed.first?()
             self.onReceiptVerificationFailed.removeAll()
         }

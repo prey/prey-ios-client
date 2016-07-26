@@ -71,7 +71,7 @@ class PreyDeployment {
             addDeviceWith(apiKeyUser as String, fromQRCode:false)
             
         } catch let error as NSError{
-            print("files error: \(error.localizedDescription)")
+            PreyLogger("files error: \(error.localizedDescription)")
             return
         }
     }
@@ -146,7 +146,7 @@ class PreyDeployment {
         
         // Get SharedApplication delegate
         guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
-            print("error with sharedApplication")
+            PreyLogger("error with sharedApplication")
             return
         }
         

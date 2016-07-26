@@ -30,7 +30,7 @@ class PreyHTTPResponse {
                 return
             }
 
-            //print("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            //PreyLogger("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! NSHTTPURLResponse
             let code            = httpURLResponse.statusCode
@@ -84,7 +84,7 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.saveValues()
                 
             } catch let error as NSError{
-                print("json error: \(error.localizedDescription)")
+                PreyLogger("json error: \(error.localizedDescription)")
             }
             
         } else {
@@ -109,7 +109,7 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.saveValues()
                 
             } catch let error as NSError{
-                print("json error: \(error.localizedDescription)")
+                PreyLogger("json error: \(error.localizedDescription)")
             }
         } else {
             showErrorLogIn(error, statusCode:statusCode)
@@ -149,7 +149,7 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.saveValues()
                 
             } catch let error as NSError{
-                print("json error: \(error.localizedDescription)")
+                PreyLogger("json error: \(error.localizedDescription)")
             }
         } else {
             // Check error with NSURLSession request
@@ -179,7 +179,7 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.saveValues()
                 
             } catch let error as NSError{
-                print("json error: \(error.localizedDescription)")
+                PreyLogger("json error: \(error.localizedDescription)")
             }
         } else {
             // Check error with NSURLSession request
@@ -244,13 +244,13 @@ class PreyHTTPResponse {
             guard error == nil else {
                 
                 let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
-                print("Error: \(alertMessage)")
+                PreyLogger("Error: \(alertMessage)")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
                 
                 return
             }
             
-            //print("GET Devices/: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            //PreyLogger("GET Devices/: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! NSHTTPURLResponse
             
@@ -264,13 +264,13 @@ class PreyHTTPResponse {
                         PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
                     }
                 } else {
-                    print("Failed to check action from panel")
+                    PreyLogger("Failed to check action from panel")
                     PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)                    
                 }
                 
             // === Error
             default:
-                print("Failed to check action from panel")
+                PreyLogger("Failed to check action from panel")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
             }
         }
@@ -285,11 +285,11 @@ class PreyHTTPResponse {
             
             // Check error with NSURLSession request
             guard error == nil else {
-                print("PreyGeofenceZones error")
+                PreyLogger("PreyGeofenceZones error")
                 return
             }
             
-            //print("PreyGeofence: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            //PreyLogger("PreyGeofence: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! NSHTTPURLResponse
             
@@ -299,13 +299,13 @@ class PreyHTTPResponse {
             case 200...299:
                 
                 guard let jsonObject: String = String(data: data!, encoding: NSUTF8StringEncoding) else {
-                    print("Error reading json data")
+                    PreyLogger("Error reading json data")
                     return
                 }
                 
                 // Convert actionsArray from String to NSData
                 guard let jsonData: NSData = jsonObject.dataUsingEncoding(NSUTF8StringEncoding) else {
-                    print("Error jsonObject to NSData")
+                    PreyLogger("Error jsonObject to NSData")
                     return
                 }
                 
@@ -317,12 +317,12 @@ class PreyHTTPResponse {
                     action.updateGeofenceZones(jsonArray)
                     
                 } catch let error as NSError{
-                    print("json error: \(error.localizedDescription)")
+                    PreyLogger("json error: \(error.localizedDescription)")
                 }
                 
             // === Error
             default:
-                print("Failed data send")
+                PreyLogger("Failed data send")
             }
         })
         
@@ -338,7 +338,7 @@ class PreyHTTPResponse {
             guard error == nil else {
                 
                 let alertMessage = (error?.localizedRecoverySuggestion != nil) ? error?.localizedRecoverySuggestion : error?.localizedDescription
-                print("Error: \(alertMessage)")
+                PreyLogger("Error: \(alertMessage)")
                 
                 return
             }
@@ -349,21 +349,21 @@ class PreyHTTPResponse {
                 
             // === Success
             case 200...299:
-                print("Data send: OK")
+                PreyLogger("Data send: OK")
                 if let preyAction = action {
                     PreyModule.sharedInstance.checkStatus(preyAction)
                 }
                 
             // === Stop report
             case 409:
-                print("Stop report")
+                PreyLogger("Stop report")
                 if let preyAction = action {
                     preyAction.stop()
                 }                
                 
             // === Error
             default:
-                print("Failed data send")
+                PreyLogger("Failed data send")
             }
         }
         

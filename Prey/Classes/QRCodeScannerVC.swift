@@ -58,7 +58,7 @@ class QRCodeScannerVC: GAITrackedViewController, AVCaptureMetadataOutputObjectsD
             }
             
         } catch let error as NSError{
-            print("QrCode error: \(error.localizedDescription)")
+            PreyLogger("QrCode error: \(error.localizedDescription)")
             displayErrorAlert("Couldn't add your device".localized,
                               titleMessage:"Error".localized)
             return

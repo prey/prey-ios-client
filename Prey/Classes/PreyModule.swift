@@ -23,12 +23,12 @@ class PreyModule {
     // Parse actions from panel
     func parseActionsFromPanel(actionsStr:String) {
         
-        print("Parse actions from panel \(actionsStr)")
+        PreyLogger("Parse actions from panel \(actionsStr)")
         
         // Convert actionsArray from String to NSData
         guard let jsonData: NSData = actionsStr.dataUsingEncoding(NSUTF8StringEncoding) else {
             
-            print("Error actionsArray to NSData")
+            PreyLogger("Error actionsArray to NSData")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
             
             return
@@ -50,12 +50,12 @@ class PreyModule {
             
             // Check ActionArray empty
             if actionArray.count <= 0 {
-                print("Notification checkRequestVerificationSucceded OK")
+                PreyLogger("Notification checkRequestVerificationSucceded OK")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
             }
             
         } catch let error as NSError{
-            print("json error: \(error.localizedDescription)")
+            PreyLogger("json error: \(error.localizedDescription)")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
         }
     }
@@ -72,21 +72,21 @@ class PreyModule {
         
         // Action Name
         guard let jsonName = jsonDict.objectForKey(kInstruction.target.rawValue) as? String else {
-            print("Error with ActionName")
+            PreyLogger("Error with ActionName")
             return
         }
         guard let actionName: kAction = kAction(rawValue: jsonName) else {
-            print("Error with ActionName:rawValue")
+            PreyLogger("Error with ActionName:rawValue")
             return
         }
         
         // Action Command
         guard let jsonCmd = jsonDict.objectForKey(kInstruction.command.rawValue) as? String else {
-            print("Error with ActionCmd")
+            PreyLogger("Error with ActionCmd")
             return
         }
         guard let actionCmd: kCommand = kCommand(rawValue: jsonCmd) else {
-            print("Error with ActionCmd:rawvalue")
+            PreyLogger("Error with ActionCmd:rawvalue")
             return
         }
         
@@ -105,7 +105,7 @@ class PreyModule {
         for action in actionArray {
             // Check selector
             if (action.respondsToSelector(NSSelectorFromString(action.command.rawValue)) && !action.isActive) {
-                print("Run \(action.target.rawValue) action")
+                PreyLogger("Run \(action.target.rawValue) action")
                 action.performSelectorOnMainThread(NSSelectorFromString(action.command.rawValue), withObject: nil, waitUntilDone: true)
             }
         }
@@ -114,7 +114,7 @@ class PreyModule {
     // Check action status
     func checkStatus(action: PreyAction) {
         
-        print("Check \(action.target.rawValue) action")
+        PreyLogger("Check \(action.target.rawValue) action")
         
         // Check if preyAction isn't active
         if !action.isActive {
@@ -123,7 +123,7 @@ class PreyModule {
      
         // Check ActionArray empty
         if actionArray.count <= 0 {
-            print("Notification checkRequestVerificationSucceded OK")
+            PreyLogger("Notification checkRequestVerificationSucceded OK")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
         }
     }
@@ -131,7 +131,7 @@ class PreyModule {
     // Delete action
     func deleteAction(action: PreyAction) {
         
-        print("Delete \(action.target) action")
+        PreyLogger("Delete \(action.target) action")
         
         for item in actionArray {
             if ( item.target == action.target ) {

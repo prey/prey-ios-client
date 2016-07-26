@@ -21,12 +21,12 @@ class PreyCoreData {
         
         // This resource is the same name as your xcdatamodeld contained in your project.
         guard let modelURL = NSBundle.mainBundle().URLForResource("PreyModelData", withExtension:"momd") else {
-            print("Error loading model from bundle")
+            PreyLogger("Error loading model from bundle")
             return
         }
         // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
         guard let mom = NSManagedObjectModel(contentsOfURL: modelURL) else {
-            print("Error initializing mom from: \(modelURL)")
+            PreyLogger("Error initializing mom from: \(modelURL)")
             return
         }
         
@@ -44,7 +44,7 @@ class PreyCoreData {
         do {
             try psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
         } catch {
-            print("Error migrating store: \(error)")
+            PreyLogger("Error migrating store: \(error)")
             try! NSFileManager.defaultManager().removeItemAtURL(storeURL)
         }
     }
@@ -67,7 +67,7 @@ class PreyCoreData {
             let context = managedObjectContext
             fetchedObjects = try context.executeFetchRequest(fetchRequest) as! [GeofenceZones]
         } catch let error as NSError {
-            print("CoreData error: \(error.localizedDescription)")
+            PreyLogger("CoreData error: \(error.localizedDescription)")
         }
         
         return fetchedObjects

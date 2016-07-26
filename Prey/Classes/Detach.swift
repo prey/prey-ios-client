@@ -16,7 +16,7 @@ class Detach: PreyAction, UIActionSheetDelegate {
     
     // Prey command
     override func start() {
-        print("Detach device")
+        PreyLogger("Detach device")
 
         dispatch_async(dispatch_get_main_queue()) {
             
@@ -40,13 +40,13 @@ class Detach: PreyAction, UIActionSheetDelegate {
         PreyConfig.sharedInstance.resetValues()
 
         guard UIApplication.sharedApplication().applicationState != .Background else {
-            print("App in background")
+            PreyLogger("App in background")
             return
         }
         
         // Get SharedApplication delegate
         guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
-            print("error with sharedApplication")
+            PreyLogger("error with sharedApplication")
             return
         }
         

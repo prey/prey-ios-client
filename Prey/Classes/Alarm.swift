@@ -22,7 +22,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
 
     // Prey command
     override func start() {
-        print("Playing alarm now")
+        PreyLogger("Playing alarm now")
         
         do {
             // Config AVAudioSession on device
@@ -54,7 +54,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
             self.sendData(params, toEndpoint: responseDeviceEndpoint)
             
         } catch let error as NSError {
-            print("AVAudioSession error: \(error.localizedDescription)")
+            PreyLogger("AVAudioSession error: \(error.localizedDescription)")
         }
     }
     

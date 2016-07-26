@@ -148,7 +148,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     func startPreyTour() {
         
         guard let language:String = NSLocale.preferredLanguages()[0] as String else {
-            print("Error get preferredLanguage")
+            PreyLogger("Error get preferredLanguage")
             return
         }
         

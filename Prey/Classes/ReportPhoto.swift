@@ -88,7 +88,7 @@ class ReportPhoto: NSObject {
             
             // Check error with NSURLSession request
             guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.Back) else {
-                print("Error with AVCaptureDevice")
+                PreyLogger("Error with AVCaptureDevice")
                 return
             }
             
@@ -98,14 +98,14 @@ class ReportPhoto: NSObject {
                 
                 // Add session input
                 guard self.sessionDevice.canAddInput(self.videoDeviceInput) else {
-                    print("Error add session input")
+                    PreyLogger("Error add session input")
                     return
                 }
                 self.sessionDevice.addInput(self.videoDeviceInput)
                 
                 // Add session output
                 guard self.sessionDevice.canAddOutput(self.stillImageOutput) else {
-                    print("Error add session output")
+                    PreyLogger("Error add session output")
                     return
                 }
                 self.stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
@@ -129,7 +129,7 @@ class ReportPhoto: NSObject {
                 })
                 
             } catch let error as NSError {
-                print("AVCaptureDeviceInput error: \(error.localizedDescription)")
+                PreyLogger("AVCaptureDeviceInput error: \(error.localizedDescription)")
             }
         }
     }
@@ -178,19 +178,19 @@ class ReportPhoto: NSObject {
         let actionPhotoCapture: (CMSampleBuffer!, NSError?) -> Void = { (sampleBuffer, error) in
             
             guard error == nil else {
-                print("Error CMSampleBuffer")
+                PreyLogger("Error CMSampleBuffer")
                 return
             }
             
             // Change SampleBuffer to NSData
             guard let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer) else {
-                print("Error CMSampleBuffer to NSData")
+                PreyLogger("Error CMSampleBuffer to NSData")
                 return
             }
             
             // Save image to Photo Array
             guard let image = UIImage(data: imageData) else {
-                print("Error NSData to UIImage")
+                PreyLogger("Error NSData to UIImage")
                 return
             }
             
@@ -220,7 +220,7 @@ class ReportPhoto: NSObject {
         
         // Set captureDevice
         guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.Front) else {
-            print("Error with AVCaptureDevice")
+            PreyLogger("Error with AVCaptureDevice")
             return
         }
         
@@ -234,7 +234,7 @@ class ReportPhoto: NSObject {
             
             // Add session input
             guard self.sessionDevice.canAddInput(frontDeviceInput) else {
-                print("Error add session input")
+                PreyLogger("Error add session input")
                 return
             }
             self.sessionDevice.addInput(frontDeviceInput)
@@ -261,7 +261,7 @@ class ReportPhoto: NSObject {
             })
             
         } catch let error as NSError {
-            print("AVCaptureDeviceInput error: \(error.localizedDescription)")
+            PreyLogger("AVCaptureDeviceInput error: \(error.localizedDescription)")
         }
     }
     
@@ -285,7 +285,7 @@ class ReportPhoto: NSObject {
                 device.unlockForConfiguration()
                 
             } catch let error as NSError {
-                print("AVCaptureFlashMode error: \(error.localizedDescription)")
+                PreyLogger("AVCaptureFlashMode error: \(error.localizedDescription)")
             }
         }
     }

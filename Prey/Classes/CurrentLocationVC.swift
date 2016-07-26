@@ -48,7 +48,7 @@ class CurrentLocationVC: GAITrackedViewController, MKMapViewDelegate {
     
     // WillStartLoadingMap
     func mapViewWillStartLoadingMap(mapView: MKMapView) {
-        print("start loading map: \(mapView.userLocation.coordinate)")
+        PreyLogger("start loading map: \(mapView.userLocation.coordinate)")
 
         // Show ActivityIndicator
         actInd = UIActivityIndicatorView(initInView: self.view, withText:"Please wait".localized)
@@ -58,7 +58,7 @@ class CurrentLocationVC: GAITrackedViewController, MKMapViewDelegate {
 
     // DidFinishLoadingMap
     func mapViewDidFinishLoadingMap(mapView: MKMapView) {
-        print("finish loading map: \(mapView.userLocation.coordinate)")
+        PreyLogger("finish loading map: \(mapView.userLocation.coordinate)")
 
         // Hide ActivityIndicator
         actInd.stopAnimating()
@@ -66,7 +66,7 @@ class CurrentLocationVC: GAITrackedViewController, MKMapViewDelegate {
     
     // DidFailLoadingMap
     func mapViewDidFailLoadingMap(mapView: MKMapView, withError error: NSError) {
-        print("fail loading map")
+        PreyLogger("fail loading map")
         
         // Hide ActivityIndicator
         actInd.stopAnimating()

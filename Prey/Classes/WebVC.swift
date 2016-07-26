@@ -115,7 +115,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
     // MARK: UIWebViewDelegate
     
     func webViewDidStartLoad(webView: UIWebView) {
-        print("Start load web")
+        PreyLogger("Start load web")
         
         // Show ActivityIndicator
         if actInd == nil {
@@ -126,7 +126,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
     }
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        print("Should load request")
+        PreyLogger("Should load request")
         
         if let host = request.URL?.host {
             
@@ -169,7 +169,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
-        print("Finish load web")
+        PreyLogger("Finish load web")
         
         // Hide ActivityIndicator
         actInd.stopAnimating()
@@ -188,7 +188,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
     }
     
     func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
-        print("Error loading web")
+        PreyLogger("Error loading web")
         
         // Hide ActivityIndicator
         actInd.stopAnimating()

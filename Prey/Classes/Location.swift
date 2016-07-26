@@ -54,7 +54,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Did Update Locations
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("New location received: \(locations.description)")
+        PreyLogger("New location received: \(locations.description)")
         
         if locations.first?.horizontalAccuracy < 0 {
             return
@@ -69,6 +69,6 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Did fail with error
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print("Error getting location: \(error.description)")
+        PreyLogger("Error getting location: \(error.description)")
     }
 }

@@ -49,7 +49,7 @@ class PreyNotification {
                                             .stringByTrimmingCharactersInSet(characterSet)
                                             .stringByReplacingOccurrencesOfString(" ", withString: "") as String
 
-        print("Token: \(tokenAsString)")
+        PreyLogger("Token: \(tokenAsString)")
         
         let params:[String: AnyObject] = ["notification_id" : tokenAsString]
         
@@ -62,7 +62,7 @@ class PreyNotification {
     // Did Receive Remote Notifications
     func didReceiveRemoteNotifications(userInfo: [NSObject : AnyObject], completionHandler:(UIBackgroundFetchResult) -> Void) {
         
-        print("Remote notification received \(userInfo.description)")
+        PreyLogger("Remote notification received \(userInfo.description)")
         
         // Set completionHandler for request
         requestVerificationSucceeded = completionHandler

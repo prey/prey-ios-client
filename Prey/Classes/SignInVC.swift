@@ -45,7 +45,7 @@ class SignInVC: UserRegister {
     
         // Get SharedApplication delegate
         guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
-            print("error with sharedApplication")
+            PreyLogger("error with sharedApplication")
             return
         }
 

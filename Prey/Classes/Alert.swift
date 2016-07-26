@@ -16,11 +16,11 @@ class Alert: PreyAction {
     
     // Prey command
     override func start() {
-        print("Start alert")
+        PreyLogger("Start alert")
 
         // Check message
         guard let message = self.options?.objectForKey(kAlert.MESSAGE.rawValue) as? String else {
-            print("Alert: error reading message")
+            PreyLogger("Alert: error reading message")
             let parameters = getParamsTo(kAction.alert.rawValue, command: kCommand.stop.rawValue, status: kStatus.stopped.rawValue)
             self.sendData(parameters, toEndpoint: responseDeviceEndpoint)
             return
@@ -50,7 +50,7 @@ class Alert: PreyAction {
         
         // Get SharedApplication delegate
         guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
-            print("error with sharedApplication")
+            PreyLogger("error with sharedApplication")
             return
         }
         

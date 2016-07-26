@@ -17,7 +17,7 @@ class Camouflage: PreyAction {
     
     // Prey command
     override func start() {
-        print("Start camouflage")
+        PreyLogger("Start camouflage")
         
         // Save camouflageMode in PreyConfig
         PreyConfig.sharedInstance.isCamouflageMode = true
@@ -35,7 +35,7 @@ class Camouflage: PreyAction {
     
     // Prey command
     override func stop() {
-        print("Stop camouflage")
+        PreyLogger("Stop camouflage")
         
         // Save camouflageMode in PreyConfig
         PreyConfig.sharedInstance.isCamouflageMode = false
@@ -56,7 +56,7 @@ class Camouflage: PreyAction {
         
         // Get SharedApplication delegate
         guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
-            print("error with sharedApplication")
+            PreyLogger("error with sharedApplication")
             return
         }
         

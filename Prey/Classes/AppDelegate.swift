@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Check CLRegion In/Out
         if let locationLaunch = launchOptions?[UIApplicationLaunchOptionsLocationKey] {
-            print("Prey Geofence received while not running: \(locationLaunch)")
+            PreyLogger("Prey Geofence received while not running: \(locationLaunch)")
             GeofencingManager.sharedInstance
         }
  
@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
-        print("Prey is in background")
+        PreyLogger("Prey is in background")
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -89,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Fail register notifications
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        print("Error Register Notification: \(error)")
+        PreyLogger("Error Register Notification: \(error)")
     }
     
     // Did receive remote notification
@@ -99,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Did receiveLocalNotification
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-        print("Local notification received")
+        PreyLogger("Local notification received")
     }
 }
 

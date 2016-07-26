@@ -132,7 +132,7 @@ class PreyHTTPClient {
             do {
                 request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(params!, options:NSJSONWritingOptions.PrettyPrinted)
             } catch let error as NSError{
-                print("params error: \(error.localizedDescription)")
+                PreyLogger("params error: \(error.localizedDescription)")
             }
         }
 

@@ -397,7 +397,7 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     // MARK: UIWebViewDelegate
     
     func webViewDidStartLoad(webView: UIWebView) {
-        print("Start load web")
+        PreyLogger("Start load web")
         
         // Show ActivityIndicator
         if actInd == nil {
@@ -408,19 +408,19 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     }
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        print("Should load request")
+        PreyLogger("Should load request")
         return true
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
-        print("Finish load web")
+        PreyLogger("Finish load web")
         
         // Hide ActivityIndicator
         actInd.stopAnimating()
     }
     
     func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
-        print("Error loading web")
+        PreyLogger("Error loading web")
         
         // Hide ActivityIndicator
         actInd.stopAnimating()

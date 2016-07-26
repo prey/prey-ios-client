@@ -42,16 +42,16 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
     // MARK: CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
-        print("GeofencingManager: Did start monitoring for region")
+        PreyLogger("GeofencingManager: Did start monitoring for region")
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print("GeofencingManager Error: \(error)")
+        PreyLogger("GeofencingManager Error: \(error)")
     }
 
     // Enter Region
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("GeofencingManager: Did enter region")
+        PreyLogger("GeofencingManager: Did enter region")
     
         if let regionIn:CLCircularRegion = region as? CLCircularRegion {
             let params = getParamteresToSend(regionIn, withZoneInfo:kGeofence.IN.rawValue)
@@ -61,7 +61,7 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
     
     // Exit Region
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("GeofencingManager: Did exit region")
+        PreyLogger("GeofencingManager: Did exit region")
         
         if let regionIn:CLCircularRegion = region as? CLCircularRegion {
             let params = getParamteresToSend(regionIn, withZoneInfo:kGeofence.OUT.rawValue)
@@ -92,7 +92,7 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:eventsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(nil))
         } else {
-            print("Error send data auth")
+            PreyLogger("Error send data auth")
         }
     }
 }

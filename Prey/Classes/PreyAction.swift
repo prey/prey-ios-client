@@ -78,13 +78,13 @@ class PreyAction : NSOperation {
     // Send data to panel
     func sendData(params:[String: AnyObject], toEndpoint:String) {
 
-        print("data: \(params.description)")
+        PreyLogger("data: \(params.description)")
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))
         } else {
-            print("Error send data auth")
+            PreyLogger("Error send data auth")
         }
     }
 
@@ -94,7 +94,7 @@ class PreyAction : NSOperation {
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.sendDataReportToPrey(username, password:"x", params:params, images: images, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))
         } else {
-            print("Error send data auth")
+            PreyLogger("Error send data auth")
         }
         
     }
@@ -105,7 +105,7 @@ class PreyAction : NSOperation {
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, httpMethod:Method.GET.rawValue, endPoint:geofencingEndpoint, onCompletion:PreyHTTPResponse.checkGeofenceZones(action))
         } else {
-            print("Error auth check Geofence")
+            PreyLogger("Error auth check Geofence")
         }
     }
 

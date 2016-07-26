@@ -84,7 +84,7 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     
     // FailedTransaction
     func failedTransaction(transaction:SKPaymentTransaction) {
-        print("Failed transaction: \(transaction.description)")
+        PreyLogger("Failed transaction: \(transaction.description)")
         
         SKPaymentQueue.defaultQueue().finishTransaction(transaction)
 
@@ -131,35 +131,35 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     
     // UpdteTransactions
     func paymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        print("updatedTransactions SKPaymentQueue")
+        PreyLogger("updatedTransactions SKPaymentQueue")
         
         for transaction in transactions {
             switch transaction.transactionState {
 
             case .Purchasing :
-                print("Purchasing")
+                PreyLogger("Purchasing")
 
             case .Purchased :
-                print("Purchased")
+                PreyLogger("Purchased")
                 completeTransaction(transaction)
 
             case .Failed :
-                print("Failed")
+                PreyLogger("Failed")
                 failedTransaction(transaction)
             
             case .Restored :
-                print("Restored")
+                PreyLogger("Restored")
                 restoreTransaction(transaction)
             
             case .Deferred :
-                print("Deferred")
+                PreyLogger("Deferred")
             }
         }
     }
  
     // restoreCompletedTransactionsFailedWithError
     func paymentQueue(queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: NSError) {
-        print("restoreCompletedTransactionsFailedWithError SKPaymentQueue")
+        PreyLogger("restoreCompletedTransactionsFailedWithError SKPaymentQueue")
         
         onRestoreFailed.first?(error:error)
         onRestoreFailed.removeAll()
@@ -167,7 +167,7 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     
     // restoreCompletedTransactions
     func paymentQueueRestoreCompletedTransactionsFinished(queue: SKPaymentQueue) {
-        print("paymentQueueRestoreCompletedTransactionsFinished SKPaymentQueue")
+        PreyLogger("paymentQueueRestoreCompletedTransactionsFinished SKPaymentQueue")
         
         onRestoreCompleted.first?()
         onRestoreCompleted.removeAll()
@@ -175,21 +175,21 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     
     // removedTransactions
     func paymentQueue(queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
-        print("removedTransactions SKPaymentQueue")
+        PreyLogger("removedTransactions SKPaymentQueue")
     }
     
     // MARK: SKProductsRequest
     
     // DidReceiveResponse
     func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
-        print("DidReceiveResponse SKProductsRequest")
+        PreyLogger("DidReceiveResponse SKProductsRequest")
         
         // Add object to purchableObjects from response
         purchasableObjects = response.products
         
         #if DEBUG
             for product in purchasableObjects {
-                print("Feature: \(product.localizedTitle), Cost: \(product.price.doubleValue)")
+                PreyLogger("Feature: \(product.localizedTitle), Cost: \(product.price.doubleValue)")
             }
         #endif
         
@@ -199,12 +199,12 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     
     // RequestDidFinish
     func requestDidFinish(request: SKRequest) {
-        print("RequestDidFinish SKProductsRequest")
+        PreyLogger("RequestDidFinish SKProductsRequest")
     }
     
     // DidFailWithError
     func request(request: SKRequest, didFailWithError error: NSError) {
-        print("DidFailWithError SKProductRequest: \(error.description)")
+        PreyLogger("DidFailWithError SKProductRequest: \(error.description)")
         productsRequest = nil
     }
 }

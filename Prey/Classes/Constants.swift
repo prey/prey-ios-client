@@ -45,6 +45,12 @@ public let GAICode  = "UA-8743344-7"
 public let fontTitilliumBold    =  "TitilliumWeb-Bold"
 public let fontTitilliumRegular =  "TitilliumWeb-Regular"
 
+// PreyLogger
+public func PreyLogger(message:String) {
+    #if DEBUG
+    print(message)
+    #endif
+}
 
 // Validate email expression
 public func isInvalidEmail(userEmail: String, withPattern: String) -> Bool {
@@ -61,7 +67,7 @@ public func isInvalidEmail(userEmail: String, withPattern: String) -> Bool {
             isInvalid = false
         }
     } catch let error as NSError {
-        print("error RegEx: \(error.localizedDescription)")
+        PreyLogger("error RegEx: \(error.localizedDescription)")
     }
 
     return isInvalid

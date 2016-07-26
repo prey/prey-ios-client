@@ -117,7 +117,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     // Photos received
     func photoReceived(photos:NSMutableDictionary) {
         
-        print("get photos")
+        PreyLogger("get photos")
         
         // Set photos to reportImages
         reportImages = photos
