@@ -65,6 +65,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }    
     
     func applicationWillResignActive(application: UIApplication) {
+        
+        // Hide mainView for multitasking preview
+        let backgroundImg   = UIImageView(image:UIImage(named:"BgWelcome"))
+        backgroundImg.frame = UIScreen.mainScreen().bounds
+        backgroundImg.alpha = 0
+        backgroundImg.tag   = 1985
+        
+        window?.addSubview(backgroundImg)
+        window?.bringSubviewToFront(backgroundImg)
+        
+        UIView.animateWithDuration(0.5, animations:{() in backgroundImg.alpha = 1.0})
+        
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
@@ -75,6 +87,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
+
+        // Show mainView
+        let backgroundImg   = window?.viewWithTag(1985)
+        
+        UIView.animateWithDuration(0.5, animations:{() in backgroundImg?.alpha = 0},
+                                   completion:{(Bool)  in backgroundImg?.removeFromSuperview()})
     }
 
     func applicationWillTerminate(application: UIApplication) {
