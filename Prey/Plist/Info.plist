@@ -44,6 +44,8 @@
 		<string>location</string>
 		<string>remote-notification</string>
 	</array>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>UIMainStoryboardFile</key>
 	<string></string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -66,7 +68,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-<key>UIFileSharingEnabled</key>
-	<true/>
 </dict>
 </plist>

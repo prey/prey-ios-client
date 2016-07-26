@@ -58,6 +58,9 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
             configPreyTour()
         }
         
+        // Check new version on App Store
+        PreyConfig.sharedInstance.checkLastVersionOnStore()
+        
         // Hide camouflage image
         configCamouflageMode(PreyConfig.sharedInstance.isCamouflageMode)
     }
@@ -219,6 +222,17 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     
     // MARK: Functions
 
+    // Send GAnalytics event
+    func sendEventGAnalytics() {
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            
+            let dimensionValue = PreyConfig.sharedInstance.isPro ? "Pro" : "Free"
+            tracker.set(GAIFields.customDimensionForIndex(1), value:dimensionValue)
+            
+            let params = GAIDictionaryBuilder.createEventWithCategory("UserActivity", action:"Log In", label:"Log In", value:nil).build() as [NSObject:AnyObject]
+            tracker.send(params)
+        }
+    }
 
     // Go to Settings
     @IBAction func goToSettings(sender: UIButton) {
@@ -277,6 +291,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
              
                 // Change inputView
                 if isSuccess {
+                    self.sendEventGAnalytics()
                     self.hidePasswordInputOption(true)
                 }
             }
