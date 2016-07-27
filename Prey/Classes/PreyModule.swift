@@ -155,7 +155,7 @@ class PreyModule {
         
         for item in actionArray {
             if ( item.target == action.target ) {
-                actionArray.removeObject(action)
+                actionArray.removeObject(item)
             }
         }
     }

@@ -50,7 +50,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     func runReport(timer:NSTimer) {
         
         guard PreyConfig.sharedInstance.isMissing else {
-            stop()
+            stopReport()
             return
         }
         
@@ -77,9 +77,19 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         addWifiInfo()
     }
     
-    // Stop report
+    // Stop action report
     override func stop() {
      
+        for item in PreyModule.sharedInstance.actionArray {
+            if ( item.target == kAction.report ) {
+                (item as? Report)!.stopReport()
+            }
+        }
+    }
+    
+    // Stop report
+    func stopReport() {
+        
         runReportTimer?.invalidate()
         isActive = false
         PreyConfig.sharedInstance.isMissing = false
@@ -88,7 +98,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         reportLocation.stopLocation()
         reportPhoto.stopSession()
         
-        PreyModule.sharedInstance.checkStatus(self)
+        PreyModule.sharedInstance.checkStatus(self)    
     }
     
     // Send report

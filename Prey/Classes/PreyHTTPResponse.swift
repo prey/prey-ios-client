@@ -357,8 +357,8 @@ class PreyHTTPResponse {
             // === Stop report
             case 409:
                 PreyLogger("Stop report")
-                if let preyAction = action {
-                    preyAction.stop()
+                if let preyAction:Report = action as? Report {
+                    preyAction.stopReport()
                 }                
                 
             // === Error
