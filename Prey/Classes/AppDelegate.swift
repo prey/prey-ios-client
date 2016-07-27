@@ -20,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Display screen
     func displayScreen() {
         
+        // Check PreyModule Status
+        PreyModule.sharedInstance.checkActionArrayStatus()
+        
+        // Relaunch viewController
         self.window                         = UIWindow(frame: UIScreen.mainScreen().bounds)
         let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         let rootVC: UINavigationController  = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.navigation.rawValue) as! UINavigationController
@@ -106,14 +110,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIView.animateWithDuration(0.2, animations:{() in backgroundImg?.alpha = 0},
                                    completion:{(Bool)  in backgroundImg?.removeFromSuperview()})
-        
+
         // Relaunch window
-        if   window?.rootViewController?.view.superview == window! ||
-            (window?.rootViewController?.presentedViewController?.isKindOfClass(QRCodeScannerVC))! ||
-            (window?.rootViewController?.presentedViewController?.isKindOfClass(GrettingsProVC))! {
+        if  window?.rootViewController?.view.superview == window {
             return
         }
-        
         window?.endEditing(true)
         displayScreen()
     }

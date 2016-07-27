@@ -114,7 +114,7 @@ class PreyAction : NSOperation {
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, httpMethod:Method.DELETE.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.DeleteDevice, onCompletion:onCompletion))
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.DeleteDevice, onCompletion:onCompletion))
         } else {
             let titleMsg = "Couldn't delete your device".localized
             let alertMsg = "Device not ready!".localized
