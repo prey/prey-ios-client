@@ -15,6 +15,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
 
+    // MARK: Methods
+    
+    // Display screen
+    func displayScreen() {
+        
+        self.window                         = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
+        let rootVC: UINavigationController  = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.navigation.rawValue) as! UINavigationController
+        let controller: UIViewController    = (PreyConfig.sharedInstance.isRegistered) ? mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.home.rawValue) :
+            mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.welcome.rawValue)
+        
+        rootVC.pushViewController(controller, animated:false)
+        
+        self.window?.rootViewController = rootVC
+        self.window?.makeKeyAndVisible()
+    }
+    
     // MARK: UIApplicationDelegate
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -47,16 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Config init UIViewController
-        self.window                         = UIWindow(frame: UIScreen.mainScreen().bounds)
-        let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
-        let rootVC: UINavigationController  = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.navigation.rawValue) as! UINavigationController
-        let controller: UIViewController    = (PreyConfig.sharedInstance.isRegistered) ? mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.home.rawValue) :
-                                                                                         mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.welcome.rawValue)
-        
-        rootVC.pushViewController(controller, animated:false)
-        
-        self.window?.rootViewController = rootVC
-        self.window?.makeKeyAndVisible()
+        displayScreen()
         
         // Config UINavigationBar
         PreyConfig.sharedInstance.configNavigationBar()
@@ -75,12 +83,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.addSubview(backgroundImg)
         window?.bringSubviewToFront(backgroundImg)
         
-        UIView.animateWithDuration(0.5, animations:{() in backgroundImg.alpha = 1.0})
+        UIView.animateWithDuration(0.2, animations:{() in backgroundImg.alpha = 1.0})
         
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
         PreyLogger("Prey is in background")
+        if PreyConfig.sharedInstance.isRegistered {
+            for view:UIView in (window?.subviews)! {
+                view.removeFromSuperview()
+            }
+        }
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -91,11 +104,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Show mainView
         let backgroundImg   = window?.viewWithTag(1985)
         
-        UIView.animateWithDuration(0.5, animations:{() in backgroundImg?.alpha = 0},
+        UIView.animateWithDuration(0.2, animations:{() in backgroundImg?.alpha = 0},
                                    completion:{(Bool)  in backgroundImg?.removeFromSuperview()})
+        
+        // Relaunch window
+        if   window?.rootViewController?.view.superview == window! ||
+            (window?.rootViewController?.presentedViewController?.isKindOfClass(QRCodeScannerVC))! ||
+            (window?.rootViewController?.presentedViewController?.isKindOfClass(GrettingsProVC))! {
+            return
+        }
+        
+        window?.endEditing(true)
+        displayScreen()
     }
 
     func applicationWillTerminate(application: UIApplication) {
+        // Show notification to keep background
+        let userInfo : [String:AnyObject]   = ["keep_background":"url"]
+        let localNotif                      = UILocalNotification()
+        localNotif.userInfo                 = userInfo
+        localNotif.alertBody                = "Keep Prey in background to enable all of its features.".localized
+        localNotif.hasAction                = false
+        localNotif.soundName                = UILocalNotificationDefaultSoundName
+        application.presentLocalNotificationNow(localNotif)
     }
     
     // MARK: Notification
