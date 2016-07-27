@@ -37,11 +37,12 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
             let notificationSettings = UIApplication.sharedApplication().currentUserNotificationSettings()
             notifyAuth = notificationSettings?.types.rawValue > 0
         } else {
-            FIXME()
-            let notificationTypes   = UIApplication.sharedApplication().enabledRemoteNotificationTypes()
-            //if notificationTypes & UIRemoteNotificationType.Alert {
-            //    notifyAuth = true
-            //}
+            notifyAuth = true
+        }
+ 
+        if !notifyAuth {
+            displayMessage("You need to grant Prey access to show alert notifications in order to remotely mark it as missing.".localized,
+                           titleMessage:"Alert notification disabled".localized)
         }
         
         return notifyAuth
