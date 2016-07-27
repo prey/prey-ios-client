@@ -20,6 +20,26 @@ class PreyModule {
     
     // MARK: Functions
 
+    // Check actionArrayStatus
+    func checkActionArrayStatus() {
+        
+        // Check device is missing
+        guard PreyConfig.sharedInstance.isMissing else {
+            return
+        }
+    
+        // Check actionArray
+        guard actionArray.isEmpty else {
+            return
+        }
+        
+        // Add report action
+        if let reportAction:Report = Report(withTarget:kAction.report, withCommand:kCommand.get, withOptions:PreyConfig.sharedInstance.reportOptions) {
+            actionArray.append(reportAction)
+            runAction()
+        }
+    }
+    
     // Parse actions from panel
     func parseActionsFromPanel(actionsStr:String) {
         
@@ -49,7 +69,7 @@ class PreyModule {
             runAction()
             
             // Check ActionArray empty
-            if actionArray.count <= 0 {
+            if actionArray.isEmpty {
                 PreyLogger("Notification checkRequestVerificationSucceded OK")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
             }
@@ -122,7 +142,7 @@ class PreyModule {
         }
      
         // Check ActionArray empty
-        if actionArray.count <= 0 {
+        if actionArray.isEmpty {
             PreyLogger("Notification checkRequestVerificationSucceded OK")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
         }

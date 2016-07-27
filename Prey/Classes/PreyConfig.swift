@@ -19,6 +19,7 @@ enum PreyConfigDevice: String {
     case IsPro
     case IsMissing
     case IsCamouflageMode
+    case ReportOptions
 }
 
 class PreyConfig: NSObject, UIActionSheetDelegate {
@@ -38,6 +39,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isPro               = defaultConfig.boolForKey(PreyConfigDevice.IsPro.rawValue)
         isMissing           = defaultConfig.boolForKey(PreyConfigDevice.IsMissing.rawValue)
         isCamouflageMode    = defaultConfig.boolForKey(PreyConfigDevice.IsCamouflageMode.rawValue)
+        reportOptions       = defaultConfig.objectForKey(PreyConfigDevice.ReportOptions.rawValue) as? NSDictionary
     }
 
     // MARK: Properties
@@ -51,6 +53,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     var isPro               : Bool
     var isMissing           : Bool
     var isCamouflageMode    : Bool
+    var reportOptions       : NSDictionary?
     
     // MARK: Functions
     
@@ -67,6 +70,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         defaultConfig.setBool(isPro, forKey:PreyConfigDevice.IsPro.rawValue)
         defaultConfig.setBool(isMissing, forKey:PreyConfigDevice.IsMissing.rawValue)
         defaultConfig.setBool(isCamouflageMode, forKey:PreyConfigDevice.IsCamouflageMode.rawValue)
+        defaultConfig.setObject(reportOptions, forKey: PreyConfigDevice.ReportOptions.rawValue)
     }
     
     // Reset values on NSUserDefaults
@@ -81,6 +85,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isPro            = false
         isMissing        = false
         isCamouflageMode = false
+        reportOptions    = nil
         
         saveValues()
     }

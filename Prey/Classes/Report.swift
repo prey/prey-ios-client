@@ -16,7 +16,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     
     var runReportTimer: NSTimer?
     
-    var interval:Double = 10
+    var interval:Double = 10*60
     
     var reportData      = NSMutableDictionary()
     
@@ -32,12 +32,15 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     func get() {
         
         // Set interval from jsonCommand
-        interval = (self.options?.objectForKey("interval")?.doubleValue)!*60
+        if let reportInterval = options?.objectForKey("interval") {
+            interval = reportInterval.doubleValue * 60
+        }
         
         // Report Timer
         runReportTimer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: #selector(runReport(_:)), userInfo: nil, repeats: true)
         
         isActive = true
+        PreyConfig.sharedInstance.reportOptions = options
         PreyConfig.sharedInstance.isMissing = true
         PreyConfig.sharedInstance.saveValues()
         runReport(runReportTimer!)
@@ -46,33 +49,32 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     // Run report
     func runReport(timer:NSTimer) {
         
-        if PreyConfig.sharedInstance.isMissing {
-            
-            // Reset report info
-            reportImages.removeAllObjects()
-            reportData.removeAllObjects()
-            
-            // Stop location
-            reportLocation.stopLocation()
-
-            // Get Location
-            reportLocation.waitForRequest = true
-            reportLocation.delegate = self
-            reportLocation.startLocation()
-            
-            // Get Photo
-            if UIApplication.sharedApplication().applicationState != UIApplicationState.Background {
-                reportPhoto.waitForRequest = true
-                reportPhoto.delegate = self
-                reportPhoto.startSession()                
-            }
-            
-            // Get Wifi Info
-            addWifiInfo()
-            
-        } else {
+        guard PreyConfig.sharedInstance.isMissing else {
             stop()
+            return
         }
+        
+        // Reset report info
+        reportImages.removeAllObjects()
+        reportData.removeAllObjects()
+        
+        // Stop location
+        reportLocation.stopLocation()
+        
+        // Get Location
+        reportLocation.waitForRequest = true
+        reportLocation.delegate = self
+        reportLocation.startLocation()
+        
+        // Get Photo
+        if UIApplication.sharedApplication().applicationState != .Background {
+            reportPhoto.waitForRequest = true
+            reportPhoto.delegate = self
+            reportPhoto.startSession()
+        }
+        
+        // Get Wifi Info
+        addWifiInfo()
     }
     
     // Stop report
