@@ -75,6 +75,13 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     
     // Reset values on NSUserDefaults
     func resetValues() {
+
+        // Stop reports
+        for item in PreyModule.sharedInstance.actionArray {
+            if ( item.target == kAction.report ) {
+                (item as? Report)!.stopReport()
+            }
+        }
         
         userApiKey       = nil
         userEmail        = nil

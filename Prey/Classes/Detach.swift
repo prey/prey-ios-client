@@ -22,8 +22,6 @@ class Detach: PreyAction, UIActionSheetDelegate {
             
             self.isActive = true
             
-            FIXME()
-            
             // Update ViewController and reset PreyConfig value
             self.detachDevice()
             
