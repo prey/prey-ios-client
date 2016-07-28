@@ -60,7 +60,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PreyLogger("Prey Geofence received while not running: \(locationLaunch)")
             GeofencingManager.sharedInstance
         }
- 
+        
+        // Check remote notification clicked
+        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
+            PreyLogger("Prey remote notification received while  not running")
+            PreyNotification.sharedInstance.didReceiveRemoteNotifications(remoteNotification, completionHandler:{(UIBackgroundFetchResult) -> Void in})
+        }
+        
         // Check user is Pro
         if PreyConfig.sharedInstance.isPro {
             // Init geofencing region
@@ -150,6 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Did receiveLocalNotification
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         PreyLogger("Local notification received")
+        PreyNotification.sharedInstance.checkLocalNotification(application, localNotification:notification)
     }
 }
 

@@ -16,10 +16,27 @@ class PreyNotification {
     static let sharedInstance = PreyNotification()
     private init() {
     }
-
+    
     var requestVerificationSucceeded : ((UIBackgroundFetchResult) -> Void)?
     
     // MARK: Functions
+    
+    // Local notification
+    func checkLocalNotification(application:UIApplication, localNotification:UILocalNotification) {
+        
+        if let message:String = localNotification.alertBody {
+            PreyLogger("Show message local notification")
+            // Add alert action
+            let alertOptions = [kAlert.MESSAGE.rawValue: message] as NSDictionary
+            if let alertAction:Alert = Alert(withTarget:kAction.alert, withCommand:kCommand.start, withOptions:alertOptions) {
+                PreyModule.sharedInstance.actionArray.append(alertAction)
+                PreyModule.sharedInstance.runAction()
+            }            
+        }
+        
+        application.applicationIconBadgeNumber = -1
+        application.cancelAllLocalNotifications()
+    }
     
     // Register Device to Apple Push Notification Service
     func registerForRemoteNotifications() {

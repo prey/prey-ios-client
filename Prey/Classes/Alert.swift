@@ -58,11 +58,10 @@ class Alert: PreyAction {
         
         if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.alert.rawValue) as? AlertVC {
             
-            resultController.messageToShow  = msg
-            
-            // Set controller to rootViewController
-            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-            navigationController.setViewControllers([resultController], animated: false)
+            resultController.messageToShow      = msg
+            let rootVC: UINavigationController  = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.navigation.rawValue) as! UINavigationController            
+            rootVC.setViewControllers([resultController], animated: false)
+            appWindow?.rootViewController = rootVC
         }
     }
 }
