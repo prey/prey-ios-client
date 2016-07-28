@@ -33,6 +33,8 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     
     // MARK: Properties
 
+    var currentCamouflageMode       = PreyConfig.sharedInstance.isCamouflageMode
+    
     // Color Text
     let colorTxtLbl          = UIColor(red: 72/255, green: 84/255, blue: 102/255, alpha: 1.0)
     let colorDetailLbl       = UIColor(red: 72/255, green: 84/255, blue: 102/255, alpha: 0.3)
@@ -58,6 +60,9 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         if IS_IPAD {
             showViewControllerWithId(StoryboardIdVC.currentLocation.rawValue)
         }
+        
+        // Set camouflageModeState
+        currentCamouflageMode       = PreyConfig.sharedInstance.isCamouflageMode
         
         // Init PreyStoreManager
         if !PreyConfig.sharedInstance.isPro {
@@ -392,6 +397,19 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     func camouflageModeState(object:UISwitch) {
         PreyConfig.sharedInstance.isCamouflageMode = object.on
         PreyConfig.sharedInstance.saveValues()
+    }
+    
+    // Check changes on camouflageMode
+    override func didMoveToParentViewController(parent: UIViewController?) {
+
+        if (parent == nil) && (currentCamouflageMode != PreyConfig.sharedInstance.isCamouflageMode) {
+            // Add camouflage action
+            let command:kCommand = PreyConfig.sharedInstance.isCamouflageMode ? .start : .stop
+            if let alertAction:Camouflage = Camouflage(withTarget:kAction.camouflage, withCommand:command, withOptions:nil) {
+                PreyModule.sharedInstance.actionArray.append(alertAction)
+                PreyModule.sharedInstance.runAction()
+            }
+        }
     }
     
     // MARK: UIWebViewDelegate
