@@ -170,7 +170,8 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         
         // Check language in tourImg
         if let language:String = NSLocale.preferredLanguages()[0] as String {
-            if language == "es" {
+            let languageES = (language as NSString).substringToIndex(2)
+            if languageES == "es" {
                 tourImg.image = UIImage(named:"TourEs")
             }
         }
@@ -184,7 +185,9 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
             return
         }
         
-        let indexPage   = (language == "es") ? "index-es" : "index"
+        let languageES  = (language as NSString).substringToIndex(2)
+        
+        let indexPage   = (languageES == "es") ? "index-es" : "index"
         let url         = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(indexPage, ofType:"html", inDirectory:"PreyTourWeb")!)
         
         let controller  = WebVC(withURL:url, withParameters:nil, withTitle:"Prey Tour")

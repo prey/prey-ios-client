@@ -18,6 +18,9 @@ class WelcomeVC: GAITrackedViewController, PreyOnboardingDelegate {
 
     @IBOutlet weak var nextPageBtn : UIButton!
     @IBOutlet weak var backPageBtn : UIButton!
+
+    @IBOutlet weak var signUpBtn   : UIButton!
+    @IBOutlet weak var logInBtn    : UIButton!
     
     let preyOnboarding = PreyOnboarding(frame:UIScreen.mainScreen().bounds)
     
@@ -37,7 +40,16 @@ class WelcomeVC: GAITrackedViewController, PreyOnboardingDelegate {
         // First load
         backPageBtn.alpha = 0
         
+        // Config texts
+        configureTextButton()
+        
         self.view.insertSubview(preyOnboarding, aboveSubview:bgImage)
+    }
+    
+    // Configure texts
+    func configureTextButton() {
+        signUpBtn.setTitle("SIGN UP".localized, forState:.Normal)
+        logInBtn.setTitle("already have an account?".localized, forState:.Normal)
     }
     
     override func didReceiveMemoryWarning() {

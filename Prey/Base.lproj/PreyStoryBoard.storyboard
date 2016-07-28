@@ -29,7 +29,7 @@
         <mutableArray key="magdacleanmono-bold.ttf">
             <string>MagdaCleanMono-Bold</string>
         </mutableArray>
-        <mutableArray key="magdacleanmono-regular.otf">
+        <mutableArray key="magdacleanmono-regular-webfont.ttf">
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
             <string>MagdaCleanMono-Regular</string>
@@ -345,8 +345,10 @@
                     <connections>
                         <outlet property="backPageBtn" destination="xaH-kK-Lup" id="rvf-kb-csE"/>
                         <outlet property="bgImage" destination="uBD-ki-3xg" id="CBz-ls-ZDc"/>
+                        <outlet property="logInBtn" destination="VSf-Ik-8Vt" id="rOX-2c-u75"/>
                         <outlet property="nextPageBtn" destination="Hd3-Gq-9hM" id="Bfk-gu-R3J"/>
                         <outlet property="pageControl" destination="i48-86-z4s" id="h0c-A5-Yu6"/>
+                        <outlet property="signUpBtn" destination="JRy-NQ-0Fg" id="qFn-Cz-IYT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rne-4Y-4ZS" userLabel="First Responder" sceneMemberID="firstResponder"/>
