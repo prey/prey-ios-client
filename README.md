@@ -35,6 +35,6 @@ Follow Prey Project on Twitter ([@PreyProject](https://twitter.com/PreyProject))
 
 ## Legal
 
-Copyright © 2010-2016, Prey Inc.
+Copyright © 2016 Prey, Inc. All rights reserved.
 Released under the GPLv3 license.
 For full details see the LICENSE file included in this distribution.
