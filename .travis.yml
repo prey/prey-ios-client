@@ -1,0 +1,97 @@
+language: objective-c
+osx_image: xcode7.3
+env:
+  matrix:
+    - TEST_OS="platform=iOS Simulator,name=iPhone 4s,OS=9.3"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5,OS=9.3"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5s,OS=9.3"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6,OS=9.3"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6 Plus,OS=9.3"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6s,OS=9.3"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6s Plus,OS=9.3"
+    - TEST_OS="platform=iOS Simulator,name=iPad 2,OS=9.3"
+    - TEST_OS="platform=iOS Simulator,name=iPad Retina,OS=9.3"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air,OS=9.3"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air 2,OS=9.3"
+    - TEST_OS="platform=iOS Simulator,name=iPad Pro,OS=9.3"
+    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 4s,OS=9.2"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5,OS=9.2"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5s,OS=9.2"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6,OS=9.2"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6 Plus,OS=9.2"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6s,OS=9.2"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6s Plus,OS=9.2"
+    - TEST_OS="platform=iOS Simulator,name=iPad 2,OS=9.2"
+    - TEST_OS="platform=iOS Simulator,name=iPad Retina,OS=9.2"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air,OS=9.2"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air 2,OS=9.2"
+    - TEST_OS="platform=iOS Simulator,name=iPad Pro,OS=9.2"
+
+    - TEST_OS="platform=iOS Simulator,name=iPhone 4s,OS=9.1"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5,OS=9.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5s,OS=9.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6,OS=9.1"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6 Plus,OS=9.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6s,OS=9.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6s Plus,OS=9.1"
+    - TEST_OS="platform=iOS Simulator,name=iPad 2,OS=9.1"
+    - TEST_OS="platform=iOS Simulator,name=iPad Retina,OS=9.1"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air,OS=9.1"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air 2,OS=9.1"
+    - TEST_OS="platform=iOS Simulator,name=iPad Pro,OS=9.1"
+
+    - TEST_OS="platform=iOS Simulator,name=iPhone 4s,OS=9.0"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5,OS=9.0"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5s,OS=9.0"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6,OS=9.0"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6 Plus,OS=9.0"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6s,OS=9.0"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6s Plus,OS=9.0"
+    - TEST_OS="platform=iOS Simulator,name=iPad 2,OS=9.0"
+    - TEST_OS="platform=iOS Simulator,name=iPad Retina,OS=9.0"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air,OS=9.0"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air 2,OS=9.0"
+
+    - TEST_OS="platform=iOS Simulator,name=iPhone 4s,OS=8.4"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5,OS=8.4"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5s,OS=8.4"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6,OS=8.4"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6 Plus,OS=8.4"    
+    - TEST_OS="platform=iOS Simulator,name=iPad 2,OS=8.4"
+    - TEST_OS="platform=iOS Simulator,name=iPad Retina,OS=8.4"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air,OS=8.4"
+
+    - TEST_OS="platform=iOS Simulator,name=iPhone 4s,OS=8.3"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5,OS=8.3"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5s,OS=8.3"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6,OS=8.3"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6 Plus,OS=8.3"    
+    - TEST_OS="platform=iOS Simulator,name=iPad 2,OS=8.3"
+    - TEST_OS="platform=iOS Simulator,name=iPad Retina,OS=8.3"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air,OS=8.3"
+
+    - TEST_OS="platform=iOS Simulator,name=iPhone 4s,OS=8.2"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5,OS=8.2"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5s,OS=8.2"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6,OS=8.2"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6 Plus,OS=8.2"    
+    - TEST_OS="platform=iOS Simulator,name=iPad 2,OS=8.2"
+    - TEST_OS="platform=iOS Simulator,name=iPad Retina,OS=8.2"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air,OS=8.2"
+
+    - TEST_OS="platform=iOS Simulator,name=iPhone 4s,OS=8.1"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5,OS=8.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5s,OS=8.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6,OS=8.1"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6 Plus,OS=8.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPad 2,OS=8.1"
+    - TEST_OS="platform=iOS Simulator,name=iPad Retina,OS=8.1"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air,OS=8.1"
+
+xcode_project: Prey.xcodeproj
+xcode_scheme: Prey
+before_install:
+    - brew update
+    - brew uninstall xctool && brew install xctool --HEAD
+script: xctool -project Prey.xcodeproj -scheme Prey build test -test-sdk iphonesimulator -destination "${TEST_OS}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
