@@ -92,6 +92,7 @@ env:
 xcode_project: Prey.xcodeproj
 xcode_scheme: Prey
 before_install:
-    - brew update
-    - brew uninstall xctool && brew install xctool --HEAD
-script: xctool -project Prey.xcodeproj -scheme Prey build test -test-sdk iphonesimulator -destination "${TEST_OS}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+    - gem install xcpretty -N --no-ri --no-rdoc
+script: 
+    - set -o pipefail
+    - xcodebuild -project Prey.xcodeproj -scheme Prey clean test -destination "${TEST_OS}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
