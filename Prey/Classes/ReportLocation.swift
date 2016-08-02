@@ -53,6 +53,12 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
             return
         }
         
+        // Check if location is cached
+        let locationTime = abs((locations.first?.timestamp.timeIntervalSinceNow)! as Double)
+        if locationTime > 5 {
+            return
+        }
+        
         if locations.first?.horizontalAccuracy < 0 {
             return
         }
