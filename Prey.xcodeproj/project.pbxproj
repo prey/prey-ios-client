@@ -39,7 +39,7 @@
 		3B77804E1A600CCE0050C747 /* PreyUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B77804D1A600CCE0050C747 /* PreyUser.swift */; };
 		3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */; };
 		3B8283FA199198E6000E4545 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F9199198E6000E4545 /* Images.xcassets */; };
-		3B828406199198E6000E4545 /* PreyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B828405199198E6000E4545 /* PreyTests.swift */; };
+		3B828406199198E6000E4545 /* PreyRestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B828405199198E6000E4545 /* PreyRestTests.swift */; };
 		3B849AE81D0710E9002DB6CC /* PreyData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE61D0710E9002DB6CC /* PreyData.xcdatamodeld */; };
 		3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE91D071AF4002DB6CC /* Geofencing.swift */; };
 		3B8E57D11A2E7B4A0027179E /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */; };
@@ -139,7 +139,7 @@
 		3B8283F9199198E6000E4545 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3B8283FF199198E6000E4545 /* PreyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B828404199198E6000E4545 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3B828405199198E6000E4545 /* PreyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyTests.swift; sourceTree = "<group>"; };
+		3B828405199198E6000E4545 /* PreyRestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyRestTests.swift; sourceTree = "<group>"; };
 		3B849AE71D0710E9002DB6CC /* PreyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PreyData.xcdatamodel; sourceTree = "<group>"; };
 		3B849AE91D071AF4002DB6CC /* Geofencing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Geofencing.swift; path = Classes/Geofencing.swift; sourceTree = "<group>"; };
 		3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeVC.swift; path = Classes/WelcomeVC.swift; sourceTree = "<group>"; };
@@ -325,7 +325,7 @@
 		3B828402199198E6000E4545 /* PreyTests */ = {
 			isa = PBXGroup;
 			children = (
-				3B828405199198E6000E4545 /* PreyTests.swift */,
+				3B828405199198E6000E4545 /* PreyRestTests.swift */,
 				3B828403199198E6000E4545 /* Supporting Files */,
 			);
 			path = PreyTests;
@@ -622,7 +622,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B828406199198E6000E4545 /* PreyTests.swift in Sources */,
+				3B828406199198E6000E4545 /* PreyRestTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
