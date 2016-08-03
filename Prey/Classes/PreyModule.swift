@@ -115,6 +115,7 @@ class PreyModule {
         
         // Add new Prey Action
         if let action:PreyAction = PreyAction.newAction(withName: actionName, withCommand: actionCmd, withOptions: actionOptions) {
+            PreyLogger("Action added: \(action)")
             actionArray.append(action)
         }
     }

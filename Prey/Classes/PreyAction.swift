@@ -34,12 +34,12 @@ class PreyAction : NSOperation {
     // Return Prey New Action
     class func newAction(withName target:kAction, withCommand cmd:kCommand, withOptions opt: NSDictionary?) -> PreyAction? {
         
-        let actionItem: PreyAction
+        let actionItem: PreyAction?
         
         switch target {
 
         case kAction.location:
-            actionItem = Location(withTarget: kAction.location, withCommand: cmd, withOptions: opt)
+            actionItem = Location.initLocationAction(withTarget: kAction.location, withCommand: cmd, withOptions: opt)
 
         case kAction.alarm:
             actionItem = Alarm(withTarget: kAction.alarm, withCommand: cmd, withOptions: opt)

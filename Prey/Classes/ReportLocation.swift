@@ -28,7 +28,7 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
     // Start Location
     func startLocation() {
         locManager.delegate = self
-        locManager.desiredAccuracy = kCLLocationAccuracyBest
+        locManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locManager.startUpdatingLocation()
         locManager.pausesLocationUpdatesAutomatically = false
         

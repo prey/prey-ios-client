@@ -19,6 +19,33 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // MARK: Functions    
     
+    // Return init if location action don't exist
+    class func initLocationAction(withTarget target:kAction, withCommand cmd:kCommand, withOptions opt:NSDictionary?) -> Location? {
+
+        var existAction = false
+        
+        for item in PreyModule.sharedInstance.actionArray {
+            // Check if action is Location
+            if ( item.target == kAction.location ) {
+                existAction = true
+                // Send lastLocation to panel web
+                (item as! Location).sendLastLocation()
+                break
+            }
+        }
+        
+        return existAction ? nil : Location(withTarget:target, withCommand:cmd, withOptions:opt)
+    }
+    
+    // Send lastLocation 
+    func sendLastLocation() {
+
+        if lastLocation != nil {
+            // Send location to web panel
+            locationReceived(lastLocation)
+        }
+    }
+    
     // Prey command
     func get() {
         
@@ -40,7 +67,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     // Stop Location Manager
     func stopLocationManager(timer:NSTimer)  {
         PreyLogger("Stop location")
-        FIXME() // status
+
         timer.invalidate()
         locManager.stopUpdatingLocation()
         locManager.delegate = nil
