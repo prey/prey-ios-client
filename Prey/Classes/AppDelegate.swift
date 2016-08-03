@@ -116,11 +116,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIView.animateWithDuration(0.2, animations:{() in backgroundImg?.alpha = 0},
                                    completion:{(Bool)  in backgroundImg?.removeFromSuperview()})
-
+        
         // Relaunch window
         if  window?.rootViewController?.view.superview == window {
             return
         }
+
+        // Check if viewController is QRCodeVC
+        if let controller = window?.rootViewController?.presentedViewController {
+            if controller.isKindOfClass(QRCodeScannerVC) {
+                return
+            }
+        }
+        
         window?.endEditing(true)
         displayScreen()
     }
