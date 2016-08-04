@@ -53,11 +53,31 @@ class PreyRestTests: XCTestCase {
         // Get token from panel
         PreyUser.getTokenFromPanel(userEmail, userPassword:userPassword, onCompletion: {(isSuccess: Bool) in
 
-            // Check if token is nil
-            XCTAssertNotNil(PreyConfig.sharedInstance.tokenPanel)
-
             // Check if get token is success
             XCTAssertTrue(isSuccess)
+            
+            // Check if token is nil
+            XCTAssertNotNil(PreyConfig.sharedInstance.tokenPanel)
+            
+            expectation.fulfill()
+        })
+        
+        self.waitForExpectationsWithTimeout(15, handler:nil)
+    }
+    
+    // Test add device
+    func testRest03AddDevice() {
+        
+        let expectation     = self.expectationWithDescription("Prey Expecta")
+        
+        // Add Device to Panel Prey
+        PreyDevice.addDeviceWith({(isSuccess: Bool) in
+
+            // Check if add device is success
+            XCTAssertTrue(isSuccess)
+            
+            // Check if deviceKey is nil
+            XCTAssertNotNil(PreyConfig.sharedInstance.deviceKey)
             
             expectation.fulfill()
         })
