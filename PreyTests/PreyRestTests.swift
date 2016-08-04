@@ -12,6 +12,12 @@ import XCTest
 
 class PreyRestTests: XCTestCase {
     
+    // MARK: Properties
+
+    let userEmail       = "test7@prey.io"
+    let userPassword    = "password"
+    
+    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -25,9 +31,6 @@ class PreyRestTests: XCTestCase {
     // Test new user
     func testRest01LogInUser() {
         
-        let userEmail       = "test7@prey.io"
-        let userPassword    = "password"
-        
         let expectation     = self.expectationWithDescription("Prey Expecta")
         
         // LogIn to Panel Prey
@@ -38,7 +41,26 @@ class PreyRestTests: XCTestCase {
             
             expectation.fulfill()
         })
+        
+        self.waitForExpectationsWithTimeout(15, handler:nil)
+    }
+    
+    // Test get token from panel
+    func testRest02GetToken() {
+        
+        let expectation     = self.expectationWithDescription("Prey Expecta")
+        
+        // Get token from panel
+        PreyUser.getTokenFromPanel(userEmail, userPassword:userPassword, onCompletion: {(isSuccess: Bool) in
 
+            // Check if token is nil
+            XCTAssertNotNil(PreyConfig.sharedInstance.tokenPanel)
+
+            // Check if get token is success
+            XCTAssertTrue(isSuccess)
+            
+            expectation.fulfill()
+        })
         
         self.waitForExpectationsWithTimeout(15, handler:nil)
     }
