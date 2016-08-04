@@ -27,17 +27,42 @@ class PreyRestTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    // Test new user
+
+    // Test log user
     func testRest01LogInUser() {
         
-        let expectation     = self.expectationWithDescription("Prey Expecta")
+        let expectation     = self.expectationWithDescription("Expecta Test: Log In")
         
         // LogIn to Panel Prey
         PreyUser.logInToPrey(userEmail, userPassword:userPassword, onCompletion: {(isSuccess: Bool) in
             
             // Check if login is success
             XCTAssertTrue(isSuccess)
+            
+            // Check if apiKey is nil
+            XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
+            
+            expectation.fulfill()
+        })
+        
+        self.waitForExpectationsWithTimeout(15, handler:nil)
+    }
+    
+    // Test log user
+    func testRest02SignUpUser() {
+        
+        let expectation     = self.expectationWithDescription("Expecta Test: Sign Up")
+        
+        let newMail         = String(format:"test%f@prey.io", CFAbsoluteTimeGetCurrent())
+        
+        // SignUp to Panel Prey
+        PreyUser.signUpToPrey("TestUser", userEmail:newMail, userPassword:userPassword, onCompletion: {(isSuccess: Bool) in
+            
+            // Check if login is success
+            XCTAssertTrue(isSuccess)
+            
+            // Check if apiKey is nil
+            XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
             
             expectation.fulfill()
         })
@@ -46,9 +71,9 @@ class PreyRestTests: XCTestCase {
     }
     
     // Test get token from panel
-    func testRest02GetToken() {
+    func testRest03GetToken() {
         
-        let expectation     = self.expectationWithDescription("Prey Expecta")
+        let expectation     = self.expectationWithDescription("Expecta Test: Get Token")
         
         // Get token from panel
         PreyUser.getTokenFromPanel(userEmail, userPassword:userPassword, onCompletion: {(isSuccess: Bool) in
@@ -66,9 +91,9 @@ class PreyRestTests: XCTestCase {
     }
     
     // Test add device
-    func testRest03AddDevice() {
+    func testRest04AddDevice() {
         
-        let expectation     = self.expectationWithDescription("Prey Expecta")
+        let expectation     = self.expectationWithDescription("Expecta Test: Add Device")
         
         // Add Device to Panel Prey
         PreyDevice.addDeviceWith({(isSuccess: Bool) in
@@ -81,6 +106,38 @@ class PreyRestTests: XCTestCase {
             
             expectation.fulfill()
         })
+        
+        self.waitForExpectationsWithTimeout(15, handler:nil)
+    }
+    
+    // Test check status for device
+    func testRest05CheckStatusForDevice() {
+        
+        let expectation     = self.expectationWithDescription("Expecta Test: Check Status")
+        
+        let actionDeviceResponse: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
+            
+            // Error is nil
+            XCTAssertNil(error)
+            
+            let httpURLResponse = response as! NSHTTPURLResponse
+            
+            XCTAssertEqual(httpURLResponse.statusCode,200)
+
+            // Check if actionArray is nil
+            let actionArray: String? = String(data: data!, encoding: NSUTF8StringEncoding)
+            XCTAssertNotNil(actionArray)
+            
+            expectation.fulfill()
+        }
+
+        // Check userApiKey isn't empty
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password: "x", params: nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint , onCompletion:actionDeviceResponse)
+        } else {
+            // Check if apiKey is nil
+            XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
+        }        
         
         self.waitForExpectationsWithTimeout(15, handler:nil)
     }
