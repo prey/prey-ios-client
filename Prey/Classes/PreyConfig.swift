@@ -9,6 +9,20 @@
 import Foundation
 import UIKit
 
+// Prey config for legacy versions :: NSUserDefaults.standardUserDefaults()
+enum PreyConfigLegacy: String {
+    // Version < 1.6.0              >= 1.6.0
+    case already_registered     // IsRegistered
+    case api_key                // UserApiKey
+    case device_key             // DeviceKey
+    case email                  // UserEmail
+    case camouflage_mode        // IsCamouflageMode
+    case pro_account            // IsPro
+    case tour_web               // HideTourWeb
+    case is_missing             // IsMissing
+    case token_panel            // TokenDevice
+}
+
 enum PreyConfigDevice: String {
     case UserApiKey
     case UserEmail
@@ -19,6 +33,7 @@ enum PreyConfigDevice: String {
     case IsPro
     case IsMissing
     case IsCamouflageMode
+    case UpdatedSettings
     case ReportOptions
 }
 
@@ -39,6 +54,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isPro               = defaultConfig.boolForKey(PreyConfigDevice.IsPro.rawValue)
         isMissing           = defaultConfig.boolForKey(PreyConfigDevice.IsMissing.rawValue)
         isCamouflageMode    = defaultConfig.boolForKey(PreyConfigDevice.IsCamouflageMode.rawValue)
+        updatedSettings     = defaultConfig.boolForKey(PreyConfigDevice.UpdatedSettings.rawValue)
         reportOptions       = defaultConfig.objectForKey(PreyConfigDevice.ReportOptions.rawValue) as? NSDictionary
     }
 
@@ -53,6 +69,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     var isPro               : Bool
     var isMissing           : Bool
     var isCamouflageMode    : Bool
+    var updatedSettings     : Bool
     var reportOptions       : NSDictionary?
     
     // MARK: Functions
@@ -70,7 +87,8 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         defaultConfig.setBool(isPro, forKey:PreyConfigDevice.IsPro.rawValue)
         defaultConfig.setBool(isMissing, forKey:PreyConfigDevice.IsMissing.rawValue)
         defaultConfig.setBool(isCamouflageMode, forKey:PreyConfigDevice.IsCamouflageMode.rawValue)
-        defaultConfig.setObject(reportOptions, forKey: PreyConfigDevice.ReportOptions.rawValue)
+        defaultConfig.setBool(updatedSettings, forKey:PreyConfigDevice.UpdatedSettings.rawValue)
+        defaultConfig.setObject(reportOptions, forKey:PreyConfigDevice.ReportOptions.rawValue)
     }
     
     // Reset values on NSUserDefaults
@@ -94,6 +112,44 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isCamouflageMode = false
         reportOptions    = nil
         
+        saveValues()
+    }
+
+    // Check user settings
+    func updateUserSettings() {
+        
+        // Check if settings is updated
+        if updatedSettings {
+            return
+        }
+
+        updatedSettings = true
+        
+        // User have latest version :: NSUserDefaults.standardUserDefaults()
+        if isRegistered {
+            saveValues()
+            return
+        }
+
+        let defaultConfig = NSUserDefaults.standardUserDefaults()
+        
+        // Check if user IsRegistered for versions < 1.6.0
+        if defaultConfig.boolForKey(PreyConfigLegacy.already_registered.rawValue) == false {
+            saveValues()
+            return
+        }
+        
+        // Update new settings with old settings for registered user
+        isRegistered        = defaultConfig.boolForKey(PreyConfigLegacy.already_registered.rawValue)
+        userApiKey          = defaultConfig.stringForKey(PreyConfigLegacy.api_key.rawValue)
+        userEmail           = defaultConfig.stringForKey(PreyConfigLegacy.email.rawValue)
+        deviceKey           = defaultConfig.stringForKey(PreyConfigLegacy.device_key.rawValue)
+        tokenPanel          = defaultConfig.stringForKey(PreyConfigLegacy.token_panel.rawValue)
+        hideTourWeb         = defaultConfig.boolForKey(PreyConfigLegacy.tour_web.rawValue)
+        isPro               = defaultConfig.boolForKey(PreyConfigLegacy.pro_account.rawValue)
+        isMissing           = defaultConfig.boolForKey(PreyConfigLegacy.is_missing.rawValue)
+        isCamouflageMode    = defaultConfig.boolForKey(PreyConfigLegacy.camouflage_mode.rawValue)
+
         saveValues()
     }
     

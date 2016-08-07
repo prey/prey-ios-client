@@ -47,6 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GAI.sharedInstance().logger.logLevel                        = GAILogLevel.None
         GAI.sharedInstance().defaultTracker.allowIDFACollection     = true
 
+        // Update current localUserSettings with preview versions
+        PreyConfig.sharedInstance.updateUserSettings()        
         
         // Check notification_id with server
         if PreyConfig.sharedInstance.isRegistered {
