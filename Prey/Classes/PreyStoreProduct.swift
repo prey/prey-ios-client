@@ -42,7 +42,7 @@ class PreyStoreProduct {
         
         if let username = PreyConfig.sharedInstance.userApiKey {
 
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:subscriptionEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.SubscriptionReceipt, onCompletion:{(isSuccess: Bool) in
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:subscriptionEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.SubscriptionReceipt, onCompletion:{(isSuccess: Bool) in
                 
                 guard isSuccess else {
                     self.onReceiptVerificationFailed.first?()

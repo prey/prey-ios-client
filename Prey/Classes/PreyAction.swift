@@ -16,6 +16,7 @@ class PreyAction : NSOperation {
     var target: kAction
     var command: kCommand
     var options: NSDictionary?
+    var messageId: String?
     
     var isActive: Bool = false
     
@@ -82,7 +83,7 @@ class PreyAction : NSOperation {
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:messageId, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))
         } else {
             PreyLogger("Error send data auth")
         }
@@ -92,7 +93,7 @@ class PreyAction : NSOperation {
     func sendDataReport(params:NSMutableDictionary, images:NSMutableDictionary?, toEndpoint:String) {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.sendDataReportToPrey(username, password:"x", params:params, images: images, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))
+            PreyHTTPClient.sharedInstance.sendDataReportToPrey(username, password:"x", params:params, images: images, messageId:messageId, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))
         } else {
             PreyLogger("Error send data auth")
         }
@@ -103,7 +104,7 @@ class PreyAction : NSOperation {
     func checkGeofenceZones(action:Geofencing) {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, httpMethod:Method.GET.rawValue, endPoint:geofencingEndpoint, onCompletion:PreyHTTPResponse.checkGeofenceZones(action))
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:geofencingEndpoint, onCompletion:PreyHTTPResponse.checkGeofenceZones(action))
         } else {
             PreyLogger("Error auth check Geofence")
         }
@@ -114,7 +115,7 @@ class PreyAction : NSOperation {
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.DeleteDevice, onCompletion:onCompletion))
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.DeleteDevice, onCompletion:onCompletion))
         } else {
             let titleMsg = "Couldn't delete your device".localized
             let alertMsg = "Device not ready!".localized

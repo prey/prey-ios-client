@@ -42,18 +42,18 @@ class PreyUser {
             "password_confirmation" : userPassword,
             "referer_user_id"       : ""]
         
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(userName, password:userPassword, params:params, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.SignUp, onCompletion:onCompletion))
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(userName, password:userPassword, params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.SignUp, onCompletion:onCompletion))
     }
     
     // Request Token to Panel Prey
     class func getTokenFromPanel(userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool) -> Void) {
         
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, httpMethod:Method.GET.rawValue, endPoint:tokenEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.GetToken, onCompletion:onCompletion))
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:tokenEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.GetToken, onCompletion:onCompletion))
     }
     
     // LogIn to Panel Prey
     class func logInToPrey(userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool) -> Void) {
         
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, httpMethod:Method.GET.rawValue, endPoint:logInEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.LogIn, onCompletion:onCompletion))
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:logInEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.LogIn, onCompletion:onCompletion))
     }
 }

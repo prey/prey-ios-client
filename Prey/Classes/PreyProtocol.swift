@@ -10,7 +10,7 @@ import Foundation
 
 // Prey Instructions struct
 enum kInstruction: String {
-    case target, command, options, cmd
+    case target, command, options, cmd, messageId
 }
 
 // Prey actions definitions

@@ -112,10 +112,14 @@ class PreyModule {
         
         // Action Options
         let actionOptions: NSDictionary? = jsonDict.objectForKey(kInstruction.options.rawValue) as? NSDictionary
+
+        // Actions MessageId
+        let actionMessageId: String? = jsonDict.objectForKey(kInstruction.messageId.rawValue) as? String
         
         // Add new Prey Action
         if let action:PreyAction = PreyAction.newAction(withName: actionName, withCommand: actionCmd, withOptions: actionOptions) {
             PreyLogger("Action added: \(action)")
+            action.messageId = actionMessageId
             actionArray.append(action)
         }
     }

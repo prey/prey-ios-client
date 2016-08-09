@@ -30,9 +30,21 @@ class PreyHTTPClient {
     }
 
     // Define NSURLSessionConfiguration
-    func getSessionConfig(authString: String) -> NSURLSessionConfiguration {
+    func getSessionConfig(authString: String, messageId: String?) -> NSURLSessionConfiguration {
+        
         let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
-        sessionConfig.HTTPAdditionalHeaders = ["User-Agent" : userAgent, "Content-Type" : "application/json", "Authorization" : authString]
+        
+        var additionalHeader :[NSObject : AnyObject] = ["User-Agent" : userAgent, "Content-Type" : "application/json", "Authorization" : authString]
+        
+        // Check if exist MessageId for action group
+        if let msg = messageId {
+            additionalHeader["X-Prey-State"]            = "processed"
+            additionalHeader["X-Prey-Device-Id"]        = PreyConfig.sharedInstance.deviceKey!
+            additionalHeader["X-Prey-Correlation-Id"]   = msg
+        }
+        
+        sessionConfig.HTTPAdditionalHeaders = additionalHeader
+        
         return sessionConfig
     }
 
@@ -56,13 +68,13 @@ class PreyHTTPClient {
     // MARK: Requests to Prey API
     
     // Send Report Data to Control Panel
-    func sendDataReportToPrey(username: String, password: String, params:NSMutableDictionary, images:NSMutableDictionary?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
+    func sendDataReportToPrey(username: String, password: String, params:NSMutableDictionary, images:NSMutableDictionary?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
         
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
         
         // Set session Config
-        let sessionConfig   = getSessionConfig(userAuthorization)
+        let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId)
         let session         = NSURLSession(configuration: sessionConfig)
         
         // Set Endpoint
@@ -114,13 +126,13 @@ class PreyHTTPClient {
     }
     
     // SignUp/LogIn User to Control Panel
-    func userRegisterToPrey(username: String, password: String, params: [String: AnyObject]?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
+    func userRegisterToPrey(username: String, password: String, params: [String: AnyObject]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
         
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
         
         // Set session Config
-        let sessionConfig   = getSessionConfig(userAuthorization)
+        let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId)
         let session         = NSURLSession(configuration: sessionConfig)
         
         // Set Endpoint
