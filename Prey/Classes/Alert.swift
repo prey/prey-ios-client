@@ -19,7 +19,7 @@ class Alert: PreyAction {
         PreyLogger("Start alert")
 
         // Check message
-        guard let message = self.options?.objectForKey(kAlert.MESSAGE.rawValue) as? String else {
+        guard let message = self.options?.objectForKey(kOptions.MESSAGE.rawValue) as? String else {
             PreyLogger("Alert: error reading message")
             let parameters = getParamsTo(kAction.alert.rawValue, command: kCommand.stop.rawValue, status: kStatus.stopped.rawValue)
             self.sendData(parameters, toEndpoint: responseDeviceEndpoint)
@@ -33,7 +33,7 @@ class Alert: PreyAction {
         } else if let localNotif:UILocalNotification = UILocalNotification() {
             
             // UserInfo
-            let userInfoLocalNotification:[String: AnyObject] = [kAlert.IDLOCAL.rawValue : message]
+            let userInfoLocalNotification:[String: AnyObject] = [kOptions.IDLOCAL.rawValue : message]
             localNotif.userInfo     = userInfoLocalNotification
             localNotif.alertBody    = message
             localNotif.hasAction    = false

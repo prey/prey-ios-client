@@ -27,7 +27,7 @@ class PreyNotification {
         if let message:String = localNotification.alertBody {
             PreyLogger("Show message local notification")
             // Add alert action
-            let alertOptions = [kAlert.MESSAGE.rawValue: message] as NSDictionary
+            let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
             if let alertAction:Alert = Alert(withTarget:kAction.alert, withCommand:kCommand.start, withOptions:alertOptions) {
                 PreyModule.sharedInstance.actionArray.append(alertAction)
                 PreyModule.sharedInstance.runAction()

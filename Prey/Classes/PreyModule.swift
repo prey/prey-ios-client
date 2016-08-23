@@ -42,7 +42,7 @@ class PreyModule {
     
     // Parse actions from panel
     func parseActionsFromPanel(actionsStr:String) {
-        
+
         PreyLogger("Parse actions from panel \(actionsStr)")
         
         // Convert actionsArray from String to NSData
@@ -118,7 +118,7 @@ class PreyModule {
             PreyLogger("Action added: \(action)")
 
             // Actions MessageId
-            if let actionMessageId = actionOptions?.objectForKey(kInstruction.messageID.rawValue) as? String {
+            if let actionMessageId = actionOptions?.objectForKey(kOptions.messageID.rawValue) as? String {
                 action.messageId = actionMessageId
             }
 

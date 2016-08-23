@@ -10,12 +10,19 @@ import Foundation
 
 // Prey Instructions struct
 enum kInstruction: String {
-    case target, command, options, cmd, messageID
+    case target, command, options, cmd
 }
 
 // Prey actions definitions
 enum kAction: String {
     case location, report, alarm, alert, geofencing, detach, camouflage
+}
+
+// Prey options defitions
+enum kOptions: String {
+    case interval, messageID
+    case MESSAGE    = "alert_message" // Alert options
+    case IDLOCAL    = "url"           // Alert options
 }
 
 // Prey status definitions
@@ -26,12 +33,6 @@ enum kStatus: String {
 // Prey command definitions
 enum kCommand: String {
     case start, stop, get
-}
-
-// Prey alert params
-enum kAlert: String {
-    case MESSAGE    = "alert_message"
-    case IDLOCAL    = "url"
 }
 
 // Prey location params
@@ -59,7 +60,7 @@ enum kData: String {
     public let URLForgotPanel       : String = "https://panel.preyhq.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyhq.com/session"
 #else
-    public let URLControlPanel      : String = "https://solid.preyproject.com/api/v2"
+    public let URLControlPanel      : String = "https://clients1.preyproject.com/api/v2"
     public let URLForgotPanel       : String = "https://panel.preyproject.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyproject.com/session"
 #endif

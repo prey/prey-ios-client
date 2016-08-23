@@ -32,7 +32,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     func get() {
         
         // Set interval from jsonCommand
-        if let reportInterval = options?.objectForKey("interval") {
+        if let reportInterval = options?.objectForKey(kOptions.interval.rawValue) {
             interval = reportInterval.doubleValue * 60
         }
         
