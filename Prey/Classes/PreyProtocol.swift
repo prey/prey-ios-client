@@ -60,7 +60,7 @@ enum kData: String {
     public let URLForgotPanel       : String = "https://panel.preyhq.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyhq.com/session"
 #else
-    public let URLControlPanel      : String = "https://clients1.preyproject.com/api/v2"
+    public let URLControlPanel      : String = "https://solid.preyproject.com/api/v2"
     public let URLForgotPanel       : String = "https://panel.preyproject.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyproject.com/session"
 #endif
