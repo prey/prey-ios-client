@@ -87,25 +87,25 @@ public let devicesEndpoint          : String = "/devices.json"
 public let subscriptionEndpoint     : String = "/subscriptions/receipt"
 
 // Endpoint for Device Data
-public let dataDeviceEndpoint       : String = NSString(format:"/devices/%@/data",(PreyConfig.sharedInstance.deviceKey!)) as String
+public let dataDeviceEndpoint       : String = String(format:"/devices/%@/data",(PreyConfig.sharedInstance.getDeviceKey()))
 
 // Endpoint for Report Data
-public let reportDataDeviceEndpoint : String = NSString(format:"/devices/%@/reports",(PreyConfig.sharedInstance.deviceKey!)) as String
+public let reportDataDeviceEndpoint : String = String(format:"/devices/%@/reports",(PreyConfig.sharedInstance.getDeviceKey()))
 
 // Endpoint for Response Data
-public let responseDeviceEndpoint   : String = NSString(format:"/devices/%@/response",(PreyConfig.sharedInstance.deviceKey!)) as String
+public let responseDeviceEndpoint   : String = String(format:"/devices/%@/response",(PreyConfig.sharedInstance.getDeviceKey()))
 
 // Endpoint for Events Data
-public let eventsDeviceEndpoint     : String = NSString(format:"/devices/%@/events",(PreyConfig.sharedInstance.deviceKey!)) as String
+public let eventsDeviceEndpoint     : String = String(format:"/devices/%@/events",(PreyConfig.sharedInstance.getDeviceKey()))
 
 // Endpoint for Geofencing Data
-public let geofencingEndpoint       : String = NSString(format:"/devices/%@/geofencing.json",(PreyConfig.sharedInstance.deviceKey!)) as String
+public let geofencingEndpoint       : String = String(format:"/devices/%@/geofencing.json",(PreyConfig.sharedInstance.getDeviceKey()))
 
 // Endpoint for Device Actions
-public let actionsDeviceEndpoint    : String = NSString(format:"/devices/%@.json",(PreyConfig.sharedInstance.deviceKey!)) as String
+public let actionsDeviceEndpoint    : String = String(format:"/devices/%@.json",(PreyConfig.sharedInstance.getDeviceKey()))
 
 // Endpoint for Delete Device
-public let deleteDeviceEndpoint    : String = NSString(format:"/devices/%@",(PreyConfig.sharedInstance.deviceKey!)) as String
+public let deleteDeviceEndpoint     : String = String(format:"/devices/%@",(PreyConfig.sharedInstance.getDeviceKey()))
 
 
 // Http method definitions

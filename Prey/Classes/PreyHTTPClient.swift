@@ -39,7 +39,7 @@ class PreyHTTPClient {
         // Check if exist MessageId for action group
         if let msg = messageId {
             additionalHeader["X-Prey-State"]            = "PROCESSED"
-            additionalHeader["X-Prey-Device-Id"]        = PreyConfig.sharedInstance.deviceKey!
+            additionalHeader["X-Prey-Device-Id"]        = PreyConfig.sharedInstance.deviceKey
             additionalHeader["X-Prey-Correlation-Id"]   = msg
         }
         

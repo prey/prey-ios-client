@@ -114,6 +114,14 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         
         saveValues()
     }
+    
+    // Method get deviceKey
+    func getDeviceKey() -> String {
+        if let key = deviceKey {
+            return key
+        }
+        return "x"
+    }
 
     // Check user settings
     func updateUserSettings() {

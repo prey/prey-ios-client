@@ -144,9 +144,10 @@ class PreyHTTPResponse {
             do {
                 jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
                 
-                let userApiKeyStr = jsonObject.objectForKey("key") as! String
-                PreyConfig.sharedInstance.userApiKey = userApiKeyStr
-                PreyConfig.sharedInstance.saveValues()
+                if let userApiKeyStr = jsonObject.objectForKey("key") as? String {
+                    PreyConfig.sharedInstance.userApiKey = userApiKeyStr
+                    PreyConfig.sharedInstance.saveValues()
+                }
                 
             } catch let error as NSError{
                 PreyLogger("json error: \(error.localizedDescription)")
@@ -173,10 +174,11 @@ class PreyHTTPResponse {
             do {
                 jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
                 
-                let deviceKeyStr = jsonObject.objectForKey("key") as! String
-                PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
-                PreyConfig.sharedInstance.isRegistered  = true
-                PreyConfig.sharedInstance.saveValues()
+                if let deviceKeyStr = jsonObject.objectForKey("key") as? String {
+                    PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
+                    PreyConfig.sharedInstance.isRegistered  = true
+                    PreyConfig.sharedInstance.saveValues()
+                }
                 
             } catch let error as NSError{
                 PreyLogger("json error: \(error.localizedDescription)")
