@@ -114,10 +114,20 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         
         if let networkInfo = ReportWifi.getNetworkInfo() {
             
-            let params:[String: AnyObject] = [
-                "active_access_point[ssid]"          : networkInfo["SSID"]!,
-                "active_access_point[mac_address]"   : networkInfo["BSSID"]!]
+            guard let ssidNetwork = networkInfo["SSID"] else {
+                PreyLogger("Error get wifi info: SSID")
+                return
+            }
+
+            guard let bssidNetwork = networkInfo["BSSID"] else {
+                PreyLogger("Error get wifi info: BSSID")
+                return
+            }
             
+            let params:[String: AnyObject] = [
+                "active_access_point[ssid]"          : ssidNetwork,
+                "active_access_point[mac_address]"   : bssidNetwork]
+                
             // Save network info to reportData
             reportData.addEntriesFromDictionary(params)
         }
