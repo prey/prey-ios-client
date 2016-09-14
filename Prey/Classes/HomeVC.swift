@@ -299,7 +299,12 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     @IBAction func checkPassword(sender: UIButton?) {
         
         // Check password length
-        if passwordInput.text!.characters.count < 6 {
+        guard let pwdInput = passwordInput.text else {
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+        if pwdInput.characters.count < 6 {
             displayErrorAlert("Password must be at least 6 characters".localized,
                               titleMessage:"We have a situation!".localized)
             return
