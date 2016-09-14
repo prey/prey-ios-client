@@ -77,7 +77,17 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     // CompleteTransaction
     func completeTransaction(transaction:SKPaymentTransaction) {
 
-        provideContent(transaction.payment.productIdentifier, forReceipt:NSData(contentsOfURL:NSBundle.mainBundle().appStoreReceiptURL!)!)
+        guard let storeURL = NSBundle.mainBundle().appStoreReceiptURL else {
+            onTransactionCancelled.first?()
+            return
+        }
+        
+        guard let storeData = NSData(contentsOfURL:storeURL) else {
+            onTransactionCancelled.first?()
+            return
+        }
+        
+        provideContent(transaction.payment.productIdentifier, forReceipt:storeData)
 
         SKPaymentQueue.defaultQueue().finishTransaction(transaction)
     }
@@ -88,14 +98,28 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
         
         SKPaymentQueue.defaultQueue().finishTransaction(transaction)
 
-        onTransactionCancelled.first!()
+        onTransactionCancelled.first?()
     }
     
     // RestoreTransaction
     func restoreTransaction(transaction:SKPaymentTransaction) {
         
-        provideContent(transaction.originalTransaction!.payment.productIdentifier,
-                       forReceipt:NSData(contentsOfURL:NSBundle.mainBundle().appStoreReceiptURL!)!)
+        guard let storeURL = NSBundle.mainBundle().appStoreReceiptURL else {
+            onTransactionCancelled.first?()
+            return
+        }
+        
+        guard let storeData = NSData(contentsOfURL:storeURL) else {
+            onTransactionCancelled.first?()
+            return
+        }
+
+        guard let originalTransaction = transaction.originalTransaction else {
+            onTransactionCancelled.first?()
+            return
+        }
+        
+        provideContent(originalTransaction.payment.productIdentifier, forReceipt:storeData)
 
         SKPaymentQueue.defaultQueue().finishTransaction(transaction)
     }
