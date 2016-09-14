@@ -119,25 +119,22 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     
     // Hide password input
     func hidePasswordInputOption(value:Bool) {
-
-        UIView.animateWithDuration(10.0, animations: {
-            // Input subview
-            self.passwordInput.hidden   = value
-            self.loginBtn.hidden        = value
-            self.forgotBtn.hidden       = value
-            
-            // Menu subview
-            self.accountImg.hidden      = !value
-            self.accountSbtLbl.hidden   = !value
-            self.accountTlLbl.hidden    = !value
-            self.accountBtn.hidden      = !value
-            self.settingsImg.hidden     = !value
-            self.settingsSbtLbl.hidden  = !value
-            self.settingsTlLbl.hidden   = !value
-            self.settingsBtn.hidden     = !value
-            self.tourImg.hidden         = !value
-            self.tourBtn.hidden         = !value
-        })
+        // Input subview
+        self.passwordInput.hidden   = value
+        self.loginBtn.hidden        = value
+        self.forgotBtn.hidden       = value
+        
+        // Menu subview
+        self.accountImg.hidden      = !value
+        self.accountSbtLbl.hidden   = !value
+        self.accountTlLbl.hidden    = !value
+        self.accountBtn.hidden      = !value
+        self.settingsImg.hidden     = !value
+        self.settingsSbtLbl.hidden  = !value
+        self.settingsTlLbl.hidden   = !value
+        self.settingsBtn.hidden     = !value
+        self.tourImg.hidden         = !value
+        self.tourBtn.hidden         = !value
     }
     
     func configCamouflageMode(isCamouflage:Bool) {
