@@ -23,11 +23,14 @@ class PreyUser {
     // MARK: Functions
 
     // Get country name from NSLocale
-    class func getCountryName() -> String? {
-        let locale          = NSLocale.currentLocale()
-        let countryCode     = locale.objectForKey(NSLocaleCountryCode) as! String
-        let countryName     = locale.displayNameForKey(NSLocaleCountryCode, value:countryCode)
-        
+    class func getCountryName() -> String {
+        let locale = NSLocale.currentLocale()
+        guard let countryCode = locale.objectForKey(NSLocaleCountryCode) as? String else {
+            return ""
+        }
+        guard let countryName = locale.displayNameForKey(NSLocaleCountryCode, value:countryCode) else {
+            return ""
+        }        
         return countryName
     }
 
@@ -37,7 +40,7 @@ class PreyUser {
         let params:[String: AnyObject] = [
             "name"                  : userName,
             "email"                 : userEmail,
-            "country_name"          : getCountryName()!,
+            "country_name"          : getCountryName(),
             "password"              : userPassword,
             "password_confirmation" : userPassword,
             "referer_user_id"       : ""]
