@@ -92,14 +92,16 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
     // Display message
     func displayMessage(alertMessage:String, titleMessage:String) {
         
-        let acceptBtn = IS_OS_8_OR_LATER ? "Go to Settings".localized : "OK".localized
-        let cancelBtn = IS_OS_8_OR_LATER ? "Cancel".localized : ""
+        let acceptBtn    = IS_OS_8_OR_LATER ? "Go to Settings".localized : "OK".localized
+        let cancelBtn    = IS_OS_8_OR_LATER ? "Cancel".localized : ""
         
-        let anAlert   = UIAlertView(title:titleMessage,
-                                    message:alertMessage,
-                                    delegate:self,
-                                    cancelButtonTitle:acceptBtn,
-                                    otherButtonTitles:cancelBtn)
+        let anAlert      = UIAlertView()
+        anAlert.title    = titleMessage
+        anAlert.message  = alertMessage
+        anAlert.delegate = self
+        anAlert.addButtonWithTitle(acceptBtn)
+        if IS_OS_8_OR_LATER { anAlert.addButtonWithTitle(cancelBtn) }
+        
         anAlert.show()
     }
 
@@ -113,8 +115,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
         }
         
         if #available(iOS 8.0, *) {
-            let url = NSURL(string:UIApplicationOpenSettingsURLString)!
-            UIApplication.sharedApplication().openURL(url)
+            if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
+                UIApplication.sharedApplication().openURL(url)
+            }
         }
     }
 }
