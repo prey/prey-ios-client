@@ -90,7 +90,7 @@ class PreyAction : NSOperation {
     }
 
     // Send report to panel
-    func sendDataReport(params:NSMutableDictionary, images:NSMutableDictionary?, toEndpoint:String) {
+    func sendDataReport(params:NSMutableDictionary, images:NSMutableDictionary, toEndpoint:String) {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.sendDataReportToPrey(username, password:"x", params:params, images: images, messageId:messageId, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))

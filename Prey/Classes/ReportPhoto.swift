@@ -89,6 +89,7 @@ class ReportPhoto: NSObject {
             // Check error with NSURLSession request
             guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.Back) else {
                 PreyLogger("Error with AVCaptureDevice")
+                self.delegate?.photoReceived(self.photoArray)
                 return
             }
             
@@ -99,6 +100,7 @@ class ReportPhoto: NSObject {
                 // Add session input
                 guard self.sessionDevice.canAddInput(self.videoDeviceInput) else {
                     PreyLogger("Error add session input")
+                    self.delegate?.photoReceived(self.photoArray)
                     return
                 }
                 self.sessionDevice.addInput(self.videoDeviceInput)
@@ -106,6 +108,7 @@ class ReportPhoto: NSObject {
                 // Add session output
                 guard self.sessionDevice.canAddOutput(self.stillImageOutput) else {
                     PreyLogger("Error add session output")
+                    self.delegate?.photoReceived(self.photoArray)
                     return
                 }
                 self.stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
@@ -122,14 +125,22 @@ class ReportPhoto: NSObject {
                 dispatch_after(timeValue, self.sessionQueue, { () -> Void in
                     
                     // Set flash off
-                    self.setFlashModeOff(self.videoDeviceInput!.device)
+                    if let deviceInput = self.videoDeviceInput {
+                        self.setFlashModeOff(deviceInput.device)
+                    }
                     
                     // Capture a still image
-                    self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo), completionHandler: self.checkPhotoCapture(true))
+                    if let videoConnection = self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo) {
+                        self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler:self.checkPhotoCapture(true))
+                    } else {
+                        // Error: return to delegate
+                        self.delegate?.photoReceived(self.photoArray)
+                    }
                 })
                 
             } catch let error as NSError {
                 PreyLogger("AVCaptureDeviceInput error: \(error.localizedDescription)")
+                self.delegate?.photoReceived(self.photoArray)
             }
         }
     }
@@ -179,18 +190,21 @@ class ReportPhoto: NSObject {
             
             guard error == nil else {
                 PreyLogger("Error CMSampleBuffer")
+                self.delegate?.photoReceived(self.photoArray)
                 return
             }
             
             // Change SampleBuffer to NSData
             guard let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer) else {
                 PreyLogger("Error CMSampleBuffer to NSData")
+                self.delegate?.photoReceived(self.photoArray)
                 return
             }
             
             // Save image to Photo Array
             guard let image = UIImage(data: imageData) else {
                 PreyLogger("Error NSData to UIImage")
+                self.delegate?.photoReceived(self.photoArray)
                 return
             }
             
@@ -221,6 +235,7 @@ class ReportPhoto: NSObject {
         // Set captureDevice
         guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.Front) else {
             PreyLogger("Error with AVCaptureDevice")
+            self.delegate?.photoReceived(self.photoArray)
             return
         }
         
@@ -235,6 +250,7 @@ class ReportPhoto: NSObject {
             // Add session input
             guard self.sessionDevice.canAddInput(frontDeviceInput) else {
                 PreyLogger("Error add session input")
+                self.delegate?.photoReceived(self.photoArray)
                 return
             }
             self.sessionDevice.addInput(frontDeviceInput)
@@ -254,14 +270,22 @@ class ReportPhoto: NSObject {
             dispatch_after(timeValue, self.sessionQueue, { () -> Void in
                 
                 // Set flash off
-                self.setFlashModeOff(self.videoDeviceInput!.device)
+                if let deviceInput = self.videoDeviceInput {
+                    self.setFlashModeOff(deviceInput.device)
+                }
                 
                 // Capture a still image
-                self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo), completionHandler: self.checkPhotoCapture(false))
+                if let videoConnection = self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo) {
+                    self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler:self.checkPhotoCapture(false))
+                } else {
+                    // Error: return to delegate
+                    self.delegate?.photoReceived(self.photoArray)
+                }
             })
             
         } catch let error as NSError {
             PreyLogger("AVCaptureDeviceInput error: \(error.localizedDescription)")
+            self.delegate?.photoReceived(self.photoArray)
         }
     }
     

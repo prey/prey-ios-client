@@ -68,7 +68,7 @@ class PreyHTTPClient {
     // MARK: Requests to Prey API
     
     // Send Report Data to Control Panel
-    func sendDataReportToPrey(username: String, password: String, params:NSMutableDictionary, images:NSMutableDictionary?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
+    func sendDataReportToPrey(username: String, password: String, params:NSMutableDictionary, images:NSMutableDictionary, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
         
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
@@ -103,13 +103,19 @@ class PreyHTTPClient {
         let mimetype = "image/png"
         
         // Set images on request
-        for (key, value) in images! {
+        for (key, value) in images {
             
-            bodyRequest.appendString("--\(boundary)\(EncodingCharacters.CRLF)")
-            bodyRequest.appendString("Content-Disposition:form-data; name=\"\(key)\"; filename=\"\(key).jpg\"\(EncodingCharacters.CRLF)")
-            bodyRequest.appendString("Content-Type: \(mimetype)\(EncodingCharacters.CRLF)\(EncodingCharacters.CRLF)")
-            bodyRequest.appendData(UIImagePNGRepresentation(value as! UIImage)!)
-            bodyRequest.appendString(EncodingCharacters.CRLF)
+            guard let img = value as? UIImage else {
+                return
+            }
+            
+            if let imgData = UIImagePNGRepresentation(img) {
+                bodyRequest.appendString("--\(boundary)\(EncodingCharacters.CRLF)")
+                bodyRequest.appendString("Content-Disposition:form-data; name=\"\(key)\"; filename=\"\(key).jpg\"\(EncodingCharacters.CRLF)")
+                bodyRequest.appendString("Content-Type: \(mimetype)\(EncodingCharacters.CRLF)\(EncodingCharacters.CRLF)")
+                bodyRequest.appendData(imgData)
+                bodyRequest.appendString(EncodingCharacters.CRLF)
+            }
         }
         
         // End HTTPBody
