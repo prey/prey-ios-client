@@ -109,7 +109,7 @@ class PreyHTTPResponse {
                 guard let userApiKeyStr = jsonObject.objectForKey("key") as? String else {
                     return
                 }
-                guard let userIsProStr = jsonObject.objectForKey("pro_account") as? NSString else {
+                guard let userIsProStr = jsonObject.objectForKey("pro_account") as? NSNumber else {
                     return
                 }
                 
