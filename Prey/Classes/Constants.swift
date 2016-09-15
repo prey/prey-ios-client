@@ -77,19 +77,24 @@ public func isInvalidEmail(userEmail: String, withPattern: String) -> Bool {
 
 // Display error alert
 public func displayErrorAlert(alertMessage: String, titleMessage:String) {
-    /*
-    let alertView : UIAlertView = UIAlertView(
-    
-    let alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.Alert)
-    alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
-    //self.presentViewController(alert, animated: true, completion: nil)
-    */
-    //if #available(iOS 7.0, *) {}
     dispatch_async(dispatch_get_main_queue()) {
-        let alert       = UIAlertView()
-        alert.title     = titleMessage
-        alert.message   = alertMessage
-        alert.addButtonWithTitle("OK".localized)
-        alert.show()
+        if #available(iOS 8.0, *) {
+            let alertController = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle:.Alert)
+            let OKAction        = UIAlertAction(title: "OK".localized, style: .Default, handler:nil)
+            alertController.addAction(OKAction)
+            
+            guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+                PreyLogger("error with sharedApplication")
+                return
+            }
+            appWindow?.rootViewController!.presentViewController(alertController, animated:true, completion:nil)
+            
+        } else {
+            let alert       = UIAlertView()
+            alert.title     = titleMessage
+            alert.message   = alertMessage
+            alert.addButtonWithTitle("OK".localized)
+            alert.show()
+        }
     }
 }
