@@ -76,13 +76,15 @@ class PreyHTTPResponse {
             let jsonObject: NSDictionary
             
             do {
-                jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                guard let dataResponse = data else {
+                    return
+                }
+                jsonObject = try NSJSONSerialization.JSONObjectWithData(dataResponse, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
                 
-                let tokenPanelStr   = jsonObject.objectForKey("token") as! String
-                
-                PreyConfig.sharedInstance.tokenPanel    = tokenPanelStr
-                PreyConfig.sharedInstance.saveValues()
-                
+                if let tokenPanelStr = jsonObject.objectForKey("token") as? String {
+                    PreyConfig.sharedInstance.tokenPanel = tokenPanelStr
+                    PreyConfig.sharedInstance.saveValues()
+                }
             } catch let error as NSError{
                 PreyLogger("json error: \(error.localizedDescription)")
             }
@@ -99,13 +101,20 @@ class PreyHTTPResponse {
             let jsonObject: NSDictionary
             
             do {
-                jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                guard let dataResponse = data else {
+                    return
+                }
+                jsonObject = try NSJSONSerialization.JSONObjectWithData(dataResponse, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
                 
-                let userApiKeyStr   = jsonObject.objectForKey("key") as! String
-                let userIsPro       = jsonObject.objectForKey("pro_account")!.boolValue as Bool
+                guard let userApiKeyStr = jsonObject.objectForKey("key") as? String else {
+                    return
+                }
+                guard let userIsProStr = jsonObject.objectForKey("pro_account") as? NSString else {
+                    return
+                }
                 
                 PreyConfig.sharedInstance.userApiKey    = userApiKeyStr
-                PreyConfig.sharedInstance.isPro         = userIsPro
+                PreyConfig.sharedInstance.isPro         = userIsProStr.boolValue
                 PreyConfig.sharedInstance.saveValues()
                 
             } catch let error as NSError{
@@ -142,7 +151,10 @@ class PreyHTTPResponse {
             let jsonObject: NSDictionary
             
             do {
-                jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                guard let dataResponse = data else {
+                    return
+                }
+                jsonObject = try NSJSONSerialization.JSONObjectWithData(dataResponse, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
                 
                 if let userApiKeyStr = jsonObject.objectForKey("key") as? String {
                     PreyConfig.sharedInstance.userApiKey = userApiKeyStr
@@ -172,7 +184,10 @@ class PreyHTTPResponse {
             let jsonObject: NSDictionary
             
             do {
-                jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                guard let dataResponse = data else {
+                    return
+                }
+                jsonObject = try NSJSONSerialization.JSONObjectWithData(dataResponse, options:NSJSONReadingOptions.MutableContainers) as! NSDictionary
                 
                 if let deviceKeyStr = jsonObject.objectForKey("key") as? String {
                     PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
@@ -260,8 +275,12 @@ class PreyHTTPResponse {
                 
             // === Success
             case 200...299:
-
-                if let actionArray: String = String(data: data!, encoding: NSUTF8StringEncoding) {
+                guard let dataResponse = data else {
+                    PreyLogger("Failed to check action from panel")
+                    PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+                    return
+                }
+                if let actionArray: String = String(data:dataResponse, encoding:NSUTF8StringEncoding) {
                     dispatch_async(dispatch_get_main_queue()) {
                         PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
                     }
@@ -300,7 +319,12 @@ class PreyHTTPResponse {
             // === Success
             case 200...299:
                 
-                guard let jsonObject: String = String(data: data!, encoding: NSUTF8StringEncoding) else {
+                guard let dataResponse = data else {
+                    PreyLogger("Errod reading request data")
+                    return
+                }
+                
+                guard let jsonObject: String = String(data:dataResponse, encoding:NSUTF8StringEncoding) else {
                     PreyLogger("Error reading json data")
                     return
                 }

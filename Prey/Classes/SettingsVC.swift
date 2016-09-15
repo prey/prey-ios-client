@@ -375,9 +375,12 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     // WebController
     func showWebController(url:String, withTitle title:String) {
         
+        guard let urlString = NSURL(string:url) else {
+            return
+        }
         let controller          = UIViewController()
         let webView             = UIWebView(frame:CGRectZero)
-        let request             = NSURLRequest(URL:NSURL(string:url)!)
+        let request             = NSURLRequest(URL:urlString)
         
         controller.view         = webView
         controller.title        = title

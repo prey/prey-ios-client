@@ -22,31 +22,21 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
 
     // MARK: Properties
 
-    var webView     : UIWebView!
+    var webView     = UIWebView()
 
-    var actInd      : UIActivityIndicatorView!
+    var actInd      = UIActivityIndicatorView()
     
-    var titleView   : String!
+    var titleView   = String()
     
     // MARK: Init
-    
-    // Init required
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
-    // Init default
-    init() {
-        super.init(nibName:nil, bundle:nil)
-    }
-    
     // Init customize
     convenience init(withURL url: NSURL, withParameters:String?, withTitle:String) {
         
-        self.init()
+        self.init(nibName:nil, bundle:nil)
         
         self.titleView                  = withTitle
-        
+
         self.view.backgroundColor       = UIColor.blackColor()
         
         let rectView                    = UIScreen.mainScreen().bounds
@@ -71,6 +61,9 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         
         // Add webView to View
         self.view.addSubview(webView)
+
+        self.actInd                     = UIActivityIndicatorView(initInView:self.view, withText:"Please wait".localized)
+        webView.addSubview(actInd)
         
         // Config cancel button
         let ipadFc: CGFloat             = (IS_IPAD) ? 2 : 1
@@ -112,17 +105,20 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         cancel()
     }
     
+    // Open URL from Safari
+    func openBrowserWith(url:NSURL?) {
+        if let urlRequest = url {
+            UIApplication.sharedApplication().openURL(urlRequest)
+        }
+    }
+    
     // MARK: UIWebViewDelegate
     
     func webViewDidStartLoad(webView: UIWebView) {
         PreyLogger("Start load web")
         
         // Show ActivityIndicator
-        if actInd == nil {
-            actInd          = UIActivityIndicatorView(initInView: self.view, withText:"Please wait".localized)
-            webView.addSubview(actInd)
-            actInd.startAnimating()
-        }
+        actInd.startAnimating()
     }
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
@@ -140,7 +136,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
                 
                 // Help Prey
             case BlockHost.HELPPREY.rawValue:
-                UIApplication.sharedApplication().openURL(NSURL(string:URLHelpPrey)!)
+                openBrowserWith(NSURL(string:URLHelpPrey))
                 return false
             
                 // Panel Prey
@@ -150,7 +146,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
 
                 // Google Maps and image reports
             case BlockHost.S3AMAZON.rawValue, BlockHost.SRCGOOGLE.rawValue:
-                UIApplication.sharedApplication().openURL(request.URL!)
+                openBrowserWith(request.URL)
                 return false
                 
                 // Default true

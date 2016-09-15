@@ -40,7 +40,11 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
             checkVolumeTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(incrementVolume(_:)), userInfo: nil, repeats: true)
             
             // Play sound
-            let musicFile   = NSURL.fileURLWithPath(NSBundle.mainBundle().pathForResource("siren", ofType: "mp3")!)
+            guard let pathFile = NSBundle.mainBundle().pathForResource("siren", ofType: "mp3") else {
+                stopAction()
+                return
+            }
+            let musicFile   = NSURL.fileURLWithPath(pathFile)
             try audioPlayer = AVAudioPlayer(contentsOfURL: musicFile)
             audioPlayer.delegate = self
             audioPlayer.prepareToPlay()
@@ -55,6 +59,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
             
         } catch let error as NSError {
             PreyLogger("AVAudioSession error: \(error.localizedDescription)")
+            stopAction()
         }
     }
     

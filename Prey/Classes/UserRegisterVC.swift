@@ -105,10 +105,8 @@ class UserRegister: GAITrackedViewController, UITextFieldDelegate {
         
         let nextTage=textField.tag+1;
         // Try to find next responder
-        let nextResponder=textField.superview?.viewWithTag(nextTage) as UIResponder!
-        
-        if (nextResponder != nil){
-            nextResponder?.becomeFirstResponder()
+        if let nextResponder = textField.superview?.viewWithTag(nextTage) as UIResponder? {
+            nextResponder.becomeFirstResponder()
         } else {
             addDeviceAction(nil)
         }

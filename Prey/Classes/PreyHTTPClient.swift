@@ -50,8 +50,10 @@ class PreyHTTPClient {
 
     // Encode Authorization for HTTP Header
     func encodeAuthorization(authString: String) -> String {
-        let userAuthorizationData   = authString.dataUsingEncoding(NSUTF8StringEncoding)
-        let encodedCredential       = userAuthorizationData!.base64EncodedStringWithOptions([])
+        guard let userAuthorizationData = authString.dataUsingEncoding(NSUTF8StringEncoding) else {
+            return "Basic 3rr0r"
+        }
+        let encodedCredential = userAuthorizationData.base64EncodedStringWithOptions([])
         return "Basic \(encodedCredential)"
     }
     
@@ -78,8 +80,10 @@ class PreyHTTPClient {
         let session         = NSURLSession(configuration: sessionConfig)
         
         // Set Endpoint
-        let requestURL      = NSURL(string:URLControlPanel.stringByAppendingString(endPoint))
-        let request         = NSMutableURLRequest(URL:requestURL!)
+        guard let requestURL = NSURL(string:URLControlPanel.stringByAppendingString(endPoint)) else {
+            return
+        }
+        let request  = NSMutableURLRequest(URL:requestURL)
 
         // HTTP Header boundary
         let boundary = String(format: "prey.boundary-%08x%08x", arc4random(), arc4random())
@@ -142,13 +146,15 @@ class PreyHTTPClient {
         let session         = NSURLSession(configuration: sessionConfig)
         
         // Set Endpoint
-        let requestURL      = NSURL(string: URLControlPanel.stringByAppendingString(endPoint))
-        let request         = NSMutableURLRequest(URL:requestURL!)
+        guard let requestURL = NSURL(string: URLControlPanel.stringByAppendingString(endPoint)) else {
+            return
+        }
+        let request = NSMutableURLRequest(URL:requestURL)
         
         // Set params
-        if params != nil  {
+        if let parameters = params {
             do {
-                request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(params!, options:NSJSONWritingOptions.PrettyPrinted)
+                request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(parameters, options:NSJSONWritingOptions.PrettyPrinted)
             } catch let error as NSError{
                 PreyLogger("params error: \(error.localizedDescription)")
             }
