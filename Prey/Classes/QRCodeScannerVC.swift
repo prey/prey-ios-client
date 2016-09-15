@@ -14,7 +14,7 @@ class QRCodeScannerVC: GAITrackedViewController, AVCaptureMetadataOutputObjectsD
     
     // MARK: Properties
     
-    let device  : AVCaptureDevice           = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+    let device  : AVCaptureDevice!          = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
     let session : AVCaptureSession          = AVCaptureSession()
     let output  : AVCaptureMetadataOutput   = AVCaptureMetadataOutput()
 
