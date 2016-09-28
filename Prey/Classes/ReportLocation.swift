@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 protocol LocationServiceDelegate {
-    func locationReceived(location:[CLLocation])
+    func locationReceived(_ location:[CLLocation])
 }
 
 class ReportLocation: NSObject, CLLocationManagerDelegate {
@@ -46,7 +46,7 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
     // MARK: CLLocationManagerDelegate
     
     // Did Update Locations
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         PreyLogger("New location received: \(locations.description)")
         
         if !waitForRequest {
@@ -59,17 +59,21 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
             return
         }
         
-        if locations.first?.horizontalAccuracy < 0 {
+        guard let locate = locations.first else {
             return
         }
         
-        if locations.first?.horizontalAccuracy <= 500 {
+        if locate.horizontalAccuracy < 0 {
+            return
+        }
+        
+        if locate.horizontalAccuracy <= 500 {
             self.delegate!.locationReceived(locations)
         }
     }
     
     // Did fail with error
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        PreyLogger("Error getting location: \(error.description)")
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        PreyLogger("Error getting location: \(error.localizedDescription)")
     }
 }

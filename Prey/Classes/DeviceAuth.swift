@@ -15,7 +15,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
     // MARK: Singleton
     
     static let sharedInstance = DeviceAuth()
-    private override init() {
+    override fileprivate init() {
     }
 
     // MARK: Methods
@@ -34,8 +34,10 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
         var notifyAuth = false
         
         if #available(iOS 8.0, *) {
-            let notificationSettings = UIApplication.sharedApplication().currentUserNotificationSettings()
-            notifyAuth = notificationSettings?.types.rawValue > 0
+            if let notificationSettings = UIApplication.shared.currentUserNotificationSettings {
+                notifyAuth = notificationSettings.types.rawValue > 0
+            }
+
         } else {
             notifyAuth = true
         }
@@ -54,9 +56,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
         var locationAuth = false
         
         if (CLLocationManager.locationServicesEnabled() &&
-            CLLocationManager.authorizationStatus() != .NotDetermined &&
-            CLLocationManager.authorizationStatus() != .Denied &&
-            CLLocationManager.authorizationStatus() != .Restricted) {
+            CLLocationManager.authorizationStatus() != .notDetermined &&
+            CLLocationManager.authorizationStatus() != .denied &&
+            CLLocationManager.authorizationStatus() != .restricted) {
             locationAuth = true
         }
         
@@ -73,10 +75,10 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
         
         var cameraAuth = false
         
-        if AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo) == .Authorized {
+        if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) == .authorized {
             cameraAuth = true
         } else {
-            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler:{(granted: Bool) in
+            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler:{(granted: Bool) in
                 cameraAuth = granted
             })
         }
@@ -90,7 +92,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
     }
     
     // Display message
-    func displayMessage(alertMessage:String, titleMessage:String) {
+    func displayMessage(_ alertMessage:String, titleMessage:String) {
         
         let acceptBtn    = IS_OS_8_OR_LATER ? "Go to Settings".localized : "OK".localized
         let cancelBtn    = IS_OS_8_OR_LATER ? "Cancel".localized : ""
@@ -99,8 +101,8 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
         anAlert.title    = titleMessage
         anAlert.message  = alertMessage
         anAlert.delegate = self
-        anAlert.addButtonWithTitle(acceptBtn)
-        if IS_OS_8_OR_LATER { anAlert.addButtonWithTitle(cancelBtn) }
+        anAlert.addButton(withTitle: acceptBtn)
+        if IS_OS_8_OR_LATER { anAlert.addButton(withTitle: cancelBtn) }
         
         anAlert.show()
     }
@@ -108,15 +110,15 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
     // MARK: UIAlertViewDelegate
     
     // AlertView
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         
         guard buttonIndex == 0 else {
             return
         }
         
         if #available(iOS 8.0, *) {
-            if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
-                UIApplication.sharedApplication().openURL(url)
+            if let url = URL(string:UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.openURL(url)
             }
         }
     }
