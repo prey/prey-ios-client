@@ -12,17 +12,17 @@ import MediaPlayer
 // Extension for NSLocalizedString
 extension String {
     var localized: String {
-        return NSLocalizedString(self, tableName: nil, bundle: NSBundle.mainBundle(), value: "", comment: "")
+        return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")
     }
 }
 
 // Extension for PreyModule
 extension Array where Element : Equatable {
     // Remove first collection element that is equal to the given `object`:
-    mutating func removeObject(object : Generator.Element) {
-        if let index = self.indexOf(object) {
+    mutating func removeObject(_ object : Iterator.Element) {
+        if let index = self.index(of: object) {
             if (0...self.count-1 ~= index) {
-                self.removeAtIndex(index)
+                self.remove(at: index)
             }
         }
     }
@@ -33,12 +33,12 @@ extension MPVolumeView {
     var volumeSlider:UISlider {
         self.showsRouteButton = false
         self.showsVolumeSlider = false
-        self.hidden = true
+        self.isHidden = true
         var slider = UISlider()
         for subview in self.subviews {
-            if subview.isKindOfClass(UISlider){
+            if subview.isKind(of: UISlider.self){
                 slider = subview as! UISlider
-                slider.continuous = false
+                slider.isContinuous = false
                 slider.value = AVAudioSession.sharedInstance().outputVolume
                 return slider
             }
@@ -53,28 +53,28 @@ extension UIActivityIndicatorView {
     convenience init(initInView view: UIView, withText text:String) {
         
         // Config ActivityIndicator
-        self.init(activityIndicatorStyle:.White)
+        self.init(activityIndicatorStyle:.white)
         self.hidesWhenStopped       = true
-        self.transform              = CGAffineTransformMakeScale(2, 2)
-        self.center                 = CGPointMake(view.center.x, view.center.y - self.frame.width)
+        self.transform              = CGAffineTransform(scaleX: 2, y: 2)
+        self.center                 = CGPoint(x: view.center.x, y: view.center.y - self.frame.width)
         
         // Set background
         let centerX                 = self.frame.width*3/4
-        let bgRect                  = CGRectMake(-centerX, -self.frame.width/2, self.frame.width*2, self.frame.width*2)
+        let bgRect                  = CGRect(x: -centerX, y: -self.frame.width/2, width: self.frame.width*2, height: self.frame.width*2)
         let bgView                  = UIView(frame:bgRect)
         bgView.backgroundColor      = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.3)
         bgView.clipsToBounds        = true
         bgView.layer.cornerRadius   = 10
-        self.insertSubview(bgView, atIndex: 0)
+        self.insertSubview(bgView, at: 0)
 
         // Set Message
-        let msgRect                 = CGRectMake(-centerX, self.frame.width/2, self.frame.width*2, self.frame.width/2)
+        let msgRect                 = CGRect(x: -centerX, y: self.frame.width/2, width: self.frame.width*2, height: self.frame.width/2)
         let messageLbl              = UILabel(frame: msgRect)
         messageLbl.text             = text
-        messageLbl.textColor        = UIColor.whiteColor()
+        messageLbl.textColor        = UIColor.white
         messageLbl.font             = UIFont(name: "Helvetica-Bold", size: 7)
-        messageLbl.textAlignment    = .Center
-        self.insertSubview(messageLbl, atIndex: 1)
+        messageLbl.textAlignment    = .center
+        self.insertSubview(messageLbl, at: 1)
     }
 }
 
@@ -87,9 +87,9 @@ extension NSMutableData {
     ///
     /// - parameter string:       The string to be added to the `NSMutableData`.
     
-    func appendString(string: String) {
-        if let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
-            appendData(data)
+    func appendString(_ string: String) {
+        if let data = string.data(using: String.Encoding.utf8, allowLossyConversion: true) {
+            append(data)
         }
     }
 }

@@ -15,7 +15,7 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     // MARK: Singleton
     
     static let sharedInstance   = PreyStoreManager()
-    override private init() {
+    override fileprivate init() {
     }
 
     // MARK: Properties
@@ -26,9 +26,9 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     
     var onTransactionCancelled  : [() -> Void] = []
     
-    var onTransactionCompleted  : [(productId:String, receiptData:NSData) -> Void] = []
+    var onTransactionCompleted  : [(_ productId:String, _ receiptData:Data) -> Void] = []
     
-    var onRestoreFailed         : [(error:NSError) -> Void] = []
+    var onRestoreFailed         : [(_ error:Error) -> Void] = []
     
     var onRestoreCompleted      : [() -> Void] = []
     
@@ -47,11 +47,11 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
         productsRequest.start()
         
         // Add Transaction Observer
-        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+        SKPaymentQueue.default().add(self)
     }
     
     // BuyFeature
-    func buyFeature(featureId:String, onComplete:(productId:String, receiptData:NSData) -> Void, onCancelled:() -> Void) {
+    func buyFeature(_ featureId:String, onComplete:@escaping (_ productId:String, _ receiptData:Data) -> Void, onCancelled:@escaping () -> Void) {
         
         guard SKPaymentQueue.canMakePayments() else {
             displayErrorAlert("Check your parental control settings and try again later".localized,
@@ -66,7 +66,7 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
         for product in purchasableObjects {
             if product.productIdentifier == featureId {
                 let payment     = SKPayment(product:product)
-                SKPaymentQueue.defaultQueue().addPayment(payment)
+                SKPaymentQueue.default().add(payment)
             }
         }
     }
@@ -75,57 +75,57 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     // MARK: Transaction Methods
     
     // CompleteTransaction
-    func completeTransaction(transaction:SKPaymentTransaction) {
+    func completeTransaction(_ transaction:SKPaymentTransaction) {
 
-        guard let storeURL = NSBundle.mainBundle().appStoreReceiptURL else {
+        guard let storeURL = Bundle.main.appStoreReceiptURL else {
             onTransactionCancelled.first?()
             return
         }
         
-        guard let storeData = NSData(contentsOfURL:storeURL) else {
+        guard let storeData = try? Data(contentsOf: storeURL) else {
             onTransactionCancelled.first?()
             return
         }
         
         provideContent(transaction.payment.productIdentifier, forReceipt:storeData)
 
-        SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+        SKPaymentQueue.default().finishTransaction(transaction)
     }
     
     // FailedTransaction
-    func failedTransaction(transaction:SKPaymentTransaction) {
+    func failedTransaction(_ transaction:SKPaymentTransaction) {
         PreyLogger("Failed transaction: \(transaction.description)")
         
-        SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+        SKPaymentQueue.default().finishTransaction(transaction)
 
         onTransactionCancelled.first?()
     }
     
     // RestoreTransaction
-    func restoreTransaction(transaction:SKPaymentTransaction) {
+    func restoreTransaction(_ transaction:SKPaymentTransaction) {
         
-        guard let storeURL = NSBundle.mainBundle().appStoreReceiptURL else {
+        guard let storeURL = Bundle.main.appStoreReceiptURL else {
             onTransactionCancelled.first?()
             return
         }
         
-        guard let storeData = NSData(contentsOfURL:storeURL) else {
+        guard let storeData = try? Data(contentsOf: storeURL) else {
             onTransactionCancelled.first?()
             return
         }
 
-        guard let originalTransaction = transaction.originalTransaction else {
+        guard let originalTransaction = transaction.original else {
             onTransactionCancelled.first?()
             return
         }
         
         provideContent(originalTransaction.payment.productIdentifier, forReceipt:storeData)
 
-        SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+        SKPaymentQueue.default().finishTransaction(transaction)
     }
     
     // ProvideContent
-    func provideContent(productIdentifier:String, forReceipt data:NSData) {
+    func provideContent(_ productIdentifier:String, forReceipt data:Data) {
 
         let product = PreyStoreProduct(initWithProductId:productIdentifier, receiptData:data)
 
@@ -133,7 +133,7 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
         product.verifyReceiptOnComplete({() in
             // Success
             self.savePurchaseOfProduct(productIdentifier, withReceipt:data)
-            self.onTransactionCompleted.first?(productId:productIdentifier, receiptData:data)
+            self.onTransactionCompleted.first?(productIdentifier, data)
             }, onError:{() in
             // Error
             self.onTransactionCancelled.first?()
@@ -141,56 +141,56 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     }
     
     // Save purchase
-    func savePurchaseOfProduct(productIdentifier:String, withReceipt data:NSData) {
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey:productIdentifier)
+    func savePurchaseOfProduct(_ productIdentifier:String, withReceipt data:Data) {
+        UserDefaults.standard.set(true, forKey:productIdentifier)
     }
     
     // Check is feature purchased
-    class func isFeaturePurchased(productIdentifier:String) -> Bool {
-        return NSUserDefaults.standardUserDefaults().boolForKey(productIdentifier)
+    class func isFeaturePurchased(_ productIdentifier:String) -> Bool {
+        return UserDefaults.standard.bool(forKey: productIdentifier)
     }
     
     
     // MARK: SKPaymentTransactinObserver
     
     // UpdteTransactions
-    func paymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         PreyLogger("updatedTransactions SKPaymentQueue")
         
         for transaction in transactions {
             switch transaction.transactionState {
 
-            case .Purchasing :
+            case .purchasing :
                 PreyLogger("Purchasing")
 
-            case .Purchased :
+            case .purchased :
                 PreyLogger("Purchased")
                 completeTransaction(transaction)
 
-            case .Failed :
+            case .failed :
                 PreyLogger("Failed")
                 failedTransaction(transaction)
             
-            case .Restored :
+            case .restored :
                 PreyLogger("Restored")
                 restoreTransaction(transaction)
             
-            case .Deferred :
+            case .deferred :
                 PreyLogger("Deferred")
             }
         }
     }
  
     // restoreCompletedTransactionsFailedWithError
-    func paymentQueue(queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: NSError) {
+    func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
         PreyLogger("restoreCompletedTransactionsFailedWithError SKPaymentQueue")
         
-        onRestoreFailed.first?(error:error)
+        onRestoreFailed.first?(error)
         onRestoreFailed.removeAll()
     }
     
     // restoreCompletedTransactions
-    func paymentQueueRestoreCompletedTransactionsFinished(queue: SKPaymentQueue) {
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
         PreyLogger("paymentQueueRestoreCompletedTransactionsFinished SKPaymentQueue")
         
         onRestoreCompleted.first?()
@@ -198,14 +198,14 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     }
     
     // removedTransactions
-    func paymentQueue(queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
+    func paymentQueue(_ queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
         PreyLogger("removedTransactions SKPaymentQueue")
     }
     
     // MARK: SKProductsRequest
     
     // DidReceiveResponse
-    func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         PreyLogger("DidReceiveResponse SKProductsRequest")
         
         // Add object to purchableObjects from response
@@ -222,13 +222,13 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     }
     
     // RequestDidFinish
-    func requestDidFinish(request: SKRequest) {
+    func requestDidFinish(_ request: SKRequest) {
         PreyLogger("RequestDidFinish SKProductsRequest")
     }
     
     // DidFailWithError
-    func request(request: SKRequest, didFailWithError error: NSError) {
-        PreyLogger("DidFailWithError SKProductRequest: \(error.description)")
+    func request(_ request: SKRequest, didFailWithError error: Error) {
+        PreyLogger("DidFailWithError SKProductRequest: \(error.localizedDescription)")
         productsRequest = nil
     }
 }

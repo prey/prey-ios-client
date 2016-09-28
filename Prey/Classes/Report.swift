@@ -14,7 +14,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
  
     // MARK: Properties
     
-    var runReportTimer: NSTimer?
+    var runReportTimer: Timer?
     
     var interval:Double = 10*60
     
@@ -32,12 +32,12 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     func get() {
         
         // Set interval from jsonCommand
-        if let reportInterval = options?.objectForKey(kOptions.interval.rawValue) {
-            interval = reportInterval.doubleValue * 60
+        if let reportInterval = options?.object(forKey: kOptions.interval.rawValue) {
+            interval = (reportInterval as AnyObject).doubleValue * 60
         }
         
         // Report Timer
-        runReportTimer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: #selector(runReport(_:)), userInfo: nil, repeats: true)
+        runReportTimer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(runReport(_:)), userInfo: nil, repeats: true)
         
         isActive = true
         PreyConfig.sharedInstance.reportOptions = options
@@ -47,7 +47,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     }
     
     // Run report
-    func runReport(timer:NSTimer) {
+    func runReport(_ timer:Timer) {
         
         guard PreyConfig.sharedInstance.isMissing else {
             stopReport()
@@ -67,7 +67,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         reportLocation.startLocation()
         
         // Get Photo
-        if UIApplication.sharedApplication().applicationState != .Background {
+        if UIApplication.shared.applicationState != .background {
             reportPhoto.waitForRequest = true
             reportPhoto.delegate = self
             reportPhoto.startSession()
@@ -114,22 +114,22 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         
         if let networkInfo = ReportWifi.getNetworkInfo() {
             
-            guard let ssidNetwork = networkInfo["SSID"] else {
+            guard let ssidNetwork = networkInfo["SSID"] as? String else {
                 PreyLogger("Error get wifi info: SSID")
                 return
             }
 
-            guard let bssidNetwork = networkInfo["BSSID"] else {
+            guard let bssidNetwork = networkInfo["BSSID"] as? String else {
                 PreyLogger("Error get wifi info: BSSID")
                 return
             }
             
-            let params:[String: AnyObject] = [
+            let params:[String: String] = [
                 "active_access_point[ssid]"          : ssidNetwork,
                 "active_access_point[mac_address]"   : bssidNetwork]
                 
             // Save network info to reportData
-            reportData.addEntriesFromDictionary(params)
+            reportData.addEntries(from: params)
         }
     }
     
@@ -137,7 +137,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     // MARK: ReportPhoto Delegate
     
     // Photos received
-    func photoReceived(photos:NSMutableDictionary) {
+    func photoReceived(_ photos:NSMutableDictionary) {
         
         PreyLogger("get photos")
         
@@ -158,18 +158,18 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     // MARK: ReportLocation Delegate
     
     // Location received
-    func locationReceived(location:[CLLocation]) {
+    func locationReceived(_ location:[CLLocation]) {
         
         if let loc = location.first {
 
-            let params:[String : AnyObject] = [
+            let params:[String : Any] = [
                 kReportLocation.LONGITURE.rawValue    : loc.coordinate.longitude,
                 kReportLocation.LATITUDE.rawValue     : loc.coordinate.latitude,
                 kReportLocation.ALTITUDE.rawValue     : loc.altitude,
                 kReportLocation.ACCURACY.rawValue     : loc.horizontalAccuracy]
             
             // Save location to reportData
-            reportData.addEntriesFromDictionary(params)
+            reportData.addEntries(from: params)
             
             // Set location wait
             reportLocation.waitForRequest = false

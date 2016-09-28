@@ -24,7 +24,7 @@ class Camouflage: PreyAction {
         PreyConfig.sharedInstance.saveValues()
 
         // Reload HomeView
-        if UIApplication.sharedApplication().applicationState != .Background {
+        if UIApplication.shared.applicationState != .background {
             showHomeView()
         }
         
@@ -42,7 +42,7 @@ class Camouflage: PreyAction {
         PreyConfig.sharedInstance.saveValues()
 
         // Reload HomeView
-        if UIApplication.sharedApplication().applicationState != .Background {
+        if UIApplication.shared.applicationState != .background {
             showHomeView()
         }
         
@@ -55,14 +55,14 @@ class Camouflage: PreyAction {
     func showHomeView() {
         
         // Get SharedApplication delegate
-        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
         }
         
         let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         
-        if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.home.rawValue) as? HomeVC {
+        if let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.home.rawValue) as? HomeVC {
             
             // Set controller to rootViewController
             let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController

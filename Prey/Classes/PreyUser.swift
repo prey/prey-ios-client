@@ -24,20 +24,20 @@ class PreyUser {
 
     // Get country name from NSLocale
     class func getCountryName() -> String {
-        let locale = NSLocale.currentLocale()
-        guard let countryCode = locale.objectForKey(NSLocaleCountryCode) as? String else {
+        let locale = Locale.current
+        guard let countryCode = (locale as NSLocale).object(forKey: NSLocale.Key.countryCode) as? String else {
             return ""
         }
-        guard let countryName = locale.displayNameForKey(NSLocaleCountryCode, value:countryCode) else {
+        guard let countryName = (locale as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value:countryCode) else {
             return ""
         }        
         return countryName
     }
 
     // SignUp to Panel Prey
-    class func signUpToPrey(userName: String, userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool) -> Void) {
+    class func signUpToPrey(_ userName: String, userEmail: String, userPassword: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
         
-        let params:[String: AnyObject] = [
+        let params:[String: String] = [
             "name"                  : userName,
             "email"                 : userEmail,
             "country_name"          : getCountryName(),
@@ -45,18 +45,18 @@ class PreyUser {
             "password_confirmation" : userPassword,
             "referer_user_id"       : ""]
         
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(userName, password:userPassword, params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.SignUp, onCompletion:onCompletion))
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(userName, password:userPassword, params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.signUp, onCompletion:onCompletion))
     }
     
     // Request Token to Panel Prey
-    class func getTokenFromPanel(userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool) -> Void) {
+    class func getTokenFromPanel(_ userEmail: String, userPassword: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
         
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:tokenEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.GetToken, onCompletion:onCompletion))
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:tokenEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.getToken, onCompletion:onCompletion))
     }
     
     // LogIn to Panel Prey
-    class func logInToPrey(userEmail: String, userPassword: String, onCompletion:(isSuccess: Bool) -> Void) {
+    class func logInToPrey(_ userEmail: String, userPassword: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
         
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:logInEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.LogIn, onCompletion:onCompletion))
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:logInEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.logIn, onCompletion:onCompletion))
     }
 }

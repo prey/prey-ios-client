@@ -11,7 +11,7 @@ import AVFoundation
 import UIKit
 
 protocol PhotoServiceDelegate {
-    func photoReceived(photos:NSMutableDictionary)
+    func photoReceived(_ photos:NSMutableDictionary)
 }
 
 
@@ -25,15 +25,13 @@ class ReportPhoto: NSObject {
     
     // Check device authorization
     var isDeviceAuthorized : Bool {
-        if let authStatus:AVAuthorizationStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo) {
-            return (authStatus == AVAuthorizationStatus.Authorized) ? true : false
-        }
-        return false
+        let authStatus:AVAuthorizationStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        return (authStatus == AVAuthorizationStatus.authorized) ? true : false
     }
     
     // Check camera number
     var isTwoCameraAvailable : Bool {
-        if let videoDevices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo) {
+        if let videoDevices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) {
             return (videoDevices.count > 1) ? true : false
         }
         return false
@@ -51,7 +49,7 @@ class ReportPhoto: NSObject {
     let sessionDevice:AVCaptureSession
     
     // Session Queue
-    let sessionQueue:dispatch_queue_t
+    let sessionQueue:DispatchQueue
     
     // Device Input
     var videoDeviceInput:AVCaptureDeviceInput?
@@ -78,16 +76,16 @@ class ReportPhoto: NSObject {
         // Why not do all of this on the main queue?
         // AVCaptureSession.startRunning() is a blocking call which can take a long time. We dispatch session setup 
         // to the sessionQueue so that the main queue isn't blocked (which keeps the UI responsive).
-        sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
+        sessionQueue = DispatchQueue(label: "session queue", attributes: [])
     }
     
     // Start Session
     func startSession() {
         
-        dispatch_async(sessionQueue) {
+        sessionQueue.async {
             
             // Check error with NSURLSession request
-            guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.Back) else {
+            guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.back) else {
                 PreyLogger("Error with AVCaptureDevice")
                 self.delegate?.photoReceived(self.photoArray)
                 return
@@ -118,11 +116,11 @@ class ReportPhoto: NSObject {
                 self.sessionDevice.startRunning()
                 
                 // KeyObserver
-                self.addObserver(self, forKeyPath:"stillImageOutput.capturingStillImage", options: ([.Old,.New]), context: &CapturingStillImageContext)
+                self.addObserver(self, forKeyPath:"stillImageOutput.capturingStillImage", options: ([.old,.new]), context: &CapturingStillImageContext)
                 
                 // Delay 
-                let timeValue = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-                dispatch_after(timeValue, self.sessionQueue, { () -> Void in
+                let timeValue = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                self.sessionQueue.asyncAfter(deadline: timeValue, execute: { () -> Void in
                     
                     // Set flash off
                     if let deviceInput = self.videoDeviceInput {
@@ -130,15 +128,15 @@ class ReportPhoto: NSObject {
                     }
                     
                     // Capture a still image
-                    if let videoConnection = self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo) {
-                        self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler:self.checkPhotoCapture(true))
+                    if let videoConnection = self.stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
+                        self.stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler:self.checkPhotoCapture(true))
                     } else {
                         // Error: return to delegate
                         self.delegate?.photoReceived(self.photoArray)
                     }
                 })
                 
-            } catch let error as NSError {
+            } catch let error {
                 PreyLogger("AVCaptureDeviceInput error: \(error.localizedDescription)")
                 self.delegate?.photoReceived(self.photoArray)
             }
@@ -147,7 +145,7 @@ class ReportPhoto: NSObject {
     
     // Stop Session
     func stopSession() {
-        dispatch_async(sessionQueue) {
+        sessionQueue.async {
             
             // Remove current device input
             self.sessionDevice.beginConfiguration()
@@ -184,9 +182,9 @@ class ReportPhoto: NSObject {
     }
     
     // Completion Handler to Photo Capture
-    func checkPhotoCapture(isFirstPhoto:Bool) -> (CMSampleBuffer!, NSError?) -> Void {
+    func checkPhotoCapture(_ isFirstPhoto:Bool) -> (CMSampleBuffer?, Error?) -> Void {
         
-        let actionPhotoCapture: (CMSampleBuffer!, NSError?) -> Void = { (sampleBuffer, error) in
+        let actionPhotoCapture: (CMSampleBuffer?, Error?) -> Void = { (sampleBuffer, error) in
             
             guard error == nil else {
                 PreyLogger("Error CMSampleBuffer")
@@ -210,14 +208,14 @@ class ReportPhoto: NSObject {
             
             if isFirstPhoto {
                 self.photoArray.removeAllObjects()
-                self.photoArray.setObject(image, forKey: "picture")
+                self.photoArray.setObject(image, forKey: "picture" as NSCopying)
             } else {
-                self.photoArray.setObject(image, forKey: "screenshot")
+                self.photoArray.setObject(image, forKey: "screenshot" as NSCopying)
             }
             
             // Check if two camera available
             if self.isTwoCameraAvailable && isFirstPhoto {
-                dispatch_async(self.sessionQueue) {
+                self.sessionQueue.async {
                     self.getSecondPhoto()
                 }
             } else {
@@ -233,7 +231,7 @@ class ReportPhoto: NSObject {
     func getSecondPhoto() {
         
         // Set captureDevice
-        guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.Front) else {
+        guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.front) else {
             PreyLogger("Error with AVCaptureDevice")
             self.delegate?.photoReceived(self.photoArray)
             return
@@ -266,8 +264,8 @@ class ReportPhoto: NSObject {
             
             
             // Delay
-            let timeValue = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-            dispatch_after(timeValue, self.sessionQueue, { () -> Void in
+            let timeValue = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            self.sessionQueue.asyncAfter(deadline: timeValue, execute: { () -> Void in
                 
                 // Set flash off
                 if let deviceInput = self.videoDeviceInput {
@@ -275,15 +273,15 @@ class ReportPhoto: NSObject {
                 }
                 
                 // Capture a still image
-                if let videoConnection = self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo) {
-                    self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler:self.checkPhotoCapture(false))
+                if let videoConnection = self.stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
+                    self.stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler:self.checkPhotoCapture(false))
                 } else {
                     // Error: return to delegate
                     self.delegate?.photoReceived(self.photoArray)
                 }
             })
             
-        } catch let error as NSError {
+        } catch let error {
             PreyLogger("AVCaptureDeviceInput error: \(error.localizedDescription)")
             self.delegate?.photoReceived(self.photoArray)
         }
@@ -292,44 +290,44 @@ class ReportPhoto: NSObject {
     // Set shutter sound off
     func setShutterSoundOff() {
         var soundID:SystemSoundID = 0
-        let pathFile = NSBundle.mainBundle().pathForResource("shutter", ofType: "aiff")
-        let shutterFile = NSURL(fileURLWithPath: pathFile!)
-        AudioServicesCreateSystemSoundID((shutterFile as CFURLRef), &soundID)
+        let pathFile = Bundle.main.path(forResource: "shutter", ofType: "aiff")
+        let shutterFile = URL(fileURLWithPath: pathFile!)
+        AudioServicesCreateSystemSoundID((shutterFile as CFURL), &soundID)
         AudioServicesPlaySystemSound(soundID)
     }
     
     // Set Flash Off
-    func setFlashModeOff(device:AVCaptureDevice) {
+    func setFlashModeOff(_ device:AVCaptureDevice) {
         
-        if (device.hasFlash && device.isFlashModeSupported(AVCaptureFlashMode.Off)) {
+        if (device.hasFlash && device.isFlashModeSupported(AVCaptureFlashMode.off)) {
             // Set AVCaptureFlashMode
             do {
                 try device.lockForConfiguration()
-                device.flashMode = AVCaptureFlashMode.Off
+                device.flashMode = AVCaptureFlashMode.off
                 device.unlockForConfiguration()
                 
-            } catch let error as NSError {
+            } catch let error {
                 PreyLogger("AVCaptureFlashMode error: \(error.localizedDescription)")
             }
         }
     }
     
     // Observer Key
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
-        if ( (context == &CapturingStillImageContext) && (change![NSKeyValueChangeNewKey]?.boolValue == true) ) {
+        if ( (context == &CapturingStillImageContext) && ((change![NSKeyValueChangeKey.newKey] as AnyObject).boolValue == true) ) {
             // Set shutter sound off
             self.setShutterSoundOff()
         }
     }
     
     // Return AVCaptureDevice
-    class func deviceWithPosition(position:AVCaptureDevicePosition) -> AVCaptureDevice! {
+    class func deviceWithPosition(_ position:AVCaptureDevicePosition) -> AVCaptureDevice! {
         
-        let devicesArray = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+        let devicesArray = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo)
         
-        for device in devicesArray {
-            if device.position == position {
+        for device in devicesArray! {
+            if (device as AnyObject).position == position {
                 return device as! AVCaptureDevice
             }
         }

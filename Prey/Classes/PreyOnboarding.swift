@@ -16,7 +16,7 @@ enum tagBgImage: Int {
 }
 
 protocol PreyOnboardingDelegate {
-    func scrollDid(scrollView:UIScrollView)
+    func scrollDid(_ scrollView:UIScrollView)
 }
 
 
@@ -28,7 +28,7 @@ class PreyOnboarding: UIView, UIScrollViewDelegate {
     
     let numberPages :CGFloat = 7
     
-    var scrollView = UIScrollView(frame:UIScreen.mainScreen().bounds)
+    var scrollView = UIScrollView(frame:UIScreen.main.bounds)
 
 
 
@@ -37,11 +37,11 @@ class PreyOnboarding: UIView, UIScrollViewDelegate {
     func configInit() {
         
         // Config scrollView
-        scrollView.contentSize      = CGSizeMake(scrollView.frame.width*numberPages ,scrollView.frame.height)
+        scrollView.contentSize      = CGSize(width: scrollView.frame.width*numberPages ,height: scrollView.frame.height)
         scrollView.maximumZoomScale = 1.0
         scrollView.minimumZoomScale = 1.0
         scrollView.clipsToBounds    = true
-        scrollView.pagingEnabled    = true
+        scrollView.isPagingEnabled    = true
         scrollView.delegate         = self
         scrollView.showsHorizontalScrollIndicator = false
         
@@ -49,7 +49,7 @@ class PreyOnboarding: UIView, UIScrollViewDelegate {
         
         // Config Pages
         for page in 0...6 {
-            let pageView = PreyOnboardingPage(frame:CGRectMake(CGFloat(page)*scrollView.frame.width,0,scrollView.frame.width,scrollView.frame.height))
+            let pageView = PreyOnboardingPage(frame:CGRect(x: CGFloat(page)*scrollView.frame.width,y: 0,width: scrollView.frame.width,height: scrollView.frame.height))
             pageView.tag = page + 300
             pageView.configMessageForPage(page)
             pageView.configImagesForPage(page)
@@ -66,13 +66,13 @@ class PreyOnboarding: UIView, UIScrollViewDelegate {
     
     
     // Add background images
-    func addBackgroundImage(bgImg:UIImage, withTag:Int) {
+    func addBackgroundImage(_ bgImg:UIImage, withTag:Int) {
         
         let fxiPhone4S:CGFloat  = IS_IPHONE4S ? 0.215 : 0.27
         let ratioBgImg          = CGFloat(167.0 / 320.0) // :: height / width from bgImages
-        let heightScreen        = UIScreen.mainScreen().bounds.size.height
-        let widthScreen         = UIScreen.mainScreen().bounds.size.width
-        let bgFrame             = CGRectMake(0,heightScreen*fxiPhone4S, widthScreen, widthScreen*ratioBgImg)
+        let heightScreen        = UIScreen.main.bounds.size.height
+        let widthScreen         = UIScreen.main.bounds.size.width
+        let bgFrame             = CGRect(x: 0,y: heightScreen*fxiPhone4S, width: widthScreen, height: widthScreen*ratioBgImg)
         
         let bgImageView         = UIImageView(image:bgImg)
         bgImageView.frame       = bgFrame
@@ -85,7 +85,7 @@ class PreyOnboarding: UIView, UIScrollViewDelegate {
     // MARK: Animations
     
     // Animate background image
-    func animateBackgroundImage(currentBg:Int, nextBg:Int, indexRatio:CGFloat) {
+    func animateBackgroundImage(_ currentBg:Int, nextBg:Int, indexRatio:CGFloat) {
         
         let currentBg:UIView    = self.viewWithTag(currentBg)!
         let nextBg:UIView       = self.viewWithTag(nextBg)!
@@ -100,9 +100,9 @@ class PreyOnboarding: UIView, UIScrollViewDelegate {
     // MARK: UIScrollViewDelegate
     
     // scrollViewDidScroll
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
-        let frame               = UIScreen.mainScreen().applicationFrame
+        let frame               = UIScreen.main.applicationFrame
         let roundedValue        = round(scrollView.contentOffset.x / frame.size.width)
         let currentPage         = Int(roundedValue)
         

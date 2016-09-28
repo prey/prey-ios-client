@@ -58,14 +58,14 @@ class Location : PreyAction, CLLocationManagerDelegate {
         locManager.startUpdatingLocation()
         
         // Schedule get location
-        NSTimer.scheduledTimerWithTimeInterval(30.0, target:self, selector:#selector(stopLocationManager(_:)), userInfo:nil, repeats:false)
+        Timer.scheduledTimer(timeInterval: 30.0, target:self, selector:#selector(stopLocationManager(_:)), userInfo:nil, repeats:false)
         
         isActive = true
         PreyLogger("Start location")
     }
     
     // Stop Location Manager
-    func stopLocationManager(timer:NSTimer)  {
+    func stopLocationManager(_ timer:Timer)  {
         PreyLogger("Stop location")
 
         timer.invalidate()
@@ -77,16 +77,16 @@ class Location : PreyAction, CLLocationManagerDelegate {
     }
     
     // Location received
-    func locationReceived(location:CLLocation) {
+    func locationReceived(_ location:CLLocation) {
  
-        let params:[String: AnyObject] = [
+        let params:[String: Any] = [
             kLocation.lng.rawValue      : location.coordinate.longitude,
             kLocation.lat.rawValue      : location.coordinate.latitude,
             kLocation.alt.rawValue      : location.altitude,
             kLocation.accuracy.rawValue : location.horizontalAccuracy,
             kLocation.method.rawValue   : "native"]
         
-        let locParam:[String: AnyObject] = [kAction.location.rawValue : params]
+        let locParam:[String: Any] = [kAction.location.rawValue : params]
         
         self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
     }
@@ -94,7 +94,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     // MARK: CLLocationManagerDelegate
     
     // Did Update Locations
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         PreyLogger("New location received: \(locations.description)")
         
         guard let currentLocation = locations.first else {
@@ -130,7 +130,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     }
     
     // Did fail with error
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        PreyLogger("Error getting location: \(error.description)")
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        PreyLogger("Error getting location: \(error.localizedDescription)")
     }
 }

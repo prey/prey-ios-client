@@ -18,13 +18,13 @@ class ReportWifi {
         
         var networkInfo = NSDictionary()
 
-        if let interfaces:CFArray! = CNCopySupportedInterfaces() {
+        if let interfaces:CFArray = CNCopySupportedInterfaces() {
 
             for i in 0..<CFArrayGetCount(interfaces) {
                 
-                let interfaceName: UnsafePointer<Void> = CFArrayGetValueAtIndex(interfaces, i)
-                let rec = unsafeBitCast(interfaceName, AnyObject.self)
-                let unsafeInterfaceData = CNCopyCurrentNetworkInfo("\(rec)")
+                let interfaceName: UnsafeRawPointer = CFArrayGetValueAtIndex(interfaces, i)
+                let rec = unsafeBitCast(interfaceName, to: AnyObject.self)
+                let unsafeInterfaceData = CNCopyCurrentNetworkInfo("\(rec)" as CFString)
                 if unsafeInterfaceData != nil {
                     networkInfo = unsafeInterfaceData! as NSDictionary!
                 }

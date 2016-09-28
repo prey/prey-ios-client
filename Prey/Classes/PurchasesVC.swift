@@ -49,16 +49,16 @@ class PurchasesVC: GAITrackedViewController {
     func configureBuyButton() {
 
         // Currency Format
-        let numberFormatter                 = NSNumberFormatter()
-        numberFormatter.formatterBehavior   = .Behavior10_4
-        numberFormatter.numberStyle         = .CurrencyStyle
+        let numberFormatter                 = NumberFormatter()
+        numberFormatter.formatterBehavior   = .behavior10_4
+        numberFormatter.numberStyle         = .currency
 
         if let product = PreyStoreManager.sharedInstance.purchasableObjects.first {
 
             numberFormatter.locale  = product.priceLocale
-            let formattedString     = NSString(format:"%@", numberFormatter.stringFromNumber(product.price)!) as String
+            let formattedString     = NSString(format:"%@", numberFormatter.string(from: product.price)!) as String
             
-            buyBtn.setTitle(formattedString, forState:.Normal)
+            buyBtn.setTitle(formattedString, for:.normal)
         }
     }
     
@@ -71,7 +71,7 @@ class PurchasesVC: GAITrackedViewController {
     // MARK: Functions
     
     // Buy Subscription
-    @IBAction func buySubscription(sender: UIButton) {
+    @IBAction func buySubscription(_ sender: UIButton) {
 
         guard let product = PreyStoreManager.sharedInstance.purchasableObjects.first else {
             displayErrorAlert("Canceled transaction, please try again.".localized,
@@ -86,9 +86,9 @@ class PurchasesVC: GAITrackedViewController {
 
         // Request purchase to App Store
         PreyStoreManager.sharedInstance.buyFeature(product.productIdentifier,
-            onComplete:{(productId:String, receiptData:NSData) -> Void in
+            onComplete:{(productId:String, receiptData:Data) -> Void in
                 // Success
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     actInd.stopAnimating()
                     
                     // Update isPro in PreyConfig
@@ -100,7 +100,7 @@ class PurchasesVC: GAITrackedViewController {
                 }
             }, onCancelled: {() -> Void in
                 // Cancelled
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     actInd.stopAnimating()
                     displayErrorAlert("Canceled transaction, please try again.".localized,
                         titleMessage:"Information".localized)
@@ -110,8 +110,8 @@ class PurchasesVC: GAITrackedViewController {
     
     // Show GrettingsProVC
     func showGrettingsProVC() {
-        if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.grettings.rawValue) as? GrettingsProVC {
-            self.navigationController?.presentViewController(resultController, animated: true, completion:nil)
+        if let resultController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.grettings.rawValue) as? GrettingsProVC {
+            self.navigationController?.present(resultController, animated: true, completion:nil)
         }
     }
 }

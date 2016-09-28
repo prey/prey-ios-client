@@ -72,8 +72,8 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
 
     func configureTexts() {
 
-        loginBtn.setTitle("Log In".localized, forState:.Normal)
-        forgotBtn.setTitle("Forgot your password?".localized, forState:.Normal)
+        loginBtn.setTitle("Log In".localized, for:.normal)
+        forgotBtn.setTitle("Forgot your password?".localized, for:.normal)
         
         passwordInput.placeholder   = "Type in your password".localized
         subtitleLbl.text            = "current device status".localized
@@ -86,7 +86,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     // Check device auth
     func checkDeviceAuth() {
         let isAllAuthAvailable  = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
-        titleLbl.text    = isAllAuthAvailable ? "PROTECTED".localized.uppercaseString : "NOT PROTECTED".localized.uppercaseString
+        titleLbl.text    = isAllAuthAvailable ? "PROTECTED".localized.uppercased() : "NOT PROTECTED".localized.uppercased()
     }
     
     override func didReceiveMemoryWarning() {
@@ -94,56 +94,56 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool){
+    override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
         
         // Hide navigationBar when appear this ViewController
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
         
         // Listen for changes to keyboard visibility so that we can adjust the text view accordingly.
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: #selector(HomeVC.handleKeyboardWillShowNotification(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(HomeVC.handleKeyboardWillHideNotification(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(HomeVC.handleKeyboardWillShowNotification(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(HomeVC.handleKeyboardWillHideNotification(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
         // Hide navigationBar when appear this ViewController
-        self.navigationController?.navigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = false
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     // Hide password input
-    func hidePasswordInputOption(value:Bool) {
+    func hidePasswordInputOption(_ value:Bool) {
         // Input subview
-        self.passwordInput.hidden   = value
-        self.loginBtn.hidden        = value
-        self.forgotBtn.hidden       = value
+        self.passwordInput.isHidden   = value
+        self.loginBtn.isHidden        = value
+        self.forgotBtn.isHidden       = value
         
         // Menu subview
-        self.accountImg.hidden      = !value
-        self.accountSbtLbl.hidden   = !value
-        self.accountTlLbl.hidden    = !value
-        self.accountBtn.hidden      = !value
-        self.settingsImg.hidden     = !value
-        self.settingsSbtLbl.hidden  = !value
-        self.settingsTlLbl.hidden   = !value
-        self.settingsBtn.hidden     = !value
-        self.tourImg.hidden         = !value
-        self.tourBtn.hidden         = !value
+        self.accountImg.isHidden      = !value
+        self.accountSbtLbl.isHidden   = !value
+        self.accountTlLbl.isHidden    = !value
+        self.accountBtn.isHidden      = !value
+        self.settingsImg.isHidden     = !value
+        self.settingsSbtLbl.isHidden  = !value
+        self.settingsTlLbl.isHidden   = !value
+        self.settingsBtn.isHidden     = !value
+        self.tourImg.isHidden         = !value
+        self.tourBtn.isHidden         = !value
     }
     
-    func configCamouflageMode(isCamouflage:Bool) {
+    func configCamouflageMode(_ isCamouflage:Bool) {
 
-        subtitleLbl.hidden      = isCamouflage
-        titleLbl.hidden         = isCamouflage
-        shieldImg.hidden        = isCamouflage
+        subtitleLbl.isHidden      = isCamouflage
+        titleLbl.isHidden         = isCamouflage
+        shieldImg.isHidden        = isCamouflage
         
-        camouflageImg.hidden    = !isCamouflage
+        camouflageImg.isHidden    = !isCamouflage
     }
     
     // Config Prey Tour
@@ -159,36 +159,31 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         tap.delegate    = self
         
         // Add tap to tourImg
-        tourImg.userInteractionEnabled = true
+        tourImg.isUserInteractionEnabled = true
         tourImg.addGestureRecognizer(tap)
         
         // Add target to tourBtn
-        tourBtn.addTarget(self, action:#selector(closePreyTour), forControlEvents:.TouchUpInside)
+        tourBtn.addTarget(self, action:#selector(closePreyTour), for:.touchUpInside)
         
         // Check language in tourImg
-        if let language:String = NSLocale.preferredLanguages()[0] as String {
-            let languageES = (language as NSString).substringToIndex(2)
-            if languageES == "es" {
-                tourImg.image = UIImage(named:"TourEs")
-            }
+        let language:String = Locale.preferredLanguages[0] as String
+        let languageES = (language as NSString).substring(to: 2)
+        if languageES == "es" {
+            tourImg.image = UIImage(named:"TourEs")
         }
     }
     
     // Start Prey Tour
     func startPreyTour() {
-        
-        guard let language:String = NSLocale.preferredLanguages()[0] as String else {
-            PreyLogger("Error get preferredLanguage")
-            return
-        }
-        
-        let languageES  = (language as NSString).substringToIndex(2)
+
+        let language:String = Locale.preferredLanguages[0] as String
+        let languageES  = (language as NSString).substring(to: 2)
         
         let indexPage   = (languageES == "es") ? "index-es" : "index"
-        let url         = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(indexPage, ofType:"html", inDirectory:"PreyTourWeb")!)
+        let url         = URL(fileURLWithPath: Bundle.main.path(forResource: indexPage, ofType:"html", inDirectory:"PreyTourWeb")!)
         
         let controller  = WebVC(withURL:url, withParameters:nil, withTitle:"Prey Tour")
-        self.presentViewController(controller, animated:true, completion:nil)
+        self.present(controller, animated:true, completion:nil)
     }
     
     // Close Prey Tour
@@ -199,44 +194,44 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     
     // MARK: Keyboard Event Notifications
     
-    func handleKeyboardWillShowNotification(notification: NSNotification) {
+    func handleKeyboardWillShowNotification(_ notification: Notification) {
         keyboardWillChangeFrameWithNotification(notification, showsKeyboard: true)
     }
     
-    func handleKeyboardWillHideNotification(notification: NSNotification) {
+    func handleKeyboardWillHideNotification(_ notification: Notification) {
         keyboardWillChangeFrameWithNotification(notification, showsKeyboard: false)
     }
     
-    func dismissKeyboard(tapGesture: UITapGestureRecognizer) {
+    func dismissKeyboard(_ tapGesture: UITapGestureRecognizer) {
         // Dismiss keyboard if is inside from UIView
-        if (CGRectContainsPoint(self.view.frame, tapGesture.locationInView(self.view))) {
+        if (self.view.frame.contains(tapGesture.location(in: self.view))) {
             self.view.endEditing(true);
         }
     }
     
-    func keyboardWillChangeFrameWithNotification(notification: NSNotification, showsKeyboard: Bool) {
-        let userInfo = notification.userInfo!
+    func keyboardWillChangeFrameWithNotification(_ notification: Notification, showsKeyboard: Bool) {
+        let userInfo = (notification as NSNotification).userInfo!
         
-        let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        let animationDuration: TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         
         // Convert the keyboard frame from screen to view coordinates.
-        let keyboardScreenBeginFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let keyboardScreenBeginFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         
-        let keyboardViewBeginFrame = view.convertRect(keyboardScreenBeginFrame, fromView: view.window)
-        let keyboardViewEndFrame = view.convertRect(keyboardScreenEndFrame, fromView: view.window)
+        let keyboardViewBeginFrame = view.convert(keyboardScreenBeginFrame, from: view.window)
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         let originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y
         
         self.view.center.y += originDelta
         
         view.setNeedsUpdateConstraints()
         
-        UIView.animateWithDuration(animationDuration, delay: 0, options: .BeginFromCurrentState, animations: {
+        UIView.animate(withDuration: animationDuration, delay: 0, options: .beginFromCurrentState, animations: {
             self.view.layoutIfNeeded()
             }, completion: nil)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         let nextTage = textField.tag + 1;
 
@@ -256,28 +251,28 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         if let tracker = GAI.sharedInstance().defaultTracker {
             
             let dimensionValue = PreyConfig.sharedInstance.isPro ? "Pro" : "Free"
-            tracker.set(GAIFields.customDimensionForIndex(1), value:dimensionValue)
+            tracker.set(GAIFields.customDimension(for: 1), value:dimensionValue)
             
-            let params = GAIDictionaryBuilder.createEventWithCategory("UserActivity", action:"Log In", label:"Log In", value:nil).build() as [NSObject:AnyObject]
-            tracker.send(params)
+            let params:NSObject = GAIDictionaryBuilder.createEvent(withCategory: "UserActivity", action:"Log In", label:"Log In", value:nil).build()
+            tracker.send(params as! [NSObject : AnyObject])
         }
     }
 
     // Go to Settings
-    @IBAction func goToSettings(sender: UIButton) {
+    @IBAction func goToSettings(_ sender: UIButton) {
         
-        if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.settings.rawValue) as? SettingsVC {
+        if let resultController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.settings.rawValue) as? SettingsVC {
             self.navigationController?.pushViewController(resultController, animated: true)
         }
     }
     
     // Go to Control Panel
-    @IBAction func goToControlPanel(sender: UIButton) {
+    @IBAction func goToControlPanel(_ sender: UIButton) {
 
         if let token = PreyConfig.sharedInstance.tokenPanel {
             let params           = String(format:"token=%@", token)
-            let controller       = WebVC(withURL:NSURL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
-            self.presentViewController(controller, animated:true, completion:nil)
+            let controller       = WebVC(withURL:URL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
+            self.present(controller, animated:true, completion:nil)
             
         } else {
             displayErrorAlert("Error, retry later.".localized,
@@ -286,14 +281,14 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     }
     
     // Run web forgot
-    @IBAction func runWebForgot(sender: UIButton) {
+    @IBAction func runWebForgot(_ sender: UIButton) {
      
-        let controller       = WebVC(withURL:NSURL(string:URLForgotPanel)!, withParameters:nil, withTitle:"Forgot Password Web")
-        self.presentViewController(controller, animated:true, completion:nil)
+        let controller       = WebVC(withURL:URL(string:URLForgotPanel)!, withParameters:nil, withTitle:"Forgot Password Web")
+        self.present(controller, animated:true, completion:nil)
     }
     
     // Check password
-    @IBAction func checkPassword(sender: UIButton?) {
+    @IBAction func checkPassword(_ sender: UIButton?) {
         
         // Check password length
         guard let pwdInput = passwordInput.text else {
@@ -320,7 +315,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         PreyUser.getTokenFromPanel(PreyConfig.sharedInstance.userApiKey!, userPassword:self.passwordInput.text!, onCompletion:{(isSuccess: Bool) in
 
             // Hide ActivityIndicator
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 actInd.stopAnimating()
              
                 // Change inputView

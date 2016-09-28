@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-@available(iOS, deprecated=1.0, message="I'm not deprecated, please ***FIXME**")
+@available(iOS, deprecated: 1.0, message: "I'm not deprecated, please ***FIXME**")
 func FIXME()
 {
 }
@@ -20,9 +20,9 @@ enum StoryboardIdVC: String {
 }
 
 // Def type device
-public let IS_IPAD          : Bool  = (UIDevice.currentDevice().userInterfaceIdiom != UIUserInterfaceIdiom.Phone)
-public let IS_IPHONE4S      : Bool  = (UIScreen.mainScreen().bounds.size.height-480 == 0)
-public let IS_OS_8_OR_LATER : Bool  = ((UIDevice.currentDevice().systemVersion as NSString).floatValue >= 8.0)
+public let IS_IPAD          : Bool  = (UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone)
+public let IS_IPHONE4S      : Bool  = (UIScreen.main.bounds.size.height-480 == 0)
+public let IS_OS_8_OR_LATER : Bool  = ((UIDevice.current.systemVersion as NSString).floatValue >= 8.0)
 
 // Number of Reload for Connection
 public let reloadConnection: Int = 5
@@ -34,7 +34,7 @@ public let delayTime: Double = 2
 public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b"
 
 // App Version
-public let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
+public let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
 
 // InAppPurchases
 public let subscription1Year = "1year_personal_plan_non_renewing_full"
@@ -47,22 +47,22 @@ public let fontTitilliumBold    =  "TitilliumWeb-Bold"
 public let fontTitilliumRegular =  "TitilliumWeb-Regular"
 
 // PreyLogger
-public func PreyLogger(message:String) {
+public func PreyLogger(_ message:String) {
     #if DEBUG
     print(message)
     #endif
 }
 
 // Validate email expression
-public func isInvalidEmail(userEmail: String, withPattern: String) -> Bool {
+public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
 
     var isInvalid = true
     let regex: NSRegularExpression
 
     do {
-        regex = try NSRegularExpression(pattern:withPattern, options:NSRegularExpressionOptions.CaseInsensitive)
+        regex = try NSRegularExpression(pattern:withPattern, options:NSRegularExpression.Options.caseInsensitive)
         let textRange  = NSMakeRange(0, userEmail.characters.count)
-        let matchRange = regex.rangeOfFirstMatchInString(userEmail, options:NSMatchingOptions.ReportProgress, range:textRange)
+        let matchRange = regex.rangeOfFirstMatch(in: userEmail, options:NSRegularExpression.MatchingOptions.reportProgress, range:textRange)
         
         if (matchRange.location != NSNotFound) {
             isInvalid = false
@@ -76,24 +76,24 @@ public func isInvalidEmail(userEmail: String, withPattern: String) -> Bool {
 
 
 // Display error alert
-public func displayErrorAlert(alertMessage: String, titleMessage:String) {
-    dispatch_async(dispatch_get_main_queue()) {
+public func displayErrorAlert(_ alertMessage: String, titleMessage:String) {
+    DispatchQueue.main.async {
         if #available(iOS 8.0, *) {
-            let alertController = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle:.Alert)
-            let OKAction        = UIAlertAction(title: "OK".localized, style: .Default, handler:nil)
+            let alertController = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle:.alert)
+            let OKAction        = UIAlertAction(title: "OK".localized, style: .default, handler:nil)
             alertController.addAction(OKAction)
             
-            guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+            guard let appWindow = UIApplication.shared.delegate?.window else {
                 PreyLogger("error with sharedApplication")
                 return
             }
-            appWindow?.rootViewController!.presentViewController(alertController, animated:true, completion:nil)
+            appWindow?.rootViewController!.present(alertController, animated:true, completion:nil)
             
         } else {
             let alert       = UIAlertView()
             alert.title     = titleMessage
             alert.message   = alertMessage
-            alert.addButtonWithTitle("OK".localized)
+            alert.addButton(withTitle: "OK".localized)
             alert.show()
         }
     }

@@ -30,27 +30,27 @@ class PreyDevice {
     // MARK: Functions
 
     // Init function
-    private init() {
-        name        = UIDevice.currentDevice().name
+    fileprivate init() {
+        name        = UIDevice.current.name
         type        = (IS_IPAD) ? "Tablet" : "Phone"
         os          = "iOS"
         vendor      = "Apple"
-        model       = UIDevice.currentDevice().deviceModel
-        version     = UIDevice.currentDevice().systemVersion
-        uuid        = UIDevice.currentDevice().identifierForVendor?.UUIDString
+        model       = UIDevice.current.deviceModel
+        version     = UIDevice.current.systemVersion
+        uuid        = UIDevice.current.identifierForVendor?.uuidString
         macAddress  = "02:00:00:00:00:00" // iOS default
-        ramSize     = UIDevice.currentDevice().ramSize
-        cpuModel    = UIDevice.currentDevice().hwModel
-        cpuSpeed    = UIDevice.currentDevice().cpuSpeed
-        cpuCores    = UIDevice.currentDevice().cpuCores
+        ramSize     = UIDevice.current.ramSize
+        cpuModel    = UIDevice.current.hwModel
+        cpuSpeed    = UIDevice.current.cpuSpeed
+        cpuCores    = UIDevice.current.cpuCores
     }
     
     // Add new device to Panel Prey
-    class func addDeviceWith(onCompletion:(isSuccess: Bool) -> Void) {
+    class func addDeviceWith(_ onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
         
         let preyDevice = PreyDevice()
         
-        let params:[String: AnyObject] = [
+        let params:[String: String] = [
             "name"                              : preyDevice.name!,
             "device_type"                       : preyDevice.type!,
             "os_version"                        : preyDevice.version!,
@@ -67,12 +67,12 @@ class PreyDevice {
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:devicesEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.AddDevice, onCompletion:onCompletion))
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:devicesEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.addDevice, onCompletion:onCompletion))
         } else {
             let titleMsg = "Couldn't add your device".localized
             let alertMsg = "Error".localized
             displayErrorAlert(alertMsg, titleMessage:titleMsg)
-            onCompletion(isSuccess:false)
+            onCompletion(false)
         }
     }    
 }

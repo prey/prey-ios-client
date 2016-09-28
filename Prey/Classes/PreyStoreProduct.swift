@@ -16,7 +16,7 @@ class PreyStoreProduct {
     var onReceiptVerificationSucceeded  : [() -> Void] = []
     var onReceiptVerificationFailed     : [() -> Void] = []
 
-    var receipt                         : NSData
+    var receipt                         : Data
     var productId                       : String
     
     
@@ -24,25 +24,25 @@ class PreyStoreProduct {
     
     
     // Init with productId
-    init(initWithProductId id:String, receiptData:NSData) {
+    init(initWithProductId id:String, receiptData:Data) {
 
         self.productId = id
         self.receipt   = receiptData
     }
     
     // Verify receipt on complete
-    func verifyReceiptOnComplete(onComplete:()->Void, onError:() -> Void) {
+    func verifyReceiptOnComplete(_ onComplete:@escaping ()->Void, onError:@escaping () -> Void) {
         
         onReceiptVerificationSucceeded.append(onComplete)
         onReceiptVerificationFailed.append(onError)
      
-        let receiptDataString = receipt.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+        let receiptDataString = receipt.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
      
-        let params:[String: AnyObject] = ["receipt-data" : receiptDataString]
+        let params:[String: String] = ["receipt-data" : receiptDataString]
         
         if let username = PreyConfig.sharedInstance.userApiKey {
 
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:subscriptionEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.SubscriptionReceipt, onCompletion:{(isSuccess: Bool) in
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:subscriptionEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.subscriptionReceipt, onCompletion:{(isSuccess: Bool) in
                 
                 guard isSuccess else {
                     self.onReceiptVerificationFailed.first?()

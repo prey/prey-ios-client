@@ -18,7 +18,7 @@ class Detach: PreyAction, UIActionSheetDelegate {
     override func start() {
         PreyLogger("Detach device")
 
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             
             self.isActive = true
             
@@ -37,19 +37,19 @@ class Detach: PreyAction, UIActionSheetDelegate {
         // check when report active
         PreyConfig.sharedInstance.resetValues()
 
-        guard UIApplication.sharedApplication().applicationState != .Background else {
+        guard UIApplication.shared.applicationState != .background else {
             PreyLogger("App in background")
             return
         }
         
         // Get SharedApplication delegate
-        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
         }
         
         let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
-        if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.welcome.rawValue) as? WelcomeVC {
+        if let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.welcome.rawValue) as? WelcomeVC {
             // Set controller to rootViewController
             let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
             navigationController.setViewControllers([resultController], animated: false)
@@ -59,7 +59,7 @@ class Detach: PreyAction, UIActionSheetDelegate {
     // Send detachDevice to Panel
     func sendDetachDeviceToPanel() {
         
-        let appWindow                                   = UIApplication.sharedApplication().delegate?.window
+        let appWindow                                   = UIApplication.shared.delegate?.window
         let navigationController:UINavigationController = appWindow??.rootViewController as! UINavigationController
         
         // Show ActivityIndicator
@@ -68,7 +68,7 @@ class Detach: PreyAction, UIActionSheetDelegate {
         actInd.startAnimating()
         
         self.sendDeleteDevice({(isSuccess: Bool) in
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 // Hide ActivityIndicator
                 actInd.stopAnimating()
                 guard isSuccess else {
@@ -80,21 +80,21 @@ class Detach: PreyAction, UIActionSheetDelegate {
     
     // MARK: AlerView Message
     
-    func showDetachDeviceAction(view:UIView) {
+    func showDetachDeviceAction(_ view:UIView) {
         let actionSheet = UIActionSheet(title:"You're about to delete this device from the Control Panel.\n Are you sure?".localized,
                                         delegate:self,
                                         cancelButtonTitle:"No, don't delete".localized,
                                         destructiveButtonTitle:"Yes, remove from my account".localized)
         
         if IS_IPAD {
-            actionSheet.addButtonWithTitle("No, don't delete".localized)
+            actionSheet.addButton(withTitle: "No, don't delete".localized)
         }
         
-        actionSheet.showInView(view)
+        actionSheet.show(in: view)
     }
     
     // ActionSheetDelegate
-    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
         if buttonIndex == 0 {
             sendDetachDeviceToPanel()
         }

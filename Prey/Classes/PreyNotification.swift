@@ -14,7 +14,7 @@ class PreyNotification {
     // MARK: Properties
     
     static let sharedInstance = PreyNotification()
-    private init() {
+    fileprivate init() {
     }
     
     var requestVerificationSucceeded : ((UIBackgroundFetchResult) -> Void)?
@@ -22,16 +22,15 @@ class PreyNotification {
     // MARK: Functions
     
     // Local notification
-    func checkLocalNotification(application:UIApplication, localNotification:UILocalNotification) {
+    func checkLocalNotification(_ application:UIApplication, localNotification:UILocalNotification) {
         
         if let message:String = localNotification.alertBody {
             PreyLogger("Show message local notification")
             // Add alert action
             let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
-            if let alertAction:Alert = Alert(withTarget:kAction.alert, withCommand:kCommand.start, withOptions:alertOptions) {
-                PreyModule.sharedInstance.actionArray.append(alertAction)
-                PreyModule.sharedInstance.runAction()
-            }            
+            let alertAction:Alert = Alert(withTarget:kAction.alert, withCommand:kCommand.start, withOptions:alertOptions)
+            PreyModule.sharedInstance.actionArray.append(alertAction)
+            PreyModule.sharedInstance.runAction()
         }
         
         application.applicationIconBadgeNumber = -1
@@ -43,32 +42,32 @@ class PreyNotification {
         
         if #available(iOS 8.0, *) {
             
-            let settings = UIUserNotificationSettings(forTypes:[UIUserNotificationType.Alert,
-                                                                UIUserNotificationType.Badge,
-                                                                UIUserNotificationType.Sound],
+            let settings = UIUserNotificationSettings(types:[UIUserNotificationType.alert,
+                                                                UIUserNotificationType.badge,
+                                                                UIUserNotificationType.sound],
                                                       categories: nil)
 
-            UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-            UIApplication.sharedApplication().registerForRemoteNotifications()
+            UIApplication.shared.registerUserNotificationSettings(settings)
+            UIApplication.shared.registerForRemoteNotifications()
             
         } else {
-            UIApplication.sharedApplication().registerForRemoteNotificationTypes([UIRemoteNotificationType.Alert,
-                                                                                  UIRemoteNotificationType.Badge,
-                                                                                  UIRemoteNotificationType.Sound])
+            UIApplication.shared.registerForRemoteNotifications(matching: [UIRemoteNotificationType.alert,
+                                                                                  UIRemoteNotificationType.badge,
+                                                                                  UIRemoteNotificationType.sound])
         }
     }
     
     // Did Register Remote Notifications
-    func didRegisterForRemoteNotificationsWithDeviceToken(deviceToken: NSData) {
+    func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
         
-        let characterSet: NSCharacterSet    = NSCharacterSet(charactersInString: "<>")
+        let characterSet: CharacterSet    = CharacterSet(charactersIn: "<>")
         let tokenAsString: String           = (deviceToken.description as NSString)
-                                            .stringByTrimmingCharactersInSet(characterSet)
-                                            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
+                                            .trimmingCharacters(in: characterSet)
+                                            .replacingOccurrences(of: " ", with: "") as String
 
         PreyLogger("Token: \(tokenAsString)")
         
-        let params:[String: AnyObject] = ["notification_id" : tokenAsString]
+        let params:[String: String] = ["notification_id" : tokenAsString]
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
@@ -77,7 +76,7 @@ class PreyNotification {
     }
     
     // Did Receive Remote Notifications
-    func didReceiveRemoteNotifications(userInfo: [NSObject : AnyObject], completionHandler:(UIBackgroundFetchResult) -> Void) {
+    func didReceiveRemoteNotifications(_ userInfo: [AnyHashable: Any], completionHandler:@escaping (UIBackgroundFetchResult) -> Void) {
         
         PreyLogger("Remote notification received \(userInfo.description)")
         
@@ -94,12 +93,12 @@ class PreyNotification {
     }
     
     // Check request verification
-    func checkRequestVerificationSucceded(isSuccess:Bool) {
+    func checkRequestVerificationSucceded(_ isSuccess:Bool) {
         
         if isSuccess {
-            requestVerificationSucceeded?(UIBackgroundFetchResult.NewData)
+            requestVerificationSucceeded?(UIBackgroundFetchResult.newData)
         } else {
-            requestVerificationSucceeded?(UIBackgroundFetchResult.Failed)
+            requestVerificationSucceeded?(UIBackgroundFetchResult.failed)
         }
     }
 }

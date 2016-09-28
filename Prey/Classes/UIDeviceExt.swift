@@ -42,7 +42,7 @@ extension UIDevice {
         uname(&systemInfo)
         let machineMirror   = Mirror(reflecting: systemInfo.machine)
         let identifier      = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8 where value != 0 else { return identifier }
+            guard let value = element.value as? Int8 , value != 0 else { return identifier }
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
         
@@ -74,7 +74,7 @@ extension UIDevice {
         case "AppleTV5,3":                              modelName = "Apple TV"
         case "i386":                                    modelName = "iPhone Simulator"
         case "x86_64":                                  modelName = "iPad Simulator"
-        default:                                        modelName = UIDevice.currentDevice().name
+        default:                                        modelName = UIDevice.current.name
         }
         
         return modelName
@@ -82,8 +82,8 @@ extension UIDevice {
     
     // MARK: sysctl utils
     
-    func getSysInfo(typeSpecifier: Int32) -> Int {
-        var size: size_t = sizeof(Int)
+    func getSysInfo(_ typeSpecifier: Int32) -> Int {
+        var size: size_t = MemoryLayout<Int>.size
         var results: Int = 0
         
         var mib: [Int32] = [CTL_HW, typeSpecifier]
@@ -93,14 +93,14 @@ extension UIDevice {
         return results
     }
     
-    func getSysInfoByName(typeSpecifier: String) -> String {
+    func getSysInfoByName(_ typeSpecifier: String) -> String {
         var size: size_t = 0
         
         sysctlbyname(typeSpecifier, nil, &size, nil, 0)
         
-        var machine = [CChar](count: Int(size), repeatedValue: 0)
+        var machine = [CChar](repeating: 0, count: Int(size))
         sysctlbyname(typeSpecifier, &machine, &size, nil, 0)
         
-        return String.fromCString(machine)!
+        return String(cString: machine)
     }
 }

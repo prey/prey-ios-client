@@ -15,7 +15,7 @@ class PreyDeployment {
     // MARK: Singleton
     
     static let sharedInstance   = PreyDeployment()
-    private init() {
+    fileprivate init() {
     }
     
     
@@ -44,14 +44,14 @@ class PreyDeployment {
         do {
             // Check if config prey file exist
             let preyFiles           = NSMutableArray()
-            let path                = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let path                = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let publicDocoumentsDir = path.first! as NSString
-            let files               = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(publicDocoumentsDir as String)
+            let files               = try FileManager.default.contentsOfDirectory(atPath: publicDocoumentsDir as String) as [NSString]
 
-            for file:NSString in files {
-                if (file.pathExtension.compare("prey", options:.CaseInsensitiveSearch, range:nil, locale:nil) == NSComparisonResult.OrderedSame) {
-                    let fullPath = publicDocoumentsDir.stringByAppendingPathComponent(file as String)
-                    preyFiles.addObject(fullPath)
+            for file in files {
+                if (file.pathExtension.compare("prey", options:.caseInsensitive, range:nil, locale:nil) == ComparisonResult.orderedSame) {
+                    let fullPath = publicDocoumentsDir.appendingPathComponent(file as String)
+                    preyFiles.add(fullPath)
                 }
             }
             
@@ -59,11 +59,11 @@ class PreyDeployment {
                 return
             }
             
-            guard let fileData = NSData(contentsOfFile: preyFiles.objectAtIndex(0) as! String) else {
+            guard let fileData = try? Data(contentsOf: URL(fileURLWithPath: preyFiles.object(at: 0) as! String)) else {
                 return
             }
             
-            guard let apiKeyUser = NSString(data:fileData, encoding:NSUTF8StringEncoding) else {
+            guard let apiKeyUser = NSString(data:fileData, encoding:String.Encoding.utf8.rawValue) else {
                 return
             }
 
@@ -81,7 +81,7 @@ class PreyDeployment {
         
         var successValue = false
         
-        guard let serverConfig = NSUserDefaults.standardUserDefaults().dictionaryForKey(kConfigurationKey) else {
+        guard let serverConfig = UserDefaults.standard.dictionary(forKey: kConfigurationKey) else {
             successManagedAppConfig(successValue)
             return successValue
         }
@@ -101,12 +101,12 @@ class PreyDeployment {
     }
     
     // Add Device with apiKey
-    func addDeviceWith(apiKey:String, fromQRCode:Bool) {
+    func addDeviceWith(_ apiKey:String, fromQRCode:Bool) {
 
         var actInd = UIActivityIndicatorView()
         
         if fromQRCode {
-            let appWindow   = UIApplication.sharedApplication().delegate?.window
+            let appWindow   = UIApplication.shared.delegate?.window
             let navigationController:UINavigationController = appWindow!!.rootViewController as! UINavigationController
             // Show ActivityIndicator
             actInd          = UIActivityIndicatorView(initInView: navigationController.view, withText: "Attaching device...".localized)
@@ -119,7 +119,7 @@ class PreyDeployment {
         // Add Device to Panel Prey
         PreyDevice.addDeviceWith({(isSuccess: Bool) in
             
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
 
                 // Hide ActivityIndicator
                 if fromQRCode {
@@ -145,7 +145,7 @@ class PreyDeployment {
     func showCongratsVC() {
         
         // Get SharedApplication delegate
-        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
         }
@@ -153,7 +153,7 @@ class PreyDeployment {
         let mainStoryboard : UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         
         // Add Device Success
-        if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.deviceSetUp.rawValue) as? DeviceSetUpVC {
+        if let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.deviceSetUp.rawValue) as? DeviceSetUpVC {
 
             let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
             resultController.messageTxt = "Congratulations! You have successfully associated this iOS device with your Prey account.".localized
@@ -162,15 +162,15 @@ class PreyDeployment {
     }
     
     // SuccessManagedAppConfig
-    func successManagedAppConfig(isSuccess:Bool) {
+    func successManagedAppConfig(_ isSuccess:Bool) {
         
-        guard var feedback = NSUserDefaults.standardUserDefaults().dictionaryForKey(kFeedbackKey) else {
+        guard var feedback = UserDefaults.standard.dictionary(forKey: kFeedbackKey) else {
             let newFeedback = [kFeedbackKey : isSuccess]
-            NSUserDefaults.standardUserDefaults().setObject(newFeedback, forKey:kFeedbackKey)
+            UserDefaults.standard.set(newFeedback, forKey:kFeedbackKey)
             return
         }
         feedback[kFeedbackKey] = isSuccess
-        NSUserDefaults.standardUserDefaults().setObject(feedback, forKey:kFeedbackKey)
+        UserDefaults.standard.set(feedback, forKey:kFeedbackKey)
     }
 }
 

@@ -42,20 +42,20 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     // MARK: Singleton
     
     static let sharedInstance = PreyConfig()
-    private override init() {
+    fileprivate override init() {
         
-        let defaultConfig   = NSUserDefaults.standardUserDefaults()
-        userApiKey          = defaultConfig.stringForKey(PreyConfigDevice.UserApiKey.rawValue)
-        userEmail           = defaultConfig.stringForKey(PreyConfigDevice.UserEmail.rawValue)
-        deviceKey           = defaultConfig.stringForKey(PreyConfigDevice.DeviceKey.rawValue)
-        tokenPanel          = defaultConfig.stringForKey(PreyConfigDevice.TokenDevice.rawValue)
-        hideTourWeb         = defaultConfig.boolForKey(PreyConfigDevice.HideTourWeb.rawValue)
-        isRegistered        = defaultConfig.boolForKey(PreyConfigDevice.IsRegistered.rawValue)
-        isPro               = defaultConfig.boolForKey(PreyConfigDevice.IsPro.rawValue)
-        isMissing           = defaultConfig.boolForKey(PreyConfigDevice.IsMissing.rawValue)
-        isCamouflageMode    = defaultConfig.boolForKey(PreyConfigDevice.IsCamouflageMode.rawValue)
-        updatedSettings     = defaultConfig.boolForKey(PreyConfigDevice.UpdatedSettings.rawValue)
-        reportOptions       = defaultConfig.objectForKey(PreyConfigDevice.ReportOptions.rawValue) as? NSDictionary
+        let defaultConfig   = UserDefaults.standard
+        userApiKey          = defaultConfig.string(forKey: PreyConfigDevice.UserApiKey.rawValue)
+        userEmail           = defaultConfig.string(forKey: PreyConfigDevice.UserEmail.rawValue)
+        deviceKey           = defaultConfig.string(forKey: PreyConfigDevice.DeviceKey.rawValue)
+        tokenPanel          = defaultConfig.string(forKey: PreyConfigDevice.TokenDevice.rawValue)
+        hideTourWeb         = defaultConfig.bool(forKey: PreyConfigDevice.HideTourWeb.rawValue)
+        isRegistered        = defaultConfig.bool(forKey: PreyConfigDevice.IsRegistered.rawValue)
+        isPro               = defaultConfig.bool(forKey: PreyConfigDevice.IsPro.rawValue)
+        isMissing           = defaultConfig.bool(forKey: PreyConfigDevice.IsMissing.rawValue)
+        isCamouflageMode    = defaultConfig.bool(forKey: PreyConfigDevice.IsCamouflageMode.rawValue)
+        updatedSettings     = defaultConfig.bool(forKey: PreyConfigDevice.UpdatedSettings.rawValue)
+        reportOptions       = defaultConfig.object(forKey: PreyConfigDevice.ReportOptions.rawValue) as? NSDictionary
     }
 
     // MARK: Properties
@@ -77,18 +77,18 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     // Save values on NSUserDefaults
     func saveValues() {
         
-        let defaultConfig   = NSUserDefaults.standardUserDefaults()
-        defaultConfig.setObject(userApiKey, forKey:PreyConfigDevice.UserApiKey.rawValue)
-        defaultConfig.setObject(userEmail, forKey:PreyConfigDevice.UserEmail.rawValue)
-        defaultConfig.setObject(deviceKey, forKey:PreyConfigDevice.DeviceKey.rawValue)
-        defaultConfig.setObject(tokenPanel, forKey:PreyConfigDevice.TokenDevice.rawValue)
-        defaultConfig.setBool(hideTourWeb, forKey:PreyConfigDevice.HideTourWeb.rawValue)
-        defaultConfig.setBool(isRegistered, forKey:PreyConfigDevice.IsRegistered.rawValue)
-        defaultConfig.setBool(isPro, forKey:PreyConfigDevice.IsPro.rawValue)
-        defaultConfig.setBool(isMissing, forKey:PreyConfigDevice.IsMissing.rawValue)
-        defaultConfig.setBool(isCamouflageMode, forKey:PreyConfigDevice.IsCamouflageMode.rawValue)
-        defaultConfig.setBool(updatedSettings, forKey:PreyConfigDevice.UpdatedSettings.rawValue)
-        defaultConfig.setObject(reportOptions, forKey:PreyConfigDevice.ReportOptions.rawValue)
+        let defaultConfig   = UserDefaults.standard
+        defaultConfig.set(userApiKey, forKey:PreyConfigDevice.UserApiKey.rawValue)
+        defaultConfig.set(userEmail, forKey:PreyConfigDevice.UserEmail.rawValue)
+        defaultConfig.set(deviceKey, forKey:PreyConfigDevice.DeviceKey.rawValue)
+        defaultConfig.set(tokenPanel, forKey:PreyConfigDevice.TokenDevice.rawValue)
+        defaultConfig.set(hideTourWeb, forKey:PreyConfigDevice.HideTourWeb.rawValue)
+        defaultConfig.set(isRegistered, forKey:PreyConfigDevice.IsRegistered.rawValue)
+        defaultConfig.set(isPro, forKey:PreyConfigDevice.IsPro.rawValue)
+        defaultConfig.set(isMissing, forKey:PreyConfigDevice.IsMissing.rawValue)
+        defaultConfig.set(isCamouflageMode, forKey:PreyConfigDevice.IsCamouflageMode.rawValue)
+        defaultConfig.set(updatedSettings, forKey:PreyConfigDevice.UpdatedSettings.rawValue)
+        defaultConfig.set(reportOptions, forKey:PreyConfigDevice.ReportOptions.rawValue)
     }
     
     // Reset values on NSUserDefaults
@@ -139,24 +139,24 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
             return
         }
 
-        let defaultConfig = NSUserDefaults.standardUserDefaults()
+        let defaultConfig = UserDefaults.standard
         
         // Check if user IsRegistered for versions < 1.6.0
-        if defaultConfig.boolForKey(PreyConfigLegacy.already_registered.rawValue) == false {
+        if defaultConfig.bool(forKey: PreyConfigLegacy.already_registered.rawValue) == false {
             saveValues()
             return
         }
         
         // Update new settings with old settings for registered user
-        isRegistered        = defaultConfig.boolForKey(PreyConfigLegacy.already_registered.rawValue)
-        userApiKey          = defaultConfig.stringForKey(PreyConfigLegacy.api_key.rawValue)
-        userEmail           = defaultConfig.stringForKey(PreyConfigLegacy.email.rawValue)
-        deviceKey           = defaultConfig.stringForKey(PreyConfigLegacy.device_key.rawValue)
-        tokenPanel          = defaultConfig.stringForKey(PreyConfigLegacy.token_panel.rawValue)
-        hideTourWeb         = defaultConfig.boolForKey(PreyConfigLegacy.tour_web.rawValue)
-        isPro               = defaultConfig.boolForKey(PreyConfigLegacy.pro_account.rawValue)
-        isMissing           = defaultConfig.boolForKey(PreyConfigLegacy.is_missing.rawValue)
-        isCamouflageMode    = defaultConfig.boolForKey(PreyConfigLegacy.camouflage_mode.rawValue)
+        isRegistered        = defaultConfig.bool(forKey: PreyConfigLegacy.already_registered.rawValue)
+        userApiKey          = defaultConfig.string(forKey: PreyConfigLegacy.api_key.rawValue)
+        userEmail           = defaultConfig.string(forKey: PreyConfigLegacy.email.rawValue)
+        deviceKey           = defaultConfig.string(forKey: PreyConfigLegacy.device_key.rawValue)
+        tokenPanel          = defaultConfig.string(forKey: PreyConfigLegacy.token_panel.rawValue)
+        hideTourWeb         = defaultConfig.bool(forKey: PreyConfigLegacy.tour_web.rawValue)
+        isPro               = defaultConfig.bool(forKey: PreyConfigLegacy.pro_account.rawValue)
+        isMissing           = defaultConfig.bool(forKey: PreyConfigLegacy.is_missing.rawValue)
+        isCamouflageMode    = defaultConfig.bool(forKey: PreyConfigLegacy.camouflage_mode.rawValue)
 
         saveValues()
     }
@@ -174,9 +174,9 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         let fontTitle               = UIFont(name:fontTitilliumRegular, size:titleFontSize)
         
         UINavigationBar.appearance().titleTextAttributes    = [NSFontAttributeName:fontTitle!,NSForegroundColorAttributeName:colorTitle]
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName:fontItem!,NSForegroundColorAttributeName:colorItem],forState:.Normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName:fontItem!,NSForegroundColorAttributeName:colorItem],for:.normal)
         
-        UINavigationBar.appearance().barTintColor           = UIColor.whiteColor()
+        UINavigationBar.appearance().barTintColor           = UIColor.white
         UINavigationBar.appearance().tintColor              = colorItem
     }
     
@@ -184,6 +184,9 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     
     // Check last version on Store
     func checkLastVersionOnStore() {
+
+        FIXME()
+        /*
 
         guard isMissing else {
             return
@@ -194,32 +197,32 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         }
 
         // Define bundleId
-        let appId   = NSBundle.mainBundle().infoDictionary!["CFBundleIdentifier"] as! String
-        let url     = NSURL(string:String(format:"http://itunes.apple.com/lookup?bundleId=%@",appId))!
+        let appId   = Bundle.main.infoDictionary!["CFBundleIdentifier"] as! String
+        let url     = URL(string:String(format:"http://itunes.apple.com/lookup?bundleId=%@",appId))!
         
-        guard let data = NSData(contentsOfURL:url) else {
+        guard let data = try? Data(contentsOf: url) else {
             return
         }
 
         // Parse info from url
         do {
-            let lookup = try NSJSONSerialization.JSONObjectWithData(data, options:.MutableContainers) as! NSDictionary
+            let lookup = try JSONSerialization.jsonObject(with: data, options:.mutableContainers) as! [String : AnyObject]
             
-            guard lookup["resultCount"]?.integerValue == 1 else {
+            guard (lookup["resultCount"] as AnyObject).intValue == 1 else {
                 return
             }
             
             let appStoreVersion = lookup["results"]![0]["version"] as! NSString
-            let currentVersion  = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
+            let currentVersion  = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
             
             // Compare versions
-            if (appStoreVersion.compare(currentVersion, options:.NumericSearch) == .OrderedDescending) {
+            if (appStoreVersion.compare(currentVersion, options:.numeric) == .orderedDescending) {
                 showMessageForUpdateVersion()
             }
-            
         } catch let error as NSError{
             PreyLogger("params error: \(error.localizedDescription)")
         }
+        */
     }
     
     // MARK: AlertView Message
@@ -231,28 +234,28 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
                                         cancelButtonTitle:"Remind me later".localized,
                                         destructiveButtonTitle:"Download".localized)
         if IS_IPAD {
-            actionSheet.addButtonWithTitle("Remind me later".localized)
+            actionSheet.addButton(withTitle: "Remind me later".localized)
         }
         
-        let appWindow = UIApplication.sharedApplication().delegate?.window!
+        let appWindow = UIApplication.shared.delegate?.window!
         let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
 
-        actionSheet.showInView(navigationController.view)
+        actionSheet.show(in: navigationController.view)
     }
     
     // ActionSheetDelegate
-    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
 
         switch buttonIndex {
             
         case 0: // Download
             let linkStore = "https://itunes.apple.com/us/app/apple-store/id456755037?mt=8"
-            UIApplication.sharedApplication().openURL(NSURL(string:linkStore)!)
+            UIApplication.shared.openURL(URL(string:linkStore)!)
 
         case 1: // Remind me later
-            let defaults = NSUserDefaults.standardUserDefaults()
+            let defaults = UserDefaults.standard
             let nextTime = CFAbsoluteTimeGetCurrent() + 60*60*23*1
-            defaults.setDouble(nextTime, forKey: PreyMessageAsk.UpdateApp.rawValue)
+            defaults.set(nextTime, forKey: PreyMessageAsk.UpdateApp.rawValue)
 
         default: break
         }
@@ -261,16 +264,16 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     // Should ask for update app
     func shouldAskForUpdateApp() -> Bool {
         
-        let defaults    = NSUserDefaults.standardUserDefaults()
+        let defaults    = UserDefaults.standard
         let currentTime = CFAbsoluteTimeGetCurrent()
 
-        if (defaults.objectForKey(PreyMessageAsk.UpdateApp.rawValue) == nil) {
+        if (defaults.object(forKey: PreyMessageAsk.UpdateApp.rawValue) == nil) {
             let nextTime = currentTime + 60*60*23*1
-            defaults.setDouble(nextTime, forKey:PreyMessageAsk.UpdateApp.rawValue)
+            defaults.set(nextTime, forKey:PreyMessageAsk.UpdateApp.rawValue)
             return false
         }
         
-        let nextTime    = defaults.doubleForKey(PreyMessageAsk.UpdateApp.rawValue)
+        let nextTime    = defaults.double(forKey: PreyMessageAsk.UpdateApp.rawValue)
         if (currentTime < nextTime) {
             return false
         }

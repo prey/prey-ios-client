@@ -19,7 +19,7 @@ class Alert: PreyAction {
         PreyLogger("Start alert")
 
         // Check message
-        guard let message = self.options?.objectForKey(kOptions.MESSAGE.rawValue) as? String else {
+        guard let message = self.options?.object(forKey: kOptions.MESSAGE.rawValue) as? String else {
             PreyLogger("Alert: error reading message")
             let parameters = getParamsTo(kAction.alert.rawValue, command: kCommand.stop.rawValue, status: kStatus.stopped.rawValue)
             self.sendData(parameters, toEndpoint: responseDeviceEndpoint)
@@ -27,17 +27,17 @@ class Alert: PreyAction {
         }
         
         // Show message
-        if UIApplication.sharedApplication().applicationState != .Background {
+        if UIApplication.shared.applicationState != .background {
            showAlertVC(message)
             
-        } else if let localNotif:UILocalNotification = UILocalNotification() {
-            
+        } else {
+            let localNotif:UILocalNotification = UILocalNotification()
             // UserInfo
-            let userInfoLocalNotification:[String: AnyObject] = [kOptions.IDLOCAL.rawValue : message]
+            let userInfoLocalNotification:[String: String] = [kOptions.IDLOCAL.rawValue : message]
             localNotif.userInfo     = userInfoLocalNotification
             localNotif.alertBody    = message
             localNotif.hasAction    = false
-            UIApplication.sharedApplication().presentLocalNotificationNow(localNotif)
+            UIApplication.shared.presentLocalNotificationNow(localNotif)
         }
         
         // Send start action
@@ -46,20 +46,20 @@ class Alert: PreyAction {
     }
     
     // Show AlertVC
-    func showAlertVC(msg:String) {
+    func showAlertVC(_ msg:String) {
         
         // Get SharedApplication delegate
-        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
         }
         
         let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         
-        if let resultController = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.alert.rawValue) as? AlertVC {
+        if let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.alert.rawValue) as? AlertVC {
             
             resultController.messageToShow      = msg
-            let rootVC: UINavigationController  = mainStoryboard.instantiateViewControllerWithIdentifier(StoryboardIdVC.navigation.rawValue) as! UINavigationController            
+            let rootVC: UINavigationController  = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController            
             rootVC.setViewControllers([resultController], animated: false)
             appWindow?.rootViewController = rootVC
         }

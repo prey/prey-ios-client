@@ -24,7 +24,7 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
     // MARK: Properties
     
     static let sharedInstance = GeofencingManager()
-    override private init() {
+    override fileprivate init() {
         
         // Init location manager
         geoManager = CLLocationManager()
@@ -36,21 +36,21 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
         geoManager.delegate = self
     }
 
-    let geoManager: CLLocationManager
+    var geoManager: CLLocationManager
     
     
     // MARK: CLLocationManagerDelegate
     
-    func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
         PreyLogger("GeofencingManager: Did start monitoring for region")
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         PreyLogger("GeofencingManager Error: \(error)")
     }
 
     // Enter Region
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         PreyLogger("GeofencingManager: Did enter region")
     
         if let regionIn:CLCircularRegion = region as? CLCircularRegion {
@@ -60,7 +60,7 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
     }
     
     // Exit Region
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         PreyLogger("GeofencingManager: Did exit region")
         
         if let regionIn:CLCircularRegion = region as? CLCircularRegion {
@@ -70,16 +70,16 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
     }
     
     // Params to send
-    func getParamteresToSend(region:CLCircularRegion, withZoneInfo zoneInfo:String) -> [String: AnyObject] {
+    func getParamteresToSend(_ region:CLCircularRegion, withZoneInfo zoneInfo:String) -> [String: Any] {
         
-        let regionInfo:[String: AnyObject] = [
+        let regionInfo:[String: Any] = [
             kGeofence.ZONEID.rawValue       : region.identifier,
-            kLocation.lng.rawValue    : region.center.latitude,
-            kLocation.lat.rawValue     : region.center.longitude,
+            kLocation.lng.rawValue          : region.center.latitude,
+            kLocation.lat.rawValue          : region.center.longitude,
             kLocation.accuracy.rawValue     : region.radius,
             kLocation.method.rawValue       : "native"]
 
-        let params:[String: AnyObject] = [
+        let params:[String: Any] = [
             kGeofence.INFO.rawValue         : regionInfo,
             kGeofence.NAME.rawValue         : zoneInfo]
         
@@ -87,7 +87,7 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
     }
     
     // Send to panel
-    func sendNotifyToPanel(params:[String: AnyObject]) {
+    func sendNotifyToPanel(_ params:[String: Any]) {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:eventsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(nil))

@@ -41,13 +41,13 @@ class CurrentLocationVC: GAITrackedViewController, MKMapViewDelegate {
     // MARK:MKMapViewDelegate
     
     // DidUpdateUserLocation
-    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         let region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, mapRadius, mapRadius)
         mapLocationView.setRegion(region, animated:true)
     }
     
     // WillStartLoadingMap
-    func mapViewWillStartLoadingMap(mapView: MKMapView) {
+    func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
         PreyLogger("start loading map: \(mapView.userLocation.coordinate)")
 
         // Show ActivityIndicator
@@ -57,7 +57,7 @@ class CurrentLocationVC: GAITrackedViewController, MKMapViewDelegate {
     }
 
     // DidFinishLoadingMap
-    func mapViewDidFinishLoadingMap(mapView: MKMapView) {
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         PreyLogger("finish loading map: \(mapView.userLocation.coordinate)")
 
         // Hide ActivityIndicator
@@ -65,7 +65,7 @@ class CurrentLocationVC: GAITrackedViewController, MKMapViewDelegate {
     }
     
     // DidFailLoadingMap
-    func mapViewDidFailLoadingMap(mapView: MKMapView, withError error: NSError) {
+    func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
         PreyLogger("fail loading map")
         
         // Hide ActivityIndicator

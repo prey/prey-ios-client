@@ -31,33 +31,33 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
     // MARK: Init
 
     // Init customize
-    convenience init(withURL url: NSURL, withParameters:String?, withTitle:String) {
+    convenience init(withURL url: URL, withParameters:String?, withTitle:String) {
         
         self.init(nibName:nil, bundle:nil)
         
         self.titleView                  = withTitle
 
-        self.view.backgroundColor       = UIColor.blackColor()
+        self.view.backgroundColor       = UIColor.black
         
-        let rectView                    = UIScreen.mainScreen().bounds
+        let rectView                    = UIScreen.main.bounds
         
         // Config webView
         webView                         = UIWebView(frame:rectView)
-        webView.backgroundColor         = UIColor.blackColor()
+        webView.backgroundColor         = UIColor.black
         webView.delegate                = self
-        webView.multipleTouchEnabled    = true
+        webView.isMultipleTouchEnabled    = true
         webView.scalesPageToFit         = true
         
-        let request                     = NSMutableURLRequest(URL:url)
+        let request                     = NSMutableURLRequest(url:url)
         
         // Set params to request
         if let params = withParameters {
-            request.HTTPMethod          = Method.POST.rawValue
-            request.HTTPBody            = params.dataUsingEncoding(NSUTF8StringEncoding)
+            request.httpMethod          = Method.POST.rawValue
+            request.httpBody            = params.data(using: String.Encoding.utf8)
         }
         
         // Load request
-        webView.loadRequest(request)
+        webView.loadRequest(request as URLRequest)
         
         // Add webView to View
         self.view.addSubview(webView)
@@ -68,18 +68,18 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         // Config cancel button
         let ipadFc: CGFloat             = (IS_IPAD) ? 2 : 1
         let posX                        = rectView.size.width - 50*ipadFc
-        let rectBtn                     = CGRectMake(posX, 7*ipadFc, 38*ipadFc, 34*ipadFc)
+        let rectBtn                     = CGRect(x: posX, y: 7*ipadFc, width: 38*ipadFc, height: 34*ipadFc)
         let cancelButton                = UIButton(frame: rectBtn)
-        cancelButton.backgroundColor    = UIColor.clearColor()
-        cancelButton.setBackgroundImage(UIImage(named:"BtCloseOff"), forState:.Normal)
-        cancelButton.setBackgroundImage(UIImage(named:"BtCloseOn"),  forState:.Highlighted)
-        cancelButton.addTarget(self, action: #selector(cancel), forControlEvents:.TouchUpInside)
+        cancelButton.backgroundColor    = UIColor.clear
+        cancelButton.setBackgroundImage(UIImage(named:"BtCloseOff"), for:.normal)
+        cancelButton.setBackgroundImage(UIImage(named:"BtCloseOn"),  for:.highlighted)
+        cancelButton.addTarget(self, action: #selector(cancel), for:.touchUpInside)
         self.view.addSubview(cancelButton)
     }
     
     // Close viewController
     func cancel() {
-        self.dismissViewControllerAnimated(true, completion:nil)
+        self.dismiss(animated: true, completion:nil)
     }
     
     override func viewDidLoad() {
@@ -106,25 +106,25 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
     }
     
     // Open URL from Safari
-    func openBrowserWith(url:NSURL?) {
+    func openBrowserWith(_ url:URL?) {
         if let urlRequest = url {
-            UIApplication.sharedApplication().openURL(urlRequest)
+            UIApplication.shared.openURL(urlRequest)
         }
     }
     
     // MARK: UIWebViewDelegate
     
-    func webViewDidStartLoad(webView: UIWebView) {
+    func webViewDidStartLoad(_ webView: UIWebView) {
         PreyLogger("Start load web")
         
         // Show ActivityIndicator
         actInd.startAnimating()
     }
     
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         PreyLogger("Should load request")
         
-        if let host = request.URL?.host {
+        if let host = request.url?.host {
             
             switch host {
          
@@ -136,17 +136,17 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
                 
                 // Help Prey
             case BlockHost.HELPPREY.rawValue:
-                openBrowserWith(NSURL(string:URLHelpPrey))
+                openBrowserWith(URL(string:URLHelpPrey))
                 return false
             
                 // Panel Prey
             case BlockHost.PANELPREY.rawValue:
-                webView.stringByEvaluatingJavaScriptFromString("var printBtn = document.getElementById('print'); printBtn.style.display='none';")
+                webView.stringByEvaluatingJavaScript(from: "var printBtn = document.getElementById('print'); printBtn.style.display='none';")
                 return true
 
                 // Google Maps and image reports
             case BlockHost.S3AMAZON.rawValue, BlockHost.SRCGOOGLE.rawValue:
-                openBrowserWith(request.URL)
+                openBrowserWith(request.url)
                 return false
                 
                 // Default true
@@ -156,7 +156,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         }
         
         // Check scheme for PreyTourWeb
-        if request.URL?.scheme == "closewebview" {
+        if request.url?.scheme == "closewebview" {
             closePreyTourWebView()
             return false
         }
@@ -164,26 +164,26 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         return true
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         PreyLogger("Finish load web")
         
         // Hide ActivityIndicator
         actInd.stopAnimating()
         
         // Hide ViewMap class
-        webView.stringByEvaluatingJavaScriptFromString("var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border js-toggle-report-map')[1]; viewMapBtn.style.display='none';")
+        webView.stringByEvaluatingJavaScript(from: "var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border js-toggle-report-map')[1]; viewMapBtn.style.display='none';")
         
         // Hide addDeviceBtn
-        webView.stringByEvaluatingJavaScriptFromString("var addDeviceBtn = document.getElementsByClassName('btn btn-success js-add-device pull-right')[0]; addDeviceBtn.style.display='none';")
+        webView.stringByEvaluatingJavaScript(from: "var addDeviceBtn = document.getElementsByClassName('btn btn-success js-add-device pull-right')[0]; addDeviceBtn.style.display='none';")
         
         // Hide accountPlans
-        webView.stringByEvaluatingJavaScriptFromString("var accountPlans = document.getElementById('account-plans'); accountPlans.style.display='none';")
+        webView.stringByEvaluatingJavaScript(from: "var accountPlans = document.getElementById('account-plans'); accountPlans.style.display='none';")
         
         // Hide print option
-        webView.stringByEvaluatingJavaScriptFromString("var printBtn = document.getElementById('print'); printBtn.style.display='none';")
+        webView.stringByEvaluatingJavaScript(from: "var printBtn = document.getElementById('print'); printBtn.style.display='none';")
     }
     
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         PreyLogger("Error loading web")
         
         // Hide ActivityIndicator

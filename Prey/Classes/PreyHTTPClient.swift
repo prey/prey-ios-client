@@ -14,7 +14,7 @@ class PreyHTTPClient {
     // MARK: Properties
     
     static let sharedInstance = PreyHTTPClient()
-    private init() {
+    fileprivate init() {
     }
     
     // Encoding Character
@@ -24,17 +24,17 @@ class PreyHTTPClient {
 
     // Define UserAgent
     var userAgent : String {
-        let systemVersion = UIDevice.currentDevice().systemVersion
-        let appVersion    = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as! String
+        let systemVersion = UIDevice.current.systemVersion
+        let appVersion    = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         return "Prey/\(appVersion) (iOS \(systemVersion))"
     }
 
     // Define NSURLSessionConfiguration
-    func getSessionConfig(authString: String, messageId: String?) -> NSURLSessionConfiguration {
+    func getSessionConfig(_ authString: String, messageId: String?) -> URLSessionConfiguration {
         
-        let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let sessionConfig = URLSessionConfiguration.default
         
-        var additionalHeader :[NSObject : AnyObject] = ["User-Agent" : userAgent, "Content-Type" : "application/json", "Authorization" : authString]
+        var additionalHeader :[AnyHashable: Any] = ["User-Agent" : userAgent, "Content-Type" : "application/json", "Authorization" : authString]
         
         // Check if exist MessageId for action group
         if let msg = messageId {
@@ -43,47 +43,38 @@ class PreyHTTPClient {
             additionalHeader["X-Prey-Correlation-Id"]   = msg
         }
         
-        sessionConfig.HTTPAdditionalHeaders = additionalHeader
+        sessionConfig.httpAdditionalHeaders = additionalHeader
         
         return sessionConfig
     }
 
     // Encode Authorization for HTTP Header
-    func encodeAuthorization(authString: String) -> String {
-        guard let userAuthorizationData = authString.dataUsingEncoding(NSUTF8StringEncoding) else {
+    func encodeAuthorization(_ authString: String) -> String {
+        guard let userAuthorizationData = authString.data(using: String.Encoding.utf8) else {
             return "Basic 3rr0r"
         }
-        let encodedCredential = userAuthorizationData.base64EncodedStringWithOptions([])
+        let encodedCredential = userAuthorizationData.base64EncodedString(options: [])
         return "Basic \(encodedCredential)"
-    }
-    
-    // Define CompletionHandler
-    func getCompletionHandler(withCompletion:(dataRequest: NSData?, responseRequest: NSURLResponse?, error: NSError?) -> Void) -> (NSData?, NSURLResponse?, NSError?) -> Void {
-
-        let completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
-            withCompletion(dataRequest:data, responseRequest:response, error:error)
-        }
-        return completionHandler
     }
     
     
     // MARK: Requests to Prey API
     
     // Send Report Data to Control Panel
-    func sendDataReportToPrey(username: String, password: String, params:NSMutableDictionary, images:NSMutableDictionary, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
+    func sendDataReportToPrey(_ username: String, password: String, params:NSMutableDictionary, images:NSMutableDictionary, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
         
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
         
         // Set session Config
         let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId)
-        let session         = NSURLSession(configuration: sessionConfig)
+        let session         = URLSession(configuration: sessionConfig)
         
         // Set Endpoint
-        guard let requestURL = NSURL(string:URLControlPanel.stringByAppendingString(endPoint)) else {
+        guard let requestURL = URL(string:URLControlPanel + endPoint) else {
             return
         }
-        let request  = NSMutableURLRequest(URL:requestURL)
+        var request  = URLRequest(url:requestURL)
 
         // HTTP Header boundary
         let boundary = String(format: "prey.boundary-%08x%08x", arc4random(), arc4random())
@@ -117,7 +108,7 @@ class PreyHTTPClient {
                 bodyRequest.appendString("--\(boundary)\(EncodingCharacters.CRLF)")
                 bodyRequest.appendString("Content-Disposition:form-data; name=\"\(key)\"; filename=\"\(key).jpg\"\(EncodingCharacters.CRLF)")
                 bodyRequest.appendString("Content-Type: \(mimetype)\(EncodingCharacters.CRLF)\(EncodingCharacters.CRLF)")
-                bodyRequest.appendData(imgData)
+                bodyRequest.append(imgData)
                 bodyRequest.appendString(EncodingCharacters.CRLF)
             }
         }
@@ -125,45 +116,45 @@ class PreyHTTPClient {
         // End HTTPBody
         bodyRequest.appendString("--\(boundary)--\(EncodingCharacters.CRLF)")
         
-        request.HTTPBody    = bodyRequest
-        request.HTTPMethod  = httpMethod
+        request.httpBody    = bodyRequest as Data
+        request.httpMethod  = httpMethod
         
         // Prepare Request to Send
-        let task = session.dataTaskWithRequest(request, completionHandler:getCompletionHandler(onCompletion))
+        let task = session.dataTask(with: request, completionHandler:onCompletion)
         
         // Send Request
         task.resume()
     }
     
     // SignUp/LogIn User to Control Panel
-    func userRegisterToPrey(username: String, password: String, params: [String: AnyObject]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:(dataRequest: NSData?, responseRequest:NSURLResponse?, error:NSError?)->Void) {
+    func userRegisterToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
         
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
         
         // Set session Config
         let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId)
-        let session         = NSURLSession(configuration: sessionConfig)
+        let session         = URLSession(configuration: sessionConfig)
         
         // Set Endpoint
-        guard let requestURL = NSURL(string: URLControlPanel.stringByAppendingString(endPoint)) else {
+        guard let requestURL = URL(string: URLControlPanel + endPoint) else {
             return
         }
-        let request = NSMutableURLRequest(URL:requestURL)
+
+        var request = URLRequest(url:requestURL)
         
         // Set params
         if let parameters = params {
             do {
-                request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(parameters, options:NSJSONWritingOptions.PrettyPrinted)
+                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options:JSONSerialization.WritingOptions.prettyPrinted)
             } catch let error as NSError{
                 PreyLogger("params error: \(error.localizedDescription)")
             }
         }
 
-        request.HTTPMethod  = httpMethod
+        request.httpMethod  = httpMethod
         
-        // Prepare Request to Send
-        let task = session.dataTaskWithRequest(request, completionHandler:getCompletionHandler(onCompletion))
+        let task = session.dataTask(with:request, completionHandler:onCompletion)
         
         // Send Request
         task.resume()

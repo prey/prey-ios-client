@@ -33,46 +33,42 @@ class SignInVC: UserRegister {
         emailTextField.placeholder      = "email".localized
         passwordTextField.placeholder   = "password".localized
         
-        addDeviceButton.setTitle("ACCESS TO MY ACCOUNT".localized, forState:.Normal)
-        changeViewBtn.setTitle("don’t have an account?".localized, forState:.Normal)
+        addDeviceButton.setTitle("ACCESS TO MY ACCOUNT".localized, for:.normal)
+        changeViewBtn.setTitle("don’t have an account?".localized, for:.normal)
     }
     
     
     // MARK: Actions
 
     // Show SignUp view
-    @IBAction func showSignUpVC(sender: UIButton) {
+    @IBAction func showSignUpVC(_ sender: UIButton) {
     
         // Get SharedApplication delegate
-        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
         }
 
         // Get SignUpVC from Storyboard
-        if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.signUp.rawValue) {
-            
-            // Set controller to rootViewController
-            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-            
-            let transition:CATransition = CATransition()
-            transition.type = kCATransitionFade
-            navigationController.view.layer.addAnimation(transition, forKey: "")
-            
-            navigationController.setViewControllers([controller], animated: false)
-        }
+        let controller:UIViewController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.signUp.rawValue)
+        // Set controller to rootViewController
+        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+        
+        let transition:CATransition = CATransition()
+        transition.type = kCATransitionFade
+        navigationController.view.layer.add(transition, forKey: "")
+        
+        navigationController.setViewControllers([controller], animated: false)
     }
 
     // Add device with QRCode
-    @IBAction func addDeviceWithQRCode(sender: UIButton?) {
-
-        if let controller:QRCodeScannerVC = QRCodeScannerVC() {
-            self.navigationController?.presentViewController(controller, animated:true, completion:nil)
-        }
+    @IBAction func addDeviceWithQRCode(_ sender: UIButton?) {
+        let controller:QRCodeScannerVC = QRCodeScannerVC()
+        self.navigationController?.present(controller, animated:true, completion:nil)
     }
     
     // Add device action    
-    @IBAction override func addDeviceAction(sender: UIButton?) {
+    @IBAction override func addDeviceAction(_ sender: UIButton?) {
         
         // Check valid email
         if isInvalidEmail(emailTextField.text!, withPattern:emailRegExp) {
@@ -104,7 +100,7 @@ class SignInVC: UserRegister {
             // LogIn isn't Success
             guard isSuccess else {
                 // Hide ActivityIndicator
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                      actInd.stopAnimating()
                 }
                 return
@@ -116,7 +112,7 @@ class SignInVC: UserRegister {
             // Add Device to Panel Prey
             PreyDevice.addDeviceWith({(isSuccess: Bool) in
                 
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     // AddDevice isn't success
                     guard isSuccess else {
                         // Hide ActivityIndicator
@@ -125,7 +121,7 @@ class SignInVC: UserRegister {
                     }
                     
                     // Add Device Success
-                    if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.deviceSetUp.rawValue) as? DeviceSetUpVC {
+                    if let resultController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.deviceSetUp.rawValue) as? DeviceSetUpVC {
 
                         resultController.messageTxt = "Congratulations! You have successfully associated this iOS device with your Prey account.".localized
                         self.navigationController?.pushViewController(resultController, animated: true)

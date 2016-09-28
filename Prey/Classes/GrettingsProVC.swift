@@ -39,16 +39,16 @@ class GrettingsProVC: GAITrackedViewController {
     func configureTexts() {
         messagetxtbl.text = "Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team.".localized
         titleTxtLbl.text  = "Congrats,\nyou're now Pro".localized
-        okBtn.setTitle("Go back to preferences".localized, forState:.Normal)
+        okBtn.setTitle("Go back to preferences".localized, for:.normal)
     }
     
     // MARK: Functions
     
     // Go to Settings
-    @IBAction func goToSettings(sender: UIButton) {
+    @IBAction func goToSettings(_ sender: UIButton) {
         
         // Get SharedApplication delegate
-        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
         }
@@ -56,9 +56,9 @@ class GrettingsProVC: GAITrackedViewController {
         // Set controller to rootViewController
         let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
 
-        navigationController.dismissViewControllerAnimated(true, completion:{() in
+        navigationController.dismiss(animated: true, completion:{() in
 
-            navigationController.popViewControllerAnimated(true)
+            navigationController.popViewController(animated: true)
             
             if let controller:SettingsVC = navigationController.visibleViewController as? SettingsVC{
                 controller.tableView.reloadData()

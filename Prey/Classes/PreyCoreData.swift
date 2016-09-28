@@ -17,35 +17,35 @@ class PreyCoreData {
     var managedObjectContext: NSManagedObjectContext!
 
     static let sharedInstance = PreyCoreData()
-    private init() {
+    fileprivate init() {
         
         // This resource is the same name as your xcdatamodeld contained in your project.
-        guard let modelURL = NSBundle.mainBundle().URLForResource("PreyData", withExtension:"momd") else {
+        guard let modelURL = Bundle.main.url(forResource: "PreyData", withExtension:"momd") else {
             PreyLogger("Error loading model from bundle")
             return
         }
         // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
-        guard let mom = NSManagedObjectModel(contentsOfURL: modelURL) else {
+        guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
             PreyLogger("Error initializing mom from: \(modelURL)")
             return
         }
         
         let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
-        managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = psc
         
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let docURL = urls[urls.endIndex-1]
         
         // The directory the application uses to store the Core Data store file.
         // This code uses a file named "PreyData.sqlite" in the application's documents directory.
         
-        let storeURL = docURL.URLByAppendingPathComponent("PreyData.sqlite")
+        let storeURL = docURL.appendingPathComponent("PreyData.sqlite")
         do {
-            try psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
+            try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
         } catch {
             PreyLogger("Error migrating store: \(error)")
-            try! NSFileManager.defaultManager().removeItemAtURL(storeURL)
+            try! FileManager.default.removeItem(at: storeURL)
         }
     }
     
@@ -55,17 +55,18 @@ class PreyCoreData {
     func getCurrentGeofenceZones() -> [GeofenceZones] {
     
         var fetchedObjects  = [GeofenceZones]()
-        let fetchRequest    = NSFetchRequest()
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest()
         
-        guard let entity = NSEntityDescription.entityForName("GeofenceZones", inManagedObjectContext:managedObjectContext) else {
+        guard let entity = NSEntityDescription.entity(forEntityName: "GeofenceZones", in:managedObjectContext) else {
             return fetchedObjects
         }
         
         fetchRequest.entity = entity
         
         do {
-            let context = managedObjectContext
-            fetchedObjects = try context.executeFetchRequest(fetchRequest) as! [GeofenceZones]
+            if let context = managedObjectContext {
+                fetchedObjects = try context.fetch(fetchRequest) as! [GeofenceZones]
+            }
         } catch let error as NSError {
             PreyLogger("CoreData error: \(error.localizedDescription)")
         }

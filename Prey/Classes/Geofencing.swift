@@ -29,7 +29,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
     }
     
     // Update Geofence Zones
-    func updateGeofenceZones(response:NSArray) {
+    func updateGeofenceZones(_ response:NSArray) {
         
         let localZonesArray = PreyCoreData.sharedInstance.getCurrentGeofenceZones()
         
@@ -64,7 +64,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
     }
     
     // Send event to panel
-    func sendEventToPanel(zonesArray:[GeofenceZones], withCommand cmd:kCommand, withStatus status:kStatus){
+    func sendEventToPanel(_ zonesArray:[GeofenceZones], withCommand cmd:kCommand, withStatus status:kStatus){
         
         // Create a zonesId array with new zones
         var zonesId = [NSNumber]()
@@ -74,7 +74,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         }
         
         // Params struct
-        let params:[String: AnyObject] = [
+        let params:[String: String] = [
             kData.status.rawValue   : status.rawValue,
             kData.target.rawValue   : kAction.geofencing.rawValue,
             kData.command.rawValue  : cmd.rawValue,
@@ -91,9 +91,9 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
     // Delete all regions on device
     func deleteAllRegionsOnDevice() {
         
-        if let regions:NSSet = geoManager.monitoredRegions {
+        if let regions:NSSet = geoManager.monitoredRegions as NSSet? {
             for item in regions {
-                geoManager.stopMonitoringForRegion(item as! CLRegion)
+                geoManager.stopMonitoring(for: item as! CLRegion)
             }
         }
     }
@@ -105,32 +105,32 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         let context         = PreyCoreData.sharedInstance.managedObjectContext
 
         for localZone in localZonesArray {
-            context.deleteObject(localZone)
+            context?.delete(localZone)
         }
     }
     
     // Add regions to CoreData
-    func addRegionsToCoreData(response:NSArray, withContext context:NSManagedObjectContext) {
+    func addRegionsToCoreData(_ response:NSArray, withContext context:NSManagedObjectContext) {
         
         for serverZonesArray in response {
             
             // Init NSManagedObject type GeofenceZones
-            let geofenceZones = NSEntityDescription.insertNewObjectForEntityForName("GeofenceZones", inManagedObjectContext: PreyCoreData.sharedInstance.managedObjectContext)
+            let geofenceZones = NSEntityDescription.insertNewObject(forEntityName: "GeofenceZones", into: PreyCoreData.sharedInstance.managedObjectContext)
             
             // Attributes from GeofenceZones
             let attributes = geofenceZones.entity.attributesByName
             
             for (attribute,description) in attributes {
 
-                if var value = serverZonesArray.objectForKey(attribute) {
+                if var value = (serverZonesArray as AnyObject).object(forKey: attribute) {
                     
                     switch description.attributeType {
                         
-                    case .DoubleAttributeType:
-                        value = NSNumber(double: value.doubleValue)
+                    case .doubleAttributeType:
+                        value = NSNumber(value: (value as AnyObject).doubleValue as Double)
                         
                     default:
-                        value = value.isKindOfClass(NSNull) ? "" : value as! String
+                        value = ((value as AnyObject) is NSNull) ? "" : value as! String
                     }
                     
                     // Save {value,key} in GeofenceZone item
@@ -151,7 +151,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
     func addRegionsToDevice() {
         
         // Check if CLRegion is available
-        guard CLLocationManager.isMonitoringAvailableForClass(CLRegion) else {
+        guard CLLocationManager.isMonitoringAvailable(for: CLRegion.self) else {
             PreyLogger("CLRegion is not available")
             return
         }
@@ -170,14 +170,13 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
             
             let zoneId      = String(format: "%f", (info.id?.floatValue)!)
             
-            if let region:CLCircularRegion = CLCircularRegion(center: center, radius: radius!, identifier: zoneId) {
-                geoManager.startMonitoringForRegion(region)
-            }
+            let region:CLCircularRegion = CLCircularRegion(center: center, radius: radius!, identifier: zoneId)
+            geoManager.startMonitoring(for: region)
         }
     }
 
     // Get Deleted Zones
-    func getDeletedZones(serverResponse:NSArray, withLocalZones localZonesArray:[GeofenceZones]) -> [GeofenceZones]! {
+    func getDeletedZones(_ serverResponse:NSArray, withLocalZones localZonesArray:[GeofenceZones]) -> [GeofenceZones]! {
         
         // Init GeofenceZones array to return
         var deletedZones = [GeofenceZones]()
@@ -189,8 +188,8 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
             
             for serverZonesArray in serverResponse {
 
-                let value       = serverZonesArray.valueForKey("id")!
-                let serverZone  = NSNumber(float:value.floatValue)
+                let value       = (serverZonesArray as AnyObject).value(forKey: "id")!
+                let serverZone  = NSNumber(value: (value as AnyObject).floatValue as Float)
 
                 if serverZone == localZone.id {
                     isDeletedZone = true
@@ -207,7 +206,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
     }
     
     // Get Added Zones
-    func getAddedZones(serverResponse:NSArray, withLocalZones localZonesArray:[GeofenceZones]) -> [GeofenceZones]! {
+    func getAddedZones(_ serverResponse:NSArray, withLocalZones localZonesArray:[GeofenceZones]) -> [GeofenceZones]! {
         
         // Init GeofenceZones array to return
         var addedZones = [GeofenceZones]()
@@ -215,8 +214,8 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         // Compare localZone.id with serverZone.id and add new to addedZones array
         for serverZonesArray in serverResponse {
             
-            let value       = serverZonesArray.valueForKey("id")!
-            let serverZone  = NSNumber(float:value.floatValue)
+            let value       = (serverZonesArray as AnyObject).value(forKey: "id")!
+            let serverZone  = NSNumber(value: (value as AnyObject).floatValue as Float)
             var isLocalZone = false
             
             for localZone:GeofenceZones in localZonesArray {
@@ -235,26 +234,26 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
     }
     
     // Get geofenceZoneItem
-    func getGeofenceZoneItemFromDictionary(serverZonesArray:NSDictionary) -> GeofenceZones {
+    func getGeofenceZoneItemFromDictionary(_ serverZonesArray:NSDictionary) -> GeofenceZones {
 
         // Init NSManagedObject type GeofenceZones
-        let zoneEntity = NSEntityDescription.entityForName("GeofenceZones", inManagedObjectContext: PreyCoreData.sharedInstance.managedObjectContext)!
-        let geofenceZoneItem = GeofenceZones(entity:zoneEntity, insertIntoManagedObjectContext: PreyCoreData.sharedInstance.managedObjectContext)
+        let zoneEntity = NSEntityDescription.entity(forEntityName: "GeofenceZones", in: PreyCoreData.sharedInstance.managedObjectContext)!
+        let geofenceZoneItem = GeofenceZones(entity:zoneEntity, insertInto: PreyCoreData.sharedInstance.managedObjectContext)
         
         // Attributes from GeofenceZones
         let attributes = geofenceZoneItem.entity.attributesByName
         
         for (attribute,description) in attributes {
 
-            if var value = serverZonesArray.objectForKey(attribute){
+            if var value = serverZonesArray.object(forKey: attribute){
 
                 switch description.attributeType {
                     
-                case .DoubleAttributeType:
-                    value = NSNumber(double: value.doubleValue)
+                case .doubleAttributeType:
+                    value = NSNumber(value: (value as AnyObject).doubleValue as Double)
                     
                 default:
-                    value = value.isKindOfClass(NSNull) ? "" : value as! String
+                    value = ((value as AnyObject) is NSNull) ? "" : value as! String
                 }
                 
                 // Save {value,key} in GeofenceZone item

@@ -17,7 +17,7 @@ class PreyRateUs: NSObject, UIAlertViewDelegate {
     // MARK: Singleton
     
     static let sharedInstance = PreyRateUs()
-    private override init() {
+    fileprivate override init() {
     }
     
     // MARK: Functions
@@ -31,9 +31,9 @@ class PreyRateUs: NSObject, UIAlertViewDelegate {
         }
         
         // Check current version reviewed
-        let defaults        = NSUserDefaults.standardUserDefaults()
-        let version         = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as! String
-        let reviewedVersion = defaults.stringForKey(PreyMessageAsk.ReviewedVersion.rawValue)
+        let defaults        = UserDefaults.standard
+        let version         = Bundle.main.infoDictionary!["CFBundleVersion"] as! String
+        let reviewedVersion = defaults.string(forKey: PreyMessageAsk.ReviewedVersion.rawValue)
         
         if reviewedVersion == version {
             return false
@@ -41,13 +41,13 @@ class PreyRateUs: NSObject, UIAlertViewDelegate {
         
         // Ask next time
         let currentTime     = CFAbsoluteTimeGetCurrent()
-        if defaults.objectForKey(PreyMessageAsk.RateUs.rawValue) == nil {
+        if defaults.object(forKey: PreyMessageAsk.RateUs.rawValue) == nil {
             let nextTime    = currentTime + 60*60*23*1
-            defaults.setDouble(nextTime, forKey:PreyMessageAsk.RateUs.rawValue)
+            defaults.set(nextTime, forKey:PreyMessageAsk.RateUs.rawValue)
             return false
         }
 
-        let nextTime        = defaults.doubleForKey(PreyMessageAsk.RateUs.rawValue)
+        let nextTime        = defaults.double(forKey: PreyMessageAsk.RateUs.rawValue)
         if currentTime < nextTime {
             return false
         }
@@ -73,22 +73,22 @@ class PreyRateUs: NSObject, UIAlertViewDelegate {
     // MARK: UIAlertViewDelegate
     
     // AlertViewDismiss
-    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         
-        let defaults        = NSUserDefaults.standardUserDefaults()
+        let defaults        = UserDefaults.standard
         
         switch buttonIndex {
             
         case 0: // Remind me later
             let nextTime    = CFAbsoluteTimeGetCurrent() + 60*60*23*30
-            defaults.setDouble(nextTime, forKey:PreyMessageAsk.RateUs.rawValue)
+            defaults.set(nextTime, forKey:PreyMessageAsk.RateUs.rawValue)
             
         case 1: // Rate it now
-            let version     = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as! String
+            let version     = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
             defaults.setValue(version, forKey:PreyMessageAsk.ReviewedVersion.rawValue)
             
             let iOSAppStoreURLFormat = "itms-apps://itunes.apple.com/app/id456755037"
-            UIApplication.sharedApplication().openURL(NSURL(string:iOSAppStoreURLFormat)!)
+            UIApplication.shared.openURL(URL(string:iOSAppStoreURLFormat)!)
             
         default: break
         }

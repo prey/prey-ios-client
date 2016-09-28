@@ -22,7 +22,7 @@ class WelcomeVC: GAITrackedViewController, PreyOnboardingDelegate {
     @IBOutlet weak var signUpBtn   : UIButton!
     @IBOutlet weak var logInBtn    : UIButton!
     
-    let preyOnboarding = PreyOnboarding(frame:UIScreen.mainScreen().bounds)
+    let preyOnboarding = PreyOnboarding(frame:UIScreen.main.bounds)
     
     
     // MARK: Init
@@ -48,8 +48,8 @@ class WelcomeVC: GAITrackedViewController, PreyOnboardingDelegate {
     
     // Configure texts
     func configureTextButton() {
-        signUpBtn.setTitle("SIGN UP".localized, forState:.Normal)
-        logInBtn.setTitle("already have an account?".localized, forState:.Normal)
+        signUpBtn.setTitle("SIGN UP".localized, for:.normal)
+        logInBtn.setTitle("already have an account?".localized, for:.normal)
     }
     
     override func didReceiveMemoryWarning() {
@@ -57,17 +57,17 @@ class WelcomeVC: GAITrackedViewController, PreyOnboardingDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool){
+    override func viewWillAppear(_ animated: Bool){
         // Hide navigationBar when appear this ViewController
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
 
         super.viewWillAppear(animated)
     }
     
     // MARK: PreyOnboardingDelegate
     
-    func scrollDid(scrollView:UIScrollView) {
-        let frame               = UIScreen.mainScreen().applicationFrame
+    func scrollDid(_ scrollView:UIScrollView) {
+        let frame               = UIScreen.main.applicationFrame
         let roundedValue        = round(scrollView.contentOffset.x / frame.size.width)
         pageControl.currentPage = Int(roundedValue)
 
@@ -89,70 +89,66 @@ class WelcomeVC: GAITrackedViewController, PreyOnboardingDelegate {
     // MARK: Actions
 
     // Change page slide
-    @IBAction func changePageSlide(sender: UIPageControl) {
+    @IBAction func changePageSlide(_ sender: UIPageControl) {
         var frameScroll         = preyOnboarding.scrollView.frame
         frameScroll.origin.x    = frameScroll.size.width * CGFloat(pageControl.currentPage)
         preyOnboarding.scrollView.scrollRectToVisible(frameScroll, animated:true)
     }
     
     // Show next page
-    @IBAction func showNextPage(sender: UIButton) {
+    @IBAction func showNextPage(_ sender: UIButton) {
         var scrollViewFrame = preyOnboarding.scrollView.frame
         scrollViewFrame.origin.x = scrollViewFrame.size.width * CGFloat(pageControl.currentPage + 1) // +1 page
         preyOnboarding.scrollView.scrollRectToVisible(scrollViewFrame, animated:true)
     }
 
     // Show back page
-    @IBAction func showBackPage(sender: UIButton) {
+    @IBAction func showBackPage(_ sender: UIButton) {
         var scrollViewFrame = preyOnboarding.scrollView.frame
         scrollViewFrame.origin.x = scrollViewFrame.size.width * CGFloat(pageControl.currentPage - 1) // -1 page
         preyOnboarding.scrollView.scrollRectToVisible(scrollViewFrame, animated:true)
     }
     
     // Show SignUp view
-    @IBAction func showSignUpVC(sender: UIButton) {
+    @IBAction func showSignUpVC(_ sender: UIButton) {
         
         // Get SharedApplication delegate
-        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
         }
         
         // Get SignUpVC from Storyboard
-        if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.signUp.rawValue) {
-            
-            // Set controller to rootViewController
-            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-            
-            let transition:CATransition = CATransition()
-            transition.type = kCATransitionFade
-            navigationController.view.layer.addAnimation(transition, forKey: "")
-            
-            navigationController.setViewControllers([controller], animated: false)
-        }
+        let controller:UIViewController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.signUp.rawValue)
+        // Set controller to rootViewController
+        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+        
+        let transition:CATransition = CATransition()
+        transition.type = kCATransitionFade
+        navigationController.view.layer.add(transition, forKey: "")
+        
+        navigationController.setViewControllers([controller], animated: false)
     }
     
     // Show SignIn view
-    @IBAction func showSignInVC(sender: UIButton) {
+    @IBAction func showSignInVC(_ sender: UIButton) {
         
         // Get SharedApplication delegate
-        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
         }
         
         // Get SignInVC from Storyboard
-        if let controller:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.signIn.rawValue) {
-            
-            // Set controller to rootViewController
-            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-            
-            let transition:CATransition = CATransition()
-            transition.type = kCATransitionFade
-            navigationController.view.layer.addAnimation(transition, forKey: "")
-            
-            navigationController.setViewControllers([controller], animated: false)
-        }
+        let controller:UIViewController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.signIn.rawValue)
+        // Set controller to rootViewController
+        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+        
+        let transition:CATransition = CATransition()
+        transition.type = kCATransitionFade
+        navigationController.view.layer.add(transition, forKey: "")
+        
+        navigationController.setViewControllers([controller], animated: false)
     }
 }
 

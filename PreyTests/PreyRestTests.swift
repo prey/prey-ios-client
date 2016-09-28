@@ -31,7 +31,7 @@ class PreyRestTests: XCTestCase {
     // Test log user
     func testRest01LogInUser() {
         
-        let expectation     = self.expectationWithDescription("Expecta Test: Log In")
+        let expectation     = self.expectation(description: "Expecta Test: Log In")
         
         // LogIn to Panel Prey
         PreyUser.logInToPrey(userEmail, userPassword:userPassword, onCompletion: {(isSuccess: Bool) in
@@ -45,13 +45,13 @@ class PreyRestTests: XCTestCase {
             expectation.fulfill()
         })
         
-        self.waitForExpectationsWithTimeout(15, handler:nil)
+        self.waitForExpectations(timeout: 15, handler:nil)
     }
     
     // Test log user
     func testRest02SignUpUser() {
         
-        let expectation     = self.expectationWithDescription("Expecta Test: Sign Up")
+        let expectation     = self.expectation(description: "Expecta Test: Sign Up")
         
         let newMail         = String(format:"test%f@prey.io", CFAbsoluteTimeGetCurrent())
         
@@ -67,13 +67,13 @@ class PreyRestTests: XCTestCase {
             expectation.fulfill()
         })
         
-        self.waitForExpectationsWithTimeout(15, handler:nil)
+        self.waitForExpectations(timeout: 15, handler:nil)
     }
     
     // Test get token from panel
     func testRest03GetToken() {
         
-        let expectation     = self.expectationWithDescription("Expecta Test: Get Token")
+        let expectation     = self.expectation(description: "Expecta Test: Get Token")
         
         // Get token from panel
         PreyUser.getTokenFromPanel(userEmail, userPassword:userPassword, onCompletion: {(isSuccess: Bool) in
@@ -87,13 +87,13 @@ class PreyRestTests: XCTestCase {
             expectation.fulfill()
         })
         
-        self.waitForExpectationsWithTimeout(15, handler:nil)
+        self.waitForExpectations(timeout: 15, handler:nil)
     }
     
     // Test add device
     func testRest04AddDevice() {
         
-        let expectation     = self.expectationWithDescription("Expecta Test: Add Device")
+        let expectation     = self.expectation(description: "Expecta Test: Add Device")
         
         // Add Device to Panel Prey
         PreyDevice.addDeviceWith({(isSuccess: Bool) in
@@ -107,25 +107,25 @@ class PreyRestTests: XCTestCase {
             expectation.fulfill()
         })
         
-        self.waitForExpectationsWithTimeout(15, handler:nil)
+        self.waitForExpectations(timeout: 15, handler:nil)
     }
     
     // Test check status for device
     func testRest05CheckStatusForDevice() {
         
-        let expectation     = self.expectationWithDescription("Expecta Test: Check Status")
+        let expectation     = self.expectation(description: "Expecta Test: Check Status")
         
-        let response: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
+        let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
             
             // Error is nil
             XCTAssertNil(error)
             
-            let httpURLResponse = response as! NSHTTPURLResponse
+            let httpURLResponse = response as! HTTPURLResponse
             
             XCTAssertEqual(httpURLResponse.statusCode,200)
 
             // Check if actionArray is nil
-            let actionArray: String? = String(data: data!, encoding: NSUTF8StringEncoding)
+            let actionArray: String? = String(data: data!, encoding: String.Encoding.utf8)
             XCTAssertNotNil(actionArray)
             
             expectation.fulfill()
@@ -139,27 +139,27 @@ class PreyRestTests: XCTestCase {
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
         }        
         
-        self.waitForExpectationsWithTimeout(15, handler:nil)
+        self.waitForExpectations(timeout: 15, handler:nil)
     }
     
     // Test NotificationId
     func testRest06CheckNotificationId() {
         
-        let expectation     = self.expectationWithDescription("Expecta Test: Check NotificationId")
+        let expectation     = self.expectation(description: "Expecta Test: Check NotificationId")
     
-        let response: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
+        let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
             
             // Error is nil
             XCTAssertNil(error)
             
-            let httpURLResponse = response as! NSHTTPURLResponse
+            let httpURLResponse = response as! HTTPURLResponse
             
             XCTAssertEqual(httpURLResponse.statusCode,200)
             
             expectation.fulfill()
         }
         
-        let params:[String: AnyObject] = ["notification_id" : "t3stT0k3n"]
+        let params:[String: String] = ["notification_id" : "t3stT0k3n"]
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
@@ -169,25 +169,25 @@ class PreyRestTests: XCTestCase {
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
         }
         
-        self.waitForExpectationsWithTimeout(15, handler:nil)
+        self.waitForExpectations(timeout: 15, handler:nil)
     }
     
     // Test Transaction InAppPurchase
     func testRest07TransactionInAppPurchase() {
         
-        let expectation                 = self.expectationWithDescription("Expecta Test: Transaction InAppPurchase")
+        let expectation                 = self.expectation(description: "Expecta Test: Transaction InAppPurchase")
         
-        let receipt                     = "t3stT0k3n".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)! as NSData
-        let receiptDataString           = receipt.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+        let receipt                     = "t3stT0k3n".data(using: String.Encoding.utf8, allowLossyConversion: true)! as Data
+        let receiptDataString           = receipt.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
         
-        let params:[String: AnyObject]  = ["receipt-data" : receiptDataString]
+        let params:[String: String]  = ["receipt-data" : receiptDataString]
 
-        let response: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
+        let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
             
             // Error is nil
             XCTAssertNil(error)
             
-            let httpURLResponse = response as! NSHTTPURLResponse
+            let httpURLResponse = response as! HTTPURLResponse
             
             XCTAssertEqual(httpURLResponse.statusCode,403)
             
@@ -201,20 +201,20 @@ class PreyRestTests: XCTestCase {
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
         }
         
-        self.waitForExpectationsWithTimeout(15, handler:nil)
+        self.waitForExpectations(timeout: 15, handler:nil)
     }
     
     // Test Check Geofence
     func testRest08CheckGeofences() {
         
-        let expectation     = self.expectationWithDescription("Expecta Test: Check Geofence")
+        let expectation     = self.expectation(description: "Expecta Test: Check Geofence")
         
-        let response: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
+        let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
             
             // Error is nil
             XCTAssertNil(error)
             
-            let httpURLResponse = response as! NSHTTPURLResponse
+            let httpURLResponse = response as! HTTPURLResponse
             
             XCTAssertEqual(httpURLResponse.statusCode,200)
             
@@ -229,34 +229,34 @@ class PreyRestTests: XCTestCase {
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
         }
         
-        self.waitForExpectationsWithTimeout(15, handler:nil)
+        self.waitForExpectations(timeout: 15, handler:nil)
     }
 
     // Test Check Geofence
     func testRest09SendEvent() {
         
-        let expectation     = self.expectationWithDescription("Expecta Test: Send Events")
+        let expectation     = self.expectation(description: "Expecta Test: Send Events")
         
-        let response: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
+        let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
             
             // Error is nil
             XCTAssertNil(error)
             
-            let httpURLResponse = response as! NSHTTPURLResponse
+            let httpURLResponse = response as! HTTPURLResponse
             
             XCTAssertEqual(httpURLResponse.statusCode,200)
             
             expectation.fulfill()
         }
         
-        let regionInfo:[String: AnyObject] = [
+        let regionInfo:[String: Any] = [
             kGeofence.ZONEID.rawValue       : "testZone",
             kLocation.lng.rawValue          : 0,
             kLocation.lat.rawValue          : 0,
             kLocation.accuracy.rawValue     : 0,
             kLocation.method.rawValue       : "native"]
         
-        let params:[String: AnyObject] = [
+        let params:[String: Any] = [
             kGeofence.INFO.rawValue         : regionInfo,
             kGeofence.NAME.rawValue         : "testZone"]
 
@@ -269,20 +269,20 @@ class PreyRestTests: XCTestCase {
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
         }
         
-        self.waitForExpectationsWithTimeout(15, handler:nil)
+        self.waitForExpectations(timeout: 15, handler:nil)
     }
     
     // Test Response Device
     func testRest10ResponseDevice() {
         
-        let expectation     = self.expectationWithDescription("Expecta Test: Response Device")
+        let expectation     = self.expectation(description: "Expecta Test: Response Device")
 
-        let response: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
+        let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
             
             // Error is nil
             XCTAssertNil(error)
             
-            let httpURLResponse = response as! NSHTTPURLResponse
+            let httpURLResponse = response as! HTTPURLResponse
             
             XCTAssertEqual(httpURLResponse.statusCode,200)
             
@@ -290,7 +290,7 @@ class PreyRestTests: XCTestCase {
         }
 
         // Params struct
-        let params:[String: AnyObject] = [
+        let params:[String: Any] = [
             kData.status.rawValue   : kStatus.started.rawValue,
             kData.target.rawValue   : kAction.camouflage.rawValue,
             kData.command.rawValue  : kCommand.start.rawValue]
@@ -303,20 +303,20 @@ class PreyRestTests: XCTestCase {
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
         }
         
-        self.waitForExpectationsWithTimeout(15, handler:nil)
+        self.waitForExpectations(timeout: 15, handler:nil)
     }
     
     // Test Send Report
     func testRest11SendReport() {
         
-        let expectation     = self.expectationWithDescription("Expecta Test: Response Device")
+        let expectation     = self.expectation(description: "Expecta Test: Response Device")
         
-        let response: (NSData?, NSURLResponse?, NSError?) -> Void = { (data, response, error) in
+        let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
             
             // Error is nil
             XCTAssertNil(error)
             
-            let httpURLResponse = response as! NSHTTPURLResponse
+            let httpURLResponse = response as! HTTPURLResponse
             
             XCTAssertEqual(httpURLResponse.statusCode,409) // Device isn't missing on web panel
             
@@ -327,14 +327,14 @@ class PreyRestTests: XCTestCase {
         let reportImages = NSMutableDictionary()
         
         // Params struct
-        let params:[String : AnyObject] = [
+        let params:[String : Any] = [
             kReportLocation.LONGITURE.rawValue    : 0,
             kReportLocation.LATITUDE.rawValue     : 0,
             kReportLocation.ALTITUDE.rawValue     : 0,
             kReportLocation.ACCURACY.rawValue     : 0]
         
         // Save location to reportData
-        reportData.addEntriesFromDictionary(params)
+        reportData.addEntries(from: params)
         
         // Send info to panel
         if let username = PreyConfig.sharedInstance.userApiKey {
@@ -344,13 +344,13 @@ class PreyRestTests: XCTestCase {
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
         }
         
-        self.waitForExpectationsWithTimeout(15, handler:nil)
+        self.waitForExpectations(timeout: 15, handler:nil)
     }
     
     // Test Delete Device
     func testRest12DeleteDevice() {
         
-        let expectation     = self.expectationWithDescription("Expecta Test: Delete Device")
+        let expectation     = self.expectation(description: "Expecta Test: Delete Device")
         
         // Check if deviceKey is nil
         XCTAssertNotNil(PreyConfig.sharedInstance.deviceKey)        
@@ -358,7 +358,7 @@ class PreyRestTests: XCTestCase {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.DeleteDevice, onCompletion:{(isSuccess: Bool) in
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.deleteDevice, onCompletion:{(isSuccess: Bool) in
                 
                 // Check if add device is success
                 XCTAssertTrue(isSuccess)
@@ -371,6 +371,6 @@ class PreyRestTests: XCTestCase {
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
         }
         
-        self.waitForExpectationsWithTimeout(60, handler:nil)
+        self.waitForExpectations(timeout: 60, handler:nil)
     }
 }

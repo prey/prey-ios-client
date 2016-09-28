@@ -35,73 +35,73 @@ class UserRegister: GAITrackedViewController, UITextFieldDelegate {
         
         // Config delegate UITextField
         for view in self.view.subviews {
-            if view.isKindOfClass(UITextField) {
+            if view is UITextField {
                 (view as! UITextField).delegate = self
             }
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Hide navigationBar when appear this ViewController
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
         
         // Listen for changes to keyboard visibility so that we can adjust the text view accordingly.
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: #selector(UserRegister.handleKeyboardWillShowNotification(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(UserRegister.handleKeyboardWillHideNotification(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(UserRegister.handleKeyboardWillShowNotification(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(UserRegister.handleKeyboardWillHideNotification(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     
     // MARK: Keyboard Event Notifications
     
-    func handleKeyboardWillShowNotification(notification: NSNotification) {
+    func handleKeyboardWillShowNotification(_ notification: Notification) {
         keyboardWillChangeFrameWithNotification(notification, showsKeyboard: true)
     }
     
-    func handleKeyboardWillHideNotification(notification: NSNotification) {
+    func handleKeyboardWillHideNotification(_ notification: Notification) {
         keyboardWillChangeFrameWithNotification(notification, showsKeyboard: false)
     }
     
-    func dismissKeyboard(tapGesture: UITapGestureRecognizer) {
+    func dismissKeyboard(_ tapGesture: UITapGestureRecognizer) {
         // Dismiss keyboard if is inside from UIView
-        if (CGRectContainsPoint(self.view.frame, tapGesture.locationInView(self.view))) {
+        if (self.view.frame.contains(tapGesture.location(in: self.view))) {
             self.view.endEditing(true);
         }
     }
     
-    func keyboardWillChangeFrameWithNotification(notification: NSNotification, showsKeyboard: Bool) {
-        let userInfo = notification.userInfo!
+    func keyboardWillChangeFrameWithNotification(_ notification: Notification, showsKeyboard: Bool) {
+        let userInfo = (notification as NSNotification).userInfo!
         
-        let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        let animationDuration: TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         
         // Convert the keyboard frame from screen to view coordinates.
-        let keyboardScreenBeginFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let keyboardScreenBeginFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         
-        let keyboardViewBeginFrame = view.convertRect(keyboardScreenBeginFrame, fromView: view.window)
-        let keyboardViewEndFrame = view.convertRect(keyboardScreenEndFrame, fromView: view.window)
+        let keyboardViewBeginFrame = view.convert(keyboardScreenBeginFrame, from: view.window)
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         let originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y
         
         self.view.center.y += originDelta
         
         view.setNeedsUpdateConstraints()
         
-        UIView.animateWithDuration(animationDuration, delay: 0, options: .BeginFromCurrentState, animations: {
+        UIView.animate(withDuration: animationDuration, delay: 0, options: .beginFromCurrentState, animations: {
             self.view.layoutIfNeeded()
             }, completion: nil)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         let nextTage=textField.tag+1;
         // Try to find next responder
@@ -114,30 +114,30 @@ class UserRegister: GAITrackedViewController, UITextFieldDelegate {
     }
     
     // Add device action
-    @IBAction func addDeviceAction(sender: UIButton?) {}
+    @IBAction func addDeviceAction(_ sender: UIButton?) {}
 
     // Display error alert
-    func displayErrorAlert(alertMessage: String, titleMessage:String, returnToTextField:UITextField) {
+    func displayErrorAlert(_ alertMessage: String, titleMessage:String, returnToTextField:UITextField) {
         
         if #available(iOS 8.0, *) {
             
-            let alert = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title:"OK".localized, style: UIAlertActionStyle.Default, handler: nil))
+            let alert = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title:"OK".localized, style: UIAlertActionStyle.default, handler: nil))
             
             // Get SharedApplication delegate
-            guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+            guard let appWindow = UIApplication.shared.delegate?.window else {
                 PreyLogger("error with sharedApplication")
                 return
             }
             // Set controller to rootViewController
             let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-            navigationController.presentViewController(alert, animated: true, completion: { returnToTextField.becomeFirstResponder() })
+            navigationController.present(alert, animated: true, completion: { returnToTextField.becomeFirstResponder() })
             
         } else {
             let alert       = UIAlertView()
             alert.title     = titleMessage
             alert.message   = alertMessage
-            alert.addButtonWithTitle("OK".localized)
+            alert.addButton(withTitle: "OK".localized)
             alert.show()
         }
     }

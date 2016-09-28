@@ -41,15 +41,15 @@ class DeviceSetUpVC: GAITrackedViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool){
+    override func viewWillAppear(_ animated: Bool){
         // Hide navigationBar when appear this ViewController
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
         
         super.viewWillAppear(animated)
     }
     
     func configureTextButton() {
-        titleLbl.text   = "Device set up!".localized.uppercaseString
+        titleLbl.text   = "Device set up!".localized.uppercased()
         messageLbl.text =  messageTxt
     }
     
@@ -69,19 +69,19 @@ class DeviceSetUpVC: GAITrackedViewController {
         }
         
         // Camera Auth
-        AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: nil)
+        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: nil)
     }
     
     // Ok pressed
-    @IBAction func showHomeView(sender: UIButton) {
+    @IBAction func showHomeView(_ sender: UIButton) {
         
         // Get SharedApplication delegate
-        guard let appWindow = UIApplication.sharedApplication().delegate?.window else {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
         }
         
-        if let resultController = self.storyboard!.instantiateViewControllerWithIdentifier(StoryboardIdVC.home.rawValue) as? HomeVC {
+        if let resultController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.home.rawValue) as? HomeVC {
 
             resultController.hidePasswordInput = true
             
@@ -90,7 +90,7 @@ class DeviceSetUpVC: GAITrackedViewController {
             
             let transition:CATransition = CATransition()
             transition.type             = kCATransitionFade
-            navigationController.view.layer.addAnimation(transition, forKey: "")
+            navigationController.view.layer.add(transition, forKey: "")
             navigationController.setViewControllers([resultController], animated: false)
         }
     }

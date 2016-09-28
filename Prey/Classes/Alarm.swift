@@ -16,7 +16,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
 
     var audioPlayer: AVAudioPlayer!
     
-    var checkVolumeTimer: NSTimer?
+    var checkVolumeTimer: Timer?
     
     // MARK: Functions
 
@@ -27,25 +27,25 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
         do {
             // Config AVAudioSession on device
             let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.MixWithOthers)
+            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.mixWithOthers)
             try audioSession.setActive(true)
-            try audioSession.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+            try audioSession.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
             
             // Config Volume System
-            UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
+            UIApplication.shared.beginReceivingRemoteControlEvents()
             let volumeView = MPVolumeView()
             volumeView.volumeSlider.setValue(1.0, animated: false)
             
             // Check Volume level
-            checkVolumeTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(incrementVolume(_:)), userInfo: nil, repeats: true)
+            checkVolumeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementVolume(_:)), userInfo: nil, repeats: true)
             
             // Play sound
-            guard let pathFile = NSBundle.mainBundle().pathForResource("siren", ofType: "mp3") else {
+            guard let pathFile = Bundle.main.path(forResource: "siren", ofType: "mp3") else {
                 stopAction()
                 return
             }
-            let musicFile   = NSURL.fileURLWithPath(pathFile)
-            try audioPlayer = AVAudioPlayer(contentsOfURL: musicFile)
+            let musicFile   = URL(fileURLWithPath: pathFile)
+            try audioPlayer = AVAudioPlayer(contentsOf: musicFile)
             audioPlayer.delegate = self
             audioPlayer.prepareToPlay()
             audioPlayer.volume = 1.0
@@ -64,7 +64,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
     }
     
     // Check Volume Level
-    func incrementVolume(timer:NSTimer)  {
+    func incrementVolume(_ timer:Timer)  {
 
         let volumeView = MPVolumeView()
         if volumeView.volumeSlider.value < 1.0 {
@@ -83,13 +83,13 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
     // MARK: AVAudioPlayerDelegate
 
     // Did Finish Playing
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         // Send stop action
         stopAction()
     }
     
     // Player Decode Error Did Occur
-    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
         // Send stop action
         stopAction()
     }

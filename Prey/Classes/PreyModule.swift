@@ -13,7 +13,7 @@ class PreyModule {
     // MARK: Properties
     
     static let sharedInstance = PreyModule()
-    private init() {
+    fileprivate init() {
     }
     
     var actionArray = [PreyAction] ()
@@ -34,19 +34,18 @@ class PreyModule {
         }
         
         // Add report action
-        if let reportAction:Report = Report(withTarget:kAction.report, withCommand:kCommand.get, withOptions:PreyConfig.sharedInstance.reportOptions) {
-            actionArray.append(reportAction)
-            runAction()
-        }
+        let reportAction:Report = Report(withTarget:kAction.report, withCommand:kCommand.get, withOptions:PreyConfig.sharedInstance.reportOptions)
+        actionArray.append(reportAction)
+        runAction()
     }
     
     // Parse actions from panel
-    func parseActionsFromPanel(actionsStr:String) {
+    func parseActionsFromPanel(_ actionsStr:String) {
 
         PreyLogger("Parse actions from panel \(actionsStr)")
         
         // Convert actionsArray from String to NSData
-        guard let jsonData: NSData = actionsStr.dataUsingEncoding(NSUTF8StringEncoding) else {
+        guard let jsonData: Data = actionsStr.data(using: String.Encoding.utf8) else {
             
             PreyLogger("Error actionsArray to NSData")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
@@ -58,7 +57,7 @@ class PreyModule {
         let jsonObjects: NSArray
         
         do {
-            jsonObjects = try NSJSONSerialization.JSONObjectWithData(jsonData, options:NSJSONReadingOptions.MutableContainers) as! NSArray
+            jsonObjects = try JSONSerialization.jsonObject(with: jsonData, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
             
             // Add Actions in ActionArray
             for dict in jsonObjects {
@@ -81,17 +80,17 @@ class PreyModule {
     }
     
     // Add actions to Array
-    func addAction(jsonDict:NSDictionary) {
+    func addAction(_ jsonDict:NSDictionary) {
         
         // Check cmd command
-        if let jsonCMD = jsonDict.objectForKey(kInstruction.cmd.rawValue) as? NSDictionary {
+        if let jsonCMD = jsonDict.object(forKey: kInstruction.cmd.rawValue) as? NSDictionary {
             // Recursive Function
             addAction(jsonCMD)
             return
         }
         
         // Action Name
-        guard let jsonName = jsonDict.objectForKey(kInstruction.target.rawValue) as? String else {
+        guard let jsonName = jsonDict.object(forKey: kInstruction.target.rawValue) as? String else {
             PreyLogger("Error with ActionName")
             return
         }
@@ -101,7 +100,7 @@ class PreyModule {
         }
         
         // Action Command
-        guard let jsonCmd = jsonDict.objectForKey(kInstruction.command.rawValue) as? String else {
+        guard let jsonCmd = jsonDict.object(forKey: kInstruction.command.rawValue) as? String else {
             PreyLogger("Error with ActionCmd")
             return
         }
@@ -111,14 +110,14 @@ class PreyModule {
         }
         
         // Action Options
-        let actionOptions: NSDictionary? = jsonDict.objectForKey(kInstruction.options.rawValue) as? NSDictionary
+        let actionOptions: NSDictionary? = jsonDict.object(forKey: kInstruction.options.rawValue) as? NSDictionary
 
         // Add new Prey Action
         if let action:PreyAction = PreyAction.newAction(withName: actionName, withCommand: actionCmd, withOptions: actionOptions) {
             PreyLogger("Action added: \(action)")
 
             // Actions MessageId
-            if let actionMessageId = actionOptions?.objectForKey(kOptions.messageID.rawValue) as? String {
+            if let actionMessageId = actionOptions?.object(forKey: kOptions.messageID.rawValue) as? String {
                 action.messageId = actionMessageId
             }
 
@@ -131,15 +130,15 @@ class PreyModule {
 
         for action in actionArray {
             // Check selector
-            if (action.respondsToSelector(NSSelectorFromString(action.command.rawValue)) && !action.isActive) {
+            if (action.responds(to: NSSelectorFromString(action.command.rawValue)) && !action.isActive) {
                 PreyLogger("Run \(action.target.rawValue) action")
-                action.performSelectorOnMainThread(NSSelectorFromString(action.command.rawValue), withObject: nil, waitUntilDone: true)
+                action.performSelector(onMainThread: NSSelectorFromString(action.command.rawValue), with: nil, waitUntilDone: true)
             }
         }
     }
     
     // Check action status
-    func checkStatus(action: PreyAction) {
+    func checkStatus(_ action: PreyAction) {
         
         PreyLogger("Check \(action.target.rawValue) action")
         
@@ -156,7 +155,7 @@ class PreyModule {
     }
     
     // Delete action
-    func deleteAction(action: PreyAction) {
+    func deleteAction(_ action: PreyAction) {
         
         PreyLogger("Delete \(action.target) action")
         

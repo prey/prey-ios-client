@@ -9,7 +9,7 @@
 import Foundation
 
 
-class PreyAction : NSOperation {
+class PreyAction : Operation {
    
     // MARK: Properties
     
@@ -65,10 +65,10 @@ class PreyAction : NSOperation {
     }
 
     // Return params to response endpoint
-    func getParamsTo(target:String, command:String, status:String) -> [String: AnyObject] {
+    func getParamsTo(_ target:String, command:String, status:String) -> [String: String] {
         
         // Params struct
-        let params:[String: AnyObject] = [
+        let params:[String: String] = [
             kData.status.rawValue   : status,
             kData.target.rawValue   : target,
             kData.command.rawValue  : command]
@@ -77,7 +77,7 @@ class PreyAction : NSOperation {
     }
     
     // Send data to panel
-    func sendData(params:[String: AnyObject], toEndpoint:String) {
+    func sendData(_ params:[String: Any], toEndpoint:String) {
 
         PreyLogger("data: \(params.description)")
         
@@ -90,7 +90,7 @@ class PreyAction : NSOperation {
     }
 
     // Send report to panel
-    func sendDataReport(params:NSMutableDictionary, images:NSMutableDictionary, toEndpoint:String) {
+    func sendDataReport(_ params:NSMutableDictionary, images:NSMutableDictionary, toEndpoint:String) {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.sendDataReportToPrey(username, password:"x", params:params, images: images, messageId:messageId, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkDataSend(self))
@@ -101,7 +101,7 @@ class PreyAction : NSOperation {
     }
     
     // Check Geofence Zones
-    func checkGeofenceZones(action:Geofencing) {
+    func checkGeofenceZones(_ action:Geofencing) {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:geofencingEndpoint, onCompletion:PreyHTTPResponse.checkGeofenceZones(action))
@@ -111,16 +111,16 @@ class PreyAction : NSOperation {
     }
 
     // Delete device in Panel
-    func sendDeleteDevice(onCompletion:(isSuccess: Bool) -> Void) {
+    func sendDeleteDevice(_ onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.DeleteDevice, onCompletion:onCompletion))
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.deleteDevice, onCompletion:onCompletion))
         } else {
             let titleMsg = "Couldn't delete your device".localized
             let alertMsg = "Device not ready!".localized
             displayErrorAlert(alertMsg, titleMessage:titleMsg)
-            onCompletion(isSuccess:false)
+            onCompletion(false)
         }
     }
 }
