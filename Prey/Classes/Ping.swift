@@ -17,7 +17,6 @@ class Ping : PreyAction {
     // Prey command
     func get() {
         
-        
         isActive = true
         PreyLogger("Start ping")
 
@@ -27,13 +26,9 @@ class Ping : PreyAction {
             kData.target.rawValue   : kAction.ping.rawValue,
             kData.command.rawValue  : "get"]
         
-        let locParam:[String: Any] = [kAction.ping.rawValue : params]
-        
-        self.sendData(locParam, toEndpoint: responseDeviceEndpoint)
-        
+        self.sendData(params, toEndpoint: responseDeviceEndpoint)
         
         isActive = false
         PreyModule.sharedInstance.checkStatus(self)
-
     }
 }

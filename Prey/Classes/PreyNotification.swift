@@ -59,12 +59,11 @@ class PreyNotification {
     
     // Did Register Remote Notifications
     func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
-        
-        let characterSet: CharacterSet    = CharacterSet(charactersIn: "<>")
-        let tokenAsString: String           = (deviceToken.description as NSString)
-                                            .trimmingCharacters(in: characterSet)
-                                            .replacingOccurrences(of: " ", with: "") as String
 
+        var tokenAsString = ""
+        for i in 0..<deviceToken.count {
+            tokenAsString = tokenAsString + String(format: "%02.2hhx", arguments: [deviceToken[i]])
+        }
         PreyLogger("Token: \(tokenAsString)")
         
         let params:[String: String] = ["notification_id" : tokenAsString]
@@ -80,9 +79,18 @@ class PreyNotification {
         
         PreyLogger("Remote notification received \(userInfo.description)")
         
-        if let cmd = userInfo["instruction"] as? String {
-            PreyLogger("cmd: \(cmd)")
-            PreyModule.sharedInstance.parseActionsFromPanel(cmd)
+        // Check payload info
+        if let cmdArray = userInfo["instruction"] as? NSArray {
+            do {
+                let data = try JSONSerialization.data(withJSONObject: cmdArray, options: JSONSerialization.WritingOptions.prettyPrinted)
+                if let json = String(data: data, encoding:String.Encoding.utf8) {
+                    PreyLogger("Instruction: \(json)")
+                    PreyModule.sharedInstance.parseActionsFromPanel(json)
+                }
+            } catch let error as NSError{
+                PreyLogger("json error: \(error.localizedDescription)")
+                PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            }            
         }
         
         // Set completionHandler for request

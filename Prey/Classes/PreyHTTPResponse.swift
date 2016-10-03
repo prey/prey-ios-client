@@ -368,6 +368,8 @@ class PreyHTTPResponse {
                 
                 return
             }
+
+            PreyLogger("DataSend: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! HTTPURLResponse
             
