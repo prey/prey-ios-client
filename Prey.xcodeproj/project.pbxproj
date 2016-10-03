@@ -44,6 +44,7 @@
 		3B828406199198E6000E4545 /* PreyRestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B828405199198E6000E4545 /* PreyRestTests.swift */; };
 		3B849AE81D0710E9002DB6CC /* PreyData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE61D0710E9002DB6CC /* PreyData.xcdatamodeld */; };
 		3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE91D071AF4002DB6CC /* Geofencing.swift */; };
+		3B88FC501DA2961F007E62A6 /* Ping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B88FC4F1DA2961F007E62A6 /* Ping.swift */; };
 		3B8E57D11A2E7B4A0027179E /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */; };
 		3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D21A2E7B530027179E /* AppDelegate.swift */; };
 		3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */; };
@@ -146,6 +147,7 @@
 		3B828405199198E6000E4545 /* PreyRestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyRestTests.swift; sourceTree = "<group>"; };
 		3B849AE71D0710E9002DB6CC /* PreyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PreyData.xcdatamodel; sourceTree = "<group>"; };
 		3B849AE91D071AF4002DB6CC /* Geofencing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Geofencing.swift; path = Classes/Geofencing.swift; sourceTree = "<group>"; };
+		3B88FC4F1DA2961F007E62A6 /* Ping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ping.swift; path = Classes/Ping.swift; sourceTree = "<group>"; };
 		3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeVC.swift; path = Classes/WelcomeVC.swift; sourceTree = "<group>"; };
 		3B8E57D21A2E7B530027179E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Classes/AppDelegate.swift; sourceTree = "<group>"; };
 		3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceSetUpVC.swift; path = Classes/DeviceSetUpVC.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 				3B4F679E1CEA061E00F58FAD /* Alarm.swift */,
 				3B2445F81D2466CD005DF09C /* Alert.swift */,
 				3B2445F61D245478005DF09C /* Camouflage.swift */,
+				3B88FC4F1DA2961F007E62A6 /* Ping.swift */,
 				3B42B3FC1CECC38B009D07B2 /* Report.swift */,
 				3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */,
 				3B3742161CF791D900E52B6C /* ReportPhoto.swift */,
@@ -613,6 +616,7 @@
 				3B047EB01D400F01008B2D58 /* PreyOnboarding.swift in Sources */,
 				3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */,
 				3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */,
+				3B88FC501DA2961F007E62A6 /* Ping.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
 				3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */,
 				3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */,

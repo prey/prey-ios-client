@@ -80,6 +80,11 @@ class PreyNotification {
         
         PreyLogger("Remote notification received \(userInfo.description)")
         
+        if let cmd = userInfo["instruction"] as? String {
+            PreyLogger("cmd: \(cmd)")
+            PreyModule.sharedInstance.parseActionsFromPanel(cmd)
+        }
+        
         // Set completionHandler for request
         requestVerificationSucceeded = completionHandler
         

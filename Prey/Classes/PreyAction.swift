@@ -59,6 +59,9 @@ class PreyAction : Operation {
 
         case kAction.camouflage:
             actionItem = Camouflage(withTarget: kAction.camouflage, withCommand: cmd, withOptions: opt)
+            
+        case kAction.ping:
+            actionItem = Ping(withTarget: kAction.ping, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem
