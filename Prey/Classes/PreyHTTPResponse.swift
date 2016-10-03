@@ -30,7 +30,7 @@ class PreyHTTPResponse {
                 return
             }
 
-            //PreyLogger("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            PreyLogger("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! HTTPURLResponse
             let code            = httpURLResponse.statusCode
@@ -267,7 +267,7 @@ class PreyHTTPResponse {
                 return
             }
             
-            //PreyLogger("GET Devices/: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            PreyLogger("GET Devices/: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! HTTPURLResponse
             
@@ -310,7 +310,7 @@ class PreyHTTPResponse {
                 return
             }
             
-            //PreyLogger("PreyGeofence: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            PreyLogger("PreyGeofence: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! HTTPURLResponse
             

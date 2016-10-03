@@ -48,9 +48,11 @@ public let fontTitilliumRegular =  "TitilliumWeb-Regular"
 
 // PreyLogger
 public func PreyLogger(_ message:String) {
-    #if DEBUG
-    print(message)
-    #endif
+    LogMessageRaw(message)
+
+    //#if DEBUG
+    //print(message)
+    //#endif
 }
 
 // Validate email expression
