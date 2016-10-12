@@ -93,11 +93,12 @@ class PreyNotification {
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password: "x", params: nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint , onCompletion:PreyHTTPResponse.checkActionDevice())
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.actionDevice, onCompletion:{(isSuccess: Bool) in
+                PreyLogger("Request PreyAction")
+            }))
         } else {
             checkRequestVerificationSucceded(false)
         }
-        
     }
     
     // Parse payload info on push notification

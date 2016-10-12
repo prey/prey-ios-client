@@ -10,7 +10,7 @@ import Foundation
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt
+    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice
 }
 
 class PreyHTTPResponse {
@@ -62,6 +62,9 @@ class PreyHTTPResponse {
 
         case .subscriptionReceipt:
             checkSubscriptionReceipt(isResponseSuccess, withData:data, withError:error, statusCode:code)
+
+        case .actionDevice:
+            checkActionDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
         }
 
         onCompletion(isResponseSuccess)
@@ -249,51 +252,35 @@ class PreyHTTPResponse {
     }
     
     // Check action device response
-    class func checkActionDevice() -> (Data?, URLResponse?, Error?) -> Void {
-        
-        let actionDeviceResponse: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
-            
+    class func checkActionDevice(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
+
+        guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
-                
                 let alertMessage = error?.localizedDescription
                 PreyLogger("Error: \(alertMessage)")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
-                
                 return
             }
-            
-            PreyLogger("GET Devices/: data:\(data) \nresponse:\(response) \nerror:\(error)")
-            
-            let httpURLResponse = response as! HTTPURLResponse
-            
-            switch httpURLResponse.statusCode {
-                
-            // === Success
-            case 200...299:
-                guard let dataResponse = data else {
-                    PreyLogger("Failed to check action from panel")
-                    PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
-                    return
-                }
-                if let actionArray: String = String(data:dataResponse, encoding:String.Encoding.utf8) {
-                    DispatchQueue.main.async {
-                        PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
-                    }
-                } else {
-                    PreyLogger("Failed to check action from panel")
-                    PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)                    
-                }
-                
-            // === Error
-            default:
-                PreyLogger("Failed to check action from panel")
-                PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
-            }
+            PreyLogger("Failed to check action from panel")
+            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            return
         }
         
-        return actionDeviceResponse
-    }    
+        guard let dataResponse = data else {
+            PreyLogger("Failed to check action from panel")
+            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            return
+        }
+        if let actionArray: String = String(data:dataResponse, encoding:String.Encoding.utf8) {
+            DispatchQueue.main.async {
+                PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
+            }
+        } else {
+            PreyLogger("Failed to check action from panel")
+            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+        }
+    }
 
     // Check add device response
     class func checkGeofenceZones(_ action:Geofencing) -> (Data?, URLResponse?, Error?) -> Void {
