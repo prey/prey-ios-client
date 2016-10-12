@@ -10,7 +10,7 @@ import Foundation
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice
+    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, geofenceZones, dataSend
 }
 
 class PreyHTTPResponse {
@@ -18,13 +18,13 @@ class PreyHTTPResponse {
     // MARK: Functions
 
     // Check Response from Server
-    class func checkResponse(_ requestType:RequestType, onCompletion:@escaping (_ isSuccess: Bool) -> Void) -> (Data?, URLResponse?, Error?) -> Void {
+    class func checkResponse(_ requestType:RequestType, preyAction:PreyAction?, onCompletion:@escaping (_ isSuccess: Bool) -> Void) -> (Data?, URLResponse?, Error?) -> Void {
 
         let completionResponse: (Data?, URLResponse?, Error?) -> Void = ({(data, response, error) in
 
             // Check error with URLSession request
             guard error == nil else {
-                callResponseWith(requestType, isResponseSuccess:false, withData:data, withError:error, statusCode:nil, onCompletion:onCompletion)
+                callResponseWith(requestType, isResponseSuccess:false, withAction:preyAction, withData:data, withError:error, statusCode:nil, onCompletion:onCompletion)
                 return
             }
 
@@ -34,14 +34,14 @@ class PreyHTTPResponse {
             let code            = httpURLResponse.statusCode
             let success         = (200...299 ~= code) ? true : false
 
-            callResponseWith(requestType, isResponseSuccess:success, withData:data, withError:error, statusCode:code, onCompletion:onCompletion)
+            callResponseWith(requestType, isResponseSuccess:success, withAction:preyAction, withData:data, withError:error, statusCode:code, onCompletion:onCompletion)
         })
         
         return completionResponse
     }
     
     // Check Request Type
-    class func callResponseWith(_ requestType:RequestType, isResponseSuccess:Bool, withData data:Data?, withError error:Error?, statusCode code:Int?, onCompletion:(_ isSuccess:Bool) -> Void) {
+    class func callResponseWith(_ requestType:RequestType, isResponseSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode code:Int?, onCompletion:(_ isSuccess:Bool) -> Void) {
         
         switch requestType {
             
@@ -65,6 +65,12 @@ class PreyHTTPResponse {
 
         case .actionDevice:
             checkActionDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
+
+        case .geofenceZones:
+            checkGeofenceZones(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
+
+        case .dataSend:
+            checkDataSend(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
         }
 
         onCompletion(isResponseSuccess)
@@ -283,102 +289,70 @@ class PreyHTTPResponse {
     }
 
     // Check add device response
-    class func checkGeofenceZones(_ action:Geofencing) -> (Data?, URLResponse?, Error?) -> Void {
+    class func checkGeofenceZones(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
         
-        let geofenceZonesResponse: (Data?, URLResponse?, Error?) -> Void = ({(data, response, error) in
-            
+        guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
                 PreyLogger("PreyGeofenceZones error")
                 return
             }
-            
-            PreyLogger("PreyGeofence: data:\(data) \nresponse:\(response) \nerror:\(error)")
-            
-            let httpURLResponse = response as! HTTPURLResponse
-            
-            switch httpURLResponse.statusCode {
-                
-            // === Success
-            case 200...299:
-                
-                guard let dataResponse = data else {
-                    PreyLogger("Errod reading request data")
-                    return
-                }
-                
-                guard let jsonObject: String = String(data:dataResponse, encoding:String.Encoding.utf8) else {
-                    PreyLogger("Error reading json data")
-                    return
-                }
-                
-                // Convert actionsArray from String to NSData
-                guard let jsonData: Data = jsonObject.data(using: String.Encoding.utf8) else {
-                    PreyLogger("Error jsonObject to NSData")
-                    return
-                }
-                
-                // Convert NSData to NSArray
-                let jsonArray: NSArray
-                
-                do {
-                    jsonArray = try JSONSerialization.jsonObject(with: jsonData, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
-                    action.updateGeofenceZones(jsonArray)
-                    
-                } catch let error {
-                    PreyLogger("json error: \(error.localizedDescription)")
-                }
-                
-            // === Error
-            default:
-                PreyLogger("Failed data send")
+            PreyLogger("Failed data send")
+            return
+        }
+
+        // === Success
+        guard let dataResponse = data else {
+            PreyLogger("Errod reading request data")
+            return
+        }
+        guard let jsonObject: String = String(data:dataResponse, encoding:String.Encoding.utf8) else {
+            PreyLogger("Error reading json data")
+            return
+        }
+        // Convert actionsArray from String to NSData
+        guard let jsonData: Data = jsonObject.data(using: String.Encoding.utf8) else {
+            PreyLogger("Error jsonObject to NSData")
+            return
+        }
+        // Convert NSData to NSArray
+        do {
+            let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
+            if let geofencingAction = action as? Geofencing {
+                geofencingAction.updateGeofenceZones(jsonArray)
             }
-        })
-        
-        return geofenceZonesResponse
+        } catch let error {
+            PreyLogger("json error: \(error.localizedDescription)")
+        }
     }
     
     // Check Data Send response
-    class func checkDataSend(_ action:PreyAction?) -> (Data?, URLResponse?, Error?) -> Void {
+    class func checkDataSend(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
         
-        let dataResponse: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
-            
+        guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
-                
                 let alertMessage = error?.localizedDescription
                 PreyLogger("Error: \(alertMessage)")
-                
                 return
             }
-
-            PreyLogger("DataSend: data:\(data) \nresponse:\(response) \nerror:\(error)")
-            
-            let httpURLResponse = response as! HTTPURLResponse
-            
-            switch httpURLResponse.statusCode {
-                
-            // === Success
-            case 200...299:
-                PreyLogger("Data send: OK")
-                if let preyAction = action {
-                    PreyModule.sharedInstance.checkStatus(preyAction)
-                }
-                
             // === Stop report
-            case 409:
+            if statusCode == 409 {
                 PreyLogger("Stop report")
                 if let preyAction:Report = action as? Report {
                     preyAction.stopReport()
-                }                
-                
-            // === Error
-            default:
+                }
+            } else {
                 PreyLogger("Failed data send")
             }
+            return
         }
         
-        return dataResponse
+        PreyLogger("Data send: OK")
+
+        if let preyAction = action {
+            PreyModule.sharedInstance.checkStatus(preyAction)
+        }
     }
 }
 
