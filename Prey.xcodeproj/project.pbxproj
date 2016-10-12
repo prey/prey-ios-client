@@ -11,7 +11,6 @@
 		3B047EB21D400F26008B2D58 /* PreyOnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B047EB11D400F26008B2D58 /* PreyOnboardingPage.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B1C2D421D79CB7B00D8E7DF /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C2D401D79CB7B00D8E7DF /* Crashlytics.framework */; };
-		3B1C2D431D79CB7B00D8E7DF /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C2D411D79CB7B00D8E7DF /* Fabric.framework */; };
 		3B2445F71D245478005DF09C /* Camouflage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F61D245478005DF09C /* Camouflage.swift */; };
 		3B2445F91D2466CD005DF09C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F81D2466CD005DF09C /* Alert.swift */; };
 		3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445FA1D24717B005DF09C /* AlertVC.swift */; };
@@ -29,6 +28,7 @@
 		3B42A2671D2581EF002848C0 /* large9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B42A2661D2581EF002848C0 /* large9.ttf */; };
 		3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */; };
 		3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42B3FC1CECC38B009D07B2 /* Report.swift */; };
+		3B4591DD1DAE797E00AD7B93 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C2D411D79CB7B00D8E7DF /* Fabric.framework */; };
 		3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4E40611D3D3E2D00A45FBD /* GrettingsProVC.swift */; };
 		3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4F679E1CEA061E00F58FAD /* Alarm.swift */; };
 		3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A11CEA085200F58FAD /* shutter.aiff */; };
@@ -202,10 +202,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B4591DD1DAE797E00AD7B93 /* Fabric.framework in Frameworks */,
 				3BB6E21A1D47AEA100074E97 /* libsqlite3.tbd in Frameworks */,
 				3BB6E21B1D47AEA100074E97 /* libz.tbd in Frameworks */,
 				3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */,
-				3B1C2D431D79CB7B00D8E7DF /* Fabric.framework in Frameworks */,
 				3BA7219D1D46B7040043C9B9 /* libAdIdAccess.a in Frameworks */,
 				3BB6E21F1D47CACD00074E97 /* MapKit.framework in Frameworks */,
 				3BA7219E1D46B7040043C9B9 /* libGoogleAnalyticsServices.a in Frameworks */,
@@ -596,7 +596,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/Prey/Fabric/run\" us3r4p1 us3r4p2";
+			shellScript = "\"$SRCROOT/Prey/Fabric/Fabric.framework/run\" 2185ea0f2d1l0v3g0dfa123d1d8225c3adb7b41e us3r4p2";
 		};
 /* End PBXShellScriptBuildPhase section */
 
