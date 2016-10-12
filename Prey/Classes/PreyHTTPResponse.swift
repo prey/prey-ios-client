@@ -13,18 +13,16 @@ enum RequestType {
     case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt
 }
 
-
 class PreyHTTPResponse {
 
     // MARK: Functions
 
     // Check Response from Server
     class func checkResponse(_ requestType:RequestType, onCompletion:@escaping (_ isSuccess: Bool) -> Void) -> (Data?, URLResponse?, Error?) -> Void {
-    
 
         let completionResponse: (Data?, URLResponse?, Error?) -> Void = ({(data, response, error) in
 
-            // Check error with NSURLSession request
+            // Check error with URLSession request
             guard error == nil else {
                 callResponseWith(requestType, isResponseSuccess:false, withData:data, withError:error, statusCode:nil, onCompletion:onCompletion)
                 return
@@ -72,61 +70,58 @@ class PreyHTTPResponse {
     // Check Get Token response
     class func checkToken(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
         
-        if isSuccess {
-            let jsonObject: NSDictionary
-            
-            do {
-                guard let dataResponse = data else {
-                    return
-                }
-                jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-                
-                if let tokenPanelStr = jsonObject.object(forKey: "token") as? String {
-                    PreyConfig.sharedInstance.tokenPanel = tokenPanelStr
-                    PreyConfig.sharedInstance.saveValues()
-                }
-            } catch let error {
-                PreyLogger("json error: \(error.localizedDescription)")
-            }
-            
-        } else {
+        guard isSuccess else {
             showErrorLogIn(error, statusCode:statusCode)
+            return
+        }
+        
+        do {
+            guard let dataResponse = data else {
+                return
+            }
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+            
+            if let tokenPanelStr = jsonObject.object(forKey: "token") as? String {
+                PreyConfig.sharedInstance.tokenPanel = tokenPanelStr
+                PreyConfig.sharedInstance.saveValues()
+            }
+        } catch let error {
+            PreyLogger("json error: \(error.localizedDescription)")
         }
     }
     
     // Check LogIn response
     class func checkLogIn(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
         
-        if isSuccess {
-            let jsonObject: NSDictionary
-            
-            do {
-                guard let dataResponse = data else {
-                    return
-                }
-                jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-                
-                guard let userApiKeyStr = jsonObject.object(forKey: "key") as? String else {
-                    return
-                }
-                guard let userIsProStr = jsonObject.object(forKey: "pro_account") as? NSNumber else {
-                    return
-                }
-                
-                PreyConfig.sharedInstance.userApiKey    = userApiKeyStr
-                PreyConfig.sharedInstance.isPro         = userIsProStr.boolValue
-                PreyConfig.sharedInstance.saveValues()
-                
-            } catch let error {
-                PreyLogger("json error: \(error.localizedDescription)")
-            }
-        } else {
+        guard isSuccess else {
             showErrorLogIn(error, statusCode:statusCode)
+            return
+        }
+        
+        do {
+            guard let dataResponse = data else {
+                return
+            }
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+            
+            guard let userApiKeyStr = jsonObject.object(forKey: "key") as? String else {
+                return
+            }
+            guard let userIsProStr = jsonObject.object(forKey: "pro_account") as? NSNumber else {
+                return
+            }
+            
+            PreyConfig.sharedInstance.userApiKey    = userApiKeyStr
+            PreyConfig.sharedInstance.isPro         = userIsProStr.boolValue
+            PreyConfig.sharedInstance.saveValues()
+            
+        } catch let error {
+            PreyLogger("json error: \(error.localizedDescription)")
         }
     }
     
     class func showErrorLogIn(_ error:Error?, statusCode:Int?) {
-        // Check error with NSURLSession request
+        // Check error with URLSession request
         guard error == nil else {
             let alertMessage = error?.localizedDescription
             displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't check your password".localized)
@@ -147,65 +142,45 @@ class PreyHTTPResponse {
     // Check signUp response
     class func checkSignUp(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
         
-        if isSuccess {
-            let jsonObject: NSDictionary
-            
-            do {
-                guard let dataResponse = data else {
-                    return
-                }
-                jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-                
-                if let userApiKeyStr = jsonObject.object(forKey: "key") as? String {
-                    PreyConfig.sharedInstance.userApiKey = userApiKeyStr
-                    PreyConfig.sharedInstance.saveValues()
-                }
-                
-            } catch let error {
-                PreyLogger("json error: \(error.localizedDescription)")
-            }
-        } else {
-            // Check error with NSURLSession request
+        guard isSuccess else {
+            // Check error with URLSession request
             guard error == nil else {
                 let alertMessage = error?.localizedDescription
                 displayErrorAlert(alertMessage!.localized, titleMessage:"User couldn't be created".localized)
                 return
             }
-
             let alertMessage = (statusCode == 422) ? "Did you already register?".localized : "Error".localized
             displayErrorAlert(alertMessage.localized, titleMessage:"User couldn't be created".localized)
+            return
+        }
+        
+        do {
+            guard let dataResponse = data else {
+                return
+            }
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+            
+            if let userApiKeyStr = jsonObject.object(forKey: "key") as? String {
+                PreyConfig.sharedInstance.userApiKey = userApiKeyStr
+                PreyConfig.sharedInstance.saveValues()
+            }
+            
+        } catch let error {
+            PreyLogger("json error: \(error.localizedDescription)")
         }
     }
     
     // Check add device response
     class func checkAddDevice(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
 
-        if isSuccess {
-            let jsonObject: NSDictionary
-            
-            do {
-                guard let dataResponse = data else {
-                    return
-                }
-                jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-                
-                if let deviceKeyStr = jsonObject.object(forKey: "key") as? String {
-                    PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
-                    PreyConfig.sharedInstance.isRegistered  = true
-                    PreyConfig.sharedInstance.saveValues()
-                }
-                
-            } catch let error {
-                PreyLogger("json error: \(error.localizedDescription)")
-            }
-        } else {
-            // Check error with NSURLSession request
+        guard isSuccess else {
+            // Check error with URLSession request
             guard error == nil else {
                 let alertMessage = error?.localizedDescription
                 displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't add your device".localized)
                 return
             }
-
+            
             let alertMessage: String
             
             if ( (statusCode == 302) || (statusCode == 403) ) {
@@ -213,43 +188,64 @@ class PreyHTTPResponse {
             } else {
                 alertMessage = "Error".localized
             }
-
+            
             displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't add your device".localized)
+            return
+        }
+        
+        do {
+            guard let dataResponse = data else {
+                return
+            }
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+            
+            if let deviceKeyStr = jsonObject.object(forKey: "key") as? String {
+                PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
+                PreyConfig.sharedInstance.isRegistered  = true
+                PreyConfig.sharedInstance.saveValues()
+            }
+            
+        } catch let error {
+            PreyLogger("json error: \(error.localizedDescription)")
         }
     }
 
     // Check delete device response
     class func checkDeleteDevice(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
         
-        if !isSuccess {
-            // Check error with NSURLSession request
-            guard error == nil else {
-                let alertMessage = error?.localizedDescription
-                displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't delete your device".localized)
-                return
-            }
-            
-            let titleMsg = "Couldn't delete your device".localized
-            let alertMsg = "Device not ready!".localized
-            displayErrorAlert(alertMsg, titleMessage:titleMsg)
+        if isSuccess {
+            return
         }
+
+        // Check error with URLSession request
+        guard error == nil else {
+            let alertMessage = error?.localizedDescription
+            displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't delete your device".localized)
+            return
+        }
+        
+        let titleMsg = "Couldn't delete your device".localized
+        let alertMsg = "Device not ready!".localized
+        displayErrorAlert(alertMsg, titleMessage:titleMsg)
     }
 
     // Check subsciption receipt
     class func checkSubscriptionReceipt(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
         
-        if !isSuccess {
-            // Check error with NSURLSession request
-            guard error == nil else {
-                let alertMessage = error?.localizedDescription
-                displayErrorAlert(alertMessage!.localized, titleMessage:"Error".localized)
-                return
-            }
-            
-            let titleMsg = "Error".localized
-            let alertMsg = "Transaction Error".localized
-            displayErrorAlert(alertMsg, titleMessage:titleMsg)
+        if isSuccess {
+            return
         }
+
+        // Check error with URLSession request
+        guard error == nil else {
+            let alertMessage = error?.localizedDescription
+            displayErrorAlert(alertMessage!.localized, titleMessage:"Error".localized)
+            return
+        }
+        
+        let titleMsg = "Error".localized
+        let alertMsg = "Transaction Error".localized
+        displayErrorAlert(alertMsg, titleMessage:titleMsg)
     }
     
     // Check action device response
@@ -257,7 +253,7 @@ class PreyHTTPResponse {
         
         let actionDeviceResponse: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
             
-            // Check error with NSURLSession request
+            // Check error with URLSession request
             guard error == nil else {
                 
                 let alertMessage = error?.localizedDescription
@@ -304,7 +300,7 @@ class PreyHTTPResponse {
         
         let geofenceZonesResponse: (Data?, URLResponse?, Error?) -> Void = ({(data, response, error) in
             
-            // Check error with NSURLSession request
+            // Check error with URLSession request
             guard error == nil else {
                 PreyLogger("PreyGeofenceZones error")
                 return
@@ -360,7 +356,7 @@ class PreyHTTPResponse {
         
         let dataResponse: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
             
-            // Check error with NSURLSession request
+            // Check error with URLSession request
             guard error == nil else {
                 
                 let alertMessage = error?.localizedDescription

@@ -84,7 +84,7 @@ class ReportPhoto: NSObject {
         
         sessionQueue.async {
             
-            // Check error with NSURLSession request
+            // Check error with device
             guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.back) else {
                 PreyLogger("Error with AVCaptureDevice")
                 self.delegate?.photoReceived(self.photoArray)

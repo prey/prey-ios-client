@@ -29,7 +29,7 @@ class PreyHTTPClient {
         return "Prey/\(appVersion) (iOS \(systemVersion))"
     }
 
-    // Define NSURLSessionConfiguration
+    // Define URLSessionConfiguration
     func getSessionConfig(_ authString: String, messageId: String?) -> URLSessionConfiguration {
         
         let sessionConfig = URLSessionConfiguration.default
