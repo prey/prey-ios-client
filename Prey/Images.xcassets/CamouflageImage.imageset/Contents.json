@@ -6,8 +6,13 @@
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "camouflage-iPhone.png"
+      "subtype" : "retina4",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "iphone",
+      "filename" : "camouflage-iPhone.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
@@ -20,9 +25,14 @@
       "scale" : "3x"
     },
     {
+      "idiom" : "iphone",
+      "subtype" : "retina4",
+      "scale" : "3x"
+    },
+    {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "camouflage-iPad.png"
+      "filename" : "camouflage-iPad.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
