@@ -45,7 +45,6 @@
 		3B849AE81D0710E9002DB6CC /* PreyData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE61D0710E9002DB6CC /* PreyData.xcdatamodeld */; };
 		3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE91D071AF4002DB6CC /* Geofencing.swift */; };
 		3B88FC501DA2961F007E62A6 /* Ping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B88FC4F1DA2961F007E62A6 /* Ping.swift */; };
-		3B88FC551DA29A2F007E62A6 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B88FC531DA29A2F007E62A6 /* LoggerClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3B8E57D11A2E7B4A0027179E /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */; };
 		3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D21A2E7B530027179E /* AppDelegate.swift */; };
 		3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */; };
@@ -149,9 +148,6 @@
 		3B849AE71D0710E9002DB6CC /* PreyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PreyData.xcdatamodel; sourceTree = "<group>"; };
 		3B849AE91D071AF4002DB6CC /* Geofencing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Geofencing.swift; path = Classes/Geofencing.swift; sourceTree = "<group>"; };
 		3B88FC4F1DA2961F007E62A6 /* Ping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ping.swift; path = Classes/Ping.swift; sourceTree = "<group>"; };
-		3B88FC521DA29A2F007E62A6 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = Prey/NSLogger/LoggerClient.h; sourceTree = SOURCE_ROOT; };
-		3B88FC531DA29A2F007E62A6 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = Prey/NSLogger/LoggerClient.m; sourceTree = SOURCE_ROOT; };
-		3B88FC541DA29A2F007E62A6 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = Prey/NSLogger/LoggerCommon.h; sourceTree = SOURCE_ROOT; };
 		3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeVC.swift; path = Classes/WelcomeVC.swift; sourceTree = "<group>"; };
 		3B8E57D21A2E7B530027179E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Classes/AppDelegate.swift; sourceTree = "<group>"; };
 		3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceSetUpVC.swift; path = Classes/DeviceSetUpVC.swift; sourceTree = "<group>"; };
@@ -315,7 +311,6 @@
 			isa = PBXGroup;
 			children = (
 				3B1C2D3F1D79CB7B00D8E7DF /* Fabric */,
-				3B88FC511DA299F2007E62A6 /* NSLogger */,
 				3BA7218F1D46B7040043C9B9 /* GoogleAnalytics */,
 				3B6D70A11CD7E34800DEB461 /* Extension */,
 				3B8E57CD1A2E71B30027179E /* ViewController */,
@@ -360,17 +355,6 @@
 				3B828404199198E6000E4545 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		3B88FC511DA299F2007E62A6 /* NSLogger */ = {
-			isa = PBXGroup;
-			children = (
-				3B88FC521DA29A2F007E62A6 /* LoggerClient.h */,
-				3B88FC531DA29A2F007E62A6 /* LoggerClient.m */,
-				3B88FC541DA29A2F007E62A6 /* LoggerCommon.h */,
-			);
-			name = NSLogger;
-			path = Fabric;
 			sourceTree = "<group>";
 		};
 		3B8E57CD1A2E71B30027179E /* ViewController */ = {
@@ -665,7 +649,6 @@
 				3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */,
 				3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */,
 				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,
-				3B88FC551DA29A2F007E62A6 /* LoggerClient.m in Sources */,
 				3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */,
 				3B047EB21D400F26008B2D58 /* PreyOnboardingPage.swift in Sources */,
 				3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */,
