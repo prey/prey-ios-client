@@ -78,19 +78,14 @@ class PreyNotification {
     func didReceiveRemoteNotifications(_ userInfo: [AnyHashable: Any], completionHandler:@escaping (UIBackgroundFetchResult) -> Void) {
         
         PreyLogger("Remote notification received \(userInfo.description)")
-        
+
+        // Check payload info
+        if let cmdInstruction = userInfo["cmd"] as? NSArray {
+            parsePayloadInfoFromPushNotification(instructionArray: cmdInstruction)
+        }
         // Check payload info
         if let cmdArray = userInfo["instruction"] as? NSArray {
-            do {
-                let data = try JSONSerialization.data(withJSONObject: cmdArray, options: JSONSerialization.WritingOptions.prettyPrinted)
-                if let json = String(data: data, encoding:String.Encoding.utf8) {
-                    PreyLogger("Instruction: \(json)")
-                    PreyModule.sharedInstance.parseActionsFromPanel(json)
-                }
-            } catch let error as NSError{
-                PreyLogger("json error: \(error.localizedDescription)")
-                PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
-            }            
+            parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
         }
         
         // Set completionHandler for request
@@ -103,6 +98,20 @@ class PreyNotification {
             checkRequestVerificationSucceded(false)
         }
         
+    }
+    
+    // Parse payload info on push notification
+    func parsePayloadInfoFromPushNotification(instructionArray:NSArray) {
+        do {
+            let data = try JSONSerialization.data(withJSONObject: instructionArray, options: JSONSerialization.WritingOptions.prettyPrinted)
+            if let json = String(data: data, encoding:String.Encoding.utf8) {
+                PreyLogger("Instruction: \(json)")
+                PreyModule.sharedInstance.parseActionsFromPanel(json)
+            }
+        } catch let error as NSError{
+            PreyLogger("json error: \(error.localizedDescription)")
+            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+        }
     }
     
     // Check request verification
