@@ -185,44 +185,79 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     // Check last version on Store
     func checkLastVersionOnStore() {
 
-        // FIXME: Config
-        /*
-
-        guard isMissing else {
+        // Check if devices is missing
+        if isMissing {
             return
         }
-        
+        // Check timer
         guard shouldAskForUpdateApp() else {
             return
         }
-
-        // Define bundleId
-        let appId   = Bundle.main.infoDictionary!["CFBundleIdentifier"] as! String
-        let url     = URL(string:String(format:"http://itunes.apple.com/lookup?bundleId=%@",appId))!
-        
-        guard let data = try? Data(contentsOf: url) else {
+        // Get app information
+        guard let appInfo = Bundle.main.infoDictionary else {
             return
         }
-
-        // Parse info from url
-        do {
-            let lookup = try JSONSerialization.jsonObject(with: data, options:.mutableContainers) as! [String : AnyObject]
-            
-            guard (lookup["resultCount"] as AnyObject).intValue == 1 else {
+        // Define bundleId
+        guard let appId   = appInfo["CFBundleIdentifier"] as? String else {
+            return
+        }
+        // Define app store url
+        guard let url     = URL(string:String(format:"http://itunes.apple.com/lookup?bundleId=%@",appId)) else {
+            return
+        }
+        // Get data from store url
+        URLSession.shared.dataTask(with: url, completionHandler: {(data, response, error) in
+            // Check error
+            guard error == nil else{
                 return
             }
-            
-            let appStoreVersion = lookup["results"]![0]["version"] as! NSString
-            let currentVersion  = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-            
-            // Compare versions
-            if (appStoreVersion.compare(currentVersion, options:.numeric) == .orderedDescending) {
-                showMessageForUpdateVersion()
+            // Check data info
+            guard let data = data else {
+                return
+            }            
+            // Parse info from url
+            do {
+                // Json to String:any
+                guard let lookup = try JSONSerialization.jsonObject(with: data, options:.mutableContainers) as? [String : Any] else {
+                    return
+                }
+                // Convert to Int value
+                guard let resultCount = lookup["resultCount"] as? Int else {
+                    return
+                }
+                // Check result count
+                guard resultCount == 1 else {
+                    return
+                }
+                // Get array from results
+                guard let resultStore = lookup["results"] as? NSArray else {
+                    return
+                }
+                // Get first element from array
+                guard let resultData = resultStore[0] as? [String:Any] else {
+                    return
+                }
+                // Get Store version
+                guard let appStoreVersion = resultData["version"] as? NSString else {
+                    return
+                }
+                // Get local version
+                guard let currentVersion  = appInfo["CFBundleShortVersionString"] as? String else {
+                    return
+                }
+                PreyLogger("current:\(currentVersion) store:\(appStoreVersion)")
+                // Compare versions
+                if (appStoreVersion.compare(currentVersion, options:.numeric) == .orderedDescending) {
+                    DispatchQueue.main.async {
+                        self.showMessageForUpdateVersion()
+                    }
+                }
+                
+            } catch let error as NSError{
+                PreyLogger("params error: \(error.localizedDescription)")
             }
-        } catch let error as NSError{
-            PreyLogger("params error: \(error.localizedDescription)")
-        }
-        */
+            
+        }).resume()
     }
     
     // MARK: AlertView Message
