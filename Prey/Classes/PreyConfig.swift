@@ -185,7 +185,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     // Check last version on Store
     func checkLastVersionOnStore() {
 
-        FIXME()
+        // FIXME: Config
         /*
 
         guard isMissing else {

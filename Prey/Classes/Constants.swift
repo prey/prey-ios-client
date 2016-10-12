@@ -9,11 +9,6 @@
 import Foundation
 import UIKit
 
-@available(iOS, deprecated: 1.0, message: "I'm not deprecated, please ***FIXME**")
-func FIXME()
-{
-}
-
 // Storyboard controllerId
 enum StoryboardIdVC: String {
     case PreyStoryBoard, alert, navigation, home, welcome, signUp, signIn, deviceSetUp, currentLocation, purchases, settings, grettings

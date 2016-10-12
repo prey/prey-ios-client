@@ -465,6 +465,7 @@
 				3B8283EA199198E6000E4545 /* Frameworks */,
 				3B8283EB199198E6000E4545 /* Resources */,
 				3B1C2D441D79CBFE00D8E7DF /* ShellScript */,
+				3B95D3CC1DAE860300FEDD80 /* Run Script Tag Warnings */,
 			);
 			buildRules = (
 			);
@@ -597,6 +598,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT/Prey/Fabric/Fabric.framework/run\" 2185ea0f2d1l0v3g0dfa123d1d8225c3adb7b41e us3r4p2";
+		};
+		3B95D3CC1DAE860300FEDD80 /* Run Script Tag Warnings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script Tag Warnings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
