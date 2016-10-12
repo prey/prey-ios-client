@@ -24,7 +24,7 @@ class Ping : PreyAction {
         let params:[String: String] = [
             kData.status.rawValue   : kStatus.started.rawValue,
             kData.target.rawValue   : kAction.ping.rawValue,
-            kData.command.rawValue  : "get"]
+            kData.command.rawValue  : kCommand.get.rawValue]
         
         self.sendData(params, toEndpoint: responseDeviceEndpoint)
         
