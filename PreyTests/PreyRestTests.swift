@@ -358,7 +358,7 @@ class PreyRestTests: XCTestCase {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.deleteDevice, onCompletion:{(isSuccess: Bool) in
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.deleteDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
                 
                 // Check if add device is success
                 XCTAssertTrue(isSuccess)
