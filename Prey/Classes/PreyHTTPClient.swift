@@ -9,13 +9,25 @@
 import Foundation
 import UIKit
 
-class PreyHTTPClient {
+class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate {
     
     // MARK: Properties
     
     static let sharedInstance = PreyHTTPClient()
-    fileprivate init() {
+    fileprivate override init() {
     }
+    
+    // Define delay to request
+    let delayRequest = 2.0
+    
+    // Define retry request for statusCode 503
+    let retryRequest = 5
+    
+    // Array for receive data : (session : Data)
+    var requestData              = [URLSession : Data]()
+
+    // Array for onCompletion request : (session : onCompletion)
+    var requestCompletionHandler = [URLSession : ((Data?, URLResponse?, Error?) -> Void)]()
     
     // Encoding Character
     struct EncodingCharacters {
@@ -68,7 +80,7 @@ class PreyHTTPClient {
         
         // Set session Config
         let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId)
-        let session         = URLSession(configuration: sessionConfig)
+        let session         = URLSession(configuration:sessionConfig, delegate:self, delegateQueue:nil)
         
         // Set Endpoint
         guard let requestURL = URL(string:URLControlPanel + endPoint) else {
@@ -119,11 +131,11 @@ class PreyHTTPClient {
         request.httpBody    = bodyRequest as Data
         request.httpMethod  = httpMethod
         
-        // Prepare Request to Send
-        let task = session.dataTask(with: request, completionHandler:onCompletion)
+        // Add onCompletion to array
+        requestCompletionHandler[session] = onCompletion
         
-        // Send Request
-        task.resume()
+        // Prepare request
+        sendRequest(session, request: request)
     }
     
     // SignUp/LogIn User to Control Panel
@@ -134,7 +146,7 @@ class PreyHTTPClient {
         
         // Set session Config
         let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId)
-        let session         = URLSession(configuration: sessionConfig)
+        let session         = URLSession(configuration:sessionConfig, delegate:self, delegateQueue:nil)
         
         // Set Endpoint
         guard let requestURL = URL(string: URLControlPanel + endPoint) else {
@@ -154,9 +166,61 @@ class PreyHTTPClient {
 
         request.httpMethod  = httpMethod
         
-        let task = session.dataTask(with:request, completionHandler:onCompletion)
+        // Add onCompletion to array
+        requestCompletionHandler[session] = onCompletion
         
+        // Prepare request
+        sendRequest(session, request: request)
+    }
+
+    // Prepare URLSessionDataTask
+    func sendRequest(_ session: URLSession, request: URLRequest) {
+        let task = session.dataTask(with: request)
         // Send Request
         task.resume()
+    }
+    
+    // Delay dispatch function
+    func delay(_ delay:Double, closure:@escaping ()->()) {
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
+    }
+    
+    // MARK: URLSession Delegates
+    
+    // URLSessionTaskDelegate : didCompleteWithError
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+
+        // Retry for statusCode == 503
+        if let httpURLResponse = task.response as? HTTPURLResponse {
+            if (httpURLResponse.statusCode == 503) && (task.taskIdentifier < retryRequest) {
+                guard let request = task.originalRequest else {
+                    return
+                }
+                delay(delayRequest) { self.sendRequest(session, request: request) }
+                return
+            }
+        }
+        // Go to completionHandler
+        if let onCompletion = requestCompletionHandler[session] {
+            onCompletion(requestData[session], task.response, error)
+        }
+        // Delete value for sessionKey
+        requestData.removeValue(forKey:session)
+        requestCompletionHandler.removeValue(forKey:session)
+
+        // Cancel session
+        session.invalidateAndCancel()
+    }
+    
+    // URLSessionDataDelegate : dataTask didReceive Data
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        // Save Data on array
+        requestData[session] = data
+    }
+    
+    // URLSessionDataDelegate : dataTask didReceive Response
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        completionHandler(.allow)
     }
 }
