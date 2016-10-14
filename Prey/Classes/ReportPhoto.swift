@@ -314,21 +314,24 @@ class ReportPhoto: NSObject {
     
     // Observer Key
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        
-        if ( (context == &CapturingStillImageContext) && ((change![NSKeyValueChangeKey.newKey] as AnyObject).boolValue == true) ) {
-            // Set shutter sound off
-            self.setShutterSoundOff()
+        if let changeValue = change?[.newKey] {
+            if ( (context == &CapturingStillImageContext) && ((changeValue as AnyObject).boolValue == true) ) {
+                // Set shutter sound off
+                self.setShutterSoundOff()
+            }
         }
     }
     
     // Return AVCaptureDevice
-    class func deviceWithPosition(_ position:AVCaptureDevicePosition) -> AVCaptureDevice! {
-        
-        let devicesArray = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo)
-        
-        for device in devicesArray! {
-            if (device as AnyObject).position == position {
-                return device as! AVCaptureDevice
+    class func deviceWithPosition(_ position:AVCaptureDevicePosition) -> AVCaptureDevice? {
+        // Get devices array
+        guard let devicesArray = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice] else {
+            return nil
+        }
+        // Search for device
+        for device in devicesArray {
+            if device.position == position {
+                return device
             }
         }
         return nil
