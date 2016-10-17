@@ -307,11 +307,15 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
             defaults.set(nextTime, forKey:PreyMessageAsk.UpdateApp.rawValue)
             return false
         }
-        
-        let nextTime    = defaults.double(forKey: PreyMessageAsk.UpdateApp.rawValue)
+
+        var nextTime    = defaults.double(forKey: PreyMessageAsk.UpdateApp.rawValue)
         if (currentTime < nextTime) {
             return false
         }
+        
+        // Ask again in 24 hours
+        nextTime = currentTime + 60*60*23*1
+        defaults.set(nextTime, forKey:PreyMessageAsk.UpdateApp.rawValue)
         
         return true
     }
