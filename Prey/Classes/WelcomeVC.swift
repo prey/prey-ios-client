@@ -13,14 +13,14 @@ class WelcomeVC: GAITrackedViewController, PreyOnboardingDelegate {
     
     // MARK: Properties
     
-    @IBOutlet weak var bgImage     : UIImageView!
-    @IBOutlet weak var pageControl : UIPageControl!
+    @IBOutlet var bgImage     : UIImageView!
+    @IBOutlet var pageControl : UIPageControl!
 
-    @IBOutlet weak var nextPageBtn : UIButton!
-    @IBOutlet weak var backPageBtn : UIButton!
+    @IBOutlet var nextPageBtn : UIButton!
+    @IBOutlet var backPageBtn : UIButton!
 
-    @IBOutlet weak var signUpBtn   : UIButton!
-    @IBOutlet weak var logInBtn    : UIButton!
+    @IBOutlet var signUpBtn   : UIButton!
+    @IBOutlet var logInBtn    : UIButton!
     
     let preyOnboarding = PreyOnboarding(frame:UIScreen.main.bounds)
     

@@ -13,25 +13,25 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     
     // MARK: Properties
     
-    @IBOutlet weak var titleLbl             : UILabel!
-    @IBOutlet weak var subtitleLbl          : UILabel!
-    @IBOutlet weak var shieldImg            : UIImageView!
-    @IBOutlet weak var camouflageImg        : UIImageView!
-    @IBOutlet weak var passwordInput        : UITextField!
-    @IBOutlet weak var loginBtn             : UIButton!
-    @IBOutlet weak var forgotBtn            : UIButton!
+    @IBOutlet var titleLbl             : UILabel!
+    @IBOutlet var subtitleLbl          : UILabel!
+    @IBOutlet var shieldImg            : UIImageView!
+    @IBOutlet var camouflageImg        : UIImageView!
+    @IBOutlet var passwordInput        : UITextField!
+    @IBOutlet var loginBtn             : UIButton!
+    @IBOutlet var forgotBtn            : UIButton!
     
-    @IBOutlet weak var accountImg           : UIImageView!
-    @IBOutlet weak var accountSbtLbl        : UILabel!
-    @IBOutlet weak var accountTlLbl         : UILabel!
-    @IBOutlet weak var accountBtn           : UIButton!
-    @IBOutlet weak var settingsImg          : UIImageView!
-    @IBOutlet weak var settingsSbtLbl       : UILabel!
-    @IBOutlet weak var settingsTlLbl        : UILabel!
-    @IBOutlet weak var settingsBtn          : UIButton!
+    @IBOutlet var accountImg           : UIImageView!
+    @IBOutlet var accountSbtLbl        : UILabel!
+    @IBOutlet var accountTlLbl         : UILabel!
+    @IBOutlet var accountBtn           : UIButton!
+    @IBOutlet var settingsImg          : UIImageView!
+    @IBOutlet var settingsSbtLbl       : UILabel!
+    @IBOutlet var settingsTlLbl        : UILabel!
+    @IBOutlet var settingsBtn          : UIButton!
     
-    @IBOutlet weak var tourImg              : UIImageView!
-    @IBOutlet weak var tourBtn              : UIButton!
+    @IBOutlet var tourImg              : UIImageView!
+    @IBOutlet var tourBtn              : UIButton!
     
     var hidePasswordInput = false
     
@@ -312,7 +312,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
 
         
         // Get Token for Control Panel
-        PreyUser.getTokenFromPanel(PreyConfig.sharedInstance.userApiKey!, userPassword:self.passwordInput.text!, onCompletion:{(isSuccess: Bool) in
+        PreyUser.getTokenFromPanel(PreyConfig.sharedInstance.userApiKey!, userPassword:pwdInput, onCompletion:{(isSuccess: Bool) in
 
             // Hide ActivityIndicator
             DispatchQueue.main.async {

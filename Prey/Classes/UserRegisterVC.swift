@@ -14,13 +14,13 @@ class UserRegister: GAITrackedViewController, UITextFieldDelegate {
     
     // MARK: Properties
     
-    @IBOutlet weak var subtitleView     : UILabel!
-    @IBOutlet weak var titleView        : UILabel!
-    @IBOutlet weak var changeViewBtn    : UIButton!
-    @IBOutlet weak var addDeviceButton  : UIButton!
-    @IBOutlet weak var nameTextField    : UITextField!
-    @IBOutlet weak var emailTextField   : UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet var subtitleView     : UILabel!
+    @IBOutlet var titleView        : UILabel!
+    @IBOutlet var changeViewBtn    : UIButton!
+    @IBOutlet var addDeviceButton  : UIButton!
+    @IBOutlet var nameTextField    : UITextField!
+    @IBOutlet var emailTextField   : UITextField!
+    @IBOutlet var passwordTextField: UITextField!
     
     
     // MARK: Init

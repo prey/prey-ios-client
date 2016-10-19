@@ -15,8 +15,8 @@ class DeviceSetUpVC: GAITrackedViewController {
     
     // MARK: Properties
 
-    @IBOutlet weak var titleLbl    : UILabel!
-    @IBOutlet weak var messageLbl  : UILabel!
+    @IBOutlet var titleLbl    : UILabel!
+    @IBOutlet var messageLbl  : UILabel!
     
     var messageTxt = ""
 

@@ -13,10 +13,10 @@ class PurchasesVC: GAITrackedViewController {
     
     // MARK: Properties
     
-    @IBOutlet weak var titleTxtLbl     : UILabel!
-    @IBOutlet weak var messagetxtbl    : UILabel!
-    @IBOutlet weak var planTxtLbl      : UILabel!
-    @IBOutlet weak var buyBtn          : UIButton!
+    @IBOutlet var titleTxtLbl     : UILabel!
+    @IBOutlet var messagetxtbl    : UILabel!
+    @IBOutlet var planTxtLbl      : UILabel!
+    @IBOutlet var buyBtn          : UIButton!
     
     
     // MARK: Init

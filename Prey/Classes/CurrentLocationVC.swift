@@ -20,7 +20,7 @@ class CurrentLocationVC: GAITrackedViewController, MKMapViewDelegate {
     
     var actInd      : UIActivityIndicatorView!
     
-    @IBOutlet weak var mapLocationView    : MKMapView!
+    @IBOutlet var mapLocationView    : MKMapView!
 
     // MARK: Init
     

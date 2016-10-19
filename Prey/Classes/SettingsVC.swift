@@ -42,8 +42,8 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     var actInd                      : UIActivityIndicatorView!
     var detachModule                : Detach!
     
-    @IBOutlet weak var tableView    : UITableView!
-    @IBOutlet weak var iPadView     : UIView!
+    @IBOutlet var tableView    : UITableView!
+    @IBOutlet var iPadView     : UIView!
     
     // MARK: Init
 

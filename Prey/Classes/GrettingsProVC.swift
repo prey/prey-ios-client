@@ -14,9 +14,9 @@ class GrettingsProVC: GAITrackedViewController {
 
     // MARK: Properties
     
-    @IBOutlet weak var titleTxtLbl     : UILabel!
-    @IBOutlet weak var messagetxtbl    : UILabel!
-    @IBOutlet weak var okBtn           : UIButton!
+    @IBOutlet var titleTxtLbl     : UILabel!
+    @IBOutlet var messagetxtbl    : UILabel!
+    @IBOutlet var okBtn           : UIButton!
 
 
     // MARK: Init

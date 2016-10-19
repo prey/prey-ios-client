@@ -12,8 +12,8 @@ class AlertVC: GAITrackedViewController {
     
     // MARK: Properties
 
-    @IBOutlet weak var messageLbl           : UILabel!
-    @IBOutlet weak var subtitleLbl          : UILabel!
+    @IBOutlet var messageLbl           : UILabel!
+    @IBOutlet var subtitleLbl          : UILabel!
 
     var messageToShow = ""
     
