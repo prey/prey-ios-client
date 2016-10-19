@@ -156,12 +156,17 @@ class PreyModule {
     
     // Delete action
     func deleteAction(_ action: PreyAction) {
-        
-        PreyLogger("Delete \(action.target) action")
-        
+        PreyLogger("Start Delete \(action.target) action")
+        // Search for preyAction
         for item in actionArray {
-            if ( item.target == action.target ) {
-                actionArray.removeObject(item)
+            // Compare target
+            if item.target == action.target {
+                // Get index
+                if let indexItem = actionArray.index(of: item) {
+                    // Remove element
+                    actionArray.remove(at:indexItem)
+                    PreyLogger("Deleted \(action.target) action")
+                }
             }
         }
     }

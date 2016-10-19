@@ -16,18 +16,6 @@ extension String {
     }
 }
 
-// Extension for PreyModule
-extension Array where Element : Equatable {
-    // Remove first collection element that is equal to the given `object`:
-    mutating func removeObject(_ object : Iterator.Element) {
-        if let index = self.index(of: object) {
-            if (0...self.count-1 ~= index) {
-                self.remove(at: index)
-            }
-        }
-    }
-}
-
 // Extension for Alarm action
 extension MPVolumeView {
     var volumeSlider:UISlider {
