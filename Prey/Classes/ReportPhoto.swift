@@ -133,6 +133,11 @@ class ReportPhoto: NSObject {
                     
                     // Capture a still image
                     if let videoConnection = self.stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
+                        guard videoConnection.isEnabled else {
+                            // Error: return to delegate
+                            self.delegate?.photoReceived(self.photoArray)
+                            return
+                        }
                         self.stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler:self.checkPhotoCapture(true))
                     } else {
                         // Error: return to delegate
@@ -281,6 +286,11 @@ class ReportPhoto: NSObject {
                 
                 // Capture a still image
                 if let videoConnection = self.stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
+                    guard videoConnection.isEnabled else {
+                        // Error: return to delegate
+                        self.delegate?.photoReceived(self.photoArray)
+                        return
+                    }
                     self.stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler:self.checkPhotoCapture(false))
                 } else {
                     // Error: return to delegate
