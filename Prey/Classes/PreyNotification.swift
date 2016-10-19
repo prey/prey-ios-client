@@ -17,7 +17,7 @@ class PreyNotification {
     fileprivate init() {
     }
     
-    var requestVerificationSucceeded : ((UIBackgroundFetchResult) -> Void)?
+    var requestVerificationSucceeded = [((UIBackgroundFetchResult) -> Void)]()
     
     // MARK: Functions
     
@@ -89,7 +89,7 @@ class PreyNotification {
         }
         
         // Set completionHandler for request
-        requestVerificationSucceeded = completionHandler
+        requestVerificationSucceeded.append(completionHandler)
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
@@ -117,11 +117,18 @@ class PreyNotification {
     
     // Check request verification
     func checkRequestVerificationSucceded(_ isSuccess:Bool) {
-        
-        if isSuccess {
-            requestVerificationSucceeded?(UIBackgroundFetchResult.newData)
-        } else {
-            requestVerificationSucceeded?(UIBackgroundFetchResult.failed)
+        // Check if preyActionArray is empty
+        guard PreyModule.sharedInstance.actionArray.isEmpty else {
+            return
         }
+        // Finish all completionHandler
+        for item in requestVerificationSucceeded {
+            if isSuccess {
+                item(.newData)
+            } else {
+                item(.failed)
+            }
+        }
+        requestVerificationSucceeded.removeAll()
     }
 }
