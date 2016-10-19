@@ -37,6 +37,9 @@ class ReportPhoto: NSObject {
         return false
     }
     
+    // Check observer stillImageOutput.capturingStillImage
+    var isObserveImageOutput = false
+    
     // Photo array
     var photoArray    = NSMutableDictionary()
     
@@ -117,6 +120,7 @@ class ReportPhoto: NSObject {
                 
                 // KeyObserver
                 self.addObserver(self, forKeyPath:"stillImageOutput.capturingStillImage", options: ([.old,.new]), context: &CapturingStillImageContext)
+                self.isObserveImageOutput = true
                 
                 // Delay 
                 let timeValue = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
@@ -178,7 +182,10 @@ class ReportPhoto: NSObject {
     // Remove observer
     func removeObserverForImage() {
         // Remove key oberver
-        self.removeObserver(self, forKeyPath:"stillImageOutput.capturingStillImage", context:&CapturingStillImageContext)
+        if self.isObserveImageOutput {
+            self.removeObserver(self, forKeyPath:"stillImageOutput.capturingStillImage", context:&CapturingStillImageContext)
+            self.isObserveImageOutput = false
+        }
     }
     
     // Completion Handler to Photo Capture
