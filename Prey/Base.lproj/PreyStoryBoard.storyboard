@@ -30,7 +30,7 @@
             <objects>
                 <navigationController storyboardIdentifier="navigation" id="SgZ-Bd-7Zs" sceneMemberID="viewController">
                     <nil key="simulatedStatusBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Bf5-Ws-aWZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bf5-Ws-aWZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

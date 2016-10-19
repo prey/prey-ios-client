@@ -120,23 +120,31 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     // Hide password input
     func hidePasswordInputOption(_ value:Bool) {
         // Input subview
-        self.passwordInput.isHidden   = value
-        self.loginBtn.isHidden        = value
-        self.forgotBtn.isHidden       = value
+        self.changeHiddenFor(view:self.passwordInput,   value:value)
+        self.changeHiddenFor(view:self.loginBtn,        value:value)
+        self.changeHiddenFor(view:self.forgotBtn,       value:value)
         
         // Menu subview
-        self.accountImg.isHidden      = !value
-        self.accountSbtLbl.isHidden   = !value
-        self.accountTlLbl.isHidden    = !value
-        self.accountBtn.isHidden      = !value
-        self.settingsImg.isHidden     = !value
-        self.settingsSbtLbl.isHidden  = !value
-        self.settingsTlLbl.isHidden   = !value
-        self.settingsBtn.isHidden     = !value
-        self.tourImg.isHidden         = !value
-        self.tourBtn.isHidden         = !value
+        self.changeHiddenFor(view:self.accountImg,      value:!value)
+        self.changeHiddenFor(view:self.accountSbtLbl,   value:!value)
+        self.changeHiddenFor(view:self.accountTlLbl,    value:!value)
+        self.changeHiddenFor(view:self.accountBtn,      value:!value)
+        self.changeHiddenFor(view:self.settingsImg,     value:!value)
+        self.changeHiddenFor(view:self.settingsSbtLbl,  value:!value)
+        self.changeHiddenFor(view:self.settingsTlLbl,   value:!value)
+        self.changeHiddenFor(view:self.settingsBtn,     value:!value)
+        self.changeHiddenFor(view:self.tourImg,         value:!value)
+        self.changeHiddenFor(view:self.tourBtn,         value:!value)
     }
     
+    // Set hidden object
+    func changeHiddenFor(view:UIView!, value:Bool) {
+        if view != nil {
+            view.isHidden = value
+        }
+    }
+    
+    // Set camouflageMode
     func configCamouflageMode(_ isCamouflage:Bool) {
 
         subtitleLbl.isHidden      = isCamouflage
