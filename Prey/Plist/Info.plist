@@ -41,6 +41,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Prey needs access to your camera to take pictures when you request it.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Prey needs your location to find your device through your account when you request it.</string>
 	<key>UIAppFonts</key>
