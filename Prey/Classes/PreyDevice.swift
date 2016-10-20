@@ -50,7 +50,15 @@ class PreyDevice {
         
         let preyDevice = PreyDevice()
         
-        let params:[String: String] = [
+        let hardwareInfo : [String:String] = [
+            "uuid"         : preyDevice.uuid!,
+            "serial_number": preyDevice.uuid!,
+            "cpu_model"    : preyDevice.cpuModel!,
+            "cpu_speed"    : preyDevice.cpuSpeed!,
+            "cpu_cores"    : preyDevice.cpuCores!,
+            "ram_size"     : preyDevice.ramSize!]
+        
+        let params:[String:Any] = [
             "name"                              : preyDevice.name!,
             "device_type"                       : preyDevice.type!,
             "os_version"                        : preyDevice.version!,
@@ -58,12 +66,7 @@ class PreyDevice {
             "vendor_name"                       : preyDevice.vendor!,
             "os"                                : preyDevice.os!,
             "physical_address"                  : preyDevice.macAddress!,
-            "hardware_attributes[uuid]"         : preyDevice.uuid!,
-            "hardware_attributes[serial_number]": preyDevice.uuid!,
-            "hardware_attributes[cpu_model]"    : preyDevice.cpuModel!,
-            "hardware_attributes[cpu_speed]"    : preyDevice.cpuSpeed!,
-            "hardware_attributes[cpu_cores]"    : preyDevice.cpuCores!,
-            "hardware_attributes[ram_size]"     : preyDevice.ramSize!]
+            "hardware_attributes"               : hardwareInfo]
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
