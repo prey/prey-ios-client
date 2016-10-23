@@ -263,8 +263,7 @@ class PreyHTTPResponse {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
-                let alertMessage = error?.localizedDescription
-                PreyLogger("Error")
+                PreyLogger("Error: \(error)")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
                 return
             }
@@ -332,8 +331,7 @@ class PreyHTTPResponse {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
-                let alertMessage = error?.localizedDescription
-                PreyLogger("Error")
+                PreyLogger("Error: \(error)")
                 return
             }
             // === Stop report
