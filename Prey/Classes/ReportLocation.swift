@@ -47,7 +47,7 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
     
     // Did Update Locations
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        PreyLogger("New location received: \(locations.description)")
+        PreyLogger("New location received")
         
         if !waitForRequest {
             return

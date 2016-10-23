@@ -33,7 +33,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         
         let localZonesArray = PreyCoreData.sharedInstance.getCurrentGeofenceZones()
         
-        PreyLogger("ZONES: \(response)")
+        PreyLogger("ZONES")
         
         // Added zones events
         if let addedZones = getAddedZones(response, withLocalZones: localZonesArray) {
@@ -161,7 +161,7 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         
         for info in fetchedObjects {
             
-            PreyLogger("Name zone: \(info.name)")
+            PreyLogger("Name zone")
             
             let center_lat  = info.lat?.doubleValue
             let center_lon  = info.lng?.doubleValue

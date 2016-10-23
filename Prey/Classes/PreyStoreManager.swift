@@ -94,7 +94,7 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
     
     // FailedTransaction
     func failedTransaction(_ transaction:SKPaymentTransaction) {
-        PreyLogger("Failed transaction: \(transaction.description)")
+        PreyLogger("Failed transaction")
         
         SKPaymentQueue.default().finishTransaction(transaction)
 

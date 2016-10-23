@@ -73,7 +73,7 @@ class PreyNotification {
     // Did Receive Remote Notifications
     func didReceiveRemoteNotifications(_ userInfo: [AnyHashable: Any], completionHandler:@escaping (UIBackgroundFetchResult) -> Void) {
         
-        PreyLogger("Remote notification received \(userInfo.description)")
+        PreyLogger("Remote notification received")
 
         // Check payload info
         if let cmdInstruction = userInfo["cmd"] as? NSArray {
@@ -102,7 +102,7 @@ class PreyNotification {
         do {
             let data = try JSONSerialization.data(withJSONObject: instructionArray, options: JSONSerialization.WritingOptions.prettyPrinted)
             if let json = String(data: data, encoding:String.Encoding.utf8) {
-                PreyLogger("Instruction: \(json)")
+                PreyLogger("Instruction")
                 PreyModule.sharedInstance.parseActionsFromPanel(json)
             }
         } catch let error as NSError{

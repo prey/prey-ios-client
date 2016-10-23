@@ -82,7 +82,7 @@ class PreyAction : Operation {
     // Send data to panel
     func sendData(_ params:[String: Any], toEndpoint:String) {
 
-        PreyLogger("data: \(params.description)")
+        PreyLogger("data")
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {

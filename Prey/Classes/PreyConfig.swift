@@ -245,7 +245,6 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
                 guard let currentVersion  = appInfo["CFBundleShortVersionString"] as? String else {
                     return
                 }
-                PreyLogger("current:\(currentVersion) store:\(appStoreVersion)")
                 // Compare versions
                 if (appStoreVersion.compare(currentVersion, options:.numeric) == .orderedDescending) {
                     DispatchQueue.main.async {

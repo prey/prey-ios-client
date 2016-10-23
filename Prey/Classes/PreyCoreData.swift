@@ -26,7 +26,7 @@ class PreyCoreData {
         }
         // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
         guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
-            PreyLogger("Error initializing mom from: \(modelURL)")
+            PreyLogger("Error initializing mom from")
             return
         }
         

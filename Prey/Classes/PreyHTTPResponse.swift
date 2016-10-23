@@ -28,7 +28,7 @@ class PreyHTTPResponse {
                 return
             }
 
-            PreyLogger("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            //PreyLogger("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
             
             let httpURLResponse = response as! HTTPURLResponse
             let code            = httpURLResponse.statusCode
@@ -264,7 +264,7 @@ class PreyHTTPResponse {
             // Check error with URLSession request
             guard error == nil else {
                 let alertMessage = error?.localizedDescription
-                PreyLogger("Error: \(alertMessage)")
+                PreyLogger("Error")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
                 return
             }
@@ -333,7 +333,7 @@ class PreyHTTPResponse {
             // Check error with URLSession request
             guard error == nil else {
                 let alertMessage = error?.localizedDescription
-                PreyLogger("Error: \(alertMessage)")
+                PreyLogger("Error")
                 return
             }
             // === Stop report

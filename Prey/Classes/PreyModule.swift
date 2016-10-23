@@ -42,7 +42,7 @@ class PreyModule {
     // Parse actions from panel
     func parseActionsFromPanel(_ actionsStr:String) {
 
-        PreyLogger("Parse actions from panel \(actionsStr)")
+        PreyLogger("Parse actions from panel")
         
         // Convert actionsArray from String to NSData
         guard let jsonData: Data = actionsStr.data(using: String.Encoding.utf8) else {
@@ -114,7 +114,7 @@ class PreyModule {
 
         // Add new Prey Action
         if let action:PreyAction = PreyAction.newAction(withName: actionName, withCommand: actionCmd, withOptions: actionOptions) {
-            PreyLogger("Action added: \(action)")
+            PreyLogger("Action added")
 
             // Actions MessageId
             if let actionMessageId = actionOptions?.object(forKey: kOptions.messageID.rawValue) as? String {
@@ -131,7 +131,7 @@ class PreyModule {
         for action in actionArray {
             // Check selector
             if (action.responds(to: NSSelectorFromString(action.command.rawValue)) && !action.isActive) {
-                PreyLogger("Run \(action.target.rawValue) action")
+                PreyLogger("Run action")
                 action.performSelector(onMainThread: NSSelectorFromString(action.command.rawValue), with: nil, waitUntilDone: true)
             }
         }
@@ -140,7 +140,7 @@ class PreyModule {
     // Check action status
     func checkStatus(_ action: PreyAction) {
         
-        PreyLogger("Check \(action.target.rawValue) action")
+        PreyLogger("Check action")
         
         // Check if preyAction isn't active
         if !action.isActive {
@@ -156,7 +156,7 @@ class PreyModule {
     
     // Delete action
     func deleteAction(_ action: PreyAction) {
-        PreyLogger("Start Delete \(action.target) action")
+        PreyLogger("Start Delete action")
         // Search for preyAction
         for item in actionArray {
             // Compare target
@@ -165,7 +165,7 @@ class PreyModule {
                 if let indexItem = actionArray.index(of: item) {
                     // Remove element
                     actionArray.remove(at:indexItem)
-                    PreyLogger("Deleted \(action.target) action")
+                    PreyLogger("Deleted action")
                 }
             }
         }
