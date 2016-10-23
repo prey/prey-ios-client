@@ -112,6 +112,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 view.removeFromSuperview()
             }
         }
+        // Hide keyboard
+        window?.endEditing(true)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
