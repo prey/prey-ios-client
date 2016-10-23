@@ -19,4 +19,6 @@
 #import "GAITrackedViewController.h"
 #import "GAITracker.h"
 
+#import "LoggerClient.h"
+
 #endif /* GABridgingHeader_h */
