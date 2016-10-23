@@ -59,12 +59,8 @@ class PreyNotification {
     
     // Did Register Remote Notifications
     func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
-
-        var tokenAsString = ""
-        for i in 0..<deviceToken.count {
-            tokenAsString = tokenAsString + String(format: "%02.2hhx", arguments: [deviceToken[i]])
-        }
-        PreyLogger("Token: \(tokenAsString)")
+        PreyLogger("Did register device token")
+        let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
         
         let params:[String: String] = ["notification_id" : tokenAsString]
         
