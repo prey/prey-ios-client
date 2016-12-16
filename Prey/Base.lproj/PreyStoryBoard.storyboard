@@ -17,10 +17,10 @@
         <array key="large9.ttf">
             <string>Large9Normal</string>
         </array>
-        <array key="magdacleanmono-bold-webfont.ttf">
+        <array key="magdacleanmono-bold.ttf">
             <string>MagdaCleanMono-Bold</string>
         </array>
-        <array key="magdacleanmono-regular.otf">
+        <array key="magdacleanmono-regular-webfont.ttf">
             <string>MagdaCleanMono-Regular</string>
         </array>
     </customFonts>
@@ -30,7 +30,7 @@
             <objects>
                 <navigationController storyboardIdentifier="navigation" id="SgZ-Bd-7Zs" sceneMemberID="viewController">
                     <nil key="simulatedStatusBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bf5-Ws-aWZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Bf5-Ws-aWZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -562,7 +562,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vdI-me-0O4">
+                            <textField opaque="NO" clipsSubviews="YES" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vdI-me-0O4">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="280" id="MFi-25-SYb">
                                         <variation key="heightClass=regular-widthClass=regular" constant="350"/>
@@ -2244,7 +2244,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c1W-8H-b2l">
+                            <textField opaque="NO" clipsSubviews="YES" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c1W-8H-b2l">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="2uY-wl-nNk"/>
                                     <constraint firstAttribute="width" constant="280" id="azf-oW-6wk">
