@@ -17,7 +17,9 @@ class PreyNotification {
     fileprivate init() {
     }
     
-    var requestVerificationSucceeded = [((UIBackgroundFetchResult) -> Void)]()
+    var requestVerificationSucceeded        = [((UIBackgroundFetchResult) -> Void)]()
+    
+    var isCheckingRequestVerificationArray  = false
     
     // MARK: Functions
     
@@ -117,6 +119,11 @@ class PreyNotification {
         guard PreyModule.sharedInstance.actionArray.isEmpty else {
             return
         }
+        // Check if array is busy
+        guard isCheckingRequestVerificationArray == false else {
+            return
+        }
+        isCheckingRequestVerificationArray = true
         // Finish all completionHandler
         for item in requestVerificationSucceeded {
             if isSuccess {
@@ -126,5 +133,6 @@ class PreyNotification {
             }
         }
         requestVerificationSucceeded.removeAll()
+        isCheckingRequestVerificationArray = false
     }
 }
