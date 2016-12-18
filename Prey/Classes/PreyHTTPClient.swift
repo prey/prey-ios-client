@@ -132,7 +132,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         request.httpMethod  = httpMethod
         
         // Add onCompletion to array
-        requestCompletionHandler[session] = onCompletion
+        requestCompletionHandler.updateValue(onCompletion, forKey: session)
         
         // Prepare request
         sendRequest(session, request: request)
@@ -167,7 +167,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         request.httpMethod  = httpMethod
         
         // Add onCompletion to array
-        requestCompletionHandler[session] = onCompletion
+        requestCompletionHandler.updateValue(onCompletion, forKey: session)
         
         // Prepare request
         sendRequest(session, request: request)
@@ -201,22 +201,27 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
                 return
             }
         }
-        // Go to completionHandler
-        if let onCompletion = requestCompletionHandler[session] {
-            onCompletion(requestData[session], task.response, error)
+        
+        DispatchQueue.main.async {
+            // Go to completionHandler
+            if let onCompletion = self.requestCompletionHandler[session] {
+                onCompletion(self.requestData[session], task.response, error)
+            }
+            // Delete value for sessionKey
+            self.requestData.removeValue(forKey:session)
+            self.requestCompletionHandler.removeValue(forKey:session)
+            
+            // Cancel session
+            session.invalidateAndCancel()
         }
-        // Delete value for sessionKey
-        requestData.removeValue(forKey:session)
-        requestCompletionHandler.removeValue(forKey:session)
-
-        // Cancel session
-        session.invalidateAndCancel()
     }
     
     // URLSessionDataDelegate : dataTask didReceive Data
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         // Save Data on array
-        requestData[session] = data
+        DispatchQueue.main.async {
+            self.requestData.updateValue(data, forKey: session)
+        }
     }
     
     // URLSessionDataDelegate : dataTask didReceive Response
