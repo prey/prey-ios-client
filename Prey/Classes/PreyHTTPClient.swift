@@ -228,4 +228,12 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
         completionHandler(.allow)
     }
+    
+    // URLSessionDelegate didReceive challenge
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        completionHandler(
+            .useCredential,
+            URLCredential(trust: challenge.protectionSpace.serverTrust!)
+        )
+    }
 }
