@@ -195,7 +195,7 @@ class PreyHTTPResponse {
             if ( (statusCode == 302) || (statusCode == 403) ) {
                 alertMessage = "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.".localized
             } else {
-                alertMessage = "Error".localized
+                alertMessage = String(format:"Error code: %d",statusCode!)
             }
             
             displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't add your device".localized)

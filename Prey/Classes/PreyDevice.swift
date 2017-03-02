@@ -73,7 +73,7 @@ class PreyDevice {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:devicesEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.addDevice, preyAction:nil, onCompletion:onCompletion))
         } else {
             let titleMsg = "Couldn't add your device".localized
-            let alertMsg = "Error".localized
+            let alertMsg = "Error user ID".localized
             displayErrorAlert(alertMsg, titleMessage:titleMsg)
             onCompletion(false)
         }

@@ -45,7 +45,7 @@ class QRCodeScannerVC: GAITrackedViewController, AVCaptureMetadataOutputObjectsD
         // Check camera available
         guard isCameraAvailable() else {
             displayErrorAlert("Couldn't add your device".localized,
-                              titleMessage:"Error".localized)
+                              titleMessage:"Error camera isn't available".localized)
             return
         }
 
@@ -59,7 +59,7 @@ class QRCodeScannerVC: GAITrackedViewController, AVCaptureMetadataOutputObjectsD
         } catch let error as NSError{
             PreyLogger("QrCode error: \(error.localizedDescription)")
             displayErrorAlert("Couldn't add your device".localized,
-                              titleMessage:"Error".localized)
+                              titleMessage:"The scanned QR code is invalid".localized)
             return
         }
     }
