@@ -60,6 +60,8 @@ extension UIDevice {
         case "iPhone8,1":                               modelName = "iPhone 6s"
         case "iPhone8,2":                               modelName = "iPhone 6s Plus"
         case "iPhone8,4":                               modelName = "iPhone SE"
+        case "iPhone9,1", "iPhone9,3":                  modelName = "iPhone 7"
+        case "iPhone9,2", "iPhone9,4":                  modelName = "iPhone 7 Plus"
             
         case "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4":modelName = "iPad 2"
         case "iPad3,1", "iPad3,2", "iPad3,3":           modelName = "iPad 3"
@@ -74,7 +76,7 @@ extension UIDevice {
         case "AppleTV5,3":                              modelName = "Apple TV"
         case "i386":                                    modelName = "iPhone Simulator"
         case "x86_64":                                  modelName = "iPad Simulator"
-        default:                                        modelName = UIDevice.current.name
+        default:                                        modelName = UIDevice.current.model
         }
         
         return modelName
