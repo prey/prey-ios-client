@@ -160,6 +160,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             do {
                 request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options:JSONSerialization.WritingOptions.prettyPrinted)
             } catch let error as NSError{
+                PreyConfig.sharedInstance.reportError(error)
                 PreyLogger("params error: \(error.localizedDescription)")
             }
         }

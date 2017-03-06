@@ -95,6 +95,7 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.saveValues()
             }
         } catch let error {
+            PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")
         }
     }
@@ -125,6 +126,7 @@ class PreyHTTPResponse {
             PreyConfig.sharedInstance.saveValues()
             
         } catch let error {
+            PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")
         }
     }
@@ -132,6 +134,7 @@ class PreyHTTPResponse {
     class func showErrorLogIn(_ error:Error?, statusCode:Int?) {
         // Check error with URLSession request
         guard error == nil else {
+            PreyConfig.sharedInstance.reportError(error)
             let alertMessage = error?.localizedDescription
             displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't check your password".localized)
             return
@@ -143,6 +146,7 @@ class PreyHTTPResponse {
             alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
         } else {
             alertMessage = "Error"
+            PreyConfig.sharedInstance.reportError("LogIn", statusCode: statusCode, errorDescription: "LogIn error")
         }
         
         displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
@@ -154,12 +158,17 @@ class PreyHTTPResponse {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
+                PreyConfig.sharedInstance.reportError(error)
                 let alertMessage = error?.localizedDescription
                 displayErrorAlert(alertMessage!.localized, titleMessage:"User couldn't be created".localized)
                 return
             }
             let alertMessage = (statusCode == 422) ? "Did you already register?".localized : "Error".localized
             displayErrorAlert(alertMessage.localized, titleMessage:"User couldn't be created".localized)
+            
+            if statusCode != 422 {
+                PreyConfig.sharedInstance.reportError("SignUp", statusCode: statusCode, errorDescription: "SignUp error")
+            }
             return
         }
         
@@ -175,6 +184,7 @@ class PreyHTTPResponse {
             }
             
         } catch let error {
+            PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")
         }
     }
@@ -185,6 +195,7 @@ class PreyHTTPResponse {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
+                PreyConfig.sharedInstance.reportError(error)
                 let alertMessage = error?.localizedDescription
                 displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't add your device".localized)
                 return
@@ -196,6 +207,7 @@ class PreyHTTPResponse {
                 alertMessage = "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.".localized
             } else {
                 alertMessage = String(format:"Error code: %d",statusCode!)
+                PreyConfig.sharedInstance.reportError("AddDevice", statusCode: statusCode, errorDescription: "AddDevice error")
             }
             
             displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't add your device".localized)
@@ -215,6 +227,7 @@ class PreyHTTPResponse {
             }
             
         } catch let error {
+            PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")
         }
     }
@@ -228,6 +241,7 @@ class PreyHTTPResponse {
 
         // Check error with URLSession request
         guard error == nil else {
+            PreyConfig.sharedInstance.reportError(error)
             let alertMessage = error?.localizedDescription
             displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't delete your device".localized)
             return
@@ -236,6 +250,7 @@ class PreyHTTPResponse {
         let titleMsg = "Couldn't delete your device".localized
         let alertMsg = "Device not ready!".localized
         displayErrorAlert(alertMsg, titleMessage:titleMsg)
+        PreyConfig.sharedInstance.reportError("DeleteDevice", statusCode: statusCode, errorDescription: "DeleteDevice error")
     }
 
     // Check subsciption receipt
@@ -247,6 +262,7 @@ class PreyHTTPResponse {
 
         // Check error with URLSession request
         guard error == nil else {
+            PreyConfig.sharedInstance.reportError(error)
             let alertMessage = error?.localizedDescription
             displayErrorAlert(alertMessage!.localized, titleMessage:"Error".localized)
             return
@@ -255,6 +271,7 @@ class PreyHTTPResponse {
         let titleMsg = "Error".localized
         let alertMsg = "Transaction Error".localized
         displayErrorAlert(alertMsg, titleMessage:titleMsg)
+        PreyConfig.sharedInstance.reportError("SubscriptionReceipt", statusCode: statusCode, errorDescription: "SubscriptionReceipt error")
     }
     
     // Check action device response
@@ -263,16 +280,19 @@ class PreyHTTPResponse {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
+                PreyConfig.sharedInstance.reportError(error)
                 PreyLogger("Error: \(error)")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
                 return
             }
+            PreyConfig.sharedInstance.reportError("ActionDevice", statusCode: statusCode, errorDescription: "ActionDevice error")
             PreyLogger("Failed to check action from panel")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
             return
         }
         
         guard let dataResponse = data else {
+            PreyConfig.sharedInstance.reportError("ActionDeviceData", statusCode: statusCode, errorDescription: "ActionDeviceData error")
             PreyLogger("Failed to check action from panel")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
             return
@@ -282,6 +302,7 @@ class PreyHTTPResponse {
                 PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
             }
         } else {
+            PreyConfig.sharedInstance.reportError("ActionDeviceDecode", statusCode: statusCode, errorDescription: "ActionDeviceDecode error")
             PreyLogger("Failed to check action from panel")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
         }
@@ -293,24 +314,29 @@ class PreyHTTPResponse {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
+                PreyConfig.sharedInstance.reportError(error)
                 PreyLogger("PreyGeofenceZones error")
                 return
             }
+            PreyConfig.sharedInstance.reportError("GeofenceZones", statusCode: statusCode, errorDescription: "GeofenceZones error")
             PreyLogger("Failed data send")
             return
         }
 
         // === Success
         guard let dataResponse = data else {
+            PreyConfig.sharedInstance.reportError("GeofenceZonesRequest", statusCode: statusCode, errorDescription: "GeofenceZonesRequest error")
             PreyLogger("Errod reading request data")
             return
         }
         guard let jsonObject: String = String(data:dataResponse, encoding:String.Encoding.utf8) else {
+            PreyConfig.sharedInstance.reportError("GeofenceZonesJson", statusCode: statusCode, errorDescription: "GeofenceZonesJson error")
             PreyLogger("Error reading json data")
             return
         }
         // Convert actionsArray from String to NSData
         guard let jsonData: Data = jsonObject.data(using: String.Encoding.utf8) else {
+            PreyConfig.sharedInstance.reportError("GeofenceZonesObject", statusCode: statusCode, errorDescription: "GeofenceZonesObject error")
             PreyLogger("Error jsonObject to NSData")
             return
         }
@@ -321,6 +347,7 @@ class PreyHTTPResponse {
                 geofencingAction.updateGeofenceZones(jsonArray)
             }
         } catch let error {
+            PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")
         }
     }
@@ -331,6 +358,7 @@ class PreyHTTPResponse {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
+                PreyConfig.sharedInstance.reportError(error)
                 PreyLogger("Error: \(error)")
                 return
             }
@@ -341,6 +369,7 @@ class PreyHTTPResponse {
                     preyAction.stopReport()
                 }
             } else {
+                PreyConfig.sharedInstance.reportError("DataSend", statusCode: statusCode, errorDescription: "DataSend error")
                 PreyLogger("Failed data send")
             }
             return
