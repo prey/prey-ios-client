@@ -171,10 +171,10 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         actInd.stopAnimating()
         
         // Hide ViewMap class
-        webView.stringByEvaluatingJavaScript(from: "var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border js-toggle-report-map')[1]; viewMapBtn.style.display='none';")
+        webView.stringByEvaluatingJavaScript(from: "var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border')[1]; viewMapBtn.style.display='none';")
         
         // Hide addDeviceBtn
-        webView.stringByEvaluatingJavaScript(from: "var addDeviceBtn = document.getElementsByClassName('btn btn-success js-add-device pull-right')[0]; addDeviceBtn.style.display='none';")
+        webView.stringByEvaluatingJavaScript(from: "var addDeviceBtn = document.getElementsByClassName('btn btn-success pull-right')[0]; addDeviceBtn.style.display='none';")
         
         // Hide accountPlans
         webView.stringByEvaluatingJavaScript(from: "var accountPlans = document.getElementById('account-plans'); accountPlans.style.display='none';")
