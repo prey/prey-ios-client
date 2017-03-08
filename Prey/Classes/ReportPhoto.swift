@@ -138,6 +138,13 @@ class ReportPhoto: NSObject {
                             self.delegate?.photoReceived(self.photoArray)
                             return
                         }
+                        // Check current state
+                        guard self.stillImageOutput.isCapturingStillImage == false else {
+                            // Error: return to delegate
+                            self.delegate?.photoReceived(self.photoArray)
+                            return
+                        }
+                        // Capture image
                         self.stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler:self.checkPhotoCapture(true))
                     } else {
                         // Error: return to delegate
@@ -291,6 +298,13 @@ class ReportPhoto: NSObject {
                         self.delegate?.photoReceived(self.photoArray)
                         return
                     }
+                    // Check current state
+                    guard self.stillImageOutput.isCapturingStillImage == false else {
+                        // Error: return to delegate
+                        self.delegate?.photoReceived(self.photoArray)
+                        return
+                    }
+                    // Capture image
                     self.stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler:self.checkPhotoCapture(false))
                 } else {
                     // Error: return to delegate
