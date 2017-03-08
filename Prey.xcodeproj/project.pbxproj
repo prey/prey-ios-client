@@ -21,6 +21,8 @@
 		3B38BA911D23059900B6799B /* PreyTourWeb in Resources */ = {isa = PBXBuildFile; fileRef = 3B38BA901D23059900B6799B /* PreyTourWeb */; };
 		3B38BA931D231B1C00B6799B /* Detach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38BA921D231B1C00B6799B /* Detach.swift */; };
 		3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */; };
+		3B40AB691DB901F1003045C1 /* WebKitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B40AB681DB901F1003045C1 /* WebKitVC.swift */; };
+		3B40AB6B1DB90B57003045C1 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B40AB6A1DB90B57003045C1 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */; };
 		3B41BDAD1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift */; };
 		3B41BDAE1D05FF9F003DF0CE /* GeofenceZones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDAC1D05FF9F003DF0CE /* GeofenceZones.swift */; };
@@ -122,6 +124,8 @@
 		3B38BA901D23059900B6799B /* PreyTourWeb */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PreyTourWeb; sourceTree = "<group>"; };
 		3B38BA921D231B1C00B6799B /* Detach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Detach.swift; path = Classes/Detach.swift; sourceTree = "<group>"; };
 		3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyNotification.swift; path = Classes/PreyNotification.swift; sourceTree = "<group>"; };
+		3B40AB681DB901F1003045C1 /* WebKitVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebKitVC.swift; path = Classes/WebKitVC.swift; sourceTree = "<group>"; };
+		3B40AB6A1DB90B57003045C1 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceAuth.swift; path = Classes/DeviceAuth.swift; sourceTree = "<group>"; };
 		3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GeofenceZones+CoreDataProperties.swift"; path = "Classes/GeofenceZones+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3B41BDAC1D05FF9F003DF0CE /* GeofenceZones.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeofenceZones.swift; path = Classes/GeofenceZones.swift; sourceTree = "<group>"; };
@@ -202,6 +206,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B40AB6B1DB90B57003045C1 /* WebKit.framework in Frameworks */,
 				3B4591DD1DAE797E00AD7B93 /* Fabric.framework in Frameworks */,
 				3BB6E21A1D47AEA100074E97 /* libsqlite3.tbd in Frameworks */,
 				3BB6E21B1D47AEA100074E97 /* libz.tbd in Frameworks */,
@@ -367,6 +372,7 @@
 				3B8E57D51A2E7B530027179E /* SignInVC.swift */,
 				3B51FFB11D3EB77C00CFE4E8 /* QRCodeScannerVC.swift */,
 				3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */,
+				3B40AB681DB901F1003045C1 /* WebKitVC.swift */,
 				3B38BA8E1D22C03D00B6799B /* WebVC.swift */,
 				3B8E57D41A2E7B530027179E /* HomeVC.swift */,
 				3B8E57D81A2E7B530027179E /* SettingsVC.swift */,
@@ -425,6 +431,7 @@
 		3BB6E2211D47CBD800074E97 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3B40AB6A1DB90B57003045C1 /* WebKit.framework */,
 				3BB6E21E1D47CACD00074E97 /* MapKit.framework */,
 				3BB6E21C1D47CAC500074E97 /* StoreKit.framework */,
 			);
@@ -672,6 +679,7 @@
 				3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */,
 				3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */,
 				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,
+				3B40AB691DB901F1003045C1 /* WebKitVC.swift in Sources */,
 				3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */,
 				3B047EB21D400F26008B2D58 /* PreyOnboardingPage.swift in Sources */,
 				3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */,
