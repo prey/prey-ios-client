@@ -190,7 +190,12 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         let indexPage   = (languageES == "es") ? "index-es" : "index"
         let url         = URL(fileURLWithPath: Bundle.main.path(forResource: indexPage, ofType:"html", inDirectory:"PreyTourWeb")!)
         
-        let controller  = WebVC(withURL:url, withParameters:nil, withTitle:"Prey Tour")
+        let controller : UIViewController
+        if #available(iOS 10.0, *) {
+            controller = WebKitVC(withURL:url, withParameters:nil, withTitle:"Prey Tour")
+        } else {
+            controller = WebVC(withURL:url, withParameters:nil, withTitle:"Prey Tour")
+        }
         self.present(controller, animated:true, completion:nil)
     }
     
@@ -279,7 +284,13 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
 
         if let token = PreyConfig.sharedInstance.tokenPanel {
             let params           = String(format:"token=%@", token)
-            let controller       = WebVC(withURL:URL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
+            let controller : UIViewController
+
+            if #available(iOS 10.0, *) {
+                controller       = WebKitVC(withURL:URL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
+            } else {
+                controller       = WebVC(withURL:URL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
+            }
             self.present(controller, animated:true, completion:nil)
             
         } else {
@@ -290,8 +301,12 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     
     // Run web forgot
     @IBAction func runWebForgot(_ sender: UIButton) {
-     
-        let controller       = WebVC(withURL:URL(string:URLForgotPanel)!, withParameters:nil, withTitle:"Forgot Password Web")
+        let controller : UIViewController
+        if #available(iOS 10.0, *) {
+            controller       = WebKitVC(withURL:URL(string:URLForgotPanel)!, withParameters:nil, withTitle:"Forgot Password Web")
+        } else {
+            controller       = WebVC(withURL:URL(string:URLForgotPanel)!, withParameters:nil, withTitle:"Forgot Password Web")
+        }
         self.present(controller, animated:true, completion:nil)
     }
     

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WebKit
 
 // Settings TableView Items
 enum PreferencesViewSection {
@@ -28,7 +29,7 @@ enum SectionAbout {
     case version, help, termService, privacyPolice, numberSectionAbout
 }
 
-class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource {
+class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, WKUIDelegate, WKNavigationDelegate {
 
     
     // MARK: Properties
@@ -373,20 +374,32 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     
     // WebController
     func showWebController(_ url:String, withTitle title:String) {
-        
+
         guard let urlString = URL(string:url) else {
             return
         }
         let controller          = UIViewController()
-        let webView             = UIWebView(frame:CGRect.zero)
         let request             = URLRequest(url:urlString)
-        
-        controller.view         = webView
-        controller.title        = title
-        
-        webView.scalesPageToFit = true
-        webView.delegate        = self
-        webView.loadRequest(request)
+
+        if #available(iOS 10.0, *) {
+            let webConfiguration            = WKWebViewConfiguration()
+            let webKitView                  = WKWebView(frame:CGRect.zero, configuration:webConfiguration)
+            webKitView.uiDelegate           = self
+            webKitView.navigationDelegate   = self
+            webKitView.load(request)
+            
+            controller.view                 = webKitView
+        } else {
+            // For iOS 7, 8 and 9
+            let webView             = UIWebView(frame:CGRect.zero)
+            webView.scalesPageToFit = true
+            webView.delegate        = self
+            webView.loadRequest(request)
+            
+            controller.view         = webView
+        }
+
+        controller.title = title
         
         if IS_IPAD {
             showViewControllerOniPad(controller)
@@ -412,6 +425,43 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
             PreyModule.sharedInstance.runAction()
         }
     }
+    
+    // MARK: WKUIDelegate, WKNavigationDelegate
+    
+    @available(iOS 8.0, *)
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        PreyLogger("Start load WKWebView")
+        
+        // Show ActivityIndicator
+        if actInd == nil {
+            actInd          = UIActivityIndicatorView(initInView: webView, withText:"Please wait".localized)
+            webView.addSubview(actInd)
+            actInd.startAnimating()
+        }
+    }
+    @available(iOS 8.0, *)
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        PreyLogger("Should load request WKWebView")
+        decisionHandler(.allow)
+    }
+    @available(iOS 8.0, *)
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        PreyLogger("Finish load WKWebView")
+        
+        // Hide ActivityIndicator
+        actInd.stopAnimating()
+    }
+    @available(iOS 8.0, *)
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        PreyLogger("Error loading WKWebView")
+        
+        // Hide ActivityIndicator
+        actInd.stopAnimating()
+        
+        displayErrorAlert("Error loading web, please try again.".localized,
+                          titleMessage:"We have a situation!".localized)
+    }
+
     
     // MARK: UIWebViewDelegate
     
