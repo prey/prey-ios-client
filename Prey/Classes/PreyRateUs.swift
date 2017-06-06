@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import StoreKit
 
 enum PreyMessageAsk: String {
     case UpdateApp, RateUs, ReviewedVersion
@@ -62,6 +63,11 @@ class PreyRateUs: NSObject, UIAlertViewDelegate {
             return
         }
         
+        if #available(iOS 10.3, *) {
+            SKStoreReviewController.requestReview()
+            return
+        }
+        
         let messageAlert = UIAlertView(title:"Rate us".localized,
                                        message:"Give us ★★★★★ on the App Store if you like Prey.".localized,
                                        delegate:self,
@@ -80,14 +86,14 @@ class PreyRateUs: NSObject, UIAlertViewDelegate {
         switch buttonIndex {
             
         case 0: // Remind me later
-            let nextTime    = CFAbsoluteTimeGetCurrent() + 60*60*23*30
+            let nextTime    = CFAbsoluteTimeGetCurrent() + 60*60*23*15
             defaults.set(nextTime, forKey:PreyMessageAsk.RateUs.rawValue)
             
         case 1: // Rate it now
             let version     = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
             defaults.setValue(version, forKey:PreyMessageAsk.ReviewedVersion.rawValue)
             
-            let iOSAppStoreURLFormat = "itms-apps://itunes.apple.com/app/id456755037"
+            let iOSAppStoreURLFormat = "itms-apps://itunes.apple.com/app/id456755037?action=write-review"
             UIApplication.shared.openURL(URL(string:iOSAppStoreURLFormat)!)
             
         default: break
