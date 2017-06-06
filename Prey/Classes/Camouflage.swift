@@ -28,6 +28,13 @@ class Camouflage: PreyAction {
             showHomeView()
         }
         
+        // Change icon image
+        if #available(iOS 10.3, *) {
+            if UIApplication.shared.supportsAlternateIcons {
+                UIApplication.shared.setAlternateIconName("Icon2", completionHandler:nil)
+            }
+        }
+        
         // Send start action
         let params = getParamsTo(kAction.camouflage.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
         self.sendData(params, toEndpoint:responseDeviceEndpoint)
@@ -44,6 +51,13 @@ class Camouflage: PreyAction {
         // Reload HomeView
         if UIApplication.shared.applicationState != .background {
             showHomeView()
+        }
+        
+        // Change icon image
+        if #available(iOS 10.3, *) {
+            if UIApplication.shared.supportsAlternateIcons {
+                UIApplication.shared.setAlternateIconName(nil, completionHandler:nil)
+            }
         }
         
         // Send stop action
