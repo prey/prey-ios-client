@@ -281,7 +281,7 @@ class PreyHTTPResponse {
             // Check error with URLSession request
             guard error == nil else {
                 PreyConfig.sharedInstance.reportError(error)
-                PreyLogger("Error: \(error)")
+                PreyLogger("Error: \(String(describing: error))")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
                 return
             }
@@ -359,7 +359,7 @@ class PreyHTTPResponse {
             // Check error with URLSession request
             guard error == nil else {
                 PreyConfig.sharedInstance.reportError(error)
-                PreyLogger("Error: \(error)")
+                PreyLogger("Error: \(String(describing: error))")
                 return
             }
             // === Stop report

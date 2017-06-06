@@ -90,11 +90,9 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
     
     // Delete all regions on device
     func deleteAllRegionsOnDevice() {
-        
-        if let regions:NSSet = geoManager.monitoredRegions as NSSet? {
-            for item in regions {
-                geoManager.stopMonitoring(for: item as! CLRegion)
-            }
+
+        for item in geoManager.monitoredRegions {
+            geoManager.stopMonitoring(for: item as CLRegion)
         }
     }
     
