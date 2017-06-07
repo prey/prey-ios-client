@@ -17,6 +17,7 @@ class PreyAction : Operation {
     var command: kCommand
     var options: NSDictionary?
     var messageId: String?
+    var deviceJobId: String?
     
     var isActive: Bool = false
     
@@ -71,10 +72,14 @@ class PreyAction : Operation {
     func getParamsTo(_ target:String, command:String, status:String) -> [String: String] {
         
         // Params struct
-        let params:[String: String] = [
+        var params:[String: String] = [
             kData.status.rawValue   : status,
             kData.target.rawValue   : target,
             kData.command.rawValue  : command]
+        
+        if let jobId = deviceJobId {
+            params[kData.reason.rawValue] = jobId
+        }
         
         return params
     }

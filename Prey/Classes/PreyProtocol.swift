@@ -20,7 +20,7 @@ enum kAction: String {
 
 // Prey options defitions
 enum kOptions: String {
-    case interval, messageID
+    case interval, messageID, device_job_id
     case MESSAGE    = "alert_message" // Alert options
     case IDLOCAL    = "url"           // Alert options
 }

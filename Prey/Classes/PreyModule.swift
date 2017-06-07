@@ -121,6 +121,11 @@ class PreyModule {
                 action.messageId = actionMessageId
             }
 
+            // Actions deviceJobId
+            if let actionDeviceJobId = actionOptions?.object(forKey: kOptions.device_job_id.rawValue) as? String {
+                action.deviceJobId = actionDeviceJobId
+            }
+            
             actionArray.append(action)
         }
     }
