@@ -152,6 +152,21 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         shieldImg.isHidden        = isCamouflage
         
         camouflageImg.isHidden    = !isCamouflage
+        
+        // Change icon image
+        if #available(iOS 10.3, *) {
+            if UIApplication.shared.supportsAlternateIcons && PreyConfig.sharedInstance.needChangeIcon {
+                let iconString = (isCamouflage) ? alternativeIcon : nil
+                UIApplication.shared.setAlternateIconName(iconString, completionHandler:{(error) in
+                    if (error != nil) {
+                        PreyConfig.sharedInstance.needChangeIcon = true
+                    } else {
+                        PreyConfig.sharedInstance.needChangeIcon = false
+                    }
+                    PreyConfig.sharedInstance.saveValues()
+                })
+            }
+        }
     }
     
     // Config Prey Tour

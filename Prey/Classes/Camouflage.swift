@@ -31,7 +31,14 @@ class Camouflage: PreyAction {
         // Change icon image
         if #available(iOS 10.3, *) {
             if UIApplication.shared.supportsAlternateIcons {
-                UIApplication.shared.setAlternateIconName("Icon2", completionHandler:nil)
+                UIApplication.shared.setAlternateIconName(alternativeIcon, completionHandler:{(error) in
+                    if (error != nil) {
+                        PreyConfig.sharedInstance.needChangeIcon = true
+                    } else {
+                        PreyConfig.sharedInstance.needChangeIcon = false
+                    }
+                    PreyConfig.sharedInstance.saveValues()
+                })
             }
         }
         
@@ -56,7 +63,14 @@ class Camouflage: PreyAction {
         // Change icon image
         if #available(iOS 10.3, *) {
             if UIApplication.shared.supportsAlternateIcons {
-                UIApplication.shared.setAlternateIconName(nil, completionHandler:nil)
+                UIApplication.shared.setAlternateIconName(nil, completionHandler:{(error) in
+                    if (error != nil) {
+                        PreyConfig.sharedInstance.needChangeIcon = true
+                    } else {
+                        PreyConfig.sharedInstance.needChangeIcon = false
+                    }
+                    PreyConfig.sharedInstance.saveValues()
+                })
             }
         }
         

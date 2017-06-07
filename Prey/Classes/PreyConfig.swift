@@ -36,6 +36,7 @@ enum PreyConfigDevice: String {
     case IsCamouflageMode
     case UpdatedSettings
     case ReportOptions
+    case NeedChangeIcon
 }
 
 class PreyConfig: NSObject, UIActionSheetDelegate {
@@ -56,6 +57,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isMissing           = defaultConfig.bool(forKey: PreyConfigDevice.IsMissing.rawValue)
         isCamouflageMode    = defaultConfig.bool(forKey: PreyConfigDevice.IsCamouflageMode.rawValue)
         updatedSettings     = defaultConfig.bool(forKey: PreyConfigDevice.UpdatedSettings.rawValue)
+        needChangeIcon      = defaultConfig.bool(forKey: PreyConfigDevice.NeedChangeIcon.rawValue)
         reportOptions       = defaultConfig.object(forKey: PreyConfigDevice.ReportOptions.rawValue) as? NSDictionary
     }
 
@@ -71,6 +73,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     var isMissing           : Bool
     var isCamouflageMode    : Bool
     var updatedSettings     : Bool
+    var needChangeIcon      : Bool
     var reportOptions       : NSDictionary?
     
     // MARK: Functions
@@ -89,6 +92,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         defaultConfig.set(isMissing, forKey:PreyConfigDevice.IsMissing.rawValue)
         defaultConfig.set(isCamouflageMode, forKey:PreyConfigDevice.IsCamouflageMode.rawValue)
         defaultConfig.set(updatedSettings, forKey:PreyConfigDevice.UpdatedSettings.rawValue)
+        defaultConfig.set(needChangeIcon, forKey:PreyConfigDevice.NeedChangeIcon.rawValue)
         defaultConfig.set(reportOptions, forKey:PreyConfigDevice.ReportOptions.rawValue)
     }
     
@@ -111,6 +115,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isPro            = false
         isMissing        = false
         isCamouflageMode = false
+        needChangeIcon   = false
         reportOptions    = nil
         
         saveValues()

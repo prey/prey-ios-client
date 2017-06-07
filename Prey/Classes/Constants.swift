@@ -48,6 +48,9 @@ public func PreyLogger(_ message:String) {
     #endif
 }
 
+// Filename to alternative icon
+public let alternativeIcon = "Icon2"
+
 // Validate email expression
 public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
 
