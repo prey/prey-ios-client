@@ -69,16 +69,17 @@ class PreyAction : Operation {
     }
 
     // Return params to response endpoint
-    func getParamsTo(_ target:String, command:String, status:String) -> [String: String] {
+    func getParamsTo(_ target:String, command:String, status:String) -> [String: Any] {
         
         // Params struct
-        var params:[String: String] = [
+        var params:[String: Any] = [
             kData.status.rawValue   : status,
             kData.target.rawValue   : target,
             kData.command.rawValue  : command]
         
         if let jobId = deviceJobId {
-            params[kData.reason.rawValue] = jobId
+            let jobIdJson = [kOptions.device_job_id.rawValue : jobId]
+            params[kData.reason.rawValue] = jobIdJson
         }
         
         return params
