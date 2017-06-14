@@ -77,6 +77,10 @@ class PreyNotification {
         
         PreyLogger("Remote notification received")
 
+        // Check payload preymdm
+        if let cmdPreyMDM = userInfo["preymdm"] as? NSDictionary {
+            parsePayloadPreyMDMFromPushNotification(parameters: cmdPreyMDM)
+        }
         // Check payload info
         if let cmdInstruction = userInfo["cmd"] as? NSArray {
             parsePayloadInfoFromPushNotification(instructionArray: cmdInstruction)
@@ -97,6 +101,22 @@ class PreyNotification {
         } else {
             checkRequestVerificationSucceded(false)
         }
+    }
+    
+    // Parse payload info on push notification
+    func parsePayloadPreyMDMFromPushNotification(parameters:NSDictionary) {
+        guard let accountID = parameters["account_id"] as? Int else {
+            PreyLogger("error reading account_id from json")
+            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            return
+        }
+        
+        guard let urlServer = parameters["url"] as? String else {
+            PreyLogger("error reading url from json")
+            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            return
+        }
+        PreyMobileConfig.sharedInstance.startService(urlServer: urlServer, accountId: accountID)
     }
     
     // Parse payload info on push notification
