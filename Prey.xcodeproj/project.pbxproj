@@ -48,6 +48,26 @@
 		3B828406199198E6000E4545 /* PreyRestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B828405199198E6000E4545 /* PreyRestTests.swift */; };
 		3B849AE81D0710E9002DB6CC /* PreyData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE61D0710E9002DB6CC /* PreyData.xcdatamodeld */; };
 		3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE91D071AF4002DB6CC /* Geofencing.swift */; };
+		3B86297B1EF039E800BE92D4 /* PreyMobileConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86297A1EF039E800BE92D4 /* PreyMobileConfig.swift */; };
+		3B8629901EF03CB400BE92D4 /* DemoServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86297D1EF03CB400BE92D4 /* DemoServer.swift */; };
+		3B8629911EF03CB400BE92D4 /* Errno.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86297E1EF03CB400BE92D4 /* Errno.swift */; };
+		3B8629921EF03CB400BE92D4 /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86297F1EF03CB400BE92D4 /* Files.swift */; };
+		3B8629931EF03CB400BE92D4 /* HttpParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8629801EF03CB400BE92D4 /* HttpParser.swift */; };
+		3B8629941EF03CB400BE92D4 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8629811EF03CB400BE92D4 /* HttpRequest.swift */; };
+		3B8629951EF03CB400BE92D4 /* HttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8629821EF03CB400BE92D4 /* HttpResponse.swift */; };
+		3B8629961EF03CB400BE92D4 /* HttpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8629831EF03CB400BE92D4 /* HttpRouter.swift */; };
+		3B8629971EF03CB400BE92D4 /* HttpServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8629841EF03CB400BE92D4 /* HttpServer.swift */; };
+		3B8629981EF03CB400BE92D4 /* HttpServerIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8629851EF03CB400BE92D4 /* HttpServerIO.swift */; };
+		3B8629991EF03CB400BE92D4 /* Process.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8629861EF03CB400BE92D4 /* Process.swift */; };
+		3B86299A1EF03CB400BE92D4 /* Scopes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8629871EF03CB400BE92D4 /* Scopes.swift */; };
+		3B86299B1EF03CB400BE92D4 /* Socket+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8629881EF03CB400BE92D4 /* Socket+File.swift */; };
+		3B86299C1EF03CB400BE92D4 /* Socket+Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8629891EF03CB400BE92D4 /* Socket+Server.swift */; };
+		3B86299D1EF03CB400BE92D4 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298A1EF03CB400BE92D4 /* Socket.swift */; };
+		3B86299E1EF03CB400BE92D4 /* String+BASE64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298B1EF03CB400BE92D4 /* String+BASE64.swift */; };
+		3B86299F1EF03CB400BE92D4 /* String+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298C1EF03CB400BE92D4 /* String+File.swift */; };
+		3B8629A01EF03CB400BE92D4 /* String+Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298D1EF03CB400BE92D4 /* String+Misc.swift */; };
+		3B8629A11EF03CB400BE92D4 /* String+SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298E1EF03CB400BE92D4 /* String+SHA1.swift */; };
+		3B8629A21EF03CB400BE92D4 /* WebSockets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298F1EF03CB400BE92D4 /* WebSockets.swift */; };
 		3B88FC501DA2961F007E62A6 /* Ping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B88FC4F1DA2961F007E62A6 /* Ping.swift */; };
 		3B8E57D11A2E7B4A0027179E /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */; };
 		3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D21A2E7B530027179E /* AppDelegate.swift */; };
@@ -155,6 +175,26 @@
 		3B828405199198E6000E4545 /* PreyRestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyRestTests.swift; sourceTree = "<group>"; };
 		3B849AE71D0710E9002DB6CC /* PreyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PreyData.xcdatamodel; sourceTree = "<group>"; };
 		3B849AE91D071AF4002DB6CC /* Geofencing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Geofencing.swift; path = Classes/Geofencing.swift; sourceTree = "<group>"; };
+		3B86297A1EF039E800BE92D4 /* PreyMobileConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyMobileConfig.swift; path = Classes/PreyMobileConfig.swift; sourceTree = "<group>"; };
+		3B86297D1EF03CB400BE92D4 /* DemoServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoServer.swift; sourceTree = "<group>"; };
+		3B86297E1EF03CB400BE92D4 /* Errno.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errno.swift; sourceTree = "<group>"; };
+		3B86297F1EF03CB400BE92D4 /* Files.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Files.swift; sourceTree = "<group>"; };
+		3B8629801EF03CB400BE92D4 /* HttpParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpParser.swift; sourceTree = "<group>"; };
+		3B8629811EF03CB400BE92D4 /* HttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
+		3B8629821EF03CB400BE92D4 /* HttpResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpResponse.swift; sourceTree = "<group>"; };
+		3B8629831EF03CB400BE92D4 /* HttpRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRouter.swift; sourceTree = "<group>"; };
+		3B8629841EF03CB400BE92D4 /* HttpServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpServer.swift; sourceTree = "<group>"; };
+		3B8629851EF03CB400BE92D4 /* HttpServerIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpServerIO.swift; sourceTree = "<group>"; };
+		3B8629861EF03CB400BE92D4 /* Process.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Process.swift; sourceTree = "<group>"; };
+		3B8629871EF03CB400BE92D4 /* Scopes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scopes.swift; sourceTree = "<group>"; };
+		3B8629881EF03CB400BE92D4 /* Socket+File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Socket+File.swift"; sourceTree = "<group>"; };
+		3B8629891EF03CB400BE92D4 /* Socket+Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Socket+Server.swift"; sourceTree = "<group>"; };
+		3B86298A1EF03CB400BE92D4 /* Socket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
+		3B86298B1EF03CB400BE92D4 /* String+BASE64.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+BASE64.swift"; sourceTree = "<group>"; };
+		3B86298C1EF03CB400BE92D4 /* String+File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+File.swift"; sourceTree = "<group>"; };
+		3B86298D1EF03CB400BE92D4 /* String+Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Misc.swift"; sourceTree = "<group>"; };
+		3B86298E1EF03CB400BE92D4 /* String+SHA1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+SHA1.swift"; sourceTree = "<group>"; };
+		3B86298F1EF03CB400BE92D4 /* WebSockets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSockets.swift; sourceTree = "<group>"; };
 		3B88FC4F1DA2961F007E62A6 /* Ping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ping.swift; path = Classes/Ping.swift; sourceTree = "<group>"; };
 		3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeVC.swift; path = Classes/WelcomeVC.swift; sourceTree = "<group>"; };
 		3B8E57D21A2E7B530027179E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Classes/AppDelegate.swift; sourceTree = "<group>"; };
@@ -274,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */,
+				3B86297A1EF039E800BE92D4 /* PreyMobileConfig.swift */,
 				3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */,
 				3BFF007F1D3E7EAC00BEF7E0 /* PreyDeployment.swift */,
 				3B67A01B1D381A890028255E /* PreyStoreManager.swift */,
@@ -373,6 +414,32 @@
 				3B828404199198E6000E4545 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3B86297C1EF03CB400BE92D4 /* Swifter */ = {
+			isa = PBXGroup;
+			children = (
+				3B86297D1EF03CB400BE92D4 /* DemoServer.swift */,
+				3B86297E1EF03CB400BE92D4 /* Errno.swift */,
+				3B86297F1EF03CB400BE92D4 /* Files.swift */,
+				3B8629801EF03CB400BE92D4 /* HttpParser.swift */,
+				3B8629811EF03CB400BE92D4 /* HttpRequest.swift */,
+				3B8629821EF03CB400BE92D4 /* HttpResponse.swift */,
+				3B8629831EF03CB400BE92D4 /* HttpRouter.swift */,
+				3B8629841EF03CB400BE92D4 /* HttpServer.swift */,
+				3B8629851EF03CB400BE92D4 /* HttpServerIO.swift */,
+				3B8629861EF03CB400BE92D4 /* Process.swift */,
+				3B8629871EF03CB400BE92D4 /* Scopes.swift */,
+				3B8629881EF03CB400BE92D4 /* Socket+File.swift */,
+				3B8629891EF03CB400BE92D4 /* Socket+Server.swift */,
+				3B86298A1EF03CB400BE92D4 /* Socket.swift */,
+				3B86298B1EF03CB400BE92D4 /* String+BASE64.swift */,
+				3B86298C1EF03CB400BE92D4 /* String+File.swift */,
+				3B86298D1EF03CB400BE92D4 /* String+Misc.swift */,
+				3B86298E1EF03CB400BE92D4 /* String+SHA1.swift */,
+				3B86298F1EF03CB400BE92D4 /* WebSockets.swift */,
+			);
+			path = Swifter;
 			sourceTree = "<group>";
 		};
 		3B8E57CD1A2E71B30027179E /* ViewController */ = {
@@ -477,6 +544,7 @@
 		3BEFEB621DBD2391003143E8 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				3B86297C1EF03CB400BE92D4 /* Swifter */,
 				3B1C2D3F1D79CB7B00D8E7DF /* Fabric */,
 				3BA7218F1D46B7040043C9B9 /* GoogleAnalytics */,
 			);
@@ -651,11 +719,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B8629961EF03CB400BE92D4 /* HttpRouter.swift in Sources */,
 				3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */,
 				3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */,
 				3B71E9DD1D09BF1D00D5F6D5 /* GeofencingManager.swift in Sources */,
 				3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */,
 				3B38BA931D231B1C00B6799B /* Detach.swift in Sources */,
+				3B8629991EF03CB400BE92D4 /* Process.swift in Sources */,
+				3B86299D1EF03CB400BE92D4 /* Socket.swift in Sources */,
+				3B8629941EF03CB400BE92D4 /* HttpRequest.swift in Sources */,
 				3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */,
 				3B6D70A31CD7E3D400DEB461 /* SwiftExt.swift in Sources */,
 				3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */,
@@ -665,12 +737,16 @@
 				3B88FC501DA2961F007E62A6 /* Ping.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
 				3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */,
+				3B86297B1EF039E800BE92D4 /* PreyMobileConfig.swift in Sources */,
+				3B8629A11EF03CB400BE92D4 /* String+SHA1.swift in Sources */,
 				3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */,
 				3B77804E1A600CCE0050C747 /* PreyUser.swift in Sources */,
 				3B8E57D11A2E7B4A0027179E /* WelcomeVC.swift in Sources */,
 				3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */,
 				3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */,
+				3B86299F1EF03CB400BE92D4 /* String+File.swift in Sources */,
 				3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */,
+				3B86299E1EF03CB400BE92D4 /* String+BASE64.swift in Sources */,
 				3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */,
 				3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */,
 				3B41BDAD1D05FF9F003DF0CE /* GeofenceZones+CoreDataProperties.swift in Sources */,
@@ -681,21 +757,33 @@
 				3B2445F91D2466CD005DF09C /* Alert.swift in Sources */,
 				3BC4FC1F1D3699F800C58878 /* CurrentLocationVC.swift in Sources */,
 				3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */,
+				3B8629901EF03CB400BE92D4 /* DemoServer.swift in Sources */,
+				3B8629951EF03CB400BE92D4 /* HttpResponse.swift in Sources */,
 				3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */,
+				3B8629981EF03CB400BE92D4 /* HttpServerIO.swift in Sources */,
 				3B8E57E11A2E7B530027179E /* SignUpVC.swift in Sources */,
 				3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */,
 				3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */,
+				3B8629A21EF03CB400BE92D4 /* WebSockets.swift in Sources */,
 				3B849AE81D0710E9002DB6CC /* PreyData.xcdatamodeld in Sources */,
 				3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */,
 				3B8E57DD1A2E7B530027179E /* SignInVC.swift in Sources */,
+				3B86299A1EF03CB400BE92D4 /* Scopes.swift in Sources */,
 				3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */,
+				3B8629911EF03CB400BE92D4 /* Errno.swift in Sources */,
 				3B41BDAE1D05FF9F003DF0CE /* GeofenceZones.swift in Sources */,
 				3BFF00801D3E7EAC00BEF7E0 /* PreyDeployment.swift in Sources */,
+				3B86299B1EF03CB400BE92D4 /* Socket+File.swift in Sources */,
 				3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */,
 				3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */,
 				3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */,
 				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,
+				3B8629921EF03CB400BE92D4 /* Files.swift in Sources */,
+				3B8629A01EF03CB400BE92D4 /* String+Misc.swift in Sources */,
+				3B8629931EF03CB400BE92D4 /* HttpParser.swift in Sources */,
 				3B40AB691DB901F1003045C1 /* WebKitVC.swift in Sources */,
+				3B86299C1EF03CB400BE92D4 /* Socket+Server.swift in Sources */,
+				3B8629971EF03CB400BE92D4 /* HttpServer.swift in Sources */,
 				3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */,
 				3B047EB21D400F26008B2D58 /* PreyOnboardingPage.swift in Sources */,
 				3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */,
