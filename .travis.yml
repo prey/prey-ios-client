@@ -1,21 +1,21 @@
 language: objective-c
 osx_image: xcode8.3
-xcode_sdk: iphonesimulator10.3
+
 env:
   matrix:
-    - TEST_OS="platform=iOS Simulator,name=iPhone 5,OS=10.3"    
-    - TEST_OS="platform=iOS Simulator,name=iPhone 5s,OS=10.3"    
-    - TEST_OS="platform=iOS Simulator,name=iPhone 6,OS=10.3"
-    - TEST_OS="platform=iOS Simulator,name=iPhone 6 Plus,OS=10.3"    
-    - TEST_OS="platform=iOS Simulator,name=iPhone 6s,OS=10.3"    
-    - TEST_OS="platform=iOS Simulator,name=iPhone 6s Plus,OS=10.3"
-    - TEST_OS="platform=iOS Simulator,name=iPhone 7,OS=10.3"    
-    - TEST_OS="platform=iOS Simulator,name=iPhone 7 Plus,OS=10.3"    
-    - TEST_OS="platform=iOS Simulator,name=iPhone SE,OS=10.3"
-    - TEST_OS="platform=iOS Simulator,name=iPad Retina,OS=10.3"
-    - TEST_OS="platform=iOS Simulator,name=iPad Air,OS=10.3"
-    - TEST_OS="platform=iOS Simulator,name=iPad Air 2,OS=10.3"
-    - TEST_OS="platform=iOS Simulator,name=iPad Pro,OS=10.3"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5,OS=10.3.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 5s,OS=10.3.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6,OS=10.3.1"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6 Plus,OS=10.3.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6s,OS=10.3.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 6s Plus,OS=10.3.1"
+    - TEST_OS="platform=iOS Simulator,name=iPhone 7,OS=10.3.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone 7 Plus,OS=10.3.1"    
+    - TEST_OS="platform=iOS Simulator,name=iPhone SE,OS=10.3.1"
+    - TEST_OS="platform=iOS Simulator,name=iPad Retina,OS=10.3.1"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air,OS=10.3.1"
+    - TEST_OS="platform=iOS Simulator,name=iPad Air 2,OS=10.3.1"
+    - TEST_OS="platform=iOS Simulator,name=iPad Pro,OS=10.3.1"
 
     - TEST_OS="platform=iOS Simulator,name=iPhone 5,OS=10.2"    
     - TEST_OS="platform=iOS Simulator,name=iPhone 5s,OS=10.2"    

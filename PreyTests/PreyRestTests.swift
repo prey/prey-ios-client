@@ -8,8 +8,10 @@
 
 import UIKit
 import XCTest
+
 @testable import Prey
 
+@available(iOS 8.0,*)
 class PreyRestTests: XCTestCase {
     
     // MARK: Properties
