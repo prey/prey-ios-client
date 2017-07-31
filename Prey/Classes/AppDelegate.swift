@@ -56,6 +56,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Update current localUserSettings with preview versions
         PreyConfig.sharedInstance.updateUserSettings()        
         
+        // Config init UIViewController
+        displayScreen()
+        
+        // Config UINavigationBar
+        PreyConfig.sharedInstance.configNavigationBar()
+        
         // Check notification_id with server
         if PreyConfig.sharedInstance.isRegistered {
             PreyNotification.sharedInstance.registerForRemoteNotifications()
@@ -75,12 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             _ = GeofencingManager.sharedInstance
         }
         
-        // Config init UIViewController
-        displayScreen()
-        
-        // Config UINavigationBar
-        PreyConfig.sharedInstance.configNavigationBar()
-
         // Check remote notification clicked
         if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [AnyHashable: Any] {
             PreyLogger("Prey remote notification received while  not running")
