@@ -4,5 +4,7 @@
 <dict>
 	<key>apiKeyPrey</key>
 	<string>empty</string>
+	<key>deviceKeyPrey</key>
+	<string>empty</string>
 </dict>
 </plist>

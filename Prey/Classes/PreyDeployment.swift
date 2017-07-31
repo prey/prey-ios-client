@@ -28,6 +28,7 @@ class PreyDeployment {
     let kFeedbackKey            = "com.apple.feedback.managed"
 
     let kConfigurationApiKey    = "apiKeyPrey"
+    let kConfigurationDeviceKey = "deviceKeyPrey"
     let kFeedbackSuccessKey     = "success"
 
     
@@ -91,13 +92,28 @@ class PreyDeployment {
             return successValue
         }
         
-        // Add device to panel
-        addDeviceWith(serverApiKey, fromQRCode:false)
+        // Check if file configuration has deviceKey
+        if let serverDeviceKey:String = serverConfig[kConfigurationDeviceKey] as? String {
+            addDeviceWith(serverApiKey, deviceKey:serverDeviceKey)
+        } else {
+            // Add device to panel
+            addDeviceWith(serverApiKey, fromQRCode:false)
+        }        
         
         successValue = true
         
         successManagedAppConfig(successValue)
         return successValue
+    }
+    
+    // Add Device with userApiKey and deviceKey
+    func addDeviceWith(_ apiKey:String, deviceKey:String) {
+        PreyConfig.sharedInstance.userApiKey    = apiKey
+        PreyConfig.sharedInstance.deviceKey     = deviceKey
+        PreyConfig.sharedInstance.isRegistered  = true
+        PreyConfig.sharedInstance.saveValues()
+        // Show CongratVC
+        self.showCongratsVC()
     }
     
     // Add Device with apiKey
