@@ -29,6 +29,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         let params : [String:Any] = [
             "auth_token"        : tokenApi,
             "account_id"        : accountId,
+            "user_key"          : PreyConfig.sharedInstance.userApiKey!,
             "device_key"        : PreyConfig.sharedInstance.getDeviceKey()]
 
         do {
