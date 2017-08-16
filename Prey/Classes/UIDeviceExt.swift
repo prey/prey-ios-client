@@ -122,10 +122,38 @@ extension UIDevice {
         
         return cpuSpeedMhz
     }
-
+    /*
     // Return Cpu Cores
     var cpuCores: String {
         return String(self.getSysInfo(HW_NCPU))
+    }
+    */
+    // Return Cpu Cores
+    var cpuCores: String {
+        
+        var cores: String
+        
+        switch cpuModel {
+        case "Apple A4":
+            cores = "1"
+            
+        case "Apple A5","Apple A5X","Apple A6","Apple A6X","Apple A7","Apple A8","Apple A9","Apple A9X":
+            cores = "2"
+            
+        case "Apple A8X":
+            cores = "3"
+            
+        case "Apple A10":
+            cores = "4"
+            
+        case "Apple A10X":
+            cores = "6"
+            
+        default:
+            cores = "0"
+        }
+        
+        return cores
     }
     
     // Return device model
