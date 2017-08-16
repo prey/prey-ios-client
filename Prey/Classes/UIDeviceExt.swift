@@ -73,11 +73,54 @@ extension UIDevice {
         
         return modelName
     }
-    
+    /*
     // Return Cpu Speed
     var cpuSpeed: String {
         let results = self.getSysInfo(HW_CPU_FREQ)/1000000
         return String(results)
+    }
+    */
+    // Return Cpu Speed
+    var cpuSpeed: String {
+
+        var cpuSpeedMhz: String
+        
+        switch cpuModel {
+        case "Apple A4","Apple A5","Apple A5X":
+            cpuSpeedMhz = "1000"
+            
+        case "Apple A6":
+            cpuSpeedMhz = "1300"
+            
+        case "Apple A6X":
+            cpuSpeedMhz = "1400"
+            
+        case "Apple A7":
+            cpuSpeedMhz = "1300"
+            
+        case "Apple A8":
+            cpuSpeedMhz = "1400"
+            
+        case "Apple A8X":
+            cpuSpeedMhz = "1500"
+            
+        case "Apple A9":
+            cpuSpeedMhz = "1850"
+            
+        case "Apple A9X":
+            cpuSpeedMhz = "2200"
+            
+        case "Apple A10":
+            cpuSpeedMhz = "2340"
+            
+        case "Apple A10X":
+            cpuSpeedMhz = "2380"
+            
+        default:
+            cpuSpeedMhz = "0"
+        }
+        
+        return cpuSpeedMhz
     }
 
     // Return Cpu Cores
