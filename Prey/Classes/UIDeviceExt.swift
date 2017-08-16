@@ -11,10 +11,67 @@ import UIKit
 
 // Extension for UIDevice
 extension UIDevice {
-    
+    /*
     // Return Hardware Model
     var hwModel: String {
         return self.getSysInfoByName("hw.model")
+    }
+    */
+    // Return CPU Model
+    var cpuModel: String {
+        
+        var modelName: String
+        var systemInfo      = utsname()
+        uname(&systemInfo)
+        let machineMirror   = Mirror(reflecting: systemInfo.machine)
+        let identifier      = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8 , value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        
+        switch identifier {
+            
+        case "iPhone3,1","iPhone3,2","iPhone3,3":
+            modelName = "Apple A4"
+
+        case "iPod5,1","iPad2,1","iPad2,2","iPad2,3","iPad2,4","iPad2,5","iPad2,6","iPad2,7","iPhone4,1":
+            modelName = "Apple A5"
+
+        case "iPad3,1","iPad3,2","iPad3,3":
+            modelName = "Apple A5X"
+
+        case "iPhone5,1","iPhone5,2","iPhone5,3","iPhone5,4":
+            modelName = "Apple A6"
+            
+        case "iPad3,4","iPad3,5","iPad3,6":
+            modelName = "Apple A6X"
+            
+        case "iPad4,1","iPad4,2","iPad4,3","iPad4,4","iPad4,5","iPad4,6","iPad4,7","iPad4,8","iPad4,9","iPhone6,1","iPhone6,2":
+            modelName = "Apple A7"
+            
+        case "iPod7,1","iPad5,1","iPad5,2","iPhone7,2","iPhone7,1":
+            modelName = "Apple A8"
+            
+        case "iPad5,3","iPad5,4":
+            modelName = "Apple A8X"
+            
+        case "iPad6,11","iPad6,12","iPhone8,1","iPhone8,2","iPhone8,4":
+            modelName = "Apple A9"
+            
+        case "iPad6,3","iPad6,4","iPad6,7","iPad6,8":
+            modelName = "Apple A9X"
+            
+        case "iPhone9,1","iPhone9,3","iPhone9,2","iPhone9,4":
+            modelName = "Apple A10"
+            
+        case "iPad7,1","iPad7,2","iPad7,3","iPad7,4":
+            modelName = "Apple A10X"
+
+        default:
+            modelName = "Apple"
+        }
+        
+        return modelName
     }
     
     // Return Cpu Speed

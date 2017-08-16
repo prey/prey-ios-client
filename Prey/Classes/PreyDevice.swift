@@ -40,7 +40,7 @@ class PreyDevice {
         uuid        = UIDevice.current.identifierForVendor?.uuidString
         macAddress  = "02:00:00:00:00:00" // iOS default
         ramSize     = UIDevice.current.ramSize
-        cpuModel    = UIDevice.current.hwModel
+        cpuModel    = UIDevice.current.cpuModel
         cpuSpeed    = UIDevice.current.cpuSpeed
         cpuCores    = UIDevice.current.cpuCores
     }
