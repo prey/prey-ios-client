@@ -12,12 +12,6 @@ import UIKit
 // Extension for UIDevice
 extension UIDevice {
     
-    // Return Ram Size
-    var ramSize: String {
-        let results = self.getSysInfo(HW_PHYSMEM)/1024/1024
-        return String(results)
-    }
-    
     // Return Hardware Model
     var hwModel: String {
         return self.getSysInfoByName("hw.model")
@@ -66,6 +60,7 @@ extension UIDevice {
         case "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4":modelName = "iPad 2"
         case "iPad3,1", "iPad3,2", "iPad3,3":           modelName = "iPad 3"
         case "iPad3,4", "iPad3,5", "iPad3,6":           modelName = "iPad 4"
+        case "iPad6,11","iPad6,12":                     modelName = "iPad 5"
         case "iPad4,1", "iPad4,2", "iPad4,3":           modelName = "iPad Air"
         case "iPad5,3", "iPad5,4":                      modelName = "iPad Air 2"
         case "iPad2,5", "iPad2,6", "iPad2,7":           modelName = "iPad Mini"
@@ -73,6 +68,7 @@ extension UIDevice {
         case "iPad4,7", "iPad4,8", "iPad4,9":           modelName = "iPad Mini 3"
         case "iPad5,1", "iPad5,2":                      modelName = "iPad Mini 4"
         case "iPad6,3", "iPad6,4", "iPad6,7", "iPad6,8":modelName = "iPad Pro"
+        case "iPad7,1", "iPad7,2", "iPad7,3", "iPad7,4":modelName = "iPad Pro 2"
         case "AppleTV5,3":                              modelName = "Apple TV"
         case "i386":                                    modelName = "iPhone Simulator"
         case "x86_64":                                  modelName = "iPad Simulator"
@@ -80,6 +76,54 @@ extension UIDevice {
         }
         
         return modelName
+    }
+    
+    /*
+    // Return Ram Size
+    var ramSize: String {
+        let results = self.getSysInfo(HW_PHYSMEM)/1024/1024
+        return String(results)
+    }
+    */
+    
+    // Return Ram Size
+    var ramSize: String {
+        
+        var deviceRamSize: String
+        var systemInfo      = utsname()
+        uname(&systemInfo)
+        let machineMirror   = Mirror(reflecting: systemInfo.machine)
+        let identifier      = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8 , value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        
+        // MB: 512, 1024, 2048, 3072, 4096
+        
+        switch identifier {
+            
+        case "iPod5,1","iPad2,1","iPad2,2","iPad2,3","iPad2,4","iPad2,5","iPad2,6","iPad2,7","iPhone3,1","iPhone3,2","iPhone3,3","iPhone4,1":
+            deviceRamSize = "512"
+
+        case "iPod7,1","iPad3,1","iPad3,2","iPad3,3","iPad3,4","iPad3,5","iPad3,6","iPad4,1","iPad4,2","iPad4,3","iPad4,4","iPad4,5","iPad4,6",
+             "iPad4,7","iPad4,8","iPad4,9","iPhone5,1","iPhone5,2","iPhone5,3","iPhone5,4","iPhone6,1","iPhone6,2","iPhone7,2","iPhone7,1":
+            deviceRamSize = "1024"
+        
+        case "iPad5,3","iPad5,4","iPad5,1","iPad5,2","iPad6,3","iPad6,11","iPad6,12","iPad6,4","iPhone8,1","iPhone8,2","iPhone8,4","iPhone9,1",
+             "iPhone9,3":
+            deviceRamSize = "2048"
+        
+        case "iPhone9,2","iPhone9,4":
+            deviceRamSize = "3072"
+        
+        case "iPad6,7","iPad6,8","iPad7,1","iPad7,2","iPad7,3","iPad7,4":
+            deviceRamSize = "4096"
+            
+        default:
+            deviceRamSize = "0"
+        }
+        
+        return deviceRamSize
     }
     
     // MARK: sysctl utils
