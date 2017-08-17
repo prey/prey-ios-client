@@ -28,11 +28,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.7.6</string>
+	<string>1.7.7</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2017071101</string>
+	<string>2017081701</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
