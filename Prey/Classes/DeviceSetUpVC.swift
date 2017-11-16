@@ -69,7 +69,7 @@ class DeviceSetUpVC: GAITrackedViewController {
         }
         
         // Camera Auth
-        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: nil)
+        AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: {(granted) in })
     }
     
     // Ok pressed

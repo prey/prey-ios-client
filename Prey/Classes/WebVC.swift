@@ -78,7 +78,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
     }
     
     // Close viewController
-    func cancel() {
+    @objc func cancel() {
         self.dismiss(animated: true, completion:nil)
     }
     

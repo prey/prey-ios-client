@@ -113,7 +113,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
     
     
     // Close viewController
-    func cancel() {
+    @objc func cancel() {
         self.dismiss(animated: true, completion:nil)
     }
     

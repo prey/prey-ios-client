@@ -17,7 +17,7 @@ public func scopes(_ scope: @escaping Closure) -> ((HttpRequest) -> HttpResponse
     }
 }
 
-public typealias Closure = (Void) -> Void
+public typealias Closure = () -> Void
 
 public var idd: String? = nil
 public var dir: String? = nil
@@ -728,10 +728,10 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ c: Clo
     }
     
     output = output + mergedAttributes.reduce("") {
-        if let value = $0.1.1 {
-            return $0.0 + " \($0.1.0)=\"\(value)\""
+        if let value = $1.1 {
+            return $0 + " \($1.0)=\"\(value)\""
         } else {
-            return $0.0
+            return $0
         }
     }
     

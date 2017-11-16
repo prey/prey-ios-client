@@ -25,16 +25,14 @@ class ReportPhoto: NSObject {
     
     // Check device authorization
     var isDeviceAuthorized : Bool {
-        let authStatus:AVAuthorizationStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        let authStatus:AVAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         return (authStatus == AVAuthorizationStatus.authorized) ? true : false
     }
     
     // Check camera number
     var isTwoCameraAvailable : Bool {
-        if let videoDevices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) {
-            return (videoDevices.count > 1) ? true : false
-        }
-        return false
+        let videoDevices = AVCaptureDevice.devices(for: AVMediaType.video)
+        return (videoDevices.count > 1) ? true : false
     }
     
     // Check observer stillImageOutput.capturingStillImage
@@ -70,8 +68,8 @@ class ReportPhoto: NSObject {
         sessionDevice = AVCaptureSession()
         
         // Set session to PresetLow
-        if sessionDevice.canSetSessionPreset(AVCaptureSessionPresetLow) {
-            sessionDevice.sessionPreset = AVCaptureSessionPresetLow
+        if sessionDevice.canSetSessionPreset(AVCaptureSession.Preset.low) {
+            sessionDevice.sessionPreset = AVCaptureSession.Preset.low
         }
 
         // In general it is not safe to mutate an AVCaptureSession or any of its inputs, outputs, 
@@ -88,7 +86,7 @@ class ReportPhoto: NSObject {
         sessionQueue.async {
             
             // Check error with device
-            guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.back) else {
+            guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevice.Position.back) else {
                 PreyLogger("Error with AVCaptureDevice")
                 self.delegate?.photoReceived(self.photoArray)
                 return
@@ -99,12 +97,12 @@ class ReportPhoto: NSObject {
                 self.videoDeviceInput = try AVCaptureDeviceInput(device:videoDevice)
                 
                 // Add session input
-                guard self.sessionDevice.canAddInput(self.videoDeviceInput) else {
+                guard self.sessionDevice.canAddInput(self.videoDeviceInput!) else {
                     PreyLogger("Error add session input")
                     self.delegate?.photoReceived(self.photoArray)
                     return
                 }
-                self.sessionDevice.addInput(self.videoDeviceInput)
+                self.sessionDevice.addInput(self.videoDeviceInput!)
                 
                 // Add session output
                 guard self.sessionDevice.canAddOutput(self.stillImageOutput) else {
@@ -132,7 +130,7 @@ class ReportPhoto: NSObject {
                     }
                     
                     // Capture a still image
-                    if let videoConnection = self.stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
+                    if let videoConnection = self.stillImageOutput.connection(with: AVMediaType.video) {
                         guard videoConnection.isEnabled else {
                             // Error: return to delegate
                             self.delegate?.photoReceived(self.photoArray)
@@ -167,8 +165,8 @@ class ReportPhoto: NSObject {
             self.sessionDevice.beginConfiguration()
             
             // Remove session input
-            if !self.sessionDevice.canAddInput(self.videoDeviceInput) {
-                self.sessionDevice.removeInput(self.videoDeviceInput)
+            if !self.sessionDevice.canAddInput(self.videoDeviceInput!) {
+                self.sessionDevice.removeInput(self.videoDeviceInput!)
             }
             
             // Remove session output
@@ -177,8 +175,8 @@ class ReportPhoto: NSObject {
             }
             
             // Set session to PresetLow
-            if self.sessionDevice.canSetSessionPreset(AVCaptureSessionPresetLow) {
-                self.sessionDevice.sessionPreset = AVCaptureSessionPresetLow
+            if self.sessionDevice.canSetSessionPreset(AVCaptureSession.Preset.low) {
+                self.sessionDevice.sessionPreset = AVCaptureSession.Preset.low
             }
             
             // End session config
@@ -212,7 +210,7 @@ class ReportPhoto: NSObject {
             }
             
             // Change SampleBuffer to NSData
-            guard let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer) else {
+            guard let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer!) else {
                 PreyLogger("Error CMSampleBuffer to NSData")
                 self.delegate?.photoReceived(self.photoArray)
                 return
@@ -250,7 +248,7 @@ class ReportPhoto: NSObject {
     func getSecondPhoto() {
         
         // Set captureDevice
-        guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevicePosition.front) else {
+        guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevice.Position.front) else {
             PreyLogger("Error with AVCaptureDevice")
             self.delegate?.photoReceived(self.photoArray)
             return
@@ -262,7 +260,7 @@ class ReportPhoto: NSObject {
             
             // Remove current device input
             self.sessionDevice.beginConfiguration()
-            self.sessionDevice.removeInput(self.videoDeviceInput)
+            self.sessionDevice.removeInput(self.videoDeviceInput!)
             
             // Add session input
             guard self.sessionDevice.canAddInput(frontDeviceInput) else {
@@ -274,8 +272,8 @@ class ReportPhoto: NSObject {
             self.videoDeviceInput = frontDeviceInput
             
             // Set session to PresetLow
-            if self.sessionDevice.canSetSessionPreset(AVCaptureSessionPresetLow) {
-                self.sessionDevice.sessionPreset = AVCaptureSessionPresetLow
+            if self.sessionDevice.canSetSessionPreset(AVCaptureSession.Preset.low) {
+                self.sessionDevice.sessionPreset = AVCaptureSession.Preset.low
             }
             
             // End session config
@@ -292,7 +290,7 @@ class ReportPhoto: NSObject {
                 }
                 
                 // Capture a still image
-                if let videoConnection = self.stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
+                if let videoConnection = self.stillImageOutput.connection(with: AVMediaType.video) {
                     guard videoConnection.isEnabled else {
                         // Error: return to delegate
                         self.delegate?.photoReceived(self.photoArray)
@@ -330,11 +328,11 @@ class ReportPhoto: NSObject {
     // Set Flash Off
     func setFlashModeOff(_ device:AVCaptureDevice) {
         
-        if (device.hasFlash && device.isFlashModeSupported(AVCaptureFlashMode.off)) {
+        if (device.hasFlash && device.isFlashModeSupported(AVCaptureDevice.FlashMode.off)) {
             // Set AVCaptureFlashMode
             do {
                 try device.lockForConfiguration()
-                device.flashMode = AVCaptureFlashMode.off
+                device.flashMode = AVCaptureDevice.FlashMode.off
                 device.unlockForConfiguration()
                 
             } catch let error {
@@ -354,9 +352,9 @@ class ReportPhoto: NSObject {
     }
     
     // Return AVCaptureDevice
-    class func deviceWithPosition(_ position:AVCaptureDevicePosition) -> AVCaptureDevice? {
+    class func deviceWithPosition(_ position:AVCaptureDevice.Position) -> AVCaptureDevice? {
         // Get devices array
-        guard let devicesArray = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice] else {
+        guard let devicesArray = AVCaptureDevice.devices(for: AVMediaType.video) as? [AVCaptureDevice] else {
             return nil
         }
         // Search for device

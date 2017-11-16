@@ -64,15 +64,15 @@ class UserRegister: GAITrackedViewController, UITextFieldDelegate {
     
     // MARK: Keyboard Event Notifications
     
-    func handleKeyboardWillShowNotification(_ notification: Notification) {
+    @objc func handleKeyboardWillShowNotification(_ notification: Notification) {
         keyboardWillChangeFrameWithNotification(notification, showsKeyboard: true)
     }
     
-    func handleKeyboardWillHideNotification(_ notification: Notification) {
+    @objc func handleKeyboardWillHideNotification(_ notification: Notification) {
         keyboardWillChangeFrameWithNotification(notification, showsKeyboard: false)
     }
     
-    func dismissKeyboard(_ tapGesture: UITapGestureRecognizer) {
+    @objc func dismissKeyboard(_ tapGesture: UITapGestureRecognizer) {
         // Dismiss keyboard if is inside from UIView
         if (self.view.frame.contains(tapGesture.location(in: self.view))) {
             self.view.endEditing(true);

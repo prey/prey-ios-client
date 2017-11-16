@@ -179,8 +179,8 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         let fontItem                = UIFont(name:fontTitilliumBold, size:itemFontSize)
         let fontTitle               = UIFont(name:fontTitilliumRegular, size:titleFontSize)
         
-        UINavigationBar.appearance().titleTextAttributes    = [NSFontAttributeName:fontTitle!,NSForegroundColorAttributeName:colorTitle]
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName:fontItem!,NSForegroundColorAttributeName:colorItem],for:.normal)
+        UINavigationBar.appearance().titleTextAttributes    = [NSAttributedStringKey.font:fontTitle!,NSAttributedStringKey.foregroundColor:colorTitle]
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font:fontItem!,NSAttributedStringKey.foregroundColor:colorItem],for:.normal)
         
         UINavigationBar.appearance().barTintColor           = UIColor.white
         UINavigationBar.appearance().tintColor              = colorItem
@@ -335,9 +335,9 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     // Report Error custom
     func reportError(_ domain: String, statusCode: Int?, errorDescription: String) {
         if let code = statusCode {
-            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: code, userInfo: [code : errorDescription]))
+            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: code, userInfo: [String(code) : errorDescription]))
         } else {
-            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: 1985, userInfo: [1985 : errorDescription]))
+            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: 1985, userInfo: ["1985" : errorDescription]))
         }
     }
 }

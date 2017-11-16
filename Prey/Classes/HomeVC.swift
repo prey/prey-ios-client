@@ -197,7 +197,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     }
     
     // Start Prey Tour
-    func startPreyTour() {
+    @objc func startPreyTour() {
 
         let language:String = Locale.preferredLanguages[0] as String
         let languageES  = (language as NSString).substring(to: 2)
@@ -215,22 +215,22 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     }
     
     // Close Prey Tour
-    func closePreyTour() {
+    @objc func closePreyTour() {
         tourImg.removeFromSuperview()
         tourBtn.removeFromSuperview()
     }
     
     // MARK: Keyboard Event Notifications
     
-    func handleKeyboardWillShowNotification(_ notification: Notification) {
+    @objc func handleKeyboardWillShowNotification(_ notification: Notification) {
         keyboardWillChangeFrameWithNotification(notification, showsKeyboard: true)
     }
     
-    func handleKeyboardWillHideNotification(_ notification: Notification) {
+    @objc func handleKeyboardWillHideNotification(_ notification: Notification) {
         keyboardWillChangeFrameWithNotification(notification, showsKeyboard: false)
     }
     
-    func dismissKeyboard(_ tapGesture: UITapGestureRecognizer) {
+    @objc func dismissKeyboard(_ tapGesture: UITapGestureRecognizer) {
         // Dismiss keyboard if is inside from UIView
         if (self.view.frame.contains(tapGesture.location(in: self.view))) {
             self.view.endEditing(true);
@@ -334,7 +334,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
                               titleMessage:"We have a situation!".localized)
             return
         }
-        if pwdInput.characters.count < 6 {
+        if pwdInput.count < 6 {
             displayErrorAlert("Password must be at least 6 characters".localized,
                               titleMessage:"We have a situation!".localized)
             return

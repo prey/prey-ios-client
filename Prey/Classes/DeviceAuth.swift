@@ -75,10 +75,10 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
         
         var cameraAuth = false
         
-        if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) == .authorized {
+        if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) == .authorized {
             cameraAuth = true
         } else {
-            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler:{(granted: Bool) in
+            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler:{(granted: Bool) in
                 cameraAuth = granted
             })
         }

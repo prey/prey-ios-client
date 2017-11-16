@@ -50,7 +50,7 @@ extension UIActivityIndicatorView {
         let centerX                 = self.frame.width*3/4
         let bgRect                  = CGRect(x: -centerX, y: -self.frame.width/2, width: self.frame.width*2, height: self.frame.width*2)
         let bgView                  = UIView(frame:bgRect)
-        bgView.backgroundColor      = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.3)
+        bgView.backgroundColor      = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         bgView.clipsToBounds        = true
         bgView.layer.cornerRadius   = 10
         self.insertSubview(bgView, at: 0)

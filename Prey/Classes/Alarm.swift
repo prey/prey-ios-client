@@ -64,7 +64,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
     }
     
     // Check Volume Level
-    func incrementVolume(_ timer:Timer)  {
+    @objc func incrementVolume(_ timer:Timer)  {
 
         let volumeView = MPVolumeView()
         if volumeView.volumeSlider.value < 1.0 {

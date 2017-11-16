@@ -182,13 +182,13 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         }
     }
     
-    internal func didEnterBackground(notification: NSNotification) {
+    @objc internal func didEnterBackground(notification: NSNotification) {
         if serverState != .Stopped {
             startBackgroundTask()
         }
     }
     
-    internal func willEnterForeground(notification: NSNotification) {
+    @objc internal func willEnterForeground(notification: NSNotification) {
         if backgroundTask != UIBackgroundTaskInvalid {
             stopBackgroundTask()
             returnedToApp()

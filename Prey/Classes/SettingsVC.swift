@@ -409,7 +409,7 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     }
     
     // CamouflageMode State
-    func camouflageModeState(_ object:UISwitch) {
+    @objc func camouflageModeState(_ object:UISwitch) {
         PreyConfig.sharedInstance.isCamouflageMode = object.isOn
         PreyConfig.sharedInstance.saveValues()
     }

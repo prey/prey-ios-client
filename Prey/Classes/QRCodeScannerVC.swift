@@ -14,7 +14,7 @@ class QRCodeScannerVC: GAITrackedViewController, AVCaptureMetadataOutputObjectsD
     
     // MARK: Properties
     
-    let device  : AVCaptureDevice!          = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+    let device  : AVCaptureDevice!          = AVCaptureDevice.default(for: AVMediaType.video)
     let session : AVCaptureSession          = AVCaptureSession()
     let output  : AVCaptureMetadataOutput   = AVCaptureMetadataOutput()
 
@@ -81,13 +81,13 @@ class QRCodeScannerVC: GAITrackedViewController, AVCaptureMetadataOutputObjectsD
         
         // Config output
         output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-        output.metadataObjectTypes  = [AVMetadataObjectTypeQRCode]
+        output.metadataObjectTypes  = [AVMetadataObject.ObjectType.qr]
         
         // Config preview
         preview                     = AVCaptureVideoPreviewLayer(session:session)
-        preview.videoGravity        = AVLayerVideoGravityResizeAspectFill
+        preview.videoGravity        = AVLayerVideoGravity.resizeAspectFill
         preview.frame               = CGRect(x: 0, y: 0,width: self.view.frame.size.width, height: self.view.frame.size.height)
-        preview.connection.videoOrientation = .portrait
+        preview.connection?.videoOrientation = .portrait
         self.view.layer.insertSublayer(preview, at:0)
 
         // Config label
@@ -145,17 +145,17 @@ class QRCodeScannerVC: GAITrackedViewController, AVCaptureMetadataOutputObjectsD
     }
     
     func isCameraAvailable() -> Bool {
-        return AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).count > 0 ? true : false
+        return AVCaptureDevice.devices(for: AVMediaType.video).count > 0 ? true : false
     }
     
-    func cancel() {
+    @objc func cancel() {
         self.dismiss(animated: true, completion:nil)
     }
     
     // MARK: AVCaptureMetadataOutputObjectsDelegate
     
     // CaptureOutput
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+    func metadataOutput(_ captureOutput: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
      
         for current in metadataObjects {
             if current is AVMetadataMachineReadableCodeObject {

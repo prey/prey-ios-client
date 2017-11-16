@@ -47,7 +47,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     }
     
     // Run report
-    func runReport(_ timer:Timer) {
+    @objc func runReport(_ timer:Timer) {
         
         guard PreyConfig.sharedInstance.isMissing else {
             stopReport()
