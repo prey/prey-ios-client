@@ -29,9 +29,15 @@ class PreyAction : Operation {
         command = cmd
         options = opt
     }
-    
+
+    // Start method
+    @objc override func start() {}
+
     // Stop method
-    func stop () {}
+    @objc func stop() {}
+    
+    // Get method
+    @objc func get() {}
     
     // Return Prey New Action
     class func newAction(withName target:kAction, withCommand cmd:kCommand, withOptions opt: NSDictionary?) -> PreyAction? {

@@ -15,7 +15,7 @@ class Ping : PreyAction {
     // MARK: Functions    
     
     // Prey command
-    func get() {
+    override func get() {
         
         isActive = true
         PreyLogger("Start ping")

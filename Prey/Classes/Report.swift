@@ -29,7 +29,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     // MARK: Functions
     
     // Prey command
-    func get() {
+    override func get() {
         
         // Set interval from jsonCommand
         if let reportInterval = options?.object(forKey: kOptions.interval.rawValue) {

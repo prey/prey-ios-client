@@ -47,7 +47,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     }
     
     // Prey command
-    func get() {
+    override func get() {
         
         if #available(iOS 8.0, *) {
             locManager.requestAlwaysAuthorization()
