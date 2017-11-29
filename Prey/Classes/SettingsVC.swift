@@ -72,6 +72,9 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         
         tableView.backgroundColor = UIColor.white
         tableView.separatorColor  = UIColor.white
+        if #available(iOS 11.0, *) {
+            tableView.contentInset = UIEdgeInsetsMake(35.0, 0.0, 0.0, 0.0);
+        }
    }
 
     override func didReceiveMemoryWarning() {
