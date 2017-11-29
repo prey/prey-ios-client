@@ -60,7 +60,7 @@ public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
 
     do {
         regex = try NSRegularExpression(pattern:withPattern, options:NSRegularExpression.Options.caseInsensitive)
-        let textRange  = NSMakeRange(0, userEmail.characters.count)
+        let textRange  = NSMakeRange(0, userEmail.count)
         let matchRange = regex.rangeOfFirstMatch(in: userEmail, options:NSRegularExpression.MatchingOptions.reportProgress, range:textRange)
         
         if (matchRange.location != NSNotFound) {

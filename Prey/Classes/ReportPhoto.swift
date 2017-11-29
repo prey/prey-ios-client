@@ -354,9 +354,8 @@ class ReportPhoto: NSObject {
     // Return AVCaptureDevice
     class func deviceWithPosition(_ position:AVCaptureDevice.Position) -> AVCaptureDevice? {
         // Get devices array
-        guard let devicesArray = AVCaptureDevice.devices(for: AVMediaType.video) as? [AVCaptureDevice] else {
-            return nil
-        }
+        let devicesArray = AVCaptureDevice.devices(for: AVMediaType.video)
+        
         // Search for device
         for device in devicesArray {
             if device.position == position {

@@ -76,7 +76,7 @@ class SignUpVC: UserRegister {
     @IBAction override func addDeviceAction(_ sender: UIButton?) {
 
         // Check name length
-        if nameTextField.text!.characters.count < 1 {
+        if nameTextField.text!.count < 1 {
             displayErrorAlert("Name can't be blank".localized,
                               titleMessage:"We have a situation!".localized,
                               returnToTextField: nameTextField)
@@ -84,7 +84,7 @@ class SignUpVC: UserRegister {
         }
         
         // Check password length
-        if passwordTextField.text!.characters.count < 6 {
+        if passwordTextField.text!.count < 6 {
             displayErrorAlert("Password must be at least 6 characters".localized,
                               titleMessage:"We have a situation!".localized,
                               returnToTextField: passwordTextField)

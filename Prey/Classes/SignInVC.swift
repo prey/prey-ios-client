@@ -79,7 +79,7 @@ class SignInVC: UserRegister {
         }
 
         // Check password length
-        if passwordTextField.text!.characters.count < 6 {
+        if passwordTextField.text!.count < 6 {
             displayErrorAlert("Password must be at least 6 characters".localized,
                               titleMessage:"We have a situation!".localized,
                               returnToTextField: passwordTextField)
