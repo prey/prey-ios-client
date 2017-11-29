@@ -58,21 +58,6 @@ public class HttpParser {
                 }
                 return c + [(name, value)]
         }
-        
-        
-//        let tokens = url.components(separatedBy: "?")
-//        guard let query = tokens.last, tokens.count >= 2 else {
-//            return []
-//        }
-//        return query.components(separatedBy: "&").reduce([(String, String)]()) { (c, s) -> [(String, String)] in
-//            let tokens = s.components(separatedBy: "=")
-//            let name = tokens.first?.removingPercentEncoding
-//            let value = tokens.count > 1 ? (tokens.last?.removingPercentEncoding ?? "") : ""
-//            if let nameFound = name {
-//                return c + [(nameFound, value)]
-//            }
-//            return c
-//        }
     }
     
     private func readBody(_ socket: Socket, size: Int) throws -> [UInt8] {
@@ -84,7 +69,7 @@ public class HttpParser {
     private func readHeaders(_ socket: Socket) throws -> [String: String] {
         var headers = [String: String]()
         while case let headerLine = try socket.readLine() , !headerLine.isEmpty {
-            let headerTokens = headerLine.components(separatedBy: ":")
+            let headerTokens = headerLine.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true).map(String.init)
             if let name = headerTokens.first, let value = headerTokens.last {
                 headers[name.lowercased()] = value.trimmingCharacters(in: .whitespaces)
             }
