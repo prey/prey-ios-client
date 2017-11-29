@@ -68,11 +68,12 @@ class PreyOnboarding: UIView, UIScrollViewDelegate {
     // Add background images
     func addBackgroundImage(_ bgImg:UIImage, withTag:Int) {
         
+        let fxiPhoneX:CGFloat   = IS_IPHONEX ? 1.20 : 1
         let fxiPhone4S:CGFloat  = IS_IPHONE4S ? 0.215 : 0.27
         let ratioBgImg          = CGFloat(167.0 / 320.0) // :: height / width from bgImages
         let heightScreen        = UIScreen.main.bounds.size.height
         let widthScreen         = UIScreen.main.bounds.size.width
-        let bgFrame             = CGRect(x: 0,y: heightScreen*fxiPhone4S, width: widthScreen, height: widthScreen*ratioBgImg)
+        let bgFrame             = CGRect(x: 0,y: heightScreen*fxiPhone4S*fxiPhoneX, width: widthScreen, height: widthScreen*ratioBgImg)
         
         let bgImageView         = UIImageView(image:bgImg)
         bgImageView.frame       = bgFrame
