@@ -52,7 +52,9 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
             }
             
             if let dat = data {
-                self.start(data: dat)
+                DispatchQueue.main.async {
+                    self.start(data: dat)
+                }
             }
         }
         

@@ -81,12 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             _ = GeofencingManager.sharedInstance
         }
         
-        // Check remote notification clicked
-        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [AnyHashable: Any] {
-            PreyLogger("Prey remote notification received while  not running")
-            PreyNotification.sharedInstance.didReceiveRemoteNotifications(remoteNotification, completionHandler:{(UIBackgroundFetchResult) -> Void in})
-        }
-        
         return true
     }    
     
