@@ -335,6 +335,9 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     // Report Error custom
     func reportError(_ domain: String, statusCode: Int?, errorDescription: String) {
         if let code = statusCode {
+            guard code != NSURLErrorNotConnectedToInternet else {
+                return
+            }
             Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: code, userInfo: [String(code) : errorDescription]))
         } else {
             Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: 1985, userInfo: ["1985" : errorDescription]))
