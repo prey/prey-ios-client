@@ -106,7 +106,9 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
             panelRequest.addValue("Mozilla/5.0", forHTTPHeaderField: "User-Agent")
             panelRequest.setValue(cookiePanel, forHTTPHeaderField: "Cookie")
             
-            self.webView.load(panelRequest)
+            DispatchQueue.main.async {
+                self.webView.load(panelRequest)
+            }
         }
         task.resume()
     }
@@ -189,7 +191,8 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
                 
                 // Default true
             default:
-                decisionHandler(.allow)
+                PreyLogger("Ok")
+                //decisionHandler(.allow)
             }
         }
         
