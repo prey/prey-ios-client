@@ -56,7 +56,7 @@ class ReportPhoto: NSObject {
     var videoDeviceInput:AVCaptureDeviceInput?
     
     // Image Output
-    let stillImageOutput = AVCaptureStillImageOutput()
+    @objc dynamic var stillImageOutput = AVCaptureStillImageOutput()
     
     
     // MARK: Init
@@ -96,13 +96,20 @@ class ReportPhoto: NSObject {
             do {
                 self.videoDeviceInput = try AVCaptureDeviceInput(device:videoDevice)
                 
+                // Check videoDeviceInput
+                guard let videoDevInput = self.videoDeviceInput else {
+                    PreyLogger("Error videoDeviceInput")
+                    self.delegate?.photoReceived(self.photoArray)
+                    return
+                }
+                
                 // Add session input
-                guard self.sessionDevice.canAddInput(self.videoDeviceInput!) else {
+                guard self.sessionDevice.canAddInput(videoDevInput) else {
                     PreyLogger("Error add session input")
                     self.delegate?.photoReceived(self.photoArray)
                     return
                 }
-                self.sessionDevice.addInput(self.videoDeviceInput!)
+                self.sessionDevice.addInput(videoDevInput)
                 
                 // Add session output
                 guard self.sessionDevice.canAddOutput(self.stillImageOutput) else {
@@ -165,8 +172,10 @@ class ReportPhoto: NSObject {
             self.sessionDevice.beginConfiguration()
             
             // Remove session input
-            if !self.sessionDevice.canAddInput(self.videoDeviceInput!) {
-                self.sessionDevice.removeInput(self.videoDeviceInput!)
+            if let deviceInput = self.videoDeviceInput {
+                if !self.sessionDevice.canAddInput(deviceInput) {
+                    self.sessionDevice.removeInput(deviceInput)
+                }
             }
             
             // Remove session output
@@ -260,7 +269,9 @@ class ReportPhoto: NSObject {
             
             // Remove current device input
             self.sessionDevice.beginConfiguration()
-            self.sessionDevice.removeInput(self.videoDeviceInput!)
+            if let deviceInput = self.videoDeviceInput {
+                self.sessionDevice.removeInput(deviceInput)
+            }
             
             // Add session input
             guard self.sessionDevice.canAddInput(frontDeviceInput) else {
