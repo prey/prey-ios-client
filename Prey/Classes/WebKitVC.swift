@@ -173,21 +173,25 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
                 displayErrorAlert("This service is not available from here. Please go to 'Manage Prey Settings' from the main menu in the app.".localized,
                                   titleMessage:"Information".localized)
                 decisionHandler(.cancel)
+                return
                 
                 // Help Prey
             case BlockHost.HELPPREY.rawValue:
                 openBrowserWith(URL(string:URLHelpPrey))
                 decisionHandler(.cancel)
+                return
             
                 // Panel Prey
             case BlockHost.PANELPREY.rawValue:
                 webView.evaluateJavaScript("var printBtn = document.getElementById('print'); printBtn.style.display='none';", completionHandler:nil)
                 decisionHandler(.allow)
+                return
 
                 // Google Maps and image reports
             case BlockHost.S3AMAZON.rawValue, BlockHost.SRCGOOGLE.rawValue:
                 openBrowserWith(mainRequest.url)
                 decisionHandler(.cancel)
+                return
                 
                 // Default true
             default:
@@ -200,6 +204,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
         if mainRequest.url?.scheme == "closewebview" {
             closePreyTourWebView()
             decisionHandler(.cancel)
+            return
         }
         decisionHandler(.allow)
     }
