@@ -601,7 +601,7 @@
 			attributes = {
 				LastSwiftMigration = 0720;
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Fork Ltd.";
 				TargetAttributes = {
 					3B8283EC199198E6000E4545 = {
