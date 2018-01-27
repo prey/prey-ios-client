@@ -375,6 +375,11 @@ class PreyHTTPResponse {
             return
         }
         
+        // FIXME: check response panel to stop location aware
+        if statusCode == 201 && action == nil {
+            GeofencingManager.sharedInstance.stopLocationAwareManager()
+        }
+        
         PreyLogger("Data send: OK")
 
         if let preyAction = action {

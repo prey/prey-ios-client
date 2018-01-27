@@ -17,11 +17,18 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     var lastLocation : CLLocation!
     
+    var isLocationAwareActive = false
+    
     // MARK: Functions    
     
     // Return init if location action don't exist
     class func initLocationAction(withTarget target:kAction, withCommand cmd:kCommand, withOptions opt:NSDictionary?) -> Location? {
 
+        // Check if command is start_location_aware
+        if cmd == kCommand.start_location_aware {
+            return Location(withTarget:target, withCommand:cmd, withOptions:opt)
+        }
+        
         var existAction = false
         
         for item in PreyModule.sharedInstance.actionArray {
@@ -48,7 +55,27 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Prey command
     override func get() {
-        
+        startLocationManager()
+        // Schedule get location
+        Timer.scheduledTimer(timeInterval: 30.0, target:self, selector:#selector(stopLocationTimer(_:)), userInfo:nil, repeats:false)
+        PreyLogger("Start location")
+    }
+    
+    // Start location aware
+    @objc func start_location_aware() {
+        startLocationManager()
+        isLocationAwareActive = true
+        PreyLogger("Start location aware")
+    }
+    
+    // Stop Location Timer
+    @objc func stopLocationTimer(_ timer:Timer)  {
+        timer.invalidate()
+        stopLocationManager()
+    }
+    
+    // Start Location Manager
+    func startLocationManager()  {
         if #available(iOS 8.0, *) {
             locManager.requestAlwaysAuthorization()
         }
@@ -57,21 +84,16 @@ class Location : PreyAction, CLLocationManagerDelegate {
         locManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locManager.startUpdatingLocation()
         
-        // Schedule get location
-        Timer.scheduledTimer(timeInterval: 30.0, target:self, selector:#selector(stopLocationManager(_:)), userInfo:nil, repeats:false)
-        
         isActive = true
-        PreyLogger("Start location")
     }
     
     // Stop Location Manager
-    @objc func stopLocationManager(_ timer:Timer)  {
+    func stopLocationManager()  {
         PreyLogger("Stop location")
-
-        timer.invalidate()
+        
         locManager.stopUpdatingLocation()
         locManager.delegate = nil
-
+        
         isActive = false
         PreyModule.sharedInstance.checkStatus(self)
     }
@@ -88,7 +110,14 @@ class Location : PreyAction, CLLocationManagerDelegate {
         
         let locParam:[String: Any] = [kAction.location.rawValue : params]
         
-        self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
+        if self.isLocationAwareActive {
+            GeofencingManager.sharedInstance.startLocationAwareManager(location)
+            self.isLocationAwareActive = false
+            self.sendData(locParam, toEndpoint: locationAwareEndpoint)
+            stopLocationManager()
+        } else {
+            self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
+        }
     }
     
     // MARK: CLLocationManagerDelegate

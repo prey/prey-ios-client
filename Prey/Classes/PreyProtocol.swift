@@ -32,7 +32,7 @@ enum kStatus: String {
 
 // Prey command definitions
 enum kCommand: String {
-    case start, stop, get
+    case start, stop, get, start_location_aware
 }
 
 // Prey location params
@@ -85,6 +85,9 @@ public let devicesEndpoint          : String = "/devices.json"
 
 // Endpoint for Subscriptions Receipt
 public let subscriptionEndpoint     : String = "/subscriptions/receipt"
+
+// Endpoint for Device Location Aware
+public let locationAwareEndpoint    : String = String(format:"/devices/%@/location.json",(PreyConfig.sharedInstance.getDeviceKey()))
 
 // Endpoint for Device Data
 public let dataDeviceEndpoint       : String = String(format:"/devices/%@/data",(PreyConfig.sharedInstance.getDeviceKey()))

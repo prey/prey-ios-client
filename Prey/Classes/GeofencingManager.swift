@@ -37,7 +37,55 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
     }
 
     var geoManager: CLLocationManager
+
+    // Start location aware
+    func startLocationAwareManager(_ location: CLLocation) {
+        // Add geofence zone on current location
+        let zoneId      = PreyConfig.sharedInstance.userApiKey!
+        let region:CLCircularRegion = CLCircularRegion(center: location.coordinate, radius: 100.0, identifier: zoneId)
+        geoManager.startMonitoring(for: region)
+    }
     
+    // Stop location aware
+    func stopLocationAwareManager() {
+        for item in geoManager.monitoredRegions {
+            if item.identifier == PreyConfig.sharedInstance.userApiKey {
+                geoManager.stopMonitoring(for: item as CLRegion)
+            }
+        }
+    }
+    
+    // Add regions to Device
+    func addCurrentRegionToDevice(_ manager: CLLocationManager, _ region:CLCircularRegion) {
+        // Check if CLRegion is available
+        guard CLLocationManager.isMonitoringAvailable(for: CLRegion.self) else {
+            PreyLogger("CLRegion is not available")
+            return
+        }
+        // Check regionID
+        guard region.identifier == PreyConfig.sharedInstance.userApiKey else {
+            return
+        }
+        // Check location
+        guard let location = manager.location else {
+            return
+        }
+        // Send new location aware
+        let params:[String: Any] = [
+            kLocation.lng.rawValue      : location.coordinate.longitude,
+            kLocation.lat.rawValue      : location.coordinate.latitude,
+            kLocation.alt.rawValue      : location.altitude,
+            kLocation.accuracy.rawValue : location.horizontalAccuracy,
+            kLocation.method.rawValue   : "native"]
+        
+        let locParam:[String: Any] = [kAction.location.rawValue : params]
+        sendNotifyToPanel(locParam, toEndpoint:locationAwareEndpoint)
+
+        // Set new region monitoring
+        let zoneId      = PreyConfig.sharedInstance.userApiKey!        
+        let region:CLCircularRegion = CLCircularRegion(center: location.coordinate, radius: 100.0, identifier: zoneId)
+        geoManager.startMonitoring(for: region)
+    }
     
     // MARK: CLLocationManagerDelegate
     
@@ -55,7 +103,7 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
     
         if let regionIn:CLCircularRegion = region as? CLCircularRegion {
             let params = getParamteresToSend(regionIn, withZoneInfo:kGeofence.IN.rawValue)
-            sendNotifyToPanel(params)
+            sendNotifyToPanel(params, toEndpoint:eventsDeviceEndpoint)
         }
     }
     
@@ -64,8 +112,13 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
         PreyLogger("GeofencingManager: Did exit region")
         
         if let regionIn:CLCircularRegion = region as? CLCircularRegion {
-            let params = getParamteresToSend(regionIn, withZoneInfo:kGeofence.OUT.rawValue)
-            sendNotifyToPanel(params)
+            // identifier == userApiKey : LocationAwareActive
+            if regionIn.identifier == PreyConfig.sharedInstance.userApiKey {
+                addCurrentRegionToDevice(manager, regionIn)
+            } else {
+                let params = getParamteresToSend(regionIn, withZoneInfo:kGeofence.OUT.rawValue)
+                sendNotifyToPanel(params, toEndpoint:eventsDeviceEndpoint)
+            }
         }
     }
     
@@ -87,10 +140,10 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
     }
     
     // Send to panel
-    func sendNotifyToPanel(_ params:[String: Any]) {
+    func sendNotifyToPanel(_ params:[String: Any], toEndpoint:String) {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:eventsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request dataSend")}))
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request dataSend")}))
         } else {
             PreyLogger("Error send data auth")
         }
