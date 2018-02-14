@@ -129,19 +129,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    func closePreyTourWebView() {
         
-        if let controller = self.presentingViewController as? UINavigationController {
-            let homeVC = controller.topViewController as! HomeVC
-            homeVC.closePreyTour()
-        }
-        
-        PreyConfig.sharedInstance.hideTourWeb = true
-        PreyConfig.sharedInstance.saveValues()
-        cancel()
-    }
-    
     // Open URL from Safari
     func openBrowserWith(_ url:URL?) {
         if let urlRequest = url {
@@ -198,13 +186,6 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
                 PreyLogger("Ok")
                 //decisionHandler(.allow)
             }
-        }
-        
-        // Check scheme for PreyTourWeb
-        if mainRequest.url?.scheme == "closewebview" {
-            closePreyTourWebView()
-            decisionHandler(.cancel)
-            return
         }
         decisionHandler(.allow)
     }

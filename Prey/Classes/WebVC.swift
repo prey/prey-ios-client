@@ -92,19 +92,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    func closePreyTourWebView() {
         
-        if let controller = self.presentingViewController as? UINavigationController {
-            let homeVC = controller.topViewController as! HomeVC
-            homeVC.closePreyTour()
-        }
-        
-        PreyConfig.sharedInstance.hideTourWeb = true
-        PreyConfig.sharedInstance.saveValues()
-        cancel()
-    }
-    
     // Open URL from Safari
     func openBrowserWith(_ url:URL?) {
         if let urlRequest = url {
@@ -153,12 +141,6 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
             default:
                 return true
             }
-        }
-        
-        // Check scheme for PreyTourWeb
-        if request.url?.scheme == "closewebview" {
-            closePreyTourWebView()
-            return false
         }
         
         return true

@@ -20,7 +20,6 @@
 		3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742161CF791D900E52B6C /* ReportPhoto.swift */; };
 		3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742181CF792CA00E52B6C /* ReportWifi.swift */; };
 		3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38BA8E1D22C03D00B6799B /* WebVC.swift */; };
-		3B38BA911D23059900B6799B /* PreyTourWeb in Resources */ = {isa = PBXBuildFile; fileRef = 3B38BA901D23059900B6799B /* PreyTourWeb */; };
 		3B38BA931D231B1C00B6799B /* Detach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38BA921D231B1C00B6799B /* Detach.swift */; };
 		3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */; };
 		3B40AB691DB901F1003045C1 /* WebKitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B40AB681DB901F1003045C1 /* WebKitVC.swift */; };
@@ -147,7 +146,6 @@
 		3B3742161CF791D900E52B6C /* ReportPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportPhoto.swift; path = Classes/ReportPhoto.swift; sourceTree = "<group>"; };
 		3B3742181CF792CA00E52B6C /* ReportWifi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportWifi.swift; path = Classes/ReportWifi.swift; sourceTree = "<group>"; };
 		3B38BA8E1D22C03D00B6799B /* WebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebVC.swift; path = Classes/WebVC.swift; sourceTree = "<group>"; };
-		3B38BA901D23059900B6799B /* PreyTourWeb */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PreyTourWeb; sourceTree = "<group>"; };
 		3B38BA921D231B1C00B6799B /* Detach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Detach.swift; path = Classes/Detach.swift; sourceTree = "<group>"; };
 		3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyNotification.swift; path = Classes/PreyNotification.swift; sourceTree = "<group>"; };
 		3B40AB681DB901F1003045C1 /* WebKitVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebKitVC.swift; path = Classes/WebKitVC.swift; sourceTree = "<group>"; };
@@ -384,7 +382,6 @@
 				3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */,
 				3B8283F9199198E6000E4545 /* Images.xcassets */,
 				3BCA4EB0202CE280009EC0C7 /* PreyInfo */,
-				3B38BA901D23059900B6799B /* PreyTourWeb */,
 				3B4F67A01CEA085200F58FAD /* Sounds */,
 				3B36116D1EE75470006BA074 /* Resources */,
 				3BB7EABE1A1E78DB003FC312 /* Fonts */,
@@ -672,7 +669,6 @@
 				3B42A2671D2581EF002848C0 /* large9.ttf in Resources */,
 				3B8283FA199198E6000E4545 /* Images.xcassets in Resources */,
 				3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */,
-				3B38BA911D23059900B6799B /* PreyTourWeb in Resources */,
 				3BE3DC511D0B044D00581327 /* magdacleanmono-bold.ttf in Resources */,
 				3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */,
 				3BFF00841D3E8A2400BEF7E0 /* AppFeedback.plist in Resources */,

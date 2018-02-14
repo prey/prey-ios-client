@@ -29,10 +29,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     @IBOutlet var settingsSbtLbl       : UILabel!
     @IBOutlet var settingsTlLbl        : UILabel!
     @IBOutlet var settingsBtn          : UIButton!
-    
-    @IBOutlet var tourImg              : UIImageView!
-    @IBOutlet var tourBtn              : UIButton!
-    
+        
     var hidePasswordInput = false
     
     // MARK: Init
@@ -51,21 +48,9 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         // Config init
         hidePasswordInputOption(hidePasswordInput)
         
-        // Config Prey Tour
-        configPreyTour()
-        
         // Config texts
         configureTexts()
-        
-        // Check device auth
-        checkDeviceAuth()
-        
-        // Check for Rate us
-        PreyRateUs.sharedInstance.askForReview()
-        
-        // Check new version on App Store
-        PreyConfig.sharedInstance.checkLastVersionOnStore()
-        
+                
         // Hide camouflage image
         configCamouflageMode(PreyConfig.sharedInstance.isCamouflageMode)
     }
@@ -82,13 +67,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         settingsTlLbl.text          = "PREY SETTINGS".localized
         settingsSbtLbl.text         = "CONFIGURE".localized
     }
-    
-    // Check device auth
-    func checkDeviceAuth() {
-        let isAllAuthAvailable  = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
-        titleLbl.text    = isAllAuthAvailable ? "PROTECTED".localized.uppercased() : "NOT PROTECTED".localized.uppercased()
-    }
-    
+        
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -133,8 +112,6 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         self.changeHiddenFor(view:self.settingsSbtLbl,  value:!value)
         self.changeHiddenFor(view:self.settingsTlLbl,   value:!value)
         self.changeHiddenFor(view:self.settingsBtn,     value:!value)
-        self.changeHiddenFor(view:self.tourImg,         value:!value)
-        self.changeHiddenFor(view:self.tourBtn,         value:!value)
     }
     
     // Set hidden object
@@ -168,58 +145,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
             }
         }
     }
-    
-    // Config Prey Tour
-    func configPreyTour() {
         
-        if PreyConfig.sharedInstance.hideTourWeb {
-            closePreyTour()
-            return
-        }
-        
-        // Add tap gesture to View
-        let tap         = UITapGestureRecognizer(target:self, action:#selector(startPreyTour))
-        tap.delegate    = self
-        
-        // Add tap to tourImg
-        tourImg.isUserInteractionEnabled = true
-        tourImg.addGestureRecognizer(tap)
-        
-        // Add target to tourBtn
-        tourBtn.addTarget(self, action:#selector(closePreyTour), for:.touchUpInside)
-        
-        // Check language in tourImg
-        let language:String = Locale.preferredLanguages[0] as String
-        let languageES = (language as NSString).substring(to: 2)
-        if languageES == "es" {
-            tourImg.image = UIImage(named:"TourEs")
-        }
-    }
-    
-    // Start Prey Tour
-    @objc func startPreyTour() {
-
-        let language:String = Locale.preferredLanguages[0] as String
-        let languageES  = (language as NSString).substring(to: 2)
-        
-        let indexPage   = (languageES == "es") ? "index-es" : "index"
-        let url         = URL(fileURLWithPath: Bundle.main.path(forResource: indexPage, ofType:"html", inDirectory:"PreyTourWeb")!)
-        
-        let controller : UIViewController
-        if #available(iOS 10.0, *) {
-            controller = WebKitVC(withURL:url, withParameters:nil, withTitle:"Prey Tour")
-        } else {
-            controller = WebVC(withURL:url, withParameters:nil, withTitle:"Prey Tour")
-        }
-        self.present(controller, animated:true, completion:nil)
-    }
-    
-    // Close Prey Tour
-    @objc func closePreyTour() {
-        tourImg.removeFromSuperview()
-        tourBtn.removeFromSuperview()
-    }
-    
     // MARK: Keyboard Event Notifications
     
     @objc func handleKeyboardWillShowNotification(_ notification: Notification) {

@@ -23,6 +23,15 @@ class HomeWebVC: GAITrackedViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Check device auth
+        checkDeviceAuth()
+        
+        // Check for Rate us
+        PreyRateUs.sharedInstance.askForReview()
+        
+        // Check new version on App Store
+        PreyConfig.sharedInstance.checkLastVersionOnStore()
+        
         // View title for GAnalytics
         self.screenName = "HomeWeb"
         
@@ -45,6 +54,12 @@ class HomeWebVC: GAITrackedViewController {
         self.navigationController?.isNavigationBarHidden = true
         
         super.viewWillAppear(animated)
+    }
+    
+    // Check device auth
+    func checkDeviceAuth() {
+        //let isAllAuthAvailable  = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
+        //titleLbl.text    = isAllAuthAvailable ? "PROTECTED".localized.uppercased() : "NOT PROTECTED".localized.uppercased()
     }
     
     // Open URL from Safari
