@@ -81,17 +81,13 @@ class DeviceSetUpVC: GAITrackedViewController {
             return
         }
         
-        if let resultController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.home.rawValue) as? HomeVC {
-
-            resultController.hidePasswordInput = true
-            
-            // Set controller to rootViewController
-            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-            
-            let transition:CATransition = CATransition()
-            transition.type             = kCATransitionFade
-            navigationController.view.layer.add(transition, forKey: "")
-            navigationController.setViewControllers([resultController], animated: false)
-        }
+        let resultController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.homeWeb.rawValue)
+        // Set controller to rootViewController
+        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+        
+        let transition:CATransition = CATransition()
+        transition.type             = kCATransitionFade
+        navigationController.view.layer.add(transition, forKey: "")
+        navigationController.setViewControllers([resultController], animated: false)
     }
 }

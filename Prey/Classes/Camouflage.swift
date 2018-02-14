@@ -25,7 +25,7 @@ class Camouflage: PreyAction {
 
         // Reload HomeView
         if UIApplication.shared.applicationState != .background {
-            showHomeView()
+            showHomeView(identifier: StoryboardIdVC.home.rawValue)
         }
         
         // Change icon image
@@ -57,7 +57,7 @@ class Camouflage: PreyAction {
 
         // Reload HomeView
         if UIApplication.shared.applicationState != .background {
-            showHomeView()
+            showHomeView(identifier: StoryboardIdVC.homeWeb.rawValue)
         }
         
         // Change icon image
@@ -80,7 +80,7 @@ class Camouflage: PreyAction {
     }
     
     // Reload HomeView
-    func showHomeView() {
+    func showHomeView(identifier: String) {
         
         // Get SharedApplication delegate
         guard let appWindow = UIApplication.shared.delegate?.window else {
@@ -89,13 +89,11 @@ class Camouflage: PreyAction {
         }
         
         let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
-        
-        if let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.home.rawValue) as? HomeVC {
-            
-            // Set controller to rootViewController
-            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-            navigationController.setViewControllers([resultController], animated: false)
-        }
+        let resultController = mainStoryboard.instantiateViewController(withIdentifier: identifier)
+        // Set controller to rootViewController
+        let rootVC: UINavigationController  = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
+        rootVC.setViewControllers([resultController], animated: false)
+        appWindow?.rootViewController = rootVC
     }
 
 }

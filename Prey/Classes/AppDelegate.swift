@@ -26,10 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PreyModule.sharedInstance.checkActionArrayStatus()
         
         // Relaunch viewController
+        let homeIdentifier                  = (PreyConfig.sharedInstance.isCamouflageMode) ? StoryboardIdVC.home.rawValue : StoryboardIdVC.homeWeb.rawValue
         self.window                         = UIWindow(frame: UIScreen.main.bounds)
         let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         let rootVC: UINavigationController  = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
-        let controller: UIViewController    = (PreyConfig.sharedInstance.isRegistered) ? mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.home.rawValue) :
+        let controller: UIViewController    = (PreyConfig.sharedInstance.isRegistered) ? mainStoryboard.instantiateViewController(withIdentifier: homeIdentifier) :
             mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.welcome.rawValue)
         
         rootVC.pushViewController(controller, animated:false)

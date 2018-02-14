@@ -11,7 +11,7 @@ import UIKit
 
 // Storyboard controllerId
 enum StoryboardIdVC: String {
-    case PreyStoryBoard, alert, navigation, home, welcome, signUp, signIn, deviceSetUp, currentLocation, purchases, settings, grettings
+    case PreyStoryBoard, alert, navigation, home, welcome, signUp, signIn, deviceSetUp, currentLocation, purchases, settings, grettings, homeWeb
 }
 
 // Def type device
