@@ -42,7 +42,7 @@ class HomeWebVC: GAITrackedViewController {
         } else {
             controller = HomeWebiOS7VC()
         }
-        self.present(controller, animated:false, completion:nil)
+        self.navigationController?.pushViewController(controller, animated: false)
     }
     
     override func didReceiveMemoryWarning() {
@@ -69,6 +69,76 @@ class HomeWebVC: GAITrackedViewController {
         }
     }
 
+    // Check password
+    func checkPassword(_ pwd: String?, view: Any) {
+        
+        // Check password length
+        guard let pwdInput = pwd else {
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+        if pwdInput.count < 6 {
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+        
+        // Hide keyboard
+        self.view.endEditing(true)
+        
+        // Show ActivityIndicator
+        let actInd          = UIActivityIndicatorView(initInView: self.view, withText:"Please wait".localized)
+        self.view.addSubview(actInd)
+        actInd.startAnimating()
+        
+        
+        // Get Token for Control Panel
+        PreyUser.getTokenFromPanel(PreyConfig.sharedInstance.userApiKey!, userPassword:pwdInput, onCompletion:{(isSuccess: Bool) in
+            
+            // Hide ActivityIndicator
+            DispatchQueue.main.async {
+                actInd.stopAnimating()
+                
+                // Check sucess request
+                guard isSuccess else {
+                    return
+                }
+                
+                // Show Settings View
+                self.sendEventGAnalytics()
+                
+                guard let appWindow = UIApplication.shared.delegate?.window else {
+                    PreyLogger("error with sharedApplication")
+                    return
+                }
+                guard let rootVC = appWindow?.rootViewController else {
+                    PreyLogger("error with rootVC")
+                    return
+                }
+                
+                let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
+                let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.settings.rawValue)
+                (rootVC as! UINavigationController).pushViewController(resultController, animated: true)
+                
+                // Hide credentials webView
+                self.evaluateJS(view, code:"$('.popover').removeClass(\"show\");")
+            }
+        })
+    }
+    
+    // Send GAnalytics event
+    func sendEventGAnalytics() {
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            
+            let dimensionValue = PreyConfig.sharedInstance.isPro ? "Pro" : "Free"
+            tracker.set(GAIFields.customDimension(for: 1), value:dimensionValue)
+            
+            let params:NSObject = GAIDictionaryBuilder.createEvent(withCategory: "UserActivity", action:"Log In", label:"Log In", value:nil).build()
+            tracker.send(params as! [NSObject : AnyObject])
+        }
+    }
+    
     // MARK: ViewsDelegate
     
     func startWebView() {
@@ -110,9 +180,10 @@ class HomeWebVC: GAITrackedViewController {
             }
         }
         
-        // Check scheme for PreyTourWeb
-        if mainRequest.url?.scheme == "closewebview" {
-            return false
+        // Check scheme for Settings View
+        if mainRequest.url?.scheme == "iossettings" {
+            checkPassword(mainRequest.url?.host, view:view)
+            return true
         }
         return true
     }

@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let controller: UIViewController    = (PreyConfig.sharedInstance.isRegistered) ? mainStoryboard.instantiateViewController(withIdentifier: homeIdentifier) :
             mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.welcome.rawValue)
         
-        rootVC.pushViewController(controller, animated:false)
+        rootVC.setViewControllers([controller], animated: false)
         
         self.window?.rootViewController = rootVC
         self.window?.makeKeyAndVisible()
@@ -104,7 +104,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PreyLogger("Prey is in background")
         if PreyConfig.sharedInstance.isRegistered {
             for view:UIView in (window?.subviews)! {
-                view.removeFromSuperview()
+                if view.tag != 1985 {
+                    view.removeFromSuperview()
+                }
             }
         }
         // Hide keyboard

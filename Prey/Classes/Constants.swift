@@ -86,8 +86,16 @@ public func displayErrorAlert(_ alertMessage: String, titleMessage:String) {
                 PreyLogger("error with sharedApplication")
                 return
             }
-            appWindow?.rootViewController!.present(alertController, animated:true, completion:nil)
+            guard let rootVC = appWindow?.rootViewController else {
+                PreyLogger("error with rootVC")
+                return
+            }
             
+            if let presentedVC = rootVC.presentedViewController {
+                presentedVC.present(alertController, animated:true, completion:nil)
+            } else {
+                rootVC.present(alertController, animated:true, completion:nil)
+            }
         } else {
             let alert       = UIAlertView()
             alert.title     = titleMessage
