@@ -67,6 +67,9 @@ extension UIDevice {
         case "iPad7,1","iPad7,2","iPad7,3","iPad7,4":
             modelName = "Apple A10X"
 
+        case "iPhone10,1","iPhone10,2","iPhone10,3","iPhone10,4","iPhone10,5","iPhone10,6":
+            modelName = "Apple A11"
+
         default:
             modelName = "Apple"
         }
@@ -115,6 +118,9 @@ extension UIDevice {
             
         case "Apple A10X":
             cpuSpeedMhz = "2380"
+
+        case "Apple A11":
+            cpuSpeedMhz = "2390"
             
         default:
             cpuSpeedMhz = "0"
@@ -146,7 +152,7 @@ extension UIDevice {
         case "Apple A10":
             cores = "4"
             
-        case "Apple A10X":
+        case "Apple A10X","Apple A11":
             cores = "6"
             
         default:
@@ -184,6 +190,9 @@ extension UIDevice {
         case "iPhone8,4":                               modelName = "iPhone SE"
         case "iPhone9,1", "iPhone9,3":                  modelName = "iPhone 7"
         case "iPhone9,2", "iPhone9,4":                  modelName = "iPhone 7 Plus"
+        case "iPhone10,1", "iPhone10,4":                modelName = "iPhone 8"
+        case "iPhone10,2", "iPhone10,5":                modelName = "iPhone 8 Plus"
+        case "iPhone10,3", "iPhone10,6":                modelName = "iPhone X"
             
         case "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4":modelName = "iPad 2"
         case "iPad3,1", "iPad3,2", "iPad3,3":           modelName = "iPad 3"
@@ -238,12 +247,12 @@ extension UIDevice {
             deviceRamSize = "1024"
         
         case "iPad5,3","iPad5,4","iPad5,1","iPad5,2","iPad6,3","iPad6,11","iPad6,12","iPad6,4","iPhone8,1","iPhone8,2","iPhone8,4","iPhone9,1",
-             "iPhone9,3":
+             "iPhone9,3","iPhone10,1","iPhone10,4":
             deviceRamSize = "2048"
         
-        case "iPhone9,2","iPhone9,4":
+        case "iPhone9,2","iPhone9,4","iPhone10,2","iPhone10,5","iPhone10,3","iPhone10,6":
             deviceRamSize = "3072"
-        
+
         case "iPad6,7","iPad6,8","iPad7,1","iPad7,2","iPad7,3","iPad7,4":
             deviceRamSize = "4096"
             
