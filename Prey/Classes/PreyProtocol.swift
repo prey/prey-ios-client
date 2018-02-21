@@ -86,6 +86,9 @@ public let devicesEndpoint          : String = "/devices.json"
 // Endpoint for Subscriptions Receipt
 public let subscriptionEndpoint     : String = "/subscriptions/receipt"
 
+// Endpoint for Device Status
+public let statusDeviceEndpoint    : String = String(format:"/devices/%@/status.json",(PreyConfig.sharedInstance.getDeviceKey()))
+
 // Endpoint for Device Location Aware
 public let locationAwareEndpoint    : String = String(format:"/devices/%@/location.json",(PreyConfig.sharedInstance.getDeviceKey()))
 

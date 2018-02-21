@@ -10,7 +10,7 @@ import Foundation
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, geofenceZones, dataSend
+    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, geofenceZones, dataSend, statusDevice
 }
 
 class PreyHTTPResponse {
@@ -71,6 +71,9 @@ class PreyHTTPResponse {
 
         case .dataSend:
             checkDataSend(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
+
+        case .statusDevice:
+            checkStatusDevice(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
         }
 
         onCompletion(isResponseSuccess)
@@ -375,15 +378,55 @@ class PreyHTTPResponse {
             return
         }
         
-        // FIXME: check response panel to stop location aware
-        if statusCode == 201 && action == nil {
-            GeofencingManager.sharedInstance.stopLocationAwareManager()
+        // Check response panel to stop location aware
+        if statusCode == 201 {
+            if action == nil || action is Location {
+                GeofencingManager.sharedInstance.stopLocationAwareManager()
+            }
         }
         
         PreyLogger("Data send: OK")
 
         if let preyAction = action {
             PreyModule.sharedInstance.checkStatus(preyAction)
+        }
+    }
+    
+    // Check Status Devices response
+    class func checkStatusDevice(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
+        
+        guard isSuccess else {
+            // Check error with URLSession request
+            guard error == nil else {
+                PreyConfig.sharedInstance.reportError(error)
+                PreyLogger("Error: \(String(describing: error))")
+                return
+            }
+            PreyConfig.sharedInstance.reportError("StatusDevice", statusCode: statusCode, errorDescription: "StatusDevice error")
+            PreyLogger("Failed check status device")
+            return
+        }
+        
+        do {
+            guard let dataResponse = data else {
+                return
+            }
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+                        
+            guard let dict = jsonObject as? [String: Any] else {return}
+            guard let settings = dict["settings"] as? [String: Any] else {return}
+            guard let localSettings = settings["local"] as? [String: Any] else {return}
+            guard let isActiveLocationAware = localSettings["location_aware"] as? Bool else {return}
+
+            if isActiveLocationAware == true {
+                // Active location aware action
+                let locationAction:Location = Location(withTarget:kAction.location, withCommand:kCommand.start_location_aware, withOptions:nil)
+                PreyModule.sharedInstance.actionArray.append(locationAction)
+                PreyModule.sharedInstance.runAction()
+            }
+        } catch let error {
+            PreyConfig.sharedInstance.reportError(error)
+            PreyLogger("json error: \(error.localizedDescription)")
         }
     }
 }

@@ -75,6 +75,11 @@ class DeviceSetUpVC: GAITrackedViewController {
     // Ok pressed
     @IBAction func showHomeView(_ sender: UIButton) {
         
+        // Check location aware action on device status
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:statusDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.statusDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request check status") }))
+        }
+    
         // Get SharedApplication delegate
         guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
