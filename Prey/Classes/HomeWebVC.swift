@@ -13,7 +13,8 @@ import WebKit
 class HomeWebVC: GAITrackedViewController {
 
     // MARK: Properties
-
+    
+    var checkAuth   = true
     var actInd      = UIActivityIndicatorView()
     let rectView    = UIScreen.main.bounds
     let request     = URLRequest(url:URL(fileURLWithPath: Bundle.main.path(forResource: "index", ofType:"html", inDirectory:"PreyInfo")!))
@@ -22,9 +23,6 @@ class HomeWebVC: GAITrackedViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Check device auth
-        checkDeviceAuth()
         
         // Check for Rate us
         PreyRateUs.sharedInstance.askForReview()
@@ -36,7 +34,7 @@ class HomeWebVC: GAITrackedViewController {
         self.screenName = "HomeWeb"
         
         // Init VC
-        let controller  : UIViewController
+        let controller  : HomeWebVC
         if #available(iOS 8.0, *) {
             controller = HomeWebiOS8VC()
         } else {
@@ -57,9 +55,14 @@ class HomeWebVC: GAITrackedViewController {
     }
     
     // Check device auth
-    func checkDeviceAuth() {
-        //let isAllAuthAvailable  = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
-        //titleLbl.text    = isAllAuthAvailable ? "PROTECTED".localized.uppercased() : "NOT PROTECTED".localized.uppercased()
+    func checkDeviceAuth(view: Any) {
+        guard checkAuth == true else {
+            return
+        }
+        let isAllAuthAvailable  = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
+        let titleTxt            = isAllAuthAvailable ? "protected" : "unprotected"
+        evaluateJS(view, code:"document.getElementById('wrap').className = '\(titleTxt)';")
+        checkAuth = false
     }
     
     // Open URL from Safari
@@ -185,6 +188,11 @@ class HomeWebVC: GAITrackedViewController {
             checkPassword(mainRequest.url?.host, view:view)
             return true
         }
+        // Check scheme for AuthDevice
+        if mainRequest.url?.scheme == "ioscheckauth" {
+            _ = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
+            return true
+        }
         return true
     }
     
@@ -204,6 +212,10 @@ class HomeWebVC: GAITrackedViewController {
         
         // Hide print option
         evaluateJS(view, code:"var printBtn = document.getElementById('print'); printBtn.style.display='none';")
+        
+        
+        // Check device auth
+        checkDeviceAuth(view:view)
     }
     
     func failWebView() {
