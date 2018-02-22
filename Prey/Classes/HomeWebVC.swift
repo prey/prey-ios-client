@@ -13,11 +13,17 @@ import WebKit
 class HomeWebVC: GAITrackedViewController {
 
     // MARK: Properties
-    
+
     var checkAuth   = true
     var actInd      = UIActivityIndicatorView()
     let rectView    = UIScreen.main.bounds
-    let request     = URLRequest(url:URL(fileURLWithPath: Bundle.main.path(forResource: "index", ofType:"html", inDirectory:"PreyInfo")!))
+    var request     : URLRequest {
+        // Set language for webView
+        let language:String = Locale.preferredLanguages[0] as String
+        let languageES  = (language as NSString).substring(to: 2)
+        let indexPage   = (languageES == "es") ? "index-es" : "index"
+        return URLRequest(url:URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"PreyInfo")!))
+    }
 
     // MARK: Init
     
