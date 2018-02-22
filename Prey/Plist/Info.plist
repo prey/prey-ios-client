@@ -56,6 +56,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Prey needs access to your camera to take pictures when you request it.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Prey needs access to your camera to take pictures when you request it.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Prey needs your location to find your device through your account when you request it.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
