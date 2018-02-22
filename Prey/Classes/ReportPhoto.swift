@@ -143,6 +143,11 @@ class ReportPhoto: NSObject {
                             self.delegate?.photoReceived(self.photoArray)
                             return
                         }
+                        guard videoConnection.isActive else {
+                            // Error: return to delegate
+                            self.delegate?.photoReceived(self.photoArray)
+                            return
+                        }
                         // Check current state
                         guard self.stillImageOutput.isCapturingStillImage == false else {
                             // Error: return to delegate
@@ -303,6 +308,11 @@ class ReportPhoto: NSObject {
                 // Capture a still image
                 if let videoConnection = self.stillImageOutput.connection(with: AVMediaType.video) {
                     guard videoConnection.isEnabled else {
+                        // Error: return to delegate
+                        self.delegate?.photoReceived(self.photoArray)
+                        return
+                    }
+                    guard videoConnection.isActive else {
                         // Error: return to delegate
                         self.delegate?.photoReceived(self.photoArray)
                         return
