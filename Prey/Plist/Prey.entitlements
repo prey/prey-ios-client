@@ -6,6 +6,10 @@
 	<string>$(AppIdentifierPrefix)$(CFBundleIdentifier)</string>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:prey.onelink.me</string>
+	</array>
 	<key>get-task-allow</key>
 	<false/>
 	<key>keychain-access-groups</key>

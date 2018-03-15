@@ -185,5 +185,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
         PreyLogger("Local notification received")
         PreyNotification.sharedInstance.checkLocalNotification(application, localNotification:notification)
     }
+    
+    // MARK: AppsFlyer Delegate Deep Linking
+    
+    // Reports app open from a Universal Link for iOS 9 or later
+    @available(iOS 8.0, *)
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        if #available(iOS 9.0, *) {
+            AppsFlyerTracker.shared().continue(userActivity, restorationHandler: restorationHandler)
+        }
+        return true
+    }
+    
+    // Reports app open from deep link from apps which do not support Universal Links (Twitter) and for iOS8 and below
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        AppsFlyerTracker.shared().handleOpen(url, sourceApplication: sourceApplication, withAnnotation: annotation)
+        return true
+    }
+    
+    // Reports app open from deep link for iOS 10 or later
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        AppsFlyerTracker.shared().handleOpen(url, options: options)
+        return true
+    }
 }
 
