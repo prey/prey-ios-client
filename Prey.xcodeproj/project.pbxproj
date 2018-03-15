@@ -14,6 +14,9 @@
 		3B2445F71D245478005DF09C /* Camouflage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F61D245478005DF09C /* Camouflage.swift */; };
 		3B2445F91D2466CD005DF09C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F81D2466CD005DF09C /* Alert.swift */; };
 		3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445FA1D24717B005DF09C /* AlertVC.swift */; };
+		3B2A76B9205AB5C5008912BC /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2A76B8205AB5C4008912BC /* libAppsFlyerLib.a */; };
+		3B2A76BC205AB5EA008912BC /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2A76BA205AB5EA008912BC /* iAd.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3B2A76BD205AB5EA008912BC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2A76BB205AB5EA008912BC /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */; };
 		3B3611701EE75470006BA074 /* Icon2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B36116E1EE75470006BA074 /* Icon2@2x.png */; };
 		3B3611711EE75470006BA074 /* Icon2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B36116F1EE75470006BA074 /* Icon2@3x.png */; };
@@ -140,6 +143,13 @@
 		3B2445F61D245478005DF09C /* Camouflage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camouflage.swift; path = Classes/Camouflage.swift; sourceTree = "<group>"; };
 		3B2445F81D2466CD005DF09C /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alert.swift; path = Classes/Alert.swift; sourceTree = "<group>"; };
 		3B2445FA1D24717B005DF09C /* AlertVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertVC.swift; path = Classes/AlertVC.swift; sourceTree = "<group>"; };
+		3B2A76B7205AB5C4008912BC /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
+		3B2A76B8205AB5C4008912BC /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
+		3B2A76BA205AB5EA008912BC /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		3B2A76BB205AB5EA008912BC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		3B2A76BE205AB90B008912BC /* AppsFlyerCrossPromotionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerCrossPromotionHelper.h; sourceTree = "<group>"; };
+		3B2A76BF205AB90B008912BC /* AppsFlyerShareInviteHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerShareInviteHelper.h; sourceTree = "<group>"; };
+		3B2A76C0205AB90C008912BC /* AppsFlyerLinkGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerLinkGenerator.h; sourceTree = "<group>"; };
 		3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyStoreProduct.swift; path = Classes/PreyStoreProduct.swift; sourceTree = "<group>"; };
 		3B36116E1EE75470006BA074 /* Icon2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon2@2x.png"; sourceTree = "<group>"; };
 		3B36116F1EE75470006BA074 /* Icon2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon2@3x.png"; sourceTree = "<group>"; };
@@ -252,8 +262,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B2A76BC205AB5EA008912BC /* iAd.framework in Frameworks */,
+				3B2A76BD205AB5EA008912BC /* AdSupport.framework in Frameworks */,
 				3B40AB6B1DB90B57003045C1 /* WebKit.framework in Frameworks */,
 				3B4591DD1DAE797E00AD7B93 /* Fabric.framework in Frameworks */,
+				3B2A76B9205AB5C5008912BC /* libAppsFlyerLib.a in Frameworks */,
 				3BB6E21A1D47AEA100074E97 /* libsqlite3.tbd in Frameworks */,
 				3BB6E21B1D47AEA100074E97 /* libz.tbd in Frameworks */,
 				3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */,
@@ -281,6 +294,18 @@
 				3B1C2D411D79CB7B00D8E7DF /* Fabric.framework */,
 			);
 			path = Fabric;
+			sourceTree = "<group>";
+		};
+		3B2A76B6205AB5C4008912BC /* AppsFlyer */ = {
+			isa = PBXGroup;
+			children = (
+				3B2A76BE205AB90B008912BC /* AppsFlyerCrossPromotionHelper.h */,
+				3B2A76C0205AB90C008912BC /* AppsFlyerLinkGenerator.h */,
+				3B2A76BF205AB90B008912BC /* AppsFlyerShareInviteHelper.h */,
+				3B2A76B7205AB5C4008912BC /* AppsFlyerTracker.h */,
+				3B2A76B8205AB5C4008912BC /* libAppsFlyerLib.a */,
+			);
+			path = AppsFlyer;
 			sourceTree = "<group>";
 		};
 		3B36116D1EE75470006BA074 /* Resources */ = {
@@ -515,6 +540,8 @@
 		3BB6E2211D47CBD800074E97 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3B2A76BB205AB5EA008912BC /* AdSupport.framework */,
+				3B2A76BA205AB5EA008912BC /* iAd.framework */,
 				3B40AB6A1DB90B57003045C1 /* WebKit.framework */,
 				3BB6E21E1D47CACD00074E97 /* MapKit.framework */,
 				3BB6E21C1D47CAC500074E97 /* StoreKit.framework */,
@@ -547,6 +574,7 @@
 		3BEFEB621DBD2391003143E8 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				3B2A76B6205AB5C4008912BC /* AppsFlyer */,
 				3B86297C1EF03CB400BE92D4 /* Swifter */,
 				3B1C2D3F1D79CB7B00D8E7DF /* Fabric */,
 				3BA7218F1D46B7040043C9B9 /* GoogleAnalytics */,
@@ -964,6 +992,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prey/GoogleAnalytics",
+					"$(PROJECT_DIR)/Prey/AppsFlyer",
 				);
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
@@ -994,6 +1023,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Prey/GoogleAnalytics",
+					"$(PROJECT_DIR)/Prey/AppsFlyer",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
