@@ -91,6 +91,9 @@ class PurchasesVC: GAITrackedViewController {
                 DispatchQueue.main.async {
                     actInd.stopAnimating()
                     
+                    // Send event to AppsFlyer
+                    AppsFlyerTracker.shared().trackEvent(AFEventPurchase, withValues: [AFEventParamCurrency : "USD", AFEventParamRevenue: 54.99 ])
+                    
                     // Update isPro in PreyConfig
                     PreyConfig.sharedInstance.isPro = true
                     PreyConfig.sharedInstance.saveValues()
