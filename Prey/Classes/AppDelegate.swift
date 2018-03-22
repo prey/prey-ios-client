@@ -111,15 +111,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         PreyLogger("Prey is in background")
+        // Hide keyboard
+        window?.endEditing(true)
+        
         if PreyConfig.sharedInstance.isRegistered {
+            // Check if viewController is HomeWebVC
+            if let rootVC = window?.rootViewController as? UINavigationController {
+                if let controller = rootVC.topViewController {
+                    if controller is HomeWebVC {
+                        return
+                    }
+                }
+            }
             for view:UIView in (window?.subviews)! {
                 if view.tag != 1985 {
                     view.removeFromSuperview()
                 }
             }
         }
-        // Hide keyboard
-        window?.endEditing(true)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
