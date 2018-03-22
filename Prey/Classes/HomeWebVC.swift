@@ -191,7 +191,9 @@ class HomeWebVC: GAITrackedViewController {
         
         // Check scheme for Settings View
         if mainRequest.url?.scheme == "iossettings" {
-            checkPassword(mainRequest.url?.host, view:view)
+            DispatchQueue.main.async {
+                self.checkPassword(mainRequest.url?.host, view:view)
+            }
             return true
         }
         // Check scheme for AuthDevice
