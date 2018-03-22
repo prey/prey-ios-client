@@ -25,7 +25,8 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
 
         let url = URL(string: urlServer)
         var urlRequest = URLRequest(url: url!)
-
+        urlRequest.timeoutInterval = timeoutIntervalRequest
+        
         let params : [String:Any] = [
             "auth_token"        : tokenApi,
             "account_id"        : accountId,

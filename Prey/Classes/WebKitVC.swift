@@ -42,7 +42,8 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
         webView.isMultipleTouchEnabled  = true
         webView.allowsBackForwardNavigationGestures = true
         
-        let request                     = URLRequest(url:url)
+        var request                     = URLRequest(url:url)
+        request.timeoutInterval         = timeoutIntervalRequest
         
         // Set params to request
         if let params = withParameters {
@@ -105,6 +106,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
             }
             panelRequest.addValue("Mozilla/5.0", forHTTPHeaderField: "User-Agent")
             panelRequest.setValue(cookiePanel, forHTTPHeaderField: "Cookie")
+            panelRequest.timeoutInterval = timeoutIntervalRequest
             
             DispatchQueue.main.async {
                 self.webView.load(panelRequest)

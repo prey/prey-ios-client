@@ -382,7 +382,8 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
             return
         }
         let controller          = UIViewController()
-        let request             = URLRequest(url:urlString)
+        var request             = URLRequest(url:urlString)
+        request.timeoutInterval = timeoutIntervalRequest
 
         if #available(iOS 10.0, *) {
             let webConfiguration            = WKWebViewConfiguration()

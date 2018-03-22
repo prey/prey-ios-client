@@ -87,6 +87,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             return
         }
         var request  = URLRequest(url:requestURL)
+        request.timeoutInterval = timeoutIntervalRequest
 
         // HTTP Header boundary
         let boundary = String(format: "prey.boundary-%08x%08x", arc4random(), arc4random())
@@ -154,6 +155,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         }
 
         var request = URLRequest(url:requestURL)
+        request.timeoutInterval = timeoutIntervalRequest
         
         // Set params
         if let parameters = params {

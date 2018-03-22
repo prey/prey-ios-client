@@ -26,6 +26,9 @@ public let reloadConnection: Int = 5
 // Delay for Reload connection
 public let delayTime: Double = 2
 
+// TimeoutInterval for URLRequest
+public let timeoutIntervalRequest: Double = 300.0
+
 // Email RegExp
 public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b"
 

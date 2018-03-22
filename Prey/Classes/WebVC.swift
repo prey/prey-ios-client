@@ -49,6 +49,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         webView.scalesPageToFit         = true
         
         let request                     = NSMutableURLRequest(url:url)
+        request.timeoutInterval         = timeoutIntervalRequest
         
         // Set params to request
         if let params = withParameters {
