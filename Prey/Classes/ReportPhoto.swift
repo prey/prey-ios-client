@@ -364,12 +364,14 @@ class ReportPhoto: NSObject {
     
     // Observer Key
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        /*
         if let changeValue = change?[.newKey] {
             if ( (context == &CapturingStillImageContext) && ((changeValue as AnyObject).boolValue == true) ) {
                 // Set shutter sound off
                 self.setShutterSoundOff()
             }
         }
+        */
     }
     
     // Return AVCaptureDevice
