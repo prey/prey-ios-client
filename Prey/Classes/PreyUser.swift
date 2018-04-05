@@ -37,13 +37,15 @@ class PreyUser {
     // SignUp to Panel Prey
     class func signUpToPrey(_ userName: String, userEmail: String, userPassword: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
         
-        let params:[String: String] = [
-            "name"                  : userName,
-            "email"                 : userEmail,
-            "country_name"          : getCountryName(),
-            "password"              : userPassword,
-            "password_confirmation" : userPassword,
-            "referer_user_id"       : ""]
+        let params:[String: Any] = [
+            "name"                      : userName,
+            "email"                     : userEmail,
+            "country_name"              : getCountryName(),
+            "password"                  : userPassword,
+            "password_confirmation"     : userPassword,
+            "policy_rule_age"           : true,
+            "policy_rule_privacy_terms" : true,
+            "referer_user_id"           : ""]
         
         PreyHTTPClient.sharedInstance.userRegisterToPrey(userName, password:userPassword, params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.signUp, preyAction:nil, onCompletion:onCompletion))
     }

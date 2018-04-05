@@ -10,6 +10,12 @@ import UIKit
 
 class SignUpVC: UserRegister {
 
+    // MARK: Properties
+    
+    @IBOutlet var checkBtnYearsOld      : UIButton!
+    @IBOutlet var checkTxtYearsOld      : UIButton!
+    @IBOutlet var checkBtnAgreeToS      : UIButton!
+    @IBOutlet var checkTxtAgreeToS      : UIButton!
     
     // MARK: Init
     
@@ -38,6 +44,29 @@ class SignUpVC: UserRegister {
         
         addDeviceButton.setTitle("CREATE MY NEW ACCOUNT".localized, for:.normal)
         changeViewBtn.setTitle("already have an account?".localized, for:.normal)
+        
+        checkBtnYearsOld.setImage(UIImage(named:"CheckOff"), for: .normal)
+        checkBtnYearsOld.setImage(UIImage(named:"CheckOn"), for: .selected)
+        checkBtnAgreeToS.setImage(UIImage(named:"CheckOff"), for: .normal)
+        checkBtnAgreeToS.setImage(UIImage(named:"CheckOn"), for: .selected)
+
+        if let attributedYearsTitle = checkTxtYearsOld.attributedTitle(for: .normal) {
+            let mutableAttributedTitle = NSMutableAttributedString(attributedString: attributedYearsTitle)
+            mutableAttributedTitle.replaceCharacters(in: NSMakeRange(0, mutableAttributedTitle.length), with: "I confirm that I am over 16 years old".localized)
+            checkTxtYearsOld.setAttributedTitle(mutableAttributedTitle, for: .normal)
+        }
+        
+        if let attributedTitle = checkTxtAgreeToS.attributedTitle(for: .normal) {
+            let mutableAttributedTitle = NSMutableAttributedString(attributedString: attributedTitle)
+            mutableAttributedTitle.replaceCharacters(in: NSMakeRange(0, mutableAttributedTitle.length), with: "I agree to the Terms & Conditions".localized)
+            let range = ("I agree to the Terms & Conditions".localized as NSString).range(of: "Terms & Conditions".localized)
+            let txtColor = UIColor(red: 53/255.0, green: 120/255.0, blue: 187/255.0, alpha: 1.0)
+            mutableAttributedTitle.addAttribute(NSAttributedStringKey.foregroundColor, value: txtColor , range: (range))
+            checkTxtAgreeToS.setAttributedTitle(mutableAttributedTitle, for: .normal)
+        }
+        
+        addDeviceButton.isEnabled = false
+        addDeviceButton.alpha = 0.5
     }
     
     // Send GAnalytics event
@@ -51,6 +80,37 @@ class SignUpVC: UserRegister {
     }
     
     // MARK: Actions
+    
+    // Check button touched
+    @IBAction func checkButtonTouched(_ sender: UIButton) {
+        
+        if (sender == checkBtnYearsOld) || (sender == checkTxtYearsOld) {
+            checkBtnYearsOld.isSelected = !checkBtnYearsOld.isSelected
+        }
+
+        if (sender == checkBtnAgreeToS) || (sender == checkTxtAgreeToS) {
+            checkBtnAgreeToS.isSelected = !checkBtnAgreeToS.isSelected
+        }
+
+        if (checkBtnYearsOld.isSelected) && (checkBtnAgreeToS.isSelected) {
+            addDeviceButton.isEnabled = true
+            addDeviceButton.alpha = 1.0
+        } else {
+            addDeviceButton.isEnabled = false
+            addDeviceButton.alpha = 0.5
+        }
+    }
+
+    //
+    @IBAction func showTermOfService(_ sender: UIButton) {
+        let controller : UIViewController
+        if #available(iOS 10.0, *) {
+            controller       = WebKitVC(withURL:URL(string:URLTermsPrey)!, withParameters:nil, withTitle:"Terms of Service".localized)
+        } else {
+            controller       = WebVC(withURL:URL(string:URLTermsPrey)!, withParameters:nil, withTitle:"Terms of Service".localized)
+        }
+        self.present(controller, animated:true, completion:nil)
+    }
     
     // Show SignIn view
     @IBAction func showSignInVC(_ sender: UIButton) {
@@ -77,6 +137,14 @@ class SignUpVC: UserRegister {
     // Add device action
     @IBAction override func addDeviceAction(_ sender: UIButton?) {
 
+        // Check terms and conditions
+        if (!checkBtnYearsOld.isSelected) || (!checkBtnAgreeToS.isSelected) {
+            displayErrorAlert("You must accept the Terms & Conditions".localized,
+                              titleMessage:"We have a situation!".localized,
+                              returnToTextField: nameTextField)
+            return
+        }
+        
         // Check name length
         if nameTextField.text!.count < 1 {
             displayErrorAlert("Name can't be blank".localized,
