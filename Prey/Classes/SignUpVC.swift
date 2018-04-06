@@ -58,9 +58,11 @@ class SignUpVC: UserRegister {
         
         if let attributedTitle = checkTxtAgreeToS.attributedTitle(for: .normal) {
             let mutableAttributedTitle = NSMutableAttributedString(attributedString: attributedTitle)
-            mutableAttributedTitle.replaceCharacters(in: NSMakeRange(0, mutableAttributedTitle.length), with: "I agree to the Terms & Conditions".localized)
-            let range = ("I agree to the Terms & Conditions".localized as NSString).range(of: "Terms & Conditions".localized)
+            mutableAttributedTitle.replaceCharacters(in: NSMakeRange(0, mutableAttributedTitle.length), with: "I have read and agree to the Terms and Conditions and Privacy Policy".localized)
+            var range = ("I have read and agree to the Terms and Conditions and Privacy Policy".localized as NSString).range(of: "Terms and Conditions".localized)
             let txtColor = UIColor(red: 53/255.0, green: 120/255.0, blue: 187/255.0, alpha: 1.0)
+            mutableAttributedTitle.addAttribute(NSAttributedStringKey.foregroundColor, value: txtColor , range: (range))
+            range = ("I have read and agree to the Terms and Conditions and Privacy Policy".localized as NSString).range(of: "Privacy Policy".localized)
             mutableAttributedTitle.addAttribute(NSAttributedStringKey.foregroundColor, value: txtColor , range: (range))
             checkTxtAgreeToS.setAttributedTitle(mutableAttributedTitle, for: .normal)
         }
