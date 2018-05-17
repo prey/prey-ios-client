@@ -107,7 +107,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         PreyLogger("Start load web")
         
         // Show ActivityIndicator
-        actInd.startAnimating()
+        DispatchQueue.main.async { self.actInd.startAnimating() }
     }
     
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
@@ -151,7 +151,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         PreyLogger("Finish load web")
         
         // Hide ActivityIndicator
-        actInd.stopAnimating()
+        DispatchQueue.main.async { self.actInd.stopAnimating() }
         
         // Hide ViewMap class
         webView.stringByEvaluatingJavaScript(from: "var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border')[1]; viewMapBtn.style.display='none';")
@@ -170,7 +170,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         PreyLogger("Error loading web")
         
         // Hide ActivityIndicator
-        actInd.stopAnimating()
+        DispatchQueue.main.async { self.actInd.stopAnimating() }
         
         displayErrorAlert("Error loading web, please try again.".localized,
                           titleMessage:"We have a situation!".localized)

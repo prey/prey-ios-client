@@ -436,11 +436,13 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         PreyLogger("Start load WKWebView")
         
-        // Show ActivityIndicator
-        if actInd == nil {
-            actInd          = UIActivityIndicatorView(initInView: webView, withText:"Please wait".localized)
-            webView.addSubview(actInd)
-            actInd.startAnimating()
+        DispatchQueue.main.async {
+            // Show ActivityIndicator
+            if self.actInd == nil {
+                self.actInd          = UIActivityIndicatorView(initInView: webView, withText:"Please wait".localized)
+                webView.addSubview(self.actInd)
+                self.actInd.startAnimating()
+            }
         }
     }
     @available(iOS 8.0, *)
@@ -453,14 +455,14 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         PreyLogger("Finish load WKWebView")
         
         // Hide ActivityIndicator
-        actInd.stopAnimating()
+        DispatchQueue.main.async { self.actInd.stopAnimating() }
     }
     @available(iOS 8.0, *)
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         PreyLogger("Error loading WKWebView")
         
         // Hide ActivityIndicator
-        actInd.stopAnimating()
+        DispatchQueue.main.async { self.actInd.stopAnimating() }
         
         displayErrorAlert("Error loading web, please try again.".localized,
                           titleMessage:"We have a situation!".localized)
@@ -472,11 +474,13 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     func webViewDidStartLoad(_ webView: UIWebView) {
         PreyLogger("Start load web")
         
-        // Show ActivityIndicator
-        if actInd == nil {
-            actInd          = UIActivityIndicatorView(initInView: webView, withText:"Please wait".localized)
-            webView.addSubview(actInd)
-            actInd.startAnimating()
+        DispatchQueue.main.async {
+            // Show ActivityIndicator
+            if self.actInd == nil {
+                self.actInd          = UIActivityIndicatorView(initInView: webView, withText:"Please wait".localized)
+                webView.addSubview(self.actInd)
+                self.actInd.startAnimating()
+            }
         }
     }
     
@@ -489,14 +493,14 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         PreyLogger("Finish load web")
         
         // Hide ActivityIndicator
-        actInd.stopAnimating()
+        DispatchQueue.main.async { self.actInd.stopAnimating() }
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         PreyLogger("Error loading web")
         
         // Hide ActivityIndicator
-        actInd.stopAnimating()
+        DispatchQueue.main.async { self.actInd.stopAnimating() }
         
         displayErrorAlert("Error loading web, please try again.".localized,
                           titleMessage:"We have a situation!".localized)

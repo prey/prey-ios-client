@@ -153,7 +153,7 @@ class HomeWebVC: GAITrackedViewController {
     func startWebView() {
         PreyLogger("Start load WKWebView")
         // Show ActivityIndicator
-        actInd.startAnimating()
+        DispatchQueue.main.async { self.actInd.startAnimating() }
     }
     
     func checkWebView(_ view: Any, mainRequest: URLRequest) -> Bool {
@@ -207,7 +207,7 @@ class HomeWebVC: GAITrackedViewController {
     func finishWebView(_ view: Any) {
         PreyLogger("Finish load WKWebView")
         // Hide ActivityIndicator
-        actInd.stopAnimating()
+        DispatchQueue.main.async { self.actInd.stopAnimating() }
                 
         // Hide ViewMap class
         evaluateJS(view, code:"var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border')[1]; viewMapBtn.style.display='none';")
@@ -229,16 +229,18 @@ class HomeWebVC: GAITrackedViewController {
     func failWebView() {
         PreyLogger("Error loading WKWebView")
         // Hide ActivityIndicator
-        actInd.stopAnimating()
+        DispatchQueue.main.async { self.actInd.stopAnimating() }
         displayErrorAlert("Error loading web, please try again.".localized,
                           titleMessage:"We have a situation!".localized)
     }
     
     func evaluateJS(_ view: Any, code: String) {
-        if #available(iOS 8.0, *) {
-            (view as! WKWebView).evaluateJavaScript(code, completionHandler:nil)
-        } else {
-            (view as! UIWebView).stringByEvaluatingJavaScript(from: code)
+        DispatchQueue.main.async {
+            if #available(iOS 8.0, *) {
+                (view as! WKWebView).evaluateJavaScript(code, completionHandler:nil)
+            } else {
+                (view as! UIWebView).stringByEvaluatingJavaScript(from: code)
+            }
         }
     }
 }

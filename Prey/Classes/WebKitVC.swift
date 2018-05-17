@@ -86,7 +86,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
             guard error == nil else {
                 PreyLogger("Error loading WKWebView")
                 // Hide ActivityIndicator
-                self.actInd.stopAnimating()
+                DispatchQueue.main.async { self.actInd.stopAnimating() }
                 displayErrorAlert("Error loading web, please try again.".localized,
                                   titleMessage:"We have a situation!".localized)
                 return
@@ -146,7 +146,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
         PreyLogger("Start load WKWebView")
         
         // Show ActivityIndicator
-        actInd.startAnimating()
+        DispatchQueue.main.async { self.actInd.startAnimating() }
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -196,7 +196,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
         PreyLogger("Finish load WKWebView")
         
         // Hide ActivityIndicator
-        actInd.stopAnimating()
+        DispatchQueue.main.async { self.actInd.stopAnimating() }
 
         // Hide ViewMap class
         webView.evaluateJavaScript("var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border')[1]; viewMapBtn.style.display='none';", completionHandler:nil)
@@ -215,7 +215,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
         PreyLogger("Error loading WKWebView")
         
         // Hide ActivityIndicator
-        actInd.stopAnimating()
+        DispatchQueue.main.async { self.actInd.stopAnimating() }
         
         displayErrorAlert("Error loading web, please try again.".localized,
                           titleMessage:"We have a situation!".localized)
