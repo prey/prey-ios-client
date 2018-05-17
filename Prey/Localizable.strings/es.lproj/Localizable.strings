@@ -105,9 +105,9 @@
 
 "Choose a password of at least 6 characters" = "Contraseña debe ser mínimo de 6 caracteres";
 
-"Congratulations!" = "Felicitaciones!";
+"Congratulations!" = "¡Felicitaciones!";
 
-"Congratulations! You have successfully associated this iOS device with your Prey account." = "¡Felicitaciones! Tu dispositivo ha sido registrado bajo tu cuenta Prey. Desde ahora puedes monitorearlo remotamente desde preyproject.com.\nDescansa tranquilo!";
+"Congratulations! You have successfully associated this iOS device with your Prey account." = "¡Felicitaciones! ¡Tu dispositivo ha sido registrado bajo tu cuenta Prey. Desde ahora puedes monitorearlo remotamente desde preyproject.com.\nDescansa tranquilo!";
 
 "Couldn't add your device" = "No pudimos agregar tu dispositivo.";
 
@@ -211,7 +211,7 @@
 
 "Try Again" = "Volver a intentar";
 
-"Device set up!" = "Dispositivo configurado!";
+"Device set up!" = "¡Dispositivo configurado!";
 
 "Manage Prey settings" = "Configurar las opciones de Prey";
 

@@ -37,6 +37,9 @@ class PreyUser {
     // SignUp to Panel Prey
     class func signUpToPrey(_ userName: String, userEmail: String, userPassword: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
         
+        let language:String = Locale.preferredLanguages[0] as String
+        let languageES  = (language as NSString).substring(to: 2)
+        
         let params:[String: Any] = [
             "name"                      : userName,
             "email"                     : userEmail,
@@ -45,7 +48,8 @@ class PreyUser {
             "password_confirmation"     : userPassword,
             "policy_rule_age"           : true,
             "policy_rule_privacy_terms" : true,
-            "referer_user_id"           : ""]
+            "referer_user_id"           : "",
+            "lang"                      : languageES]
         
         PreyHTTPClient.sharedInstance.userRegisterToPrey(userName, password:userPassword, params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.signUp, preyAction:nil, onCompletion:onCompletion))
     }
@@ -59,6 +63,10 @@ class PreyUser {
     // LogIn to Panel Prey
     class func logInToPrey(_ userEmail: String, userPassword: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
         
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:logInEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.logIn, preyAction:nil, onCompletion:onCompletion))
+        let language:String = Locale.preferredLanguages[0] as String
+        let languageES  = (language as NSString).substring(to: 2)
+        let langEndpoint = logInEndpoint + "?lang=" + languageES
+        
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:langEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.logIn, preyAction:nil, onCompletion:onCompletion))
     }
 }

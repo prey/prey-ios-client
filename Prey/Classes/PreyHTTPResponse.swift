@@ -83,7 +83,7 @@ class PreyHTTPResponse {
     class func checkToken(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
         
         guard isSuccess else {
-            showErrorLogIn(error, statusCode:statusCode)
+            showErrorLogIn(error, statusCode:statusCode, data:data)
             return
         }
         
@@ -107,7 +107,7 @@ class PreyHTTPResponse {
     class func checkLogIn(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
         
         guard isSuccess else {
-            showErrorLogIn(error, statusCode:statusCode)
+            showErrorLogIn(error, statusCode:statusCode, data:data)
             return
         }
         
@@ -134,7 +134,30 @@ class PreyHTTPResponse {
         }
     }
     
-    class func showErrorLogIn(_ error:Error?, statusCode:Int?) {
+    class func getErrorFromData(data:Data?) -> String {
+        var errorFromServer = "Error"
+        do {
+            guard let dataResponse = data else {
+                return errorFromServer
+            }
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+            
+            for (_, value) in jsonObject {
+                guard let errorArray = value as? Array<Any> else {
+                    return errorFromServer
+                }
+                if let errorMsg = errorArray[0] as? String {
+                    errorFromServer = errorMsg
+                }
+                break
+            }
+        } catch let error {
+            PreyConfig.sharedInstance.reportError(error)
+        }
+        return errorFromServer
+    }
+    
+    class func showErrorLogIn(_ error:Error?, statusCode:Int?, data:Data?) {
         // Check error with URLSession request
         guard error == nil else {
             PreyConfig.sharedInstance.reportError(error)
@@ -143,12 +166,12 @@ class PreyHTTPResponse {
             return
         }
         
-        let alertMessage: String
+        var alertMessage: String = "Error"
         
         if statusCode == 401 {
-            alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
+            alertMessage = getErrorFromData(data:data)
+            //alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
         } else {
-            alertMessage = "Error"
             PreyConfig.sharedInstance.reportError("LogIn", statusCode: statusCode, errorDescription: "LogIn error")
         }
         
@@ -166,7 +189,8 @@ class PreyHTTPResponse {
                 displayErrorAlert(alertMessage!.localized, titleMessage:"User couldn't be created".localized)
                 return
             }
-            let alertMessage = (statusCode == 422) ? "Did you already register?".localized : "Error".localized
+            let alertMessage = (statusCode == 422) ? getErrorFromData(data:data) : "Error".localized
+            //let alertMessage = (statusCode == 422) ? "Did you already register?".localized : "Error".localized
             displayErrorAlert(alertMessage.localized, titleMessage:"User couldn't be created".localized)
             
             if statusCode != 422 {
