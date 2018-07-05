@@ -190,7 +190,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         let nextTage = textField.tag + 1;
 
         // Try to find next responder
-        let nextResponder = textField.superview?.viewWithTag(nextTage) as UIResponder!
+        let nextResponder = textField.superview?.viewWithTag(nextTage)
         
         if (nextResponder == nil) {
             checkPassword(nil)
