@@ -92,7 +92,9 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
     func deleteAllRegionsOnDevice() {
 
         for item in geoManager.monitoredRegions {
-            geoManager.stopMonitoring(for: item as CLRegion)
+            if item.identifier != PreyConfig.sharedInstance.userApiKey {
+                geoManager.stopMonitoring(for: item as CLRegion)
+            }
         }
     }
     
