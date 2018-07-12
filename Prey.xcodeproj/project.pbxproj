@@ -18,6 +18,7 @@
 		3B2A76BC205AB5EA008912BC /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2A76BA205AB5EA008912BC /* iAd.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3B2A76BD205AB5EA008912BC /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2A76BB205AB5EA008912BC /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */; };
+		3B33A76420F69D0B00F3B64E /* Battery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B33A76320F69D0B00F3B64E /* Battery.swift */; };
 		3B3611701EE75470006BA074 /* Icon2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B36116E1EE75470006BA074 /* Icon2@2x.png */; };
 		3B3611711EE75470006BA074 /* Icon2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B36116F1EE75470006BA074 /* Icon2@3x.png */; };
 		3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742161CF791D900E52B6C /* ReportPhoto.swift */; };
@@ -151,6 +152,7 @@
 		3B2A76BF205AB90B008912BC /* AppsFlyerShareInviteHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerShareInviteHelper.h; sourceTree = "<group>"; };
 		3B2A76C0205AB90C008912BC /* AppsFlyerLinkGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerLinkGenerator.h; sourceTree = "<group>"; };
 		3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyStoreProduct.swift; path = Classes/PreyStoreProduct.swift; sourceTree = "<group>"; };
+		3B33A76320F69D0B00F3B64E /* Battery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Battery.swift; path = Classes/Battery.swift; sourceTree = "<group>"; };
 		3B36116E1EE75470006BA074 /* Icon2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon2@2x.png"; sourceTree = "<group>"; };
 		3B36116F1EE75470006BA074 /* Icon2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon2@3x.png"; sourceTree = "<group>"; };
 		3B3742161CF791D900E52B6C /* ReportPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportPhoto.swift; path = Classes/ReportPhoto.swift; sourceTree = "<group>"; };
@@ -511,6 +513,7 @@
 				3B849AE91D071AF4002DB6CC /* Geofencing.swift */,
 				3B71E9DC1D09BF1D00D5F6D5 /* GeofencingManager.swift */,
 				3B38BA921D231B1C00B6799B /* Detach.swift */,
+				3B33A76320F69D0B00F3B64E /* Battery.swift */,
 			);
 			name = "Prey Modules";
 			sourceTree = "<group>";
@@ -780,6 +783,7 @@
 				3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */,
 				3B86299F1EF03CB400BE92D4 /* String+File.swift in Sources */,
 				3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */,
+				3B33A76420F69D0B00F3B64E /* Battery.swift in Sources */,
 				3B86299E1EF03CB400BE92D4 /* String+BASE64.swift in Sources */,
 				3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */,
 				3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */,

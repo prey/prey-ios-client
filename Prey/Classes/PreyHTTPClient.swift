@@ -42,7 +42,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     }
 
     // Define URLSessionConfiguration
-    func getSessionConfig(_ authString: String, messageId: String?) -> URLSessionConfiguration {
+    func getSessionConfig(_ authString: String, messageId: String?, endPoint: String) -> URLSessionConfiguration {
         
         let sessionConfig = URLSessionConfiguration.default
         
@@ -53,6 +53,11 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             additionalHeader["X-Prey-State"]            = "PROCESSED"
             additionalHeader["X-Prey-Device-Id"]        = PreyConfig.sharedInstance.deviceKey
             additionalHeader["X-Prey-Correlation-Id"]   = msg
+        }
+        
+        // Check if endpoint is event
+        if endPoint == eventsDeviceEndpoint {
+            additionalHeader["X-Prey-Status"]           = Battery.sharedInstance.getHeaderPreyStatus()
         }
         
         sessionConfig.httpAdditionalHeaders = additionalHeader
@@ -79,7 +84,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
         
         // Set session Config
-        let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId)
+        let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId, endPoint:endPoint)
         let session         = URLSession(configuration:sessionConfig, delegate:self, delegateQueue:nil)
         
         // Set Endpoint
@@ -146,7 +151,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
         
         // Set session Config
-        let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId)
+        let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId, endPoint:endPoint)
         let session         = URLSession(configuration:sessionConfig, delegate:self, delegateQueue:nil)
         
         // Set Endpoint

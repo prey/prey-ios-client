@@ -70,6 +70,9 @@ class PreyNotification {
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:dataDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request dataSend")}))
         }
+        
+        // Send Battery Event
+        Battery.sharedInstance.sendStatusToPanel()
     }
     
     // Did Receive Remote Notifications
