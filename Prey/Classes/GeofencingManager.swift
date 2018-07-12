@@ -41,9 +41,10 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
     // Start location aware
     func startLocationAwareManager(_ location: CLLocation) {
         // Add geofence zone on current location
-        let zoneId      = PreyConfig.sharedInstance.userApiKey!
-        let region:CLCircularRegion = CLCircularRegion(center: location.coordinate, radius: 100.0, identifier: zoneId)
-        geoManager.startMonitoring(for: region)
+        if let zoneId = PreyConfig.sharedInstance.userApiKey {
+            let region:CLCircularRegion = CLCircularRegion(center: location.coordinate, radius: 100.0, identifier: zoneId)
+            geoManager.startMonitoring(for: region)
+        }
     }
     
     // Stop location aware
