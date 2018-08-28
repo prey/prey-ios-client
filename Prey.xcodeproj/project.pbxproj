@@ -101,6 +101,7 @@
 		3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */; };
 		3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */; };
 		3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BCD4C8C1C98942900CDEE1C /* Localizable.strings */; };
+		3BDA80D921120DE4003B028C /* FileRetrieval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDA80D821120DE4003B028C /* FileRetrieval.swift */; };
 		3BDF988120338AC70023D4AA /* HomeWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF988020338AC70023D4AA /* HomeWebVC.swift */; };
 		3BE3DC511D0B044D00581327 /* magdacleanmono-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */; };
 		3BE3DC521D0B044D00581327 /* magdacleanmono-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */; };
@@ -248,6 +249,7 @@
 		3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyDevice.swift; path = Classes/PreyDevice.swift; sourceTree = "<group>"; };
 		3BCD4C8D1C98942900CDEE1C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3BCD4C8E1C98942900CDEE1C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3BDA80D821120DE4003B028C /* FileRetrieval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileRetrieval.swift; path = Classes/FileRetrieval.swift; sourceTree = "<group>"; };
 		3BDF988020338AC70023D4AA /* HomeWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeWebVC.swift; path = Classes/HomeWebVC.swift; sourceTree = "<group>"; };
 		3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "magdacleanmono-bold.ttf"; sourceTree = "<group>"; };
 		3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "magdacleanmono-regular.otf"; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 				3B71E9DC1D09BF1D00D5F6D5 /* GeofencingManager.swift */,
 				3B38BA921D231B1C00B6799B /* Detach.swift */,
 				3B33A76320F69D0B00F3B64E /* Battery.swift */,
+				3BDA80D821120DE4003B028C /* FileRetrieval.swift */,
 			);
 			name = "Prey Modules";
 			sourceTree = "<group>";
@@ -761,6 +764,7 @@
 				3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */,
 				3B71E9DD1D09BF1D00D5F6D5 /* GeofencingManager.swift in Sources */,
 				3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */,
+				3BDA80D921120DE4003B028C /* FileRetrieval.swift in Sources */,
 				3B38BA931D231B1C00B6799B /* Detach.swift in Sources */,
 				3B8629991EF03CB400BE92D4 /* Process.swift in Sources */,
 				3B86299D1EF03CB400BE92D4 /* Socket.swift in Sources */,

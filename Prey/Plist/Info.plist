@@ -73,6 +73,8 @@
 	<string>Prey needs your location to find your device through your account when you request it.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Prey needs access to your camera to take pictures when you request it.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Prey needs access to your library when you request it.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>large9.ttf</string>

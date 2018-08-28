@@ -181,6 +181,35 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         sendRequest(session, request: request)
     }
 
+    // SignUp/LogIn User to Control Panel
+    func sendFileToPrey(_ username: String, password: String, file: Data, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
+        
+        // Encode username and pwd
+        let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
+        
+        // Set session Config
+        let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId, endPoint:endPoint)
+        let session         = URLSession(configuration:sessionConfig, delegate:self, delegateQueue:nil)
+        
+        // Set Endpoint
+        guard let requestURL = URL(string:endPoint) else {
+            return
+        }
+        
+        var request = URLRequest(url:requestURL)
+        request.timeoutInterval = timeoutIntervalRequest
+        
+        request.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
+        request.httpBodyStream = InputStream(data: file)
+        request.httpMethod  = httpMethod
+        
+        // Add onCompletion to array
+        requestCompletionHandler.updateValue(onCompletion, forKey: session)
+        
+        // Prepare request
+        sendRequest(session, request: request)
+    }
+    
     // Prepare URLSessionDataTask
     func sendRequest(_ session: URLSession, request: URLRequest) {
         let task = session.dataTask(with: request)

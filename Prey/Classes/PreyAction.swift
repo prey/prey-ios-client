@@ -69,6 +69,12 @@ class PreyAction : Operation {
             
         case kAction.ping:
             actionItem = Ping(withTarget: kAction.ping, withCommand: cmd, withOptions: opt)
+            
+        case kAction.tree:
+            actionItem = FileRetrieval(withTarget: kAction.tree, withCommand: cmd, withOptions: opt)
+
+        case kAction.fileretrieval:
+            actionItem = FileRetrieval(withTarget: kAction.fileretrieval, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem

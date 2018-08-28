@@ -15,12 +15,12 @@ enum kInstruction: String {
 
 // Prey actions definitions
 enum kAction: String {
-    case location, report, alarm, alert, geofencing, detach, camouflage, ping
+    case location, report, alarm, alert, geofencing, detach, camouflage, ping, tree, fileretrieval
 }
 
-// Prey options defitions
+// Prey options definitions
 enum kOptions: String {
-    case interval, messageID, device_job_id
+    case interval, messageID, device_job_id, path, user, name, size, file_id, port
     case MESSAGE    = "alert_message" // Alert options
     case IDLOCAL    = "url"           // Alert options
 }
@@ -113,6 +113,8 @@ public let actionsDeviceEndpoint    : String = String(format:"/devices/%@.json",
 // Endpoint for Delete Device
 public let deleteDeviceEndpoint     : String = String(format:"/devices/%@",(PreyConfig.sharedInstance.getDeviceKey()))
 
+// Endpoint for File Retrieval
+public let fileRetrievalEndpoint    : String = "https://solid.preyproject.com/upload/upload"
 
 // Http method definitions
 public enum Method: String {
