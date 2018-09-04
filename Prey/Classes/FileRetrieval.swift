@@ -8,6 +8,7 @@
 
 import Foundation
 import Photos
+import Contacts
 
 // Prey fileretrieval params
 enum kTree: String {
@@ -35,6 +36,17 @@ class FileRetrieval : PreyAction {
         // Params struct
         var files = [[String:Any]]()
 
+        let contactSize = getSizeContacts()
+        if contactSize != 0 {
+            files.append([
+                kTree.name.rawValue     : "Contacts.vcf",
+                kTree.path.rawValue     : "/Contacts.vcf",
+                kTree.mimetype.rawValue : "text/plain",
+                kTree.size.rawValue     : contactSize,
+                kTree.isFile.rawValue   : true,
+                kTree.hidden.rawValue   : false])
+        }
+        
         // Create a PHFetchResult object
         let allPhotosOptions = PHFetchOptions()
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
@@ -48,7 +60,7 @@ class FileRetrieval : PreyAction {
                 sizeOnDisk = Int64(bitPattern: UInt64(unsignedInt64!))
                 files.append([
                     kTree.name.rawValue     : resource.originalFilename,
-                    kTree.path.rawValue     : "/Photos/" + resource.originalFilename,
+                    kTree.path.rawValue     : "/" + resource.originalFilename,
                     kTree.mimetype.rawValue : "image/jpeg",
                     kTree.size.rawValue     : sizeOnDisk!,
                     kTree.isFile.rawValue   : true,
@@ -111,6 +123,12 @@ class FileRetrieval : PreyAction {
         guard let name_file = self.options?.object(forKey: kOptions.name.rawValue) as? String else {
             // Send stop action
             self.stopActionFileRetrieval()
+            return
+        }
+        
+        // Check contacts name
+        if name_file == "Contacts.vcf" {
+            sendContacts(endpoint: endpoint)
             return
         }
         
@@ -198,5 +216,77 @@ class FileRetrieval : PreyAction {
             // Send stop action
             self.stopActionFileRetrieval()
         }
+    }
+    
+    func sendContacts(endpoint: String) {
+        
+        // contacts.vcf
+        guard #available(iOS 9.0, *) else {
+            return
+        }
+        
+        let fetchRequest = CNContactFetchRequest( keysToFetch: [CNContactVCardSerialization.descriptorForRequiredKeys()])
+        var contacts = [CNContact]()
+        CNContact.localizedString(forKey: CNLabelPhoneNumberiPhone)
+        
+        if #available(iOS 10.0, *) {
+            fetchRequest.mutableObjects = false
+        }
+        fetchRequest.unifyResults = true
+        fetchRequest.sortOrder = .userDefault
+        
+        do {
+            try CNContactStore().enumerateContacts(with: fetchRequest) { (contact, stop) -> Void in
+                contacts.append(contact)
+            }
+        } catch let e as NSError {
+            print(e.localizedDescription)
+        }
+        
+        do {
+            let data = try CNContactVCardSerialization.data(with: contacts)
+            // Send file
+            self.sendFileToPanel(data:data, endpoint: endpoint)
+        } catch let e as NSError {
+            print(e.localizedDescription)
+        }
+    }
+    
+    func getSizeContacts() -> Int {
+        
+        // contacts.vcf
+        guard #available(iOS 9.0, *) else {
+            return 0
+        }
+        
+        let fetchRequest = CNContactFetchRequest( keysToFetch: [CNContactVCardSerialization.descriptorForRequiredKeys()])
+        var contacts = [CNContact]()
+        CNContact.localizedString(forKey: CNLabelPhoneNumberiPhone)
+        
+        if #available(iOS 10.0, *) {
+            fetchRequest.mutableObjects = false
+        }
+        fetchRequest.unifyResults = true
+        fetchRequest.sortOrder = .userDefault
+        
+        do {
+            try CNContactStore().enumerateContacts(with: fetchRequest) { (contact, stop) -> Void in
+                contacts.append(contact)
+            }
+        } catch let e as NSError {
+            print(e.localizedDescription)
+        }
+        
+        if contacts.count == 0 {
+            return 0
+        }
+        
+        do {
+            let data = try CNContactVCardSerialization.data(with: contacts)
+            return data.count
+        } catch let e as NSError {
+            print(e.localizedDescription)
+        }
+        return 0
     }
 }

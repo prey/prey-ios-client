@@ -147,7 +147,7 @@ class PreyDeployment {
                     return
                 }
                 
-                PreyConfig.sharedInstance.isPro = fromQRCode ? false : true
+                PreyConfig.sharedInstance.isPro = true
                 PreyConfig.sharedInstance.saveValues()
                 
                 // Show CongratVC

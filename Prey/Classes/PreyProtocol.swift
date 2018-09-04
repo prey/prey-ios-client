@@ -59,10 +59,12 @@ enum kData: String {
     public let URLControlPanel      : String = "https://control.preyhq.com/api/v2"
     public let URLForgotPanel       : String = "https://panel.preyhq.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyhq.com/session"
+    public let fileRetrievalEndpoint: String = "https://panel.preyhq.com/upload/upload"
 #else
     public let URLControlPanel      : String = "https://solid.preyproject.com/api/v2"
     public let URLForgotPanel       : String = "https://panel.preyproject.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyproject.com/session"
+    public let fileRetrievalEndpoint: String = "https://solid.preyproject.com/upload/upload"
 #endif
 
 public let URLHelpPrey              : String = "http://help.preyproject.com"
@@ -112,9 +114,6 @@ public let actionsDeviceEndpoint    : String = String(format:"/devices/%@.json",
 
 // Endpoint for Delete Device
 public let deleteDeviceEndpoint     : String = String(format:"/devices/%@",(PreyConfig.sharedInstance.getDeviceKey()))
-
-// Endpoint for File Retrieval
-public let fileRetrievalEndpoint    : String = "https://solid.preyproject.com/upload/upload"
 
 // Http method definitions
 public enum Method: String {

@@ -9,6 +9,8 @@
 import UIKit
 import CoreLocation
 import AVFoundation
+import Contacts
+import Photos
 
 class DeviceSetUpVC: GAITrackedViewController {
 
@@ -70,6 +72,17 @@ class DeviceSetUpVC: GAITrackedViewController {
         
         // Camera Auth
         AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: {(granted) in })
+        
+        // Files Retrieval Auth
+        if PreyConfig.sharedInstance.isPro {
+            if #available(iOS 9.0, *) {
+                // Contacts Auth
+                CNContactStore().requestAccess(for: .contacts, completionHandler: { (authorized: Bool, error: Error?) -> Void in })
+                
+                // Photo Auth
+                PHPhotoLibrary.requestAuthorization({ authorization -> Void in })
+            }
+        }
     }
     
     // Ok pressed
