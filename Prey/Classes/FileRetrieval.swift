@@ -54,15 +54,18 @@ class FileRetrieval : PreyAction {
         
         for index in 0..<allPhotos.count {
             let resources = PHAssetResource.assetResources(for: allPhotos.object(at: index))
-            var sizeOnDisk: Int64? = 0
+            var sizeOnDisk: Int64 = 1024
             if let resource = resources.first {
-                let unsignedInt64 = resource.value(forKey: "fileSize") as? CLong
-                sizeOnDisk = Int64(bitPattern: UInt64(unsignedInt64!))
+                if #available(iOS 10.0, *) {
+                    if let unsignedInt64 = resource.value(forKey: "fileSize") as? CLong {
+                        sizeOnDisk = Int64(bitPattern: UInt64(unsignedInt64))
+                    }
+                }
                 files.append([
                     kTree.name.rawValue     : resource.originalFilename,
                     kTree.path.rawValue     : "/" + resource.originalFilename,
                     kTree.mimetype.rawValue : "image/jpeg",
-                    kTree.size.rawValue     : sizeOnDisk!,
+                    kTree.size.rawValue     : sizeOnDisk,
                     kTree.isFile.rawValue   : true,
                     kTree.hidden.rawValue   : false])
             }
