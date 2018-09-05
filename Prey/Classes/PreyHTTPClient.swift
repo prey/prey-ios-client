@@ -18,7 +18,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     }
     
     // Define delay to request
-    let delayRequest = 2.0
+    let delayRequest = 5.0
     
     // Define retry request for statusCode 503
     let retryRequest = 5
@@ -223,6 +223,16 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
     
+    // Check error to retry request
+    func checkToRetryRequest(err: Error) -> Bool {
+        switch (err as NSError).code {
+        case NSURLErrorSecureConnectionFailed, NSURLErrorNotConnectedToInternet, NSURLErrorNetworkConnectionLost, NSURLErrorCannotFindHost, NSURLErrorTimedOut:
+            return true
+        default:
+            return false
+        }
+    }
+    
     // MARK: URLSession Delegates
     
     // URLSessionTaskDelegate : didCompleteWithError
@@ -231,6 +241,16 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         // Retry for statusCode == 503
         if let httpURLResponse = task.response as? HTTPURLResponse {
             if (httpURLResponse.statusCode == 503) && (task.taskIdentifier < retryRequest) {
+                guard let request = task.originalRequest else {
+                    return
+                }
+                delay(delayRequest) { self.sendRequest(session, request: request) }
+                return
+            }
+        }
+        // Retry for error cases
+        if let err = error {
+            if checkToRetryRequest(err: err) && (task.taskIdentifier < retryRequest) {
                 guard let request = task.originalRequest else {
                     return
                 }
