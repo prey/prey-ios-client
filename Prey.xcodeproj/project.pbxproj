@@ -88,6 +88,7 @@
 		3BA7219C1D46B7040043C9B9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BA721991D46B7040043C9B9 /* GoogleService-Info.plist */; };
 		3BA7219D1D46B7040043C9B9 /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA7219A1D46B7040043C9B9 /* libAdIdAccess.a */; };
 		3BA7219E1D46B7040043C9B9 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA7219B1D46B7040043C9B9 /* libGoogleAnalyticsServices.a */; };
+		3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BAE5812214ACD9F00DB4BAB /* InfoPlist.strings */; };
 		3BB6E21A1D47AEA100074E97 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E2181D47AEA100074E97 /* libsqlite3.tbd */; };
 		3BB6E21B1D47AEA100074E97 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E2191D47AEA100074E97 /* libz.tbd */; };
 		3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21C1D47CAC500074E97 /* StoreKit.framework */; };
@@ -234,6 +235,8 @@
 		3BA721991D46B7040043C9B9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3BA7219A1D46B7040043C9B9 /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
 		3BA7219B1D46B7040043C9B9 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		3BAE5813214ACD9F00DB4BAB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3BAE5814214ACD9F00DB4BAB /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BB6E2171D47A97A00074E97 /* GABridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GABridgingHeader.h; sourceTree = "<group>"; };
 		3BB6E2181D47AEA100074E97 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		3BB6E2191D47AEA100074E97 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -382,6 +385,7 @@
 			children = (
 				3B8283EF199198E6000E4545 /* Prey */,
 				3BCD4C8B1C98942900CDEE1C /* Localizable.strings */,
+				3BAE5811214ACD9F00DB4BAB /* InfoPlist.strings */,
 				3B828402199198E6000E4545 /* PreyTests */,
 				3BB6E2211D47CBD800074E97 /* Frameworks */,
 				3B8283EE199198E6000E4545 /* Products */,
@@ -543,6 +547,15 @@
 			path = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
+		3BAE5811214ACD9F00DB4BAB /* InfoPlist.strings */ = {
+			isa = PBXGroup;
+			children = (
+				3BAE5812214ACD9F00DB4BAB /* InfoPlist.strings */,
+			);
+			name = InfoPlist.strings;
+			path = Prey/InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		3BB6E2211D47CBD800074E97 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -702,6 +715,7 @@
 				3BCA4EB1202CE281009EC0C7 /* PreyInfo in Resources */,
 				3BE3DC531D0B044D00581327 /* TitilliumWeb-Bold.ttf in Resources */,
 				3B3611701EE75470006BA074 /* Icon2@2x.png in Resources */,
+				3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */,
 				3BB6E2231D47CC3C00074E97 /* Prey.entitlements in Resources */,
 				3B42A2671D2581EF002848C0 /* large9.ttf in Resources */,
 				3B8283FA199198E6000E4545 /* Images.xcassets in Resources */,
@@ -870,6 +884,15 @@
 				3B8283F7199198E6000E4545 /* Base */,
 			);
 			name = PreyStoryBoard.storyboard;
+			sourceTree = "<group>";
+		};
+		3BAE5812214ACD9F00DB4BAB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3BAE5813214ACD9F00DB4BAB /* en */,
+				3BAE5814214ACD9F00DB4BAB /* es */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		3BCD4C8C1C98942900CDEE1C /* Localizable.strings */ = {

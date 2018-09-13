@@ -1,0 +1,13 @@
+"NSCameraUsageDescription" = "Prey utilizes the device's camera to take pictures when you request evidence reports.";
+
+"NSContactsUsageDescription" = "Prey needs access to your contacts to allow you to retrieve them remotely.";
+
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Prey needs your location to help you track and find this device using our platform.";
+
+"NSLocationAlwaysUsageDescription" = "Prey needs your location to help you track and find this device using our platform.";
+
+"NSLocationWhenInUseUsageDescription" = "Prey needs your location to help you track and find this device using our platform.";
+
+"NSPhotoLibraryAddUsageDescription" = "Prey needs access to the library for you to retrieve images with the File Retrieval.";
+
+"NSPhotoLibraryUsageDescription" = "Prey needs access to the library for you to retrieve images with the File Retrieval.";
