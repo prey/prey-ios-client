@@ -124,7 +124,7 @@ class WelcomeVC: GAITrackedViewController, PreyOnboardingDelegate {
         let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
         
         let transition:CATransition = CATransition()
-        transition.type = kCATransitionFade
+        transition.type = CATransitionType.fade
         navigationController.view.layer.add(transition, forKey: "")
         
         navigationController.setViewControllers([controller], animated: false)
@@ -145,7 +145,7 @@ class WelcomeVC: GAITrackedViewController, PreyOnboardingDelegate {
         let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
         
         let transition:CATransition = CATransition()
-        transition.type = kCATransitionFade
+        transition.type = CATransitionType.fade
         navigationController.view.layer.add(transition, forKey: "")
         
         navigationController.setViewControllers([controller], animated: false)

@@ -110,7 +110,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         DispatchQueue.main.async { self.actInd.startAnimating() }
     }
     
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
         PreyLogger("Should load request")
         
         if let host = request.url?.host {

@@ -81,8 +81,8 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         
         // Listen for changes to keyboard visibility so that we can adjust the text view accordingly.
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(HomeVC.handleKeyboardWillShowNotification(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(HomeVC.handleKeyboardWillHideNotification(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(HomeVC.handleKeyboardWillShowNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(HomeVC.handleKeyboardWillHideNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -92,8 +92,8 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         self.navigationController?.isNavigationBarHidden = false
         
         let notificationCenter = NotificationCenter.default
-        notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     // Hide password input
@@ -166,11 +166,11 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     func keyboardWillChangeFrameWithNotification(_ notification: Notification, showsKeyboard: Bool) {
         let userInfo = (notification as NSNotification).userInfo!
         
-        let animationDuration: TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        let animationDuration: TimeInterval = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         
         // Convert the keyboard frame from screen to view coordinates.
-        let keyboardScreenBeginFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardScreenBeginFrame = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         
         let keyboardViewBeginFrame = view.convert(keyboardScreenBeginFrame, from: view.window)
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)

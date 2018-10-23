@@ -26,7 +26,7 @@ class ReportWifi {
                 let rec = unsafeBitCast(interfaceName, to: AnyObject.self)
                 let unsafeInterfaceData = CNCopyCurrentNetworkInfo("\(rec)" as CFString)
                 if unsafeInterfaceData != nil {
-                    networkInfo = unsafeInterfaceData! as NSDictionary!
+                    networkInfo = unsafeInterfaceData! as NSDictionary
                 }
             }
         }

@@ -18,7 +18,7 @@ class QRCodeScannerVC: GAITrackedViewController, AVCaptureMetadataOutputObjectsD
     let session : AVCaptureSession          = AVCaptureSession()
     let output  : AVCaptureMetadataOutput   = AVCaptureMetadataOutput()
 
-    weak var preview : AVCaptureVideoPreviewLayer!
+    var preview : AVCaptureVideoPreviewLayer!
     
     // MARK: Init
     

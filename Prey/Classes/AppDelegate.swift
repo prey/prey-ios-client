@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
     
     // MARK: UIApplicationDelegate
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // FIXME: Update devKey AppsFlyer
         // Config AppsFlyer SDK
@@ -80,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
         }
         
         // Check CLRegion In/Out
-        if let locationLaunch = launchOptions?[UIApplicationLaunchOptionsKey.location] {
+        if let locationLaunch = launchOptions?[UIApplication.LaunchOptionsKey.location] {
             PreyLogger("Prey Geofence received while not running: \(locationLaunch)")
             _ = GeofencingManager.sharedInstance
         }
@@ -103,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
         backgroundImg.tag   = 1985
         
         window?.addSubview(backgroundImg)
-        window?.bringSubview(toFront: backgroundImg)
+        window?.bringSubviewToFront(backgroundImg)
         
         UIView.animate(withDuration: 0.2, animations:{() in backgroundImg.alpha = 1.0})
         
@@ -203,9 +203,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
     
     // Reports app open from a Universal Link for iOS 9 or later
     @available(iOS 8.0, *)
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         if #available(iOS 9.0, *) {
-            AppsFlyerTracker.shared().continue(userActivity, restorationHandler: restorationHandler)
+            AppsFlyerTracker.shared().continue(userActivity, restorationHandler: restorationHandler as? ([Any]?) -> Void)
         }
         return true
     }
@@ -218,7 +218,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
     
     // Reports app open from deep link for iOS 10 or later
     @available(iOS 9.0, *)
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         AppsFlyerTracker.shared().handleOpen(url, options: options)
         return true
     }

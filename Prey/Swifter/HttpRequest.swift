@@ -153,7 +153,7 @@ public class HttpRequest {
             matchOffset = ( x == boundaryArray[matchOffset] ? matchOffset + 1 : 0 )
             body.append(x)
             if matchOffset == boundaryArray.count {
-                body.removeSubrange(CountableRange<Int>(body.count-matchOffset ..< body.count))
+                body.removeSubrange(body.count-matchOffset ..< body.count)
                 if body.last == HttpRequest.NL {
                     body.removeLast()
                     if body.last == HttpRequest.CR {

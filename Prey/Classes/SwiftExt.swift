@@ -41,7 +41,7 @@ extension UIActivityIndicatorView {
     convenience init(initInView view: UIView, withText text:String) {
         
         // Config ActivityIndicator
-        self.init(activityIndicatorStyle:.white)
+        self.init(style:.white)
         self.hidesWhenStopped       = true
         self.transform              = CGAffineTransform(scaleX: 2, y: 2)
         self.center                 = CGPoint(x: view.center.x, y: view.center.y - self.frame.width)

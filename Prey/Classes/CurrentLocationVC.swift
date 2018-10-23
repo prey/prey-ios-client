@@ -42,7 +42,7 @@ class CurrentLocationVC: GAITrackedViewController, MKMapViewDelegate {
     
     // DidUpdateUserLocation
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        let region = MKCoordinateRegionMakeWithDistance(userLocation.coordinate, mapRadius, mapRadius)
+        let region = MKCoordinateRegion.init(center: userLocation.coordinate, latitudinalMeters: mapRadius, longitudinalMeters: mapRadius)
         mapLocationView.setRegion(region, animated:true)
     }
     

@@ -10,8 +10,6 @@
 	<array>
 		<string>applinks:prey.onelink.me</string>
 	</array>
-	<key>get-task-allow</key>
-	<false/>
 	<key>keychain-access-groups</key>
 	<array>
 		<string>$(AppIdentifierPrefix)$(CFBundleIdentifier)</string>

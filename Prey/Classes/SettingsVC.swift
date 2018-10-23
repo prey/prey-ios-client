@@ -73,7 +73,7 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         tableView.backgroundColor = UIColor.white
         tableView.separatorColor  = UIColor.white
         if #available(iOS 11.0, *) {
-            tableView.contentInset = UIEdgeInsetsMake(35.0, 0.0, 0.0, 0.0);
+            tableView.contentInset = UIEdgeInsets.init(top: 35.0, left: 0.0, bottom: 0.0, right: 0.0);
         }
    }
 
@@ -160,8 +160,8 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         
         if cell == nil  {
             let sizeFont:CGFloat            = (IS_IPAD) ? 16 : 14
-            cell                            = UITableViewCell(style:UITableViewCellStyle.value1, reuseIdentifier:cellIdentifier)
-            cell.selectionStyle             = UITableViewCellSelectionStyle.none
+            cell                            = UITableViewCell(style:UITableViewCell.CellStyle.value1, reuseIdentifier:cellIdentifier)
+            cell.selectionStyle             = UITableViewCell.SelectionStyle.none
             cell.backgroundColor            = UIColor.white
             cell.textLabel?.font            = UIFont(name:fontTitilliumRegular, size:sizeFont)
             cell.detailTextLabel?.font      = UIFont(name:fontTitilliumRegular, size:sizeFont)
@@ -190,8 +190,8 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     // Config InformationSection
     func configCellForInformationSection(_ index:Int, withCell cell:UITableViewCell) {
 
-        cell.selectionStyle = UITableViewCellSelectionStyle.blue
-        cell.accessoryType  = UITableViewCellAccessoryType.disclosureIndicator
+        cell.selectionStyle = UITableViewCell.SelectionStyle.blue
+        cell.accessoryType  = UITableViewCell.AccessoryType.disclosureIndicator
         
         switch index {
             
@@ -212,14 +212,14 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
             
         case SectionSettings.camouflageMode.hashValue :
             let camouflageMode      = UISwitch()
-            camouflageMode.addTarget(self, action:#selector(camouflageModeState), for:UIControlEvents.valueChanged)
+            camouflageMode.addTarget(self, action:#selector(camouflageModeState), for:UIControl.Event.valueChanged)
             camouflageMode.setOn(PreyConfig.sharedInstance.isCamouflageMode, animated:false)
             cell.accessoryView      = camouflageMode
             cell.textLabel?.text    = "Camouflage mode".localized
             
         case SectionSettings.detachDevice.hashValue :
-            cell.accessoryType      = UITableViewCellAccessoryType.none
-            cell.selectionStyle     = UITableViewCellSelectionStyle.blue
+            cell.accessoryType      = UITableViewCell.AccessoryType.none
+            cell.selectionStyle     = UITableViewCell.SelectionStyle.blue
             cell.accessoryView      = nil
             cell.textLabel?.text    = "Detach device".localized
             
@@ -230,15 +230,15 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     // Config AboutSection
     func configCellForAboutSection(_ index:Int, withCell cell:UITableViewCell) {
         
-        cell.accessoryType          = UITableViewCellAccessoryType.disclosureIndicator
-        cell.selectionStyle         = UITableViewCellSelectionStyle.blue
+        cell.accessoryType          = UITableViewCell.AccessoryType.disclosureIndicator
+        cell.selectionStyle         = UITableViewCell.SelectionStyle.blue
         cell.detailTextLabel?.text  = ""
         
         switch index {
             
         case SectionAbout.version.hashValue :
-            cell.accessoryType          = UITableViewCellAccessoryType.none
-            cell.selectionStyle         = UITableViewCellSelectionStyle.none
+            cell.accessoryType          = UITableViewCell.AccessoryType.none
+            cell.selectionStyle         = UITableViewCell.SelectionStyle.none
             cell.detailTextLabel?.text  = appVersion
             cell.textLabel?.text        = "Version".localized
 
@@ -356,16 +356,16 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         
         iPadView.addSubview(controller.view)
         
-        self.addChildViewController(controller)
-        controller.didMove(toParentViewController: self)
+        self.addChild(controller)
+        controller.didMove(toParent: self)
     }
     
     // Remove PreviewViewController
     func removePreviewViewControler() {
-        if let lastVC = self.childViewControllers.last {
-            lastVC.willMove(toParentViewController: nil)
+        if let lastVC = self.children.last {
+            lastVC.willMove(toParent: nil)
             lastVC.view.removeFromSuperview()
-            lastVC.removeFromParentViewController()
+            lastVC.removeFromParent()
         }
     }
     
@@ -419,7 +419,7 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     }
     
     // Check changes on camouflageMode
-    override func didMove(toParentViewController parent: UIViewController?) {
+    override func didMove(toParent parent: UIViewController?) {
 
         if (parent == nil) && (currentCamouflageMode != PreyConfig.sharedInstance.isCamouflageMode) {
             // Add camouflage action
@@ -484,7 +484,7 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         }
     }
     
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
         PreyLogger("Should load request")
         return true
     }

@@ -79,7 +79,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     private var serverState: ConfigState = .Stopped
     private var startTime: NSDate!
     private var registeredForNotifications = false
-    private var backgroundTask = UIBackgroundTaskInvalid
+    private var backgroundTask = UIBackgroundTaskIdentifier.invalid
     
     deinit {
         unregisterFromNotifications()
@@ -170,8 +170,8 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     private func registerForNotifications() {
         if !registeredForNotifications {
             let notificationCenter = NotificationCenter.default
-            notificationCenter.addObserver(self, selector: #selector(didEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-            notificationCenter.addObserver(self, selector: #selector(willEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
             registeredForNotifications = true
         }
     }
@@ -179,8 +179,8 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     private func unregisterFromNotifications() {
         if registeredForNotifications {
             let notificationCenter = NotificationCenter.default
-            notificationCenter.removeObserver(self, name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-            notificationCenter.removeObserver(self, name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+            notificationCenter.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
+            notificationCenter.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
             registeredForNotifications = false
         }
     }
@@ -192,7 +192,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     }
     
     @objc internal func willEnterForeground(notification: NSNotification) {
-        if backgroundTask != UIBackgroundTaskInvalid {
+        if backgroundTask != UIBackgroundTaskIdentifier.invalid {
             stopBackgroundTask()
             returnedToApp()
         }
@@ -208,9 +208,9 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     }
     
     private func stopBackgroundTask() {
-        if backgroundTask != UIBackgroundTaskInvalid {
+        if backgroundTask != UIBackgroundTaskIdentifier.invalid {
             UIApplication.shared.endBackgroundTask(self.backgroundTask)
-            backgroundTask = UIBackgroundTaskInvalid
+            backgroundTask = UIBackgroundTaskIdentifier.invalid
         }
     }
 }

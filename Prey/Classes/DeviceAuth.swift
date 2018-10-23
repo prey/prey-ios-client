@@ -117,7 +117,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
         }
         
         if #available(iOS 8.0, *) {
-            if let url = URL(string:UIApplicationOpenSettingsURLString) {
+            if let url = URL(string:UIApplication.openSettingsURLString) {
                 UIApplication.shared.openURL(url)
             }
         }

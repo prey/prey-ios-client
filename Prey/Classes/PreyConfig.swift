@@ -175,8 +175,8 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         let fontItem                = UIFont(name:fontTitilliumBold, size:itemFontSize)
         let fontTitle               = UIFont(name:fontTitilliumRegular, size:titleFontSize)
         
-        UINavigationBar.appearance().titleTextAttributes    = [NSAttributedStringKey.font:fontTitle!,NSAttributedStringKey.foregroundColor:colorTitle]
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font:fontItem!,NSAttributedStringKey.foregroundColor:colorItem],for:.normal)
+        UINavigationBar.appearance().titleTextAttributes    = [NSAttributedString.Key.font:fontTitle!,NSAttributedString.Key.foregroundColor:colorTitle]
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font:fontItem!,NSAttributedString.Key.foregroundColor:colorItem],for:.normal)
         
         UINavigationBar.appearance().barTintColor           = UIColor.white
         UINavigationBar.appearance().tintColor              = colorItem

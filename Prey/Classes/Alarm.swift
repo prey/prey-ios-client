@@ -27,9 +27,9 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
         do {
             // Config AVAudioSession on device
             let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.mixWithOthers)
+            audioSession.perform(NSSelectorFromString("setCategory:withOptions:error:"), with: AVAudioSession.Category.playAndRecord, with:[AVAudioSession.CategoryOptions.mixWithOthers])
             try audioSession.setActive(true)
-            try audioSession.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+            try audioSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
             
             // Config Volume System
             UIApplication.shared.beginReceivingRemoteControlEvents()

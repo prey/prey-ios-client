@@ -122,7 +122,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
                 return
             }
             
-            if let imgData = UIImagePNGRepresentation(img) {
+            if let imgData = img.pngData() {
                 bodyRequest.appendString("--\(boundary)\(EncodingCharacters.CRLF)")
                 bodyRequest.appendString("Content-Disposition:form-data; name=\"\(key)\"; filename=\"\(key).jpg\"\(EncodingCharacters.CRLF)")
                 bodyRequest.appendString("Content-Type: \(mimetype)\(EncodingCharacters.CRLF)\(EncodingCharacters.CRLF)")
