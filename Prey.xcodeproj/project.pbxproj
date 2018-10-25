@@ -294,13 +294,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3B1C2D3F1D79CB7B00D8E7DF /* Fabric */ = {
+		3B1C2D3F1D79CB7B00D8E7DF /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
 				3B1C2D401D79CB7B00D8E7DF /* Crashlytics.framework */,
 				3B1C2D411D79CB7B00D8E7DF /* Fabric.framework */,
 			);
-			path = Fabric;
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		3B2A76B6205AB5C4008912BC /* AppsFlyer */ = {
@@ -595,7 +595,7 @@
 			children = (
 				3B2A76B6205AB5C4008912BC /* AppsFlyer */,
 				3B86297C1EF03CB400BE92D4 /* Swifter */,
-				3B1C2D3F1D79CB7B00D8E7DF /* Fabric */,
+				3B1C2D3F1D79CB7B00D8E7DF /* Firebase */,
 				3BA7218F1D46B7040043C9B9 /* GoogleAnalytics */,
 			);
 			name = External;
@@ -745,12 +745,13 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Prey/Plist/Info.plist",
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/Prey/Fabric/Fabric.framework/run\" 2185ea0f2d1l0v3g0dfa123d1d8225c3adb7b41e us3r4p2";
+			shellScript = "\"$SRCROOT/Prey/Firebase/Fabric.framework/run\" 2185ea0f2d1l0v3g0dfa123d1d8225c3adb7b41e us3r4p2\n";
 		};
 		3B95D3CC1DAE860300FEDD80 /* Run Script Tag Warnings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -954,7 +955,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1003,7 +1004,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1023,7 +1024,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Prey/Fabric",
+					"$(PROJECT_DIR)/Prey/Firebase",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1053,7 +1054,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Prey/Fabric",
+					"$(PROJECT_DIR)/Prey/Firebase",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
