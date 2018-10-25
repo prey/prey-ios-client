@@ -127,6 +127,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         subtitleLbl.isHidden      = isCamouflage
         titleLbl.isHidden         = isCamouflage
         shieldImg.isHidden        = isCamouflage
+        forgotBtn.isHidden        = isCamouflage
         
         camouflageImg.isHidden    = !isCamouflage
         
