@@ -118,27 +118,17 @@ class UserRegister: GAITrackedViewController, UITextFieldDelegate {
 
     // Display error alert
     func displayErrorAlert(_ alertMessage: String, titleMessage:String, returnToTextField:UITextField) {
+
+        let alert = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title:"OK".localized, style: UIAlertAction.Style.default, handler: nil))
         
-        if #available(iOS 8.0, *) {
-            
-            let alert = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title:"OK".localized, style: UIAlertAction.Style.default, handler: nil))
-            
-            // Get SharedApplication delegate
-            guard let appWindow = UIApplication.shared.delegate?.window else {
-                PreyLogger("error with sharedApplication")
-                return
-            }
-            // Set controller to rootViewController
-            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-            navigationController.present(alert, animated: true, completion: { returnToTextField.becomeFirstResponder() })
-            
-        } else {
-            let alert       = UIAlertView()
-            alert.title     = titleMessage
-            alert.message   = alertMessage
-            alert.addButton(withTitle: "OK".localized)
-            alert.show()
+        // Get SharedApplication delegate
+        guard let appWindow = UIApplication.shared.delegate?.window else {
+            PreyLogger("error with sharedApplication")
+            return
         }
+        // Set controller to rootViewController
+        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+        navigationController.present(alert, animated: true, completion: { returnToTextField.becomeFirstResponder() })
     }
 }

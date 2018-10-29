@@ -10,10 +10,11 @@ import Foundation
 import UIKit
 import WebKit
 
-class HomeWebVC: GAITrackedViewController {
+class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
 
     // MARK: Properties
-
+    
+    var webView     = WKWebView()
     var checkAuth   = true
     var actInd      = UIActivityIndicatorView()
     let rectView    = UIScreen.main.bounds
@@ -29,6 +30,26 @@ class HomeWebVC: GAITrackedViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.view.backgroundColor       = UIColor.black
+        
+        // Config webView
+        let webConfiguration            = WKWebViewConfiguration()
+        webView                         = WKWebView(frame:rectView, configuration:webConfiguration)
+        webView.backgroundColor         = UIColor.black
+        webView.uiDelegate              = self
+        webView.navigationDelegate      = self
+        webView.isMultipleTouchEnabled  = true
+        webView.allowsBackForwardNavigationGestures = true
+        
+        // Load request
+        webView.load(request)
+        
+        // Add webView to View
+        self.view.addSubview(webView)
+        
+        self.actInd                     = UIActivityIndicatorView(initInView:self.view, withText:"Please wait".localized)
+        webView.addSubview(actInd)
         
         // Check for Rate us
         PreyRateUs.sharedInstance.askForReview()
@@ -37,16 +58,7 @@ class HomeWebVC: GAITrackedViewController {
         PreyConfig.sharedInstance.checkLastVersionOnStore()
         
         // View title for GAnalytics
-        self.screenName = "HomeWeb"
-        
-        // Init VC
-        let controller  : HomeWebVC
-        if #available(iOS 8.0, *) {
-            controller = HomeWebiOS8VC()
-        } else {
-            controller = HomeWebiOS7VC()
-        }
-        self.navigationController?.pushViewController(controller, animated: false)
+        self.screenName = "HomeWeb"        
     }
     
     override func didReceiveMemoryWarning() {
@@ -61,13 +73,13 @@ class HomeWebVC: GAITrackedViewController {
     }
     
     // Check device auth
-    func checkDeviceAuth(view: Any) {
+    func checkDeviceAuth(webView: WKWebView) {
         guard checkAuth == true else {
             return
         }
         let isAllAuthAvailable  = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
         let titleTxt            = isAllAuthAvailable ? "protected" : "unprotected"
-        evaluateJS(view, code:"document.getElementById('wrap').className = '\(titleTxt)';")
+        evaluateJS(webView, code:"document.getElementById('wrap').className = '\(titleTxt)';")
         checkAuth = false
     }
     
@@ -131,7 +143,7 @@ class HomeWebVC: GAITrackedViewController {
                 (rootVC as! UINavigationController).pushViewController(resultController, animated: true)
                 
                 // Hide credentials webView
-                self.evaluateJS(view, code:"$('.popover').removeClass(\"show\");")
+                self.evaluateJS(self.webView, code:"$('.popover').removeClass(\"show\");")
             }
         })
     }
@@ -148,39 +160,40 @@ class HomeWebVC: GAITrackedViewController {
         }
     }
     
-    // MARK: ViewsDelegate
+    // MARK: WKUIDelegate
     
-    func startWebView() {
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         PreyLogger("Start load WKWebView")
         // Show ActivityIndicator
         DispatchQueue.main.async { self.actInd.startAnimating() }
     }
     
-    func checkWebView(_ view: Any, mainRequest: URLRequest) -> Bool {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        
         PreyLogger("Should load request: WKWebView")
-        if let host = mainRequest.url?.host {
+        if let host = navigationAction.request.url?.host {
             switch host {
                 
             // Worldpay
             case BlockHost.WORLDPAY.rawValue:
                 displayErrorAlert("This service is not available from here. Please go to 'Manage Prey Settings' from the main menu in the app.".localized,
                                   titleMessage:"Information".localized)
-                return false
+                return decisionHandler(.cancel)
                 
             // Help Prey
             case BlockHost.HELPPREY.rawValue:
                 openBrowserWith(URL(string:URLHelpPrey))
-                return false
+                return decisionHandler(.cancel)
                 
             // Panel Prey
             case BlockHost.PANELPREY.rawValue:
-                evaluateJS(view, code:"var printBtn = document.getElementById('print'); printBtn.style.display='none';")
-                return true
+                evaluateJS(webView, code:"var printBtn = document.getElementById('print'); printBtn.style.display='none';")
+                return decisionHandler(.allow)
                 
             // Google Maps and image reports
             case BlockHost.S3AMAZON.rawValue, BlockHost.SRCGOOGLE.rawValue:
-                openBrowserWith(mainRequest.url)
-                return false
+                openBrowserWith(navigationAction.request.url)
+                return decisionHandler(.cancel)
                 
             // Default true
             default:
@@ -190,165 +203,53 @@ class HomeWebVC: GAITrackedViewController {
         }
         
         // Check scheme for Settings View
-        if mainRequest.url?.scheme == "iossettings" {
+        if navigationAction.request.url?.scheme == "iossettings" {
             DispatchQueue.main.async {
-                self.checkPassword(mainRequest.url?.host, view:view)
+                self.checkPassword(navigationAction.request.url?.host, view:self.view)
             }
-            return true
+            return decisionHandler(.allow)
         }
         // Check scheme for AuthDevice
-        if mainRequest.url?.scheme == "ioscheckauth" {
+        if navigationAction.request.url?.scheme == "ioscheckauth" {
             _ = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
-            return true
+            return decisionHandler(.allow)
         }
-        return true
+        return decisionHandler(.allow)
     }
     
-    func finishWebView(_ view: Any) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         PreyLogger("Finish load WKWebView")
         // Hide ActivityIndicator
         DispatchQueue.main.async { self.actInd.stopAnimating() }
-                
+        
         // Hide ViewMap class
-        evaluateJS(view, code:"var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border')[1]; viewMapBtn.style.display='none';")
+        evaluateJS(webView, code:"var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border')[1]; viewMapBtn.style.display='none';")
         
         // Hide addDeviceBtn
-        evaluateJS(view, code:"var addDeviceBtn = document.getElementsByClassName('btn btn-success pull-right')[0]; addDeviceBtn.style.display='none';")
+        evaluateJS(webView, code:"var addDeviceBtn = document.getElementsByClassName('btn btn-success pull-right')[0]; addDeviceBtn.style.display='none';")
         
         // Hide accountPlans
-        evaluateJS(view, code:"var accountPlans = document.getElementById('account-plans'); accountPlans.style.display='none';")
+        evaluateJS(webView, code:"var accountPlans = document.getElementById('account-plans'); accountPlans.style.display='none';")
         
         // Hide print option
-        evaluateJS(view, code:"var printBtn = document.getElementById('print'); printBtn.style.display='none';")
+        evaluateJS(webView, code:"var printBtn = document.getElementById('print'); printBtn.style.display='none';")
         
         
         // Check device auth
-        checkDeviceAuth(view:view)
+        checkDeviceAuth(webView: webView)
     }
     
-    func failWebView() {
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         PreyLogger("Error loading WKWebView")
         // Hide ActivityIndicator
         DispatchQueue.main.async { self.actInd.stopAnimating() }
         displayErrorAlert("Error loading web, please try again.".localized,
                           titleMessage:"We have a situation!".localized)
     }
-    
-    func evaluateJS(_ view: Any, code: String) {
+
+    func evaluateJS(_ view: WKWebView, code: String) {
         DispatchQueue.main.async {
-            if #available(iOS 8.0, *) {
-                (view as! WKWebView).evaluateJavaScript(code, completionHandler:nil)
-            } else {
-                (view as! UIWebView).stringByEvaluatingJavaScript(from: code)
-            }
+            view.evaluateJavaScript(code, completionHandler:nil)
         }
     }
 }
-// ===================================
-// MARK: HomeWebVC for iOS 8 and later
-// ===================================
-@available(iOS 8.0, *)
-class HomeWebiOS8VC: HomeWebVC, WKUIDelegate, WKNavigationDelegate {
-    
-    // MARK: Properties
-   
-    var webView     = WKWebView()
-    
-    // MARK: Init
-    
-    override func viewDidLoad() {
-        self.view.backgroundColor       = UIColor.black
-        
-        // Config webView
-        let webConfiguration            = WKWebViewConfiguration()
-        webView                         = WKWebView(frame:rectView, configuration:webConfiguration)
-        webView.backgroundColor         = UIColor.black
-        webView.uiDelegate              = self
-        webView.navigationDelegate      = self
-        webView.isMultipleTouchEnabled  = true
-        webView.allowsBackForwardNavigationGestures = true
-
-        // Load request
-        webView.load(request)
-
-        // Add webView to View
-        self.view.addSubview(webView)
-        
-        self.actInd                     = UIActivityIndicatorView(initInView:self.view, withText:"Please wait".localized)
-        webView.addSubview(actInd)
-    }
-    
-    // MARK: WKUIDelegate
-    
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        startWebView()
-    }
-    
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if checkWebView(webView, mainRequest: navigationAction.request) {
-            decisionHandler(.allow)
-        } else {
-            decisionHandler(.cancel)
-        }
-    }
-    
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        finishWebView(webView)
-    }
-    
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        failWebView()
-    }
-}
-
-// ===================================
-// MARK: HomeWebVC for iOS 7 only
-// ===================================
-class HomeWebiOS7VC: HomeWebVC, UIWebViewDelegate {
-    
-    // MARK: Properties
-    
-    var webView     = UIWebView()
-    
-    // MARK: Init
-    
-    // Init customize
-    override func viewDidLoad() {
-        self.view.backgroundColor       = UIColor.black
-        
-        // Config webView
-        webView                         = UIWebView(frame:rectView)
-        webView.backgroundColor         = UIColor.black
-        webView.delegate                = self
-        webView.isMultipleTouchEnabled  = true
-        webView.scalesPageToFit         = true
-        
-        // Load request
-        webView.loadRequest(request)
-        
-        // Add webView to View
-        self.view.addSubview(webView)
-        
-        self.actInd                     = UIActivityIndicatorView(initInView:self.view, withText:"Please wait".localized)
-        webView.addSubview(actInd)
-    }
-    
-    // MARK: UIWebViewDelegate
-    
-    func webViewDidStartLoad(_ webView: UIWebView) {
-        startWebView()
-    }
-    
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-        return checkWebView(webView, mainRequest:request)
-    }
-    
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        finishWebView(webView)
-    }
-    
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        failWebView()
-    }
-}
-

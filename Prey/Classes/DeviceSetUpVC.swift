@@ -63,12 +63,7 @@ class DeviceSetUpVC: GAITrackedViewController {
         PreyNotification.sharedInstance.registerForRemoteNotifications()
 
         // Location Service Auth
-        if #available(iOS 8.0, *) {
-            authLocation.requestAlwaysAuthorization()
-        } else {
-            authLocation.startUpdatingLocation()
-            authLocation.stopUpdatingLocation()
-        }
+        authLocation.requestAlwaysAuthorization()
         
         // Camera Auth
         AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: {(granted) in })

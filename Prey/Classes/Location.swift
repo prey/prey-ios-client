@@ -76,10 +76,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Start Location Manager
     func startLocationManager()  {
-        if #available(iOS 8.0, *) {
-            locManager.requestAlwaysAuthorization()
-        }
-        
+        locManager.requestAlwaysAuthorization()
         locManager.delegate = self
         locManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locManager.startUpdatingLocation()

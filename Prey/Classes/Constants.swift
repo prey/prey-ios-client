@@ -80,31 +80,23 @@ public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
 // Display error alert
 public func displayErrorAlert(_ alertMessage: String, titleMessage:String) {
     DispatchQueue.main.async {
-        if #available(iOS 8.0, *) {
-            let alertController = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle:.alert)
-            let OKAction        = UIAlertAction(title: "OK".localized, style: .default, handler:nil)
-            alertController.addAction(OKAction)
-            
-            guard let appWindow = UIApplication.shared.delegate?.window else {
-                PreyLogger("error with sharedApplication")
-                return
-            }
-            guard let rootVC = appWindow?.rootViewController else {
-                PreyLogger("error with rootVC")
-                return
-            }
-            
-            if let presentedVC = rootVC.presentedViewController {
-                presentedVC.present(alertController, animated:true, completion:nil)
-            } else {
-                rootVC.present(alertController, animated:true, completion:nil)
-            }
+        let alertController = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle:.alert)
+        let OKAction        = UIAlertAction(title: "OK".localized, style: .default, handler:nil)
+        alertController.addAction(OKAction)
+        
+        guard let appWindow = UIApplication.shared.delegate?.window else {
+            PreyLogger("error with sharedApplication")
+            return
+        }
+        guard let rootVC = appWindow?.rootViewController else {
+            PreyLogger("error with rootVC")
+            return
+        }
+        
+        if let presentedVC = rootVC.presentedViewController {
+            presentedVC.present(alertController, animated:true, completion:nil)
         } else {
-            let alert       = UIAlertView()
-            alert.title     = titleMessage
-            alert.message   = alertMessage
-            alert.addButton(withTitle: "OK".localized)
-            alert.show()
+            rootVC.present(alertController, animated:true, completion:nil)
         }
     }
 }

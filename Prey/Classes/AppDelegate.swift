@@ -202,7 +202,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
     // MARK: AppsFlyer Delegate Deep Linking
     
     // Reports app open from a Universal Link for iOS 9 or later
-    @available(iOS 8.0, *)
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         if #available(iOS 9.0, *) {
             AppsFlyerTracker.shared().continue(userActivity, restorationHandler: restorationHandler as? ([Any]?) -> Void)

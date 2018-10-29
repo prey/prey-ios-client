@@ -40,23 +40,14 @@ class PreyNotification {
     }
     
     // Register Device to Apple Push Notification Service
-    func registerForRemoteNotifications() {
+    func registerForRemoteNotifications() {        
+        let settings = UIUserNotificationSettings(types:[UIUserNotificationType.alert,
+                                                         UIUserNotificationType.badge,
+                                                         UIUserNotificationType.sound],
+                                                  categories: nil)
         
-        if #available(iOS 8.0, *) {
-            
-            let settings = UIUserNotificationSettings(types:[UIUserNotificationType.alert,
-                                                                UIUserNotificationType.badge,
-                                                                UIUserNotificationType.sound],
-                                                      categories: nil)
-
-            UIApplication.shared.registerUserNotificationSettings(settings)
-            UIApplication.shared.registerForRemoteNotifications()
-            
-        } else {
-            UIApplication.shared.registerForRemoteNotifications(matching: [UIRemoteNotificationType.alert,
-                                                                                  UIRemoteNotificationType.badge,
-                                                                                  UIRemoteNotificationType.sound])
-        }
+        UIApplication.shared.registerUserNotificationSettings(settings)
+        UIApplication.shared.registerForRemoteNotifications()
     }
     
     // Did Register Remote Notifications

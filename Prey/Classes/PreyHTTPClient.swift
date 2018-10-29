@@ -56,7 +56,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         }
         
         // Check if endpoint is event
-        if #available(iOS 8.0, *), endPoint == eventsDeviceEndpoint {
+        if endPoint == eventsDeviceEndpoint {
             additionalHeader["X-Prey-Status"]           = Battery.sharedInstance.getHeaderPreyStatus()
         }
         

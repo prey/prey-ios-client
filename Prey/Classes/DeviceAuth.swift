@@ -33,15 +33,10 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
         
         var notifyAuth = false
         
-        if #available(iOS 8.0, *) {
-            if let notificationSettings = UIApplication.shared.currentUserNotificationSettings {
-                notifyAuth = notificationSettings.types.rawValue > 0
-            }
-
-        } else {
-            notifyAuth = true
+        if let notificationSettings = UIApplication.shared.currentUserNotificationSettings {
+            notifyAuth = notificationSettings.types.rawValue > 0
         }
- 
+
         if !notifyAuth {
             displayMessage("You need to grant Prey access to show alert notifications in order to remotely mark it as missing.".localized,
                            titleMessage:"Alert notification disabled".localized)
@@ -94,15 +89,15 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
     // Display message
     func displayMessage(_ alertMessage:String, titleMessage:String) {
         
-        let acceptBtn    = IS_OS_8_OR_LATER ? "Go to Settings".localized : "OK".localized
-        let cancelBtn    = IS_OS_8_OR_LATER ? "Cancel".localized : ""
+        let acceptBtn    = "Go to Settings".localized
+        let cancelBtn    = "Cancel".localized
         
         let anAlert      = UIAlertView()
         anAlert.title    = titleMessage
         anAlert.message  = alertMessage
         anAlert.delegate = self
         anAlert.addButton(withTitle: acceptBtn)
-        if IS_OS_8_OR_LATER { anAlert.addButton(withTitle: cancelBtn) }
+        anAlert.addButton(withTitle: cancelBtn)
         
         anAlert.show()
     }
@@ -116,10 +111,8 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
             return
         }
         
-        if #available(iOS 8.0, *) {
-            if let url = URL(string:UIApplication.openSettingsURLString) {
-                UIApplication.shared.openURL(url)
-            }
+        if let url = URL(string:UIApplication.openSettingsURLString) {
+            UIApplication.shared.openURL(url)
         }
     }
 }

@@ -432,7 +432,6 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     
     // MARK: WKUIDelegate, WKNavigationDelegate
     
-    @available(iOS 8.0, *)
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         PreyLogger("Start load WKWebView")
         
@@ -445,19 +444,19 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
             }
         }
     }
-    @available(iOS 8.0, *)
+
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         PreyLogger("Should load request WKWebView")
         decisionHandler(.allow)
     }
-    @available(iOS 8.0, *)
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         PreyLogger("Finish load WKWebView")
         
         // Hide ActivityIndicator
         DispatchQueue.main.async { self.actInd.stopAnimating() }
     }
-    @available(iOS 8.0, *)
+
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         PreyLogger("Error loading WKWebView")
         

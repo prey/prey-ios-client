@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import WebKit
 
-@available(iOS 8.0, *)
 class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
 
     // MARK: Properties
