@@ -275,9 +275,15 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         self.view.addSubview(actInd)
         actInd.startAnimating()
 
+        // Check userApiKey length
+        guard let userApiKey = PreyConfig.sharedInstance.userApiKey else {
+            displayErrorAlert("Wrong password. Try again.".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
         
         // Get Token for Control Panel
-        PreyUser.getTokenFromPanel(PreyConfig.sharedInstance.userApiKey!, userPassword:pwdInput, onCompletion:{(isSuccess: Bool) in
+        PreyUser.getTokenFromPanel(userApiKey, userPassword:pwdInput, onCompletion:{(isSuccess: Bool) in
 
             // Hide ActivityIndicator
             DispatchQueue.main.async {
