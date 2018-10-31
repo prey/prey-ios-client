@@ -103,7 +103,7 @@ class PreyAction : Operation {
         PreyLogger("data")
         
         // Check userApiKey isn't empty
-        if let username = PreyConfig.sharedInstance.userApiKey {
+        if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:messageId, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:self, onCompletion:{(isSuccess: Bool) in PreyLogger("Request dataSend")}))
         } else {
             PreyLogger("Error send data auth")
@@ -113,7 +113,7 @@ class PreyAction : Operation {
     // Send report to panel
     func sendDataReport(_ params:NSMutableDictionary, images:NSMutableDictionary, toEndpoint:String) {
         // Check userApiKey isn't empty
-        if let username = PreyConfig.sharedInstance.userApiKey {
+        if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
             PreyHTTPClient.sharedInstance.sendDataReportToPrey(username, password:"x", params:params, images: images, messageId:messageId, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:self, onCompletion:{(isSuccess: Bool) in PreyLogger("Request dataSend")}))
         } else {
             PreyLogger("Error send data auth")

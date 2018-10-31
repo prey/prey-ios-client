@@ -207,7 +207,7 @@ class FileRetrieval : PreyAction {
     
     func sendFileToPanel(data: Data, endpoint: String) {
         // Check userApiKey isn't empty
-        if let username = PreyConfig.sharedInstance.userApiKey {
+        if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
             PreyHTTPClient.sharedInstance.sendFileToPrey(username, password:"x", file:data, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:endpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:self, onCompletion:{(isSuccess: Bool) in
                 PreyLogger("Request fileSend")
                 

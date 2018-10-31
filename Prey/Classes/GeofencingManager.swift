@@ -143,7 +143,7 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
     // Send to panel
     func sendNotifyToPanel(_ params:[String: Any], toEndpoint:String) {
         // Check userApiKey isn't empty
-        if let username = PreyConfig.sharedInstance.userApiKey {
+        if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request dataSend")}))
         } else {
             PreyLogger("Error send data auth")
