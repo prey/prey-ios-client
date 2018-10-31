@@ -171,7 +171,12 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         
         PreyLogger("Should load request: WKWebView")
-        if let host = navigationAction.request.url?.host {
+        
+        guard let requestUrl = navigationAction.request.url else {
+            return decisionHandler(.allow)
+        }
+        
+        if let host = requestUrl.host {
             switch host {
                 
             // Worldpay
@@ -192,7 +197,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
                 
             // Google Maps and image reports
             case BlockHost.S3AMAZON.rawValue, BlockHost.SRCGOOGLE.rawValue:
-                openBrowserWith(navigationAction.request.url)
+                openBrowserWith(requestUrl)
                 return decisionHandler(.cancel)
                 
             // Default true
@@ -203,14 +208,15 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         }
         
         // Check scheme for Settings View
-        if navigationAction.request.url?.scheme == "iossettings" {
+        if requestUrl.scheme == "iossettings" {
             DispatchQueue.main.async {
-                self.checkPassword(navigationAction.request.url?.host, view:self.view)
+                let pwdTxt = requestUrl.absoluteString
+                self.checkPassword(String(pwdTxt.suffix(pwdTxt.count-14)), view:self.view)
             }
             return decisionHandler(.allow)
         }
         // Check scheme for AuthDevice
-        if navigationAction.request.url?.scheme == "ioscheckauth" {
+        if requestUrl.scheme == "ioscheckauth" {
             _ = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
             return decisionHandler(.allow)
         }
