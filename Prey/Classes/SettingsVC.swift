@@ -10,23 +10,23 @@ import UIKit
 import WebKit
 
 // Settings TableView Items
-enum PreferencesViewSection {
-    case information, settings, about, numberPreferencesViewSection
+enum PreferencesViewSection : Int {
+    case information=0, settings, about, numberPreferencesViewSection
 }
 
 // SectionInformation Items
-enum SectionInformation {
-    case currentLocation, upgradeToPro, numberSectionInformation
+enum SectionInformation : Int {
+    case currentLocation=0, upgradeToPro, numberSectionInformation
 }
 
 // SectionSettings Items
-enum SectionSettings {
-    case camouflageMode, detachDevice, numberSectionSettings
+enum SectionSettings : Int {
+    case camouflageMode=0, detachDevice, numberSectionSettings
 }
 
 // SectionAbout Items
-enum SectionAbout {
-    case version, help, termService, privacyPolice, numberSectionAbout
+enum SectionAbout : Int {
+    case version=0, help, termService, privacyPolice, numberSectionAbout
 }
 
 class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, WKUIDelegate, WKNavigationDelegate {
@@ -97,7 +97,7 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     
     // Number of sections
     func numberOfSections(in tableView: UITableView) -> Int {
-        return PreferencesViewSection.numberPreferencesViewSection.hashValue
+        return PreferencesViewSection.numberPreferencesViewSection.rawValue
     }
     
     // Number of rows in section
@@ -108,20 +108,20 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         switch section {
             
             // Information
-        case PreferencesViewSection.information.hashValue :
+        case PreferencesViewSection.information.rawValue :
             
-            numberRows = SectionInformation.numberSectionInformation.hashValue
+            numberRows = SectionInformation.numberSectionInformation.rawValue
             if PreyConfig.sharedInstance.isPro {
                 numberRows -= 1
             }
             
             // Settings
-        case PreferencesViewSection.settings.hashValue :
-            numberRows = SectionSettings.numberSectionSettings.hashValue
+        case PreferencesViewSection.settings.rawValue :
+            numberRows = SectionSettings.numberSectionSettings.rawValue
             
             // About
-        case PreferencesViewSection.about.hashValue :
-            numberRows = SectionAbout.numberSectionAbout.hashValue
+        case PreferencesViewSection.about.rawValue :
+            numberRows = SectionAbout.numberSectionAbout.rawValue
             
         default : break
         }
@@ -135,13 +135,13 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         var titleSection = ""
         
         switch section {
-        case PreferencesViewSection.information.hashValue :
+        case PreferencesViewSection.information.rawValue :
             titleSection = "Information".localized
             
-        case PreferencesViewSection.settings.hashValue :
+        case PreferencesViewSection.settings.rawValue :
             titleSection = "Settings".localized
             
-        case PreferencesViewSection.about.hashValue :
+        case PreferencesViewSection.about.rawValue :
             titleSection = "About".localized
             
         default: break
@@ -172,13 +172,13 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         // Set cell info
         switch (indexPath as NSIndexPath).section {
 
-        case PreferencesViewSection.information.hashValue :
+        case PreferencesViewSection.information.rawValue :
             configCellForInformationSection((indexPath as NSIndexPath).row, withCell:cell)
             
-        case PreferencesViewSection.settings.hashValue :
+        case PreferencesViewSection.settings.rawValue :
             configCellForSettingsSection((indexPath as NSIndexPath).row, withCell:cell)
             
-        case PreferencesViewSection.about.hashValue :
+        case PreferencesViewSection.about.rawValue :
             configCellForAboutSection((indexPath as NSIndexPath).row, withCell:cell)
             
         default : break
@@ -195,10 +195,10 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         
         switch index {
             
-        case SectionInformation.currentLocation.hashValue :
+        case SectionInformation.currentLocation.rawValue :
             cell.textLabel?.text    = "Current Location".localized
             
-        case SectionInformation.upgradeToPro.hashValue :
+        case SectionInformation.upgradeToPro.rawValue :
             cell.textLabel?.text    = "Upgrade to Pro".localized
             
         default : break
@@ -210,14 +210,14 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         
         switch index {
             
-        case SectionSettings.camouflageMode.hashValue :
+        case SectionSettings.camouflageMode.rawValue :
             let camouflageMode      = UISwitch()
             camouflageMode.addTarget(self, action:#selector(camouflageModeState), for:UIControl.Event.valueChanged)
             camouflageMode.setOn(PreyConfig.sharedInstance.isCamouflageMode, animated:false)
             cell.accessoryView      = camouflageMode
             cell.textLabel?.text    = "Camouflage mode".localized
             
-        case SectionSettings.detachDevice.hashValue :
+        case SectionSettings.detachDevice.rawValue :
             cell.accessoryType      = UITableViewCell.AccessoryType.none
             cell.selectionStyle     = UITableViewCell.SelectionStyle.blue
             cell.accessoryView      = nil
@@ -236,19 +236,19 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         
         switch index {
             
-        case SectionAbout.version.hashValue :
+        case SectionAbout.version.rawValue :
             cell.accessoryType          = UITableViewCell.AccessoryType.none
             cell.selectionStyle         = UITableViewCell.SelectionStyle.none
             cell.detailTextLabel?.text  = appVersion
             cell.textLabel?.text        = "Version".localized
 
-        case SectionAbout.help.hashValue :
+        case SectionAbout.help.rawValue :
             cell.textLabel?.text        = "Help".localized
             
-        case SectionAbout.termService.hashValue :
+        case SectionAbout.termService.rawValue :
             cell.textLabel?.text        = "Terms of Service".localized
 
-        case SectionAbout.privacyPolice.hashValue :
+        case SectionAbout.privacyPolice.rawValue :
             cell.textLabel?.text        = "Privacy Policy".localized
             
         default : break
@@ -260,12 +260,12 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     
     // Height for header
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == PreferencesViewSection.about.hashValue ? 35 : 1
+        return section == PreferencesViewSection.about.rawValue ? 35 : 1
     }
     
     // Height for footer
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return section == PreferencesViewSection.information.hashValue ? 35 : 1
+        return section == PreferencesViewSection.information.rawValue ? 35 : 1
     }
     
     // DisplayHeaderView
@@ -283,44 +283,44 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         switch (indexPath as NSIndexPath).section {
             
         // === INFORMATION ===
-        case PreferencesViewSection.information.hashValue :
+        case PreferencesViewSection.information.rawValue :
             
             switch (indexPath as NSIndexPath).row {
                 
                 // Current Location
-            case SectionInformation.currentLocation.hashValue:
+            case SectionInformation.currentLocation.rawValue:
                 showViewControllerWithId(StoryboardIdVC.currentLocation.rawValue)
                 
                 // Upgrade to Pro
-            case SectionInformation.upgradeToPro.hashValue:
+            case SectionInformation.upgradeToPro.rawValue:
                 showViewControllerWithId(StoryboardIdVC.purchases.rawValue)
                 
             default : break
             }
 
         // === SETTINGS ===
-        case PreferencesViewSection.settings.hashValue :
+        case PreferencesViewSection.settings.rawValue :
 
             // Detach Device
-            if (indexPath as NSIndexPath).row == SectionSettings.detachDevice.hashValue {
+            if (indexPath as NSIndexPath).row == SectionSettings.detachDevice.rawValue {
                 showDetachDeviceAction()
             }
             
         // === ABOUT ===
-        case PreferencesViewSection.about.hashValue :
+        case PreferencesViewSection.about.rawValue :
             
             switch (indexPath as NSIndexPath).row {
             
                 // Help
-            case SectionAbout.help.hashValue :
+            case SectionAbout.help.rawValue :
                 showWebController(URLHelpPrey, withTitle:"Help".localized)
                 
                 // Term of Service
-            case SectionAbout.termService.hashValue :
+            case SectionAbout.termService.rawValue :
                 showWebController(URLTermsPrey, withTitle:"Terms of Service".localized)
                 
                 // Privacy Policy
-            case SectionAbout.privacyPolice.hashValue :
+            case SectionAbout.privacyPolice.rawValue :
                 showWebController(URLPrivacyPrey, withTitle:"Privacy Policy".localized)
                 
             default : break
