@@ -93,7 +93,7 @@ class PreyDeployment {
         }
         
         // Check if file configuration has deviceKey
-        if let serverDeviceKey:String = serverConfig[kConfigurationDeviceKey] as? String {
+        if let serverDeviceKey:String = serverConfig[kConfigurationDeviceKey] as? String, serverDeviceKey != "" {
             addDeviceWith(serverApiKey, deviceKey:serverDeviceKey)
         } else {
             // Add device to panel
