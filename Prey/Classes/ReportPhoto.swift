@@ -124,6 +124,14 @@ class ReportPhoto: NSObject {
                 self.sessionDevice.startRunning()
                 
                 // KeyObserver
+                NotificationCenter.default.addObserver(self,
+                                                       selector: #selector(self.sessionRuntimeError),
+                                                       name: .AVCaptureSessionRuntimeError,
+                                                       object: self.sessionDevice)
+                NotificationCenter.default.addObserver(self,
+                                                       selector: #selector(self.sessionWasInterrupted),
+                                                       name: .AVCaptureSessionWasInterrupted,
+                                                       object: self.sessionDevice)
                 self.addObserver(self, forKeyPath:"stillImageOutput.capturingStillImage", options: ([.old,.new]), context: &CapturingStillImageContext)
                 self.isObserveImageOutput = true
                 
@@ -210,6 +218,7 @@ class ReportPhoto: NSObject {
             self.removeObserver(self, forKeyPath:"stillImageOutput.capturingStillImage", context:&CapturingStillImageContext)
             self.isObserveImageOutput = false
         }
+        NotificationCenter.default.removeObserver(self)
     }
     
     // Completion Handler to Photo Capture
@@ -363,6 +372,16 @@ class ReportPhoto: NSObject {
     }
     
     // Observer Key
+    @objc func sessionRuntimeError(notification: NSNotification) {
+        PreyLogger("Capture session runtime error")
+        self.delegate?.photoReceived(self.photoArray)
+    }
+
+    @objc func sessionWasInterrupted(notification: NSNotification) {
+        PreyLogger("Capture session interrupted")
+        self.delegate?.photoReceived(self.photoArray)
+    }
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         /*
         if let changeValue = change?[.newKey] {
