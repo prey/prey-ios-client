@@ -89,15 +89,23 @@ class DeviceSetUpVC: GAITrackedViewController {
         }
     
         // Get SharedApplication delegate
-        guard let appWindow = UIApplication.shared.delegate?.window else {
+        guard let delegate = UIApplication.shared.delegate else {
+            PreyLogger("error with UIApplication delegate")
+            return
+        }
+        guard let appWindow = delegate.window as? UIWindow else {
             PreyLogger("error with sharedApplication")
             return
         }
-        
-        let resultController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.homeWeb.rawValue)
-        // Set controller to rootViewController
-        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-        
+        guard let strBoard = self.storyboard else {
+            PreyLogger("error with storyboard")
+            return
+        }
+        guard let navigationController:UINavigationController = appWindow.rootViewController as? UINavigationController else {
+            PreyLogger("error with navigationController")
+            return
+        }
+        let resultController = strBoard.instantiateViewController(withIdentifier: StoryboardIdVC.homeWeb.rawValue)
         let transition:CATransition = CATransition()
         transition.type             = CATransitionType.fade
         navigationController.view.layer.add(transition, forKey: "")
