@@ -71,6 +71,7 @@ class PreyModule {
             if actionArray.isEmpty {
                 PreyLogger("Notification checkRequestVerificationSucceded OK")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
+                if let app = UIApplication.shared.delegate as? AppDelegate {app.stopBackgroundTask()}
             }
             
         } catch let error as NSError{
@@ -156,6 +157,7 @@ class PreyModule {
         if actionArray.isEmpty {
             PreyLogger("Notification checkRequestVerificationSucceded OK")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
+            if let app = UIApplication.shared.delegate as? AppDelegate {app.stopBackgroundTask()}
         }
     }
     

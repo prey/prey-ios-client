@@ -16,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
     // MARK: Properties
     
     var window: UIWindow?
-
+    var bgTask = UIBackgroundTaskIdentifier.invalid
+    
     // MARK: Methods
     
     // Display screen
@@ -37,6 +38,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
         
         self.window?.rootViewController = rootVC
         self.window?.makeKeyAndVisible()
+    }
+    
+    func stopBackgroundTask() {
+        if self.bgTask != UIBackgroundTaskIdentifier.invalid {
+            UIApplication.shared.endBackgroundTask(self.bgTask)
+            self.bgTask = UIBackgroundTaskIdentifier.invalid
+        }
     }
     
     // MARK: UIApplicationDelegate
@@ -111,6 +119,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         PreyLogger("Prey is in background")
+        
+        // Check action list to enable background task
+        if !PreyModule.sharedInstance.actionArray.isEmpty {
+            bgTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+                DispatchQueue.main.async {
+                    self.stopBackgroundTask()
+                }
+            })
+        }
+        
         // Hide keyboard
         window?.endEditing(true)
         
@@ -132,6 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+        stopBackgroundTask()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
