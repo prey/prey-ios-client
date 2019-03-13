@@ -42,8 +42,12 @@ class Detach: PreyAction, UIActionSheetDelegate {
             return
         }
         
-        // Get SharedApplication delegate
-        guard let appWindow = UIApplication.shared.delegate?.window else {
+        guard let delegate = UIApplication.shared.delegate else {
+            PreyLogger("error with UIApplication delegate")
+            return
+        }
+        
+        guard let appWindow = delegate.window as? UIWindow else {
             PreyLogger("error with sharedApplication")
             return
         }
@@ -51,8 +55,9 @@ class Detach: PreyAction, UIActionSheetDelegate {
         let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         if let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.welcome.rawValue) as? WelcomeVC {
             // Set controller to rootViewController
-            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-            navigationController.setViewControllers([resultController], animated: false)
+            if let navigationController:UINavigationController = appWindow.rootViewController as? UINavigationController {
+                navigationController.setViewControllers([resultController], animated: false)
+            }
         }
     }
     

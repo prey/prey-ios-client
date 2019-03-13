@@ -312,8 +312,15 @@ class PreyHTTPResponse {
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
                 return
             }
-            PreyConfig.sharedInstance.reportError("ActionDevice", statusCode: statusCode, errorDescription: "ActionDevice error")
-            PreyLogger("Failed to check action from panel")
+
+            if statusCode == 406 {
+                PreyLogger("Deleted device?")
+                let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
+                detachModule.detachDevice()
+            } else {
+                PreyConfig.sharedInstance.reportError("ActionDevice", statusCode: statusCode, errorDescription: "ActionDevice error")
+                PreyLogger("Failed to check action from panel")
+            }
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
             return
         }
@@ -395,6 +402,10 @@ class PreyHTTPResponse {
                 if let preyAction:Report = action as? Report {
                     preyAction.stopReport()
                 }
+            } else if statusCode == 406 {
+                PreyLogger("Deleted device?")
+                let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
+                detachModule.detachDevice()
             } else {
                 PreyConfig.sharedInstance.reportError("DataSend", statusCode: statusCode, errorDescription: "DataSend error")
                 PreyLogger("Failed data send")
