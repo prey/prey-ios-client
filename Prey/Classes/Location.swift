@@ -137,6 +137,10 @@ class Location : PreyAction, CLLocationManagerDelegate {
             return
         }
 
+        if currentLocation.coordinate.longitude == 0 || currentLocation.coordinate.latitude == 0 {
+            return
+        }
+        
         // Send first location
         if lastLocation == nil {
             // Send location to web panel

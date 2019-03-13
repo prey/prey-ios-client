@@ -71,6 +71,15 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
         guard let location = manager.location else {
             return
         }
+        
+        if location.horizontalAccuracy < 0 {
+            return
+        }
+        
+        if location.coordinate.longitude == 0 || location.coordinate.latitude == 0 {
+            return
+        }
+
         // Send new location aware
         let params:[String: Any] = [
             kLocation.lng.rawValue      : location.coordinate.longitude,
