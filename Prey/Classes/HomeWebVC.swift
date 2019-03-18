@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import WebKit
+import LocalAuthentication
 
 class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
 
@@ -70,6 +71,48 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         self.navigationController?.isNavigationBarHidden = true
         
         super.viewWillAppear(animated)
+    }
+
+    // Check TouchID/FaceID
+    func checkTouchID() {
+        
+        guard PreyConfig.sharedInstance.isTouchIDEnabled == true else {
+            return
+        }
+        
+        let myContext = LAContext()
+        let myLocalizedReasonString = "Would you like to use \(biometricAuth) to access the Prey settings?".localized
+        var authError: NSError?
+        
+        guard myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) else {
+            PreyLogger("error with biometric policy")
+            return
+        }
+        
+        myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
+            
+            DispatchQueue.main.async {
+                guard success else {
+                    PreyLogger("error with auth on touchID")
+                    return
+                }
+                guard let appWindow = UIApplication.shared.delegate?.window else {
+                    PreyLogger("error with sharedApplication")
+                    return
+                }
+                guard let rootVC = appWindow?.rootViewController else {
+                    PreyLogger("error with rootVC")
+                    return
+                }
+                
+                let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
+                let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.settings.rawValue)
+                (rootVC as! UINavigationController).pushViewController(resultController, animated: true)
+                
+                // Hide credentials webView
+                self.evaluateJS(self.webView, code:"$('.popover').removeClass(\"show\");")
+            }
+        }
     }
     
     // Check device auth
@@ -224,6 +267,11 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         // Check scheme for AuthDevice
         if requestUrl.scheme == "ioscheckauth" {
             _ = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
+            return decisionHandler(.allow)
+        }
+        // Check scheme for TouchID/FaceID
+        if requestUrl.scheme == "ioschecktouchid" {
+            DispatchQueue.main.async {self.checkTouchID()}
             return decisionHandler(.allow)
         }
         return decisionHandler(.allow)

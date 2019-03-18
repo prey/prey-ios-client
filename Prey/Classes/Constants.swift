@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import LocalAuthentication
 
 // Storyboard controllerId
 enum StoryboardIdVC: String {
@@ -51,6 +52,27 @@ public func PreyLogger(_ message:String) {
     print(message)
     #endif
 }
+
+// Biometric authentication
+public let biometricAuth : String = {
+    let textID : String
+    let context = LAContext()
+    if #available(iOS 11, *) {
+        let _ = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+        switch(context.biometryType) {
+        case .none:
+            textID = ""
+        case .touchID:
+            textID = "Touch ID"
+        case .faceID:
+            textID = "Face ID"
+        }
+    } else {
+        textID = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) ? "Touch ID" : ""
+    }
+    return textID
+}()
+
 
 // Filename to alternative icon
 public let alternativeIcon = "Icon2"

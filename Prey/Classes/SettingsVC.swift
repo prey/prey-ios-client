@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import LocalAuthentication
 
 // Settings TableView Items
 enum PreferencesViewSection : Int {
@@ -21,7 +22,7 @@ enum SectionInformation : Int {
 
 // SectionSettings Items
 enum SectionSettings : Int {
-    case camouflageMode=0, detachDevice, numberSectionSettings
+    case detachDevice=0, camouflageMode, touchIdEnabled, numberSectionSettings
 }
 
 // SectionAbout Items
@@ -117,7 +118,11 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
             
             // Settings
         case PreferencesViewSection.settings.rawValue :
-            numberRows = SectionSettings.numberSectionSettings.rawValue
+            if LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
+                numberRows = SectionSettings.numberSectionSettings.rawValue
+            } else {
+                numberRows = SectionSettings.numberSectionSettings.rawValue - 1
+            }
             
             // About
         case PreferencesViewSection.about.rawValue :
@@ -210,18 +215,25 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         
         switch index {
             
+        case SectionSettings.detachDevice.rawValue :
+            cell.accessoryType      = UITableViewCell.AccessoryType.none
+            cell.selectionStyle     = UITableViewCell.SelectionStyle.blue
+            cell.accessoryView      = nil
+            cell.textLabel?.text    = "Detach device".localized
+            
         case SectionSettings.camouflageMode.rawValue :
             let camouflageMode      = UISwitch()
             camouflageMode.addTarget(self, action:#selector(camouflageModeState), for:UIControl.Event.valueChanged)
             camouflageMode.setOn(PreyConfig.sharedInstance.isCamouflageMode, animated:false)
             cell.accessoryView      = camouflageMode
             cell.textLabel?.text    = "Camouflage mode".localized
-            
-        case SectionSettings.detachDevice.rawValue :
-            cell.accessoryType      = UITableViewCell.AccessoryType.none
-            cell.selectionStyle     = UITableViewCell.SelectionStyle.blue
-            cell.accessoryView      = nil
-            cell.textLabel?.text    = "Detach device".localized
+
+        case SectionSettings.touchIdEnabled.rawValue :
+            let touchIDEnabled      = UISwitch()
+            touchIDEnabled.addTarget(self, action:#selector(touchIDEnabledState), for:UIControl.Event.valueChanged)
+            touchIDEnabled.setOn(PreyConfig.sharedInstance.isTouchIDEnabled, animated:false)
+            cell.accessoryView      = touchIDEnabled
+            cell.textLabel?.text    = "Use " + biometricAuth
             
         default : break
         }
@@ -415,6 +427,12 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
     // CamouflageMode State
     @objc func camouflageModeState(_ object:UISwitch) {
         PreyConfig.sharedInstance.isCamouflageMode = object.isOn
+        PreyConfig.sharedInstance.saveValues()
+    }
+
+    // TouchID State
+    @objc func touchIDEnabledState(_ object:UISwitch) {
+        PreyConfig.sharedInstance.isTouchIDEnabled = object.isOn
         PreyConfig.sharedInstance.saveValues()
     }
     

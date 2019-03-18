@@ -250,6 +250,7 @@ class PreyHTTPResponse {
             if let deviceKeyStr = jsonObject.object(forKey: "key") as? String {
                 PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
                 PreyConfig.sharedInstance.isRegistered  = true
+                PreyConfig.sharedInstance.isTouchIDEnabled = true
                 PreyConfig.sharedInstance.saveValues()
             }
             

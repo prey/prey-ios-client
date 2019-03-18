@@ -21,6 +21,11 @@ $(function(){
   
 });*/
 
+function checkTouchIDiOS() {
+    var url = 'ioschecktouchid://';
+    openCustomURLinIFrame(url);
+}
+
 function checkAuthiOS() {
     var url = 'ioscheckauth://';
     openCustomURLinIFrame(url);

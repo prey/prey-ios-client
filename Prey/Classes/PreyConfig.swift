@@ -35,6 +35,7 @@ enum PreyConfigDevice: String {
     case UpdatedSettings
     case ReportOptions
     case NeedChangeIcon
+    case IsTouchIDEnabled
 }
 
 class PreyConfig: NSObject, UIActionSheetDelegate {
@@ -55,6 +56,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isCamouflageMode    = defaultConfig.bool(forKey: PreyConfigDevice.IsCamouflageMode.rawValue)
         updatedSettings     = defaultConfig.bool(forKey: PreyConfigDevice.UpdatedSettings.rawValue)
         needChangeIcon      = defaultConfig.bool(forKey: PreyConfigDevice.NeedChangeIcon.rawValue)
+        isTouchIDEnabled    = defaultConfig.bool(forKey: PreyConfigDevice.IsTouchIDEnabled.rawValue)
         reportOptions       = defaultConfig.object(forKey: PreyConfigDevice.ReportOptions.rawValue) as? NSDictionary
     }
 
@@ -70,6 +72,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     var isCamouflageMode    : Bool
     var updatedSettings     : Bool
     var needChangeIcon      : Bool
+    var isTouchIDEnabled    : Bool
     var reportOptions       : NSDictionary?
     
     // MARK: Functions
@@ -88,6 +91,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         defaultConfig.set(isCamouflageMode, forKey:PreyConfigDevice.IsCamouflageMode.rawValue)
         defaultConfig.set(updatedSettings, forKey:PreyConfigDevice.UpdatedSettings.rawValue)
         defaultConfig.set(needChangeIcon, forKey:PreyConfigDevice.NeedChangeIcon.rawValue)
+        defaultConfig.set(isTouchIDEnabled, forKey:PreyConfigDevice.IsTouchIDEnabled.rawValue)
         defaultConfig.set(reportOptions, forKey:PreyConfigDevice.ReportOptions.rawValue)
     }
     
@@ -113,6 +117,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isMissing        = false
         isCamouflageMode = false
         needChangeIcon   = false
+        isTouchIDEnabled = true
         reportOptions    = nil
         
         saveValues()
