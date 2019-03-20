@@ -18,10 +18,10 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     }
     
     // Define delay to request
-    let delayRequest = 5.0
+    let delayRequest = 7.0
     
     // Define retry request for statusCode 503
-    let retryRequest = 5
+    let retryRequest = 10
     
     // Array for receive data : (session : Data)
     var requestData              = [URLSession : Data]()
