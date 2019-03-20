@@ -15,10 +15,6 @@ protocol PhotoServiceDelegate {
 }
 
 
-// Context
-var CapturingStillImageContext = "CapturingStillImageContext"
-
-
 class ReportPhoto: NSObject {
  
     // MARK: Properties
@@ -34,9 +30,6 @@ class ReportPhoto: NSObject {
         let videoDevices = AVCaptureDevice.devices(for: AVMediaType.video)
         return (videoDevices.count > 1) ? true : false
     }
-    
-    // Check observer stillImageOutput.capturingStillImage
-    var isObserveImageOutput = false
     
     // Photo array
     var photoArray    = NSMutableDictionary()
@@ -132,8 +125,6 @@ class ReportPhoto: NSObject {
                                                        selector: #selector(self.sessionWasInterrupted),
                                                        name: .AVCaptureSessionWasInterrupted,
                                                        object: self.sessionDevice)
-                self.addObserver(self, forKeyPath:"stillImageOutput.capturingStillImage", options: ([.old,.new]), context: &CapturingStillImageContext)
-                self.isObserveImageOutput = true
                 
                 // Delay 
                 let timeValue = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
@@ -212,12 +203,7 @@ class ReportPhoto: NSObject {
     // MARK: Functions
 
     // Remove observer
-    func removeObserverForImage() {
-        // Remove key oberver
-        if self.isObserveImageOutput {
-            self.removeObserver(self, forKeyPath:"stillImageOutput.capturingStillImage", context:&CapturingStillImageContext)
-            self.isObserveImageOutput = false
-        }
+    func removeObserver() {
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -382,16 +368,6 @@ class ReportPhoto: NSObject {
         self.delegate?.photoReceived(self.photoArray)
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        /*
-        if let changeValue = change?[.newKey] {
-            if ( (context == &CapturingStillImageContext) && ((changeValue as AnyObject).boolValue == true) ) {
-                // Set shutter sound off
-                self.setShutterSoundOff()
-            }
-        }
-        */
-    }
     
     // Return AVCaptureDevice
     class func deviceWithPosition(_ position:AVCaptureDevice.Position) -> AVCaptureDevice? {

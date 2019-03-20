@@ -149,7 +149,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
 
         // Stop camera session
         reportPhoto.stopSession()
-        reportPhoto.removeObserverForImage()
+        reportPhoto.removeObserver()
         
         // Send report to panel
         sendReport()
