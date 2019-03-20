@@ -48,9 +48,6 @@ class ReportPhoto: NSObject {
     // Device Input
     var videoDeviceInput:AVCaptureDeviceInput?
     
-    // Image Output
-    @objc dynamic var stillImageOutput = AVCaptureStillImageOutput()
-    
     
     // MARK: Init
     
@@ -75,101 +72,92 @@ class ReportPhoto: NSObject {
     
     // Start Session
     func startSession() {
-        
-        sessionQueue.async {
-            
-            // Check error with device
-            guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevice.Position.back) else {
-                PreyLogger("Error with AVCaptureDevice")
-                self.delegate?.photoReceived(self.photoArray)
-                return
-            }
-            
-            // Set AVCaptureDeviceInput
-            do {
-                self.videoDeviceInput = try AVCaptureDeviceInput(device:videoDevice)
-                
-                // Check videoDeviceInput
-                guard let videoDevInput = self.videoDeviceInput else {
-                    PreyLogger("Error videoDeviceInput")
-                    self.delegate?.photoReceived(self.photoArray)
-                    return
-                }
-                
-                // Add session input
-                guard self.sessionDevice.canAddInput(videoDevInput) else {
-                    PreyLogger("Error add session input")
-                    self.delegate?.photoReceived(self.photoArray)
-                    return
-                }
-                self.sessionDevice.addInput(videoDevInput)
-                
-                // Add session output
-                guard self.sessionDevice.canAddOutput(self.stillImageOutput) else {
-                    PreyLogger("Error add session output")
-                    self.delegate?.photoReceived(self.photoArray)
-                    return
-                }
-                self.stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
-                self.sessionDevice.addOutput(self.stillImageOutput)
-                
-                // Start session
-                self.sessionDevice.startRunning()
-                
-                // KeyObserver
-                NotificationCenter.default.addObserver(self,
-                                                       selector: #selector(self.sessionRuntimeError),
-                                                       name: .AVCaptureSessionRuntimeError,
-                                                       object: self.sessionDevice)
-                NotificationCenter.default.addObserver(self,
-                                                       selector: #selector(self.sessionWasInterrupted),
-                                                       name: .AVCaptureSessionWasInterrupted,
-                                                       object: self.sessionDevice)
-                
-                // Delay 
-                let timeValue = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-                self.sessionQueue.asyncAfter(deadline: timeValue, execute: { () -> Void in
-                    
-                    // Set flash off
-                    if let deviceInput = self.videoDeviceInput {
-                        self.setFlashModeOff(deviceInput.device)
-                    }
-                    
-                    // Capture a still image
-                    if let videoConnection = self.stillImageOutput.connection(with: AVMediaType.video) {
-                        guard videoConnection.isEnabled else {
-                            // Error: return to delegate
-                            self.delegate?.photoReceived(self.photoArray)
-                            return
-                        }
-                        guard videoConnection.isActive else {
-                            // Error: return to delegate
-                            self.delegate?.photoReceived(self.photoArray)
-                            return
-                        }
-                        // Check current state
-                        guard self.stillImageOutput.isCapturingStillImage == false else {
-                            // Error: return to delegate
-                            self.delegate?.photoReceived(self.photoArray)
-                            return
-                        }
-                        // Capture image
-                        self.stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler:self.checkPhotoCapture(true))
-                    } else {
-                        // Error: return to delegate
-                        self.delegate?.photoReceived(self.photoArray)
-                    }
-                })
-                
-            } catch let error {
-                PreyLogger("AVCaptureDeviceInput error: \(error.localizedDescription)")
-                self.delegate?.photoReceived(self.photoArray)
-            }
-        }
     }
     
     // Stop Session
     func stopSession() {
+    }
+    
+    // MARK: Functions
+
+    // Remove observer
+    func removeObserver() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // Set shutter sound off
+    func setShutterSoundOff() {
+        var soundID:SystemSoundID = 0
+        let pathFile = Bundle.main.path(forResource: "shutter", ofType: "aiff")
+        let shutterFile = URL(fileURLWithPath: pathFile!)
+        AudioServicesCreateSystemSoundID((shutterFile as CFURL), &soundID)
+        AudioServicesPlaySystemSound(soundID)
+    }
+    
+    // Set Flash Off
+    func setFlashModeOff(_ device:AVCaptureDevice) {
+        
+        if (device.hasFlash && device.isFlashModeSupported(AVCaptureDevice.FlashMode.off)) {
+            // Set AVCaptureFlashMode
+            do {
+                try device.lockForConfiguration()
+                device.flashMode = AVCaptureDevice.FlashMode.off
+                device.unlockForConfiguration()
+                
+            } catch let error {
+                PreyLogger("AVCaptureFlashMode error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    // Observer Key
+    @objc func sessionRuntimeError(notification: NSNotification) {
+        PreyLogger("Capture session runtime error")
+        self.delegate?.photoReceived(self.photoArray)
+    }
+
+    @objc func sessionWasInterrupted(notification: NSNotification) {
+        PreyLogger("Capture session interrupted")
+        self.delegate?.photoReceived(self.photoArray)
+    }
+    
+    // Return AVCaptureDevice
+    class func deviceWithPosition(_ position:AVCaptureDevice.Position) -> AVCaptureDevice? {
+        // Get devices array
+        let devicesArray = AVCaptureDevice.devices(for: AVMediaType.video)
+        
+        // Search for device
+        for device in devicesArray {
+            if device.position == position {
+                return device
+            }
+        }
+        return nil
+    }
+}
+
+
+// ====
+// MARK: ReportPhotoiOS8
+// ====
+class ReportPhotoiOS8: ReportPhoto {
+    
+    // MARK: Properties
+    
+    // Image Output
+    @objc dynamic var stillImageOutput = AVCaptureStillImageOutput()
+    
+    // MARK: Init
+    
+    // Start Session
+    override func startSession() {
+        sessionQueue.async {
+            self.getFirstPhoto()
+        }
+    }
+    
+    // Stop Session
+    override func stopSession() {
         sessionQueue.async {
             
             // Remove current device input
@@ -201,10 +189,152 @@ class ReportPhoto: NSObject {
     }
     
     // MARK: Functions
-
-    // Remove observer
-    func removeObserver() {
-        NotificationCenter.default.removeObserver(self)
+    
+    // Get first photo
+    func getFirstPhoto() {
+        // Check error with device
+        guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevice.Position.back) else {
+            PreyLogger("Error with AVCaptureDevice")
+            self.delegate?.photoReceived(self.photoArray)
+            return
+        }
+        
+        // Set AVCaptureDeviceInput
+        do {
+            self.videoDeviceInput = try AVCaptureDeviceInput(device:videoDevice)
+            
+            // Check videoDeviceInput
+            guard let videoDevInput = self.videoDeviceInput else {
+                PreyLogger("Error videoDeviceInput")
+                self.delegate?.photoReceived(self.photoArray)
+                return
+            }
+            
+            // Add session input
+            guard self.sessionDevice.canAddInput(videoDevInput) else {
+                PreyLogger("Error add session input")
+                self.delegate?.photoReceived(self.photoArray)
+                return
+            }
+            self.sessionDevice.addInput(videoDevInput)
+            
+            // Add session output
+            guard self.sessionDevice.canAddOutput(self.stillImageOutput) else {
+                PreyLogger("Error add session output")
+                self.delegate?.photoReceived(self.photoArray)
+                return
+            }
+            self.stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
+            self.sessionDevice.addOutput(self.stillImageOutput)
+            
+            // Start session
+            self.sessionDevice.startRunning()
+            
+            // KeyObserver
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(self.sessionRuntimeError),
+                                                   name: .AVCaptureSessionRuntimeError,
+                                                   object: self.sessionDevice)
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(self.sessionWasInterrupted),
+                                                   name: .AVCaptureSessionWasInterrupted,
+                                                   object: self.sessionDevice)
+            
+            // Delay
+            let timeValue = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            self.sessionQueue.asyncAfter(deadline: timeValue, execute: { () -> Void in
+                // Capture a still image
+                self.takePicture(true)
+            })
+            
+        } catch let error {
+            PreyLogger("AVCaptureDeviceInput error: \(error.localizedDescription)")
+            self.delegate?.photoReceived(self.photoArray)
+        }
+    }
+    
+    // Get second photo
+    func getSecondPhoto() {
+        
+        // Set captureDevice
+        guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevice.Position.front) else {
+            PreyLogger("Error with AVCaptureDevice")
+            self.delegate?.photoReceived(self.photoArray)
+            return
+        }
+        
+        // Set AVCaptureDeviceInput
+        do {
+            let frontDeviceInput = try AVCaptureDeviceInput(device:videoDevice)
+            
+            // Remove current device input
+            self.sessionDevice.beginConfiguration()
+            if let deviceInput = self.videoDeviceInput {
+                self.sessionDevice.removeInput(deviceInput)
+            }
+            
+            // Add session input
+            guard self.sessionDevice.canAddInput(frontDeviceInput) else {
+                PreyLogger("Error add session input")
+                self.delegate?.photoReceived(self.photoArray)
+                return
+            }
+            self.sessionDevice.addInput(frontDeviceInput)
+            self.videoDeviceInput = frontDeviceInput
+            
+            // Set session to PresetLow
+            if self.sessionDevice.canSetSessionPreset(AVCaptureSession.Preset.low) {
+                self.sessionDevice.sessionPreset = AVCaptureSession.Preset.low
+            }
+            
+            // End session config
+            self.sessionDevice.commitConfiguration()
+            
+            
+            // Delay
+            let timeValue = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            self.sessionQueue.asyncAfter(deadline: timeValue, execute: { () -> Void in
+                // Capture a still image
+                self.takePicture(false)
+            })
+            
+        } catch let error {
+            PreyLogger("AVCaptureDeviceInput error: \(error.localizedDescription)")
+            self.delegate?.photoReceived(self.photoArray)
+        }
+    }
+    
+    // Capture a still image
+    func takePicture(_ isFirstPhoto:Bool) {
+        // Set flash off
+        if let deviceInput = self.videoDeviceInput {
+            self.setFlashModeOff(deviceInput.device)
+        }
+        
+        // Capture a still image
+        guard let videoConnection = self.stillImageOutput.connection(with: AVMediaType.video) else {
+            // Error: return to delegate
+            self.delegate?.photoReceived(self.photoArray)
+            return
+        }
+        guard videoConnection.isEnabled else {
+            // Error: return to delegate
+            self.delegate?.photoReceived(self.photoArray)
+            return
+        }
+        guard videoConnection.isActive else {
+            // Error: return to delegate
+            self.delegate?.photoReceived(self.photoArray)
+            return
+        }
+        // Check current state
+        guard self.stillImageOutput.isCapturingStillImage == false else {
+            // Error: return to delegate
+            self.delegate?.photoReceived(self.photoArray)
+            return
+        }
+        // Capture image
+        self.stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler:self.checkPhotoCapture(isFirstPhoto))
     }
     
     // Completion Handler to Photo Capture
@@ -249,137 +379,7 @@ class ReportPhoto: NSObject {
                 self.delegate?.photoReceived(self.photoArray)
             }
         }
-     
+        
         return actionPhotoCapture
-    }
-
-    // Get second photo
-    func getSecondPhoto() {
-        
-        // Set captureDevice
-        guard let videoDevice = ReportPhoto.deviceWithPosition(AVCaptureDevice.Position.front) else {
-            PreyLogger("Error with AVCaptureDevice")
-            self.delegate?.photoReceived(self.photoArray)
-            return
-        }
-        
-        // Set AVCaptureDeviceInput
-        do {
-            let frontDeviceInput = try AVCaptureDeviceInput(device:videoDevice)
-            
-            // Remove current device input
-            self.sessionDevice.beginConfiguration()
-            if let deviceInput = self.videoDeviceInput {
-                self.sessionDevice.removeInput(deviceInput)
-            }
-            
-            // Add session input
-            guard self.sessionDevice.canAddInput(frontDeviceInput) else {
-                PreyLogger("Error add session input")
-                self.delegate?.photoReceived(self.photoArray)
-                return
-            }
-            self.sessionDevice.addInput(frontDeviceInput)
-            self.videoDeviceInput = frontDeviceInput
-            
-            // Set session to PresetLow
-            if self.sessionDevice.canSetSessionPreset(AVCaptureSession.Preset.low) {
-                self.sessionDevice.sessionPreset = AVCaptureSession.Preset.low
-            }
-            
-            // End session config
-            self.sessionDevice.commitConfiguration()
-            
-            
-            // Delay
-            let timeValue = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-            self.sessionQueue.asyncAfter(deadline: timeValue, execute: { () -> Void in
-                
-                // Set flash off
-                if let deviceInput = self.videoDeviceInput {
-                    self.setFlashModeOff(deviceInput.device)
-                }
-                
-                // Capture a still image
-                if let videoConnection = self.stillImageOutput.connection(with: AVMediaType.video) {
-                    guard videoConnection.isEnabled else {
-                        // Error: return to delegate
-                        self.delegate?.photoReceived(self.photoArray)
-                        return
-                    }
-                    guard videoConnection.isActive else {
-                        // Error: return to delegate
-                        self.delegate?.photoReceived(self.photoArray)
-                        return
-                    }
-                    // Check current state
-                    guard self.stillImageOutput.isCapturingStillImage == false else {
-                        // Error: return to delegate
-                        self.delegate?.photoReceived(self.photoArray)
-                        return
-                    }
-                    // Capture image
-                    self.stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler:self.checkPhotoCapture(false))
-                } else {
-                    // Error: return to delegate
-                    self.delegate?.photoReceived(self.photoArray)
-                }
-            })
-            
-        } catch let error {
-            PreyLogger("AVCaptureDeviceInput error: \(error.localizedDescription)")
-            self.delegate?.photoReceived(self.photoArray)
-        }
-    }
-    
-    // Set shutter sound off
-    func setShutterSoundOff() {
-        var soundID:SystemSoundID = 0
-        let pathFile = Bundle.main.path(forResource: "shutter", ofType: "aiff")
-        let shutterFile = URL(fileURLWithPath: pathFile!)
-        AudioServicesCreateSystemSoundID((shutterFile as CFURL), &soundID)
-        AudioServicesPlaySystemSound(soundID)
-    }
-    
-    // Set Flash Off
-    func setFlashModeOff(_ device:AVCaptureDevice) {
-        
-        if (device.hasFlash && device.isFlashModeSupported(AVCaptureDevice.FlashMode.off)) {
-            // Set AVCaptureFlashMode
-            do {
-                try device.lockForConfiguration()
-                device.flashMode = AVCaptureDevice.FlashMode.off
-                device.unlockForConfiguration()
-                
-            } catch let error {
-                PreyLogger("AVCaptureFlashMode error: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    // Observer Key
-    @objc func sessionRuntimeError(notification: NSNotification) {
-        PreyLogger("Capture session runtime error")
-        self.delegate?.photoReceived(self.photoArray)
-    }
-
-    @objc func sessionWasInterrupted(notification: NSNotification) {
-        PreyLogger("Capture session interrupted")
-        self.delegate?.photoReceived(self.photoArray)
-    }
-    
-    
-    // Return AVCaptureDevice
-    class func deviceWithPosition(_ position:AVCaptureDevice.Position) -> AVCaptureDevice? {
-        // Get devices array
-        let devicesArray = AVCaptureDevice.devices(for: AVMediaType.video)
-        
-        // Search for device
-        for device in devicesArray {
-            if device.position == position {
-                return device
-            }
-        }
-        return nil
     }
 }
