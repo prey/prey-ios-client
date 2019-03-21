@@ -24,7 +24,13 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     
     var reportLocation  = ReportLocation()
     
-    var reportPhoto     = ReportPhoto()
+    var reportPhoto : ReportPhoto = {
+        if #available(iOS 10.0, *) {
+        return ReportPhotoiOS10()
+        } else {
+        return ReportPhotoiOS8()
+        }
+    }()
     
     // MARK: Functions
     
