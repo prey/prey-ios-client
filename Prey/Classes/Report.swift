@@ -18,6 +18,10 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     
     var interval:Double = 10*60
     
+    var excLocation = false
+
+    var excPicture  = false
+    
     var reportData      = NSMutableDictionary()
     
     var reportImages    = NSMutableDictionary()
@@ -40,6 +44,16 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         // Set interval from jsonCommand
         if let reportInterval = options?.object(forKey: kOptions.interval.rawValue) {
             interval = (reportInterval as AnyObject).doubleValue * 60
+        }
+
+        // Set exclude option from jsonCommand
+        if let excludeArray = options?.object(forKey: kOptions.exclude.rawValue) as? Array<String> {
+            if excludeArray.contains(kExclude.location.rawValue) {
+                excLocation = true
+            }
+            if excludeArray.contains(kExclude.picture.rawValue) {
+                excPicture = true
+            }
         }
         
         // Report Timer
@@ -68,12 +82,14 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         reportLocation.stopLocation()
         
         // Get Location
-        reportLocation.waitForRequest = true
-        reportLocation.delegate = self
-        reportLocation.startLocation()
+        if !excLocation {
+            reportLocation.waitForRequest = true
+            reportLocation.delegate = self
+            reportLocation.startLocation()
+        }
         
         // Get Photo
-        if UIApplication.shared.applicationState != .background {
+        if !excPicture, UIApplication.shared.applicationState != .background {
             reportPhoto.waitForRequest = true
             reportPhoto.delegate = self
             reportPhoto.startSession()
@@ -81,6 +97,11 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         
         // Get Wifi Info
         addWifiInfo()
+        
+        // Check exclude option
+        if excPicture, excLocation {
+            sendReport()
+        }
     }
     
     // Stop action report
