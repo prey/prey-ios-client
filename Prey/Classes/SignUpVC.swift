@@ -77,8 +77,6 @@ class SignUpVC: UserRegister {
             let params:NSObject = GAIDictionaryBuilder.createEvent(withCategory: "Acquisition", action:"Sign Up", label:"Sign Up", value:nil).build()
             tracker.send(params as! [NSObject : AnyObject])
         }
-        // Send event to AppsFlyer
-        AppsFlyerTracker.shared().trackEvent("sign_up", withValues: [AFEventParamDescription: "ios_signUp"])
     }
     
     // MARK: Actions

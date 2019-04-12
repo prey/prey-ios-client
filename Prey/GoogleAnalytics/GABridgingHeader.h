@@ -19,6 +19,4 @@
 #import "GAITrackedViewController.h"
 #import "GAITracker.h"
 
-#import "AppsFlyerTracker.h"
-
 #endif /* GABridgingHeader_h */

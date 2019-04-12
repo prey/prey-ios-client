@@ -11,7 +11,7 @@ import Fabric
 import Crashlytics
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: Properties
     
@@ -50,15 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
     // MARK: UIApplicationDelegate
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        // FIXME: Update devKey AppsFlyer
-        // Config AppsFlyer SDK
-        AppsFlyerTracker.shared().appsFlyerDevKey = "d3vk3y"
-        AppsFlyerTracker.shared().appleAppID = "456755037"
-        AppsFlyerTracker.shared().delegate = self
-        #if DEBUG
-        AppsFlyerTracker.shared().isDebug = true
-        #endif
         
         // FIXME: Update apikey crashlytics        
         // Config Fabric SDK
@@ -155,9 +146,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
 
     func applicationDidBecomeActive(_ application: UIApplication) {
 
-        // Track Installs, updates & sessions(app opens)
-        AppsFlyerTracker.shared().trackAppLaunch()
-
         // Show mainView
         let backgroundImg   = window?.viewWithTag(1985)
         
@@ -216,29 +204,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerTrackerDelegate 
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         PreyLogger("Local notification received")
         PreyNotification.sharedInstance.checkLocalNotification(application, localNotification:notification)
-    }
-    
-    // MARK: AppsFlyer Delegate Deep Linking
-    
-    // Reports app open from a Universal Link for iOS 9 or later
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        if #available(iOS 9.0, *) {
-            AppsFlyerTracker.shared().continue(userActivity, restorationHandler: restorationHandler as? ([Any]?) -> Void)
-        }
-        return true
-    }
-    
-    // Reports app open from deep link from apps which do not support Universal Links (Twitter) and for iOS8 and below
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        AppsFlyerTracker.shared().handleOpen(url, sourceApplication: sourceApplication, withAnnotation: annotation)
-        return true
-    }
-    
-    // Reports app open from deep link for iOS 10 or later
-    @available(iOS 9.0, *)
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        AppsFlyerTracker.shared().handleOpen(url, options: options)
-        return true
-    }
+    }    
 }
 

@@ -119,8 +119,6 @@ class SignInVC: UserRegister {
                          actInd.stopAnimating()
                         return
                     }
-                    // Send event to AppsFlyer
-                    AppsFlyerTracker.shared().trackEvent("log_in", withValues: [AFEventParamDescription: "ios_logIn"])
 
                     // Add Device Success
                     if let resultController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.deviceSetUp.rawValue) as? DeviceSetUpVC {
