@@ -169,7 +169,7 @@ class PreyModule {
             // Compare target
             if item.target == action.target {
                 // Get index
-                if let indexItem = actionArray.index(of: item) {
+                if let indexItem = actionArray.firstIndex(of: item) {
                     // Remove element
                     actionArray.remove(at:indexItem)
                     PreyLogger("Deleted action")
