@@ -8,7 +8,7 @@
 import Foundation
 
 public func shareFile(_ path: String) -> ((HttpRequest) -> HttpResponse) {
-    return { r in
+    return { _ in
         if let file = try? path.openForReading() {
             return .raw(200, "OK", [:], { writer in
                 try? writer.write(file)
@@ -20,8 +20,8 @@ public func shareFile(_ path: String) -> ((HttpRequest) -> HttpResponse) {
 }
 
 public func shareFilesFromDirectory(_ directoryPath: String, defaults: [String] = ["index.html", "default.html"]) -> ((HttpRequest) -> HttpResponse) {
-    return { r in
-        guard let fileRelativePath = r.params.first else {
+    return { request in
+        guard let fileRelativePath = request.params.first else {
             return .notFound
         }
         if fileRelativePath.value.isEmpty {
@@ -35,7 +35,9 @@ public func shareFilesFromDirectory(_ directoryPath: String, defaults: [String] 
             }
         }
         if let file = try? (directoryPath + String.pathSeparator + fileRelativePath.value).openForReading() {
-            return .raw(200, "OK", [:], { writer in
+            let mimeType = fileRelativePath.value.mimeType()
+            
+            return .raw(200, "OK", ["Content-Type": mimeType], { writer in
                 try? writer.write(file)
                 file.close()
             })
@@ -45,8 +47,8 @@ public func shareFilesFromDirectory(_ directoryPath: String, defaults: [String] 
 }
 
 public func directoryBrowser(_ dir: String) -> ((HttpRequest) -> HttpResponse) {
-    return { r in
-        guard let (_, value) = r.params.first else {
+    return { request in
+        guard let (_, value) = request.params.first else {
             return HttpResponse.notFound
         }
         let filePath = dir + String.pathSeparator + value
@@ -55,7 +57,8 @@ public func directoryBrowser(_ dir: String) -> ((HttpRequest) -> HttpResponse) {
                 return .notFound
             }
             if try filePath.directory() {
-                let files = try filePath.files()
+                var files = try filePath.files()
+                files.sort(by: {$0.lowercased() < $1.lowercased()})
                 return scopes {
                     html {
                         body {
@@ -63,7 +66,7 @@ public func directoryBrowser(_ dir: String) -> ((HttpRequest) -> HttpResponse) {
                                 tr {
                                     td {
                                         a {
-                                            href = r.path + "/" + file
+                                            href = request.path + "/" + file
                                             inner = file
                                         }
                                     }
@@ -71,7 +74,7 @@ public func directoryBrowser(_ dir: String) -> ((HttpRequest) -> HttpResponse) {
                             }
                         }
                     }
-                    }(r)
+                    }(request)
             } else {
                 guard let file = try? filePath.openForReading() else {
                     return .notFound

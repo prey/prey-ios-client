@@ -86,6 +86,7 @@
 		3BA7219D1D46B7040043C9B9 /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA7219A1D46B7040043C9B9 /* libAdIdAccess.a */; };
 		3BA7219E1D46B7040043C9B9 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA7219B1D46B7040043C9B9 /* libGoogleAnalyticsServices.a */; };
 		3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BAE5812214ACD9F00DB4BAB /* InfoPlist.strings */; };
+		3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342FF22710B360088F3D3 /* MimeTypes.swift */; };
 		3BB6E21A1D47AEA100074E97 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E2181D47AEA100074E97 /* libsqlite3.tbd */; };
 		3BB6E21B1D47AEA100074E97 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E2191D47AEA100074E97 /* libz.tbd */; };
 		3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21C1D47CAC500074E97 /* StoreKit.framework */; };
@@ -229,6 +230,7 @@
 		3BA7219B1D46B7040043C9B9 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		3BAE5813214ACD9F00DB4BAB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BAE5814214ACD9F00DB4BAB /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3BB342FF22710B360088F3D3 /* MimeTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MimeTypes.swift; sourceTree = "<group>"; };
 		3BB6E2171D47A97A00074E97 /* GABridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GABridgingHeader.h; sourceTree = "<group>"; };
 		3BB6E2181D47AEA100074E97 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		3BB6E2191D47AEA100074E97 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -440,6 +442,7 @@
 				3B8629831EF03CB400BE92D4 /* HttpRouter.swift */,
 				3B8629841EF03CB400BE92D4 /* HttpServer.swift */,
 				3B8629851EF03CB400BE92D4 /* HttpServerIO.swift */,
+				3BB342FF22710B360088F3D3 /* MimeTypes.swift */,
 				3B8629861EF03CB400BE92D4 /* Process.swift */,
 				3B8629871EF03CB400BE92D4 /* Scopes.swift */,
 				3B8629881EF03CB400BE92D4 /* Socket+File.swift */,
@@ -821,6 +824,7 @@
 				3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */,
 				3B047EB21D400F26008B2D58 /* PreyOnboardingPage.swift in Sources */,
 				3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */,
+				3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */,
 				3B2445F71D245478005DF09C /* Camouflage.swift in Sources */,
 				3BB6E2251D47F42100074E97 /* PreyRateUs.swift in Sources */,
 			);
