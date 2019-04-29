@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import AVFoundation
+import UserNotifications
 
 class DeviceAuth: NSObject, UIAlertViewDelegate {
 
@@ -21,28 +22,48 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
     // MARK: Methods
     
     // Check all device auth
-    func checkAllDeviceAuthorization() -> Bool{
-        if checkNotify() && checkLocation() && checkCamera() {
-            return true
+    func checkAllDeviceAuthorization(completionHandler:@escaping (_ granted: Bool) -> Void){
+        // Check UNUserNotificationCenter async
+        checkNotify { granted in
+            DispatchQueue.main.async {
+                if granted && self.checkLocation() && self.checkCamera() {
+                    completionHandler(true)
+                } else {
+                    completionHandler(false)
+                }
+            }
         }
-        return false
     }
     
     // Check notification
-    func checkNotify() -> Bool {
-        
-        var notifyAuth = false
-        
-        if let notificationSettings = UIApplication.shared.currentUserNotificationSettings {
-            notifyAuth = notificationSettings.types.rawValue > 0
+    func checkNotify(completionHandler:@escaping (_ granted: Bool) -> Void) {
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                // Check notification settings
+                if settings.authorizationStatus == .authorized {
+                    completionHandler(true)
+                } else {
+                    DispatchQueue.main.async {
+                        self.displayMessage("You need to grant Prey access to show alert notifications in order to remotely mark it as missing.".localized,
+                                       titleMessage:"Alert notification disabled".localized)
+                        completionHandler(false)
+                    }
+                }
+            }
+        } else {
+            // For iOS 8 and 9
+            if let notificationSettings = UIApplication.shared.currentUserNotificationSettings {
+                if notificationSettings.types.rawValue > 0 {
+                    completionHandler(true)
+                } else {
+                    DispatchQueue.main.async {
+                        self.displayMessage("You need to grant Prey access to show alert notifications in order to remotely mark it as missing.".localized,
+                                            titleMessage:"Alert notification disabled".localized)
+                        completionHandler(false)
+                    }
+                }
+            } else {completionHandler(true)}
         }
-
-        if !notifyAuth {
-            displayMessage("You need to grant Prey access to show alert notifications in order to remotely mark it as missing.".localized,
-                           titleMessage:"Alert notification disabled".localized)
-        }
-        
-        return notifyAuth
     }
     
     // Check location

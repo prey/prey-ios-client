@@ -66,6 +66,8 @@ public let biometricAuth : String = {
             textID = "Touch ID"
         case .faceID:
             textID = "Face ID"
+        @unknown default:
+            textID = ""
         }
     } else {
         textID = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) ? "Touch ID" : ""

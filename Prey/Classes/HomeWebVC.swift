@@ -120,10 +120,13 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         guard checkAuth == true else {
             return
         }
-        let isAllAuthAvailable  = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
-        let titleTxt            = isAllAuthAvailable ? "protected" : "unprotected"
-        evaluateJS(webView, code:"document.getElementById('wrap').className = '\(titleTxt)';")
-        checkAuth = false
+        DeviceAuth.sharedInstance.checkAllDeviceAuthorization { granted in
+            DispatchQueue.main.async {
+                let titleTxt            = granted ? "protected" : "unprotected"
+                self.evaluateJS(webView, code:"document.getElementById('wrap').className = '\(titleTxt)';")
+                self.checkAuth = false
+            }
+        }
     }
     
     // Open URL from Safari
@@ -134,7 +137,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     }
 
     // Check password
-    func checkPassword(_ pwd: String?, view: Any) {
+    func checkPassword(_ pwd: String?, view: UIView) {
         
         // Check password length
         guard let pwdInput = pwd else {
@@ -266,7 +269,12 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         }
         // Check scheme for AuthDevice
         if requestUrl.scheme == "ioscheckauth" {
-            _ = DeviceAuth.sharedInstance.checkAllDeviceAuthorization()
+            DeviceAuth.sharedInstance.checkAllDeviceAuthorization { granted in
+                DispatchQueue.main.async {
+                    let titleTxt            = granted ? "protected" : "unprotected"
+                    self.evaluateJS(webView, code:"document.getElementById('wrap').className = '\(titleTxt)';")
+                }
+            }
             return decisionHandler(.allow)
         }
         // Check scheme for TouchID/FaceID

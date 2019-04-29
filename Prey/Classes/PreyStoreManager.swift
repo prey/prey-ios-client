@@ -177,6 +177,9 @@ class PreyStoreManager: NSObject, SKProductsRequestDelegate, SKPaymentTransactio
             
             case .deferred :
                 PreyLogger("Deferred")
+                
+            @unknown default:
+                PreyLogger("Unknown")
             }
         }
     }

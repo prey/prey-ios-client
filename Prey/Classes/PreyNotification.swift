@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import UserNotifications
 
 class PreyNotification {
 
@@ -40,14 +41,30 @@ class PreyNotification {
     }
     
     // Register Device to Apple Push Notification Service
-    func registerForRemoteNotifications() {        
-        let settings = UIUserNotificationSettings(types:[UIUserNotificationType.alert,
-                                                         UIUserNotificationType.badge,
-                                                         UIUserNotificationType.sound],
-                                                  categories: nil)
-        
-        UIApplication.shared.registerUserNotificationSettings(settings)
-        UIApplication.shared.registerForRemoteNotifications()
+    func registerForRemoteNotifications() {
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current()
+                .requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+                   // Check permission granted
+                    guard granted else { return }
+                    
+                    UNUserNotificationCenter.current().getNotificationSettings { settings in
+                        // Check notification settings
+                        guard settings.authorizationStatus == .authorized else { return }
+                        DispatchQueue.main.async {
+                            UIApplication.shared.registerForRemoteNotifications()
+                        }
+                    }
+            }
+        } else {
+            // For iOS 8 and 9
+            let settings = UIUserNotificationSettings(types:[UIUserNotificationType.alert,
+                                                             UIUserNotificationType.badge,
+                                                             UIUserNotificationType.sound],
+                                                      categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+            UIApplication.shared.registerForRemoteNotifications()
+        }
     }
     
     // Did Register Remote Notifications
