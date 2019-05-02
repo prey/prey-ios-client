@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PreyLogger("Prey is in background")
         
         // Check action list to enable background task
-        if !PreyModule.sharedInstance.actionArray.isEmpty {
+        if PreyConfig.sharedInstance.isRegistered, IS_OS_12 {
             bgTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
                 DispatchQueue.main.async {
                     self.stopBackgroundTask()
