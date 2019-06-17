@@ -31,8 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window                         = UIWindow(frame: UIScreen.main.bounds)
         let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         let rootVC: UINavigationController  = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
-        let controller: UIViewController    = (PreyConfig.sharedInstance.isRegistered) ? mainStoryboard.instantiateViewController(withIdentifier: homeIdentifier) :
-            mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.welcome.rawValue)
+        let controller: UIViewController    = mainStoryboard.instantiateViewController(withIdentifier: homeIdentifier)
         
         rootVC.setViewControllers([controller], animated: false)
         

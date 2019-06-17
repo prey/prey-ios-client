@@ -23,8 +23,10 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         // Set language for webView
         let language:String = Locale.preferredLanguages[0] as String
         let languageES  = (language as NSString).substring(to: 2)
-        let indexPage   = (languageES == "es") ? "index-es" : "index"
-        return URLRequest(url:URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"PreyInfo")!))
+        let indexPage   = "index"
+        let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"build")!)
+        let pathURL = (PreyConfig.sharedInstance.isRegistered) ? "#/\(languageES)/index" : "#/\(languageES)/start"
+        return URLRequest(url:URL(string: pathURL, relativeTo: baseURL)!)
     }
 
     // MARK: Init
@@ -52,11 +54,13 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         self.actInd                     = UIActivityIndicatorView(initInView:self.view, withText:"Please wait".localized)
         webView.addSubview(actInd)
         
-        // Check for Rate us
-        PreyRateUs.sharedInstance.askForReview()
-        
-        // Check new version on App Store
-        PreyConfig.sharedInstance.checkLastVersionOnStore()
+        if (PreyConfig.sharedInstance.isRegistered) {
+            // Check for Rate us
+            PreyRateUs.sharedInstance.askForReview()
+            
+            // Check new version on App Store
+            PreyConfig.sharedInstance.checkLastVersionOnStore()
+        }
         
         // View title for GAnalytics
         self.screenName = "HomeWeb"        
@@ -302,9 +306,10 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         // Hide print option
         evaluateJS(webView, code:"var printBtn = document.getElementById('print'); printBtn.style.display='none';")
         
-        
         // Check device auth
-        checkDeviceAuth(webView: webView)
+        if (PreyConfig.sharedInstance.isRegistered) {
+            checkDeviceAuth(webView: webView)
+        }
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
