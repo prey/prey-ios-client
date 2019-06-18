@@ -167,15 +167,10 @@ class PreyDeployment {
             return
         }
         
-        let mainStoryboard : UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
-        
-        // Add Device Success
-        if let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.deviceSetUp.rawValue) as? DeviceSetUpVC {
-
-            let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-            resultController.messageTxt = "Congratulations! You have successfully associated this iOS device with your Prey account.".localized
-            navigationController.pushViewController(resultController, animated: true)
-        }        
+        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+        if let homeWebVC:HomeWebVC = navigationController.topViewController as? HomeWebVC {
+            homeWebVC.loadViewOnWebView("permissions")
+        }
     }
     
     // SuccessManagedAppConfig

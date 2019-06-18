@@ -216,6 +216,95 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         }
     }
     
+    // Add device with QRCode
+    func addDeviceWithQRCode() {
+        let controller:QRCodeScannerVC = QRCodeScannerVC()
+        self.navigationController?.present(controller, animated:true, completion:nil)
+    }
+    
+    // Add device action
+    func addDeviceAction(_ email: String?, password: String?) {
+        
+        // Check valid email
+        if isInvalidEmail(email!, withPattern:emailRegExp) {
+            displayErrorAlert("Enter a valid e-mail address".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+        
+        // Check password length
+        if password!.count < 6 {
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+        
+        // Hide keyboard
+        self.view.endEditing(true)
+        
+        // Show ActivityIndicator
+        let actInd          = UIActivityIndicatorView(initInView: self.view, withText: "Attaching device...".localized)
+        self.view.addSubview(actInd)
+        actInd.startAnimating()
+        
+        // LogIn to Panel Prey
+        PreyUser.logInToPrey(email!, userPassword: password!, onCompletion: {(isSuccess: Bool) in
+            
+            // LogIn isn't Success
+            guard isSuccess else {
+                // Hide ActivityIndicator
+                DispatchQueue.main.async {
+                    actInd.stopAnimating()
+                }
+                return
+            }
+            
+            // Get Token for Control Panel
+            PreyUser.getTokenFromPanel(email!, userPassword:password!, onCompletion: {_ in })
+            
+            // Add Device to Panel Prey
+            PreyDevice.addDeviceWith({(isSuccess: Bool) in
+                
+                DispatchQueue.main.async {
+                    // Hide ActivityIndicator
+                    actInd.stopAnimating()
+
+                    // AddDevice isn't success
+                    guard isSuccess else {
+                        return
+                    }
+                    
+                    self.loadViewOnWebView("permissions")
+                }
+            })
+        })
+    }
+
+    // Show webView on modal
+    func showWebViewModal(_ urlString: String, pageTitle: String) {
+        let controller : UIViewController
+        if #available(iOS 10.0, *) {
+            controller       = WebKitVC(withURL:URL(string:urlString)!, withParameters:nil, withTitle:pageTitle)
+        } else {
+            controller       = WebVC(withURL:URL(string:urlString)!, withParameters:nil, withTitle:pageTitle)
+        }
+        self.present(controller, animated:true, completion:nil)
+    }
+
+    
+    // Load view on webView
+    func loadViewOnWebView(_ view:String) {
+        var request     : URLRequest
+        let language:String = Locale.preferredLanguages[0] as String
+        let languageES  = (language as NSString).substring(to: 2)
+        let indexPage   = "index"
+        let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"build")!)
+        let pathURL = "#/\(languageES)/\(view)"
+        request = URLRequest(url:URL(string: pathURL, relativeTo: baseURL)!)
+
+        webView.load(request)
+    }
+    
     // MARK: WKUIDelegate
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
@@ -286,6 +375,45 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             DispatchQueue.main.async {self.checkTouchID()}
             return decisionHandler(.allow)
         }
+        // Check scheme for QRCode
+        if requestUrl.scheme == "iosqrcode" {
+            DispatchQueue.main.async {
+                self.addDeviceWithQRCode()
+            }
+            return decisionHandler(.allow)
+        }
+        // Check scheme for LogIn
+        if requestUrl.scheme == "ioslogin" {
+            let queryItems = URLComponents(string: requestUrl.absoluteString)?.queryItems
+            let email = queryItems?.filter({$0.name == "preyEmailLogin"}).first
+            let pwd = queryItems?.filter({$0.name == "preyPassLogin"}).first
+            DispatchQueue.main.async {
+                self.addDeviceAction(email?.value, password: pwd?.value)
+            }
+            return decisionHandler(.allow)
+        }
+        // Check scheme for Show Terms
+        if requestUrl.scheme == "iosterms" {
+            DispatchQueue.main.async {
+                self.showWebViewModal(URLTermsPrey, pageTitle: "Terms of Service".localized)
+            }
+            return decisionHandler(.allow)
+        }
+        // Check scheme for Show Privacy
+        if requestUrl.scheme == "iosprivacy" {
+            DispatchQueue.main.async {
+                self.showWebViewModal(URLPrivacyPrey, pageTitle: "Privacy Policy".localized)
+            }
+            return decisionHandler(.allow)
+        }
+        // Check scheme for Show Forgot
+        if requestUrl.scheme == "iosforgot" {
+            DispatchQueue.main.async {
+                self.showWebViewModal(URLForgotPanel, pageTitle: "Forgot Password Web")
+            }
+            return decisionHandler(.allow)
+        }
+
         return decisionHandler(.allow)
     }
     
