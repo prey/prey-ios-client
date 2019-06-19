@@ -81,3 +81,9 @@ extension NSMutableData {
         }
     }
 }
+
+extension String {
+    func boolValue() -> Bool {
+        return NSString(string: self).boolValue
+    }
+}

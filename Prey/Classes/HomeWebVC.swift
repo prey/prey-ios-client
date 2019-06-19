@@ -222,8 +222,8 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         self.navigationController?.present(controller, animated:true, completion:nil)
     }
     
-    // Add device action
-    func addDeviceAction(_ email: String?, password: String?) {
+    // Add device
+    func addDeviceWithLogin(_ email: String?, password: String?) {
         
         // Check valid email
         if isInvalidEmail(email!, withPattern:emailRegExp) {
@@ -280,6 +280,100 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         })
     }
 
+    // Add device action
+    func addDeviceWithSignUp(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool) {
+        
+        // Check terms and conditions
+        if (!age || !term) {
+            displayErrorAlert("You must accept the Terms & Conditions".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+        
+        guard let nm = name else {
+            displayErrorAlert("Name can't be blank".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+        
+        guard let pwd1 = password1 else {
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+
+        guard let pwd2 = password2 else {
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+
+        if pwd1 != pwd2 {
+            displayErrorAlert("Passwords do not match".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+        
+        // Check name length
+        if nm.count < 1 {
+            displayErrorAlert("Name can't be blank".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+
+        // Check valid email
+        if isInvalidEmail(email!, withPattern:emailRegExp) {
+            displayErrorAlert("Enter a valid e-mail address".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+
+        // Check password length
+        if pwd1.count < 6 {
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+        
+        // Hide keyboard
+        self.view.endEditing(true)
+        
+        // Show ActivityIndicator
+        let actInd          = UIActivityIndicatorView(initInView: self.view, withText: "Creating account...".localized)
+        self.view.addSubview(actInd)
+        actInd.startAnimating()
+        
+        // SignUp to Panel Prey
+        PreyUser.signUpToPrey(nm, userEmail:email!, userPassword:pwd1, onCompletion: {(isSuccess: Bool) in
+            
+            // LogIn isn't Success
+            guard isSuccess else {
+                // Hide ActivityIndicator
+                DispatchQueue.main.async {
+                    actInd.stopAnimating()
+                }
+                return
+            }
+            
+            // Get Token for Control Panel
+            PreyUser.getTokenFromPanel(email!, userPassword:pwd1, onCompletion: {_ in })
+            
+            // Add Device to Panel Prey
+            PreyDevice.addDeviceWith({(isSuccess: Bool) in
+                DispatchQueue.main.async {
+                    // Hide ActivityIndicator
+                    actInd.stopAnimating()
+                    // Add Device Success
+                    guard isSuccess else {
+                        return
+                    }
+                    self.loadViewOnWebView("permissions")
+                }
+            })
+        })
+    }
+
+    
     // Show webView on modal
     func showWebViewModal(_ urlString: String, pageTitle: String) {
         let controller : UIViewController
@@ -388,7 +482,21 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             let email = queryItems?.filter({$0.name == "preyEmailLogin"}).first
             let pwd = queryItems?.filter({$0.name == "preyPassLogin"}).first
             DispatchQueue.main.async {
-                self.addDeviceAction(email?.value, password: pwd?.value)
+                self.addDeviceWithLogin(email?.value, password: pwd?.value)
+            }
+            return decisionHandler(.allow)
+        }
+        // Check scheme for SignUp
+        if requestUrl.scheme == "iossignup" {
+            let queryItems = URLComponents(string: requestUrl.absoluteString)?.queryItems
+            let name = queryItems?.filter({$0.name == "nameSignup"}).first
+            let email = queryItems?.filter({$0.name == "emailSignup"}).first
+            let pwd1 = queryItems?.filter({$0.name == "pwd1Signup"}).first
+            let pwd2 = queryItems?.filter({$0.name == "pwd2Signup"}).first
+            guard let term = queryItems?.filter({$0.name == "termsSignup"}).first else {return}
+            guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
+            DispatchQueue.main.async {
+                self.addDeviceWithSignUp(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue())
             }
             return decisionHandler(.allow)
         }
