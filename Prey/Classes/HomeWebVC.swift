@@ -521,6 +521,41 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             }
             return decisionHandler(.allow)
         }
+        // Check scheme for Auth Location
+        if requestUrl.scheme == "iosauthlocation" {
+            DispatchQueue.main.async {
+                DeviceAuth.sharedInstance.requestAuthLocation()
+            }
+            return decisionHandler(.allow)
+        }
+        // Check scheme for Auth Photos
+        if requestUrl.scheme == "iosauthphotos" {
+            DispatchQueue.main.async {
+                DeviceAuth.sharedInstance.requestAuthPhotos()
+            }
+            return decisionHandler(.allow)
+        }
+        // Check scheme for Auth Contacts
+        if requestUrl.scheme == "iosauthcontacts" {
+            DispatchQueue.main.async {
+                DeviceAuth.sharedInstance.requestAuthContacts()
+            }
+            return decisionHandler(.allow)
+        }
+        // Check scheme for Auth Camera
+        if requestUrl.scheme == "iosauthcamera" {
+            DispatchQueue.main.async {
+                DeviceAuth.sharedInstance.requestAuthCamera()
+            }
+            return decisionHandler(.allow)
+        }
+        // Check scheme for Auth Notification
+        if requestUrl.scheme == "iosauthnotification" {
+            DispatchQueue.main.async {
+                DeviceAuth.sharedInstance.requestAuthNotification()
+            }
+            return decisionHandler(.allow)
+        }
 
         return decisionHandler(.allow)
     }

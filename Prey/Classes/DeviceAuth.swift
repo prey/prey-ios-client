@@ -10,8 +10,10 @@ import Foundation
 import CoreLocation
 import AVFoundation
 import UserNotifications
+import Contacts
+import Photos
 
-class DeviceAuth: NSObject, UIAlertViewDelegate {
+class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
 
     // MARK: Singleton
     
@@ -19,6 +21,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
     override fileprivate init() {
     }
 
+    // Location Service Auth
+    let authLocation = CLLocationManager()
+    
     // MARK: Methods
     
     // Check all device auth
@@ -72,6 +77,11 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
         var locationAuth = false
         
         if (CLLocationManager.locationServicesEnabled() &&
+            CLLocationManager.authorizationStatus() == .notDetermined) {
+            authLocation.requestAlwaysAuthorization()
+        }
+        
+        if (CLLocationManager.locationServicesEnabled() &&
             CLLocationManager.authorizationStatus() != .notDetermined &&
             CLLocationManager.authorizationStatus() != .denied &&
             CLLocationManager.authorizationStatus() != .restricted) {
@@ -123,6 +133,89 @@ class DeviceAuth: NSObject, UIAlertViewDelegate {
         anAlert.show()
     }
 
+    // Call next request auth item
+    func callNextRequestAuth(_ idBtn: String) {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
+            PreyLogger("error with sharedApplication")
+            return
+        }
+        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+        if let homeWebVC:HomeWebVC = navigationController.topViewController as? HomeWebVC {
+            homeWebVC.evaluateJS(homeWebVC.webView, code: "var btn = document.getElementById('\(idBtn)'); btn.click();")
+        }
+    }
+    
+    // Request auth location
+    func requestAuthLocation() {
+        authLocation.delegate = self
+        if (CLLocationManager.locationServicesEnabled() &&
+            CLLocationManager.authorizationStatus() == .notDetermined) {
+            authLocation.requestAlwaysAuthorization()
+        } else {
+            callNextRequestAuth("btnLocation")
+        }
+    }
+
+    // Request auth photos
+    func requestAuthPhotos() {
+        PHPhotoLibrary.requestAuthorization({ authorization -> Void in
+            DispatchQueue.main.async {self.callNextRequestAuth("btnPhotos")}
+        })
+    }
+
+    // Request auth contacts
+    func requestAuthContacts() {
+        if #available(iOS 9.0, *) {
+            CNContactStore().requestAccess(for: .contacts, completionHandler: { (authorized: Bool, error: Error?) -> Void in
+                DispatchQueue.main.async {self.callNextRequestAuth("btnContacts")}
+            })
+        } else {
+            self.callNextRequestAuth("btnContacts")
+        }
+    }
+
+    // Request auth camera
+    func requestAuthCamera() {
+        AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler:{(granted: Bool) in
+            DispatchQueue.main.async {self.callNextRequestAuth("btnCamera")}
+        })
+    }
+
+    // Request auth notification
+    func requestAuthNotification() {
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+                DispatchQueue.main.async {self.callNextReactView()}
+            }
+        } else {
+            // For iOS 8 and 9
+            let settings = UIUserNotificationSettings(types:[UIUserNotificationType.alert,
+                                                             UIUserNotificationType.badge,
+                                                             UIUserNotificationType.sound],
+                                                      categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+            UIApplication.shared.registerForRemoteNotifications()
+            callNextReactView()
+        }
+    }
+    
+    // Call next ReactView
+    func callNextReactView() {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
+            PreyLogger("error with sharedApplication")
+            return
+        }
+        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
+        if let homeWebVC:HomeWebVC = navigationController.topViewController as? HomeWebVC {
+            homeWebVC.loadViewOnWebView("activation")
+        }
+    }
+
+    // MARK: CLLocationManagerDelegate
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        callNextRequestAuth("btnLocation")
+    }
+    
     // MARK: UIAlertViewDelegate
     
     // AlertView
