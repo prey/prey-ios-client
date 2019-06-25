@@ -125,3 +125,22 @@ public func displayErrorAlert(_ alertMessage: String, titleMessage:String) {
         }
     }
 }
+
+// ReactViews actions
+enum ReactViews: String {
+    case SETTINGS    = "iossettings"
+    case CHECKAUTH   = "ioscheckauth"
+    case CHECKID     = "ioschecktouchid"
+    case QRCODE      = "iosqrcode"
+    case LOGIN       = "ioslogin"
+    case SIGNUP      = "iossignup"
+    case TERMS       = "iosterms"
+    case PRIVACY     = "iosprivacy"
+    case FORGOT      = "iosforgot"
+    case AUTHLOC     = "iosauthlocation"
+    case AUTHPHOTO   = "iosauthphotos"
+    case AUTHCONTACT = "iosauthcontacts"
+    case AUTHCAMERA  = "iosauthcamera"
+    case AUTHNOTIF   = "iosauthnotification"
+    case REPORTEXAMP = "iosreportexample"
+}

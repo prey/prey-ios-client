@@ -446,123 +446,11 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             }
         }
         
-        // Check scheme for Settings View
-        if requestUrl.scheme == "iossettings" {
+        // Evaluate scheme
+        if let urlScheme = requestUrl.scheme {
             DispatchQueue.main.async {
-                let pwdTxt = requestUrl.absoluteString
-                self.checkPassword(String(pwdTxt.suffix(pwdTxt.count-14)), view:self.view)
+                self.evaluateURLScheme(webView, scheme: urlScheme, reqUrl: requestUrl)
             }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for AuthDevice
-        if requestUrl.scheme == "ioscheckauth" {
-            DeviceAuth.sharedInstance.checkAllDeviceAuthorization { granted in
-                DispatchQueue.main.async {
-                    let titleTxt            = granted ? "protected" : "unprotected"
-                    self.evaluateJS(webView, code:"document.getElementById('wrap').className = '\(titleTxt)';")
-                }
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for TouchID/FaceID
-        if requestUrl.scheme == "ioschecktouchid" {
-            DispatchQueue.main.async {self.checkTouchID()}
-            return decisionHandler(.allow)
-        }
-        // Check scheme for QRCode
-        if requestUrl.scheme == "iosqrcode" {
-            DispatchQueue.main.async {
-                self.addDeviceWithQRCode()
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for LogIn
-        if requestUrl.scheme == "ioslogin" {
-            let queryItems = URLComponents(string: requestUrl.absoluteString)?.queryItems
-            let email = queryItems?.filter({$0.name == "preyEmailLogin"}).first
-            let pwd = queryItems?.filter({$0.name == "preyPassLogin"}).first
-            DispatchQueue.main.async {
-                self.addDeviceWithLogin(email?.value, password: pwd?.value)
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for SignUp
-        if requestUrl.scheme == "iossignup" {
-            let queryItems = URLComponents(string: requestUrl.absoluteString)?.queryItems
-            let name = queryItems?.filter({$0.name == "nameSignup"}).first
-            let email = queryItems?.filter({$0.name == "emailSignup"}).first
-            let pwd1 = queryItems?.filter({$0.name == "pwd1Signup"}).first
-            let pwd2 = queryItems?.filter({$0.name == "pwd2Signup"}).first
-            guard let term = queryItems?.filter({$0.name == "termsSignup"}).first else {return}
-            guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
-            DispatchQueue.main.async {
-                self.addDeviceWithSignUp(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue())
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for Show Terms
-        if requestUrl.scheme == "iosterms" {
-            DispatchQueue.main.async {
-                self.showWebViewModal(URLTermsPrey, pageTitle: "Terms of Service".localized)
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for Show Privacy
-        if requestUrl.scheme == "iosprivacy" {
-            DispatchQueue.main.async {
-                self.showWebViewModal(URLPrivacyPrey, pageTitle: "Privacy Policy".localized)
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for Show Forgot
-        if requestUrl.scheme == "iosforgot" {
-            DispatchQueue.main.async {
-                self.showWebViewModal(URLForgotPanel, pageTitle: "Forgot Password Web")
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for Auth Location
-        if requestUrl.scheme == "iosauthlocation" {
-            DispatchQueue.main.async {
-                DeviceAuth.sharedInstance.requestAuthLocation()
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for Auth Photos
-        if requestUrl.scheme == "iosauthphotos" {
-            DispatchQueue.main.async {
-                DeviceAuth.sharedInstance.requestAuthPhotos()
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for Auth Contacts
-        if requestUrl.scheme == "iosauthcontacts" {
-            DispatchQueue.main.async {
-                DeviceAuth.sharedInstance.requestAuthContacts()
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for Auth Camera
-        if requestUrl.scheme == "iosauthcamera" {
-            DispatchQueue.main.async {
-                DeviceAuth.sharedInstance.requestAuthCamera()
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for Auth Notification
-        if requestUrl.scheme == "iosauthnotification" {
-            DispatchQueue.main.async {
-                DeviceAuth.sharedInstance.requestAuthNotification()
-            }
-            return decisionHandler(.allow)
-        }
-        // Check scheme for Report Example
-        if requestUrl.scheme == "iosreportexample" {
-            DispatchQueue.main.async {
-                self.actInd.startAnimating()
-                ReportExample.sharedInstance.runReportExample(webView)
-            }
-            return decisionHandler(.allow)
         }
 
         return decisionHandler(.allow)
@@ -602,6 +490,77 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     func evaluateJS(_ view: WKWebView, code: String) {
         DispatchQueue.main.async {
             view.evaluateJavaScript(code, completionHandler:nil)
+        }
+    }
+    
+    func evaluateURLScheme(_ webView: WKWebView, scheme: String, reqUrl: URL) {
+
+        switch scheme {
+
+        case ReactViews.SETTINGS.rawValue:
+            let pwdTxt = reqUrl.absoluteString
+            self.checkPassword(String(pwdTxt.suffix(pwdTxt.count-14)), view:self.view)
+            
+        case ReactViews.CHECKAUTH.rawValue:
+            DeviceAuth.sharedInstance.checkAllDeviceAuthorization { granted in
+                DispatchQueue.main.async {
+                    let titleTxt            = granted ? "protected" : "unprotected"
+                    self.evaluateJS(webView, code:"document.getElementById('wrap').className = '\(titleTxt)';")
+                }
+            }
+
+        case ReactViews.CHECKID.rawValue:
+            self.checkTouchID()
+            
+        case ReactViews.QRCODE.rawValue:
+            self.addDeviceWithQRCode()
+            
+        case ReactViews.LOGIN.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let email = queryItems?.filter({$0.name == "preyEmailLogin"}).first
+            let pwd = queryItems?.filter({$0.name == "preyPassLogin"}).first
+            self.addDeviceWithLogin(email?.value, password: pwd?.value)
+            
+        case ReactViews.SIGNUP.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let name = queryItems?.filter({$0.name == "nameSignup"}).first
+            let email = queryItems?.filter({$0.name == "emailSignup"}).first
+            let pwd1 = queryItems?.filter({$0.name == "pwd1Signup"}).first
+            let pwd2 = queryItems?.filter({$0.name == "pwd2Signup"}).first
+            guard let term = queryItems?.filter({$0.name == "termsSignup"}).first else {return}
+            guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
+            self.addDeviceWithSignUp(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue())
+
+        case ReactViews.TERMS.rawValue:
+            self.showWebViewModal(URLTermsPrey, pageTitle: "Terms of Service".localized)
+            
+        case ReactViews.PRIVACY.rawValue:
+            self.showWebViewModal(URLPrivacyPrey, pageTitle: "Privacy Policy".localized)
+            
+        case ReactViews.FORGOT.rawValue:
+            self.showWebViewModal(URLForgotPanel, pageTitle: "Forgot Password Web")
+            
+        case ReactViews.AUTHLOC.rawValue:
+            DeviceAuth.sharedInstance.requestAuthLocation()
+            
+        case ReactViews.AUTHPHOTO.rawValue:
+            DeviceAuth.sharedInstance.requestAuthPhotos()
+            
+        case ReactViews.AUTHCONTACT.rawValue:
+            DeviceAuth.sharedInstance.requestAuthContacts()
+            
+        case ReactViews.AUTHCAMERA.rawValue:
+            DeviceAuth.sharedInstance.requestAuthCamera()
+            
+        case ReactViews.AUTHNOTIF.rawValue:
+            DeviceAuth.sharedInstance.requestAuthNotification()
+            
+        case ReactViews.REPORTEXAMP.rawValue:
+            self.actInd.startAnimating()
+            ReportExample.sharedInstance.runReportExample(webView)
+            
+        default:
+            PreyLogger("Ok")
         }
     }
 }
