@@ -10,6 +10,7 @@
 		3B047EB01D400F01008B2D58 /* PreyOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B047EAF1D400F01008B2D58 /* PreyOnboarding.swift */; };
 		3B047EB21D400F26008B2D58 /* PreyOnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B047EB11D400F26008B2D58 /* PreyOnboardingPage.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
+		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
 		3B1C2D421D79CB7B00D8E7DF /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C2D401D79CB7B00D8E7DF /* Crashlytics.framework */; };
 		3B2445F71D245478005DF09C /* Camouflage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F61D245478005DF09C /* Camouflage.swift */; };
 		3B2445F91D2466CD005DF09C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F81D2466CD005DF09C /* Alert.swift */; };
@@ -139,6 +140,7 @@
 		3B047EAF1D400F01008B2D58 /* PreyOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyOnboarding.swift; path = Classes/PreyOnboarding.swift; sourceTree = "<group>"; };
 		3B047EB11D400F26008B2D58 /* PreyOnboardingPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyOnboardingPage.swift; path = Classes/PreyOnboardingPage.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
+		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
 		3B1C2D401D79CB7B00D8E7DF /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3B1C2D411D79CB7B00D8E7DF /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		3B2445F61D245478005DF09C /* Camouflage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camouflage.swift; path = Classes/Camouflage.swift; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 				3B2445F61D245478005DF09C /* Camouflage.swift */,
 				3B88FC4F1DA2961F007E62A6 /* Ping.swift */,
 				3B42B3FC1CECC38B009D07B2 /* Report.swift */,
+				3B18EEC322C27B4E007A0F45 /* ReportExample.swift */,
 				3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */,
 				3B3742161CF791D900E52B6C /* ReportPhoto.swift */,
 				3B3742181CF792CA00E52B6C /* ReportWifi.swift */,
@@ -769,6 +772,7 @@
 				3B047EB01D400F01008B2D58 /* PreyOnboarding.swift in Sources */,
 				3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */,
 				3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */,
+				3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */,
 				3B88FC501DA2961F007E62A6 /* Ping.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
 				3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */,

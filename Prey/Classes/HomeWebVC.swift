@@ -556,6 +556,14 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             }
             return decisionHandler(.allow)
         }
+        // Check scheme for Report Example
+        if requestUrl.scheme == "iosreportexample" {
+            DispatchQueue.main.async {
+                self.actInd.startAnimating()
+                ReportExample.sharedInstance.runReportExample(webView)
+            }
+            return decisionHandler(.allow)
+        }
 
         return decisionHandler(.allow)
     }

@@ -75,5 +75,6 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
     // Did fail with error
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         PreyLogger("Error getting location: \(error.localizedDescription)")
+        self.delegate!.locationReceived([CLLocation]())
     }
 }
