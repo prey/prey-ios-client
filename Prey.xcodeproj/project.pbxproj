@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B047EB01D400F01008B2D58 /* PreyOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B047EAF1D400F01008B2D58 /* PreyOnboarding.swift */; };
-		3B047EB21D400F26008B2D58 /* PreyOnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B047EB11D400F26008B2D58 /* PreyOnboardingPage.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
 		3B1C2D421D79CB7B00D8E7DF /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C2D401D79CB7B00D8E7DF /* Crashlytics.framework */; };
@@ -71,15 +69,11 @@
 		3B8629A11EF03CB400BE92D4 /* String+SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298E1EF03CB400BE92D4 /* String+SHA1.swift */; };
 		3B8629A21EF03CB400BE92D4 /* WebSockets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298F1EF03CB400BE92D4 /* WebSockets.swift */; };
 		3B88FC501DA2961F007E62A6 /* Ping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B88FC4F1DA2961F007E62A6 /* Ping.swift */; };
-		3B8E57D11A2E7B4A0027179E /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */; };
 		3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D21A2E7B530027179E /* AppDelegate.swift */; };
-		3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */; };
 		3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D41A2E7B530027179E /* HomeVC.swift */; };
-		3B8E57DD1A2E7B530027179E /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D51A2E7B530027179E /* SignInVC.swift */; };
 		3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */; };
 		3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D71A2E7B530027179E /* PurchasesVC.swift */; };
 		3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D81A2E7B530027179E /* SettingsVC.swift */; };
-		3B8E57E11A2E7B530027179E /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D91A2E7B530027179E /* SignUpVC.swift */; };
 		3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */; };
 		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
 		3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC971CDB9CD70052A21D /* Location.swift */; };
@@ -95,7 +89,6 @@
 		3BB6E21F1D47CACD00074E97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21E1D47CACD00074E97 /* MapKit.framework */; };
 		3BB6E2231D47CC3C00074E97 /* Prey.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 3BB6E2221D47CC3C00074E97 /* Prey.entitlements */; };
 		3BB6E2251D47F42100074E97 /* PreyRateUs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB6E2241D47F42100074E97 /* PreyRateUs.swift */; };
-		3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD4E3D1D13106900314381 /* UserRegisterVC.swift */; };
 		3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3C0971C9733BA00D08D62 /* Constants.swift */; };
 		3BC4FC1F1D3699F800C58878 /* CurrentLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */; };
 		3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */; };
@@ -137,8 +130,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3B047EAF1D400F01008B2D58 /* PreyOnboarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyOnboarding.swift; path = Classes/PreyOnboarding.swift; sourceTree = "<group>"; };
-		3B047EB11D400F26008B2D58 /* PreyOnboardingPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyOnboardingPage.swift; path = Classes/PreyOnboardingPage.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
 		3B1C2D401D79CB7B00D8E7DF /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -206,15 +197,11 @@
 		3B86298E1EF03CB400BE92D4 /* String+SHA1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+SHA1.swift"; sourceTree = "<group>"; };
 		3B86298F1EF03CB400BE92D4 /* WebSockets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSockets.swift; sourceTree = "<group>"; };
 		3B88FC4F1DA2961F007E62A6 /* Ping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ping.swift; path = Classes/Ping.swift; sourceTree = "<group>"; };
-		3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeVC.swift; path = Classes/WelcomeVC.swift; sourceTree = "<group>"; };
 		3B8E57D21A2E7B530027179E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Classes/AppDelegate.swift; sourceTree = "<group>"; };
-		3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceSetUpVC.swift; path = Classes/DeviceSetUpVC.swift; sourceTree = "<group>"; };
 		3B8E57D41A2E7B530027179E /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeVC.swift; path = Classes/HomeVC.swift; sourceTree = "<group>"; };
-		3B8E57D51A2E7B530027179E /* SignInVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignInVC.swift; path = Classes/SignInVC.swift; sourceTree = "<group>"; };
 		3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPClient.swift; path = Classes/PreyHTTPClient.swift; sourceTree = "<group>"; };
 		3B8E57D71A2E7B530027179E /* PurchasesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchasesVC.swift; path = Classes/PurchasesVC.swift; sourceTree = "<group>"; };
 		3B8E57D81A2E7B530027179E /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsVC.swift; path = Classes/SettingsVC.swift; sourceTree = "<group>"; };
-		3B8E57D91A2E7B530027179E /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpVC.swift; path = Classes/SignUpVC.swift; sourceTree = "<group>"; };
 		3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportLocation.swift; path = Classes/ReportLocation.swift; sourceTree = "<group>"; };
 		3B9DDC951CDB891C0052A21D /* PreyAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyAction.swift; path = Classes/PreyAction.swift; sourceTree = "<group>"; };
 		3B9DDC971CDB9CD70052A21D /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Classes/Location.swift; sourceTree = "<group>"; };
@@ -241,7 +228,6 @@
 		3BB6E21E1D47CACD00074E97 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		3BB6E2221D47CC3C00074E97 /* Prey.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Prey.entitlements; path = Plist/Prey.entitlements; sourceTree = "<group>"; };
 		3BB6E2241D47F42100074E97 /* PreyRateUs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyRateUs.swift; path = Classes/PreyRateUs.swift; sourceTree = "<group>"; };
-		3BBD4E3D1D13106900314381 /* UserRegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserRegisterVC.swift; path = Classes/UserRegisterVC.swift; sourceTree = "<group>"; };
 		3BC3C0971C9733BA00D08D62 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Classes/Constants.swift; sourceTree = "<group>"; };
 		3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CurrentLocationVC.swift; path = Classes/CurrentLocationVC.swift; sourceTree = "<group>"; };
 		3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyConfig.swift; path = Classes/PreyConfig.swift; sourceTree = "<group>"; };
@@ -462,14 +448,7 @@
 		3B8E57CD1A2E71B30027179E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				3B8E57D01A2E7B4A0027179E /* WelcomeVC.swift */,
-				3B047EAF1D400F01008B2D58 /* PreyOnboarding.swift */,
-				3B047EB11D400F26008B2D58 /* PreyOnboardingPage.swift */,
-				3BBD4E3D1D13106900314381 /* UserRegisterVC.swift */,
-				3B8E57D91A2E7B530027179E /* SignUpVC.swift */,
-				3B8E57D51A2E7B530027179E /* SignInVC.swift */,
 				3B51FFB11D3EB77C00CFE4E8 /* QRCodeScannerVC.swift */,
-				3B8E57D31A2E7B530027179E /* DeviceSetUpVC.swift */,
 				3B40AB681DB901F1003045C1 /* WebKitVC.swift */,
 				3B38BA8E1D22C03D00B6799B /* WebVC.swift */,
 				3B8E57D41A2E7B530027179E /* HomeVC.swift */,
@@ -769,7 +748,6 @@
 				3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */,
 				3B6D70A31CD7E3D400DEB461 /* SwiftExt.swift in Sources */,
 				3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */,
-				3B047EB01D400F01008B2D58 /* PreyOnboarding.swift in Sources */,
 				3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */,
 				3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */,
 				3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */,
@@ -780,7 +758,6 @@
 				3B8629A11EF03CB400BE92D4 /* String+SHA1.swift in Sources */,
 				3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */,
 				3B77804E1A600CCE0050C747 /* PreyUser.swift in Sources */,
-				3B8E57D11A2E7B4A0027179E /* WelcomeVC.swift in Sources */,
 				3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */,
 				3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */,
 				3B86299F1EF03CB400BE92D4 /* String+File.swift in Sources */,
@@ -801,13 +778,10 @@
 				3B8629951EF03CB400BE92D4 /* HttpResponse.swift in Sources */,
 				3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */,
 				3B8629981EF03CB400BE92D4 /* HttpServerIO.swift in Sources */,
-				3B8E57E11A2E7B530027179E /* SignUpVC.swift in Sources */,
 				3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */,
 				3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */,
 				3B8629A21EF03CB400BE92D4 /* WebSockets.swift in Sources */,
 				3B849AE81D0710E9002DB6CC /* PreyData.xcdatamodeld in Sources */,
-				3B8E57DB1A2E7B530027179E /* DeviceSetUpVC.swift in Sources */,
-				3B8E57DD1A2E7B530027179E /* SignInVC.swift in Sources */,
 				3B86299A1EF03CB400BE92D4 /* Scopes.swift in Sources */,
 				3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */,
 				3BDF988120338AC70023D4AA /* HomeWebVC.swift in Sources */,
@@ -817,7 +791,6 @@
 				3B86299B1EF03CB400BE92D4 /* Socket+File.swift in Sources */,
 				3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */,
 				3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */,
-				3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */,
 				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,
 				3B8629921EF03CB400BE92D4 /* Files.swift in Sources */,
 				3B8629A01EF03CB400BE92D4 /* String+Misc.swift in Sources */,
@@ -826,7 +799,6 @@
 				3B86299C1EF03CB400BE92D4 /* Socket+Server.swift in Sources */,
 				3B8629971EF03CB400BE92D4 /* HttpServer.swift in Sources */,
 				3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */,
-				3B047EB21D400F26008B2D58 /* PreyOnboardingPage.swift in Sources */,
 				3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */,
 				3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */,
 				3B2445F71D245478005DF09C /* Camouflage.swift in Sources */,
