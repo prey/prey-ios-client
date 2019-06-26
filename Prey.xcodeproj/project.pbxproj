@@ -98,7 +98,6 @@
 		3BBD4E3E1D13106900314381 /* UserRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBD4E3D1D13106900314381 /* UserRegisterVC.swift */; };
 		3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3C0971C9733BA00D08D62 /* Constants.swift */; };
 		3BC4FC1F1D3699F800C58878 /* CurrentLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */; };
-		3BCA4EB1202CE281009EC0C7 /* PreyInfo in Resources */ = {isa = PBXBuildFile; fileRef = 3BCA4EB0202CE280009EC0C7 /* PreyInfo */; };
 		3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */; };
 		3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */; };
 		3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BCD4C8C1C98942900CDEE1C /* Localizable.strings */; };
@@ -245,7 +244,6 @@
 		3BBD4E3D1D13106900314381 /* UserRegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserRegisterVC.swift; path = Classes/UserRegisterVC.swift; sourceTree = "<group>"; };
 		3BC3C0971C9733BA00D08D62 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Classes/Constants.swift; sourceTree = "<group>"; };
 		3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CurrentLocationVC.swift; path = Classes/CurrentLocationVC.swift; sourceTree = "<group>"; };
-		3BCA4EB0202CE280009EC0C7 /* PreyInfo */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PreyInfo; sourceTree = "<group>"; };
 		3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyConfig.swift; path = Classes/PreyConfig.swift; sourceTree = "<group>"; };
 		3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyDevice.swift; path = Classes/PreyDevice.swift; sourceTree = "<group>"; };
 		3BCD4C8D1C98942900CDEE1C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -397,7 +395,6 @@
 				3B8E57D21A2E7B530027179E /* AppDelegate.swift */,
 				3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */,
 				3B8283F9199198E6000E4545 /* Images.xcassets */,
-				3BCA4EB0202CE280009EC0C7 /* PreyInfo */,
 				3B3AA5C222835F560035C63C /* ReactViews */,
 				3B4F67A01CEA085200F58FAD /* Sounds */,
 				3B36116D1EE75470006BA074 /* Resources */,
@@ -697,7 +694,6 @@
 				3B4F67A41CEA085200F58FAD /* siren.mp3 in Resources */,
 				3B3611711EE75470006BA074 /* Icon2@3x.png in Resources */,
 				3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */,
-				3BCA4EB1202CE281009EC0C7 /* PreyInfo in Resources */,
 				3BE3DC531D0B044D00581327 /* TitilliumWeb-Bold.ttf in Resources */,
 				3B3611701EE75470006BA074 /* Icon2@2x.png in Resources */,
 				3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */,
