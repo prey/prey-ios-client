@@ -150,6 +150,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIView.animate(withDuration: 0.2, animations:{() in backgroundImg?.alpha = 0},
                                    completion:{(Bool)  in backgroundImg?.removeFromSuperview()})
+
+        // Check camouflagegeMode on mainView
+        if PreyConfig.sharedInstance.isCamouflageMode, let rootVC = window?.rootViewController as? UINavigationController, let controller = rootVC.topViewController, controller is HomeWebVC {
+            window?.endEditing(true)
+            displayScreen()
+            return
+        }
         
         // Relaunch window
         if  window?.rootViewController?.view.superview == window {
