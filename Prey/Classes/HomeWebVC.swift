@@ -384,7 +384,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         let language:String = Locale.preferredLanguages[0] as String
         let languageES  = (language as NSString).substring(to: 2)
         let indexPage   = "index"
-        let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"build")!)
+        let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"ReactViews")!)
         let pathURL = "#/\(languageES)/\(view)"
         request = URLRequest(url:URL(string: pathURL, relativeTo: baseURL)!)
 
