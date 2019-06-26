@@ -124,8 +124,8 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         }
         DeviceAuth.sharedInstance.checkAllDeviceAuthorization { granted in
             DispatchQueue.main.async {
-                let titleTxt            = granted ? "protected" : "unprotected"
-                self.evaluateJS(webView, code:"document.getElementById('wrap').className = '\(titleTxt)';")
+                let titleTxt            = granted ? "protected".localized : "unprotected".localized
+                self.evaluateJS(webView, code:"document.getElementById('txtStatusDevice').innerHTML = '\(titleTxt)';")
                 self.checkAuth = false
             }
         }
@@ -523,14 +523,6 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
 
         switch scheme {
             
-        case ReactViews.CHECKAUTH.rawValue:
-            DeviceAuth.sharedInstance.checkAllDeviceAuthorization { granted in
-                DispatchQueue.main.async {
-                    let titleTxt            = granted ? "protected" : "unprotected"
-                    self.evaluateJS(webView, code:"document.getElementById('wrap').className = '\(titleTxt)';")
-                }
-            }
-
         case ReactViews.CHECKID.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
             guard let openPanel = queryItems?.filter({$0.name == "openPanelWeb"}).first else {return}
