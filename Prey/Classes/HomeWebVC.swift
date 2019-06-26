@@ -16,6 +16,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     // MARK: Properties
     
     var webView     = WKWebView()
+    var showPanel   = false
     var checkAuth   = true
     var actInd      = UIActivityIndicatorView()
     let rectView    = UIScreen.main.bounds
@@ -78,7 +79,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     }
 
     // Check TouchID/FaceID
-    func checkTouchID() {
+    func checkTouchID(_ openPanelWeb: Bool) {
         
         guard PreyConfig.sharedInstance.isTouchIDEnabled == true else {
             return
@@ -92,31 +93,28 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             PreyLogger("error with biometric policy")
             return
         }
-        
+        self.showPanel = openPanelWeb
         myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
             
             DispatchQueue.main.async {
                 guard success else {
                     PreyLogger("error with auth on touchID")
-                    return
-                }
-                guard let appWindow = UIApplication.shared.delegate?.window else {
-                    PreyLogger("error with sharedApplication")
-                    return
-                }
-                guard let rootVC = appWindow?.rootViewController else {
-                    PreyLogger("error with rootVC")
+                    self.showPanel = false
                     return
                 }
                 
-                let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
-                let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.settings.rawValue)
-                (rootVC as! UINavigationController).pushViewController(resultController, animated: true)
+                // Show webView
+                if openPanelWeb {
+                    self.goToControlPanel()
+                } else {
+                    self.goToLocalSettings()
+                }
                 
                 // Hide credentials webView
-                self.evaluateJS(self.webView, code:"$('.popover').removeClass(\"show\");")
+                self.evaluateJS(self.webView, code: "var btn = document.getElementById('cancelBtn'); btn.click();")
             }
         }
+ 
     }
     
     // Check device auth
@@ -141,7 +139,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     }
 
     // Check password
-    func checkPassword(_ pwd: String?, view: UIView) {
+    func checkPassword(_ pwd: String?, view: UIView, openPanelWeb: Bool) {
         
         // Check password length
         guard let pwdInput = pwd else {
@@ -184,22 +182,16 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
                 
                 // Show Settings View
                 self.sendEventGAnalytics()
-                
-                guard let appWindow = UIApplication.shared.delegate?.window else {
-                    PreyLogger("error with sharedApplication")
-                    return
+
+                // Show webView
+                if openPanelWeb {
+                    self.goToControlPanel()
+                } else {
+                    self.goToLocalSettings()
                 }
-                guard let rootVC = appWindow?.rootViewController else {
-                    PreyLogger("error with rootVC")
-                    return
-                }
-                
-                let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
-                let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.settings.rawValue)
-                (rootVC as! UINavigationController).pushViewController(resultController, animated: true)
                 
                 // Hide credentials webView
-                self.evaluateJS(self.webView, code:"$('.popover').removeClass(\"show\");")
+                self.evaluateJS(self.webView, code: "var btn = document.getElementById('cancelBtn'); btn.click();")
             }
         })
     }
@@ -399,6 +391,40 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         webView.load(request)
     }
     
+    // Go to Control Panel
+    func goToControlPanel() {
+        if let token = PreyConfig.sharedInstance.tokenPanel {
+            let params           = String(format:"token=%@", token)
+            let controller : UIViewController
+            
+            if #available(iOS 10.0, *) {
+                controller       = WebKitVC(withURL:URL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
+            } else {
+                controller       = WebVC(withURL:URL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
+            }
+            self.present(controller, animated:true, completion:nil)            
+        } else {
+            displayErrorAlert("Error, retry later.".localized,
+                              titleMessage:"We have a situation!".localized)
+        }
+    }
+    
+    // Go to Local Settings
+    func goToLocalSettings() {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
+            PreyLogger("error with sharedApplication")
+            return
+        }
+        guard let rootVC = appWindow?.rootViewController else {
+            PreyLogger("error with rootVC")
+            return
+        }
+        
+        let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
+        let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.settings.rawValue)
+        (rootVC as! UINavigationController).pushViewController(resultController, animated: true)
+    }
+    
     // MARK: WKUIDelegate
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
@@ -496,10 +522,6 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     func evaluateURLScheme(_ webView: WKWebView, scheme: String, reqUrl: URL) {
 
         switch scheme {
-
-        case ReactViews.SETTINGS.rawValue:
-            let pwdTxt = reqUrl.absoluteString
-            self.checkPassword(String(pwdTxt.suffix(pwdTxt.count-14)), view:self.view)
             
         case ReactViews.CHECKAUTH.rawValue:
             DeviceAuth.sharedInstance.checkAllDeviceAuthorization { granted in
@@ -510,7 +532,9 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             }
 
         case ReactViews.CHECKID.rawValue:
-            self.checkTouchID()
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            guard let openPanel = queryItems?.filter({$0.name == "openPanelWeb"}).first else {return}
+            self.checkTouchID(openPanel.value!.boolValue())
             
         case ReactViews.QRCODE.rawValue:
             self.addDeviceWithQRCode()
@@ -558,6 +582,16 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         case ReactViews.REPORTEXAMP.rawValue:
             self.actInd.startAnimating()
             ReportExample.sharedInstance.runReportExample(webView)
+
+        case ReactViews.GOTOSETTING.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
+            self.checkPassword(pwd?.value, view: self.view, openPanelWeb: false)
+            
+        case ReactViews.GOTOPANEL.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
+            self.checkPassword(pwd?.value, view: self.view, openPanelWeb: true)
             
         default:
             PreyLogger("Ok")

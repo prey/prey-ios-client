@@ -128,7 +128,6 @@ public func displayErrorAlert(_ alertMessage: String, titleMessage:String) {
 
 // ReactViews actions
 enum ReactViews: String {
-    case SETTINGS    = "iossettings"
     case CHECKAUTH   = "ioscheckauth"
     case CHECKID     = "ioschecktouchid"
     case QRCODE      = "iosqrcode"
@@ -143,4 +142,6 @@ enum ReactViews: String {
     case AUTHCAMERA  = "iosauthcamera"
     case AUTHNOTIF   = "iosauthnotification"
     case REPORTEXAMP = "iosreportexample"
+    case GOTOSETTING = "iossettingspwd"
+    case GOTOPANEL   = "iospanelpwd"
 }

@@ -162,6 +162,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
         }
+
+        // Check if HomeWebVC is presenting Panel
+        if let navigationController:UINavigationController = window?.rootViewController as? UINavigationController, let homeWebVC:HomeWebVC = navigationController.topViewController as? HomeWebVC {
+            if homeWebVC.showPanel {
+                homeWebVC.showPanel = false
+                return
+            }
+        }
         
         window?.endEditing(true)
         displayScreen()
