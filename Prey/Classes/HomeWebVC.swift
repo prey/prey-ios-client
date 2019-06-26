@@ -44,7 +44,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         webView.uiDelegate              = self
         webView.navigationDelegate      = self
         webView.isMultipleTouchEnabled  = true
-        webView.allowsBackForwardNavigationGestures = true
+        webView.allowsBackForwardNavigationGestures = false
         
         // Load request
         webView.load(request)
