@@ -185,7 +185,18 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     func requestAuthNotification() {
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
-                DispatchQueue.main.async {self.callNextReactView()}
+                DispatchQueue.main.async {
+                    self.callNextReactView()
+                    // Check permission granted
+                    guard granted else { return }
+                    UNUserNotificationCenter.current().getNotificationSettings { settings in
+                        // Check notification settings
+                        guard settings.authorizationStatus == .authorized else { return }
+                        DispatchQueue.main.async {
+                            UIApplication.shared.registerForRemoteNotifications()
+                        }
+                    }
+                }
             }
         } else {
             // For iOS 8 and 9
