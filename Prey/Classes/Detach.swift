@@ -53,7 +53,7 @@ class Detach: PreyAction, UIActionSheetDelegate {
         }
         
         let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
-        if let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.welcome.rawValue) as? WelcomeVC {
+        if let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.homeWeb.rawValue) as? HomeWebVC {
             // Set controller to rootViewController
             if let navigationController:UINavigationController = appWindow.rootViewController as? UINavigationController {
                 navigationController.setViewControllers([resultController], animated: false)

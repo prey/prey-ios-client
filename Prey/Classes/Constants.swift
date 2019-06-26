@@ -12,7 +12,7 @@ import LocalAuthentication
 
 // Storyboard controllerId
 enum StoryboardIdVC: String {
-    case PreyStoryBoard, alert, navigation, home, welcome, signUp, signIn, deviceSetUp, currentLocation, purchases, settings, grettings, homeWeb
+    case PreyStoryBoard, alert, navigation, home, currentLocation, purchases, settings, grettings, homeWeb
 }
 
 // Def type device

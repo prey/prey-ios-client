@@ -209,6 +209,10 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         if let homeWebVC:HomeWebVC = navigationController.topViewController as? HomeWebVC {
             homeWebVC.loadViewOnWebView("activation")
         }
+        // Check location aware action on device status
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:statusDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.statusDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request check status") }))
+        }
     }
 
     // MARK: CLLocationManagerDelegate
