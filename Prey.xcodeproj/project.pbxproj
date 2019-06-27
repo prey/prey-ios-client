@@ -712,7 +712,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/Prey/Firebase/Fabric.framework/run\" 2185ea0f2d1l0v3g0dfa123d1d8225c3adb7b41e us3r4p2\n";
+			shellScript = "\"$SRCROOT/Prey/Firebase/Fabric.framework/run\" 2185ed0fad2f2eef26da9c7d1d3205c3adb7b41e us3r4p2\n";
 		};
 		3B95D3CC1DAE860300FEDD80 /* Run Script Tag Warnings */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -23,7 +23,8 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     var request     : URLRequest {
         // Set language for webView
         let language:String = Locale.preferredLanguages[0] as String
-        let languageES  = (language as NSString).substring(to: 2)
+        var languageES  = (language as NSString).substring(to: 2)
+        if (languageES != "es") {languageES = "en"}
         let indexPage   = "index"
         let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"ReactViews")!)
         let pathURL = (PreyConfig.sharedInstance.isRegistered) ? "#/\(languageES)/index" : "#/\(languageES)/start"
@@ -382,7 +383,8 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     func loadViewOnWebView(_ view:String) {
         var request     : URLRequest
         let language:String = Locale.preferredLanguages[0] as String
-        let languageES  = (language as NSString).substring(to: 2)
+        var languageES  = (language as NSString).substring(to: 2)
+        if (languageES != "es") {languageES = "en"}
         let indexPage   = "index"
         let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"ReactViews")!)
         let pathURL = "#/\(languageES)/\(view)"
