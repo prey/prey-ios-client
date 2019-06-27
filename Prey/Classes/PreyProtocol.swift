@@ -94,31 +94,31 @@ public let devicesEndpoint          : String = "/devices.json"
 public let subscriptionEndpoint     : String = "/subscriptions/receipt"
 
 // Endpoint for Device Status
-public let statusDeviceEndpoint    : String = String(format:"/devices/%@/status.json",(PreyConfig.sharedInstance.getDeviceKey()))
+public var statusDeviceEndpoint : String {return String(format:"/devices/%@/status.json",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Device Location Aware
-public let locationAwareEndpoint    : String = String(format:"/devices/%@/location.json",(PreyConfig.sharedInstance.getDeviceKey()))
+public var locationAwareEndpoint : String {return String(format:"/devices/%@/location.json",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Device Data
-public let dataDeviceEndpoint       : String = String(format:"/devices/%@/data",(PreyConfig.sharedInstance.getDeviceKey()))
+public var dataDeviceEndpoint : String {return String(format:"/devices/%@/data",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Report Data
-public let reportDataDeviceEndpoint : String = String(format:"/devices/%@/reports",(PreyConfig.sharedInstance.getDeviceKey()))
+public var reportDataDeviceEndpoint : String {return String(format:"/devices/%@/reports",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Response Data
-public let responseDeviceEndpoint   : String = String(format:"/devices/%@/response",(PreyConfig.sharedInstance.getDeviceKey()))
+public var responseDeviceEndpoint : String {return String(format:"/devices/%@/response",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Events Data
-public let eventsDeviceEndpoint     : String = String(format:"/devices/%@/events",(PreyConfig.sharedInstance.getDeviceKey()))
+public var eventsDeviceEndpoint : String {return String(format:"/devices/%@/events",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Geofencing Data
-public let geofencingEndpoint       : String = String(format:"/devices/%@/geofencing.json",(PreyConfig.sharedInstance.getDeviceKey()))
+public var geofencingEndpoint : String {return String(format:"/devices/%@/geofencing.json",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Device Actions
-public let actionsDeviceEndpoint    : String = String(format:"/devices/%@.json",(PreyConfig.sharedInstance.getDeviceKey()))
+public var actionsDeviceEndpoint : String {return String(format:"/devices/%@.json",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Delete Device
-public let deleteDeviceEndpoint     : String = String(format:"/devices/%@",(PreyConfig.sharedInstance.getDeviceKey()))
+public var deleteDeviceEndpoint : String {return String(format:"/devices/%@",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Http method definitions
 public enum Method: String {
