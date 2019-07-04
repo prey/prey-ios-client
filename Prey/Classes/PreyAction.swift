@@ -75,6 +75,9 @@ class PreyAction : Operation {
 
         case kAction.fileretrieval:
             actionItem = FileRetrieval(withTarget: kAction.fileretrieval, withCommand: cmd, withOptions: opt)
+
+        case kAction.trigger:
+            actionItem = Trigger(withTarget: kAction.trigger, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem
@@ -128,6 +131,16 @@ class PreyAction : Operation {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:geofencingEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.geofenceZones, preyAction:action, onCompletion:{(isSuccess: Bool) in PreyLogger("Request geofencesZones")}))
         } else {
             PreyLogger("Error auth check Geofence")
+        }
+    }
+
+    // Check Triggers
+    func checkTriggers(_ action:Trigger) {
+        // Check userApiKey isn't empty
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:triggerEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.trigger, preyAction:action, onCompletion:{(isSuccess: Bool) in PreyLogger("Request triggers on panel")}))
+        } else {
+            PreyLogger("Error auth check Triggers")
         }
     }
 

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
+		3B1ACE3F22CE872B0057ECE5 /* Trigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */; };
 		3B1C2D421D79CB7B00D8E7DF /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C2D401D79CB7B00D8E7DF /* Crashlytics.framework */; };
 		3B2445F71D245478005DF09C /* Camouflage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F61D245478005DF09C /* Camouflage.swift */; };
 		3B2445F91D2466CD005DF09C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F81D2466CD005DF09C /* Alert.swift */; };
@@ -132,6 +133,7 @@
 /* Begin PBXFileReference section */
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
+		3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Trigger.swift; path = Classes/Trigger.swift; sourceTree = "<group>"; };
 		3B1C2D401D79CB7B00D8E7DF /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3B1C2D411D79CB7B00D8E7DF /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		3B2445F61D245478005DF09C /* Camouflage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camouflage.swift; path = Classes/Camouflage.swift; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 				3B2445F81D2466CD005DF09C /* Alert.swift */,
 				3B2445F61D245478005DF09C /* Camouflage.swift */,
 				3B88FC4F1DA2961F007E62A6 /* Ping.swift */,
+				3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */,
 				3B42B3FC1CECC38B009D07B2 /* Report.swift */,
 				3B18EEC322C27B4E007A0F45 /* ReportExample.swift */,
 				3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */,
@@ -763,6 +766,7 @@
 				3B86299F1EF03CB400BE92D4 /* String+File.swift in Sources */,
 				3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */,
 				3B33A76420F69D0B00F3B64E /* Battery.swift in Sources */,
+				3B1ACE3F22CE872B0057ECE5 /* Trigger.swift in Sources */,
 				3B86299E1EF03CB400BE92D4 /* String+BASE64.swift in Sources */,
 				3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */,
 				3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */,

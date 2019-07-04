@@ -10,7 +10,7 @@ import Foundation
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, geofenceZones, dataSend, statusDevice
+    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, geofenceZones, dataSend, statusDevice, trigger
 }
 
 class PreyHTTPResponse {
@@ -69,6 +69,9 @@ class PreyHTTPResponse {
         case .geofenceZones:
             checkGeofenceZones(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
 
+        case .trigger:
+            checkTrigger(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
+            
         case .dataSend:
             checkDataSend(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
 
@@ -380,6 +383,50 @@ class PreyHTTPResponse {
             let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
             if let geofencingAction = action as? Geofencing {
                 geofencingAction.updateGeofenceZones(jsonArray)
+            }
+        } catch let error {
+            PreyConfig.sharedInstance.reportError(error)
+            PreyLogger("json error: \(error.localizedDescription)")
+        }
+    }
+    
+    // Check trigger response
+    class func checkTrigger(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
+        
+        guard isSuccess else {
+            // Check error with URLSession request
+            guard error == nil else {
+                PreyConfig.sharedInstance.reportError(error)
+                PreyLogger("Triggers error")
+                return
+            }
+            PreyConfig.sharedInstance.reportError("Triggers", statusCode: statusCode, errorDescription: "Trigger error")
+            PreyLogger("Failed get data")
+            return
+        }
+        
+        // === Success
+        guard let dataResponse = data else {
+            PreyConfig.sharedInstance.reportError("TriggerRequest", statusCode: statusCode, errorDescription: "TriggerRequest error")
+            PreyLogger("Errod reading request trigger data")
+            return
+        }
+        guard let jsonObject: String = String(data:dataResponse, encoding:String.Encoding.utf8) else {
+            PreyConfig.sharedInstance.reportError("TriggerJson", statusCode: statusCode, errorDescription: "TriggerJson error")
+            PreyLogger("Error reading json trigger data")
+            return
+        }
+        // Convert actionsArray from String to NSData
+        guard let jsonData: Data = jsonObject.data(using: String.Encoding.utf8) else {
+            PreyConfig.sharedInstance.reportError("TriggerObject", statusCode: statusCode, errorDescription: "TriggerObject error")
+            PreyLogger("Error jsonObject trigger to NSData")
+            return
+        }
+        // Convert NSData to NSArray
+        do {
+            let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
+            if let triggerAction = action as? Trigger {
+                triggerAction.updateTriggers(jsonArray)
             }
         } catch let error {
             PreyConfig.sharedInstance.reportError(error)
