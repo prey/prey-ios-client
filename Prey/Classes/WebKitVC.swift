@@ -82,7 +82,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
         let session = URLSession(configuration: sessionConfig)
         let task    = session.dataTask(with: req) { (data, response, error) in
             
-            guard error == nil else {
+            guard error == nil, let resp = response, let urlResp = resp.url else {
                 PreyLogger("Error loading WKWebView")
                 // Hide ActivityIndicator
                 DispatchQueue.main.async { self.actInd.stopAnimating() }
@@ -95,7 +95,8 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
             //PreyLogger("response:\(response)")
             //PreyLogger("data:\(info)")
             
-            var panelRequest    = URLRequest(url: (response?.url)!)
+            let urlPanel        = URL(string: urlResp.absoluteString + "?webview")
+            var panelRequest    = URLRequest(url: urlPanel!)
             let arrayHeader     = (response as! HTTPURLResponse).allHeaderFields as? [String:String]
             var cookiePanel     = ""
             for (key,value) in arrayHeader! {
