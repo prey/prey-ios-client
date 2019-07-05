@@ -31,6 +31,7 @@ class PreyCoreData {
         }
         
         let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
+        let options = [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true]
         managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = psc
         
@@ -42,7 +43,7 @@ class PreyCoreData {
         
         let storeURL = docURL.appendingPathComponent("PreyData.sqlite")
         do {
-            try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
+            try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
         } catch {
             PreyLogger("Error migrating store: \(error)")
             try! FileManager.default.removeItem(at: storeURL)
@@ -78,5 +79,28 @@ class PreyCoreData {
     func isGeofenceActive() -> Bool {
         let fetchedObjects = getCurrentGeofenceZones()
         return fetchedObjects.count > 0 ? true : false
+    }
+    
+    // Get current triggers
+    func getCurrentTriggers() -> [Triggers] {
+        
+        var fetchedObjects  = [Triggers]()
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest()
+        
+        guard let entity = NSEntityDescription.entity(forEntityName: "Triggers", in:managedObjectContext) else {
+            return fetchedObjects
+        }
+        
+        fetchRequest.entity = entity
+        
+        do {
+            if let context = managedObjectContext {
+                fetchedObjects = try context.fetch(fetchRequest) as! [Triggers]
+            }
+        } catch let error as NSError {
+            PreyLogger("CoreData triggers error: \(error.localizedDescription)")
+        }
+        
+        return fetchedObjects
     }
 }
