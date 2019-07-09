@@ -32,7 +32,7 @@ class Battery: NSObject {
     }
 
     // Send battery status to panel
-    func sendStatusToPanel() {
+    func sendStatusToPanel() -> Bool {
         
         // Event low_battery send one per hour
         let defaults        = UserDefaults.standard
@@ -44,13 +44,13 @@ class Battery: NSObject {
         
         let nextTime : CFAbsoluteTime = defaults.double(forKey: kBattery.STATUS.rawValue) + 60*60*1
         guard currentTime > nextTime  else {
-            return
+            return false
         }
         defaults.set(currentTime, forKey:kBattery.STATUS.rawValue)
         
         // Check level battery less than 20%
         guard UIDevice.current.batteryLevel < 0.2 else {
-            return
+            return false
         }
         
         let params:[String: Any] = [
@@ -63,6 +63,8 @@ class Battery: NSObject {
         } else {
             PreyLogger("Error send data battery")
         }
+        
+        return true
     }
     
     // Return header X-Prey-Status

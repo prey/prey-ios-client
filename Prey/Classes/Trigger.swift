@@ -139,7 +139,16 @@ class Trigger : PreyAction {
                         actionTrigger.delay = NSNumber(value:delay)
                     }
                     if let action = (actionItem as AnyObject).object(forKey: "action") as? NSDictionary {
-                        actionTrigger.action = action.description
+                        let localActionArray = NSMutableArray()
+                        localActionArray.add(action)
+                        
+                        do {
+                            let data = try JSONSerialization.data(withJSONObject: localActionArray)
+                            actionTrigger.action = String(data: data, encoding: .utf8)
+                        } catch let error as NSError{
+                            PreyLogger("json error trigger: \(error.localizedDescription)")
+                        }
+                        
                     }
                     trigger.addToActions(actionTrigger)
                 }

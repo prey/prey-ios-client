@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
 		3B1ACE3F22CE872B0057ECE5 /* Trigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */; };
@@ -137,6 +138,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TriggerManager.swift; path = Classes/TriggerManager.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
 		3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Trigger.swift; path = Classes/Trigger.swift; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 				3B2445F61D245478005DF09C /* Camouflage.swift */,
 				3B88FC4F1DA2961F007E62A6 /* Ping.swift */,
 				3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */,
+				3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */,
 				3B42B3FC1CECC38B009D07B2 /* Report.swift */,
 				3B18EEC322C27B4E007A0F45 /* ReportExample.swift */,
 				3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */,
@@ -794,6 +797,7 @@
 				3B51FFB21D3EB77C00CFE4E8 /* QRCodeScannerVC.swift in Sources */,
 				3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */,
 				3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */,
+				3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */,
 				3B2445F91D2466CD005DF09C /* Alert.swift in Sources */,
 				3BC4FC1F1D3699F800C58878 /* CurrentLocationVC.swift in Sources */,
 				3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */,
