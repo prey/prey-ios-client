@@ -94,7 +94,7 @@ class Trigger : PreyAction {
         for serverTriggersArray in response {
             
             // Init NSManagedObject type Triggers
-            let trigger = NSEntityDescription.insertNewObject(forEntityName: "Triggers", into: PreyCoreData.sharedInstance.managedObjectContext)
+            let trigger = NSEntityDescription.insertNewObject(forEntityName: "Triggers", into: context) as! Triggers
             
             // Attributes from Triggers
             let attributes = trigger.entity.attributesByName
@@ -116,6 +116,34 @@ class Trigger : PreyAction {
                     trigger.setValue(value, forKey: attribute)
                 }
             }
+            // Check events
+            if let eventsArray = (serverTriggersArray as AnyObject).object(forKey: "events") as? NSArray {
+                for eventItem in eventsArray {
+                    let eventsTrigger = NSEntityDescription.insertNewObject(forEntityName: "TriggersEvents", into: context) as! TriggersEvents
+
+                    if let type = (eventItem as AnyObject).object(forKey: "type") as? String {
+                        eventsTrigger.type = type
+                    }
+                    if let info = (eventItem as AnyObject).object(forKey: "info") as? NSDictionary {
+                        eventsTrigger.info = info.description
+                    }
+                    trigger.addToEvents(eventsTrigger)
+                }
+            }
+            // Check actions
+            if let actionArray = (serverTriggersArray as AnyObject).object(forKey: "actions") as? NSArray {
+                for actionItem in actionArray {
+                    let actionTrigger = NSEntityDescription.insertNewObject(forEntityName: "TriggersActions", into: context) as! TriggersActions
+                    
+                    if let delay = (actionItem as AnyObject).object(forKey: "delay") as? Double {
+                        actionTrigger.delay = NSNumber(value:delay)
+                    }
+                    if let action = (actionItem as AnyObject).object(forKey: "action") as? NSDictionary {
+                        actionTrigger.action = action.description
+                    }
+                    trigger.addToActions(actionTrigger)
+                }
+            }
         }
         
         // Save CoreData
@@ -133,7 +161,7 @@ class Trigger : PreyAction {
         let fetchedObjects = PreyCoreData.sharedInstance.getCurrentTriggers()
         
         for info in fetchedObjects {
-            PreyLogger("Name trigger"+String(format: "%f", (info.id?.floatValue)!))
+            PreyLogger("Name trigger "+String(format: "%f", (info.id?.floatValue)!))
         }
         
         // Added triggers
