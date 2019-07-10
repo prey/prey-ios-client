@@ -15,7 +15,7 @@ enum kInstruction: String {
 
 // Prey actions definitions
 enum kAction: String {
-    case location, report, alarm, alert, geofencing, detach, camouflage, ping, tree, fileretrieval, trigger
+    case location, report, alarm, alert, geofencing, detach, camouflage, ping, tree, fileretrieval, triggers
 }
 
 // Prey options definitions

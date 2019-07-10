@@ -60,7 +60,7 @@ class Trigger : PreyAction {
         // Params struct
         let params:[String: String] = [
             kData.status.rawValue   : status.rawValue,
-            kData.target.rawValue   : kAction.trigger.rawValue,
+            kData.target.rawValue   : kAction.triggers.rawValue,
             kData.command.rawValue  : cmd.rawValue,
             kData.reason.rawValue   : triggersId.description]
         
@@ -74,7 +74,7 @@ class Trigger : PreyAction {
     
     // Delete all triggers on device
     func deleteAllTriggersOnDevice() {
-        
+        UIApplication.shared.cancelAllLocalNotifications()        
     }
     
     // Delete all triggersOnCoreData
@@ -117,7 +117,7 @@ class Trigger : PreyAction {
                 }
             }
             // Check events
-            if let eventsArray = (serverTriggersArray as AnyObject).object(forKey: "events") as? NSArray {
+            if let eventsArray = (serverTriggersArray as AnyObject).object(forKey: "automation_events") as? NSArray {
                 for eventItem in eventsArray {
                     let eventsTrigger = NSEntityDescription.insertNewObject(forEntityName: "TriggersEvents", into: context) as! TriggersEvents
 
@@ -125,13 +125,18 @@ class Trigger : PreyAction {
                         eventsTrigger.type = type
                     }
                     if let info = (eventItem as AnyObject).object(forKey: "info") as? NSDictionary {
-                        eventsTrigger.info = info.description
+                        do {
+                            let data = try JSONSerialization.data(withJSONObject: info)
+                            eventsTrigger.info = String(data: data, encoding: .utf8)
+                        } catch let error as NSError {
+                            PreyLogger("json error trigger: \(error.localizedDescription)")
+                        }
                     }
                     trigger.addToEvents(eventsTrigger)
                 }
             }
             // Check actions
-            if let actionArray = (serverTriggersArray as AnyObject).object(forKey: "actions") as? NSArray {
+            if let actionArray = (serverTriggersArray as AnyObject).object(forKey: "automation_actions") as? NSArray {
                 for actionItem in actionArray {
                     let actionTrigger = NSEntityDescription.insertNewObject(forEntityName: "TriggersActions", into: context) as! TriggersActions
                     
@@ -166,14 +171,28 @@ class Trigger : PreyAction {
     // Add triggers to Device
     func addTriggersToDevice() {
         
-        // Get current GeofenceZones
-        let fetchedObjects = PreyCoreData.sharedInstance.getCurrentTriggers()
+        let localTriggersArray  = PreyCoreData.sharedInstance.getCurrentTriggers()
         
-        for info in fetchedObjects {
-            PreyLogger("Name trigger "+String(format: "%f", (info.id?.floatValue)!))
+        for localTrigger in localTriggersArray {
+
+            PreyLogger("Name trigger "+String(format: "%f", (localTrigger.id?.floatValue)!))
+
+            let timeEvent = ["exact_time", "repeat_time"]
+            var onlyTimeEvents = true
+
+            for itemTrigger in localTrigger.events!.allObjects as! [TriggersEvents] {
+                guard timeEvent.contains(itemTrigger.type!) else {
+                    onlyTimeEvents = false
+                    break
+                }
+            }
+            
+            if onlyTimeEvents {
+                TriggerManager.sharedInstance.scheduleTrigger()
+            }
         }
         
         // Added triggers
-        sendEventToPanel(fetchedObjects, withCommand:kCommand.start , withStatus:kStatus.started)
+        sendEventToPanel(localTriggersArray, withCommand:kCommand.start , withStatus:kStatus.started)
     }
 }

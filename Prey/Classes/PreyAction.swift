@@ -76,8 +76,8 @@ class PreyAction : Operation {
         case kAction.fileretrieval:
             actionItem = FileRetrieval(withTarget: kAction.fileretrieval, withCommand: cmd, withOptions: opt)
 
-        case kAction.trigger:
-            actionItem = Trigger(withTarget: kAction.trigger, withCommand: cmd, withOptions: opt)
+        case kAction.triggers:
+            actionItem = Trigger(withTarget: kAction.triggers, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem
