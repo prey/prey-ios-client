@@ -51,19 +51,23 @@ class Trigger : PreyAction {
     func sendEventToPanel(_ triggersArray:[Triggers], withCommand cmd:kCommand, withStatus status:kStatus){
         
         // Create a triggerId array with new triggers
-        var triggersId = [NSNumber]()
-        
+        let triggerArray = NSMutableArray()
         for itemAdded in triggersArray {
-            triggersId.append(itemAdded.id!)
+            let triggersId : [String: Double] = [
+                "id"    : itemAdded.id!.doubleValue,
+                "state" : 1]
+            triggerArray.add(triggersId)
         }
+        
+        let data = try? JSONSerialization.data(withJSONObject: triggerArray)
         
         // Params struct
         let params:[String: String] = [
             kData.status.rawValue   : status.rawValue,
             kData.target.rawValue   : kAction.triggers.rawValue,
             kData.command.rawValue  : cmd.rawValue,
-            kData.reason.rawValue   : triggersId.description]
-        
+            kData.reason.rawValue   : String(data: data!, encoding: .utf8)!]
+
         // Send info to panel
         if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:responseDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request dataSend")}))
