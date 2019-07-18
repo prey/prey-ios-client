@@ -18,6 +18,7 @@ class PreyAction : Operation {
     var options: NSDictionary?
     var messageId: String?
     var deviceJobId: String?
+    var triggerId: String?
     
     var isActive: Bool = false
     
@@ -96,7 +97,12 @@ class PreyAction : Operation {
             let jobIdJson = [kOptions.device_job_id.rawValue : jobId]
             params[kData.reason.rawValue] = jobIdJson
         }
-        
+
+        if let tigreId = triggerId {
+            let triggerIdJson = [kOptions.trigger_id.rawValue : tigreId]
+            params[kData.reason.rawValue] = triggerIdJson
+        }
+
         return params
     }
     

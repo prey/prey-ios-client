@@ -32,6 +32,9 @@ class PreyNotification {
             // Add alert action
             let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
             let alertAction:Alert = Alert(withTarget:kAction.alert, withCommand:kCommand.start, withOptions:alertOptions)
+            if let info = localNotification.userInfo, let triggerId = info[kOptions.trigger_id.rawValue] as? String {
+                alertAction.triggerId = triggerId
+            }
             PreyModule.sharedInstance.actionArray.append(alertAction)
             PreyModule.sharedInstance.runAction()
         }

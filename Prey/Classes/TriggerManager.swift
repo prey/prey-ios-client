@@ -63,16 +63,16 @@ class TriggerManager : NSObject {
 
             switch itemTrigger.type {
             case "exact_time" :
-                scheduleExactTimeLocalNotification(actionsEventData, info: itemTrigger.info!)
+                scheduleExactTimeLocalNotification(actionsEventData, info: itemTrigger.info!, triggerId: localTrigger.id!.stringValue)
             case "repeat_time" :
-                scheduleRepeatTimeLocalNotification(actionsEventData, info: itemTrigger.info!)
+                scheduleRepeatTimeLocalNotification(actionsEventData, info: itemTrigger.info!, triggerId: localTrigger.id!.stringValue)
             default: return
             }
         }
     }
     
     // Add LocalNotification with action alert
-    func scheduleExactTimeLocalNotification(_ actionsData:NSSet, info:String) {
+    func scheduleExactTimeLocalNotification(_ actionsData:NSSet, info:String, triggerId:String) {
 
         for itemAction in actionsData.allObjects as! [TriggersActions] {
             
@@ -128,7 +128,9 @@ class TriggerManager : NSObject {
                 
                 // Schedule localNotification
                 let localNotif:UILocalNotification = UILocalNotification()
-                let userInfoLocalNotification:[String: String] = [kOptions.IDLOCAL.rawValue : message]
+                let userInfoLocalNotification:[String: String] =
+                    [kOptions.IDLOCAL.rawValue      : message,
+                     kOptions.trigger_id.rawValue   : triggerId]
                 localNotif.userInfo     = userInfoLocalNotification
                 localNotif.alertBody    = message
                 localNotif.hasAction    = false
@@ -142,7 +144,7 @@ class TriggerManager : NSObject {
     }
     
     // Add LocalNotification with action alert
-    func scheduleRepeatTimeLocalNotification(_ actionsData:NSSet, info:String) {
+    func scheduleRepeatTimeLocalNotification(_ actionsData:NSSet, info:String, triggerId:String) {
         
         for itemAction in actionsData.allObjects as! [TriggersActions] {
             
@@ -209,7 +211,9 @@ class TriggerManager : NSObject {
                     fireDate.second = Int(second)
                     // Schedule localNotification
                     let localNotif:UILocalNotification = UILocalNotification()
-                    let userInfoLocalNotification:[String: String] = [kOptions.IDLOCAL.rawValue : message]
+                    let userInfoLocalNotification:[String: String] =
+                        [kOptions.IDLOCAL.rawValue      : message,
+                         kOptions.trigger_id.rawValue   : triggerId]
                     localNotif.userInfo         = userInfoLocalNotification
                     localNotif.alertBody        = message
                     localNotif.hasAction        = false
