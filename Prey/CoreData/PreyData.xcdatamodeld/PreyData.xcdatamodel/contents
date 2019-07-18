@@ -19,21 +19,23 @@
     <entity name="Triggers" representedClassName="Triggers" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TriggersActions" syncable="YES"/>
-        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TriggersEvents" syncable="YES"/>
+        <relationship name="actions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TriggersActions" inverseName="trigger" inverseEntity="TriggersActions" syncable="YES"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TriggersEvents" inverseName="trigger" inverseEntity="TriggersEvents" syncable="YES"/>
     </entity>
     <entity name="TriggersActions" representedClassName="TriggersActions" syncable="YES">
         <attribute name="action" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="delay" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="trigger" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Triggers" inverseName="actions" inverseEntity="Triggers" syncable="YES"/>
     </entity>
     <entity name="TriggersEvents" representedClassName="TriggersEvents" syncable="YES">
         <attribute name="info" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="trigger" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Triggers" inverseName="events" inverseEntity="Triggers" syncable="YES"/>
     </entity>
     <elements>
-        <element name="GeofenceZones" positionX="-63" positionY="-18" width="128" height="255"/>
-        <element name="Triggers" positionX="-63" positionY="90" width="128" height="105"/>
-        <element name="TriggersEvents" positionX="-54" positionY="99" width="128" height="75"/>
-        <element name="TriggersActions" positionX="-36" positionY="108" width="128" height="75"/>
+        <element name="GeofenceZones" positionX="-310.34765625" positionY="-88.296875" width="128" height="255"/>
+        <element name="Triggers" positionX="-118.265625" positionY="31.73046875" width="128" height="103"/>
+        <element name="TriggersActions" positionX="233.9453125" positionY="-38.8046875" width="128" height="90"/>
+        <element name="TriggersEvents" positionX="141.91796875" positionY="262.14453125" width="128" height="88"/>
     </elements>
 </model>
