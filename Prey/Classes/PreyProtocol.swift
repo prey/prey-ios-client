@@ -64,6 +64,16 @@ enum kInfoRepeatTime: String {
     case days_of_week, hour, minute, second, until
 }
 
+// Prey trigger type:range_time
+enum kInfoRangetTime: String {
+    case from, until
+}
+
+// Prey trigger type:repeat_range_time
+enum kInfoRepeatRangetTime: String {
+    case days_of_week, hour_from, hour_until, until
+}
+
 // Definition of URLs
 #if DEBUG
     public let URLControlPanel      : String = "https://control.preyhq.com/api/v2"

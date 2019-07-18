@@ -32,7 +32,21 @@ class TriggerManager : NSObject {
         
         for localTrigger in localTriggersArray {
             for itemTrigger in localTrigger.events!.allObjects as! [TriggersEvents] {
-                guard itemTrigger.type == "low_battery" else {return}
+                guard itemTrigger.type == "low_battery" else {continue}
+                var isInRangeTime = true
+                for itemTrigger in localTrigger.events!.allObjects as! [TriggersEvents] {
+                    switch itemTrigger.type {
+                    case "range_time" :
+                        isInRangeTime = checkRangeTimeInEvent(itemTrigger.info!)
+                        break
+                    case "repeat_range_time" :
+                        isInRangeTime = checkRepeatRangeTimeInEvent(itemTrigger.info!)
+                        break
+                    default: continue
+                    }
+                }
+
+                guard isInRangeTime else {continue}
                 
                 guard let actionsEventData = localTrigger.actions else {return}
                 
@@ -227,5 +241,88 @@ class TriggerManager : NSObject {
                 }
             }
         }
+    }
+    
+
+    func checkRangeTimeInEvent(_ info:String) -> Bool {
+        let isInRangeTime = true
+        
+        // Info NSDictionary
+        guard let infoData: Data = info.data(using: String.Encoding.utf8) else {
+            PreyLogger("Error trigger range info to NSData")
+            return false
+        }
+        
+        guard let infoDict = try? JSONSerialization.jsonObject(with: infoData, options:JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary else {
+            PreyLogger("Error trigger range info to data")
+            return false
+        }
+        
+        guard let fromEvent = infoDict[kInfoRangetTime.from.rawValue] as? String else {return false}
+        guard let untilEvent = infoDict[kInfoRangetTime.until.rawValue] as? String else {return false}
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        formatter.timeZone = TimeZone.current
+        formatter.locale = Locale.current
+        let fromDate = formatter.date(from: fromEvent)
+        let untilDate = formatter.date(from: untilEvent)
+        
+        guard fromDate! <= Date() else {return false}
+        guard untilDate! >= Date() else {return false}
+        
+        return isInRangeTime
+    }
+
+    func checkRepeatRangeTimeInEvent(_ info:String) -> Bool {
+        let isInRangeTime = true
+        
+        // Info NSDictionary
+        guard let infoData: Data = info.data(using: String.Encoding.utf8) else {
+            PreyLogger("Error trigger range info to NSData")
+            return false
+        }
+        
+        guard let infoDict = try? JSONSerialization.jsonObject(with: infoData, options:JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary else {
+            PreyLogger("Error trigger range info to data")
+            return false
+        }
+        
+        guard let dayWeekEvent = infoDict[kInfoRepeatRangetTime.days_of_week.rawValue] as? String else {return false}
+        guard let fromHourEvent = infoDict[kInfoRepeatRangetTime.hour_from.rawValue] as? String else {return false}
+        guard let untilHourEvent = infoDict[kInfoRepeatRangetTime.hour_until.rawValue] as? String else {return false}
+        
+        let dayArray = dayWeekEvent.components(separatedBy: ["[", "]", ","])
+        var isOnDay = false
+        for day in dayArray {
+            if day == "" {continue}
+            let desiredWeekday = Int(day)! + 1
+            if (desiredWeekday == NSCalendar.current.dateComponents([.weekday], from: Date()).weekday) {
+                isOnDay = true
+                break
+            }
+        }
+        guard isOnDay else {return false}
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HHmmss"
+        formatter.timeZone = TimeZone.current
+        formatter.locale = Locale.current
+        let nowtime = formatter.string(from: Date())
+        
+        guard Int(fromHourEvent)! <= Int(nowtime)! else {return false}
+        guard Int(untilHourEvent)! >= Int(nowtime)! else {return false}
+        
+        if (infoDict[kInfoRepeatRangetTime.until.rawValue] != nil) {
+            guard let untilEvent = infoDict[kInfoRepeatRangetTime.until.rawValue] as? String else {return false}
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyyMMdd"
+            formatter.timeZone = TimeZone.current
+            formatter.locale = Locale.current
+            let untilDate = formatter.date(from: untilEvent)
+            guard untilDate! >= Date() else {return false}
+        }
+        
+        return isInRangeTime
     }
 }
