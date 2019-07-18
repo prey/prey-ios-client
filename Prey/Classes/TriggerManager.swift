@@ -55,23 +55,18 @@ class TriggerManager : NSObject {
     }
     
     // Event Time
-    func scheduleTrigger() {
-        
-        let localTriggersArray  = PreyCoreData.sharedInstance.getCurrentTriggers()
-        
-        for localTrigger in localTriggersArray {
-            for itemTrigger in localTrigger.events!.allObjects as! [TriggersEvents] {
+    func scheduleTrigger(_ localTrigger:Triggers) {
 
-                guard let actionsEventData = localTrigger.actions else {return}
+        for itemTrigger in localTrigger.events!.allObjects as! [TriggersEvents] {
+            
+            guard let actionsEventData = localTrigger.actions else {return}
 
-                switch itemTrigger.type {
-                case "exact_time" :
-                    scheduleExactTimeLocalNotification(actionsEventData, info: itemTrigger.info!)
-                //case "repeat_time" :
-                //case "range_time" :
-                //case "repeat_range_time" :
-                default: return
-                }
+            switch itemTrigger.type {
+            case "exact_time" :
+                scheduleExactTimeLocalNotification(actionsEventData, info: itemTrigger.info!)
+            case "repeat_time" :
+                scheduleRepeatTimeLocalNotification(actionsEventData, info: itemTrigger.info!)
+            default: return
             }
         }
     }
@@ -92,7 +87,7 @@ class TriggerManager : NSObject {
                 PreyLogger("json trigger error:")
                 return
             }
-            
+
             for itemJsonDict in jsonDict {
                 
                 guard let jsonTarget = (itemJsonDict as! NSDictionary).object(forKey: kInstruction.target.rawValue) as? String else {
@@ -121,13 +116,15 @@ class TriggerManager : NSObject {
                     return
                 }
                 
-                guard let stringDate = infoDict["Date"] as? String else {return}
+                guard let stringDate = infoDict["date"] as? String else {return}
                 
                 let formatter = DateFormatter()
                 formatter.dateFormat = "yyyyMMddHHmmss"
                 formatter.timeZone = TimeZone.current
                 formatter.locale = Locale.current
                 let dateNotif = formatter.date(from: stringDate)
+                
+                guard dateNotif! >= Date() else {return}
                 
                 // Schedule localNotification
                 let localNotif:UILocalNotification = UILocalNotification()
@@ -139,6 +136,91 @@ class TriggerManager : NSObject {
                 localNotif.timeZone     = NSTimeZone.default;
                 
                 UIApplication.shared.scheduleLocalNotification(localNotif)
+                PreyLogger("DONE exact")
+            }
+        }
+    }
+    
+    // Add LocalNotification with action alert
+    func scheduleRepeatTimeLocalNotification(_ actionsData:NSSet, info:String) {
+        
+        for itemAction in actionsData.allObjects as! [TriggersActions] {
+            
+            guard let actionData = itemAction.action else {return}
+            
+            guard let jsonData: Data = actionData.data(using: String.Encoding.utf8) else {
+                PreyLogger("Error trigger actionsArray to NSData")
+                return
+            }
+            
+            guard let jsonDict = try? JSONSerialization.jsonObject(with: jsonData, options:JSONSerialization.ReadingOptions.mutableContainers) as? NSArray else {
+                PreyLogger("json trigger error:")
+                return
+            }
+
+            for itemJsonDict in jsonDict {
+                
+                guard let jsonTarget = (itemJsonDict as! NSDictionary).object(forKey: kInstruction.target.rawValue) as? String else {
+                    PreyLogger("Error trigger with ActionName")
+                    return
+                }
+                
+                // Check if action target is Alert
+                guard jsonTarget == kAction.alert.rawValue else {return}
+                
+                // Action Options
+                let actionOptions: NSDictionary? = (itemJsonDict as! NSDictionary).object(forKey: kInstruction.options.rawValue) as? NSDictionary
+                guard let message = actionOptions?.object(forKey: kOptions.MESSAGE.rawValue) as? String else {
+                    PreyLogger("Alert trigger: error reading message")
+                    return
+                }
+                
+                // Info NSDictionary
+                guard let infoData: Data = info.data(using: String.Encoding.utf8) else {
+                    PreyLogger("Error trigger info to NSData")
+                    return
+                }
+                
+                guard let infoDict = try? JSONSerialization.jsonObject(with: infoData, options:JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary else {
+                    PreyLogger("Error trigger info to data")
+                    return
+                }
+
+                guard let daysWeek = infoDict[kInfoRepeatTime.days_of_week.rawValue] as? String else {return}
+                guard let hour = infoDict[kInfoRepeatTime.hour.rawValue] as? String else {return}
+                guard let minute = infoDict[kInfoRepeatTime.minute.rawValue] as? String else {return}
+                guard let second = infoDict[kInfoRepeatTime.second.rawValue] as? String else {return}
+                
+                let dayArray = daysWeek.components(separatedBy: ["[", "]", ","])
+                for day in dayArray {
+                    if day == "" {continue}
+                    let desiredWeekday = Int(day)! + 1
+                    let weekDateRange = NSCalendar.current.maximumRange(of: .weekday)!
+                    let daysInWeek = weekDateRange.lowerBound.distance(to: weekDateRange.upperBound)-weekDateRange.lowerBound+1
+                    let currentWeekday = NSCalendar.current.dateComponents([.weekday], from: Date()).weekday
+                    let differenceDays = (desiredWeekday - currentWeekday! + daysInWeek) % daysInWeek
+                    
+                    var fireDate = DateComponents()
+                    fireDate.day = Calendar.current.component(.day, from: Date()) + differenceDays
+                    fireDate.year = Calendar.current.component(.year, from: Date())
+                    fireDate.month = Calendar.current.component(.month, from: Date())
+                    fireDate.hour = Int(hour)
+                    fireDate.minute = Int(minute)
+                    fireDate.second = Int(second)
+                    // Schedule localNotification
+                    let localNotif:UILocalNotification = UILocalNotification()
+                    let userInfoLocalNotification:[String: String] = [kOptions.IDLOCAL.rawValue : message]
+                    localNotif.userInfo         = userInfoLocalNotification
+                    localNotif.alertBody        = message
+                    localNotif.hasAction        = false
+                    localNotif.fireDate         = NSCalendar.current.date(from: fireDate)
+                    localNotif.repeatCalendar   = Calendar.current
+                    localNotif.repeatInterval   = NSCalendar.Unit.weekOfYear
+                    localNotif.timeZone         = NSTimeZone.default
+                    
+                    UIApplication.shared.scheduleLocalNotification(localNotif)
+                    PreyLogger("DONE repeat")
+                }
             }
         }
     }

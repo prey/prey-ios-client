@@ -192,7 +192,7 @@ class Trigger : PreyAction {
             }
             
             if onlyTimeEvents {
-                TriggerManager.sharedInstance.scheduleTrigger()
+                TriggerManager.sharedInstance.scheduleTrigger(localTrigger)
             }
         }
         

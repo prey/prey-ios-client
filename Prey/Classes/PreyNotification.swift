@@ -37,7 +37,11 @@ class PreyNotification {
         }
         
         application.applicationIconBadgeNumber = -1
-        application.cancelAllLocalNotifications()
+
+        let localTriggersArray  = PreyCoreData.sharedInstance.getCurrentTriggers()
+        if localTriggersArray.isEmpty {
+            application.cancelAllLocalNotifications()
+        }
     }
     
     // Register Device to Apple Push Notification Service
