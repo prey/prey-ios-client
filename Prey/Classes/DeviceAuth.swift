@@ -186,6 +186,8 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
                 DispatchQueue.main.async {
+                    let alertCategory = UNNotificationCategory(identifier: "PreyAlert", actions: [], intentIdentifiers: [], options: [])
+                    UNUserNotificationCenter.current().setNotificationCategories(Set([alertCategory]))
                     self.callNextReactView()
                     // Check permission granted
                     guard granted else { return }

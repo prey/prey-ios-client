@@ -54,7 +54,8 @@ class PreyNotification {
                 .requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
                    // Check permission granted
                     guard granted else { return }
-                    
+                    let alertCategory = UNNotificationCategory(identifier: "PreyAlert", actions: [], intentIdentifiers: [], options: [])
+                    UNUserNotificationCenter.current().setNotificationCategories(Set([alertCategory]))
                     UNUserNotificationCenter.current().getNotificationSettings { settings in
                         // Check notification settings
                         guard settings.authorizationStatus == .authorized else { return }
