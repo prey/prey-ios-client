@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import UserNotifications
 
 class Alert: PreyAction {
     
@@ -29,15 +30,25 @@ class Alert: PreyAction {
         // Show message
         if UIApplication.shared.applicationState != .background {
            showAlertVC(message)
-            
         } else {
-            let localNotif:UILocalNotification = UILocalNotification()
-            // UserInfo
-            let userInfoLocalNotification:[String: String] = [kOptions.IDLOCAL.rawValue : message]
-            localNotif.userInfo     = userInfoLocalNotification
-            localNotif.alertBody    = message
-            localNotif.hasAction    = false
-            UIApplication.shared.presentLocalNotificationNow(localNotif)
+             if #available(iOS 10.0, *) {
+                let content = UNMutableNotificationContent()
+                let userInfoLocalNotification:[String: String] = [kOptions.IDLOCAL.rawValue : message]
+                content.userInfo = userInfoLocalNotification
+                content.categoryIdentifier = categoryNotifPreyAlert
+                content.body = message
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+             } else {
+                // Legacy local notification
+                let localNotif:UILocalNotification = UILocalNotification()
+                let userInfoLocalNotification:[String: String] = [kOptions.IDLOCAL.rawValue : message]
+                localNotif.userInfo     = userInfoLocalNotification
+                localNotif.alertBody    = message
+                localNotif.hasAction    = false
+                UIApplication.shared.presentLocalNotificationNow(localNotif)
+            }
         }
         
         // Send start action

@@ -76,6 +76,8 @@ public let biometricAuth : String = {
     return textID
 }()
 
+// Category notification
+public let categoryNotifPreyAlert = "PreyAlert"
 
 // Filename to alternative icon
 public let alternativeIcon = "Icon2"

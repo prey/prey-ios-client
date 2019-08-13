@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UserNotifications
 
 class TriggerManager : NSObject {
     
@@ -141,17 +142,31 @@ class TriggerManager : NSObject {
                 guard dateNotif! >= Date() else {return}
                 
                 // Schedule localNotification
-                let localNotif:UILocalNotification = UILocalNotification()
                 let userInfoLocalNotification:[String: String] =
                     [kOptions.IDLOCAL.rawValue      : message,
                      kOptions.trigger_id.rawValue   : triggerId]
-                localNotif.userInfo     = userInfoLocalNotification
-                localNotif.alertBody    = message
-                localNotif.hasAction    = false
-                localNotif.fireDate     = dateNotif;
-                localNotif.timeZone     = NSTimeZone.default;
                 
-                UIApplication.shared.scheduleLocalNotification(localNotif)
+                if #available(iOS 10.0, *) {
+                    let content = UNMutableNotificationContent()
+                    content.userInfo = userInfoLocalNotification
+                    content.categoryIdentifier = categoryNotifPreyAlert
+                    content.body = message
+                    let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: dateNotif!)
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,repeats: false)
+                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                    
+                    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                } else {
+                    // Legacy local notification
+                    let localNotif:UILocalNotification = UILocalNotification()
+                    localNotif.userInfo     = userInfoLocalNotification
+                    localNotif.alertBody    = message
+                    localNotif.hasAction    = false
+                    localNotif.fireDate     = dateNotif;
+                    localNotif.timeZone     = NSTimeZone.default;
+                    
+                    UIApplication.shared.scheduleLocalNotification(localNotif)
+                }
                 PreyLogger("DONE exact")
             }
         }
