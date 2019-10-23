@@ -137,8 +137,8 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
         
         let regionInfo:[String: Any] = [
             kGeofence.ZONEID.rawValue       : region.identifier,
-            kLocation.lng.rawValue          : region.center.latitude,
-            kLocation.lat.rawValue          : region.center.longitude,
+            kLocation.lat.rawValue          : region.center.latitude,
+            kLocation.lng.rawValue          : region.center.longitude,
             kLocation.accuracy.rawValue     : region.radius,
             kLocation.method.rawValue       : "native"]
 
