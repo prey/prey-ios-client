@@ -178,7 +178,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
         }
-        
+
+        // Check superview on iOS 13 : UIDropShadowView
+        if #available(iOS 13.0, *), window?.rootViewController?.view.superview != nil {
+            return
+        }
+
         window?.endEditing(true)
         displayScreen()
     }
