@@ -76,6 +76,9 @@ public let biometricAuth : String = {
     return textID
 }()
 
+// Permitted background task scheduler identifiers
+public let bgTaskToPanel = "com.prey.refresh"
+
 // Category notification
 public let categoryNotifPreyAlert = "PreyAlert"
 

@@ -113,5 +113,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.prey.refresh</string>
+	</array>
 </dict>
 </plist>

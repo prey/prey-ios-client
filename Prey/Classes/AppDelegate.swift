@@ -9,6 +9,7 @@
 import UIKit
 import Fabric
 import Crashlytics
+import BackgroundTasks
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -63,6 +64,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Update current localUserSettings with preview versions
         PreyConfig.sharedInstance.updateUserSettings()        
+
+        // Registering launch handlers for tasks
+        if #available(iOS 13.0, *), PreyConfig.sharedInstance.isRegistered {
+            BGTaskScheduler.shared.register(forTaskWithIdentifier: bgTaskToPanel, using: nil) { task in
+                self.handleRequestToPanel(task: task as! BGAppRefreshTask)
+            }
+        }
         
         // Config init UIViewController
         displayScreen()
@@ -110,7 +118,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         PreyLogger("Prey is in background")
-        
+
+        // Schedule request to panel on background
+        if #available(iOS 13.0, *), PreyConfig.sharedInstance.isRegistered {
+            scheduleRequestToPanel()
+        }
+
         // Check action list to enable background task
         if IS_OS_12 {
             bgTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
@@ -224,6 +237,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         PreyLogger("Local notification received")
         PreyNotification.sharedInstance.checkLocalNotification(application, localNotification:notification)
-    }    
-}
+    }
+    
+     // MARK: Handling Launch for Tasks
 
+     // Check commands on Prey Web Panel
+    @available(iOS 13.0, *)
+    func handleRequestToPanel(task: BGAppRefreshTask) {
+        scheduleRequestToPanel()
+        
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.actionDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
+                PreyLogger("Request PreyAction")
+                task.setTaskCompleted(success: isSuccess)
+            }))
+        }
+                
+        task.expirationHandler = {
+            // After all operations are cancelled, the completion block below is called to set the task to complete.
+            PreyLogger("task.expirationHandler")
+        }
+    }
+    
+    // Schedule request to panel
+    @available(iOS 13.0, *)
+    func scheduleRequestToPanel() {
+        let request = BGAppRefreshTaskRequest(identifier: bgTaskToPanel)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 60) // Fetch no earlier than 60 minutes from now
+        
+        do {
+            try BGTaskScheduler.shared.submit(request)
+        } catch {
+            PreyLogger("Could not schedule app refresh: \(error)")
+        }
+    }
+
+}
