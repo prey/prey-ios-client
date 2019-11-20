@@ -1,23 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "a351f892c2802dfee7c0",
+    "revision": "5a067f397012440e8674",
     "url": "./static/css/main.ecd5f45e.chunk.css"
   },
   {
-    "revision": "a351f892c2802dfee7c0",
-    "url": "./static/js/main.a351f892.chunk.js"
+    "revision": "5a067f397012440e8674",
+    "url": "./static/js/main.5a067f39.chunk.js"
   },
   {
-    "revision": "9eb600ee07a27cdad64f",
-    "url": "./static/js/runtime~main.9eb600ee.js"
+    "revision": "8c97409f0ee389fe75da",
+    "url": "./static/js/runtime~main.8c97409f.js"
   },
   {
-    "revision": "20d244e6a62ab989347e",
-    "url": "./static/js/2.20d244e6.chunk.js"
+    "revision": "64a66344a41a20c7e85a",
+    "url": "./static/js/2.64a66344.chunk.js"
   },
   {
-    "revision": "ce31486d2c6e0b6d55bbf5dbf26992f0",
-    "url": "./static/media/prey-iso-monotono-alt.ce31486d.svg"
+    "revision": "230825e022dde765fdd3c6c271fab1a5",
+    "url": "./static/media/prey-iso-monotono-alt.230825e0.svg"
   },
   {
     "revision": "c3679e2d8686db6f8013ffe2ad603c2c",
@@ -140,23 +140,23 @@ self.__precacheManifest = [
     "url": "./static/media/fondo2.ada00d71.png"
   },
   {
-    "revision": "c44603b2b93c1b7a984f21255d556ee9",
-    "url": "./static/media/magdaclean-regular-webfont.c44603b2.woff"
+    "revision": "391159c582e0897e8d64ed22abe1ee2d",
+    "url": "./static/media/regular-bold-webfont.391159c5.woff"
   },
   {
     "revision": "6e8991140fc75b4927e2c440d9036429",
     "url": "./static/media/regular-book-webfont.6e899114.woff"
   },
   {
-    "revision": "391159c582e0897e8d64ed22abe1ee2d",
-    "url": "./static/media/regular-bold-webfont.391159c5.woff"
+    "revision": "c44603b2b93c1b7a984f21255d556ee9",
+    "url": "./static/media/magdaclean-regular-webfont.c44603b2.woff"
   },
   {
     "revision": "baaac74770efd8c34382afa00468f635",
     "url": "./static/media/magdaclean-bold-webfont.baaac747.woff"
   },
   {
-    "revision": "382a9de6723bb182ac025f46282d9305",
+    "revision": "23f82221db95500bb5a701dc70736ba7",
     "url": "./index.html"
   }
 ];

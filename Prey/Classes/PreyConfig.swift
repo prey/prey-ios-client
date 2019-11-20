@@ -32,6 +32,8 @@ enum PreyConfigDevice: String {
     case IsPro
     case IsMissing
     case IsCamouflageMode
+    case IsDarkMode
+    case IsSystemDarkMode
     case UpdatedSettings
     case ReportOptions
     case NeedChangeIcon
@@ -54,6 +56,8 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isPro               = defaultConfig.bool(forKey: PreyConfigDevice.IsPro.rawValue)
         isMissing           = defaultConfig.bool(forKey: PreyConfigDevice.IsMissing.rawValue)
         isCamouflageMode    = defaultConfig.bool(forKey: PreyConfigDevice.IsCamouflageMode.rawValue)
+        isDarkMode          = defaultConfig.bool(forKey: PreyConfigDevice.IsDarkMode.rawValue)
+        isSystemDarkMode    = defaultConfig.bool(forKey: PreyConfigDevice.IsSystemDarkMode.rawValue)
         updatedSettings     = defaultConfig.bool(forKey: PreyConfigDevice.UpdatedSettings.rawValue)
         needChangeIcon      = defaultConfig.bool(forKey: PreyConfigDevice.NeedChangeIcon.rawValue)
         isTouchIDEnabled    = defaultConfig.bool(forKey: PreyConfigDevice.IsTouchIDEnabled.rawValue)
@@ -70,6 +74,8 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     var isPro               : Bool
     var isMissing           : Bool
     var isCamouflageMode    : Bool
+    var isDarkMode          : Bool
+    var isSystemDarkMode    : Bool
     var updatedSettings     : Bool
     var needChangeIcon      : Bool
     var isTouchIDEnabled    : Bool
@@ -89,6 +95,8 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         defaultConfig.set(isPro, forKey:PreyConfigDevice.IsPro.rawValue)
         defaultConfig.set(isMissing, forKey:PreyConfigDevice.IsMissing.rawValue)
         defaultConfig.set(isCamouflageMode, forKey:PreyConfigDevice.IsCamouflageMode.rawValue)
+        defaultConfig.set(isDarkMode, forKey:PreyConfigDevice.IsDarkMode.rawValue)
+        defaultConfig.set(isSystemDarkMode, forKey:PreyConfigDevice.IsSystemDarkMode.rawValue)
         defaultConfig.set(updatedSettings, forKey:PreyConfigDevice.UpdatedSettings.rawValue)
         defaultConfig.set(needChangeIcon, forKey:PreyConfigDevice.NeedChangeIcon.rawValue)
         defaultConfig.set(isTouchIDEnabled, forKey:PreyConfigDevice.IsTouchIDEnabled.rawValue)
@@ -131,6 +139,32 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         return "x"
     }
 
+    // Method get darkMode stat
+    func getDarkModeState(_ view: UIViewController) -> String {
+
+        let darkMode  = "/?theme=dark"
+        let lightMode = "/?theme=light"
+        
+        // If < iOS 13 set darkMode by deafult
+        guard #available(iOS 13.0, *) else {
+            return darkMode
+        }
+        
+        // Check first run on app
+        if !isRegistered, !isDarkMode, !isSystemDarkMode {
+            isSystemDarkMode = true
+            saveValues()
+            return view.traitCollection.userInterfaceStyle == .dark ? darkMode : lightMode
+        }
+                
+        // Check systemDarkMode
+        if isSystemDarkMode {
+            return view.traitCollection.userInterfaceStyle == .dark ? darkMode : lightMode
+        }
+        
+        return isDarkMode ? darkMode : lightMode
+    }
+    
     // Check user settings
     func updateUserSettings() {
         
@@ -170,9 +204,9 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     
     // Config UINavigationBar
     func configNavigationBar() {
-        
-        let colorTitle              = UIColor(red:0.3019, green:0.3411, blue:0.4, alpha:1.0)
-        let colorItem               = UIColor(red:0, green:0.5058, blue:0.7607, alpha:1.0)
+
+        let colorTitle           = getNavBarTitleColor()
+        let colorItem            = getNavBarItemColor()
         
         let itemFontSize:CGFloat    = IS_IPAD ? 18 : 12
         let titleFontSize:CGFloat   = IS_IPAD ? 20 : 13
@@ -183,8 +217,40 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         UINavigationBar.appearance().titleTextAttributes    = [NSAttributedString.Key.font:fontTitle!,NSAttributedString.Key.foregroundColor:colorTitle]
         UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font:fontItem!,NSAttributedString.Key.foregroundColor:colorItem],for:.normal)
         
-        UINavigationBar.appearance().barTintColor           = UIColor.white
+        UINavigationBar.appearance().barTintColor           = getNavBarTintColor()
         UINavigationBar.appearance().tintColor              = colorItem
+    }
+    
+    // MARK: Dark Mode colors
+    
+    func getNavBarTitleColor() -> UIColor {
+        guard #available(iOS 13.0, *) else {
+            return UIColor(red:0.3019, green:0.3411, blue:0.4, alpha:1.0)
+        }
+        if PreyConfig.sharedInstance.isSystemDarkMode {
+            return UIColor(named: "NavBarTitle")!
+        }
+        return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 214/255, green: 231/255, blue: 255/255, alpha: 1.0) : UIColor(red:0.3019, green:0.3411, blue:0.4, alpha:1.0)
+    }
+    
+    func getNavBarItemColor() -> UIColor {
+        guard #available(iOS 13.0, *) else {
+            return UIColor(red:0, green:0.5058, blue:0.7607, alpha:1.0)
+        }
+        if PreyConfig.sharedInstance.isSystemDarkMode {
+            return UIColor(named: "NavBarItem")!
+        }
+        return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 214/255, green: 231/255, blue: 255/255, alpha: 1.0) : UIColor(red:0, green:0.5058, blue:0.7607, alpha:1.0)
+    }
+    
+    func getNavBarTintColor() -> UIColor {
+        guard #available(iOS 13.0, *) else {
+            return UIColor.white
+        }
+        if PreyConfig.sharedInstance.isSystemDarkMode {
+            return UIColor(named: "NavBarTint")!
+        }
+        return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 40/255, green: 54/255, blue: 74/255, alpha: 1.0) : UIColor.white
     }
     
     // MARK: Message check for update on App Store

@@ -21,17 +21,30 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     var actInd      = UIActivityIndicatorView()
     let rectView    = UIScreen.main.bounds
     var request     : URLRequest {
+        
+        let mode = PreyConfig.sharedInstance.getDarkModeState(self)
+        
         // Set language for webView
         let language:String = Locale.preferredLanguages[0] as String
         var languageES  = (language as NSString).substring(to: 2)
         if (languageES != "es") {languageES = "en"}
         let indexPage   = "index"
         let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"ReactViews")!)
-        let pathURL = (PreyConfig.sharedInstance.isRegistered) ? "#/\(languageES)/index" : "#/\(languageES)/start"
+        let pathURL = (PreyConfig.sharedInstance.isRegistered) ? "#/\(languageES)/index\(mode)" : "#/\(languageES)/start\(mode)"
         return URLRequest(url:URL(string: pathURL, relativeTo: baseURL)!)
     }
 
     // MARK: Init
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        if #available(iOS 13.0, *) {
+            if PreyConfig.sharedInstance.isSystemDarkMode {
+                return
+            }
+            self.overrideUserInterfaceStyle = PreyConfig.sharedInstance.isDarkMode ? .dark : .light
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -381,13 +394,14 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     
     // Load view on webView
     func loadViewOnWebView(_ view:String) {
+        let mode = PreyConfig.sharedInstance.getDarkModeState(self)
         var request     : URLRequest
         let language:String = Locale.preferredLanguages[0] as String
         var languageES  = (language as NSString).substring(to: 2)
         if (languageES != "es") {languageES = "en"}
         let indexPage   = "index"
         let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"ReactViews")!)
-        let pathURL = "#/\(languageES)/\(view)"
+        let pathURL = "#/\(languageES)/\(view)\(mode)"
         request = URLRequest(url:URL(string: pathURL, relativeTo: baseURL)!)
 
         webView.load(request)

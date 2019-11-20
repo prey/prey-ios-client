@@ -29,6 +29,7 @@ class PreyHTTPResponse {
             }
 
             //PreyLogger("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            //PreyLogger("PreyData:"+String(decoding: data!, as: UTF8.self))
             
             let httpURLResponse = response as! HTTPURLResponse
             let code            = httpURLResponse.statusCode
