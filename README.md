@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://pbs.twimg.com/profile_images/637039704228130817/xhKX1xSC.png" alt="Prey: iOS client" height="200" width="200"/>
+  <img src="https://pbs.twimg.com/profile_images/1194256576451878913/Yhl6jBE4_400x400.jpg" alt="Prey: iOS client" height="200" width="200"/>
 </p>
 
 [![Build Status](https://travis-ci.org/prey/prey-ios-client.svg?branch=master)](https://travis-ci.org/prey/prey-ios-client)
