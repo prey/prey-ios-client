@@ -286,9 +286,8 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         })
     }
 
-    // Add device action
-    func addDeviceWithSignUp(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool) {
-        
+    // Check signUp fields
+    func checkSignUpFields(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool) {
         // Check terms and conditions
         if (!age || !term) {
             displayErrorAlert("You must accept the Terms & Conditions".localized,
@@ -344,6 +343,25 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         // Hide keyboard
         self.view.endEditing(true)
         
+        // Show popUp to emailValidation
+        self.evaluateJS(self.webView, code: "var btn = document.getElementById('btnEmailValidation'); btn.click();")
+    }
+    
+    // Add device action
+    func addDeviceWithSignUp(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool) {
+
+        guard let nm = name else {
+            displayErrorAlert("Name can't be blank".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+        
+        guard let pwd1 = password1 else {
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage:"We have a situation!".localized)
+            return
+        }
+                
         // Show ActivityIndicator
         let actInd          = UIActivityIndicatorView(initInView: self.view, withText: "Creating account...".localized)
         self.view.addSubview(actInd)
@@ -362,7 +380,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             }
             
             // Get Token for Control Panel
-            PreyUser.getTokenFromPanel(email!, userPassword:pwd1, onCompletion: {_ in })
+            //PreyUser.getTokenFromPanel(email!, userPassword:pwd1, onCompletion: {_ in })
             
             // Add Device to Panel Prey
             PreyDevice.addDeviceWith({(isSuccess: Bool) in
@@ -373,7 +391,11 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
                     guard isSuccess else {
                         return
                     }
-                    self.loadViewOnWebView("permissions")
+                    //self.loadViewOnWebView("permissions")
+                    PreyConfig.sharedInstance.userEmail = email
+                    PreyConfig.sharedInstance.saveValues()
+                    self.loadViewOnWebView("emailsent")
+                    self.webView.reload()
                 }
             })
         })
@@ -519,6 +541,11 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         if (PreyConfig.sharedInstance.isRegistered) {
             checkDeviceAuth(webView: webView)
         }
+        
+        // Email validation reactView
+        if let email = PreyConfig.sharedInstance.userEmail {
+            evaluateJS(webView, code:"document.getElementById('userEmail').value='\(email)';")
+        }
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -552,6 +579,16 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             let email = queryItems?.filter({$0.name == "preyEmailLogin"}).first
             let pwd = queryItems?.filter({$0.name == "preyPassLogin"}).first
             self.addDeviceWithLogin(email?.value, password: pwd?.value)
+            
+        case ReactViews.CHECKSIGNUP.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let name = queryItems?.filter({$0.name == "nameSignup"}).first
+            let email = queryItems?.filter({$0.name == "emailSignup"}).first
+            let pwd1 = queryItems?.filter({$0.name == "pwd1Signup"}).first
+            let pwd2 = queryItems?.filter({$0.name == "pwd2Signup"}).first
+            guard let term = queryItems?.filter({$0.name == "termsSignup"}).first else {return}
+            guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
+            self.checkSignUpFields(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue())
             
         case ReactViews.SIGNUP.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
