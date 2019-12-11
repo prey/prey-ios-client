@@ -182,13 +182,13 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     }
 
     // Request auth notification
-    func requestAuthNotification() {
+    func requestAuthNotification(_ callNextView: Bool) {
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
                 DispatchQueue.main.async {
                     let alertCategory = UNNotificationCategory(identifier: categoryNotifPreyAlert, actions: [], intentIdentifiers: [], options: [])
                     UNUserNotificationCenter.current().setNotificationCategories(Set([alertCategory]))
-                    self.callNextReactView()
+                    if callNextView { self.callNextReactView() }
                     // Check permission granted
                     guard granted else { return }
                     UNUserNotificationCenter.current().getNotificationSettings { settings in
@@ -208,7 +208,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
                                                       categories: nil)
             UIApplication.shared.registerUserNotificationSettings(settings)
             UIApplication.shared.registerForRemoteNotifications()
-            callNextReactView()
+            if callNextView { self.callNextReactView() }
         }
     }
     

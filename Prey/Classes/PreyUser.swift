@@ -69,4 +69,25 @@ class PreyUser {
         
         PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:langEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.logIn, preyAction:nil, onCompletion:onCompletion))
     }
+    
+    // Resend email validation to Panel Prey
+    class func resendEmailValidation(_ userEmail: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
+        
+        let language:String = Locale.preferredLanguages[0] as String
+        let languageES  = (language as NSString).substring(to: 2)
+        
+        let params:[String: Any] = [
+            "email" : userEmail,
+            "lang"  : languageES]
+        
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.PUT.rawValue, endPoint:resendEmailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.resendEmailValidation, preyAction:nil, onCompletion:onCompletion))
+        } else {
+            let titleMsg = "Couldn't add your device".localized
+            let alertMsg = "Error user ID".localized
+            displayErrorAlert(alertMsg, titleMessage:titleMsg)
+            onCompletion(false)
+        }
+    }
+
 }

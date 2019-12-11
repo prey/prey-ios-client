@@ -105,6 +105,12 @@ public let signUpEndpoint           : String = "/signup.json"
 // Endpoint for Add Devices
 public let devicesEndpoint          : String = "/devices.json"
 
+// Endpoint for Email Validation
+public let emailValidationEndpoint  : String = "/users/verify.json"
+
+// Endpoint for Resend Email Validation
+public let resendEmailValidationEndpoint : String = "/users/verify_email.json"
+
 // Endpoint for Subscriptions Receipt
 public let subscriptionEndpoint     : String = "/subscriptions/receipt"
 
@@ -140,6 +146,6 @@ public var deleteDeviceEndpoint : String {return String(format:"/devices/%@",(Pr
 
 // Http method definitions
 public enum Method: String {
-    case GET, POST, DELETE
+    case GET, POST, PUT, DELETE
 }
 

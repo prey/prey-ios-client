@@ -65,6 +65,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Update current localUserSettings with preview versions
         PreyConfig.sharedInstance.updateUserSettings()        
 
+        // Check user email validation state
+        if PreyConfig.sharedInstance.validationUserEmail == nil {
+            PreyConfig.sharedInstance.validationUserEmail = PreyUserEmailValidation.inactive.rawValue
+            PreyConfig.sharedInstance.saveValues()
+        }
+        
         // Registering launch handlers for tasks
         if #available(iOS 13.0, *), PreyConfig.sharedInstance.isRegistered {
             BGTaskScheduler.shared.register(forTaskWithIdentifier: bgTaskToPanel, using: nil) { task in
@@ -96,6 +102,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if PreyConfig.sharedInstance.isPro {
             // Init geofencing region
             _ = GeofencingManager.sharedInstance
+        }
+        
+        // Check email validation
+        if PreyConfig.sharedInstance.validationUserEmail == PreyUserEmailValidation.pending.rawValue, let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
         }
         
         return true
@@ -154,6 +165,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+        // Check email validation
+        if PreyConfig.sharedInstance.validationUserEmail == PreyUserEmailValidation.pending.rawValue, let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
+        }
+
         stopBackgroundTask()
     }
 
@@ -216,9 +232,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Did register notifications
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        if PreyConfig.sharedInstance.isRegistered {
-            PreyNotification.sharedInstance.didRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
-        }
+        PreyNotification.sharedInstance.didRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
     }
     
     // Fail register notifications
@@ -228,9 +242,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Did receive remote notification
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if PreyConfig.sharedInstance.isRegistered {
-            PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
-        }
+        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
     }
     
     // Did receiveLocalNotification
