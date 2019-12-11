@@ -136,6 +136,8 @@ enum ReactViews: String {
     case CHECKID     = "ioschecktouchid"
     case QRCODE      = "iosqrcode"
     case LOGIN       = "ioslogin"
+    case EMAILRESEND = "iosemailresend"
+    case CHECKSIGNUP = "ioschecksignup"
     case SIGNUP      = "iossignup"
     case TERMS       = "iosterms"
     case PRIVACY     = "iosprivacy"
