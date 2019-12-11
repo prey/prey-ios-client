@@ -30,7 +30,8 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         if (languageES != "es") {languageES = "en"}
         let indexPage   = "index"
         let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"ReactViews")!)
-        let pathURL = (PreyConfig.sharedInstance.isRegistered) ? "#/\(languageES)/index\(mode)" : "#/\(languageES)/start\(mode)"
+        let startState = (PreyConfig.sharedInstance.validationUserEmail == PreyUserEmailValidation.pending.rawValue) ? "emailsent" : "start"
+        let pathURL = (PreyConfig.sharedInstance.isRegistered) ? "#/\(languageES)/index\(mode)" : "#/\(languageES)/\(startState)\(mode)"
         return URLRequest(url:URL(string: pathURL, relativeTo: baseURL)!)
     }
 
@@ -392,7 +393,10 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
                         return
                     }
                     //self.loadViewOnWebView("permissions")
+                    DeviceAuth.sharedInstance.requestAuthNotification(false)
                     PreyConfig.sharedInstance.userEmail = email
+                    PreyConfig.sharedInstance.validationUserEmail = PreyUserEmailValidation.pending.rawValue
+                    PreyConfig.sharedInstance.isRegistered  = false
                     PreyConfig.sharedInstance.saveValues()
                     self.loadViewOnWebView("emailsent")
                     self.webView.reload()
@@ -600,6 +604,26 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
             self.addDeviceWithSignUp(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue())
 
+        case ReactViews.EMAILRESEND.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let email = queryItems?.filter({$0.name == "emailSignup"}).first
+
+            if isInvalidEmail((email?.value)!, withPattern:emailRegExp) {
+                displayErrorAlert("Enter a valid e-mail address".localized,
+                                  titleMessage:"We have a situation!".localized)
+            } else {
+                PreyUser.resendEmailValidation((email?.value)!, onCompletion: {(isSuccess: Bool) in
+                    DispatchQueue.main.async {
+                        // Resend email success
+                        guard isSuccess else {
+                            return
+                        }
+                        self.evaluateJS(self.webView, code: "var btn = document.getElementById('btnIDEmailValidation'); btn.click();")
+                    }
+                })
+            }
+            PreyLogger("Resend email validation")
+            
         case ReactViews.TERMS.rawValue:
             self.showWebViewModal(URLTermsPrey, pageTitle: "Terms of Service".localized)
             
@@ -622,7 +646,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             DeviceAuth.sharedInstance.requestAuthCamera()
             
         case ReactViews.AUTHNOTIF.rawValue:
-            DeviceAuth.sharedInstance.requestAuthNotification()
+            DeviceAuth.sharedInstance.requestAuthNotification(true)
             
         case ReactViews.REPORTEXAMP.rawValue:
             self.actInd.startAnimating()

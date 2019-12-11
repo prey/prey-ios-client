@@ -10,7 +10,7 @@ import Foundation
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, geofenceZones, dataSend, statusDevice, trigger
+    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, geofenceZones, dataSend, statusDevice, trigger, emailValidation, resendEmailValidation
 }
 
 class PreyHTTPResponse {
@@ -72,7 +72,13 @@ class PreyHTTPResponse {
 
         case .trigger:
             checkTrigger(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
-            
+
+        case .emailValidation:
+            checkEmailValidation(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
+
+        case .resendEmailValidation:
+            checkResendEmailValidation(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
+
         case .dataSend:
             checkDataSend(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
 
@@ -433,6 +439,60 @@ class PreyHTTPResponse {
             PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")
         }
+    }
+    
+    // Check Email Validation response
+    class func checkEmailValidation(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
+        
+        guard isSuccess else {
+            // Check error with URLSession request
+            guard error == nil else {
+                PreyConfig.sharedInstance.reportError(error)
+                PreyLogger("Error: \(String(describing: error))")
+                return
+            }
+            // === Check status code
+            if statusCode == 401 {
+                let userActivatedAction:UserActivated = UserActivated(withTarget:kAction.user_activated, withCommand:kCommand.stop, withOptions:nil)
+                PreyModule.sharedInstance.actionArray.append(userActivatedAction)
+                PreyModule.sharedInstance.runAction()
+                PreyLogger("Unauthorized: email expired")
+            } else if statusCode == 422 {
+                PreyLogger("User pending")
+            } else {
+                PreyConfig.sharedInstance.reportError("EmailValidation", statusCode: statusCode, errorDescription: "EmailValidation error")
+                PreyLogger("Failed EmailValidation")
+            }
+            return
+        }
+        
+        // Check response panel to email validation
+        if statusCode == 200 {
+            let userActivatedAction:UserActivated = UserActivated(withTarget:kAction.user_activated, withCommand:kCommand.start, withOptions:nil)
+            PreyModule.sharedInstance.actionArray.append(userActivatedAction)
+            PreyModule.sharedInstance.runAction()
+        }
+        
+        PreyLogger("Email validation: OK")
+    }
+    
+    
+    // Check Resend Email Validation response
+    class func checkResendEmailValidation(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
+        
+        guard isSuccess else {
+            // Check error with URLSession request
+            guard error == nil else {
+                PreyConfig.sharedInstance.reportError(error)
+                PreyLogger("Error: \(String(describing: error))")
+                return
+            }
+            
+            PreyConfig.sharedInstance.reportError("ResendEmailValidation", statusCode: statusCode, errorDescription: "ResendEmailValidation error")
+            PreyLogger("Failed ResendEmailValidation")
+            return
+        }
+        PreyLogger("Resend Email validation: OK")
     }
     
     // Check Data Send response
