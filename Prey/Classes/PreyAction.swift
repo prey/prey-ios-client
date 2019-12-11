@@ -79,6 +79,9 @@ class PreyAction : Operation {
 
         case kAction.triggers:
             actionItem = Trigger(withTarget: kAction.triggers, withCommand: cmd, withOptions: opt)
+            
+        case kAction.user_activated:
+            actionItem = UserActivated(withTarget: kAction.user_activated, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem
