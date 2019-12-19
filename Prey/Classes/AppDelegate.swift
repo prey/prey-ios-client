@@ -72,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Registering launch handlers for tasks
-        if #available(iOS 13.0, *), PreyConfig.sharedInstance.isRegistered {
+        if #available(iOS 13.0, *) {
             BGTaskScheduler.shared.register(forTaskWithIdentifier: bgTaskToPanel, using: nil) { task in
                 self.handleRequestToPanel(task: task as! BGAppRefreshTask)
             }
@@ -131,7 +131,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PreyLogger("Prey is in background")
 
         // Schedule request to panel on background
-        if #available(iOS 13.0, *), PreyConfig.sharedInstance.isRegistered {
+        if #available(iOS 13.0, *) {
             scheduleRequestToPanel()
         }
 
@@ -243,7 +243,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func handleRequestToPanel(task: BGAppRefreshTask) {
         scheduleRequestToPanel()
         
-        if let username = PreyConfig.sharedInstance.userApiKey {
+        if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.actionDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
                 PreyLogger("Request PreyAction")
                 task.setTaskCompleted(success: isSuccess)
