@@ -233,6 +233,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
             } else {
                 controller       = WebVC(withURL:URL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
             }
+            if #available(iOS 13, *) {self.modalPresentationStyle = .fullScreen}
             self.present(controller, animated:true, completion:nil)
             
         } else {
@@ -249,6 +250,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         } else {
             controller       = WebVC(withURL:URL(string:URLForgotPanel)!, withParameters:nil, withTitle:"Forgot Password Web")
         }
+        if #available(iOS 13, *) {self.modalPresentationStyle = .fullScreen}
         self.present(controller, animated:true, completion:nil)
     }
     
