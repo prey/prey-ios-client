@@ -111,6 +111,7 @@ class PreyDeployment {
         PreyConfig.sharedInstance.userApiKey    = apiKey
         PreyConfig.sharedInstance.deviceKey     = deviceKey
         PreyConfig.sharedInstance.isRegistered  = true
+        PreyConfig.sharedInstance.validationUserEmail = PreyUserEmailValidation.active.rawValue
         PreyConfig.sharedInstance.isTouchIDEnabled = true
         PreyConfig.sharedInstance.saveValues()
         // Show CongratVC

@@ -146,22 +146,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Hide keyboard
         window?.endEditing(true)
-        
-        if PreyConfig.sharedInstance.isRegistered {
-            // Check if viewController is HomeWebVC
-            if let rootVC = window?.rootViewController as? UINavigationController {
-                if let controller = rootVC.topViewController {
-                    if controller is HomeWebVC {
-                        return
-                    }
-                }
-            }
-            for view:UIView in (window?.subviews)! {
-                if view.tag != 1985 {
-                    view.removeFromSuperview()
-                }
-            }
-        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -176,10 +160,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
 
         // Show mainView
-        let backgroundImg   = window?.viewWithTag(1985)
+        if let backgroundImg = window?.viewWithTag(1985) {
+            UIView.animate(withDuration: 0.2, animations:{() in backgroundImg.alpha = 0},
+                                       completion:{(Bool)  in backgroundImg.removeFromSuperview()})
+        }
         
-        UIView.animate(withDuration: 0.2, animations:{() in backgroundImg?.alpha = 0},
-                                   completion:{(Bool)  in backgroundImg?.removeFromSuperview()})
 
         // Check camouflagegeMode on mainView
         if PreyConfig.sharedInstance.isCamouflageMode, let rootVC = window?.rootViewController as? UINavigationController, let controller = rootVC.topViewController, controller is HomeWebVC {
