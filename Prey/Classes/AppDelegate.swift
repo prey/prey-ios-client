@@ -242,14 +242,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     @available(iOS 13.0, *)
     func handleRequestToPanel(task: BGAppRefreshTask) {
         scheduleRequestToPanel()
-        
-        if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.actionDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
-                PreyLogger("Request PreyAction")
-                task.setTaskCompleted(success: isSuccess)
-            }))
+
+        DispatchQueue.main.async {
+            if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered, UIApplication.shared.applicationState == .background {                
+                PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.actionDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
+                    PreyLogger("Request PreyAction")
+                    task.setTaskCompleted(success: isSuccess)
+                }))
+            }
         }
-                
+        
         task.expirationHandler = {
             // After all operations are cancelled, the completion block below is called to set the task to complete.
             PreyLogger("task.expirationHandler")
