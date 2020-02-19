@@ -27,10 +27,15 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         var urlRequest = URLRequest(url: url!)
         urlRequest.timeoutInterval = timeoutIntervalRequest
         
+        guard let userKey = PreyConfig.sharedInstance.userApiKey else {
+            displayErrorAlert("Error loading web, please try again.".localized, titleMessage:"Couldn't add your device".localized)
+            return
+        }
+
         let params : [String:Any] = [
             "auth_token"        : tokenApi,
             "account_id"        : accountId,
-            "user_key"          : PreyConfig.sharedInstance.userApiKey!,
+            "user_key"          : userKey,
             "device_key"        : PreyConfig.sharedInstance.getDeviceKey()]
 
         do {
