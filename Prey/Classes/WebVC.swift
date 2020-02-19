@@ -134,7 +134,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
                 return true
 
                 // Google Maps and image reports
-            case BlockHost.S3AMAZON.rawValue, BlockHost.SRCGOOGLE.rawValue:
+            case BlockHost.S3AMAZON.rawValue:
                 openBrowserWith(request.url)
                 return false
                 

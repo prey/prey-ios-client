@@ -226,7 +226,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     // Add device with QRCode
     func addDeviceWithQRCode() {
         let controller:QRCodeScannerVC = QRCodeScannerVC()
-        if #available(iOS 13, *) {self.navigationController?.modalPresentationStyle = .fullScreen}
+        if #available(iOS 13, *) {controller.modalPresentationStyle = .fullScreen}
         self.navigationController?.present(controller, animated:true, completion:nil)
     }
     
@@ -415,7 +415,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
         } else {
             controller       = WebVC(withURL:URL(string:urlString)!, withParameters:nil, withTitle:pageTitle)
         }
-        if #available(iOS 13, *) {self.modalPresentationStyle = .fullScreen}
+        if #available(iOS 13, *) {controller.modalPresentationStyle = .fullScreen}
         self.present(controller, animated:true, completion:nil)
     }
 
@@ -446,7 +446,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             } else {
                 controller       = WebVC(withURL:URL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
             }
-            if #available(iOS 13, *) {self.modalPresentationStyle = .fullScreen}
+            if #available(iOS 13, *) {controller.modalPresentationStyle = .fullScreen}
             self.present(controller, animated:true, completion:nil)            
         } else {
             displayErrorAlert("Error, retry later.".localized,
@@ -506,7 +506,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
                 return decisionHandler(.allow)
                 
             // Google Maps and image reports
-            case BlockHost.S3AMAZON.rawValue, BlockHost.SRCGOOGLE.rawValue:
+            case BlockHost.S3AMAZON.rawValue:
                 openBrowserWith(requestUrl)
                 return decisionHandler(.cancel)
                 

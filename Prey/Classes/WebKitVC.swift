@@ -178,7 +178,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
                 return
 
                 // Google Maps and image reports
-            case BlockHost.S3AMAZON.rawValue, BlockHost.SRCGOOGLE.rawValue:
+            case BlockHost.S3AMAZON.rawValue:
                 openBrowserWith(mainRequest.url)
                 decisionHandler(.cancel)
                 return
