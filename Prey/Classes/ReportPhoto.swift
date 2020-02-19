@@ -182,6 +182,9 @@ class ReportPhotoiOS10: ReportPhoto, AVCapturePhotoCaptureDelegate {
                 self.sessionDevice.sessionPreset = AVCaptureSession.Preset.low
             }
             
+            // Disable wide-gamut color
+            self.sessionDevice.automaticallyConfiguresCaptureDeviceForWideColor = false
+            
             // End session config
             self.sessionDevice.commitConfiguration()
             
@@ -233,6 +236,8 @@ class ReportPhotoiOS10: ReportPhoto, AVCapturePhotoCaptureDelegate {
         }
         self.sessionDevice.addOutput(self.photoOutput)
 
+        // Disable wide-gamut color
+        self.sessionDevice.automaticallyConfiguresCaptureDeviceForWideColor = false
         
         // Start session
         self.sessionDevice.startRunning()
@@ -288,6 +293,9 @@ class ReportPhotoiOS10: ReportPhoto, AVCapturePhotoCaptureDelegate {
             if self.sessionDevice.canSetSessionPreset(AVCaptureSession.Preset.low) {
                 self.sessionDevice.sessionPreset = AVCaptureSession.Preset.low
             }
+            
+            // Disable wide-gamut color
+            self.sessionDevice.automaticallyConfiguresCaptureDeviceForWideColor = false
             
             // End session config
             self.sessionDevice.commitConfiguration()
