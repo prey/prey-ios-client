@@ -268,7 +268,7 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             }
             
             // Get Token for Control Panel
-            PreyUser.getTokenFromPanel(email!, userPassword:password!, onCompletion: {_ in })
+            //PreyUser.getTokenFromPanel(email!, userPassword:password!, onCompletion: {_ in })
             
             // Add Device to Panel Prey
             PreyDevice.addDeviceWith({(isSuccess: Bool) in
