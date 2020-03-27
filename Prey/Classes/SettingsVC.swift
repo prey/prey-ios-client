@@ -477,12 +477,14 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
             controller.view                 = webKitView
         } else {
             // For iOS 7, 8 and 9
-            let webView             = UIWebView(frame:CGRect.zero)
-            webView.scalesPageToFit = true
-            webView.delegate        = self
-            webView.loadRequest(request)
-            
-            controller.view         = webView
+            DispatchQueue.main.async {
+                let webView             = UIWebView(frame:CGRect.zero)
+                webView.scalesPageToFit = true
+                webView.delegate        = self
+                webView.loadRequest(request)
+                
+                controller.view         = webView
+            }
         }
 
         controller.title = title

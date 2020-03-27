@@ -58,7 +58,9 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         }
         
         // Load request
-        webView.loadRequest(request as URLRequest)
+        DispatchQueue.main.async {
+            self.webView.loadRequest(request as URLRequest)
+        }
         
         // Add webView to View
         self.view.addSubview(webView)
