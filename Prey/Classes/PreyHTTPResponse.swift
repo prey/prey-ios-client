@@ -488,8 +488,12 @@ class PreyHTTPResponse {
                 PreyLogger("Error: \(String(describing: error))")
                 return
             }
-            
-            PreyConfig.sharedInstance.reportError("ResendEmailValidation", statusCode: statusCode, errorDescription: "ResendEmailValidation error")
+            let alertMessage = (statusCode == 409) ? "Did you already register?".localized : "Error".localized
+            displayErrorAlert(alertMessage.localized, titleMessage:"User couldn't be created".localized)
+
+            if (statusCode != 409) {
+                PreyConfig.sharedInstance.reportError("ResendEmailValidation", statusCode: statusCode, errorDescription: "ResendEmailValidation error")
+            }
             PreyLogger("Failed ResendEmailValidation")
             return
         }
