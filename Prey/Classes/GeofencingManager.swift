@@ -112,6 +112,7 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
         PreyLogger("GeofencingManager: Did enter region")
     
         if let regionIn:CLCircularRegion = region as? CLCircularRegion {
+            guard regionIn.radius >= 1 else {return}
             let params = getParamteresToSend(regionIn, withZoneInfo:kGeofence.IN.rawValue)
             sendNotifyToPanel(params, toEndpoint:eventsDeviceEndpoint)
         }
@@ -126,6 +127,7 @@ class GeofencingManager:NSObject, CLLocationManagerDelegate {
             if regionIn.identifier == PreyConfig.sharedInstance.userApiKey {
                 addCurrentRegionToDevice(manager, regionIn)
             } else {
+                guard regionIn.radius >= 1 else {return}
                 let params = getParamteresToSend(regionIn, withZoneInfo:kGeofence.OUT.rawValue)
                 sendNotifyToPanel(params, toEndpoint:eventsDeviceEndpoint)
             }
