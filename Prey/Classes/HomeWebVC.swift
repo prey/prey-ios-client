@@ -96,7 +96,12 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     // Check TouchID/FaceID
     func checkTouchID(_ openPanelWeb: Bool) {
         
-        guard PreyConfig.sharedInstance.isTouchIDEnabled == true else {
+        guard PreyConfig.sharedInstance.isTouchIDEnabled == true, PreyConfig.sharedInstance.tokenPanel != nil else {
+            return
+        }
+
+        // Check Panel token expired time < 1h
+        guard (PreyConfig.sharedInstance.tokenWebTimestamp + 60*60) > CFAbsoluteTimeGetCurrent() else {
             return
         }
         

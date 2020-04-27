@@ -28,6 +28,7 @@ enum PreyConfigDevice: String {
     case UserEmail
     case DeviceKey
     case TokenDevice
+    case TokenWebTimestamp
     case IsRegistered
     case IsPro
     case IsMissing
@@ -57,6 +58,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         userEmail           = defaultConfig.string(forKey: PreyConfigDevice.UserEmail.rawValue)
         deviceKey           = defaultConfig.string(forKey: PreyConfigDevice.DeviceKey.rawValue)
         tokenPanel          = defaultConfig.string(forKey: PreyConfigDevice.TokenDevice.rawValue)
+        tokenWebTimestamp   = defaultConfig.double(forKey: PreyConfigDevice.TokenWebTimestamp.rawValue) as CFAbsoluteTime
         isRegistered        = defaultConfig.bool(forKey: PreyConfigDevice.IsRegistered.rawValue)
         isPro               = defaultConfig.bool(forKey: PreyConfigDevice.IsPro.rawValue)
         isMissing           = defaultConfig.bool(forKey: PreyConfigDevice.IsMissing.rawValue)
@@ -76,6 +78,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     var userEmail           : String?
     var deviceKey           : String?
     var tokenPanel          : String?
+    var tokenWebTimestamp   : CFAbsoluteTime
     var isRegistered        : Bool
     var isPro               : Bool
     var isMissing           : Bool
@@ -98,6 +101,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         defaultConfig.set(userEmail, forKey:PreyConfigDevice.UserEmail.rawValue)
         defaultConfig.set(deviceKey, forKey:PreyConfigDevice.DeviceKey.rawValue)
         defaultConfig.set(tokenPanel, forKey:PreyConfigDevice.TokenDevice.rawValue)
+        defaultConfig.set(tokenWebTimestamp, forKey:PreyConfigDevice.TokenWebTimestamp.rawValue)
         defaultConfig.set(isRegistered, forKey:PreyConfigDevice.IsRegistered.rawValue)
         defaultConfig.set(isPro, forKey:PreyConfigDevice.IsPro.rawValue)
         defaultConfig.set(isMissing, forKey:PreyConfigDevice.IsMissing.rawValue)
@@ -136,6 +140,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isTouchIDEnabled = true
         reportOptions    = nil
         validationUserEmail = PreyUserEmailValidation.inactive.rawValue
+        tokenWebTimestamp = 0
         
         saveValues()
     }
