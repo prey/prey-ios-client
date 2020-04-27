@@ -105,6 +105,7 @@ class PreyHTTPResponse {
             
             if let tokenPanelStr = jsonObject.object(forKey: "token") as? String {
                 PreyConfig.sharedInstance.tokenPanel = tokenPanelStr
+                PreyConfig.sharedInstance.tokenWebTimestamp = CFAbsoluteTimeGetCurrent()
                 PreyConfig.sharedInstance.saveValues()
             }
         } catch let error {
