@@ -103,4 +103,27 @@ class PreyCoreData {
         
         return fetchedObjects
     }
+    
+    // Get current RequestCache
+    func getCurrentRequestCache() -> [RequestCache] {
+        
+        var fetchedObjects  = [RequestCache]()
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest()
+        
+        guard let entity = NSEntityDescription.entity(forEntityName: "RequestCache", in:managedObjectContext) else {
+            return fetchedObjects
+        }
+        
+        fetchRequest.entity = entity
+        
+        do {
+            if let context = managedObjectContext {
+                fetchedObjects = try context.fetch(fetchRequest) as! [RequestCache]
+            }
+        } catch let error as NSError {
+            PreyLogger("CoreData requestCache error: \(error.localizedDescription)")
+        }
+        
+        return fetchedObjects
+    }
 }

@@ -88,6 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if PreyConfig.sharedInstance.isRegistered {
             PreyNotification.sharedInstance.registerForRemoteNotifications()
             TriggerManager.sharedInstance.checkTriggers()
+            RequestCacheManager.sharedInstance.sendRequest()
         } else {
             PreyDeployment.sharedInstance.runPreyDeployment()
         }

@@ -259,6 +259,22 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             }
         }
         
+        // Save on CoreData requests failed
+        if let err = error, (err as NSError).domain == NSURLErrorDomain, let req = task.originalRequest, let reqUrl = req.url {
+            // check endpoints
+            if reqUrl.absoluteString == (URLControlPanel+locationAwareEndpoint) ||  reqUrl.absoluteString == (URLControlPanel+dataDeviceEndpoint) {
+
+                // Save request
+                RequestCacheManager.sharedInstance.saveRequest(session.configuration, req, err)
+                // Delete value for sessionKey
+                self.requestData.removeValue(forKey:session)
+                self.requestCompletionHandler.removeValue(forKey:session)
+                // Cancel session
+                session.invalidateAndCancel()
+                return
+            }
+        }
+
         DispatchQueue.main.async {
             // Go to completionHandler
             if let onCompletion = self.requestCompletionHandler[session] {
