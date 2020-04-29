@@ -116,6 +116,9 @@
 		3BCE972E23022A7E00AF1AD4 /* regular-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972A23021B1600AF1AD4 /* regular-bold.otf */; };
 		3BCE972F23022A8100AF1AD4 /* regular-book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972923021B1600AF1AD4 /* regular-book.otf */; };
 		3BDA80D921120DE4003B028C /* FileRetrieval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDA80D821120DE4003B028C /* FileRetrieval.swift */; };
+		3BDCBCFE2459DB8C00146ED9 /* RequestCache+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDCBCFC2459DB8C00146ED9 /* RequestCache+Class.swift */; };
+		3BDCBCFF2459DB8C00146ED9 /* RequestCache+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDCBCFD2459DB8C00146ED9 /* RequestCache+Properties.swift */; };
+		3BDCBD012459DD4600146ED9 /* RequestCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDCBD002459DD4600146ED9 /* RequestCacheManager.swift */; };
 		3BDF988120338AC70023D4AA /* HomeWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF988020338AC70023D4AA /* HomeWebVC.swift */; };
 		3BE3DC511D0B044D00581327 /* magdacleanmono-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */; };
 		3BE3DC521D0B044D00581327 /* magdacleanmono-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */; };
@@ -295,6 +298,9 @@
 		3BCE972923021B1600AF1AD4 /* regular-book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "regular-book.otf"; sourceTree = "<group>"; };
 		3BCE972A23021B1600AF1AD4 /* regular-bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "regular-bold.otf"; sourceTree = "<group>"; };
 		3BDA80D821120DE4003B028C /* FileRetrieval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileRetrieval.swift; path = Classes/FileRetrieval.swift; sourceTree = "<group>"; };
+		3BDCBCFC2459DB8C00146ED9 /* RequestCache+Class.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RequestCache+Class.swift"; sourceTree = "<group>"; };
+		3BDCBCFD2459DB8C00146ED9 /* RequestCache+Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RequestCache+Properties.swift"; sourceTree = "<group>"; };
+		3BDCBD002459DD4600146ED9 /* RequestCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RequestCacheManager.swift; path = Classes/RequestCacheManager.swift; sourceTree = "<group>"; };
 		3BDF988020338AC70023D4AA /* HomeWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeWebVC.swift; path = Classes/HomeWebVC.swift; sourceTree = "<group>"; };
 		3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "magdacleanmono-bold.ttf"; sourceTree = "<group>"; };
 		3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "magdacleanmono-regular.otf"; sourceTree = "<group>"; };
@@ -363,6 +369,8 @@
 		3B41BDAF1D05FFA7003DF0CE /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				3BDCBCFC2459DB8C00146ED9 /* RequestCache+Class.swift */,
+				3BDCBCFD2459DB8C00146ED9 /* RequestCache+Properties.swift */,
 				3BAB25CE23A923C300BDA263 /* Triggers+Properties.swift */,
 				3BAB25CB23A923C200BDA263 /* TriggersActions+Class.swift */,
 				3BAB25CC23A923C200BDA263 /* TriggersActions+Properties.swift */,
@@ -418,6 +426,7 @@
 				3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */,
 				3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */,
 				3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */,
+				3BDCBD002459DD4600146ED9 /* RequestCacheManager.swift */,
 			);
 			name = "Prey Http";
 			sourceTree = "<group>";
@@ -873,6 +882,7 @@
 				3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */,
 				3B71E9DD1D09BF1D00D5F6D5 /* GeofencingManager.swift in Sources */,
 				3BAB25CF23A923C300BDA263 /* Triggers+Class.swift in Sources */,
+				3BDCBCFF2459DB8C00146ED9 /* RequestCache+Properties.swift in Sources */,
 				3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */,
 				3BDA80D921120DE4003B028C /* FileRetrieval.swift in Sources */,
 				3B38BA931D231B1C00B6799B /* Detach.swift in Sources */,
@@ -896,6 +906,7 @@
 				3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */,
 				3BAB25D023A923C300BDA263 /* TriggersEvents+Class.swift in Sources */,
 				3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */,
+				3BDCBCFE2459DB8C00146ED9 /* RequestCache+Class.swift in Sources */,
 				3B86299F1EF03CB400BE92D4 /* String+File.swift in Sources */,
 				3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */,
 				3BAB25D123A923C300BDA263 /* TriggersActions+Class.swift in Sources */,
@@ -942,6 +953,7 @@
 				3B8629971EF03CB400BE92D4 /* HttpServer.swift in Sources */,
 				3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */,
 				3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */,
+				3BDCBD012459DD4600146ED9 /* RequestCacheManager.swift in Sources */,
 				3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */,
 				3B2445F71D245478005DF09C /* Camouflage.swift in Sources */,
 				3BB6E2251D47F42100074E97 /* PreyRateUs.swift in Sources */,
