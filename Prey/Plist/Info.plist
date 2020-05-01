@@ -74,7 +74,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Prey utilizes the device's camera to take pictures when you request evidence reports.</string>
+	<string>Prey utilizes the device&apos;s camera to take pictures when you request evidence reports.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Prey needs access to your contacts to allow you to retrieve them remotely.</string>
 	<key>NSFaceIDUsageDescription</key>
