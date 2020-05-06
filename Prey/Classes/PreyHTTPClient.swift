@@ -264,13 +264,15 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             // check endpoints
             if reqUrl.absoluteString == (URLControlPanel+locationAwareEndpoint) ||  reqUrl.absoluteString == (URLControlPanel+dataDeviceEndpoint) {
 
-                // Save request
-                RequestCacheManager.sharedInstance.saveRequest(session.configuration, req, err)
-                // Delete value for sessionKey
-                self.requestData.removeValue(forKey:session)
-                self.requestCompletionHandler.removeValue(forKey:session)
-                // Cancel session
-                session.invalidateAndCancel()
+                DispatchQueue.main.async {
+                    // Save request
+                    RequestCacheManager.sharedInstance.saveRequest(session.configuration, req, err)
+                    // Delete value for sessionKey
+                    self.requestData.removeValue(forKey:session)
+                    self.requestCompletionHandler.removeValue(forKey:session)
+                    // Cancel session
+                    session.invalidateAndCancel()
+                }
                 return
             }
         }
