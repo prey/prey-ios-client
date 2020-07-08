@@ -55,13 +55,13 @@ extension UIDevice {
         case "iPad5,3","iPad5,4":
             modelName = "Apple A8X"
             
-        case "iPad6,11","iPad6,12","iPhone8,1","iPhone8,2","iPhone8,4":
+        case "iPad6,11","iPad6,12","iPad7,5","iPad7,6","iPhone8,1","iPhone8,2","iPhone8,4":
             modelName = "Apple A9"
             
         case "iPad6,3","iPad6,4","iPad6,7","iPad6,8":
             modelName = "Apple A9X"
             
-        case "iPhone9,1","iPhone9,3","iPhone9,2","iPhone9,4":
+        case "iPod9,1","iPad7,11","iPad7,12","iPhone9,1","iPhone9,3","iPhone9,2","iPhone9,4":
             modelName = "Apple A10"
             
         case "iPad7,1","iPad7,2","iPad7,3","iPad7,4":
@@ -70,11 +70,17 @@ extension UIDevice {
         case "iPhone10,1","iPhone10,2","iPhone10,3","iPhone10,4","iPhone10,5","iPhone10,6":
             modelName = "Apple A11"
             
-        case "iPhone11,8","iPhone11,2","iPhone11,6","iPhone11,4","iPad7,5","iPad7,6":
+        case "iPad11,3","iPad11,4","iPad11,1","iPad11,2","iPhone11,8","iPhone11,2","iPhone11,6","iPhone11,4":
             modelName = "Apple A12"
 
         case "iPad8,1","iPad8,2","iPad8,3","iPad8,4","iPad8,5","iPad8,6","iPad8,7","iPad8,8":
             modelName = "Apple A12X"
+
+        case "iPad8,9","iPad8,10","iPad8,11","iPad8,12":
+                modelName = "Apple A12Z"
+
+        case "iPhone12,1","iPhone12,3","iPhone12,5","iPhone12,8":
+                modelName = "Apple A13"
             
         default:
             modelName = "Apple"
@@ -131,9 +137,12 @@ extension UIDevice {
         case "Apple A12":
             cpuSpeedMhz = "2490"
 
-        case "Apple A12X":
+        case "Apple A12X","Apple A12Z":
             cpuSpeedMhz = "2490"
-            
+
+        case "Apple A13":
+                cpuSpeedMhz = "2660"
+
         default:
             cpuSpeedMhz = "0"
         }
@@ -164,10 +173,10 @@ extension UIDevice {
         case "Apple A10":
             cores = "4"
             
-        case "Apple A10X","Apple A11","Apple A12":
+        case "Apple A10X","Apple A11","Apple A12","Apple A13":
             cores = "6"
 
-        case "Apple A12X":
+        case "Apple A12X","Apple A12Z":
             cores = "8"
             
         default:
@@ -192,6 +201,7 @@ extension UIDevice {
         switch identifier {
         case "iPod5,1":                                 modelName = "iPod Touch 5"
         case "iPod7,1":                                 modelName = "iPod Touch 6"
+        case "iPod9,1":                                 modelName = "iPod Touch 7"
             
         case "iPhone3,1", "iPhone3,2", "iPhone3,3":     modelName = "iPhone 4"
         case "iPhone4,1":                               modelName = "iPhone 4s"
@@ -202,7 +212,7 @@ extension UIDevice {
         case "iPhone7,1":                               modelName = "iPhone 6 Plus"
         case "iPhone8,1":                               modelName = "iPhone 6s"
         case "iPhone8,2":                               modelName = "iPhone 6s Plus"
-        case "iPhone8,4":                               modelName = "iPhone SE"
+        case "iPhone8,4", "iPhone12,8":                 modelName = "iPhone SE"
         case "iPhone9,1", "iPhone9,3":                  modelName = "iPhone 7"
         case "iPhone9,2", "iPhone9,4":                  modelName = "iPhone 7 Plus"
         case "iPhone10,1", "iPhone10,4":                modelName = "iPhone 8"
@@ -211,22 +221,30 @@ extension UIDevice {
         case "iPhone11,8":                              modelName = "iPhone XR"
         case "iPhone11,2":                              modelName = "iPhone XS"
         case "iPhone11,6", "iPhone11,4":                modelName = "iPhone XS Max"
-            
+        case "iPhone12,1":                              modelName = "iPhone 11"
+        case "iPhone12,3":                              modelName = "iPhone 11 Pro"
+        case "iPhone12,5":                              modelName = "iPhone 11 Pro Max"
+
         case "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4":modelName = "iPad 2"
         case "iPad3,1", "iPad3,2", "iPad3,3":           modelName = "iPad 3"
         case "iPad3,4", "iPad3,5", "iPad3,6":           modelName = "iPad 4"
         case "iPad6,11", "iPad6,12":                    modelName = "iPad 5"
         case "iPad7,5", "iPad7,6":                      modelName = "iPad 6"
+        case "iPad7,11", "iPad7,12":                    modelName = "iPad 7"
         case "iPad4,1", "iPad4,2", "iPad4,3":           modelName = "iPad Air"
         case "iPad5,3", "iPad5,4":                      modelName = "iPad Air 2"
+        case "iPad11,3", "iPad11,4":                    modelName = "iPad Air 3"
         case "iPad2,5", "iPad2,6", "iPad2,7":           modelName = "iPad Mini"
         case "iPad4,4", "iPad4,5", "iPad4,6":           modelName = "iPad Mini 2"
         case "iPad4,7", "iPad4,8", "iPad4,9":           modelName = "iPad Mini 3"
         case "iPad5,1", "iPad5,2":                      modelName = "iPad Mini 4"
+        case "iPad11,1", "iPad11,2":                    modelName = "iPad Mini 5"
         case "iPad6,3", "iPad6,4", "iPad6,7", "iPad6,8":modelName = "iPad Pro"
         case "iPad7,1", "iPad7,2", "iPad7,3", "iPad7,4":modelName = "iPad Pro 2"
         case "iPad8,5", "iPad8,6", "iPad8,7", "iPad8,8":modelName = "iPad Pro 3"
+        case "iPad8,11", "iPad8,12":                    modelName = "iPad Pro 4"
         case "iPad8,1", "iPad8,2", "iPad8,3", "iPad8,4":modelName = "iPad Pro (11-inch)"
+        case "iPad8,9", "iPad8,10":                     modelName = "iPad Pro (11-inch) 2"
         case "AppleTV5,3":                              modelName = "Apple TV"
         case "i386":                                    modelName = "iPhone Simulator"
         case "x86_64":                                  modelName = "iPad Simulator"
@@ -267,17 +285,17 @@ extension UIDevice {
              "iPad4,7","iPad4,8","iPad4,9","iPhone5,1","iPhone5,2","iPhone5,3","iPhone5,4","iPhone6,1","iPhone6,2","iPhone7,2","iPhone7,1":
             deviceRamSize = "1024"
         
-        case "iPad5,3","iPad5,4","iPad5,1","iPad5,2","iPad6,3","iPad6,11","iPad6,12","iPad6,4","iPhone8,1","iPhone8,2","iPhone8,4","iPhone9,1",
+        case "iPod9,1","iPad5,3","iPad5,4","iPad5,1","iPad5,2","iPad6,3","iPad6,11","iPad6,12","iPad6,4","iPhone8,1","iPhone8,2","iPhone8,4","iPhone9,1",
              "iPhone9,3","iPhone10,1","iPhone10,4","iPad7,5","iPad7,6":
             deviceRamSize = "2048"
         
-        case "iPhone9,2","iPhone9,4","iPhone10,2","iPhone10,5","iPhone10,3","iPhone10,6","iPhone11,8":
+        case "iPad7,11","iPad7,12","iPad11,1","iPad11,2","iPad11,3","iPad11,4","iPhone9,2","iPhone9,4","iPhone10,2","iPhone10,5","iPhone10,3","iPhone10,6","iPhone11,8","iPhone12,8":
             deviceRamSize = "3072"
 
-        case "iPad6,7","iPad6,8","iPad7,1","iPad7,2","iPad7,3","iPad7,4","iPhone11,6","iPhone11,4","iPhone11,2","iPad8,1","iPad8,3","iPad8,5","iPad8,7":
+        case "iPad6,7","iPad6,8","iPad7,1","iPad7,2","iPad7,3","iPad7,4","iPhone11,6","iPhone11,4","iPhone11,2","iPhone12,1","iPhone12,3","iPhone12,5","iPad8,1","iPad8,3","iPad8,5","iPad8,7":
             deviceRamSize = "4096"
             
-        case "iPad8,2","iPad8,4","iPad8,6","iPad8,8":
+        case "iPad8,2","iPad8,4","iPad8,6","iPad8,8","iPad8,9","iPad8,10","iPad8,11","iPad8,12":
             deviceRamSize = "6144"
             
         default:
