@@ -62,6 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GAI.sharedInstance().logger.logLevel                        = GAILogLevel.none
         GAI.sharedInstance().defaultTracker.allowIDFACollection     = true
 
+        // Check settings info
+        checkSettingsToBackup()
+        
         // Update current localUserSettings with preview versions
         PreyConfig.sharedInstance.updateUserSettings()        
 
@@ -272,4 +275,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    // MARK: Check settings on backup
+    
+    // check settings
+    func checkSettingsToBackup() {
+        let fileManager = FileManager.default
+        let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
+        let docURL = urls[urls.endIndex-1]
+        let storeURL = docURL.appendingPathComponent("skpBckp")
+        
+        if !fileManager.fileExists(atPath: storeURL.path) {
+            // Not exist skipBackup file
+            // Check if app was restored from iCloud
+            if PreyConfig.sharedInstance.isRegistered && PreyConfig.sharedInstance.existBackup {
+                PreyConfig.sharedInstance.resetValues()
+            }
+            fileManager.createFile(atPath: storeURL.path, contents: nil, attributes: nil)
+            _ = self.addSkipBackupAttributeToItemAtURL(filePath: storeURL.path)
+            PreyConfig.sharedInstance.existBackup = true
+            PreyConfig.sharedInstance.saveValues()
+        }
+    }
+    
+    // Add skip backup
+    func addSkipBackupAttributeToItemAtURL(filePath:String) -> Bool {
+        let URL:NSURL = NSURL.fileURL(withPath: filePath) as NSURL
+        assert(FileManager.default.fileExists(atPath: filePath), "File \(filePath) does not exist")
+        var success: Bool
+        do {
+            try URL.setResourceValue(true, forKey:URLResourceKey.isExcludedFromBackupKey)
+            success = true
+        } catch let error as NSError {
+            success = false
+            PreyLogger("Error: \(error) excluding from backup");
+        }
+        return success
+    }
 }

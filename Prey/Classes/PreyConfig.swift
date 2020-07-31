@@ -40,6 +40,7 @@ enum PreyConfigDevice: String {
     case NeedChangeIcon
     case IsTouchIDEnabled
     case ValidationUserEmail
+    case ExistBackup
 }
 
 enum PreyUserEmailValidation: String {
@@ -70,6 +71,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isTouchIDEnabled    = defaultConfig.bool(forKey: PreyConfigDevice.IsTouchIDEnabled.rawValue)
         reportOptions       = defaultConfig.object(forKey: PreyConfigDevice.ReportOptions.rawValue) as? NSDictionary
         validationUserEmail = defaultConfig.string(forKey: PreyConfigDevice.ValidationUserEmail.rawValue)
+        existBackup         = defaultConfig.bool(forKey: PreyConfigDevice.ExistBackup.rawValue)
     }
 
     // MARK: Properties
@@ -90,6 +92,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     var isTouchIDEnabled    : Bool
     var reportOptions       : NSDictionary?
     var validationUserEmail : String?
+    var existBackup         : Bool
     
     // MARK: Functions
     
@@ -113,6 +116,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         defaultConfig.set(isTouchIDEnabled, forKey:PreyConfigDevice.IsTouchIDEnabled.rawValue)
         defaultConfig.set(reportOptions, forKey:PreyConfigDevice.ReportOptions.rawValue)
         defaultConfig.set(validationUserEmail, forKey:PreyConfigDevice.ValidationUserEmail.rawValue)
+        defaultConfig.set(existBackup, forKey: PreyConfigDevice.ExistBackup.rawValue)
     }
     
     // Reset values on NSUserDefaults
