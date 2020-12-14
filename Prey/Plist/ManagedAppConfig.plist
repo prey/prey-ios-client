@@ -2,9 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>apiKeyPrey</key>
-	<string>empty</string>
-	<key>deviceKeyPrey</key>
-	<string>empty</string>
+  <key>apiKeyPrey</key>
+  <string>PASTE-YOUR-API-KEY-HERE</string>
+  <key>deviceKeyPrey</key>
+  <string></string>
 </dict>
 </plist>
