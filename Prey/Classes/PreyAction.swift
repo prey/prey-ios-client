@@ -12,14 +12,12 @@ import Foundation
 class PreyAction : Operation {
    
     // MARK: Properties
-    
     var target: kAction
     var command: kCommand
     var options: NSDictionary?
     var messageId: String?
     var deviceJobId: String?
     var triggerId: String?
-    
     var isActive: Bool = false
     
     // MARK: Functions    

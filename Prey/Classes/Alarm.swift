@@ -13,13 +13,10 @@ import MediaPlayer
 class Alarm : PreyAction, AVAudioPlayerDelegate {
  
     // MARK: Properties
-
     var audioPlayer: AVAudioPlayer!
-    
     var checkVolumeTimer: Timer?
     
     // MARK: Functions
-
     // Prey command
     override func start() {
         PreyLogger("Playing alarm now")
@@ -35,7 +32,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
             UIApplication.shared.beginReceivingRemoteControlEvents()
             let volumeView = MPVolumeView()
             volumeView.volumeSlider.setValue(1.0, animated: false)
-            
+
             // Check Volume level
             checkVolumeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementVolume(_:)), userInfo: nil, repeats: true)
             
@@ -68,7 +65,9 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
 
         let volumeView = MPVolumeView()
         if volumeView.volumeSlider.value < 1.0 {
-            volumeView.volumeSlider.setValue(1.0, animated: false)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
+                volumeView.volumeSlider.setValue(1.0, animated: false)
+            }
         }
     }
     
