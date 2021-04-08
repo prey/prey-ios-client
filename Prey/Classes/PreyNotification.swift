@@ -121,6 +121,14 @@ class PreyNotification {
     
     // Parse payload info on push notification
     func parsePayloadPreyMDMFromPushNotification(parameters:NSDictionary) {
+        // This token is generated BE-side and guards the enrollment service
+        // against data pollution attacks
+        guard let token = parameters["token"] as? String else {
+          PreyLogger("error reading token from json")
+          PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+          return
+        }
+      
         guard let accountID = parameters["account_id"] as? Int else {
             PreyLogger("error reading account_id from json")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
@@ -132,7 +140,8 @@ class PreyNotification {
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
             return
         }
-        PreyMobileConfig.sharedInstance.startService(urlServer: urlServer, accountId: accountID)
+      
+        PreyMobileConfig.sharedInstance.startService(authToken: token, urlServer: urlServer, accountId: accountID)
     }
     
     // Parse payload info on push notification
