@@ -32,6 +32,11 @@ Follow Prey Project on Twitter ([@PreyProject](https://twitter.com/PreyProject))
 
 - [Javier Cala Uribe](http://github.com/jcalau) ([@jcalau](https://twitter.com/jcalau))
 
+
+### Author-Fix iOS 14
+
+- [Alejandro Ferreira](https://github.com/xhidnoda)
+
 ## Legal
 
 Copyright © 2017 Prey, Inc. All rights reserved.
