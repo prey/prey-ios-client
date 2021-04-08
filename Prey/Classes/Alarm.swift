@@ -22,7 +22,6 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
         PreyLogger("Playing alarm now")
         
         do {
-//            try AVAudioSession.sharedInstance().setCategory(.playback)
             // Config AVAudioSession on device
             let audioSession = AVAudioSession.sharedInstance()
             audioSession.perform(NSSelectorFromString("setCategory:withOptions:error:"), with: AVAudioSession.Category.playAndRecord, with:[AVAudioSession.CategoryOptions.mixWithOthers])
@@ -33,11 +32,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
             UIApplication.shared.beginReceivingRemoteControlEvents()
             let volumeView = MPVolumeView()
             volumeView.volumeSlider.setValue(1.0, animated: false)
-            //---------------
-//            let volumeView = MPVolumeView(frame: CGRect(x: -CGFloat.greatestFiniteMagnitude, y:0, width:0, height:0))
-//                view.addSubview(volumeView)
-//                hiddenSystemVolumeSlider = volumeView.subviews.first(where: { $0 is UISlider }) as? UISlider
-            //---------------
+
             // Check Volume level
             checkVolumeTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementVolume(_:)), userInfo: nil, repeats: true)
             
