@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/prey/prey-ios-client.svg?branch=master)](https://travis-ci.org/prey/prey-ios-client)
 
-Here you will find all the source code for the [current](https://bitly.com/preyios) and in development releases of the Prey client for iOS devices.
+Here you will find all the source code for the [current](https://apps.apple.com/es/app/prey-localizador-de-celular/id456755037) and in development releases of the Prey client for iOS devices.
 
 Prey is the most complete anti-theft application! It lets you track and locate your lost or stolen iPhone, iPad and Mac laptop. Locate and recover your device with geolocation and many more features.
 
