@@ -75,17 +75,17 @@ enum kInfoRepeatRangetTime: String {
 }
 
 // Definition of URLs
-// #if DEBUG
+ #if DEBUG
     public let URLControlPanel      : String = "https://control.preyhq.com/api/v2"
     public let URLForgotPanel       : String = "https://panel.preyhq.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyhq.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://panel.preyhq.com/upload/upload"
-//#else
-//    public let URLControlPanel      : String = "https://solid.preyproject.com/api/v2"
-//    public let URLForgotPanel       : String = "https://panel.preyproject.com/forgot?embeddable=true"
-//    public let URLSessionPanel      : String = "https://panel.preyproject.com/login_mobile"
-//    public let fileRetrievalEndpoint: String = "https://solid.preyproject.com/upload/upload"
-//#endif
+#else
+    public let URLControlPanel      : String = "https://solid.preyproject.com/api/v2"
+    public let URLForgotPanel       : String = "https://panel.preyproject.com/forgot?embeddable=true"
+    public let URLSessionPanel      : String = "https://panel.preyproject.com/login_mobile"
+    public let fileRetrievalEndpoint: String = "https://solid.preyproject.com/upload/upload"
+#endif
 
 public let URLHelpPrey              : String = "http://help.preyproject.com"
 
