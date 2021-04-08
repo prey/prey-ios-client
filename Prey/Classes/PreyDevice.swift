@@ -35,7 +35,7 @@ class PreyDevice {
         type        = (IS_IPAD) ? "Tablet" : "Phone"
         os          = "iOS"
         vendor      = "Apple"
-        model       = UIDevice.current.deviceModel
+        model       = UIDevice.current.deviceModel.rawValue
         version     = UIDevice.current.systemVersion
         uuid        = UIDevice.current.identifierForVendor?.uuidString
         macAddress  = "02:00:00:00:00:00" // iOS default

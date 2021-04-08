@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://repository-images.githubusercontent.com/1000650/9f546780-e0b6-11ea-9e53-a82f8e775fbb" alt="Prey: iOS client" height="200" width="200"/>
+  <img src="https://repository-images.githubusercontent.com/1000650/9f546780-e0b6-11ea-9e53-a82f8e775fbb" alt="Prey: iOS client" height="200" width="400"/>
 </p>
 
 [![Build Status](https://travis-ci.org/prey/prey-ios-client.svg?branch=master)](https://travis-ci.org/prey/prey-ios-client)
@@ -32,8 +32,15 @@ Follow Prey Project on Twitter ([@PreyProject](https://twitter.com/PreyProject))
 
 - [Javier Cala Uribe](http://github.com/jcalau) ([@jcalau](https://twitter.com/jcalau))
 
+
+### Collaborators
+
+- [Jesús Luongo](https://github.com/jll90)
+- [Patricio Jofré](https://github.com/patriciojofre)
+- [Alejandro Ferreira](https://github.com/xhidnoda)
+
 ## Legal
 
-Copyright © 2017 Prey, Inc. All rights reserved.
+Copyright © 2021 Prey, Inc. All rights reserved.
 Released under the GPLv3 license.
 For full details see the LICENSE file included in this distribution.

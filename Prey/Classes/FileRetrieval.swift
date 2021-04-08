@@ -117,6 +117,7 @@ class FileRetrieval : PreyAction {
         // Check file_id
         guard let file_id = self.options?.object(forKey: kOptions.file_id.rawValue) as? String else {
             // Send stop action
+            PreyLogger("Send stop action on Check file_id")
             self.stopActionFileRetrieval()
             return
         }
@@ -125,6 +126,7 @@ class FileRetrieval : PreyAction {
         // Check name_file
         guard let name_file = self.options?.object(forKey: kOptions.name.rawValue) as? String else {
             // Send stop action
+            PreyLogger("Send stop action on Check name_file")
             self.stopActionFileRetrieval()
             return
         }

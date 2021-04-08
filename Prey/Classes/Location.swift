@@ -121,7 +121,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Did Update Locations
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        PreyLogger("New location received")
+        PreyLogger("New location received on Location")
         
         guard let currentLocation = locations.first else {
             return
