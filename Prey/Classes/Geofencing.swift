@@ -121,8 +121,8 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
             let attributes = geofenceZones.entity.attributesByName
             
             for (attribute,description) in attributes {
-
-                if var value = (serverZonesArray as AnyObject).object(forKey: attribute) {
+                //change Alejandro
+                if var value = (serverZonesArray as AnyObject).value(forKey: attribute) {
                     
                     switch description.attributeType {
                         

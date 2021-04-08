@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "Alarm.start():Alarm.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "checkVolumeTimer">
+            </PersistentString>
+            <PersistentString
+               value = "audioSession">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static ReportWifi.getNetworkInfoWifi(compleationHandler:):ReportWifi.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "#available(iOS 14.0, *)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ReportLocation.locationManager(_:didUpdateLocations:):ReportLocation.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "waitForRequest">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static ReportWifi.getNetworkInfo():ReportWifi.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "wifiInfo">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FileRetrieval.start():FileRetrieval.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "imageData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in FileRetrieval.start():FileRetrieval.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "allPhotos">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Alarm.incrementVolume(_:):Alarm.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "volumeView.volumeSlider.value">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in static PreyHTTPResponse.checkResponse(_:preyAction:onCompletion:):PreyHTTPResponse.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "httpURLResponse.statusCode">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
