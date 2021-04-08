@@ -75,7 +75,7 @@ enum kInfoRepeatRangetTime: String {
 }
 
 // Definition of URLs
- #if DEBUG
+#if DEBUG
     public let URLControlPanel      : String = "https://control.preyhq.com/api/v2"
     public let URLForgotPanel       : String = "https://panel.preyhq.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyhq.com/login_mobile"
