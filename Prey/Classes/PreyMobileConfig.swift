@@ -44,7 +44,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
             PreyLogger("params error: \(error.localizedDescription)")
         }
         
-        urlRequest.addValue(authToken, forHTTPHeaderField: "Authorization")
+        urlRequest.addValue("Bearer " + authToken, forHTTPHeaderField: "Authorization")
         urlRequest.httpMethod = Method.POST.rawValue
         
         let dataTask = defaultSession.dataTask(with: urlRequest) { (data, response, error) in
