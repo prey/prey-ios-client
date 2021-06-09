@@ -18,7 +18,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     }
     
     // Start service
-    func startService(urlServer: String, accountId: Int) {
+  func startService(authToken: String, urlServer: String, accountId: Int) {
         
         let defaultSessionConfiguration = URLSessionConfiguration.default
         let defaultSession = URLSession(configuration: defaultSessionConfiguration)
@@ -33,7 +33,6 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         }
 
         let params : [String:Any] = [
-            "auth_token"        : tokenApi,
             "account_id"        : accountId,
             "user_key"          : userKey,
             "device_key"        : PreyConfig.sharedInstance.getDeviceKey()]
@@ -44,7 +43,8 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
             PreyConfig.sharedInstance.reportError(error)
             PreyLogger("params error: \(error.localizedDescription)")
         }
-                
+        
+        urlRequest.addValue("Bearer " + authToken, forHTTPHeaderField: "Authorization")
         urlRequest.httpMethod = Method.POST.rawValue
         
         let dataTask = defaultSession.dataTask(with: urlRequest) { (data, response, error) in
@@ -71,9 +71,6 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     private enum ConfigState: Int {
         case Stopped, Ready, InstalledConfig, BackToApp
     }
-    
-    // FIXME: Change token
-    internal let tokenApi = "t0k3n4p1"
     
     internal let listeningPort: in_port_t = 8080
     internal var configName: String = "Profile install"
