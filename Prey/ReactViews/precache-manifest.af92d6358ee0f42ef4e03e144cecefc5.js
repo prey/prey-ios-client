@@ -140,16 +140,16 @@ self.__precacheManifest = [
     "url": "./static/media/fondo2.ada00d71.png"
   },
   {
-    "revision": "baaac74770efd8c34382afa00468f635",
-    "url": "./static/media/magdaclean-bold-webfont.baaac747.woff"
+    "revision": "391159c582e0897e8d64ed22abe1ee2d",
+    "url": "./static/media/regular-bold-webfont.391159c5.woff"
   },
   {
     "revision": "6e8991140fc75b4927e2c440d9036429",
     "url": "./static/media/regular-book-webfont.6e899114.woff"
   },
   {
-    "revision": "391159c582e0897e8d64ed22abe1ee2d",
-    "url": "./static/media/regular-bold-webfont.391159c5.woff"
+    "revision": "baaac74770efd8c34382afa00468f635",
+    "url": "./static/media/magdaclean-bold-webfont.baaac747.woff"
   },
   {
     "revision": "c44603b2b93c1b7a984f21255d556ee9",
