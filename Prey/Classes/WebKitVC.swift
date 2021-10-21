@@ -95,17 +95,11 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
             //PreyLogger("response:\(response)")
             //PreyLogger("data:\(info)")
             
-            let urlPanel        = URL(string: urlResp.absoluteString + "?webview")
+            let urlPath = urlResp.absoluteString + "?webview" + "&token=" + PreyConfig.sharedInstance.tokenPanel!
+            //PreyLogger("request path:\(urlPath)")
+            let urlPanel        = URL(string: urlPath)
             var panelRequest    = URLRequest(url: urlPanel!)
-            let arrayHeader     = (response as! HTTPURLResponse).allHeaderFields as? [String:String]
-            var cookiePanel     = ""
-            for (key,value) in arrayHeader! {
-                if key == "Set-Cookie" {
-                    cookiePanel = value
-                }
-            }
             panelRequest.addValue("Mozilla/5.0", forHTTPHeaderField: "User-Agent")
-            panelRequest.setValue(cookiePanel, forHTTPHeaderField: "Cookie")
             panelRequest.timeoutInterval = timeoutIntervalRequest
             
             DispatchQueue.main.async {
