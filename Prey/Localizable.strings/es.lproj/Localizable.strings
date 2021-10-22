@@ -133,7 +133,7 @@
 
 "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "No tienes capacidad para agregar más dispositivos en tu cuenta Prey.\n\Para aumentar la capacidad disponible, puedes contratar una cuenta Prey Pro.";
 
-"Location services are disabled for Prey. Reports will not be sent." = "Servicio de localización para Prey no está activo. No se podrán enviar reportes.";
+"To fully protect your device Prey must have access to its location at all times. In Settings, go to Location and select Always." = "Para proteger completamente el dispositivo, Prey debe acceder a tu ubicación en todo momento. En Configuración, selecciona Ubicación y marca Siempre.";
 
 "Log in to Prey" = "Ingresa a Prey";
 
@@ -251,7 +251,7 @@
 
 "Enable Camera" = "Habilita la cámara";
 
-"Enable Location" = "Habilita la ubicación";
+"Enable Location" = "Permite acceso a Ubicación";
 
 "Enable Notification" = "Habilita las notificaciones";
 
@@ -282,3 +282,7 @@
 "Use device settings" = "Configuración del dispositivo";
 
 "Dark mode" = "Modo obscuro";
+
+"Go to Settings" = "Ir a Configuración";
+
+"Later" = "Más tarde";

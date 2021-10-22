@@ -89,8 +89,10 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         }
         
         if !locationAuth {
-            displayMessage("Location services are disabled for Prey. Reports will not be sent.".localized,
-                           titleMessage:"Enable Location".localized)
+            displayMessage("To fully protect your device Prey must have access to its location at all times. In Settings, go to Location and select Always.".localized,
+                           titleMessage: "Enable Location".localized,
+                           cancelBtn: "Later".localized
+            )
         }
         
         return locationAuth
@@ -118,10 +120,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     }
     
     // Display message
-    func displayMessage(_ alertMessage:String, titleMessage:String) {
+    func displayMessage(_ alertMessage:String, titleMessage:String, cancelBtn:String = "Cancel".localized) {
         
         let acceptBtn    = "Go to Settings".localized
-        let cancelBtn    = "Cancel".localized
         
         let anAlert      = UIAlertView()
         anAlert.title    = titleMessage
