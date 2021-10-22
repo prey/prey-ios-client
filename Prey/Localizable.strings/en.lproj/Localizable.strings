@@ -132,7 +132,7 @@
 
 "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added." = "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.";
 
-"Location services are disabled for Prey. Reports will not be sent." = "Location services are disabled for Prey. Reports will not be sent.";
+"To fully protect your device Prey must have access to its location at all times. In Settings, go to Location and select Always." = "To fully protect your device Prey must have access to its location at all times. In Settings, go to Location and select Always.";
 
 "Log in to Prey" = "Log in to Prey";
 
@@ -250,7 +250,7 @@
 
 "Enable Camera" = "Enable Camera";
 
-"Enable Location" = "Enable Location";
+"Enable Location" = "Enable Location Access";
 
 "Enable Notification" = "Enable Notification";
 
@@ -281,3 +281,7 @@
 "Use device settings" = "Use device settings";
 
 "Dark mode" = "Dark mode";
+
+"Go to Settings" = "Go to Settings";
+
+"Later" = "Later";
