@@ -1,0 +1,6 @@
+framework module Pods_PreyNotify {
+  umbrella header "Pods-PreyNotify-umbrella.h"
+
+  export *
+  module * { export * }
+}

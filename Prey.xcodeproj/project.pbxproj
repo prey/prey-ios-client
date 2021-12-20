@@ -11,7 +11,6 @@
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
 		3B1ACE3F22CE872B0057ECE5 /* Trigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */; };
-		3B1C2D421D79CB7B00D8E7DF /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C2D401D79CB7B00D8E7DF /* Crashlytics.framework */; };
 		3B2445F71D245478005DF09C /* Camouflage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F61D245478005DF09C /* Camouflage.swift */; };
 		3B2445F91D2466CD005DF09C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F81D2466CD005DF09C /* Alert.swift */; };
 		3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445FA1D24717B005DF09C /* AlertVC.swift */; };
@@ -34,7 +33,6 @@
 		3B42A2671D2581EF002848C0 /* large9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B42A2661D2581EF002848C0 /* large9.ttf */; };
 		3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */; };
 		3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42B3FC1CECC38B009D07B2 /* Report.swift */; };
-		3B4591DD1DAE797E00AD7B93 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1C2D411D79CB7B00D8E7DF /* Fabric.framework */; };
 		3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4E40611D3D3E2D00A45FBD /* GrettingsProVC.swift */; };
 		3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4F679E1CEA061E00F58FAD /* Alarm.swift */; };
 		3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A11CEA085200F58FAD /* shutter.aiff */; };
@@ -81,9 +79,6 @@
 		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
 		3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC971CDB9CD70052A21D /* Location.swift */; };
 		3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC991CDBBF030052A21D /* PreyModule.swift */; };
-		3BA7219C1D46B7040043C9B9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BA721991D46B7040043C9B9 /* GoogleService-Info.plist */; };
-		3BA7219D1D46B7040043C9B9 /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA7219A1D46B7040043C9B9 /* libAdIdAccess.a */; };
-		3BA7219E1D46B7040043C9B9 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA7219B1D46B7040043C9B9 /* libGoogleAnalyticsServices.a */; };
 		3BAB25CF23A923C300BDA263 /* Triggers+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25C923A923C200BDA263 /* Triggers+Class.swift */; };
 		3BAB25D023A923C300BDA263 /* TriggersEvents+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CA23A923C200BDA263 /* TriggersEvents+Class.swift */; };
 		3BAB25D123A923C300BDA263 /* TriggersActions+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CB23A923C200BDA263 /* TriggersActions+Class.swift */; };
@@ -93,8 +88,6 @@
 		3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BAE5812214ACD9F00DB4BAB /* InfoPlist.strings */; };
 		3BB2C450230352C00030C2B5 /* SwiftExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D70A21CD7E3D400DEB461 /* SwiftExt.swift */; };
 		3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342FF22710B360088F3D3 /* MimeTypes.swift */; };
-		3BB6E21A1D47AEA100074E97 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E2181D47AEA100074E97 /* libsqlite3.tbd */; };
-		3BB6E21B1D47AEA100074E97 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E2191D47AEA100074E97 /* libz.tbd */; };
 		3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21C1D47CAC500074E97 /* StoreKit.framework */; };
 		3BB6E21F1D47CACD00074E97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21E1D47CACD00074E97 /* MapKit.framework */; };
 		3BB6E2231D47CC3C00074E97 /* Prey.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 3BB6E2221D47CC3C00074E97 /* Prey.entitlements */; };
@@ -127,6 +120,10 @@
 		3BFF00801D3E7EAC00BEF7E0 /* PreyDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF007F1D3E7EAC00BEF7E0 /* PreyDeployment.swift */; };
 		3BFF00841D3E8A2400BEF7E0 /* AppFeedback.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00811D3E8A2400BEF7E0 /* AppFeedback.plist */; };
 		3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */; };
+		9E819ACD930C5BD483E11FAB /* Pods_PreyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3F650FFAC89F213FFBB49A /* Pods_PreyTests.framework */; };
+		A8D94CC6A4465C92B39EB8EB /* Pods_PreyNotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91A0B2B00A99783C19CEABB3 /* Pods_PreyNotify.framework */; };
+		A96CD7CB273AF84500147250 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A96CD7CA273AF84500147250 /* GoogleService-Info.plist */; };
+		B21814B1707084C35BAF74B0 /* Pods_Prey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB598D1A2A94582B9CFF2B44 /* Pods_Prey.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,12 +172,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		33289CC1892D8E46A43D6FFE /* Pods-Prey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prey.debug.xcconfig"; path = "Target Support Files/Pods-Prey/Pods-Prey.debug.xcconfig"; sourceTree = "<group>"; };
 		3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TriggerManager.swift; path = Classes/TriggerManager.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
 		3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Trigger.swift; path = Classes/Trigger.swift; sourceTree = "<group>"; };
-		3B1C2D401D79CB7B00D8E7DF /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
-		3B1C2D411D79CB7B00D8E7DF /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		3B2445F61D245478005DF09C /* Camouflage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camouflage.swift; path = Classes/Camouflage.swift; sourceTree = "<group>"; };
 		3B2445F81D2466CD005DF09C /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alert.swift; path = Classes/Alert.swift; sourceTree = "<group>"; };
 		3B2445FA1D24717B005DF09C /* AlertVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertVC.swift; path = Classes/AlertVC.swift; sourceTree = "<group>"; };
@@ -254,18 +250,6 @@
 		3B9DDC951CDB891C0052A21D /* PreyAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyAction.swift; path = Classes/PreyAction.swift; sourceTree = "<group>"; };
 		3B9DDC971CDB9CD70052A21D /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Classes/Location.swift; sourceTree = "<group>"; };
 		3B9DDC991CDBBF030052A21D /* PreyModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyModule.swift; path = Classes/PreyModule.swift; sourceTree = "<group>"; };
-		3BA721901D46B7040043C9B9 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
-		3BA721911D46B7040043C9B9 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
-		3BA721921D46B7040043C9B9 /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
-		3BA721931D46B7040043C9B9 /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProductAction.h; sourceTree = "<group>"; };
-		3BA721941D46B7040043C9B9 /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
-		3BA721951D46B7040043C9B9 /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
-		3BA721961D46B7040043C9B9 /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
-		3BA721971D46B7040043C9B9 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
-		3BA721981D46B7040043C9B9 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
-		3BA721991D46B7040043C9B9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		3BA7219A1D46B7040043C9B9 /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
-		3BA7219B1D46B7040043C9B9 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		3BAB25C923A923C200BDA263 /* Triggers+Class.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Triggers+Class.swift"; path = "Classes/Triggers+Class.swift"; sourceTree = "<group>"; };
 		3BAB25CA23A923C200BDA263 /* TriggersEvents+Class.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TriggersEvents+Class.swift"; path = "Classes/TriggersEvents+Class.swift"; sourceTree = "<group>"; };
 		3BAB25CB23A923C200BDA263 /* TriggersActions+Class.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TriggersActions+Class.swift"; path = "Classes/TriggersActions+Class.swift"; sourceTree = "<group>"; };
@@ -275,9 +259,6 @@
 		3BAE5813214ACD9F00DB4BAB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BAE5814214ACD9F00DB4BAB /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BB342FF22710B360088F3D3 /* MimeTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MimeTypes.swift; sourceTree = "<group>"; };
-		3BB6E2171D47A97A00074E97 /* GABridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GABridgingHeader.h; sourceTree = "<group>"; };
-		3BB6E2181D47AEA100074E97 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		3BB6E2191D47AEA100074E97 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		3BB6E21C1D47CAC500074E97 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3BB6E21E1D47CACD00074E97 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		3BB6E2221D47CC3C00074E97 /* Prey.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Prey.entitlements; path = Plist/Prey.entitlements; sourceTree = "<group>"; };
@@ -310,6 +291,15 @@
 		3BFF00811D3E8A2400BEF7E0 /* AppFeedback.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFeedback.plist; path = Plist/AppFeedback.plist; sourceTree = "<group>"; };
 		3BFF00821D3E8A2400BEF7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plist/Info.plist; sourceTree = "<group>"; };
 		3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ManagedAppConfig.plist; path = Plist/ManagedAppConfig.plist; sourceTree = "<group>"; };
+		4829865929E01498AEB66231 /* Pods-PreyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreyTests.debug.xcconfig"; path = "Target Support Files/Pods-PreyTests/Pods-PreyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4C3F650FFAC89F213FFBB49A /* Pods_PreyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		91A0B2B00A99783C19CEABB3 /* Pods_PreyNotify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreyNotify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A96CD7CA273AF84500147250 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C13DB50D49E2CEAFBAFEC49D /* Pods-PreyNotify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreyNotify.release.xcconfig"; path = "Target Support Files/Pods-PreyNotify/Pods-PreyNotify.release.xcconfig"; sourceTree = "<group>"; };
+		D4F29B0925579DBEF009D0C7 /* Pods-PreyNotify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreyNotify.debug.xcconfig"; path = "Target Support Files/Pods-PreyNotify/Pods-PreyNotify.debug.xcconfig"; sourceTree = "<group>"; };
+		EB598D1A2A94582B9CFF2B44 /* Pods_Prey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F180CD0619D6631C2E61616D /* Pods-Prey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prey.release.xcconfig"; path = "Target Support Files/Pods-Prey/Pods-Prey.release.xcconfig"; sourceTree = "<group>"; };
+		FD7CABEF79B519037DBCBBBE /* Pods-PreyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreyTests.release.xcconfig"; path = "Target Support Files/Pods-PreyTests/Pods-PreyTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,14 +308,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B40AB6B1DB90B57003045C1 /* WebKit.framework in Frameworks */,
-				3B4591DD1DAE797E00AD7B93 /* Fabric.framework in Frameworks */,
-				3BB6E21A1D47AEA100074E97 /* libsqlite3.tbd in Frameworks */,
-				3BB6E21B1D47AEA100074E97 /* libz.tbd in Frameworks */,
 				3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */,
-				3BA7219D1D46B7040043C9B9 /* libAdIdAccess.a in Frameworks */,
 				3BB6E21F1D47CACD00074E97 /* MapKit.framework in Frameworks */,
-				3BA7219E1D46B7040043C9B9 /* libGoogleAnalyticsServices.a in Frameworks */,
-				3B1C2D421D79CB7B00D8E7DF /* Crashlytics.framework in Frameworks */,
+				B21814B1707084C35BAF74B0 /* Pods_Prey.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +318,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E819ACD930C5BD483E11FAB /* Pods_PreyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,21 +328,13 @@
 			files = (
 				3BCE971B23021AB500AF1AD4 /* UserNotificationsUI.framework in Frameworks */,
 				3BCE971A23021AB500AF1AD4 /* UserNotifications.framework in Frameworks */,
+				A8D94CC6A4465C92B39EB8EB /* Pods_PreyNotify.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3B1C2D3F1D79CB7B00D8E7DF /* Firebase */ = {
-			isa = PBXGroup;
-			children = (
-				3B1C2D401D79CB7B00D8E7DF /* Crashlytics.framework */,
-				3B1C2D411D79CB7B00D8E7DF /* Fabric.framework */,
-			);
-			path = Firebase;
-			sourceTree = "<group>";
-		};
 		3B36116D1EE75470006BA074 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -434,6 +412,7 @@
 		3B8283E4199198E6000E4545 = {
 			isa = PBXGroup;
 			children = (
+				A96CD7CA273AF84500147250 /* GoogleService-Info.plist */,
 				3B8283EF199198E6000E4545 /* Prey */,
 				3BCD4C8B1C98942900CDEE1C /* Localizable.strings */,
 				3BAE5811214ACD9F00DB4BAB /* InfoPlist.strings */,
@@ -441,6 +420,7 @@
 				3BCE971C23021AB500AF1AD4 /* PreyNotify */,
 				3BB6E2211D47CBD800074E97 /* Frameworks */,
 				3B8283EE199198E6000E4545 /* Products */,
+				91C83753BD82DE7017E63F0E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -577,28 +557,6 @@
 			name = "Prey Modules";
 			sourceTree = "<group>";
 		};
-		3BA7218F1D46B7040043C9B9 /* GoogleAnalytics */ = {
-			isa = PBXGroup;
-			children = (
-				3BB6E2171D47A97A00074E97 /* GABridgingHeader.h */,
-				3BA721901D46B7040043C9B9 /* GAI.h */,
-				3BA721911D46B7040043C9B9 /* GAIDictionaryBuilder.h */,
-				3BA721921D46B7040043C9B9 /* GAIEcommerceProduct.h */,
-				3BA721931D46B7040043C9B9 /* GAIEcommerceProductAction.h */,
-				3BA721941D46B7040043C9B9 /* GAIEcommercePromotion.h */,
-				3BA721951D46B7040043C9B9 /* GAIFields.h */,
-				3BA721961D46B7040043C9B9 /* GAILogger.h */,
-				3BA721971D46B7040043C9B9 /* GAITrackedViewController.h */,
-				3BA721981D46B7040043C9B9 /* GAITracker.h */,
-				3BA721991D46B7040043C9B9 /* GoogleService-Info.plist */,
-				3BA7219A1D46B7040043C9B9 /* libAdIdAccess.a */,
-				3BA7219B1D46B7040043C9B9 /* libGoogleAnalyticsServices.a */,
-				3BB6E2181D47AEA100074E97 /* libsqlite3.tbd */,
-				3BB6E2191D47AEA100074E97 /* libz.tbd */,
-			);
-			path = GoogleAnalytics;
-			sourceTree = "<group>";
-		};
 		3BAE5811214ACD9F00DB4BAB /* InfoPlist.strings */ = {
 			isa = PBXGroup;
 			children = (
@@ -618,6 +576,9 @@
 				3BB6E21C1D47CAC500074E97 /* StoreKit.framework */,
 				3BCE96EF2302191B00AF1AD4 /* UserNotifications.framework */,
 				3BCE96F12302191B00AF1AD4 /* UserNotificationsUI.framework */,
+				EB598D1A2A94582B9CFF2B44 /* Pods_Prey.framework */,
+				91A0B2B00A99783C19CEABB3 /* Pods_PreyNotify.framework */,
+				4C3F650FFAC89F213FFBB49A /* Pods_PreyTests.framework */,
 			);
 			name = Frameworks;
 			path = Prey;
@@ -660,10 +621,21 @@
 			isa = PBXGroup;
 			children = (
 				3B86297C1EF03CB400BE92D4 /* Swifter */,
-				3B1C2D3F1D79CB7B00D8E7DF /* Firebase */,
-				3BA7218F1D46B7040043C9B9 /* GoogleAnalytics */,
 			);
 			name = External;
+			sourceTree = "<group>";
+		};
+		91C83753BD82DE7017E63F0E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				33289CC1892D8E46A43D6FFE /* Pods-Prey.debug.xcconfig */,
+				F180CD0619D6631C2E61616D /* Pods-Prey.release.xcconfig */,
+				D4F29B0925579DBEF009D0C7 /* Pods-PreyNotify.debug.xcconfig */,
+				C13DB50D49E2CEAFBAFEC49D /* Pods-PreyNotify.release.xcconfig */,
+				4829865929E01498AEB66231 /* Pods-PreyTests.debug.xcconfig */,
+				FD7CABEF79B519037DBCBBBE /* Pods-PreyTests.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -673,12 +645,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3B828409199198E6000E4545 /* Build configuration list for PBXNativeTarget "Prey" */;
 			buildPhases = (
+				8FC3723598A4ED1A4B243E5F /* [CP] Check Pods Manifest.lock */,
 				3B8283E9199198E6000E4545 /* Sources */,
 				3B8283EA199198E6000E4545 /* Frameworks */,
 				3B8283EB199198E6000E4545 /* Resources */,
-				3B1C2D441D79CBFE00D8E7DF /* ShellScript */,
 				3B95D3CC1DAE860300FEDD80 /* Run Script Tag Warnings */,
 				3BCE97002302191B00AF1AD4 /* Embed App Extensions */,
+				4993073DEF812FB21BC5AF55 /* [CP] Embed Pods Frameworks */,
+				A9BD31B9272C9F5300DA01F9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -694,6 +668,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3B82840C199198E6000E4545 /* Build configuration list for PBXNativeTarget "PreyTests" */;
 			buildPhases = (
+				792098EE3ECD4189A6F0FC12 /* [CP] Check Pods Manifest.lock */,
 				3B8283FB199198E6000E4545 /* Sources */,
 				3B8283FC199198E6000E4545 /* Frameworks */,
 				3B8283FD199198E6000E4545 /* Resources */,
@@ -714,6 +689,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3BCE972623021AB500AF1AD4 /* Build configuration list for PBXNativeTarget "PreyNotify" */;
 			buildPhases = (
+				DA2289F10B451C9CA50F2C96 /* [CP] Check Pods Manifest.lock */,
 				3BCE971523021AB500AF1AD4 /* Sources */,
 				3BCE971623021AB500AF1AD4 /* Frameworks */,
 				3BCE971723021AB500AF1AD4 /* Resources */,
@@ -817,9 +793,9 @@
 				3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */,
 				3BCE972C23021B1600AF1AD4 /* regular-bold.otf in Resources */,
 				3BE3DC521D0B044D00581327 /* magdacleanmono-regular.otf in Resources */,
-				3BA7219C1D46B7040043C9B9 /* GoogleService-Info.plist in Resources */,
 				3BCE972B23021B1600AF1AD4 /* regular-book.otf in Resources */,
 				3B3AA5C322835F560035C63C /* ReactViews in Resources */,
+				A96CD7CB273AF84500147250 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,20 +820,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3B1C2D441D79CBFE00D8E7DF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Prey/Plist/Info.plist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/Prey/Firebase/Fabric.framework/run\" 2185ed0fad2f2eef26da9c7d1d3205c3adb7b41e us3r4p2\n";
-		};
 		3B95D3CC1DAE860300FEDD80 /* Run Script Tag Warnings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -871,6 +833,123 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+		4993073DEF812FB21BC5AF55 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Prey/Pods-Prey-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCrashlytics/FirebaseCrashlytics.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCrashlytics.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Prey/Pods-Prey-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		792098EE3ECD4189A6F0FC12 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PreyTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8FC3723598A4ED1A4B243E5F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Prey-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A9BD31B9272C9F5300DA01F9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
+		DA2289F10B451C9CA50F2C96 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PreyNotify-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1089,7 +1168,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1138,7 +1217,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1149,6 +1228,7 @@
 		};
 		3B82840A199198E6000E4545 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 33289CC1892D8E46A43D6FFE /* Pods-Prey.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1158,24 +1238,20 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Prey/Firebase",
-				);
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Prey/GoogleAnalytics",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 2.1.8;
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Prey/GoogleAnalytics/GABridgingHeader.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1183,6 +1259,7 @@
 		};
 		3B82840B199198E6000E4545 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F180CD0619D6631C2E61616D /* Pods-Prey.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1192,23 +1269,19 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Prey/Firebase",
-				);
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Prey/GoogleAnalytics",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 2.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Prey/GoogleAnalytics/GABridgingHeader.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1216,6 +1289,7 @@
 		};
 		3B82840D199198E6000E4545 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4829865929E01498AEB66231 /* Pods-PreyTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Prey.app/Prey";
 				DEVELOPMENT_TEAM = "";
@@ -1235,6 +1309,7 @@
 		};
 		3B82840E199198E6000E4545 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD7CABEF79B519037DBCBBBE /* Pods-PreyTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Prey.app/Prey";
 				DEVELOPMENT_TEAM = "";
@@ -1250,6 +1325,7 @@
 		};
 		3BCE972723021AB500AF1AD4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4F29B0925579DBEF009D0C7 /* Pods-PreyNotify.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1282,6 +1358,7 @@
 		};
 		3BCE972823021AB500AF1AD4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C13DB50D49E2CEAFBAFEC49D /* Pods-PreyNotify.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
