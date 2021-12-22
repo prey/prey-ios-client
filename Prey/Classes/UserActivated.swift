@@ -3,7 +3,7 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 11/12/19.
-//  Copyright © 2019 Fork Ltd. All rights reserved.
+//  Copyright © 2019 Prey, Inc. All rights reserved.
 //
 
 import Foundation

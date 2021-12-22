@@ -712,7 +712,7 @@
 				LastSwiftMigration = 0720;
 				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 1000;
-				ORGANIZATIONNAME = "Fork Ltd.";
+				ORGANIZATIONNAME = "Prey, Inc.";
 				TargetAttributes = {
 					3B8283EC199198E6000E4545 = {
 						CreatedOnToolsVersion = 6.0;
