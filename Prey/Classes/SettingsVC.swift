@@ -35,7 +35,7 @@ enum SectionAbout : Int {
     case version=0, help, termService, privacyPolice, numberSectionAbout
 }
 
-class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, WKUIDelegate, WKNavigationDelegate {
+class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, WKUIDelegate, WKNavigationDelegate {
 
     
     // MARK: Properties
@@ -87,7 +87,7 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         }
         
         // View title for GAnalytics
-        self.screenName = "Preferences"
+        //self.screenName = "Preferences"
         
         // Set title
         self.title = UIDevice.current.name

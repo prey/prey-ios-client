@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import WebKit
 
-class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
+class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
 
     // MARK: Properties
 
@@ -119,7 +119,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
         super.viewDidLoad()
         
         // View title for GAnalytics
-        self.screenName = titleView
+        //self.screenName = titleView
     }
     
     override func didReceiveMemoryWarning() {

@@ -18,7 +18,7 @@ enum BlockHost: String {
     case SRCGOOGLE  = "www.google.com"
 }
 
-class WebVC: GAITrackedViewController, UIWebViewDelegate {
+class WebVC: UIViewController, UIWebViewDelegate {
 
     // MARK: Properties
 
@@ -89,7 +89,7 @@ class WebVC: GAITrackedViewController, UIWebViewDelegate {
         super.viewDidLoad()
         
         // View title for GAnalytics
-        self.screenName = titleView
+        //self.screenName = titleView
     }
     
     override func didReceiveMemoryWarning() {

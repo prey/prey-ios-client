@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PurchasesVC: GAITrackedViewController {
+class PurchasesVC: UIViewController {
 
     
     // MARK: Properties
@@ -35,7 +35,7 @@ class PurchasesVC: GAITrackedViewController {
         super.viewDidLoad()
 
         // View title for GAnalytics
-        self.screenName = "Upgrade to Pro II"        
+        //self.screenName = "Upgrade to Pro II"        
         
         self.title = "Upgrade to Pro".localized
         

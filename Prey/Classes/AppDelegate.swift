@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import Fabric
-import Crashlytics
 import BackgroundTasks
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -51,17 +50,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        // FIXME: Update apikey crashlytics        
+             
         // Config Fabric SDK
-        Fabric.with([Crashlytics.self])
-        
-        // Config Google Analytics
-        GAI.sharedInstance().tracker(withTrackingId: GAICode)
-        GAI.sharedInstance().trackUncaughtExceptions                = true
-        GAI.sharedInstance().dispatchInterval                       = 120
-        GAI.sharedInstance().logger.logLevel                        = GAILogLevel.none
-        GAI.sharedInstance().defaultTracker.allowIDFACollection     = true
+//        Fabric.with([Crashlytics.self])
+//
+//        // Config Google Analytics
+//        GAI.sharedInstance().tracker(withTrackingId: GAICode)
+//        GAI.sharedInstance().trackUncaughtExceptions                = true
+//        GAI.sharedInstance().dispatchInterval                       = 120
+//        GAI.sharedInstance().logger.logLevel                        = GAILogLevel.none
+//        GAI.sharedInstance().defaultTracker.allowIDFACollection     = true
 
+        FirebaseApp.configure()
+        
         // Check settings info
         checkSettingsToBackup()
         

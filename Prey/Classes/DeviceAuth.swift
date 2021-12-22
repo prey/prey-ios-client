@@ -12,6 +12,7 @@ import AVFoundation
 import UserNotifications
 import Contacts
 import Photos
+import UIKit
 
 class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
 

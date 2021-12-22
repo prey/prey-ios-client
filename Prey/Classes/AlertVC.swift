@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AlertVC: GAITrackedViewController {
+class AlertVC: UIViewController {
     
     // MARK: Properties
 
@@ -24,7 +24,7 @@ class AlertVC: GAITrackedViewController {
         super.viewDidLoad()
         
         // View title for GAnalytics
-        self.screenName = "Alert"
+       // self.screenName = "Alert"
         
         // Set message
         messageLbl.text = messageToShow
