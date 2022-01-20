@@ -3,7 +3,7 @@
 //  PreyTests
 //
 //  Created by Javier Cala Uribe on 5/8/14.
-//  Copyright (c) 2014 Fork Ltd. All rights reserved.
+//  Copyright (c) 2014 Prey, Inc. All rights reserved.
 //
 
 import UIKit

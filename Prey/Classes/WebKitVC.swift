@@ -3,14 +3,14 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 28/06/16.
-//  Copyright © 2016 Fork Ltd. All rights reserved.
+//  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
 import Foundation
 import UIKit
 import WebKit
 
-class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
+class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
 
     // MARK: Properties
 
@@ -119,7 +119,7 @@ class WebKitVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate {
         super.viewDidLoad()
         
         // View title for GAnalytics
-        self.screenName = titleView
+        //self.screenName = titleView
     }
     
     override func didReceiveMemoryWarning() {

@@ -1,0 +1,6 @@
+framework module Pods_PreyTests {
+  umbrella header "Pods-PreyTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

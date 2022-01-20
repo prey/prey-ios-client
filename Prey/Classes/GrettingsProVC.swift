@@ -3,13 +3,13 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 18/07/16.
-//  Copyright © 2016 Fork Ltd. All rights reserved.
+//  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class GrettingsProVC: GAITrackedViewController {
+class GrettingsProVC: UIViewController {
     
 
     // MARK: Properties
@@ -25,7 +25,7 @@ class GrettingsProVC: GAITrackedViewController {
         super.viewDidLoad()
      
         // View title for GAnalytics
-        self.screenName = "Grettings Pro Accounts"
+        //self.screenName = "Grettings Pro Accounts"
         
         // Set texts
         configureTexts()

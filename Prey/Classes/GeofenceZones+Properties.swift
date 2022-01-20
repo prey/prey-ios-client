@@ -3,7 +3,7 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 6/06/16.
-//  Copyright © 2016 Fork Ltd. All rights reserved.
+//  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
 //  to delete and recreate this implementation file for your updated model.

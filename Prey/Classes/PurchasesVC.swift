@@ -3,12 +3,12 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 27/11/14.
-//  Copyright (c) 2014 Fork Ltd. All rights reserved.
+//  Copyright (c) 2014 Prey, Inc. All rights reserved.
 //
 
 import UIKit
 
-class PurchasesVC: GAITrackedViewController {
+class PurchasesVC: UIViewController {
 
     
     // MARK: Properties
@@ -35,7 +35,7 @@ class PurchasesVC: GAITrackedViewController {
         super.viewDidLoad()
 
         // View title for GAnalytics
-        self.screenName = "Upgrade to Pro II"        
+        //self.screenName = "Upgrade to Pro II"        
         
         self.title = "Upgrade to Pro".localized
         

@@ -3,12 +3,12 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 27/11/14.
-//  Copyright (c) 2014 Fork Ltd. All rights reserved.
+//  Copyright (c) 2014 Prey, Inc. All rights reserved.
 //
 
 import UIKit
 
-class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
+class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
 
     
     // MARK: Properties
@@ -39,7 +39,7 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
         // Do any additional setup after loading the view.
         
         // View title for GAnalytics
-        self.screenName = "Login"        
+        //self.screenName = "Login"        
         
         // Dismiss Keyboard on tap outside
         let recognizer = UITapGestureRecognizer(target: self, action:#selector(self.dismissKeyboard(_:)))
@@ -53,6 +53,8 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
                 
         // Hide camouflage image
         configCamouflageMode(PreyConfig.sharedInstance.isCamouflageMode)
+        
+       
     }
 
     func configureTexts() {
@@ -203,14 +205,14 @@ class HomeVC: GAITrackedViewController, UITextFieldDelegate, UIGestureRecognizer
     
     // Send GAnalytics event
     func sendEventGAnalytics() {
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            
-            let dimensionValue = PreyConfig.sharedInstance.isPro ? "Pro" : "Free"
-            tracker.set(GAIFields.customDimension(for: 1), value:dimensionValue)
-            
-            let params:NSObject = GAIDictionaryBuilder.createEvent(withCategory: "UserActivity", action:"Log In", label:"Log In", value:nil).build()
-            tracker.send(params as! [NSObject : AnyObject])
-        }
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            
+//            let dimensionValue = PreyConfig.sharedInstance.isPro ? "Pro" : "Free"
+//            tracker.set(GAIFields.customDimension(for: 1), value:dimensionValue)
+//            
+//            let params:NSObject = GAIDictionaryBuilder.createEvent(withCategory: "UserActivity", action:"Log In", label:"Log In", value:nil).build()
+//            tracker.send(params as! [NSObject : AnyObject])
+//        }
     }
 
     // Go to Settings

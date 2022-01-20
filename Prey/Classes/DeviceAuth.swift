@@ -3,7 +3,7 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 26/05/16.
-//  Copyright © 2016 Fork Ltd. All rights reserved.
+//  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
 import Foundation
@@ -12,6 +12,7 @@ import AVFoundation
 import UserNotifications
 import Contacts
 import Photos
+import UIKit
 
 class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
 
