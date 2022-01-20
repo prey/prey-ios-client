@@ -3,7 +3,7 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 27/11/14.
-//  Copyright (c) 2014 Fork Ltd. All rights reserved.
+//  Copyright (c) 2014 Prey, Inc. All rights reserved.
 //
 
 import UIKit
@@ -35,7 +35,7 @@ enum SectionAbout : Int {
     case version=0, help, termService, privacyPolice, numberSectionAbout
 }
 
-class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, WKUIDelegate, WKNavigationDelegate {
+class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, WKUIDelegate, WKNavigationDelegate {
 
     
     // MARK: Properties
@@ -87,7 +87,7 @@ class SettingsVC: GAITrackedViewController, UIWebViewDelegate, UITableViewDelega
         }
         
         // View title for GAnalytics
-        self.screenName = "Preferences"
+        //self.screenName = "Preferences"
         
         // Set title
         self.title = UIDevice.current.name

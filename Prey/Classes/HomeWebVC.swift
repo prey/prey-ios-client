@@ -3,15 +3,17 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 13/2/18.
-//  Copyright © 2018 Fork Ltd. All rights reserved.
+//  Copyright © 2018 Prey, Inc. All rights reserved.
 //
 
 import Foundation
 import UIKit
 import WebKit
 import LocalAuthentication
+import Firebase
+import FirebaseCrashlytics
 
-class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
+class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
 
     // MARK: Properties
     
@@ -77,9 +79,6 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
             // Check new version on App Store
             PreyConfig.sharedInstance.checkLastVersionOnStore()
         }
-        
-        // View title for GAnalytics
-        self.screenName = "HomeWeb"        
     }
     
     override func didReceiveMemoryWarning() {
@@ -218,14 +217,14 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     
     // Send GAnalytics event
     func sendEventGAnalytics() {
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            
-            let dimensionValue = PreyConfig.sharedInstance.isPro ? "Pro" : "Free"
-            tracker.set(GAIFields.customDimension(for: 1), value:dimensionValue)
-            
-            let params:NSObject = GAIDictionaryBuilder.createEvent(withCategory: "UserActivity", action:"Log In", label:"Log In", value:nil).build()
-            tracker.send(params as! [NSObject : AnyObject])
-        }
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            
+//            let dimensionValue = PreyConfig.sharedInstance.isPro ? "Pro" : "Free"
+//            tracker.set(GAIFields.customDimension(for: 1), value:dimensionValue)
+//            
+//            let params:NSObject = GAIDictionaryBuilder.createEvent(withCategory: "UserActivity", action:"Log In", label:"Log In", value:nil).build()
+//            tracker.send(params as! [NSObject : AnyObject])
+//        }
     }
     
     // Add device with QRCode
@@ -486,6 +485,8 @@ class HomeWebVC: GAITrackedViewController, WKUIDelegate, WKNavigationDelegate  {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         
         PreyLogger("Should load request: WKWebView")
+        
+       
         
         guard let requestUrl = navigationAction.request.url else {
             return decisionHandler(.allow)

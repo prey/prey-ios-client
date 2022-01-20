@@ -3,12 +3,12 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 15/03/16.
-//  Copyright © 2016 Fork Ltd. All rights reserved.
+//  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
 import Foundation
 import UIKit
-import Crashlytics
+
 
 // Prey config for legacy versions :: NSUserDefaults.standardUserDefaults()
 enum PreyConfigLegacy: String {
@@ -413,16 +413,16 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     // Report Error
     func reportError(_ error: Error?) {
         if let err = error {
-            Crashlytics.sharedInstance().recordError(err)
+//            Crashlytics.sharedInstance().recordError(err)
         }
     }
 
     // Report Error custom
     func reportError(_ domain: String, statusCode: Int?, errorDescription: String) {
         if let code = statusCode {
-            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: code, userInfo: [String(code) : errorDescription]))
+//            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: code, userInfo: [String(code) : errorDescription]))
         } else {
-            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: 1985, userInfo: ["1985" : errorDescription]))
+//            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: 1985, userInfo: ["1985" : errorDescription]))
         }
     }
 }

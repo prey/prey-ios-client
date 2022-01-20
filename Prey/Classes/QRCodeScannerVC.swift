@@ -3,14 +3,14 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 19/07/16.
-//  Copyright © 2016 Fork Ltd. All rights reserved.
+//  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
 import Foundation
 import AVFoundation
 import UIKit
 
-class QRCodeScannerVC: GAITrackedViewController, AVCaptureMetadataOutputObjectsDelegate {
+class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     // MARK: Properties
     
@@ -26,7 +26,7 @@ class QRCodeScannerVC: GAITrackedViewController, AVCaptureMetadataOutputObjectsD
         super.viewDidLoad()
     
         // View title for GAnalytics
-        self.screenName = "QRCodeScanner"        
+        //self.screenName = "QRCodeScanner"        
         
         // Set background color
         self.view.backgroundColor   = UIColor.black

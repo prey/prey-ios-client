@@ -3,10 +3,11 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 13/6/17.
-//  Copyright © 2017 Fork Ltd. All rights reserved.
+//  Copyright © 2017 Prey, Inc. All rights reserved.
 //
 
 import Foundation
+import UIKit
 
 class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     

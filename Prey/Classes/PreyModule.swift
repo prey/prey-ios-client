@@ -3,10 +3,11 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 5/05/16.
-//  Copyright © 2016 Fork Ltd. All rights reserved.
+//  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
 import Foundation
+import UIKit
 
 class PreyModule {
     

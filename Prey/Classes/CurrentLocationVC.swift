@@ -3,7 +3,7 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 13/07/16.
-//  Copyright © 2016 Fork Ltd. All rights reserved.
+//  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +11,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class CurrentLocationVC: GAITrackedViewController, MKMapViewDelegate {
+class CurrentLocationVC: UIViewController, MKMapViewDelegate {
 
     
     // MARK: Properties
@@ -38,7 +38,7 @@ class CurrentLocationVC: GAITrackedViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         // View title for GAnalytics
-        self.screenName = "Device Map"
+        //self.screenName = "Device Map"
         
         // Set title
         self.title = "Current Location".localized

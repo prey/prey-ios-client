@@ -3,12 +3,12 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 29/06/16.
-//  Copyright © 2016 Fork Ltd. All rights reserved.
+//  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
 import UIKit
 
-class AlertVC: GAITrackedViewController {
+class AlertVC: UIViewController {
     
     // MARK: Properties
 
@@ -24,7 +24,7 @@ class AlertVC: GAITrackedViewController {
         super.viewDidLoad()
         
         // View title for GAnalytics
-        self.screenName = "Alert"
+       // self.screenName = "Alert"
         
         // Set message
         messageLbl.text = messageToShow
