@@ -19,72 +19,75 @@ extension UIDevice {
     */
     // Return CPU Model
     var cpuModel: String {
-       
+        
         var modelName: String
         var systemInfo      = utsname()
         uname(&systemInfo)
 
-        
+
         switch deviceModel.rawValue {
-       
+
         case "iPhone 4":
             modelName = "Apple A4"
-            
+
         case "iPhone 4S", "iPad 2", "iPad Mini", "iPod 5":
             modelName = "Apple A5"
-            
+
         case "iPad 3":
             modelName = "Apple A5X"
-            
+
         case "iPhone 5", "iPhone 5C":
             modelName = "Apple A6"
-            
+
         case "iPad 4":
             modelName = "Apple A6X"
-            
+
         case "iPad Air ", "iPad Mini 2", "iPad Mini 3", "iPhone 5S":
             modelName = "Apple A7"
-            
+
         case "iPod 6", "iPad Mini 4", "iPhone 6 Plus", "iPhone 6":
             modelName = "Apple A8"
-            
+
         case "iPad Air 2":
             modelName = "Apple A8X"
-            
+
         case "iPad 5", "iPad 6", "iPhone 6S", "iPhone 6S Plus", "iPhone SE":
             modelName = "Apple A9"
-            
+
         case "iPad Pro 9.7\"", "iPad Pro 12.9\"":
             modelName = "Apple A9X"
-            
+
         case "iPod 7", "iPad 7", "iPhone 7", "iPhone 7 Plus":
             modelName = "Apple A10"
-            
+
         case "iPad Pro 2 12.9\"", "iPad Pro 10.5\"":
             modelName = "Apple A10X"
-            
+
         case "iPhone 8", "iPhone 8 Plus", "iPhone X":
             modelName = "Apple A11"
-            
+
         case "iPad Mini 5", "iPad Air 3", "iPhone XR", "iPhone XS", "iPhone XS Max":
             modelName = "Apple A12"
-            
+
         case "iPad Pro 11\"", "iPad Pro 3 12.9\"":
             modelName = "Apple A12X"
-            
+
         case "iPad Pro 11\" 2nd gen", "iPad Pro 4 12.9\"":
             modelName = "Apple A12Z"
-            
+
         case "iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPhone SE 2nd gen":
             modelName = "Apple A13"
-        
+
         case "iPhone 12", "iPhone 12 Mini", "iPhone 12 Pro", "iPhone 12 Pro Max":
             modelName = "Apple A14"
-           
+
+        case "iPhone 13 Mini", "iPhone 13", "iPhone 13 Pro", "iPhone 13 Pro Max":
+            modelName = "Apple A15"
+
         default:
             modelName = "Apple"
         }
-       
+
         return modelName
     }
     /*
@@ -98,35 +101,35 @@ extension UIDevice {
     var cpuSpeed: String {
 
         var cpuSpeedMhz: String
-       
+
         switch cpuModel {
         case "Apple A4","Apple A5","Apple A5X":
             cpuSpeedMhz = "1000"
-           
+
         case "Apple A6":
             cpuSpeedMhz = "1300"
-           
+
         case "Apple A6X":
             cpuSpeedMhz = "1400"
-           
+
         case "Apple A7":
             cpuSpeedMhz = "1300"
-           
+
         case "Apple A8":
             cpuSpeedMhz = "1400"
-           
+
         case "Apple A8X":
             cpuSpeedMhz = "1500"
-           
+
         case "Apple A9":
             cpuSpeedMhz = "1850"
-           
+
         case "Apple A9X":
             cpuSpeedMhz = "2200"
-           
+
         case "Apple A10":
             cpuSpeedMhz = "2340"
-           
+
         case "Apple A10X":
             cpuSpeedMhz = "2380"
 
@@ -141,14 +144,17 @@ extension UIDevice {
 
         case "Apple A13":
                 cpuSpeedMhz = "2660"
-           
+
         case "Apple A14":
-                cpuSpeedMhz = "2750"
+                cpuSpeedMhz = "3100"
+
+        case "Apple A15":
+                cpuSpeedMhz = "3223"
 
         default:
             cpuSpeedMhz = "0"
         }
-       
+
         return cpuSpeedMhz
     }
     /*
@@ -159,35 +165,35 @@ extension UIDevice {
     */
     // Return Cpu Cores
     var cpuCores: String {
-       
+
         var cores: String
-       
+
         switch cpuModel {
         case "Apple A4":
             cores = "1"
-           
+
         case "Apple A5","Apple A5X","Apple A6","Apple A6X","Apple A7","Apple A8","Apple A9","Apple A9X":
             cores = "2"
-           
+
         case "Apple A8X":
             cores = "3"
-           
+
         case "Apple A10":
             cores = "4"
-           
-        case "Apple A10X","Apple A11","Apple A12","Apple A13", "Apple A14":
+
+        case "Apple A10X","Apple A11","Apple A12","Apple A13", "Apple A14", "Apple A15":
             cores = "6"
 
         case "Apple A12X","Apple A12Z":
             cores = "8"
-           
+
         default:
             cores = "0"
         }
-       
+
         return cores
     }
-   
+
     var deviceModel: Model {
         var systemInfo = utsname()
         uname(&systemInfo)
@@ -196,6 +202,8 @@ extension UIDevice {
                 ptr in String.init(validatingUTF8: ptr)
             }
         }
+        
+        print("LOG: modelCode is: \(String(describing: modelCode))")
 
         let modelMap : [String: Model] = [
 
@@ -231,6 +239,8 @@ extension UIDevice {
             "iPad7,12"  : .iPad7,
             "iPad11,6"  : .iPad8, //iPad 2020
             "iPad11,7"  : .iPad8,
+            "iPad12,1"  : .iPad9, //iPad 2021
+            "iPad12,2"  : .iPad9,
 
             //iPad Mini
             "iPad2,5"   : .iPadMini,
@@ -246,6 +256,8 @@ extension UIDevice {
             "iPad5,2"   : .iPadMini4,
             "iPad11,1"  : .iPadMini5,
             "iPad11,2"  : .iPadMini5,
+            "iPad14,1"  : .iPadMini6, //2021
+            "iPad14,2"  : .iPadMini6,
 
             //iPad Pro
             "iPad6,3"   : .iPadPro9_7,
@@ -268,6 +280,10 @@ extension UIDevice {
             "iPad8,8"   : .iPadPro3_12_9,
             "iPad8,11"  : .iPadPro4_12_9,
             "iPad8,12"  : .iPadPro4_12_9,
+            "iPad13,8"  : .iPadPro5_12_9,
+            "iPad13,9"  : .iPadPro5_12_9,
+            "iPad13,10" : .iPadPro5_12_9,
+            "iPad13,11" : .iPadPro5_12_9,
 
             //iPad Air
             "iPad4,1"   : .iPadAir,
@@ -279,7 +295,7 @@ extension UIDevice {
             "iPad11,4"  : .iPadAir3,
             "iPad13,1"  : .iPadAir4,
             "iPad13,2"  : .iPadAir4,
-           
+
 
             //iPhone
             "iPhone3,1" : .iPhone4,
@@ -319,7 +335,11 @@ extension UIDevice {
             "iPhone13,2" : .iPhone12,
             "iPhone13,3" : .iPhone12Pro,
             "iPhone13,4" : .iPhone12ProMax,
-           
+            "iPhone14,4" : .iPhone13Mini, //2021
+            "iPhone14,5" : .iPhone13,
+            "iPhone14,2" : .iPhone13Pro,
+            "iPhone14,3" : .iPhone13ProMax,
+
             // Apple Watch
             "Watch1,1" : .AppleWatch1,
             "Watch1,2" : .AppleWatch1,
@@ -347,6 +367,10 @@ extension UIDevice {
             "Watch6,2" : .AppleWatchS6,
             "Watch6,3" : .AppleWatchS6,
             "Watch6,4" : .AppleWatchS6,
+            "Watch6,6" : .AppleWatchS7,
+            "Watch6,7" : .AppleWatchS7,
+            "Watch6,8" : .AppleWatchS7,
+            "Watch6,9" : .AppleWatchS7,
 
             //Apple TV
             "AppleTV1,1" : .AppleTV1,
@@ -354,9 +378,10 @@ extension UIDevice {
             "AppleTV3,1" : .AppleTV3,
             "AppleTV3,2" : .AppleTV3,
             "AppleTV5,3" : .AppleTV4,
-            "AppleTV6,2" : .AppleTV_4K
+            "AppleTV6,2" : .AppleTV_4K,
+            "AppleTV11,1" : .AppleTV2_4K
         ]
-
+            
         if let model = modelMap[String.init(validatingUTF8: modelCode!)!] {
             if model == .simulator {
                 if let simModelCode = ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] {
@@ -369,10 +394,10 @@ extension UIDevice {
         }
         return Model.unrecognized
       }
-   
-   
-   
-    public enum Model : String {
+
+
+
+public enum Model : String {
 
     //Simulator
     case simulator     = "simulator/sandbox",
@@ -398,6 +423,7 @@ extension UIDevice {
     iPad6              = "iPad 6", //iPad 2018
     iPad7              = "iPad 7", //iPad 2019
     iPad8              = "iPad 8", //iPad 2020
+    iPad9              = "iPad 9", //iPad 2021
 
     //iPad Mini
     iPadMini           = "iPad Mini",
@@ -405,6 +431,7 @@ extension UIDevice {
     iPadMini3          = "iPad Mini 3",
     iPadMini4          = "iPad Mini 4",
     iPadMini5          = "iPad Mini 5",
+    iPadMini6          = "iPad Mini 6",
 
     //iPad Pro
     iPadPro9_7         = "iPad Pro 9.7\"",
@@ -415,6 +442,7 @@ extension UIDevice {
     iPadPro2_12_9      = "iPad Pro 2 12.9\"",
     iPadPro3_12_9      = "iPad Pro 3 12.9\"",
     iPadPro4_12_9      = "iPad Pro 4 12.9\"",
+    iPadPro5_12_9      = "iPad Pro 5 12.9\"",
 
     //iPhone
     iPhone4            = "iPhone 4",
@@ -443,6 +471,10 @@ extension UIDevice {
     iPhone12           = "iPhone 12",
     iPhone12Pro        = "iPhone 12 Pro",
     iPhone12ProMax     = "iPhone 12 Pro Max",
+    iPhone13Mini       = "iPhone 13 Mini",
+    iPhone13           = "iPhone 13",
+    iPhone13Pro        = "iPhone 13 Pro",
+    iPhone13ProMax     = "iPhone 13 Pro Max",
 
     // Apple Watch
     AppleWatch1         = "Apple Watch 1gen",
@@ -453,6 +485,7 @@ extension UIDevice {
     AppleWatchS5        = "Apple Watch Series 5",
     AppleWatchSE        = "Apple Watch Special Edition",
     AppleWatchS6        = "Apple Watch Series 6",
+    AppleWatchS7        = "Apple Watch Series 7",
 
     //Apple TV
     AppleTV1           = "Apple TV 1gen",
@@ -460,12 +493,13 @@ extension UIDevice {
     AppleTV3           = "Apple TV 3gen",
     AppleTV4           = "Apple TV 4gen",
     AppleTV_4K         = "Apple TV 4K",
+    AppleTV2_4K        = "Apple TV 4K 2gen",
 
     unrecognized       = "?unrecognized?"
-    }
+}
 
 
-   
+
     /*
     // Return Ram Size
     var ramSize: String {
@@ -473,64 +507,65 @@ extension UIDevice {
         return String(results)
     }
     */
-   
+
     // Return Ram Size
     var ramSize: String {
-       
+
         var deviceRamSize: String
         var systemInfo      = utsname()
         uname(&systemInfo)
-        
+
         // MB: 512, 1024, 2048, 3072, 4096, 6144
-       
+
         switch deviceModel.rawValue {
-           
+
         case "iPod 5", "iPad 2", "iPad Mini", "iPhone 4", "iPhone 4S":
             deviceRamSize = "512"
-            
+
         case "iPod 6", "iPad 3", "iPad Air ", "iPad Mini 2", "iPad Mini 3", "iPhone 5", "iPhone 5C", "iPhone 5S", "iPhone 6", "iPhone 6 Plus":
             deviceRamSize = "1024"
-            
+
         case "iPod 7", "iPad Air 2", "iPad Mini 4", "iPad Pro 9.7\"", "iPad 5", "iPhone 6S", "iPhone 6S Plus", "iPhone SE", "iPhone 7", "iPhone 8", "iPad 6" :
             deviceRamSize = "2048"
-            
+
         case "iPad 7", "iPad Mini 5", "iPad Air 3", "iPhone 7 Plus", "iPhone 8 Plus", "iPhone X", "iPhone XR", "iPhone SE 2nd gen":
             deviceRamSize = "3072"
-            
+
         case "iPad Pro 12.9\"", "iPad Pro 2 12.9\"", "iPad Pro 10.5\"", "iPhone XS Max", "iPhone XS", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPad Pro 11\"", "iPad Pro 3 12.9\"", "iPhone 12", "iPhone 12 Mini", "iPhone 11":
             deviceRamSize = "4096"
-            
+
         case "iPhone 12 Pro", "iPhone 12 Pro Max", "iPad Pro 4 12.9\"":
             deviceRamSize = "6144"
-                       
+
         default:
             deviceRamSize = "0"
         }
-       
+
         return deviceRamSize
     }
-   
+    
     // MARK: sysctl utils
-   
+
     func getSysInfo(_ typeSpecifier: Int32) -> Int {
         var size: size_t = MemoryLayout<Int>.size
         var results: Int = 0
-       
+
         var mib: [Int32] = [CTL_HW, typeSpecifier]
-       
+
         sysctl(&mib, 2, &results, &size, nil,0)
-       
+
         return results
     }
-   
+
     func getSysInfoByName(_ typeSpecifier: String) -> String {
         var size: size_t = 0
-       
+
         sysctlbyname(typeSpecifier, nil, &size, nil, 0)
-       
+
         var machine = [CChar](repeating: 0, count: Int(size))
         sysctlbyname(typeSpecifier, &machine, &size, nil, 0)
-       
+
         return String(cString: machine)
     }
 }
+
