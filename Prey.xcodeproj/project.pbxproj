@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		053BAB60287E764200D3B409 /* Pods_Prey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 053BAB5F287E764200D3B409 /* Pods_Prey.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		053BAB61287E764200D3B409 /* Pods_Prey.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 053BAB5F287E764200D3B409 /* Pods_Prey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		053EA8A5284FD74700A299C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */; };
 		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
@@ -159,17 +158,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		053BAB62287E764200D3B409 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				053BAB61287E764200D3B409 /* Pods_Prey.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3BCE97002302191B00AF1AD4 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
@@ -669,7 +657,6 @@
 				3BCE97002302191B00AF1AD4 /* Embed App Extensions */,
 				A9BD31B9272C9F5300DA01F9 /* ShellScript */,
 				432FC40F821E6A6A2BF4D5BB /* [CP] Embed Pods Frameworks */,
-				053BAB62287E764200D3B409 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1253,7 +1240,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M2J57RQ35B;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Prey;
