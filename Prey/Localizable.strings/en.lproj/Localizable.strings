@@ -110,7 +110,9 @@
 
 "Couldn't add your device" = "Couldn't add your device";
 
-"Couldn't check your password" = "Couldn't check your password";
+"Couldn't check your password" = "The password you entered is incorrect.";
+
+"Invalid Credentials" = "Please try again."
 
 "Create my account!" = "Create my account!";
 
