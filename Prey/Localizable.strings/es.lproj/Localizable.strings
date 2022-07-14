@@ -111,7 +111,9 @@
 
 "Couldn't add your device" = "No pudimos agregar tu dispositivo.";
 
-"Couldn't check your password" = "No pudimos confirmar tu contraseña";
+"Couldn't check your password" = "La contraseña es incorrecta.";
+
+"Invalid Credentials" = "Intenta nuevamente.";
 
 "Create my account!" = "Crear mi cuenta";
 
