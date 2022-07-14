@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 // Extension for UIDevice
+// source: https://www.theiphonewiki.com/wiki/Models
 extension UIDevice {
     /*
     // Return Hardware Model
@@ -54,35 +55,38 @@ extension UIDevice {
         case "iPad 5", "iPad 6", "iPhone 6S", "iPhone 6S Plus", "iPhone SE":
             modelName = "Apple A9"
 
-        case "iPad Pro 9.7\"", "iPad Pro 12.9\"":
+        case "iPad Pro 9.7", "iPad Pro 12.9":
             modelName = "Apple A9X"
 
         case "iPod 7", "iPad 7", "iPhone 7", "iPhone 7 Plus":
             modelName = "Apple A10"
 
-        case "iPad Pro 2 12.9\"", "iPad Pro 10.5\"":
+        case "iPad Pro 2 12.9", "iPad Pro 10.5":
             modelName = "Apple A10X"
 
         case "iPhone 8", "iPhone 8 Plus", "iPhone X":
             modelName = "Apple A11"
 
-        case "iPad Mini 5", "iPad Air 3", "iPhone XR", "iPhone XS", "iPhone XS Max":
+        case "iPad Mini 5", "iPad Air 3", "iPhone XR", "iPhone XS", "iPhone XS Max", "iPad 8":
             modelName = "Apple A12"
 
-        case "iPad Pro 11\"", "iPad Pro 3 12.9\"":
+        case "iPad Pro 11", "iPad Pro 3 12.9":
             modelName = "Apple A12X"
 
-        case "iPad Pro 11\" 2nd gen", "iPad Pro 4 12.9\"":
+        case "iPad Pro 11 2nd gen", "iPad Pro 4 12.9":
             modelName = "Apple A12Z"
 
-        case "iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPhone SE 2nd gen":
+        case "iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPhone SE 2nd gen", "iPad 9":
             modelName = "Apple A13"
 
         case "iPhone 12", "iPhone 12 Mini", "iPhone 12 Pro", "iPhone 12 Pro Max":
             modelName = "Apple A14"
 
-        case "iPhone 13 Mini", "iPhone 13", "iPhone 13 Pro", "iPhone 13 Pro Max":
+        case "iPhone 13 Mini", "iPhone 13", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone SE 3rd gen", "iPad Mini 6":
             modelName = "Apple A15"
+
+        case "iPad Pro 5 12.9":
+            modelName = "Apple M1"
 
         default:
             modelName = "Apple"
@@ -143,13 +147,13 @@ extension UIDevice {
             cpuSpeedMhz = "2490"
 
         case "Apple A13":
-                cpuSpeedMhz = "2660"
+            cpuSpeedMhz = "2660"
 
         case "Apple A14":
-                cpuSpeedMhz = "3100"
+            cpuSpeedMhz = "3100"
 
-        case "Apple A15":
-                cpuSpeedMhz = "3223"
+        case "Apple A15", "Apple M1":
+            cpuSpeedMhz = "3223"
 
         default:
             cpuSpeedMhz = "0"
@@ -184,7 +188,7 @@ extension UIDevice {
         case "Apple A10X","Apple A11","Apple A12","Apple A13", "Apple A14", "Apple A15":
             cores = "6"
 
-        case "Apple A12X","Apple A12Z":
+        case "Apple A12X","Apple A12Z", "Apple M1":
             cores = "8"
 
         default:
@@ -339,6 +343,7 @@ extension UIDevice {
             "iPhone14,5" : .iPhone13,
             "iPhone14,2" : .iPhone13Pro,
             "iPhone14,3" : .iPhone13ProMax,
+            "iPhone14,6" : .iPhoneSE3,
 
             // Apple Watch
             "Watch1,1" : .AppleWatch1,
@@ -434,15 +439,15 @@ public enum Model : String {
     iPadMini6          = "iPad Mini 6",
 
     //iPad Pro
-    iPadPro9_7         = "iPad Pro 9.7\"",
-    iPadPro10_5        = "iPad Pro 10.5\"",
-    iPadPro11          = "iPad Pro 11\"",
-    iPadPro2_11        = "iPad Pro 11\" 2nd gen",
-    iPadPro12_9        = "iPad Pro 12.9\"",
-    iPadPro2_12_9      = "iPad Pro 2 12.9\"",
-    iPadPro3_12_9      = "iPad Pro 3 12.9\"",
-    iPadPro4_12_9      = "iPad Pro 4 12.9\"",
-    iPadPro5_12_9      = "iPad Pro 5 12.9\"",
+    iPadPro9_7         = "iPad Pro 9.7",
+    iPadPro10_5        = "iPad Pro 10.5",
+    iPadPro11          = "iPad Pro 11",
+    iPadPro2_11        = "iPad Pro 11 2nd gen",
+    iPadPro12_9        = "iPad Pro 12.9",
+    iPadPro2_12_9      = "iPad Pro 2 12.9",
+    iPadPro3_12_9      = "iPad Pro 3 12.9",
+    iPadPro4_12_9      = "iPad Pro 4 12.9",
+    iPadPro5_12_9      = "iPad Pro 5 12.9",
 
     //iPhone
     iPhone4            = "iPhone 4",
@@ -475,6 +480,7 @@ public enum Model : String {
     iPhone13           = "iPhone 13",
     iPhone13Pro        = "iPhone 13 Pro",
     iPhone13ProMax     = "iPhone 13 Pro Max",
+    iPhoneSE3          = "iPhone SE 3rd gen",
 
     // Apple Watch
     AppleWatch1         = "Apple Watch 1gen",
@@ -515,7 +521,7 @@ public enum Model : String {
         var systemInfo      = utsname()
         uname(&systemInfo)
 
-        // MB: 512, 1024, 2048, 3072, 4096, 6144
+        // MB: 512, 1024, 2048, 3072, 4096, 6144, 8192, 16384
 
         switch deviceModel.rawValue {
 
@@ -525,17 +531,20 @@ public enum Model : String {
         case "iPod 6", "iPad 3", "iPad Air ", "iPad Mini 2", "iPad Mini 3", "iPhone 5", "iPhone 5C", "iPhone 5S", "iPhone 6", "iPhone 6 Plus":
             deviceRamSize = "1024"
 
-        case "iPod 7", "iPad Air 2", "iPad Mini 4", "iPad Pro 9.7\"", "iPad 5", "iPhone 6S", "iPhone 6S Plus", "iPhone SE", "iPhone 7", "iPhone 8", "iPad 6" :
+        case "iPod 7", "iPad Air 2", "iPad Mini 4", "iPad Pro 9.7", "iPad 5", "iPhone 6S", "iPhone 6S Plus", "iPhone SE", "iPhone 7", "iPhone 8", "iPad 6" :
             deviceRamSize = "2048"
 
-        case "iPad 7", "iPad Mini 5", "iPad Air 3", "iPhone 7 Plus", "iPhone 8 Plus", "iPhone X", "iPhone XR", "iPhone SE 2nd gen":
+        case "iPad 7", "iPad Mini 5", "iPad Air 3", "iPhone 7 Plus", "iPhone 8 Plus", "iPhone X", "iPhone XR", "iPhone SE 2nd gen", "iPad 8", "iPad 9":
             deviceRamSize = "3072"
 
-        case "iPad Pro 12.9\"", "iPad Pro 2 12.9\"", "iPad Pro 10.5\"", "iPhone XS Max", "iPhone XS", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPad Pro 11\"", "iPad Pro 3 12.9\"", "iPhone 12", "iPhone 12 Mini", "iPhone 11":
+        case "iPad Pro 12.9", "iPad Pro 2 12.9", "iPad Pro 10.5", "iPhone XS Max", "iPhone XS", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPad Pro 11", "iPad Pro 3 12.9", "iPhone 12", "iPhone 12 Mini", "iPhone 11", "iPad Mini 6", "iPhone 13 Mini", "iPhone 13", "iPhone SE 3rd gen":
             deviceRamSize = "4096"
 
-        case "iPhone 12 Pro", "iPhone 12 Pro Max", "iPad Pro 4 12.9\"":
+        case "iPhone 12 Pro", "iPhone 12 Pro Max", "iPad Pro 4 12.9", "iPhone 13 Pro", "iPhone 13 Pro Max":
             deviceRamSize = "6144"
+        
+        case "iPad Pro 5 12.9":
+            deviceRamSize = "8192"
 
         default:
             deviceRamSize = "0"
