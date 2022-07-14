@@ -2,7 +2,7 @@
   <img src="https://repository-images.githubusercontent.com/1000650/9f546780-e0b6-11ea-9e53-a82f8e775fbb" alt="Prey: iOS client" height="200" width="400"/>
 </p>
 
-[![Build Status](https://travis-ci.org/prey/prey-ios-client.svg?branch=master)](https://travis-ci.org/prey/prey-ios-client)
+<!--- [![Build Status](https://travis-ci.org/prey/prey-ios-client.svg?branch=master)](https://travis-ci.org/prey/prey-ios-client) --->
 
 Here you will find all the source code for the [current](https://apps.apple.com/es/app/prey-localizador-de-celular/id456755037) and in development releases of the Prey client for iOS devices.
 
@@ -19,8 +19,8 @@ Prey is the most complete anti-theft application! It lets you track and locate y
 
 ## Requirements
 
-- Xcode 8.3
-- iOS 7.0+
+- Xcode 13
+- iOS 11.0+
 
 ---
 
@@ -41,6 +41,6 @@ Follow Prey Project on Twitter ([@PreyProject](https://twitter.com/PreyProject))
 
 ## Legal
 
-Copyright © 2021 Prey, Inc. All rights reserved.
+Copyright © 2022 Prey, Inc. All rights reserved.
 Released under the GPLv3 license.
 For full details see the LICENSE file included in this distribution.
