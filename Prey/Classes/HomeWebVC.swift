@@ -158,7 +158,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
     }
 
     // Check password
-    func checkPassword(_ pwd: String?, view: UIView, openPanelWeb: Bool) {
+    func checkPassword(_ pwd: String?, view: UIView, back: String) {
         
         // Check password length
         guard let pwdInput = pwd else {
@@ -203,10 +203,14 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
                 self.sendEventGAnalytics()
 
                 // Show webView
-                if openPanelWeb {
+                if back == "panel" {
                     self.goToControlPanel()
                 } else {
-                    self.goToLocalSettings()
+                    if back == "setting" {
+                        self.goToLocalSettings()
+                    } else {
+                        self.goToRename()
+                    }
                 }
                 
                 // Hide credentials webView
@@ -289,6 +293,17 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
                     self.loadViewOnWebView("permissions")
                 }
             })
+        })
+    }
+    
+    func renameDevice(_ newName: String?){
+        PreyDevice.renameDevice(newName! ,onCompletion: {(isSuccess: Bool) in
+            if(isSuccess){
+                PreyConfig.sharedInstance.nameDevice = newName
+                PreyConfig.sharedInstance.saveValues()
+            }
+            self.loadViewOnWebView("index")
+            self.webView.reload()
         })
     }
 
@@ -472,6 +487,11 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.settings.rawValue)
         (rootVC as! UINavigationController).pushViewController(resultController, animated: true)
+    }
+    
+    func goToRename(){
+        self.loadViewOnWebView("rename")
+        self.webView.reload()
     }
     
     // MARK: WKUIDelegate
@@ -664,12 +684,31 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         case ReactViews.GOTOSETTING.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
             let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
-            self.checkPassword(pwd?.value, view: self.view, openPanelWeb: false)
+            self.checkPassword(pwd?.value, view: self.view, back: "setting")
             
         case ReactViews.GOTOPANEL.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
             let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
-            self.checkPassword(pwd?.value, view: self.view, openPanelWeb: true)
+            self.checkPassword(pwd?.value, view: self.view, back: "panel")
+            
+        case ReactViews.RENAME.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let newName = queryItems?.filter({$0.name == "newName"}).first
+            self.renameDevice(newName?.value)
+            
+        case ReactViews.GOTORENAME.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
+            self.checkPassword(pwd?.value, view: self.view, back: "rename")
+        
+        case ReactViews.NAMEDEVICE.rawValue:
+            let nameDevice=PreyConfig.sharedInstance.nameDevice
+            self.evaluateJS(self.webView, code: "document.getElementById('nametext').value = '\(nameDevice!)';")
+            self.evaluateJS(self.webView, code: "var btn = document.getElementById('btnChangeName'); btn.click();")
+            
+        case ReactViews.INDEX.rawValue:
+            self.loadViewOnWebView("index")
+            self.webView.reload()
             
         default:
             PreyLogger("Ok")

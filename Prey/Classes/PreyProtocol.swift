@@ -144,6 +144,8 @@ public var actionsDeviceEndpoint : String {return String(format:"/devices/%@.jso
 // Endpoint for Delete Device
 public var deleteDeviceEndpoint : String {return String(format:"/devices/%@",(PreyConfig.sharedInstance.getDeviceKey()))}
 
+public var infoEndpoint : String {return String(format:"/devices/%@/info.json",(PreyConfig.sharedInstance.getDeviceKey()))}
+
 // Http method definitions
 public enum Method: String {
     case GET, POST, PUT, DELETE

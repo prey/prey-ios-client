@@ -10,7 +10,7 @@ import Foundation
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, geofenceZones, dataSend, statusDevice, trigger, emailValidation, resendEmailValidation
+    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, geofenceZones, dataSend, statusDevice, trigger, emailValidation, resendEmailValidation, infoDevice
 }
 
 class PreyHTTPResponse {
@@ -84,7 +84,12 @@ class PreyHTTPResponse {
 
         case .statusDevice:
             checkStatusDevice(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
+        case .infoDevice:
+            checkInfoDevice(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
         }
+        
+        
+        
 
         onCompletion(isResponseSuccess)
     }
@@ -576,6 +581,22 @@ class PreyHTTPResponse {
             }
         } catch let error {
             PreyConfig.sharedInstance.reportError(error)
+            PreyLogger("json error: \(error.localizedDescription)")
+        }
+    }
+    
+    class func checkInfoDevice(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
+        do {
+            guard let dataResponse = data else {
+                return
+            }
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+                        
+            if let nameDevice = jsonObject.object(forKey: "name") as? String {
+                PreyConfig.sharedInstance.nameDevice = nameDevice
+                PreyConfig.sharedInstance.saveValues()
+            }
+        } catch let error {
             PreyLogger("json error: \(error.localizedDescription)")
         }
     }
