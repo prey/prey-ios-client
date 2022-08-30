@@ -271,6 +271,13 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.saveValues()
             }
             
+            DispatchQueue.main.async {
+                sleep(2)
+                PreyDevice.infoDevice({(isSuccess: Bool) in
+                    PreyLogger("infoDevice isSuccess:\(isSuccess)")
+                })
+            }
+            
         } catch let error {
             PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")

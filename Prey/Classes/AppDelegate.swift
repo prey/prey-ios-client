@@ -94,6 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             TriggerManager.sharedInstance.checkTriggers()
             RequestCacheManager.sharedInstance.sendRequest()
             DispatchQueue.main.async {
+                sleep(2)
                 PreyDevice.infoDevice({(isSuccess: Bool) in
                     PreyLogger("infoDevice isSuccess:\(isSuccess)")
                 })

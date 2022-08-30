@@ -369,7 +369,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
     }
     
     // Add device action
-    func addDeviceWithSignUp(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool) {
+    func addDeviceWithSignUp(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool, offers: Bool?) {
 
         guard let nm = name else {
             displayErrorAlert("Name can't be blank".localized,
@@ -389,7 +389,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         actInd.startAnimating()
         
         // SignUp to Panel Prey
-        PreyUser.signUpToPrey(nm, userEmail:email!, userPassword:pwd1, onCompletion: {(isSuccess: Bool) in
+        PreyUser.signUpToPrey(nm, userEmail:email!, userPassword:pwd1, offers:offers!, onCompletion: {(isSuccess: Bool) in
             
             // LogIn isn't Success
             guard isSuccess else {
@@ -613,6 +613,11 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             let pwd = queryItems?.filter({$0.name == "preyPassLogin"}).first
             self.addDeviceWithLogin(email?.value, password: pwd?.value)
             
+        case ReactViews.RENAME.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let newName = queryItems?.filter({$0.name == "newName"}).first
+            self.renameDevice(newName?.value)
+            
         case ReactViews.CHECKSIGNUP.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
             let name = queryItems?.filter({$0.name == "nameSignup"}).first
@@ -621,6 +626,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             let pwd2 = queryItems?.filter({$0.name == "pwd2Signup"}).first
             guard let term = queryItems?.filter({$0.name == "termsSignup"}).first else {return}
             guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
+            let offers  = queryItems?.filter({$0.name == "offers"}).first
             self.checkSignUpFields(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue())
             
         case ReactViews.SIGNUP.rawValue:
@@ -631,7 +637,8 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             let pwd2 = queryItems?.filter({$0.name == "pwd2Signup"}).first
             guard let term = queryItems?.filter({$0.name == "termsSignup"}).first else {return}
             guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
-            self.addDeviceWithSignUp(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue())
+            let offers  = queryItems?.filter({$0.name == "offers"}).first
+            self.addDeviceWithSignUp(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue(), offers: offers?.value?.boolValue() )
 
         case ReactViews.EMAILRESEND.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
@@ -691,18 +698,16 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
             self.checkPassword(pwd?.value, view: self.view, back: "panel")
             
-        case ReactViews.RENAME.rawValue:
-            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            let newName = queryItems?.filter({$0.name == "newName"}).first
-            self.renameDevice(newName?.value)
-            
         case ReactViews.GOTORENAME.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
             let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
             self.checkPassword(pwd?.value, view: self.view, back: "rename")
         
         case ReactViews.NAMEDEVICE.rawValue:
-            let nameDevice=PreyConfig.sharedInstance.nameDevice
+            var nameDevice=PreyConfig.sharedInstance.nameDevice
+            if nameDevice == nil {
+                nameDevice="iPhone";
+            }
             self.evaluateJS(self.webView, code: "document.getElementById('nametext').value = '\(nameDevice!)';")
             self.evaluateJS(self.webView, code: "var btn = document.getElementById('btnChangeName'); btn.click();")
             
