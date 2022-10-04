@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "60fe6ce685abae7bc891",
+    "revision": "f3c7cd83f7f3beeabcb0",
     "url": "./static/css/main.14d3a667.chunk.css"
   },
   {
-    "revision": "60fe6ce685abae7bc891",
-    "url": "./static/js/main.60fe6ce6.chunk.js"
+    "revision": "f3c7cd83f7f3beeabcb0",
+    "url": "./static/js/main.f3c7cd83.chunk.js"
   },
   {
     "revision": "8c97409f0ee389fe75da",
@@ -152,15 +152,15 @@ self.__precacheManifest = [
     "url": "./static/media/regular-bold-webfont.391159c5.woff"
   },
   {
-    "revision": "c44603b2b93c1b7a984f21255d556ee9",
-    "url": "./static/media/magdaclean-regular-webfont.c44603b2.woff"
-  },
-  {
     "revision": "baaac74770efd8c34382afa00468f635",
     "url": "./static/media/magdaclean-bold-webfont.baaac747.woff"
   },
   {
-    "revision": "31e62eeaf4d50a22cc4c19b3a22803fe",
+    "revision": "c44603b2b93c1b7a984f21255d556ee9",
+    "url": "./static/media/magdaclean-regular-webfont.c44603b2.woff"
+  },
+  {
+    "revision": "e5ccc80710a3606c8dd58a409a91f042",
     "url": "./index.html"
   }
 ];
