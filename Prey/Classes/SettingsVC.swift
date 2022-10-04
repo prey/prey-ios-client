@@ -71,26 +71,22 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if #available(iOS 13.0, *) {
-            viewSection = [
-                PreferencesViewSection.information.rawValue     : 0,
-                PreferencesViewSection.settings.rawValue        : 1,
-                PreferencesViewSection.darkmode.rawValue        : 2,
-                PreferencesViewSection.about.rawValue           : 3,
-                PreferencesViewSection.numberSections.rawValue  : 4]
-        } else {
-            viewSection = [
-                PreferencesViewSection.information.rawValue     : 0,
-                PreferencesViewSection.settings.rawValue        : 1,
-                PreferencesViewSection.about.rawValue           : 2,
-                PreferencesViewSection.numberSections.rawValue  : 3]
-        }
+        //remove dark mode
+        viewSection = [
+            PreferencesViewSection.information.rawValue     : 0,
+            PreferencesViewSection.settings.rawValue        : 1,
+            PreferencesViewSection.about.rawValue           : 2,
+            PreferencesViewSection.numberSections.rawValue  : 3]
         
         // View title for GAnalytics
         //self.screenName = "Preferences"
         
-        // Set title
-        self.title = UIDevice.current.name
+        // Set device name
+        var nameDevice = PreyConfig.sharedInstance.nameDevice;
+        if nameDevice! == "" {
+            nameDevice = UIDevice.current.name;
+        }
+        self.title = nameDevice
         
         // Set iPadView
         if IS_IPAD {
