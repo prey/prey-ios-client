@@ -93,7 +93,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
     }
 
     // Check TouchID/FaceID
-    func checkTouchID(_ openPanelWeb: Bool) {
+    func checkTouchID(_ openPanelWeb: String?) {
         
         guard PreyConfig.sharedInstance.isTouchIDEnabled == true, PreyConfig.sharedInstance.tokenPanel != nil else {
             return
@@ -112,7 +112,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             PreyLogger("error with biometric policy")
             return
         }
-        self.showPanel = openPanelWeb
         myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
             
             DispatchQueue.main.async {
@@ -123,10 +122,14 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
                 }
                 
                 // Show webView
-                if openPanelWeb {
+                if openPanelWeb == "panel" {
                     self.goToControlPanel()
                 } else {
-                    self.goToLocalSettings()
+                    if openPanelWeb == "setting" {
+                        self.goToLocalSettings()
+                    } else {
+                        self.goToRename()
+                    }
                 }
                 
                 // Hide credentials webView
@@ -601,8 +604,8 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             
         case ReactViews.CHECKID.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            guard let openPanel = queryItems?.filter({$0.name == "openPanelWeb"}).first else {return}
-            self.checkTouchID(openPanel.value!.boolValue())
+            let openPanelWeb = queryItems?.filter({$0.name == "openPanelWeb"}).first
+            self.checkTouchID(openPanelWeb?.value)
             
         case ReactViews.QRCODE.rawValue:
             self.addDeviceWithQRCode()
