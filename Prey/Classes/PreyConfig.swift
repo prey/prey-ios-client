@@ -41,6 +41,7 @@ enum PreyConfigDevice: String {
     case IsTouchIDEnabled
     case ValidationUserEmail
     case ExistBackup
+    case NameDevice
 }
 
 enum PreyUserEmailValidation: String {
@@ -72,6 +73,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         reportOptions       = defaultConfig.object(forKey: PreyConfigDevice.ReportOptions.rawValue) as? NSDictionary
         validationUserEmail = defaultConfig.string(forKey: PreyConfigDevice.ValidationUserEmail.rawValue)
         existBackup         = defaultConfig.bool(forKey: PreyConfigDevice.ExistBackup.rawValue)
+        nameDevice          = defaultConfig.string(forKey: PreyConfigDevice.NameDevice.rawValue)
     }
 
     // MARK: Properties
@@ -93,6 +95,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     var reportOptions       : NSDictionary?
     var validationUserEmail : String?
     var existBackup         : Bool
+    var nameDevice          : String?
     
     // MARK: Functions
     
@@ -117,6 +120,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         defaultConfig.set(reportOptions, forKey:PreyConfigDevice.ReportOptions.rawValue)
         defaultConfig.set(validationUserEmail, forKey:PreyConfigDevice.ValidationUserEmail.rawValue)
         defaultConfig.set(existBackup, forKey: PreyConfigDevice.ExistBackup.rawValue)
+        defaultConfig.set(nameDevice, forKey: PreyConfigDevice.NameDevice.rawValue)
     }
     
     // Reset values on NSUserDefaults
@@ -143,6 +147,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         needChangeIcon   = false
         isTouchIDEnabled = true
         reportOptions    = nil
+        nameDevice       = nil
         validationUserEmail = PreyUserEmailValidation.inactive.rawValue
         tokenWebTimestamp = 0
         

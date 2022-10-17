@@ -77,5 +77,30 @@ class PreyDevice {
             displayErrorAlert(alertMsg, titleMessage:titleMsg)
             onCompletion(false)
         }
-    }    
+    }
+    
+    class func renameDevice(_ newName: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
+        
+        let language:String = Locale.preferredLanguages[0] as String
+        let languageES  = (language as NSString).substring(to: 2)
+        
+        let params:[String: Any] = [
+            "name"                      : newName,
+            "lang"                      : languageES]
+        
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.PUT.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.signUp, preyAction:nil, onCompletion:onCompletion))
+        }else{
+            PreyLogger("Error renameDevice")
+        }
+    }
+    
+    class func infoDevice(_ onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
+
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:infoEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.infoDevice, preyAction:nil, onCompletion:onCompletion))
+        }else{
+            PreyLogger("Error infoDevice")
+        }
+    }
 }

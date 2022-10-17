@@ -93,6 +93,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PreyNotification.sharedInstance.registerForRemoteNotifications()
             TriggerManager.sharedInstance.checkTriggers()
             RequestCacheManager.sharedInstance.sendRequest()
+            DispatchQueue.main.async {
+                sleep(2)
+                PreyDevice.infoDevice({(isSuccess: Bool) in
+                    PreyLogger("infoDevice isSuccess:\(isSuccess)")
+                })
+            }
         } else {
             PreyDeployment.sharedInstance.runPreyDeployment()
         }
