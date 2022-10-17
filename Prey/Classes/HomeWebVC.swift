@@ -93,7 +93,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
     }
 
     // Check TouchID/FaceID
-    func checkTouchID(_ openPanelWeb: Bool) {
+    func checkTouchID(_ openPanelWeb: String?) {
         
         guard PreyConfig.sharedInstance.isTouchIDEnabled == true, PreyConfig.sharedInstance.tokenPanel != nil else {
             return
@@ -112,7 +112,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             PreyLogger("error with biometric policy")
             return
         }
-        self.showPanel = openPanelWeb
         myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
             
             DispatchQueue.main.async {
@@ -123,10 +122,14 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
                 }
                 
                 // Show webView
-                if openPanelWeb {
+                if openPanelWeb == "panel" {
                     self.goToControlPanel()
                 } else {
-                    self.goToLocalSettings()
+                    if openPanelWeb == "setting" {
+                        self.goToLocalSettings()
+                    } else {
+                        self.goToRename()
+                    }
                 }
                 
                 // Hide credentials webView
@@ -158,7 +161,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
     }
 
     // Check password
-    func checkPassword(_ pwd: String?, view: UIView, openPanelWeb: Bool) {
+    func checkPassword(_ pwd: String?, view: UIView, back: String) {
         
         // Check password length
         guard let pwdInput = pwd else {
@@ -203,10 +206,14 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
                 self.sendEventGAnalytics()
 
                 // Show webView
-                if openPanelWeb {
+                if back == "panel" {
                     self.goToControlPanel()
                 } else {
-                    self.goToLocalSettings()
+                    if back == "setting" {
+                        self.goToLocalSettings()
+                    } else {
+                        self.goToRename()
+                    }
                 }
                 
                 // Hide credentials webView
@@ -291,6 +298,17 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             })
         })
     }
+    
+    func renameDevice(_ newName: String?){
+        PreyDevice.renameDevice(newName! ,onCompletion: {(isSuccess: Bool) in
+            if(isSuccess){
+                PreyConfig.sharedInstance.nameDevice = newName
+                PreyConfig.sharedInstance.saveValues()
+            }
+            self.loadViewOnWebView("index")
+            self.webView.reload()
+        })
+    }
 
     // Check signUp fields
     func checkSignUpFields(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool) {
@@ -354,7 +372,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
     }
     
     // Add device action
-    func addDeviceWithSignUp(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool) {
+    func addDeviceWithSignUp(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool, offers: Bool?) {
 
         guard let nm = name else {
             displayErrorAlert("Name can't be blank".localized,
@@ -374,7 +392,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         actInd.startAnimating()
         
         // SignUp to Panel Prey
-        PreyUser.signUpToPrey(nm, userEmail:email!, userPassword:pwd1, onCompletion: {(isSuccess: Bool) in
+        PreyUser.signUpToPrey(nm, userEmail:email!, userPassword:pwd1, offers:offers!, onCompletion: {(isSuccess: Bool) in
             
             // LogIn isn't Success
             guard isSuccess else {
@@ -472,6 +490,11 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.settings.rawValue)
         (rootVC as! UINavigationController).pushViewController(resultController, animated: true)
+    }
+    
+    func goToRename(){
+        self.loadViewOnWebView("rename")
+        self.webView.reload()
     }
     
     // MARK: WKUIDelegate
@@ -581,8 +604,8 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             
         case ReactViews.CHECKID.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            guard let openPanel = queryItems?.filter({$0.name == "openPanelWeb"}).first else {return}
-            self.checkTouchID(openPanel.value!.boolValue())
+            let openPanelWeb = queryItems?.filter({$0.name == "openPanelWeb"}).first
+            self.checkTouchID(openPanelWeb?.value)
             
         case ReactViews.QRCODE.rawValue:
             self.addDeviceWithQRCode()
@@ -593,6 +616,11 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             let pwd = queryItems?.filter({$0.name == "preyPassLogin"}).first
             self.addDeviceWithLogin(email?.value, password: pwd?.value)
             
+        case ReactViews.RENAME.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let newName = queryItems?.filter({$0.name == "newName"}).first
+            self.renameDevice(newName?.value)
+            
         case ReactViews.CHECKSIGNUP.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
             let name = queryItems?.filter({$0.name == "nameSignup"}).first
@@ -601,6 +629,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             let pwd2 = queryItems?.filter({$0.name == "pwd2Signup"}).first
             guard let term = queryItems?.filter({$0.name == "termsSignup"}).first else {return}
             guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
+            let offers  = queryItems?.filter({$0.name == "offers"}).first
             self.checkSignUpFields(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue())
             
         case ReactViews.SIGNUP.rawValue:
@@ -611,7 +640,8 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             let pwd2 = queryItems?.filter({$0.name == "pwd2Signup"}).first
             guard let term = queryItems?.filter({$0.name == "termsSignup"}).first else {return}
             guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
-            self.addDeviceWithSignUp(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue())
+            let offers  = queryItems?.filter({$0.name == "offers"}).first
+            self.addDeviceWithSignUp(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue(), offers: offers?.value?.boolValue() )
 
         case ReactViews.EMAILRESEND.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
@@ -664,12 +694,29 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         case ReactViews.GOTOSETTING.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
             let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
-            self.checkPassword(pwd?.value, view: self.view, openPanelWeb: false)
+            self.checkPassword(pwd?.value, view: self.view, back: "setting")
             
         case ReactViews.GOTOPANEL.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
             let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
-            self.checkPassword(pwd?.value, view: self.view, openPanelWeb: true)
+            self.checkPassword(pwd?.value, view: self.view, back: "panel")
+            
+        case ReactViews.GOTORENAME.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
+            self.checkPassword(pwd?.value, view: self.view, back: "rename")
+        
+        case ReactViews.NAMEDEVICE.rawValue:
+            var nameDevice=PreyConfig.sharedInstance.nameDevice
+            if nameDevice == nil {
+                nameDevice="iPhone";
+            }
+            self.evaluateJS(self.webView, code: "document.getElementById('nametext').value = '\(nameDevice!)';")
+            self.evaluateJS(self.webView, code: "var btn = document.getElementById('btnChangeName'); btn.click();")
+            
+        case ReactViews.INDEX.rawValue:
+            self.loadViewOnWebView("index")
+            self.webView.reload()
             
         default:
             PreyLogger("Ok")

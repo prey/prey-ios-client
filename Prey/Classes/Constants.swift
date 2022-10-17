@@ -12,7 +12,7 @@ import LocalAuthentication
 
 // Storyboard controllerId
 enum StoryboardIdVC: String {
-    case PreyStoryBoard, alert, navigation, home, currentLocation, purchases, settings, grettings, homeWeb
+    case PreyStoryBoard, alert, navigation, home, currentLocation, purchases, settings, grettings, homeWeb, rename
 }
 
 // Def type device
@@ -150,4 +150,8 @@ enum ReactViews: String {
     case REPORTEXAMP = "iosreportexample"
     case GOTOSETTING = "iossettingspwd"
     case GOTOPANEL   = "iospanelpwd"
+    case GOTORENAME  = "iosrenamepwd"
+    case RENAME      = "iosrename"
+    case NAMEDEVICE  = "iosnamedevice"
+    case INDEX       = "iosindex"
 }
