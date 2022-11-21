@@ -15,6 +15,7 @@ class AlertVC: UIViewController {
     @IBOutlet var messageLbl           : UILabel!
     @IBOutlet var subtitleLbl          : UILabel!
 
+    @IBOutlet var closeButton          : UIButton!
     var messageToShow = ""
     
     
@@ -28,6 +29,7 @@ class AlertVC: UIViewController {
         
         // Set message
         messageLbl.text = messageToShow
+        closeButton.setTitle("Close".localized, for:.normal)
     }
     
     override func didReceiveMemoryWarning() {
@@ -48,4 +50,20 @@ class AlertVC: UIViewController {
         // Hide navigationBar when appear this ViewController
         self.navigationController?.isNavigationBarHidden = false
     }
+    
+    @IBAction func closeButton(_ sender: UIButton) {
+        guard let appWindow = UIApplication.shared.delegate?.window else {
+            PreyLogger("error with sharedApplication")
+            return
+        }
+        let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
+        let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.homeWeb.rawValue)
+        let rootVC: UINavigationController  = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
+        rootVC.setViewControllers([resultController], animated: false)
+        appWindow?.rootViewController = rootVC
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+        }
+    }
+
 }
