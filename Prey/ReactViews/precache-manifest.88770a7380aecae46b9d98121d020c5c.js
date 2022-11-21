@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "f3c7cd83f7f3beeabcb0",
+    "revision": "8504844fd85d7997be5b",
     "url": "./static/css/main.14d3a667.chunk.css"
   },
   {
-    "revision": "f3c7cd83f7f3beeabcb0",
-    "url": "./static/js/main.f3c7cd83.chunk.js"
+    "revision": "8504844fd85d7997be5b",
+    "url": "./static/js/main.8504844f.chunk.js"
   },
   {
     "revision": "8c97409f0ee389fe75da",
@@ -148,19 +148,19 @@ self.__precacheManifest = [
     "url": "./static/media/regular-book-webfont.6e899114.woff"
   },
   {
-    "revision": "391159c582e0897e8d64ed22abe1ee2d",
-    "url": "./static/media/regular-bold-webfont.391159c5.woff"
-  },
-  {
     "revision": "baaac74770efd8c34382afa00468f635",
     "url": "./static/media/magdaclean-bold-webfont.baaac747.woff"
+  },
+  {
+    "revision": "391159c582e0897e8d64ed22abe1ee2d",
+    "url": "./static/media/regular-bold-webfont.391159c5.woff"
   },
   {
     "revision": "c44603b2b93c1b7a984f21255d556ee9",
     "url": "./static/media/magdaclean-regular-webfont.c44603b2.woff"
   },
   {
-    "revision": "e5ccc80710a3606c8dd58a409a91f042",
+    "revision": "25e2a2ec012a6046c2a3ac72129da973",
     "url": "./index.html"
   }
 ];
