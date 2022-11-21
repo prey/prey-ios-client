@@ -135,7 +135,12 @@ class PreyAction : Operation {
     func checkGeofenceZones(_ action:Geofencing) {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:geofencingEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.geofenceZones, preyAction:action, onCompletion:{(isSuccess: Bool) in PreyLogger("Request geofencesZones")}))
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:geofencingEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.geofenceZones, preyAction:action, onCompletion:{
+                (isSuccess: Bool) in PreyLogger("Request geofencesZones:\(isSuccess)")
+                if !isSuccess {
+                    self.checkGeofenceZones(action)
+                }
+            }))
         } else {
             PreyLogger("Error auth check Geofence")
         }

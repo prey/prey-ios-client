@@ -98,7 +98,14 @@ class PreyDevice {
     class func infoDevice(_ onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
 
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:infoEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.infoDevice, preyAction:nil, onCompletion:onCompletion))
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:infoEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.infoDevice, preyAction:nil,  onCompletion:{
+                (isSuccess: Bool) in PreyLogger("Request: infoDevice")
+                if !isSuccess {
+                    infoDevice({(isSuccess: Bool) in
+                        PreyLogger("infoDevice isSuccess:\(isSuccess)")
+                    })
+                }
+            }))
         }else{
             PreyLogger("Error infoDevice")
         }
