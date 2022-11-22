@@ -10,12 +10,13 @@ import Foundation
 import CoreData
 import CoreLocation
 
-class Geofencing: PreyAction, CLLocationManagerDelegate {
+class Geofencing: PreyAction, CLLocationManagerDelegate, LocationGeoServiceDelegate {
 
     // MARK: Properties
     
     let geoManager = CLLocationManager()
     
+    var geofencingLocation  = GeofencingLocation()
     
     // MARK: Functions
 
@@ -34,10 +35,18 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
         let localZonesArray = PreyCoreData.sharedInstance.getCurrentGeofenceZones()
         
         PreyLogger("ZONES")
+        geofencingLocation.stopLocation()
         
         // Added zones events
         if let addedZones = getAddedZones(response, withLocalZones: localZonesArray) {
             sendEventToPanel(addedZones, withCommand:kCommand.start , withStatus:kStatus.started)
+            var zonesId = [NSNumber]()
+            for itemAdded in addedZones {
+                zonesId.append(itemAdded.id!)
+            }
+            geofencingLocation.waitForRequest = true
+            geofencingLocation.delegate = self
+            geofencingLocation.startLocation(zones:zonesId)
         }
         
         // Deleted zones events
@@ -260,5 +269,35 @@ class Geofencing: PreyAction, CLLocationManagerDelegate {
             }
         }
         return geofenceZoneItem
+    }
+    
+    // Location received
+    func locationReceived(_ location:[CLLocation],_ zonesId:[NSNumber]) {
+        let localZonesArray = PreyCoreData.sharedInstance.getCurrentGeofenceZones()
+        for localZone:GeofenceZones in localZonesArray {
+            for id in zonesId {
+                if(id == localZone.id){
+                    if let loc = location.first {
+                        var zoneId      = localZone.id!.stringValue
+                        let dbLat  = Double(localZone.lat!)
+                        let dbLong = Double(localZone.lng!)
+                        let location = CLLocation(latitude: dbLat, longitude: dbLong)
+                        let distance = location.distance(from: loc)
+                        let radius = Double(localZone.radius!)
+                        var withZoneInfo = kGeofence.IN.rawValue
+                        if(distance >= radius){
+                            withZoneInfo=kGeofence.OUT.rawValue
+                        }
+                        let center_lat  = Double(loc.coordinate.latitude)
+                        let center_lon  = Double(loc.coordinate.longitude)
+                        let center      = CLLocationCoordinate2DMake(center_lat, center_lon)
+                        let regionIn:CLCircularRegion = CLCircularRegion(center: center, radius: radius, identifier: zoneId)
+                        sleep(1)
+                        let params = GeofencingManager.sharedInstance.getParamteresToSend(regionIn, withZoneInfo: withZoneInfo)
+                        GeofencingManager.sharedInstance.sendNotifyToPanel(params,toEndpoint:eventsDeviceEndpoint)
+                    }
+                }
+            }
+        }
     }
 }
