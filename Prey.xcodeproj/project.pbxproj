@@ -122,6 +122,7 @@
 		3BFF00801D3E7EAC00BEF7E0 /* PreyDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF007F1D3E7EAC00BEF7E0 /* PreyDeployment.swift */; };
 		3BFF00841D3E8A2400BEF7E0 /* AppFeedback.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00811D3E8A2400BEF7E0 /* AppFeedback.plist */; };
 		3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */; };
+		74C856A3292318DC0053EB6A /* GeofencingLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C856A2292318DC0053EB6A /* GeofencingLocation.swift */; };
 		C7A403C34BB1520215CE478D /* Pods_PreyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8392F72CF9DA4F14F65199F9 /* Pods_PreyTests.framework */; };
 		DD5CB5EF9D81A896E21B4D60 /* Pods_PreyNotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C384AA2935BAE7631E3DDAC /* Pods_PreyNotify.framework */; };
 /* End PBXBuildFile section */
@@ -297,6 +298,7 @@
 		3BFF00821D3E8A2400BEF7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plist/Info.plist; sourceTree = "<group>"; };
 		3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ManagedAppConfig.plist; path = Plist/ManagedAppConfig.plist; sourceTree = "<group>"; };
 		635174AA098F25D2F1D8BC05 /* Pods-Prey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prey.release.xcconfig"; path = "Target Support Files/Pods-Prey/Pods-Prey.release.xcconfig"; sourceTree = "<group>"; };
+		74C856A2292318DC0053EB6A /* GeofencingLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofencingLocation.swift; sourceTree = "<group>"; };
 		8392F72CF9DA4F14F65199F9 /* Pods_PreyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BF340641AA1FFAA199E2B03 /* Pods-PreyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreyTests.release.xcconfig"; path = "Target Support Files/Pods-PreyTests/Pods-PreyTests.release.xcconfig"; sourceTree = "<group>"; };
 		9D026084F779D119866C4642 /* Pods-PreyNotify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreyNotify.debug.xcconfig"; path = "Target Support Files/Pods-PreyNotify/Pods-PreyNotify.debug.xcconfig"; sourceTree = "<group>"; };
@@ -555,6 +557,7 @@
 				3B38BA921D231B1C00B6799B /* Detach.swift */,
 				3B33A76320F69D0B00F3B64E /* Battery.swift */,
 				3BDA80D821120DE4003B028C /* FileRetrieval.swift */,
+				74C856A2292318DC0053EB6A /* GeofencingLocation.swift */,
 			);
 			name = "Prey Modules";
 			sourceTree = "<group>";
@@ -743,6 +746,7 @@
 					};
 					3B8283FE199198E6000E4545 = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = M2J57RQ35B;
 						LastSwiftMigration = 1020;
 						TestTargetID = 3B8283EC199198E6000E4545;
 					};
@@ -872,6 +876,7 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCrashlytics/FirebaseCrashlytics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
@@ -884,6 +889,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCrashlytics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
@@ -1020,6 +1026,7 @@
 				3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */,
 				3BDF988120338AC70023D4AA /* HomeWebVC.swift in Sources */,
 				3B8629911EF03CB400BE92D4 /* Errno.swift in Sources */,
+				74C856A3292318DC0053EB6A /* GeofencingLocation.swift in Sources */,
 				3B41BDAE1D05FF9F003DF0CE /* GeofenceZones+Class.swift in Sources */,
 				3BFF00801D3E7EAC00BEF7E0 /* PreyDeployment.swift in Sources */,
 				3B86299B1EF03CB400BE92D4 /* Socket+File.swift in Sources */,
@@ -1239,9 +1246,9 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = M2J57RQ35B;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Prey;
@@ -1249,7 +1256,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.1.12;
+				MARKETING_VERSION = 2.1.13;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1274,9 +1281,9 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = M2J57RQ35B;
+				DEVELOPMENT_TEAM = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
@@ -1285,7 +1292,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.1.12;
+				MARKETING_VERSION = 2.1.13;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1359,7 +1366,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = M2J57RQ35B;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PreyNotify/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1394,7 +1401,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = M2J57RQ35B;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PreyNotify/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
