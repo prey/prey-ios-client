@@ -151,6 +151,7 @@ enum ReactViews: String {
     case GOTOSETTING = "iossettingspwd"
     case GOTOPANEL   = "iospanelpwd"
     case GOTORENAME  = "iosrenamepwd"
+    case GOTOCLOSE   = "iosclosepwd"
     case RENAME      = "iosrename"
     case NAMEDEVICE  = "iosnamedevice"
     case INDEX       = "iosindex"
