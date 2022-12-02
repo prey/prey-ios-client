@@ -128,7 +128,11 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
                     if openPanelWeb == "setting" {
                         self.goToLocalSettings()
                     } else {
-                        self.goToRename()
+                        if openPanelWeb == "close" {
+                            self.goToCloseAccount()
+                        } else {
+                            self.goToRename()
+                        }
                     }
                 }
                 
@@ -212,7 +216,11 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
                     if back == "setting" {
                         self.goToLocalSettings()
                     } else {
-                        self.goToRename()
+                        if back == "close" {
+                            self.goToCloseAccount()
+                        } else {
+                            self.goToRename()
+                        }
                     }
                 }
                 
@@ -475,6 +483,24 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
                               titleMessage:"We have a situation!".localized)
         }
     }
+
+    // Go to Close Account
+    func goToCloseAccount() {
+        if let token = PreyConfig.sharedInstance.tokenPanel {
+            let params           = String(format:"token=%@", token)
+            let controller : UIViewController
+            if #available(iOS 10.0, *) {
+                controller       = WebKitVC(withURL:URL(string:URLCloseAccount)!, withParameters:params, withTitle:"Control Panel Web")
+            } else {
+                controller       = WebVC(withURL:URL(string:URLCloseAccount)!, withParameters:params, withTitle:"Control Panel Web")
+            }
+            if #available(iOS 13, *) {controller.modalPresentationStyle = .fullScreen}
+            self.present(controller, animated:true, completion:nil)
+        } else {
+            displayErrorAlert("Error, retry later.".localized,
+                                  titleMessage:"We have a situation!".localized)
+        }
+    }
     
     // Go to Local Settings
     func goToLocalSettings() {
@@ -705,7 +731,12 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
             let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
             self.checkPassword(pwd?.value, view: self.view, back: "rename")
-        
+            
+        case ReactViews.GOTOCLOSE.rawValue:
+            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
+            let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
+            self.checkPassword(pwd?.value, view: self.view, back: "close")
+            
         case ReactViews.NAMEDEVICE.rawValue:
             var nameDevice=PreyConfig.sharedInstance.nameDevice
             if nameDevice == nil {
