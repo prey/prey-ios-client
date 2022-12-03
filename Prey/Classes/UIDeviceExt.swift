@@ -82,8 +82,11 @@ extension UIDevice {
         case "iPhone 12", "iPhone 12 Mini", "iPhone 12 Pro", "iPhone 12 Pro Max":
             modelName = "Apple A14"
 
-        case "iPhone 13 Mini", "iPhone 13", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone SE 3rd gen", "iPad Mini 6":
+        case "iPhone 14", "iPhone 14 Plus", "iPhone 13 Mini", "iPhone 13", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone SE 3rd gen", "iPad Mini 6":
             modelName = "Apple A15"
+
+        case "iPhone 14 Pro", "iPhone 14 Pro Max":
+            modelName = "Apple A16"
 
         case "iPad Pro 5 12.9":
             modelName = "Apple M1"
@@ -155,6 +158,9 @@ extension UIDevice {
         case "Apple A15", "Apple M1":
             cpuSpeedMhz = "3223"
 
+        case "Apple A16":
+            cpuSpeedMhz = "3460"
+
         default:
             cpuSpeedMhz = "0"
         }
@@ -185,7 +191,7 @@ extension UIDevice {
         case "Apple A10":
             cores = "4"
 
-        case "Apple A10X","Apple A11","Apple A12","Apple A13", "Apple A14", "Apple A15":
+        case "Apple A10X","Apple A11","Apple A12","Apple A13", "Apple A14", "Apple A15", "Apple A16":
             cores = "6"
 
         case "Apple A12X","Apple A12Z", "Apple M1":
@@ -344,6 +350,10 @@ extension UIDevice {
             "iPhone14,2" : .iPhone13Pro,
             "iPhone14,3" : .iPhone13ProMax,
             "iPhone14,6" : .iPhoneSE3,
+            "iPhone14,7" : .iPhone14,
+            "iPhone14,8" : .iPhone14Plus,
+            "iPhone15,2" : .iPhone14Pro,
+            "iPhone15,3" : .iPhone14ProMax,
 
             // Apple Watch
             "Watch1,1" : .AppleWatch1,
@@ -480,6 +490,10 @@ public enum Model : String {
     iPhone13           = "iPhone 13",
     iPhone13Pro        = "iPhone 13 Pro",
     iPhone13ProMax     = "iPhone 13 Pro Max",
+    iPhone14           = "iPhone 14",
+    iPhone14Plus       = "iPhone 14 Plus",
+    iPhone14Pro        = "iPhone 14 Pro",
+    iPhone14ProMax     = "iPhone 14 Pro Max",
     iPhoneSE3          = "iPhone SE 3rd gen",
 
     // Apple Watch
@@ -537,7 +551,7 @@ public enum Model : String {
         case "iPad 7", "iPad Mini 5", "iPad Air 3", "iPhone 7 Plus", "iPhone 8 Plus", "iPhone X", "iPhone XR", "iPhone SE 2nd gen", "iPad 8", "iPad 9":
             deviceRamSize = "3072"
 
-        case "iPad Pro 12.9", "iPad Pro 2 12.9", "iPad Pro 10.5", "iPhone XS Max", "iPhone XS", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPad Pro 11", "iPad Pro 3 12.9", "iPhone 12", "iPhone 12 Mini", "iPhone 11", "iPad Mini 6", "iPhone 13 Mini", "iPhone 13", "iPhone SE 3rd gen":
+        case "iPad Pro 12.9", "iPad Pro 2 12.9", "iPad Pro 10.5", "iPhone XS Max", "iPhone XS", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPad Pro 11", "iPad Pro 3 12.9", "iPhone 12", "iPhone 12 Mini", "iPhone 11", "iPad Mini 6", "iPhone 13 Mini", "iPhone 13", "iPhone SE 3rd gen", "iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max":
             deviceRamSize = "4096"
 
         case "iPhone 12 Pro", "iPhone 12 Pro Max", "iPad Pro 4 12.9", "iPhone 13 Pro", "iPhone 13 Pro Max":
