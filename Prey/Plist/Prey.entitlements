@@ -10,5 +10,7 @@
 	<array>
 		<string>$(AppIdentifierPrefix)$(CFBundleIdentifier)</string>
 	</array>
+	<key>com.apple.developer.device-information.user-assigned-device-name</key>
+	<boolean>true</boolean>
 </dict>
 </plist>
