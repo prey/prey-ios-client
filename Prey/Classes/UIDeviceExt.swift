@@ -220,6 +220,7 @@ extension UIDevice {
             //Simulator
             "i386"      : .simulator,
             "x86_64"    : .simulator,
+            "arm64"     : .simulator,
 
             //iPod
             "iPod1,1"   : .iPod1,
@@ -282,6 +283,10 @@ extension UIDevice {
             "iPad8,2"   : .iPadPro11,
             "iPad8,3"   : .iPadPro11,
             "iPad8,4"   : .iPadPro11,
+            "iPad13,4"  : .iPadPro11,
+            "iPad13,5"  : .iPadPro11,
+            "iPad13,6"  : .iPadPro11,
+            "iPad13,7"  : .iPadPro11,
             "iPad8,9"   : .iPadPro2_11,
             "iPad8,10"  : .iPadPro2_11,
             "iPad8,5"   : .iPadPro3_12_9,
