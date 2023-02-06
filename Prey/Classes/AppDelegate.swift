@@ -98,6 +98,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 PreyDevice.infoDevice({(isSuccess: Bool) in
                     PreyLogger("infoDevice isSuccess:\(isSuccess)")
                 })
+                PreyUser.logInToPrey(PreyConfig.sharedInstance.userApiKey!, userPassword: "x" , onCompletion: {(isSuccess: Bool) in
+                    PreyLogger("profile isSuccess:\(isSuccess)")
+                })
             }
         } else {
             PreyDeployment.sharedInstance.runPreyDeployment()

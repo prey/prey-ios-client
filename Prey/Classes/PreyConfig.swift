@@ -42,6 +42,7 @@ enum PreyConfigDevice: String {
     case ValidationUserEmail
     case ExistBackup
     case NameDevice
+    case IsMsp
 }
 
 enum PreyUserEmailValidation: String {
@@ -74,6 +75,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         validationUserEmail = defaultConfig.string(forKey: PreyConfigDevice.ValidationUserEmail.rawValue)
         existBackup         = defaultConfig.bool(forKey: PreyConfigDevice.ExistBackup.rawValue)
         nameDevice          = defaultConfig.string(forKey: PreyConfigDevice.NameDevice.rawValue)
+        isMsp               = defaultConfig.bool(forKey: PreyConfigDevice.IsMsp.rawValue)
     }
 
     // MARK: Properties
@@ -96,6 +98,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     var validationUserEmail : String?
     var existBackup         : Bool
     var nameDevice          : String?
+    var isMsp               : Bool
     
     // MARK: Functions
     
@@ -121,6 +124,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         defaultConfig.set(validationUserEmail, forKey:PreyConfigDevice.ValidationUserEmail.rawValue)
         defaultConfig.set(existBackup, forKey: PreyConfigDevice.ExistBackup.rawValue)
         defaultConfig.set(nameDevice, forKey: PreyConfigDevice.NameDevice.rawValue)
+        defaultConfig.set(isMsp, forKey:PreyConfigDevice.IsMsp.rawValue)
     }
     
     // Reset values on NSUserDefaults
@@ -150,6 +154,7 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         nameDevice       = nil
         validationUserEmail = PreyUserEmailValidation.inactive.rawValue
         tokenWebTimestamp = 0
+        isMsp            = false
         
         saveValues()
     }
