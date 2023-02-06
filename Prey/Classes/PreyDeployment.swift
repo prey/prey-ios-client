@@ -154,6 +154,8 @@ class PreyDeployment {
                 
                 // Show CongratVC
                 self.showCongratsVC()
+                PreyUser.logInToPrey(apiKey, userPassword: "x" , onCompletion: {(isSuccess: Bool) in
+                })
             }
         })
 
