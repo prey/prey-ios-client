@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		053BAB60287E764200D3B409 /* Pods_Prey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 053BAB5F287E764200D3B409 /* Pods_Prey.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		053EA8A5284FD74700A299C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */; };
+		054B653A2992C7D9001BE057 /* prey.entitlement in Resources */ = {isa = PBXBuildFile; fileRef = 054B65392992C7D9001BE057 /* prey.entitlement */; };
 		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
@@ -176,6 +177,7 @@
 		053BAB5D287E750900D3B409 /* Pods_Prey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_Prey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		053BAB5F287E764200D3B409 /* Pods_Prey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_Prey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		054B65392992C7D9001BE057 /* prey.entitlement */ = {isa = PBXFileReference; lastKnownFileType = text; path = prey.entitlement; sourceTree = "<group>"; };
 		12A99E3BE2974CDCF5641F2D /* Pods-PreyNotify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreyNotify.release.xcconfig"; path = "Target Support Files/Pods-PreyNotify/Pods-PreyNotify.release.xcconfig"; sourceTree = "<group>"; };
 		1C384AA2935BAE7631E3DDAC /* Pods_PreyNotify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreyNotify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A0DBAF6F614BF750A6DE3F /* Pods-Prey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prey.debug.xcconfig"; path = "Target Support Files/Pods-Prey/Pods-Prey.debug.xcconfig"; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 		3B8283E4199198E6000E4545 = {
 			isa = PBXGroup;
 			children = (
+				054B65392992C7D9001BE057 /* prey.entitlement */,
 				053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */,
 				3B8283EF199198E6000E4545 /* Prey */,
 				3BCD4C8B1C98942900CDEE1C /* Localizable.strings */,
@@ -792,6 +795,7 @@
 				3B7D73B5238450A20013AC9F /* Colors.xcassets in Resources */,
 				3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */,
 				3BB6E2231D47CC3C00074E97 /* Prey.entitlements in Resources */,
+				054B653A2992C7D9001BE057 /* prey.entitlement in Resources */,
 				3B42A2671D2581EF002848C0 /* large9.ttf in Resources */,
 				3B8283FA199198E6000E4545 /* Images.xcassets in Resources */,
 				3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */,
@@ -872,11 +876,9 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Prey/Pods-Prey-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCrashlytics/FirebaseCrashlytics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
@@ -885,11 +887,9 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCrashlytics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
@@ -1158,6 +1158,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = prey.entitlement;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1214,6 +1215,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = prey.entitlement;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1245,6 +1247,7 @@
 				CODE_SIGN_ENTITLEMENTS = Prey/Plist/Prey.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1280,6 +1283,7 @@
 				CODE_SIGN_ENTITLEMENTS = Prey/Plist/Prey.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
