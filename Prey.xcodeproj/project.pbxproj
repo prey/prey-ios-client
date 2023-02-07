@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		053BAB60287E764200D3B409 /* Pods_Prey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 053BAB5F287E764200D3B409 /* Pods_Prey.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		053EA8A5284FD74700A299C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */; };
-		054B653A2992C7D9001BE057 /* prey.entitlement in Resources */ = {isa = PBXBuildFile; fileRef = 054B65392992C7D9001BE057 /* prey.entitlement */; };
 		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
@@ -105,7 +104,7 @@
 		3BCE971B23021AB500AF1AD4 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BCE96F12302191B00AF1AD4 /* UserNotificationsUI.framework */; };
 		3BCE971E23021AB500AF1AD4 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCE971D23021AB500AF1AD4 /* NotificationViewController.swift */; };
 		3BCE972123021AB500AF1AD4 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE971F23021AB500AF1AD4 /* MainInterface.storyboard */; };
-		3BCE972523021AB500AF1AD4 /* PreyNotify.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3BCE971923021AB500AF1AD4 /* PreyNotify.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3BCE972523021AB500AF1AD4 /* PreyNotify.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3BCE971923021AB500AF1AD4 /* PreyNotify.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3BCE972B23021B1600AF1AD4 /* regular-book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972923021B1600AF1AD4 /* regular-book.otf */; };
 		3BCE972C23021B1600AF1AD4 /* regular-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972A23021B1600AF1AD4 /* regular-bold.otf */; };
 		3BCE972D2302292C00AF1AD4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F9199198E6000E4545 /* Images.xcassets */; };
@@ -160,15 +159,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		3BCE97002302191B00AF1AD4 /* Embed App Extensions */ = {
+		3BCE97002302191B00AF1AD4 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				3BCE972523021AB500AF1AD4 /* PreyNotify.appex in Embed App Extensions */,
+				3BCE972523021AB500AF1AD4 /* PreyNotify.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -177,7 +176,7 @@
 		053BAB5D287E750900D3B409 /* Pods_Prey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_Prey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		053BAB5F287E764200D3B409 /* Pods_Prey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_Prey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		054B65392992C7D9001BE057 /* prey.entitlement */ = {isa = PBXFileReference; lastKnownFileType = text; path = prey.entitlement; sourceTree = "<group>"; };
+		05F4E42D2992DF8E000FFF18 /* Prey.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Prey.entitlements; path = Prey/Plist/Prey.entitlements; sourceTree = "<group>"; };
 		12A99E3BE2974CDCF5641F2D /* Pods-PreyNotify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreyNotify.release.xcconfig"; path = "Target Support Files/Pods-PreyNotify/Pods-PreyNotify.release.xcconfig"; sourceTree = "<group>"; };
 		1C384AA2935BAE7631E3DDAC /* Pods_PreyNotify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreyNotify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A0DBAF6F614BF750A6DE3F /* Pods-Prey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prey.debug.xcconfig"; path = "Target Support Files/Pods-Prey/Pods-Prey.debug.xcconfig"; sourceTree = "<group>"; };
@@ -418,7 +417,7 @@
 		3B8283E4199198E6000E4545 = {
 			isa = PBXGroup;
 			children = (
-				054B65392992C7D9001BE057 /* prey.entitlement */,
+				05F4E42D2992DF8E000FFF18 /* Prey.entitlements */,
 				053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */,
 				3B8283EF199198E6000E4545 /* Prey */,
 				3BCD4C8B1C98942900CDEE1C /* Localizable.strings */,
@@ -660,7 +659,7 @@
 				3B8283EA199198E6000E4545 /* Frameworks */,
 				3B8283EB199198E6000E4545 /* Resources */,
 				3B95D3CC1DAE860300FEDD80 /* Run Script Tag Warnings */,
-				3BCE97002302191B00AF1AD4 /* Embed App Extensions */,
+				3BCE97002302191B00AF1AD4 /* Embed Foundation Extensions */,
 				A9BD31B9272C9F5300DA01F9 /* ShellScript */,
 				432FC40F821E6A6A2BF4D5BB /* [CP] Embed Pods Frameworks */,
 			);
@@ -721,14 +720,14 @@
 			attributes = {
 				LastSwiftMigration = 0720;
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = "Prey, Inc.";
 				TargetAttributes = {
 					3B8283EC199198E6000E4545 = {
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = M2J57RQ35B;
 						LastSwiftMigration = 1020;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 1;
@@ -795,7 +794,6 @@
 				3B7D73B5238450A20013AC9F /* Colors.xcassets in Resources */,
 				3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */,
 				3BB6E2231D47CC3C00074E97 /* Prey.entitlements in Resources */,
-				054B653A2992C7D9001BE057 /* prey.entitlement in Resources */,
 				3B42A2671D2581EF002848C0 /* large9.ttf in Resources */,
 				3B8283FA199198E6000E4545 /* Images.xcassets in Resources */,
 				3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */,
@@ -1153,6 +1151,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1178,7 +1177,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1210,6 +1209,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1228,7 +1228,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1248,15 +1248,16 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = M2J57RQ35B;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Prey;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 2.1.14;
@@ -1264,6 +1265,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "development iOS";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1284,16 +1286,17 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = M2J57RQ35B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Prey;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 2.1.14;
@@ -1301,6 +1304,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "development iOS";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1373,7 +1377,7 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PreyNotify/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 2.1.11;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -1408,7 +1412,7 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PreyNotify/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 2.1.11;
 				MTL_FAST_MATH = YES;
