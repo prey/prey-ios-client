@@ -92,7 +92,6 @@
 		3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342FF22710B360088F3D3 /* MimeTypes.swift */; };
 		3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21C1D47CAC500074E97 /* StoreKit.framework */; };
 		3BB6E21F1D47CACD00074E97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21E1D47CACD00074E97 /* MapKit.framework */; };
-		3BB6E2231D47CC3C00074E97 /* Prey.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 3BB6E2221D47CC3C00074E97 /* Prey.entitlements */; };
 		3BB6E2251D47F42100074E97 /* PreyRateUs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB6E2241D47F42100074E97 /* PreyRateUs.swift */; };
 		3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3C0971C9733BA00D08D62 /* Constants.swift */; };
 		3BC4774B23A1355900109844 /* UserActivated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC4774A23A1355900109844 /* UserActivated.swift */; };
@@ -176,7 +175,6 @@
 		053BAB5D287E750900D3B409 /* Pods_Prey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_Prey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		053BAB5F287E764200D3B409 /* Pods_Prey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_Prey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		05F4E42D2992DF8E000FFF18 /* Prey.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Prey.entitlements; path = Prey/Plist/Prey.entitlements; sourceTree = "<group>"; };
 		12A99E3BE2974CDCF5641F2D /* Pods-PreyNotify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreyNotify.release.xcconfig"; path = "Target Support Files/Pods-PreyNotify/Pods-PreyNotify.release.xcconfig"; sourceTree = "<group>"; };
 		1C384AA2935BAE7631E3DDAC /* Pods_PreyNotify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreyNotify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A0DBAF6F614BF750A6DE3F /* Pods-Prey.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prey.debug.xcconfig"; path = "Target Support Files/Pods-Prey/Pods-Prey.debug.xcconfig"; sourceTree = "<group>"; };
@@ -417,7 +415,6 @@
 		3B8283E4199198E6000E4545 = {
 			isa = PBXGroup;
 			children = (
-				05F4E42D2992DF8E000FFF18 /* Prey.entitlements */,
 				053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */,
 				3B8283EF199198E6000E4545 /* Prey */,
 				3BCD4C8B1C98942900CDEE1C /* Localizable.strings */,
@@ -793,7 +790,6 @@
 				3B3611701EE75470006BA074 /* Icon2@2x.png in Resources */,
 				3B7D73B5238450A20013AC9F /* Colors.xcassets in Resources */,
 				3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */,
-				3BB6E2231D47CC3C00074E97 /* Prey.entitlements in Resources */,
 				3B42A2671D2581EF002848C0 /* large9.ttf in Resources */,
 				3B8283FA199198E6000E4545 /* Images.xcassets in Resources */,
 				3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */,
@@ -1157,7 +1153,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = prey.entitlement;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Prey/Plist/Prey.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1215,7 +1211,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = prey.entitlement;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Prey/Plist/Prey.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1245,7 +1241,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Prey/Plist/Prey.entitlements;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Prey/Plist/Prey.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1281,7 +1277,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Prey/Plist/Prey.entitlements;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Prey/Plist/Prey.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
