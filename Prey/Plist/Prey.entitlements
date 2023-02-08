@@ -12,7 +12,5 @@
 	<array>
 		<string>$(AppIdentifierPrefix)$(CFBundleIdentifier)</string>
 	</array>
-	<key>com.apple.developer.device-information.user-assigned-device-name</key>
-	</true>
 </dict>
 </plist>
