@@ -144,9 +144,13 @@ class PreyHTTPResponse {
             guard let userIsProStr = jsonObject.object(forKey: "pro_account") as? NSNumber else {
                 return
             }
+            guard let mspAccount = jsonObject.object(forKey: "msp_account") as? NSNumber else {
+                return
+            }
             
             PreyConfig.sharedInstance.userApiKey    = userApiKeyStr
             PreyConfig.sharedInstance.isPro         = userIsProStr.boolValue
+            PreyConfig.sharedInstance.isMsp         = mspAccount.boolValue
             PreyConfig.sharedInstance.saveValues()
             
         } catch let error {
