@@ -536,6 +536,11 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         PreyLogger("Should load request: WKWebView")
         
        
+        if PreyConfig.sharedInstance.isRegistered {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(PreyConfig.sharedInstance.userApiKey!, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.actionDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
+                PreyLogger("Request PreyAction \(actionsDeviceEndpoint)")
+                }))
+        }
         
         guard let requestUrl = navigationAction.request.url else {
             return decisionHandler(.allow)
@@ -738,12 +743,18 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             self.checkPassword(pwd?.value, view: self.view, back: "close")
             
         case ReactViews.NAMEDEVICE.rawValue:
-            var nameDevice=PreyConfig.sharedInstance.nameDevice
+            var nameDevice = PreyConfig.sharedInstance.nameDevice
+            if nameDevice == nil {
+                nameDevice=UIDevice.current.name;
+            }
             if nameDevice == nil {
                 nameDevice="iPhone";
             }
-            self.evaluateJS(self.webView, code: "document.getElementById('nametext').value = '\(nameDevice!)';")
-            self.evaluateJS(self.webView, code: "var btn = document.getElementById('btnChangeName'); btn.click();")
+            self.evaluateJS(self.webView, code: "document.getElementById('name_device_1').innerText = '\(nameDevice!)';")
+            if PreyConfig.sharedInstance.isMsp {
+                self.evaluateJS(self.webView, code: "document.getElementById('name_device_0').innerText = '\(nameDevice!)';")
+                self.evaluateJS(self.webView, code: "var div2 = document.getElementById('ctas'); div2.remove();")
+            }
             
         case ReactViews.INDEX.rawValue:
             self.loadViewOnWebView("index")
