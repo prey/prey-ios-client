@@ -38,7 +38,7 @@ public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]
 public let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
 
 // InAppPurchases
-public let subscription1Year = "1year_personal_plan_non_renewing_full"
+public let subscription1Year = "1year_starter_plan_non_renewing_full"
 
 // GAI code
 public let GAICode  = "UA-8743344-7"
