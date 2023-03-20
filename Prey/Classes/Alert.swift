@@ -57,6 +57,11 @@ class Alert: PreyAction {
         sleep(4)
         let paramsStopped  = getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
         self.sendData(paramsStopped, toEndpoint: responseDeviceEndpoint)
+        let paramName:[String: Any] = [ "name" : UIDevice.current.name]
+        self.sendData(paramName, toEndpoint: dataDeviceEndpoint)
+        PreyDevice.infoDevice({(isSuccess: Bool) in
+            PreyLogger("infoDevice isSuccess: \(isSuccess)")
+        })
     }
     
     // Show AlertVC

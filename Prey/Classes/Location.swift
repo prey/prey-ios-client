@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
 class Location : PreyAction, CLLocationManagerDelegate {
     
@@ -115,6 +116,11 @@ class Location : PreyAction, CLLocationManagerDelegate {
         } else {
             self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
         }
+        let paramName:[String: Any] = [ "name" : UIDevice.current.name]
+        self.sendData(paramName, toEndpoint: dataDeviceEndpoint)
+        PreyDevice.infoDevice({(isSuccess: Bool) in
+            PreyLogger("infoDevice isSuccess: \(isSuccess)")
+        })
     }
     
     // MARK: CLLocationManagerDelegate
