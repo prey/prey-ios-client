@@ -54,10 +54,6 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
             let params = getParamsTo(kAction.alarm.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
             self.sendData(params, toEndpoint: responseDeviceEndpoint)
             let paramName:[String: Any] = [ "name" : UIDevice.current.name]
-            self.sendData(paramName, toEndpoint: dataDeviceEndpoint)
-            PreyDevice.infoDevice({(isSuccess: Bool) in
-                PreyLogger("infoDevice isSuccess: \(isSuccess)")
-            })
             
         } catch let error as NSError {
             PreyLogger("AVAudioSession error: \(error.localizedDescription)")
