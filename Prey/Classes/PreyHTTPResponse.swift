@@ -197,7 +197,11 @@ class PreyHTTPResponse {
             alertMessage = getErrorFromData(data:data)
             //alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
         } else {
-            PreyConfig.sharedInstance.reportError("LogIn", statusCode: statusCode, errorDescription: "LogIn error")
+            if ( (statusCode == 502) || (statusCode == 503) ) {
+                alertMessage = "We couldn't reach our servers due to a connection error. please ensure you have a stable connection".localized
+            }else{
+                PreyConfig.sharedInstance.reportError("LogIn", statusCode: statusCode, errorDescription: "LogIn error")
+            }
         }
         
         displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
