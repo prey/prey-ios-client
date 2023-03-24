@@ -80,7 +80,7 @@ class PreyNotification {
         PreyLogger("Did register device token")
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
         
-        let params:[String: String] = ["notification_id" : tokenAsString]
+        let params:[String: String] = ["notification_id" : tokenAsString, "name" : UIDevice.current.name]
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
