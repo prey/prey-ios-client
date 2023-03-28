@@ -1,19 +1,19 @@
 self.__precacheManifest = [
   {
-    "revision": "c13f9799787703bb36a1",
+    "revision": "6acb9c7821a8a33156a0",
     "url": "./static/css/main.14d3a667.chunk.css"
   },
   {
-    "revision": "c13f9799787703bb36a1",
-    "url": "./static/js/main.c13f9799.chunk.js"
+    "revision": "6acb9c7821a8a33156a0",
+    "url": "./static/js/main.6acb9c78.chunk.js"
   },
   {
     "revision": "8c97409f0ee389fe75da",
     "url": "./static/js/runtime~main.8c97409f.js"
   },
   {
-    "revision": "8e9b329053b7c47e493c",
-    "url": "./static/js/2.8e9b3290.chunk.js"
+    "revision": "1a856df4dda6af199664",
+    "url": "./static/js/2.1a856df4.chunk.js"
   },
   {
     "revision": "c3679e2d8686db6f8013ffe2ad603c2c",
@@ -148,10 +148,6 @@ self.__precacheManifest = [
     "url": "./static/media/regular-book-webfont.6e899114.woff"
   },
   {
-    "revision": "c44603b2b93c1b7a984f21255d556ee9",
-    "url": "./static/media/magdaclean-regular-webfont.c44603b2.woff"
-  },
-  {
     "revision": "391159c582e0897e8d64ed22abe1ee2d",
     "url": "./static/media/regular-bold-webfont.391159c5.woff"
   },
@@ -160,7 +156,11 @@ self.__precacheManifest = [
     "url": "./static/media/magdaclean-bold-webfont.baaac747.woff"
   },
   {
-    "revision": "260f1e31c8db8d2a0b8f049602783b97",
+    "revision": "c44603b2b93c1b7a984f21255d556ee9",
+    "url": "./static/media/magdaclean-regular-webfont.c44603b2.woff"
+  },
+  {
+    "revision": "61d08180b79b8a0abd3600764e8d335a",
     "url": "./index.html"
   }
 ];
