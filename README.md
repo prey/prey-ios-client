@@ -31,6 +31,7 @@ Follow Prey Project on Twitter ([@PreyProject](https://twitter.com/PreyProject))
 ### Author
 
 - [Javier Cala Uribe](http://github.com/jcalau) ([@jcalau](https://twitter.com/jcalau))
+- [Orlando Aliaga](http://github.com/oaliaga) ([@oraliaga](https://twitter.com/oraliaga))
 
 
 ### Collaborators
