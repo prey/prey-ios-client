@@ -49,9 +49,9 @@ public let fontTitilliumRegular =  "TitilliumWeb-Regular"
 
 // PreyLogger
 public func PreyLogger(_ message:String) {
-    
+    #if DEBUG
     print(message)
-     
+    #endif
 }
 
 // Biometric authentication

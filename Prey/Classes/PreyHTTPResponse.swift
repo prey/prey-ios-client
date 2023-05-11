@@ -114,8 +114,6 @@ class PreyHTTPResponse {
             let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
             
             if let tokenPanelStr = jsonObject.object(forKey: "token") as? String {
-                
-                PreyLogger("tokenPanelStr: \(tokenPanelStr)")
                 PreyConfig.sharedInstance.tokenPanel = tokenPanelStr
                 PreyConfig.sharedInstance.tokenWebTimestamp = CFAbsoluteTimeGetCurrent()
                 PreyConfig.sharedInstance.saveValues()
