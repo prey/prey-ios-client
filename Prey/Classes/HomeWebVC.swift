@@ -98,9 +98,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         guard PreyConfig.sharedInstance.isTouchIDEnabled == true, PreyConfig.sharedInstance.tokenPanel != nil else {
             return
         }
-        
-        
- 
+
         // Check Panel token expired time < 1h
         guard (PreyConfig.sharedInstance.tokenWebTimestamp + 60*60) > CFAbsoluteTimeGetCurrent() else {
             return
