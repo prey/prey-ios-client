@@ -57,6 +57,8 @@ class PreyUser {
     
     // Request Token to Panel Prey
     class func getTokenFromPanel(_ userEmail: String, userPassword: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
+       
+        PreyLogger("getTokenFromPanel: \(userEmail)   \(userPassword)")
         
         PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:tokenEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.getToken, preyAction:nil, onCompletion:onCompletion))
     }

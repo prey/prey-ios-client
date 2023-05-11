@@ -86,7 +86,8 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         // Set session Config
         let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId, endPoint:endPoint)
         let session         = URLSession(configuration:sessionConfig, delegate:self, delegateQueue:nil)
-        
+        let uri=URLControlPanel + endPoint;
+        PreyLogger(uri)
         // Set Endpoint
         guard let requestURL = URL(string:URLControlPanel + endPoint) else {
             return
@@ -154,6 +155,8 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId, endPoint:endPoint)
         let session         = URLSession(configuration:sessionConfig, delegate:self, delegateQueue:nil)
         
+        let uri=URLControlPanel + endPoint;
+        PreyLogger(uri)
         // Set Endpoint
         guard let requestURL = URL(string: URLControlPanel + endPoint) else {
             return
