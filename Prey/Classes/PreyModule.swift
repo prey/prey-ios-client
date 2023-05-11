@@ -43,7 +43,7 @@ class PreyModule {
     // Parse actions from panel
     func parseActionsFromPanel(_ actionsStr:String) {
 
-        PreyLogger("Parse actions from panel")
+        PreyLogger("Parse actions from panel:\(actionsStr)")
         
         // Convert actionsArray from String to NSData
         guard let jsonData: Data = actionsStr.data(using: String.Encoding.utf8) else {
@@ -147,7 +147,7 @@ class PreyModule {
     // Check action status
     func checkStatus(_ action: PreyAction) {
         
-        PreyLogger("Check action")
+        PreyLogger("Check action:\(action.description) ")
         
         // Check if preyAction isn't active
         if !action.isActive {
