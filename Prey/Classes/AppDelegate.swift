@@ -101,6 +101,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 PreyUser.logInToPrey(PreyConfig.sharedInstance.userApiKey!, userPassword: "x" , onCompletion: {(isSuccess: Bool) in
                     PreyLogger("profile isSuccess:\(isSuccess)")
                 })
+                if (PreyConfig.sharedInstance.tokenWebTimestamp + 60*60) < CFAbsoluteTimeGetCurrent() {
+                    PreyUser.getTokenFromPanel(PreyConfig.sharedInstance.userApiKey!, userPassword:"x", onCompletion: {(isSuccess: Bool) in
+                        PreyLogger("token isSuccess:\(isSuccess)")
+                    })
+                }
             }
         } else {
             PreyDeployment.sharedInstance.runPreyDeployment()
