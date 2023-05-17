@@ -123,6 +123,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
                 
                 // Show webView
                 if openPanelWeb == "panel" {
+                    sleep(2)
                     self.goToControlPanel()
                 } else {
                     if openPanelWeb == "setting" {
