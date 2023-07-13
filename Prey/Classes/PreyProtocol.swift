@@ -45,6 +45,11 @@ enum kLocation: String {
     case lng, lat, alt, accuracy, method
 }
 
+// Prey location data
+enum kDataLocation: String {
+    case skip_toast
+}
+
 // Prey location params
 enum kReportLocation: String {
     case LONGITURE  = "geo[lng]"
