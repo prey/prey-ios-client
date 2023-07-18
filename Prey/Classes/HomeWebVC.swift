@@ -380,11 +380,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         self.evaluateJS(self.webView, code: "var btn = document.getElementById('btnEmailValidation'); btn.click();")
     }
     
-    func addDeviceWithApikey(){
-        let apikeyQr=""
-        PreyDeployment.sharedInstance.addDeviceWith(apikeyQr as String, fromQRCode:true)
-    }
-    
     // Add device action
     func addDeviceWithSignUp(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool, offers: Bool?) {
 
@@ -679,9 +674,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
             let offers  = queryItems?.filter({$0.name == "offers"}).first
             self.addDeviceWithSignUp(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue(), offers: offers?.value?.boolValue() )
-
-        case ReactViews.BATCH.rawValue:
-            self.addDeviceWithApikey()
             
         case ReactViews.EMAILRESEND.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems

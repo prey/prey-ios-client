@@ -155,5 +155,4 @@ enum ReactViews: String {
     case RENAME      = "iosrename"
     case NAMEDEVICE  = "iosnamedevice"
     case INDEX       = "iosindex"
-    case BATCH       = "iosbatch"
 }
