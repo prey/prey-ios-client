@@ -674,7 +674,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
             let offers  = queryItems?.filter({$0.name == "offers"}).first
             self.addDeviceWithSignUp(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue(), offers: offers?.value?.boolValue() )
-            
+
         case ReactViews.EMAILRESEND.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
             let email = queryItems?.filter({$0.name == "emailSignup"}).first
