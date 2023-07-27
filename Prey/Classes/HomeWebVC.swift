@@ -710,9 +710,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         case ReactViews.AUTHPHOTO.rawValue:
             DeviceAuth.sharedInstance.requestAuthPhotos()
             
-        case ReactViews.AUTHCONTACT.rawValue:
-            DeviceAuth.sharedInstance.requestAuthContacts()
-            
         case ReactViews.AUTHCAMERA.rawValue:
             DeviceAuth.sharedInstance.requestAuthCamera()
             
