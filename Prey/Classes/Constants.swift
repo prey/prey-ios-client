@@ -144,7 +144,6 @@ enum ReactViews: String {
     case FORGOT      = "iosforgot"
     case AUTHLOC     = "iosauthlocation"
     case AUTHPHOTO   = "iosauthphotos"
-    case AUTHCONTACT = "iosauthcontacts"
     case AUTHCAMERA  = "iosauthcamera"
     case AUTHNOTIF   = "iosauthnotification"
     case REPORTEXAMP = "iosreportexample"
