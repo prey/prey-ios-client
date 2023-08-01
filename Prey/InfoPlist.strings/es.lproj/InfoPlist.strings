@@ -1,7 +1,5 @@
 "NSCameraUsageDescription" = "Prey utiliza la cámara para tomar fotos cuando pides reportes de evidencia.";
 
-"NSContactsUsageDescription" = "Prey requiere acceso a tus contactos para permitirte recuperarlos de forma remota.";
-
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "Prey requiere acceso a tu ubicación para ayudarte a rastrear y encontrar el equipo.";
 
 "NSLocationAlwaysUsageDescription" = "Prey requiere acceso a tu ubicación para ayudarte a rastrear y encontrar el equipo.";

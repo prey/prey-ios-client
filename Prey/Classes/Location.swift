@@ -20,7 +20,9 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     var isLocationAwareActive = false
     
-    // MARK: Functions    
+    var index = 0
+    
+    // MARK: Functions
     
     // Return init if location action don't exist
     class func initLocationAction(withTarget target:kAction, withCommand cmd:kCommand, withOptions opt:NSDictionary?) -> Location? {
@@ -83,6 +85,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
         locManager.startUpdatingLocation()
         
         isActive = true
+        index = 0
     }
     
     // Stop Location Manager
@@ -106,7 +109,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
             kLocation.accuracy.rawValue : location.horizontalAccuracy,
             kLocation.method.rawValue   : "native"]
         
-        let locParam:[String: Any] = [kAction.location.rawValue : params]
+        let locParam:[String: Any] = [kAction.location.rawValue : params, kDataLocation.skip_toast.rawValue : (index > 0)]
         
         if self.isLocationAwareActive {
             GeofencingManager.sharedInstance.startLocationAwareManager(location)
@@ -115,6 +118,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
             stopLocationManager()
         } else {
             self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
+            index = index + 1
         }
         let paramName:[String: Any] = [ "name" : UIDevice.current.name]
         self.sendData(paramName, toEndpoint: dataDeviceEndpoint)
