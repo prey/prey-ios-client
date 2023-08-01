@@ -10,7 +10,6 @@ import Foundation
 import CoreLocation
 import AVFoundation
 import UserNotifications
-import Contacts
 import Photos
 import UIKit
 
@@ -163,17 +162,6 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         PHPhotoLibrary.requestAuthorization({ authorization -> Void in
             DispatchQueue.main.async {self.callNextRequestAuth("btnPhotos")}
         })
-    }
-
-    // Request auth contacts
-    func requestAuthContacts() {
-        if #available(iOS 9.0, *) {
-            CNContactStore().requestAccess(for: .contacts, completionHandler: { (authorized: Bool, error: Error?) -> Void in
-                DispatchQueue.main.async {self.callNextRequestAuth("btnContacts")}
-            })
-        } else {
-            self.callNextRequestAuth("btnContacts")
-        }
     }
 
     // Request auth camera
