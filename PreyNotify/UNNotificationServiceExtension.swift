@@ -18,6 +18,8 @@ class NotificationService: UNNotificationServiceExtension {
 
         // Modify the content (example: update the title)
         updatedContent.title = "New Title: \(request.content.title)"
+        
+        // acá invocar el location 
 
         // Call the contentHandler with the updated content
         contentHandler(updatedContent)
