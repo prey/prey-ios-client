@@ -25,17 +25,8 @@ class LocationHelper {
     
     // MARK: Functions
     
-    
-    // Start location aware
-    static func start_location_aware() {
-        startLocationManager()
-        isLocationAwareActive = true
-        PreyLogger("Start location aware")
-    }
-    
-    
     // Start Location Manager
-    static func startLocationManager()  {
+    static func startLocationManager(location: Location)  {
         sharedInstance.requestAlwaysAuthorization()
         sharedInstance.allowsBackgroundLocationUpdates = true
         sharedInstance.pausesLocationUpdatesAutomatically = false
@@ -44,19 +35,21 @@ class LocationHelper {
         // sharedInstance.distanceFilter = 25
         sharedInstance.startUpdatingLocation()
         
+        // TODO: verify isActive behavior
         // isActive = true
         index = 0
     }
     
     // Stop Location Manager
-    static func stopLocationManager()  {
+    static func stopLocationManager(location: Location)  {
         PreyLogger("Stop location")
         
         sharedInstance.stopUpdatingLocation()
         sharedInstance.delegate = nil
         
+        // TODO: verify isActive behavior
         // isActive = false
-        PreyModule.sharedInstance.checkStatus(self)
+        PreyModule.sharedInstance.checkStatus(location)
     }
     
     // MARK: CLLocationManagerDelegate

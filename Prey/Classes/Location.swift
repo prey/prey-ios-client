@@ -27,6 +27,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
             return Location(withTarget:target, withCommand:cmd, withOptions:opt)
         }
         
+        // look for enqueued location command
         var existAction = false
         
         for item in PreyModule.sharedInstance.actionArray {
@@ -45,7 +46,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Prey command
     override func get() {
-        LocationHelper.startLocationManager()
+        LocationHelper.startLocationManager(location: self)
         // Schedule get location
         Timer.scheduledTimer(timeInterval: 30.0, target:self, selector:#selector(stopLocationTimer(_:)), userInfo:nil, repeats:false)
         PreyLogger("Start location")
@@ -63,7 +64,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     // Stop Location Timer
     @objc func stopLocationTimer(_ timer:Timer)  {
         timer.invalidate()
-        LocationHelper.stopLocationManager()
+        LocationHelper.stopLocationManager(location: <#T##Location#>)
     }
     
 }
