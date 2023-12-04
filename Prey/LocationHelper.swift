@@ -55,7 +55,7 @@ class LocationHelper {
     // MARK: CLLocationManagerDelegate
     
     // Did Update Locations
-    static func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    /*static func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         PreyLogger("New location received on Location")
         
         guard let currentLocation = locations.first else {
@@ -93,15 +93,16 @@ class LocationHelper {
         // Save last location
         lastLocation = currentLocation
     }
+     */
     
     // Did fail with error
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    /*func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         PreyLogger("Error getting location: \(error.localizedDescription)")
-    }
+    }*/
     
     
     // Location received
-    static func locationReceived(_ location:CLLocation) {
+    static func locationReceived(locationKlass: Location, _ location:CLLocation) {
  
         let params:[String: Any] = [
             kLocation.lng.rawValue      : location.coordinate.longitude,
@@ -115,15 +116,14 @@ class LocationHelper {
         if isLocationAwareActive {
             GeofencingManager.sharedInstance.startLocationAwareManager(location)
             isLocationAwareActive = false
-            // self es un tipo PreyAction. TODO: pass PreyAction as argument
-            self.sendData(locParam, toEndpoint: locationAwareEndpoint)
-            stopLocationManager()
+            locationKlass.sendData(locParam, toEndpoint: locationAwareEndpoint)
+            stopLocationManager(location: locationKlass)
         } else {
-            self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
+            locationKlass.sendData(locParam, toEndpoint: dataDeviceEndpoint)
             index = index + 1
         }
         let paramName:[String: Any] = [ "name" : UIDevice.current.name]
-        self.sendData(paramName, toEndpoint: dataDeviceEndpoint)
+        locationKlass.sendData(paramName, toEndpoint: dataDeviceEndpoint)
         PreyDevice.infoDevice({(isSuccess: Bool) in
             PreyLogger("infoDevice isSuccess: \(isSuccess)")
         })
@@ -131,16 +131,19 @@ class LocationHelper {
     
     
     static func handleEnterForeground() {
+        PreyLogger("handleEnterForeground")
         sharedInstance.desiredAccuracy = kCLLocationAccuracyBest
         sharedInstance.startUpdatingLocation()
     }
 
     static func handleEnterBackground() {
+        PreyLogger("handleEnterBackground")
         sharedInstance.stopUpdatingLocation()
         sharedInstance.startMonitoringSignificantLocationChanges()
     }
 
     static func handleAppKilled() {
+        PreyLogger("handleAppKilled")
         sharedInstance.stopUpdatingLocation()
         sharedInstance.startMonitoringSignificantLocationChanges()
     }

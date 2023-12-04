@@ -57,7 +57,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
 
         if LocationHelper.lastLocation != nil {
             // Send location to web panel
-            LocationHelper.locationReceived(LocationHelper.lastLocation)
+            LocationHelper.locationReceived(locationKlass: self, LocationHelper.lastLocation)
         }
     }
     
