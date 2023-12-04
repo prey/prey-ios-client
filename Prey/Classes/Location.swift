@@ -8,19 +8,14 @@
 
 import Foundation
 import CoreLocation
-import UIKit
+
 
 class Location : PreyAction, CLLocationManagerDelegate {
     
     // MARK: Properties
     
-    let locManager   = CLLocationManager()
+    let locManager = LocationHelper()
     
-    var lastLocation : CLLocation!
-    
-    var isLocationAwareActive = false
-    
-    var index = 0
     
     // MARK: Functions
     
@@ -47,130 +42,28 @@ class Location : PreyAction, CLLocationManagerDelegate {
         return existAction ? nil : Location(withTarget:target, withCommand:cmd, withOptions:opt)
     }
     
-    // Send lastLocation 
-    func sendLastLocation() {
-
-        if lastLocation != nil {
-            // Send location to web panel
-            locationReceived(lastLocation)
-        }
-    }
     
     // Prey command
     override func get() {
-        startLocationManager()
+        LocationHelper.startLocationManager()
         // Schedule get location
         Timer.scheduledTimer(timeInterval: 30.0, target:self, selector:#selector(stopLocationTimer(_:)), userInfo:nil, repeats:false)
         PreyLogger("Start location")
     }
     
-    // Start location aware
-    @objc func start_location_aware() {
-        startLocationManager()
-        isLocationAwareActive = true
-        PreyLogger("Start location aware")
+    // Send lastLocation
+    func sendLastLocation() {
+
+        if LocationHelper.lastLocation != nil {
+            // Send location to web panel
+            LocationHelper.locationReceived(LocationHelper.lastLocation)
+        }
     }
     
     // Stop Location Timer
     @objc func stopLocationTimer(_ timer:Timer)  {
         timer.invalidate()
-        stopLocationManager()
+        LocationHelper.stopLocationManager()
     }
     
-    // Start Location Manager
-    func startLocationManager()  {
-        locManager.requestAlwaysAuthorization()
-        locManager.delegate = self
-        locManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locManager.startUpdatingLocation()
-        
-        isActive = true
-        index = 0
-    }
-    
-    // Stop Location Manager
-    func stopLocationManager()  {
-        PreyLogger("Stop location")
-        
-        locManager.stopUpdatingLocation()
-        locManager.delegate = nil
-        
-        isActive = false
-        PreyModule.sharedInstance.checkStatus(self)
-    }
-    
-    // Location received
-    func locationReceived(_ location:CLLocation) {
- 
-        let params:[String: Any] = [
-            kLocation.lng.rawValue      : location.coordinate.longitude,
-            kLocation.lat.rawValue      : location.coordinate.latitude,
-            kLocation.alt.rawValue      : location.altitude,
-            kLocation.accuracy.rawValue : location.horizontalAccuracy,
-            kLocation.method.rawValue   : "native"]
-        
-        let locParam:[String: Any] = [kAction.location.rawValue : params, kDataLocation.skip_toast.rawValue : (index > 0)]
-        
-        if self.isLocationAwareActive {
-            GeofencingManager.sharedInstance.startLocationAwareManager(location)
-            self.isLocationAwareActive = false
-            self.sendData(locParam, toEndpoint: locationAwareEndpoint)
-            stopLocationManager()
-        } else {
-            self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
-            index = index + 1
-        }
-        let paramName:[String: Any] = [ "name" : UIDevice.current.name]
-        self.sendData(paramName, toEndpoint: dataDeviceEndpoint)
-        PreyDevice.infoDevice({(isSuccess: Bool) in
-            PreyLogger("infoDevice isSuccess: \(isSuccess)")
-        })
-    }
-    
-    // MARK: CLLocationManagerDelegate
-    
-    // Did Update Locations
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        PreyLogger("New location received on Location")
-        
-        guard let currentLocation = locations.first else {
-            return
-        }
-        
-        // Check if location is cached
-        let locationTime = abs(currentLocation.timestamp.timeIntervalSinceNow as Double)
-        guard locationTime < 5 else {
-            return
-        }
-        
-        if currentLocation.horizontalAccuracy < 0 {
-            return
-        }
-
-        if currentLocation.coordinate.longitude == 0 || currentLocation.coordinate.latitude == 0 {
-            return
-        }
-        
-        // Send first location
-        if lastLocation == nil {
-            // Send location to web panel
-            locationReceived(currentLocation)
-            lastLocation = currentLocation
-            return
-        }
-        
-        // Compare accuracy
-        if currentLocation.horizontalAccuracy < lastLocation.horizontalAccuracy {
-            // Send location to web panel
-            locationReceived(currentLocation)
-        }
-
-        // Save last location
-        lastLocation = currentLocation
-    }
-    
-    // Did fail with error
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        PreyLogger("Error getting location: \(error.localizedDescription)")
-    }
 }

@@ -165,6 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Hide keyboard
         window?.endEditing(true)
+        LocationHelper.handleEnterBackground()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -173,6 +174,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
         }
 
+        LocationHelper.handleEnterForeground()
         stopBackgroundTask()
     }
 
@@ -222,14 +224,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Show notification to keep background
-        let userInfo : [String:String]      = ["keep_background" : "url"]
-        let localNotif                      = UILocalNotification()
-        localNotif.userInfo                 = userInfo
-        localNotif.alertBody                = "Keep Prey in background to enable all of its features.".localized
-        localNotif.hasAction                = false
-        localNotif.soundName                = UILocalNotificationDefaultSoundName
-        application.presentLocalNotificationNow(localNotif)
+        LocationHelper.handleAppKilled()
     }
     
     // MARK: Notification

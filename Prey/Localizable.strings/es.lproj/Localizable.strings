@@ -237,8 +237,6 @@
 
 "You need to grant Prey access to show alert notifications in order to remotely mark it as missing." = "Es necesario garantizar el acceso a Prey para poder mostrar las notificaciones de alerta al marcarlo como perdido.";
 
-"Keep Prey in background to enable all of its features." = "Mantener Prey en segundo plano para activar todas las características.";
-
 "The internet connection appears to be offline" = "La conexión a internet parece estar desactivada";
 
 "Authenticate for login?" = "¿Autenticar para inicio de sesión?";
