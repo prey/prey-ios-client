@@ -64,7 +64,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     // Stop Location Timer
     @objc func stopLocationTimer(_ timer:Timer)  {
         timer.invalidate()
-        LocationHelper.stopLocationManager(location: <#T##Location#>)
+        LocationHelper.stopLocationManager(location: self)
     }
     
 }
