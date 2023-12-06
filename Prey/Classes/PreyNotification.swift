@@ -79,7 +79,7 @@ class PreyNotification {
     func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
         PreyLogger("Did register device token")
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
-        
+        PreyLogger(tokenAsString)
         let params:[String: String] = ["notification_id" : tokenAsString, "name" : UIDevice.current.name]
         
         // Check userApiKey isn't empty
@@ -91,7 +91,7 @@ class PreyNotification {
     // Did Receive Remote Notifications
     func didReceiveRemoteNotifications(_ userInfo: [AnyHashable: Any], completionHandler:@escaping (UIBackgroundFetchResult) -> Void) {
         
-        PreyLogger("Remote notification received")
+        PreyLogger("didReceiveRemoteNotifications")
 
         // Check payload preymdm
         if let cmdPreyMDM = userInfo["preymdm"] as? NSDictionary {
