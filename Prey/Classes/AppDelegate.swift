@@ -121,9 +121,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
         }
         
-        // enable remote location listener on didFinishLaunchingWithOptions
-        //application.registerForRemoteNotifications()
-        
         return true
     }    
     
