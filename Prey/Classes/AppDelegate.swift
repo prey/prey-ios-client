@@ -50,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        PreyLogger("didFinishLaunchingWithOptions")
              
         // Config Fabric SDK
 //        Fabric.with([Crashlytics.self])
@@ -73,13 +74,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if PreyConfig.sharedInstance.validationUserEmail == nil {
             PreyConfig.sharedInstance.validationUserEmail = PreyUserEmailValidation.inactive.rawValue
             PreyConfig.sharedInstance.saveValues()
-        }
-        
-        // Registering launch handlers for tasks
-        if #available(iOS 13.0, *) {
-            BGTaskScheduler.shared.register(forTaskWithIdentifier: bgTaskToPanel, using: nil) { task in
-                self.handleRequestToPanel(task: task as! BGAppRefreshTask)
-            }
         }
         
         // Config init UIViewController
@@ -146,22 +140,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        PreyLogger("Prey is in background")
-
-        // Schedule request to panel on background
-        if #available(iOS 13.0, *) {
-            scheduleRequestToPanel()
-        }
-
-        // Check action list to enable background task
-        if IS_OS_12 {
-            bgTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
-                DispatchQueue.main.async {
-                    self.stopBackgroundTask()
-                }
-            })
-        }
+    func applicationDidEnterBackground(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        PreyLogger("applicationDidEnterBackground")
+        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
         
         // Hide keyboard
         window?.endEditing(true)
@@ -221,74 +202,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         displayScreen()
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Show notification to keep background
-        let userInfo : [String:String]      = ["keep_background" : "url"]
-        let localNotif                      = UILocalNotification()
-        localNotif.userInfo                 = userInfo
-        localNotif.alertBody                = "Keep Prey in background to enable all of its features.".localized
-        localNotif.hasAction                = false
-        localNotif.soundName                = UILocalNotificationDefaultSoundName
-        application.presentLocalNotificationNow(localNotif)
+    func applicationWillTerminate(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        PreyLogger("applicationWillTerminate")
+        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
     }
     
     // MARK: Notification
     
     // Did register notifications
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        PreyLogger("didRegisterForRemoteNotificationsWithDeviceToken")
         PreyNotification.sharedInstance.didRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
     }
     
     // Fail register notifications
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        PreyLogger("Error Register Notification: \(error)")
+        PreyLogger("didFailToRegisterForRemoteNotificationsWithError: \(error)")
     }
     
     // Did receive remote notification
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        PreyLogger("didReceiveRemoteNotification")
         PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
     }
     
     // Did receiveLocalNotification
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
-        PreyLogger("Local notification received")
+        PreyLogger("didReceive")
         PreyNotification.sharedInstance.checkLocalNotification(application, localNotification:notification)
     }
     
      // MARK: Handling Launch for Tasks
-
-     // Check commands on Prey Web Panel
-    @available(iOS 13.0, *)
-    func handleRequestToPanel(task: BGAppRefreshTask) {
-        scheduleRequestToPanel()
-
-        DispatchQueue.main.async {
-            if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered, UIApplication.shared.applicationState == .background {                
-                PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.actionDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
-                    PreyLogger("Request PreyAction")
-                    task.setTaskCompleted(success: isSuccess)
-                }))
-            }
-        }
-        
-        task.expirationHandler = {
-            // After all operations are cancelled, the completion block below is called to set the task to complete.
-            PreyLogger("task.expirationHandler")
-        }
-    }
-    
-    // Schedule request to panel
-    @available(iOS 13.0, *)
-    func scheduleRequestToPanel() {
-        let request = BGAppRefreshTaskRequest(identifier: bgTaskToPanel)
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 60) // Fetch no earlier than 60 minutes from now
-        
-        do {
-            try BGTaskScheduler.shared.submit(request)
-        } catch {
-            PreyLogger("Could not schedule app refresh: \(error)")
-        }
-    }
 
     // MARK: Check settings on backup
     
