@@ -50,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        PreyLogger("didFinishLaunchingWithOptions")
              
         // Config Fabric SDK
 //        Fabric.with([Crashlytics.self])
@@ -140,9 +141,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
-        PreyLogger("Remote notification in background")
-        
+        PreyLogger("applicationDidEnterBackground")
         PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
         
         // Hide keyboard
@@ -204,6 +203,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        PreyLogger("applicationWillTerminate")
         PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
     }
     
@@ -211,22 +211,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Did register notifications
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        PreyLogger("didRegisterForRemoteNotificationsWithDeviceToken")
         PreyNotification.sharedInstance.didRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
     }
     
     // Fail register notifications
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        PreyLogger("Error Register Notification: \(error)")
+        PreyLogger("didFailToRegisterForRemoteNotificationsWithError: \(error)")
     }
     
     // Did receive remote notification
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        PreyLogger("didReceiveRemoteNotification")
         PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
     }
     
     // Did receiveLocalNotification
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
-        PreyLogger("Local notification received")
+        PreyLogger("didReceive")
         PreyNotification.sharedInstance.checkLocalNotification(application, localNotification:notification)
     }
     
