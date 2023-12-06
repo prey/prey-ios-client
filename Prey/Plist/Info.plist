@@ -93,6 +93,7 @@
 		<string>fetch</string>
 		<string>location</string>
 		<string>remote-notification</string>
+		<string>fetch</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>

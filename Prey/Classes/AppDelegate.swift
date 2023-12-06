@@ -75,13 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PreyConfig.sharedInstance.saveValues()
         }
         
-        // Registering launch handlers for tasks
-        if #available(iOS 13.0, *) {
-            BGTaskScheduler.shared.register(forTaskWithIdentifier: bgTaskToPanel, using: nil) { task in
-                self.handleRequestToPanel(task: task as! BGAppRefreshTask)
-            }
-        }
-        
         // Config init UIViewController
         displayScreen()
         
@@ -128,6 +121,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
         }
         
+        // enable remote location listener on didFinishLaunchingWithOptions
+        //application.registerForRemoteNotifications()
+        
         return true
     }    
     
@@ -146,22 +142,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        PreyLogger("Prey is in background")
-
-        // Schedule request to panel on background
-        if #available(iOS 13.0, *) {
-            scheduleRequestToPanel()
-        }
-
-        // Check action list to enable background task
-        if IS_OS_12 {
-            bgTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
-                DispatchQueue.main.async {
-                    self.stopBackgroundTask()
-                }
-            })
-        }
+    func applicationDidEnterBackground(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        PreyLogger("Remote notification in background")
+        
+        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
         
         // Hide keyboard
         window?.endEditing(true)
@@ -221,15 +206,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         displayScreen()
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Show notification to keep background
-        let userInfo : [String:String]      = ["keep_background" : "url"]
-        let localNotif                      = UILocalNotification()
-        localNotif.userInfo                 = userInfo
-        localNotif.alertBody                = "Keep Prey in background to enable all of its features.".localized
-        localNotif.hasAction                = false
-        localNotif.soundName                = UILocalNotificationDefaultSoundName
-        application.presentLocalNotificationNow(localNotif)
+    func applicationWillTerminate(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
     }
     
     // MARK: Notification
@@ -256,39 +234,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
      // MARK: Handling Launch for Tasks
-
-     // Check commands on Prey Web Panel
-    @available(iOS 13.0, *)
-    func handleRequestToPanel(task: BGAppRefreshTask) {
-        scheduleRequestToPanel()
-
-        DispatchQueue.main.async {
-            if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered, UIApplication.shared.applicationState == .background {                
-                PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.actionDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
-                    PreyLogger("Request PreyAction")
-                    task.setTaskCompleted(success: isSuccess)
-                }))
-            }
-        }
-        
-        task.expirationHandler = {
-            // After all operations are cancelled, the completion block below is called to set the task to complete.
-            PreyLogger("task.expirationHandler")
-        }
-    }
-    
-    // Schedule request to panel
-    @available(iOS 13.0, *)
-    func scheduleRequestToPanel() {
-        let request = BGAppRefreshTaskRequest(identifier: bgTaskToPanel)
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 60) // Fetch no earlier than 60 minutes from now
-        
-        do {
-            try BGTaskScheduler.shared.submit(request)
-        } catch {
-            PreyLogger("Could not schedule app refresh: \(error)")
-        }
-    }
 
     // MARK: Check settings on backup
     
