@@ -80,6 +80,9 @@ class PreyAction : Operation {
             
         case kAction.user_activated:
             actionItem = UserActivated(withTarget: kAction.user_activated, withCommand: cmd, withOptions: opt)
+        
+        case kAction.list_permissions:
+            actionItem = ListPermissions(withTarget: kAction.list_permissions, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem
