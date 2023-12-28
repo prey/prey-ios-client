@@ -2,7 +2,7 @@
 //  ListPermissions.swift
 //  Prey
 //
-//  Created by Oso on 28-12-23.
+//  Created by Orlando Aliaga on 28-12-23.
 //  Copyright © 2023 Prey, Inc. All rights reserved.
 //
 
