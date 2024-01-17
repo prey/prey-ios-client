@@ -30,7 +30,7 @@ class PreyDevice {
     // MARK: Functions
 
     // Init function
-    fileprivate init() {
+    init() {
         name        = UIDevice.current.name
         type        = (IS_IPAD) ? "Tablet" : "Phone"
         os          = "iOS"
