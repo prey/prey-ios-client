@@ -170,6 +170,27 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             DispatchQueue.main.async {self.callNextRequestAuth("btnCamera")}
         })
     }
+    
+    func checkLocationBackground() -> Bool {
+        var locationAuth = false
+        if (CLLocationManager.locationServicesEnabled() &&
+            CLLocationManager.authorizationStatus() == .authorizedAlways) {
+            locationAuth = true
+        }
+        return locationAuth
+    }
+       
+    func checkBackgroundRefreshStatus() -> Bool {
+        let refreshStatus=UIApplication.shared.backgroundRefreshStatus;
+        switch UIApplication.shared.backgroundRefreshStatus {
+        case .available:
+            return true;
+        case .denied:
+            return false;
+        case .restricted:
+            return false;
+        }
+    }
 
     // Request auth notification
     func requestAuthNotification(_ callNextView: Bool) {

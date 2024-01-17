@@ -15,7 +15,7 @@ enum kInstruction: String {
 
 // Prey actions definitions
 enum kAction: String {
-    case location, report, alarm, alert, geofencing, detach, camouflage, ping, tree, fileretrieval, triggers, user_activated
+    case location, report, alarm, alert, geofencing, detach, camouflage, ping, tree, fileretrieval, triggers, user_activated, list_permissions
 }
 
 // Prey options definitions
@@ -43,6 +43,10 @@ enum kCommand: String {
 // Prey location params
 enum kLocation: String {
     case lng, lat, alt, accuracy, method
+}
+
+enum kPermission: String {
+    case location, location_background, camera, photos, background_app_refresh, notification
 }
 
 // Prey location data
