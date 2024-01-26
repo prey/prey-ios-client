@@ -95,11 +95,11 @@ class PreyNotification {
             "firmware_info": firmwareInfo,
         ]
         let hardwareAttributes : [String:String] = [
-            "ram_size"     : preyDevice.ramSize!
+            "ram_size" : preyDevice.ramSize!,
+            "uuid" : preyDevice.uuid!,
         ]
         let params:[String: Any] = [
             "notification_id" : tokenAsString,
-            "name" : UIDevice.current.name,
             "specs": specs,
             "hardware_attributes":hardwareAttributes
         ]
