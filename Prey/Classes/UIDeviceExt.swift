@@ -91,7 +91,7 @@ extension UIDevice {
         case "iPhone 15 Pro", "iPhone 15 Pro Max":
             modelName = "Apple A17"
 
-        case "iPad Pro 5 12.9":
+        case "iPad Pro 5 12.9", "iPad Air 5":
             modelName = "Apple M1"
 
         default:
@@ -318,6 +318,8 @@ extension UIDevice {
             "iPad11,4"  : .iPadAir3,
             "iPad13,1"  : .iPadAir4,
             "iPad13,2"  : .iPadAir4,
+            "iPad13,16" : .iPadAir5,
+            "iPad13,17" : .iPadAir5,
 
 
             //iPhone
@@ -451,6 +453,7 @@ public enum Model : String {
     iPadAir2           = "iPad Air 2",
     iPadAir3           = "iPad Air 3",
     iPadAir4           = "iPad Air 4",
+    iPadAir5           = "iPad Air 5",
     iPad5              = "iPad 5", //iPad 2017
     iPad6              = "iPad 6", //iPad 2018
     iPad7              = "iPad 7", //iPad 2019
@@ -579,7 +582,7 @@ public enum Model : String {
         case "iPhone 12 Pro", "iPhone 12 Pro Max", "iPad Pro 4 12.9", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone 15":
             deviceRamSize = "6144"
         
-        case "iPad Pro 5 12.9", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max":
+        case "iPad Pro 5 12.9", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max", "iPad Air 5":
             deviceRamSize = "8192"
 
         default:
