@@ -54,9 +54,12 @@ class Alert: PreyAction {
         // Send start action
         let params  = getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
         self.sendData(params, toEndpoint: responseDeviceEndpoint)
-        sleep(4)
-        let paramsStopped  = getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
-        self.sendData(paramsStopped, toEndpoint: responseDeviceEndpoint)
+        let action = self
+        DispatchQueue.main.async {
+            sleep(4)
+            let paramsStopped  = action.getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
+            action.sendData(paramsStopped, toEndpoint: responseDeviceEndpoint)
+        }
     }
     
     // Show AlertVC
