@@ -101,7 +101,7 @@ class PreyNotification {
         let params:[String: Any] = [
             "notification_id" : tokenAsString,
             "specs": specs,
-            "hardware_attributes":hardwareAttributes
+            //"hardware_attributes":hardwareAttributes
         ]
         
         // Check userApiKey isn't empty
