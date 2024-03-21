@@ -193,6 +193,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
                 kReportLocation.LONGITURE.rawValue    : loc.coordinate.longitude,
                 kReportLocation.LATITUDE.rawValue     : loc.coordinate.latitude,
                 kReportLocation.ALTITUDE.rawValue     : loc.altitude,
+                kReportLocation.METHOD.rawValue       : "native",
                 kReportLocation.ACCURACY.rawValue     : loc.horizontalAccuracy]
             
             // Save location to reportData
