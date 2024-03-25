@@ -56,11 +56,11 @@ enum kDataLocation: String {
 
 // Prey location params
 enum kReportLocation: String {
-    case LONGITURE  = "geo[lng]"
-    case LATITUDE   = "geo[lat]"
-    case ALTITUDE   = "geo[alt]"
-    case ACCURACY   = "geo[accuracy]"
-    case METHOD     = "geo[method]"
+    case LONGITURE  = "location[lng]"
+    case LATITUDE   = "location[lat]"
+    case ALTITUDE   = "location[alt]"
+    case ACCURACY   = "location[accuracy]"
+    case METHOD     = "location[method]"
 }
 
 // Prey /Data Endpoint struct
@@ -85,7 +85,7 @@ enum kInfoRepeatRangetTime: String {
 
 // Definition of URLs
 #if DEBUG
-    public let URLControlPanel      : String = "https://control.preyhq.com/api/v2"
+    public let URLControlPanel      : String = "https://panel.preyhq.com/api/v2"
     public let URLForgotPanel       : String = "https://panel.preyhq.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyhq.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://panel.preyhq.com/upload/upload"
@@ -135,7 +135,7 @@ public var locationAwareEndpoint : String {return String(format:"/devices/%@/loc
 public var dataDeviceEndpoint : String {return String(format:"/devices/%@/data",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Report Data
-public var reportDataDeviceEndpoint : String {return String(format:"/devices/%@/reports",(PreyConfig.sharedInstance.getDeviceKey()))}
+public var reportDataDeviceEndpoint : String {return String(format:"/devices/%@/reports.json",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Response Data
 public var responseDeviceEndpoint : String {return String(format:"/devices/%@/response",(PreyConfig.sharedInstance.getDeviceKey()))}
