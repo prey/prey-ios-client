@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -121,6 +121,7 @@
 		3BFF00801D3E7EAC00BEF7E0 /* PreyDeployment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF007F1D3E7EAC00BEF7E0 /* PreyDeployment.swift */; };
 		3BFF00841D3E8A2400BEF7E0 /* AppFeedback.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00811D3E8A2400BEF7E0 /* AppFeedback.plist */; };
 		3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */; };
+		747FA51E2BAB1683003242C7 /* ListPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747FA51D2BAB1683003242C7 /* ListPermissions.swift */; };
 		74C856A3292318DC0053EB6A /* GeofencingLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C856A2292318DC0053EB6A /* GeofencingLocation.swift */; };
 		C7A403C34BB1520215CE478D /* Pods_PreyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8392F72CF9DA4F14F65199F9 /* Pods_PreyTests.framework */; };
 		DD5CB5EF9D81A896E21B4D60 /* Pods_PreyNotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C384AA2935BAE7631E3DDAC /* Pods_PreyNotify.framework */; };
@@ -297,6 +298,7 @@
 		3BFF00821D3E8A2400BEF7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plist/Info.plist; sourceTree = "<group>"; };
 		3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ManagedAppConfig.plist; path = Plist/ManagedAppConfig.plist; sourceTree = "<group>"; };
 		635174AA098F25D2F1D8BC05 /* Pods-Prey.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prey.release.xcconfig"; path = "Target Support Files/Pods-Prey/Pods-Prey.release.xcconfig"; sourceTree = "<group>"; };
+		747FA51D2BAB1683003242C7 /* ListPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListPermissions.swift; path = Classes/ListPermissions.swift; sourceTree = "<group>"; };
 		74C856A2292318DC0053EB6A /* GeofencingLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofencingLocation.swift; sourceTree = "<group>"; };
 		8392F72CF9DA4F14F65199F9 /* Pods_PreyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BF340641AA1FFAA199E2B03 /* Pods-PreyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreyTests.release.xcconfig"; path = "Target Support Files/Pods-PreyTests/Pods-PreyTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 				3B33A76320F69D0B00F3B64E /* Battery.swift */,
 				3BDA80D821120DE4003B028C /* FileRetrieval.swift */,
 				74C856A2292318DC0053EB6A /* GeofencingLocation.swift */,
+				747FA51D2BAB1683003242C7 /* ListPermissions.swift */,
 			);
 			name = "Prey Modules";
 			sourceTree = "<group>";
@@ -715,9 +718,10 @@
 		3B8283E5199198E6000E4545 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftMigration = 0720;
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = "Prey, Inc.";
 				TargetAttributes = {
 					3B8283EC199198E6000E4545 = {
@@ -871,23 +875,31 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Prey/Pods-Prey-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseCoreExtension/FirebaseCoreExtension.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCrashlytics/FirebaseCrashlytics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseRemoteConfigInterop/FirebaseRemoteConfigInterop.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseSessions/FirebaseSessions.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesSwift/Promises.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCrashlytics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseRemoteConfigInterop.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseSessions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Promises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1027,6 +1039,7 @@
 				3B86299B1EF03CB400BE92D4 /* Socket+File.swift in Sources */,
 				3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */,
 				3BAB25D323A923C300BDA263 /* TriggersEvents+Properties.swift in Sources */,
+				747FA51E2BAB1683003242C7 /* ListPermissions.swift in Sources */,
 				3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */,
 				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,
 				3B8629921EF03CB400BE92D4 /* Files.swift in Sources */,
@@ -1159,6 +1172,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1217,6 +1231,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1228,7 +1243,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1246,7 +1262,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1254,9 +1270,12 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Prey;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.1.20;
+				MARKETING_VERSION = 2.1.26;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1282,7 +1301,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
@@ -1291,9 +1310,12 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Prey;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.1.20;
+				MARKETING_VERSION = 2.1.26;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1325,7 +1347,11 @@
 				);
 				INFOPLIST_FILE = PreyTests/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Prey;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 2.1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1349,7 +1375,11 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PreyTests/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Prey;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 2.1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1379,7 +1409,11 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PreyNotify/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MARKETING_VERSION = 2.1.11;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1414,7 +1448,11 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PreyNotify/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MARKETING_VERSION = 2.1.11;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey.NotifyPrey;
