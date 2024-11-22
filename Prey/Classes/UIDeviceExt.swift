@@ -90,9 +90,30 @@ extension UIDevice {
         
         case "iPhone 15 Pro", "iPhone 15 Pro Max":
             modelName = "Apple A17"
+        
+        case "iPad Mini 2024":
+            modelName = "Apple A17"
+            
+        case "iPhone 16", "iPhone 16 Pro", "iPhone 16 Pro Max", "iPhone 16 Plus":
+            modelName = "Apple A18"
 
         case "iPad Pro 5 12.9", "iPad Air 5":
             modelName = "Apple M1"
+            
+        case "iPad Air 11":
+            modelName = "Apple M2"
+            
+        case "iPad Pro 11 2024", "iPad Pro 13 2024":
+            modelName = "Apple M4"
+        
+        case "Apple Watch Series 9", "Apple Watch Ultra 2":
+            modelName = "Apple S9"
+        
+        case "Apple Watch Series 10":
+            modelName = "Apple S10"
+            
+        case "Apple Watch Series 8", "Apple Watch Ultra":
+            modelName = "Apple S8"
 
         default:
             modelName = "Apple"
@@ -166,6 +187,18 @@ extension UIDevice {
         
         case "Apple A17":
             cpuSpeedMhz = "3780"
+            
+        case "Apple A18":
+            cpuSpeedMhz = "4040"
+            
+        case "Apple M2":
+            cpuSpeedMhz = "3490"
+            
+        case "Apple M4":
+            cpuSpeedMhz = "4410"
+            
+        case "Apple S8", "Apple S9", "Apple S10":
+            cpuSpeedMhz = "1800"
 
         default:
             cpuSpeedMhz = "0"
@@ -197,11 +230,14 @@ extension UIDevice {
         case "Apple A10":
             cores = "4"
 
-        case "Apple A10X","Apple A11","Apple A12","Apple A13", "Apple A14", "Apple A15", "Apple A16", "Apple A17":
+        case "Apple A10X","Apple A11","Apple A12","Apple A13", "Apple A14", "Apple A15", "Apple A16", "Apple A17", "Apple A18":
             cores = "6"
 
         case "Apple A12X","Apple A12Z", "Apple M1":
             cores = "8"
+            
+        case "Apple M2", "Apple M4":
+            cores = "10"
 
         default:
             cores = "0"
@@ -277,6 +313,7 @@ extension UIDevice {
             "iPad11,2"  : .iPadMini5,
             "iPad14,1"  : .iPadMini6, //2021
             "iPad14,2"  : .iPadMini6,
+            "iPad16,2"  : .iPadMini7,
 
             //iPad Pro
             "iPad6,3"   : .iPadPro9_7,
@@ -307,6 +344,10 @@ extension UIDevice {
             "iPad13,9"  : .iPadPro5_12_9,
             "iPad13,10" : .iPadPro5_12_9,
             "iPad13,11" : .iPadPro5_12_9,
+            "iPad16,3"  : .iPadPro11_M4,
+            "iPad16,4"  : .iPadPro11_M4,
+            "iPad16,5"  : .iPadPro13_M4,
+            "iPad16,6"  : .iPadPro13_M4,
 
             //iPad Air
             "iPad4,1"   : .iPadAir,
@@ -320,6 +361,8 @@ extension UIDevice {
             "iPad13,2"  : .iPadAir4,
             "iPad13,16" : .iPadAir5,
             "iPad13,17" : .iPadAir5,
+            "iPad14,8"  : .iPadAir6,
+            "iPad14,9"  : .iPadAir6,
 
 
             //iPhone
@@ -373,6 +416,10 @@ extension UIDevice {
             "iPhone15,5" : .iPhone15Plus,
             "iPhone16,1" : .iPhone15Pro,
             "iPhone16,2" : .iPhone15ProMax,
+            "iPhone17,1" : .iPhone16Pro,
+            "iPhone17,2" : .iPhone16ProMax,
+            "iPhone17,3" : .iPhone16,
+            "iPhone17,4" : .iPhone16Plus,
 
             // Apple Watch
             "Watch1,1" : .AppleWatch1,
@@ -405,6 +452,20 @@ extension UIDevice {
             "Watch6,7" : .AppleWatchS7,
             "Watch6,8" : .AppleWatchS7,
             "Watch6,9" : .AppleWatchS7,
+            "Watch6,14": .AppleWatchS8,
+            "Watch6,15": .AppleWatchS8,
+            "Watch6,16": .AppleWatchS8,
+            "Watch6,17": .AppleWatchS8,
+            "Watch7,1" : .AppleWatchS9,
+            "Watch7,2" : .AppleWatchS9,
+            "Watch7,3" : .AppleWatchS9,
+            "Watch7,4" : .AppleWatchS9,
+            "Watch7,8" : .AppleWatchS10,
+            "Watch7,9" : .AppleWatchS10,
+            "Watch7,10": .AppleWatchS10,
+            "Watch7,11": .AppleWatchS10,
+            "Watch6,18": .AppleWatch6_18,
+            "Watch7,5" : .AppleWatch7_5,
 
             //Apple TV
             "AppleTV1,1" : .AppleTV1,
@@ -454,6 +515,7 @@ public enum Model : String {
     iPadAir3           = "iPad Air 3",
     iPadAir4           = "iPad Air 4",
     iPadAir5           = "iPad Air 5",
+    iPadAir6           = "iPad Air 11",
     iPad5              = "iPad 5", //iPad 2017
     iPad6              = "iPad 6", //iPad 2018
     iPad7              = "iPad 7", //iPad 2019
@@ -468,6 +530,7 @@ public enum Model : String {
     iPadMini4          = "iPad Mini 4",
     iPadMini5          = "iPad Mini 5",
     iPadMini6          = "iPad Mini 6",
+    iPadMini7          = "iPad Mini 2024",
 
     //iPad Pro
     iPadPro9_7         = "iPad Pro 9.7",
@@ -479,6 +542,8 @@ public enum Model : String {
     iPadPro3_12_9      = "iPad Pro 3 12.9",
     iPadPro4_12_9      = "iPad Pro 4 12.9",
     iPadPro5_12_9      = "iPad Pro 5 12.9",
+    iPadPro11_M4       = "iPad Pro 11 2024",
+    iPadPro13_M4       = "iPad Pro 13 2024",
 
     //iPhone
     iPhone4            = "iPhone 4",
@@ -520,6 +585,10 @@ public enum Model : String {
     iPhone15Pro        = "iPhone 15 Pro",
     iPhone15ProMax     = "iPhone 15 Pro Max",
     iPhoneSE3          = "iPhone SE 3rd gen",
+    iPhone16           = "iPhone 16",
+    iPhone16Plus       = "iPhone 16 Plus",
+    iPhone16Pro        = "iPhone 16 Pro",
+    iPhone16ProMax     = "iPhone 16 Pro Max",
 
     // Apple Watch
     AppleWatch1         = "Apple Watch 1gen",
@@ -531,6 +600,11 @@ public enum Model : String {
     AppleWatchSE        = "Apple Watch Special Edition",
     AppleWatchS6        = "Apple Watch Series 6",
     AppleWatchS7        = "Apple Watch Series 7",
+    AppleWatchS8        = "Apple Watch Series 8",
+    AppleWatchS9        = "Apple Watch Series 9",
+    AppleWatchS10       = "Apple Watch Series 10",
+    AppleWatch6_18      = "Apple Watch Ultra",
+    AppleWatch7_5       = "Apple Watch Ultra 2",
 
     //Apple TV
     AppleTV1           = "Apple TV 1gen",
@@ -582,7 +656,7 @@ public enum Model : String {
         case "iPhone 12 Pro", "iPhone 12 Pro Max", "iPad Pro 4 12.9", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone 15":
             deviceRamSize = "6144"
         
-        case "iPad Pro 5 12.9", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max", "iPad Air 5":
+        case "iPad Pro 5 12.9", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max", "iPad Air 5", "iPhone 16", "iPhone 16 Pro", "iPhone 16 Pro Max", "iPhone 16 Plus", "iPad Air 11", "iPad Pro 11 2024", "iPad Pro 13 2024", "iPad Mini 2024":
             deviceRamSize = "8192"
 
         default:
