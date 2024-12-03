@@ -6,6 +6,6 @@
 
 "NSLocationWhenInUseUsageDescription" = "Prey needs your location to help you track and find this device using our platform.";
 
-"NSPhotoLibraryAddUsageDescription" = "Prey needs access to the library for you to retrieve images with the File Retrieval.";
+"NSPhotoLibraryAddUsageDescription" = "Prey needs access to your library to help you remotely retrieve your personal photos if your device is lost or stolen.";
 
-"NSPhotoLibraryUsageDescription" = "Prey needs access to the library for you to retrieve images with the File Retrieval.";
+"NSPhotoLibraryUsageDescription" = "Prey needs access to your library to help you remotely retrieve your personal photos if your device is lost or stolen.";
