@@ -6,6 +6,6 @@
 
 "NSLocationWhenInUseUsageDescription" = "Prey requiere acceso a tu ubicación para ayudarte a rastrear y encontrar el equipo.";
 
-"NSPhotoLibraryAddUsageDescription" = "Prey requiere acceso a tu biblioteca para que puedas utilizar la Recuperación de Archivos.";
+"NSPhotoLibraryAddUsageDescription" = "Permite que Prey acceda a tus fotos para ayudarte a recuperarlas de forma remota si tu dispositivo se pierde o es robado.";
 
-"NSPhotoLibraryUsageDescription" = "Prey requiere acceso a tu biblioteca para que puedas utilizar la Recuperación de Archivos.";
+"NSPhotoLibraryUsageDescription" = "Permite que Prey acceda a tus fotos para ayudarte a recuperarlas de forma remota si tu dispositivo se pierde o es robado.";
