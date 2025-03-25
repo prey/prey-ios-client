@@ -24,7 +24,7 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
     // State
     private var isLocationAwareActive = false
     private var index = 0
-    private var lastLocation: CLLocation?
+    var lastLocation: CLLocation?
     private var locationUpdateHandler: ((CLLocation) -> Void)?
     
     // MARK: Functions
@@ -152,8 +152,10 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
             kLocation.accuracy.rawValue : location.horizontalAccuracy,
             kLocation.method.rawValue   : "native"]
         
-        let locParam:[String: Any] = [kAction.location.rawValue : params, 
-                                     kDataLocation.skip_toast.rawValue : (index > 0)]
+        let locParam:[String: Any] = [
+            kAction.location.rawValue : params,
+            kDataLocation.skip_toast.rawValue : (index > 0)
+        ]
         
         if isLocationAwareActive {
             GeofencingManager.sharedInstance.startLocationAwareManager(locationKlass)

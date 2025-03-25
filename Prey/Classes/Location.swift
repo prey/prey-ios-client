@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 
-@unchecked Sendable class Location : PreyAction, CLLocationManagerDelegate {
+class Location : PreyAction, CLLocationManagerDelegate, @unchecked Sendable {
     
     // MARK: Properties
     
