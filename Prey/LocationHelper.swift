@@ -142,10 +142,7 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
     
     // Location received
     private func locationReceived(_ location: CLLocation) {
-        guard let locationKlass = Location(withTarget: .location, withCommand: .get, withOptions: nil) else {
-            PreyLogger("Failed to create Location instance")
-            return
-        }
+        let locationKlass = Location(withTarget: .location, withCommand: .get, withOptions: nil)
         
         let params:[String: Any] = [
             kLocation.lng.rawValue      : location.coordinate.longitude,
