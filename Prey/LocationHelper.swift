@@ -92,8 +92,9 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
             case .denied:
                 // Handle permission denied
                 PreyLogger("Location permission denied")
-                let location = Location(withTarget: .location, withCommand: .stop, withOptions: nil)
-                stopLocationManager(location: location)
+                if let location = Location(withTarget: .location, withCommand: .stop, withOptions: nil) {
+                    stopLocationManager(location: location)
+                }
             case .locationUnknown:
                 // Temporary error - keep trying
                 PreyLogger("Location temporarily unavailable")
