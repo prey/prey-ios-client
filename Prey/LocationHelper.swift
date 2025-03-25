@@ -10,95 +10,132 @@ import Foundation
 import CoreLocation
 import UIKit
 
-class LocationHelper {
-    
+class LocationHelper: NSObject, CLLocationManagerDelegate {
     
     // MARK: Singleton
+    static let shared = LocationHelper()
+    private let locationManager = CLLocationManager()
     
-    static let sharedInstance   = CLLocationManager()
+    // Configuration
+    private let minimumAccuracy: CLLocationAccuracy = 100 // meters
+    private let minimumDistance: CLLocationDistance = 25  // meters
+    private let staleLocationThreshold: TimeInterval = 30 // seconds
     
-    static var isLocationAwareActive = false
-    
-    static var index = 0
-    
-    static var lastLocation : CLLocation!
+    // State
+    private var isLocationAwareActive = false
+    private var index = 0
+    private var lastLocation: CLLocation?
+    private var locationUpdateHandler: ((CLLocation) -> Void)?
     
     // MARK: Functions
     
-    // Start Location Manager
-    static func startLocationManager(location: Location)  {
-        sharedInstance.requestAlwaysAuthorization()
-        sharedInstance.allowsBackgroundLocationUpdates = true
-        sharedInstance.pausesLocationUpdatesAutomatically = false
-        sharedInstance.activityType = .other
-        sharedInstance.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        // sharedInstance.distanceFilter = 25
-        sharedInstance.startUpdatingLocation()
-        
-        // TODO: verify isActive behavior
-        // isActive = true
-        index = 0
+    private override init() {
+        super.init()
+        setupLocationManager()
     }
     
-    // Stop Location Manager
-    static func stopLocationManager(location: Location)  {
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = minimumDistance
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.pausesLocationUpdatesAutomatically = true
+        locationManager.activityType = .otherNavigation
+    }
+    
+    func startLocationManager(location: Location, completion: ((CLLocation) -> Void)? = nil)  {
+        locationUpdateHandler = completion
+        locationManager.requestAlwaysAuthorization()
+        
+        // Reset state
+        index = 0
+        lastLocation = nil
+        isLocationAwareActive = false
+        
+        // Start updates based on battery state
+        if UIDevice.current.batteryState == .charging {
+            locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            locationManager.startUpdatingLocation()
+        } else {
+            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            locationManager.startMonitoringSignificantLocationChanges()
+        }
+    }
+    
+    func stopLocationManager(location: Location)  {
         PreyLogger("Stop location")
-        
-        sharedInstance.stopUpdatingLocation()
-        sharedInstance.delegate = nil
-        
-        // TODO: verify isActive behavior
-        // isActive = false
+        locationManager.stopUpdatingLocation()
+        locationManager.stopMonitoringSignificantLocationChanges()
+        locationUpdateHandler = nil
         PreyModule.sharedInstance.checkStatus(location)
     }
     
     // MARK: CLLocationManagerDelegate
     
-    // Did Update Locations
-    /*static func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        PreyLogger("New location received on Location")
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        PreyLogger("New location received")
         
-        guard let currentLocation = locations.first else {
-            return
-        }
+        guard let currentLocation = locations.last else { return }
         
-        // Check if location is cached
-        let locationTime = abs(currentLocation.timestamp.timeIntervalSinceNow as Double)
-        guard locationTime < 5 else {
-            return
-        }
+        // Validate location
+        guard isValidLocation(currentLocation) else { return }
         
-        if currentLocation.horizontalAccuracy < 0 {
-            return
-        }
-
-        if currentLocation.coordinate.longitude == 0 || currentLocation.coordinate.latitude == 0 {
-            return
-        }
-        
-        // Send first location
-        if lastLocation == nil {
-            // Send location to web panel
-            locationReceived(currentLocation)
-            lastLocation = currentLocation
-            return
-        }
-        
-        // Compare accuracy
-        if currentLocation.horizontalAccuracy < lastLocation.horizontalAccuracy {
-            // Send location to web panel
-            locationReceived(currentLocation)
-        }
-
-        // Save last location
-        lastLocation = currentLocation
+        // Process location update
+        processLocationUpdate(currentLocation)
     }
-     */
     
-    // Did fail with error
-    /*func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        PreyLogger("Error getting location: \(error.localizedDescription)")
-    }*/
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        PreyLogger("Location error: \(error.localizedDescription)")
+        
+        if let clError = error as? CLError {
+            switch clError.code {
+            case .denied:
+                // Handle permission denied
+                PreyLogger("Location permission denied")
+                stopLocationManager(location: Location())
+            case .locationUnknown:
+                // Temporary error - keep trying
+                PreyLogger("Location temporarily unavailable")
+            default:
+                PreyLogger("Location error: \(clError.localizedDescription)")
+            }
+        }
+    }
+    
+    private func isValidLocation(_ location: CLLocation) -> Bool {
+        // Check if location is stale
+        let locationAge = abs(location.timestamp.timeIntervalSinceNow)
+        guard locationAge <= staleLocationThreshold else { return false }
+        
+        // Validate accuracy
+        guard location.horizontalAccuracy >= 0 &&
+              location.horizontalAccuracy <= minimumAccuracy else { return false }
+        
+        // Validate coordinates
+        guard location.coordinate.latitude != 0 &&
+              location.coordinate.longitude != 0 else { return false }
+        
+        return true
+    }
+    
+    private func processLocationUpdate(_ location: CLLocation) {
+        // First location update
+        guard let previousLocation = lastLocation else {
+            lastLocation = location
+            locationReceived(location)
+            return
+        }
+        
+        // Check if we've moved far enough
+        let distance = location.distance(from: previousLocation)
+        guard distance >= minimumDistance else { return }
+        
+        // Check if accuracy improved
+        if location.horizontalAccuracy <= previousLocation.horizontalAccuracy {
+            lastLocation = location
+            locationReceived(location)
+        }
+    }
     
     
     // Location received
@@ -130,21 +167,27 @@ class LocationHelper {
     }
     
     
-    static func handleEnterForeground() {
-        PreyLogger("handleEnterForeground")
-        sharedInstance.desiredAccuracy = kCLLocationAccuracyBest
-        sharedInstance.startUpdatingLocation()
+    // MARK: - App State Handling
+    
+    func handleEnterForeground() {
+        PreyLogger("Entering foreground")
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
     }
 
-    static func handleEnterBackground() {
-        PreyLogger("handleEnterBackground")
-        sharedInstance.stopUpdatingLocation()
-        sharedInstance.startMonitoringSignificantLocationChanges()
+    func handleEnterBackground() {
+        PreyLogger("Entering background")
+        optimizeForBackground()
     }
 
-    static func handleAppKilled() {
-        PreyLogger("handleAppKilled")
-        sharedInstance.stopUpdatingLocation()
-        sharedInstance.startMonitoringSignificantLocationChanges()
+    func handleAppKilled() {
+        PreyLogger("App terminated")
+        optimizeForBackground()
+    }
+    
+    private func optimizeForBackground() {
+        locationManager.stopUpdatingLocation()
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.startMonitoringSignificantLocationChanges()
     }
 }
