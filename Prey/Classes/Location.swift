@@ -54,10 +54,25 @@ class Location : PreyAction, CLLocationManagerDelegate, @unchecked Sendable {
     
     // Send lastLocation
     func sendLastLocation() {
-
         if let lastLocation = LocationHelper.shared.lastLocation {
             // Send location to web panel
-            LocationHelper.shared.locationReceived(lastLocation)
+            let params:[String: Any] = [
+                kLocation.lng.rawValue      : lastLocation.coordinate.longitude,
+                kLocation.lat.rawValue      : lastLocation.coordinate.latitude,
+                kLocation.alt.rawValue      : lastLocation.altitude,
+                kLocation.accuracy.rawValue : lastLocation.horizontalAccuracy,
+                kLocation.method.rawValue   : "native"]
+            
+            let locParam:[String: Any] = [
+                kAction.location.rawValue : params,
+                kDataLocation.skip_toast.rawValue : true
+            ]
+            
+            self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
+            
+            // Send device name and info
+            let paramName:[String: Any] = ["name" : UIDevice.current.name]
+            self.sendData(paramName, toEndpoint: dataDeviceEndpoint)
         }
     }
     

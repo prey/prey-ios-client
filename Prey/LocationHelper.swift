@@ -139,7 +139,7 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
     
     
     // Location received
-    private func locationReceived(_ location: CLLocation) {
+    func locationReceived(_ location: CLLocation) {
         guard let locationKlass = Location() else {
             PreyLogger("Failed to create Location instance")
             return
