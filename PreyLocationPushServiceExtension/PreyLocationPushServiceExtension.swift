@@ -1,6 +1,7 @@
 import UserNotifications
 import CoreLocation
 import Prey
+import Firebase
 
 class PreyLocationPushServiceExtension: UNNotificationServiceExtension, CLLocationPushServiceExtension {
     
@@ -8,6 +9,7 @@ class PreyLocationPushServiceExtension: UNNotificationServiceExtension, CLLocati
     private var bestAttemptContent: UNMutableNotificationContent?
     
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+        FirebaseApp.configure()
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
     }
