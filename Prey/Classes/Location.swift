@@ -14,7 +14,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // MARK: Properties
     
-    let locManager = LocationHelper()
+    let locManager = LocationHelper.shared
     
     
     // MARK: Functions
@@ -46,7 +46,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Prey command
     override func get() {
-        LocationHelper.startLocationManager(location: self)
+        LocationHelper.shared.startLocationManager(location: self)
         // Schedule get location
         Timer.scheduledTimer(timeInterval: 30.0, target:self, selector:#selector(stopLocationTimer(_:)), userInfo:nil, repeats:false)
         PreyLogger("Start location")
@@ -55,16 +55,16 @@ class Location : PreyAction, CLLocationManagerDelegate {
     // Send lastLocation
     func sendLastLocation() {
 
-        if LocationHelper.lastLocation != nil {
+        if let lastLocation = LocationHelper.shared.lastLocation {
             // Send location to web panel
-            LocationHelper.locationReceived(locationKlass: self, LocationHelper.lastLocation)
+            LocationHelper.shared.locationReceived(lastLocation)
         }
     }
     
     // Stop Location Timer
     @objc func stopLocationTimer(_ timer:Timer)  {
         timer.invalidate()
-        LocationHelper.stopLocationManager(location: self)
+        LocationHelper.shared.stopLocationManager(location: self)
     }
     
 }

@@ -29,7 +29,7 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
     
     // MARK: Functions
     
-    private override init() {
+    override init() {
         super.init()
         setupLocationManager()
     }
