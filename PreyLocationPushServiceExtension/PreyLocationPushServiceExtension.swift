@@ -1,7 +1,11 @@
 import UserNotifications
 import CoreLocation
+import Prey
 
 class PreyLocationPushServiceExtension: UNNotificationServiceExtension, CLLocationPushServiceExtension {
+    
+    private var contentHandler: ((UNNotificationContent) -> Void)?
+    private var bestAttemptContent: UNMutableNotificationContent?
     
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.contentHandler = contentHandler
@@ -24,14 +28,28 @@ extension PreyLocationPushServiceExtension: CLLocationManagerDelegate {
         
         // Send location to Prey server
         let params:[String: Any] = [
-            "lng": location.coordinate.longitude,
-            "lat": location.coordinate.latitude,
-            "alt": location.altitude,
-            "accuracy": location.horizontalAccuracy,
-            "method": "native_push"
+            kLocation.lng.rawValue: location.coordinate.longitude,
+            kLocation.lat.rawValue: location.coordinate.latitude,
+            kLocation.alt.rawValue: location.altitude,
+            kLocation.accuracy.rawValue: location.horizontalAccuracy,
+            kLocation.method.rawValue: "native_push"
         ]
         
-        PreyHTTPClient.sharedInstance.sendLocation(params)
+        let locParam:[String: Any] = [
+            kAction.location.rawValue: params,
+            kDataLocation.skip_toast.rawValue: true
+        ]
+        
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            PreyConfig.sharedInstance.userApiKey ?? "",
+            password: "x",
+            params: locParam,
+            messageId: nil,
+            httpMethod: Method.POST.rawValue,
+            endPoint: dataDeviceEndpoint,
+            onCompletion: PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction: nil) { success in
+                PreyLogger("Location Push Send: \(success)")
+            })
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
