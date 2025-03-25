@@ -7,6 +7,7 @@
 //
 
 import CoreLocation
+import Prey
 
 class LocationPushService: NSObject, CLLocationPushServiceExtension, CLLocationManagerDelegate {
 
@@ -29,15 +30,29 @@ class LocationPushService: NSObject, CLLocationPushServiceExtension, CLLocationM
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // Process the location(s) as appropriate
-        // let location = locations.first
+        guard let location = locations.last else {
+                   return
+               }
 
         // If sharing the locations to another user, end-to-end encrypt them to protect privacy
+        
+        // Send location to Prey server
+               let params:[String: Any] = [
+                   "lng": location.coordinate.longitude,
+                   "lat": location.coordinate.latitude,
+                   "alt": location.altitude,
+                   "accuracy": location.horizontalAccuracy,
+                   "method": "native_push"
+               ]
+               
+               PreyHTTPClient.sharedInstance.sendLocation(params)
         
         // When finished, always call completion()
         self.completion?()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        PreyLogger("Location Push Service Error: \(error.localizedDescription)")
         self.completion?()
     }
 
