@@ -15,7 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: Properties
     
-    var window: UIWindow?
+    var window: UIWindow? {
+        didSet {
+            // Ensure window level and key status
+            window?.windowLevel = .normal
+            window?.makeKeyAndVisible()
+        }
+    }
     var bgTask = UIBackgroundTaskIdentifier.invalid
     
     // MARK: Methods
@@ -28,15 +34,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Relaunch viewController
         let homeIdentifier                  = (PreyConfig.sharedInstance.isCamouflageMode) ? StoryboardIdVC.home.rawValue : StoryboardIdVC.homeWeb.rawValue
-        self.window                         = UIWindow(frame: UIScreen.main.bounds)
-        let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
-        let rootVC: UINavigationController  = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
-        let controller: UIViewController    = mainStoryboard.instantiateViewController(withIdentifier: homeIdentifier)
+        guard let mainStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil) as UIStoryboard? else {
+            PreyLogger("Failed to load main storyboard")
+            return
+        }
         
+        guard let rootVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as? UINavigationController,
+              let controller = mainStoryboard.instantiateViewController(withIdentifier: homeIdentifier) as UIViewController? else {
+            PreyLogger("Failed to instantiate view controllers")
+            return
+        }
+        
+        // Create window with proper frame
+        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        newWindow.backgroundColor = .white // Prevent black flash
+        
+        // Setup view controller hierarchy
         rootVC.setViewControllers([controller], animated: false)
+        newWindow.rootViewController = rootVC
         
-        self.window?.rootViewController = rootVC
-        self.window?.makeKeyAndVisible()
+        // Assign window after full setup
+        self.window = newWindow
     }
     
     func stopBackgroundTask() {
@@ -194,8 +212,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         
-        // Relaunch window
-        if  window?.rootViewController?.view.superview == window {
+        // Ensure window and view hierarchy is intact
+        guard let window = self.window,
+              window.rootViewController?.view.superview == window else {
+            PreyLogger("Window hierarchy broken - recreating")
+            displayScreen()
             return
         }
 
