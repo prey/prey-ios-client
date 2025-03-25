@@ -139,8 +139,12 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
     
     
     // Location received
-    static func locationReceived(locationKlass: Location, _ location:CLLocation) {
- 
+    private func locationReceived(_ location: CLLocation) {
+        guard let locationKlass = Location() else {
+            PreyLogger("Failed to create Location instance")
+            return
+        }
+        
         let params:[String: Any] = [
             kLocation.lng.rawValue      : location.coordinate.longitude,
             kLocation.lat.rawValue      : location.coordinate.latitude,
@@ -148,10 +152,11 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
             kLocation.accuracy.rawValue : location.horizontalAccuracy,
             kLocation.method.rawValue   : "native"]
         
-        let locParam:[String: Any] = [kAction.location.rawValue : params, kDataLocation.skip_toast.rawValue : (index > 0)]
+        let locParam:[String: Any] = [kAction.location.rawValue : params, 
+                                     kDataLocation.skip_toast.rawValue : (index > 0)]
         
         if isLocationAwareActive {
-            GeofencingManager.sharedInstance.startLocationAwareManager(location)
+            GeofencingManager.sharedInstance.startLocationAwareManager(locationKlass)
             isLocationAwareActive = false
             locationKlass.sendData(locParam, toEndpoint: locationAwareEndpoint)
             stopLocationManager(location: locationKlass)
@@ -159,11 +164,17 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
             locationKlass.sendData(locParam, toEndpoint: dataDeviceEndpoint)
             index = index + 1
         }
-        let paramName:[String: Any] = [ "name" : UIDevice.current.name]
+        
+        // Send device name and info
+        let paramName:[String: Any] = ["name" : UIDevice.current.name]
         locationKlass.sendData(paramName, toEndpoint: dataDeviceEndpoint)
-        PreyDevice.infoDevice({(isSuccess: Bool) in
+        
+        PreyDevice.infoDevice({ [weak self] (isSuccess: Bool) in
             PreyLogger("infoDevice isSuccess: \(isSuccess)")
         })
+        
+        // Notify completion handler if set
+        locationUpdateHandler?(location)
     }
     
     
