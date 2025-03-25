@@ -92,7 +92,7 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
             case .denied:
                 // Handle permission denied
                 PreyLogger("Location permission denied")
-                stopLocationManager(location: Location())
+                stopLocationManager(location: Location(withTarget: <#kAction#>, withCommand: <#kCommand#>, withOptions: <#NSDictionary?#>))
             case .locationUnknown:
                 // Temporary error - keep trying
                 PreyLogger("Location temporarily unavailable")
@@ -140,7 +140,7 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
     
     // Location received
     func locationReceived(_ location: CLLocation) {
-        guard let locationKlass = Location() else {
+        guard let locationKlass = Location(withTarget: <#kAction#>, withCommand: <#kCommand#>, withOptions: <#NSDictionary?#>) else {
             PreyLogger("Failed to create Location instance")
             return
         }
