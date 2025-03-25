@@ -165,7 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Hide keyboard
         window?.endEditing(true)
-        LocationHelper.handleEnterBackground()
+        LocationHelper.shared.handleEnterBackground()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -174,7 +174,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
         }
 
-        LocationHelper.handleEnterForeground()
+        LocationHelper.shared.handleEnterForeground()
         stopBackgroundTask()
     }
 
@@ -224,7 +224,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        LocationHelper.handleAppKilled()
+        LocationHelper.shared.handleAppKilled()
     }
     
     // MARK: Notification
