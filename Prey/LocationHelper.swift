@@ -156,7 +156,7 @@ class LocationHelper: NSObject, CLLocationManagerDelegate {
         ]
         
         if isLocationAwareActive {
-            GeofencingManager.sharedInstance.startLocationAwareManager(locationKlass)
+            GeofencingManager.sharedInstance.startLocationAwareManager(location)
             isLocationAwareActive = false
             locationKlass.sendData(locParam, toEndpoint: locationAwareEndpoint)
             stopLocationManager(location: locationKlass)
