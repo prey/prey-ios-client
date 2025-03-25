@@ -51,6 +51,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         PreyLogger("didFinishLaunchingWithOptions")
+        
+        // Request Always authorization for location pushes
+        if #available(iOS 13.0, *) {
+            let locationManager = CLLocationManager()
+            locationManager.requestAlwaysAuthorization()
+        }
              
         // Config Fabric SDK
 //        Fabric.with([Crashlytics.self])

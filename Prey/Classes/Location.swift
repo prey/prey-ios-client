@@ -22,6 +22,9 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     var index = 0
     
+    // Location Push Token
+    private var locationPushToken: Data?
+    
     // MARK: Functions
     
     // Return init if location action don't exist
@@ -61,7 +64,47 @@ class Location : PreyAction, CLLocationManagerDelegate {
         startLocationManager()
         // Schedule get location
         Timer.scheduledTimer(timeInterval: 30.0, target:self, selector:#selector(stopLocationTimer(_:)), userInfo:nil, repeats:false)
+        
+        // Start monitoring location pushes
+        if #available(iOS 13.0, *) {
+            startMonitoringLocationPushes()
+        }
+        
         PreyLogger("Start location")
+    }
+    
+    @available(iOS 13.0, *)
+    private func startMonitoringLocationPushes() {
+        locManager.startMonitoringLocationPushes { [weak self] (token, error) in
+            if let error = error {
+                PreyLogger("Location Push Error: \(error.localizedDescription)")
+                return
+            }
+            
+            if let token = token {
+                self?.locationPushToken = token
+                self?.sendLocationPushToken(token)
+            }
+        }
+    }
+    
+    private func sendLocationPushToken(_ token: Data) {
+        let tokenString = token.map { String(format: "%02x", $0) }.joined()
+        
+        let params: [String: Any] = [
+            "location_push_token": tokenString
+        ]
+        
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            PreyConfig.sharedInstance.userApiKey ?? "",
+            password: "x",
+            params: params,
+            messageId: nil,
+            httpMethod: Method.POST.rawValue,
+            endPoint: dataDeviceEndpoint,
+            onCompletion: PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction: nil) { success in
+                PreyLogger("Location Push Token Send: \(success)")
+            })
     }
     
     // Start location aware
