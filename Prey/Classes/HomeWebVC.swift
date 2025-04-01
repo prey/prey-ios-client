@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 import WebKit
 import LocalAuthentication
-import Firebase
-import FirebaseCrashlytics
 
 class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
 

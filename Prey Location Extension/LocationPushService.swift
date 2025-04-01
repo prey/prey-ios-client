@@ -36,13 +36,15 @@ class LocationPushService: NSObject, CLLocationPushServiceExtension, CLLocationM
 
         // If sharing the locations to another user, end-to-end encrypt them to protect privacy
         
+        print("location: \(String(describing: location))")
+        
         // Send location to Prey server
                let params:[String: Any] = [
                    "lng": location.coordinate.longitude,
                    "lat": location.coordinate.latitude,
                    "alt": location.altitude,
                    "accuracy": location.horizontalAccuracy,
-                   "method": "native_push"
+                   "method": "native"
                ]
                
                PreyHTTPClient.sharedInstance.sendLocation(params)

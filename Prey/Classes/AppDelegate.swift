@@ -8,7 +8,7 @@
 
 import UIKit
 import BackgroundTasks
-import Firebase
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -67,8 +67,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        GAI.sharedInstance().dispatchInterval                       = 120
 //        GAI.sharedInstance().logger.logLevel                        = GAILogLevel.none
 //        GAI.sharedInstance().defaultTracker.allowIDFACollection     = true
-
-        FirebaseApp.configure()
         
         // Check settings info
         checkSettingsToBackup()

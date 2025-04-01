@@ -63,28 +63,33 @@ class Location : PreyAction, CLLocationManagerDelegate {
     override func get() {
         startLocationManager()
         // Schedule get location
+        
         Timer.scheduledTimer(timeInterval: 30.0, target:self, selector:#selector(stopLocationTimer(_:)), userInfo:nil, repeats:false)
         
         // Start monitoring location pushes
-        if #available(iOS 13.0, *) {
-            startMonitoringLocationPushes()
-        }
+        startMonitoringLocationPushes()
         
-        PreyLogger("Start location")
+        print("Start location")
     }
     
     @available(iOS 13.0, *)
     private func startMonitoringLocationPushes() {
-        locManager.startMonitoringLocationPushes { [weak self] (token, error) in
-            if let error = error {
-                PreyLogger("Location Push Error: \(error.localizedDescription)")
-                return
+        if #available(iOS 15.0, *) {
+            locManager.startMonitoringLocationPushes { [weak self] (token, error) in
+                if let error = error {
+                    PreyLogger("Location Push Error: \(error.localizedDescription)")
+                    return
+                }
+                
+                print("startMonitoringLocationPushes")
+                
+                if let token = token {
+                    self?.locationPushToken = token
+                    self?.sendLocationPushToken(token)
+                }
             }
-            
-            if let token = token {
-                self?.locationPushToken = token
-                self?.sendLocationPushToken(token)
-            }
+        } else {
+            // Fallback on earlier versions
         }
     }
     
