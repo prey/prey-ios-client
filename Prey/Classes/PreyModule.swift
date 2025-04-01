@@ -25,25 +25,63 @@ class PreyModule {
     func checkActionArrayStatus() {
         PreyLogger("Check actionArrayStatus - App State: \(UIApplication.shared.applicationState == .background ? "Background" : "Foreground")")
         
-        // Check device is missing
-        guard PreyConfig.sharedInstance.isMissing else {
-            PreyLogger("Device is not missing, skipping actions")
-            return
-        }
-    
-        // Check actionArray
-        guard actionArray.isEmpty else {
-            PreyLogger("Action array already has \(actionArray.count) actions")
-            // Make sure actions are running
-            runAction()
-            return
+        // Always check for pending actions from server
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyLogger("Checking for pending actions from server")
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                username, 
+                password: "x", 
+                params: nil, 
+                messageId: nil, 
+                httpMethod: Method.GET.rawValue, 
+                endPoint: statusDeviceEndpoint, 
+                onCompletion: PreyHTTPResponse.checkResponse(
+                    RequestType.statusDevice, 
+                    preyAction: nil, 
+                    onCompletion: { (isSuccess: Bool) in 
+                        PreyLogger("Request check status: \(isSuccess)") 
+                    }
+                )
+            )
         }
         
-        // Add report action
-        let reportAction:Report = Report(withTarget:kAction.report, withCommand:kCommand.get, withOptions:PreyConfig.sharedInstance.reportOptions)
-        actionArray.append(reportAction)
-        PreyLogger("Added report action to action array")
-        runAction()
+        // If device is missing, add report action
+        if PreyConfig.sharedInstance.isMissing {
+            // Check actionArray
+            if actionArray.isEmpty {
+                // Add report action
+                let reportAction = Report(withTarget: kAction.report, withCommand: kCommand.get, withOptions: PreyConfig.sharedInstance.reportOptions)
+                actionArray.append(reportAction)
+                PreyLogger("Added report action to action array")
+            } else {
+                PreyLogger("Action array already has \(actionArray.count) actions")
+            }
+            
+            // Make sure actions are running
+            runAction()
+        } else {
+            PreyLogger("Device is not missing, checking for location actions only")
+            
+            // Even if not missing, check for location actions
+            var hasLocationAction = false
+            for action in actionArray {
+                if action.target == kAction.location {
+                    hasLocationAction = true
+                    break
+                }
+            }
+            
+            // If no location action exists, add one for background updates
+            if !hasLocationAction && UIApplication.shared.applicationState == .background {
+                let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+                actionArray.append(locationAction)
+                PreyLogger("Added background location action")
+                runAction()
+            } else if !actionArray.isEmpty {
+                // Run existing actions
+                runAction()
+            }
+        }
     }
     
     // Parse actions from panel

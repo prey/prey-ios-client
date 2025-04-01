@@ -248,6 +248,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
                 if bgTask != UIBackgroundTaskIdentifier.invalid {
                     UIApplication.shared.endBackgroundTask(bgTask)
                     bgTask = UIBackgroundTaskIdentifier.invalid
+                    PreyLogger("Background location config task expired")
                 }
             }
             
@@ -256,17 +257,34 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             
             PreyLogger("Background location configuration started with task ID: \(bgTask.rawValue)")
             
+            // Add a location action to the module to ensure we're tracking location
+            let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+            
+            // Only add if not already in the array
+            var hasLocationAction = false
+            for action in PreyModule.sharedInstance.actionArray {
+                if action.target == kAction.location {
+                    hasLocationAction = true
+                    break
+                }
+            }
+            
+            if !hasLocationAction {
+                PreyModule.sharedInstance.actionArray.append(locationAction)
+                PreyLogger("Added location action from background location config")
+                PreyModule.sharedInstance.runAction()
+            }
+            
             // Keep it running for a moment to register properly
             DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
                 // Don't stop significant location changes - keep those running
-                manager.stopUpdatingLocation()
+                // manager.stopUpdatingLocation()
                 
                 if bgTask != UIBackgroundTaskIdentifier.invalid {
                     UIApplication.shared.endBackgroundTask(bgTask)
                     bgTask = UIBackgroundTaskIdentifier.invalid
+                    PreyLogger("Background location configured and registered")
                 }
-                
-                PreyLogger("Background location configured and registered")
             }
         } else {
             PreyLogger("Cannot configure background location - no always authorization")

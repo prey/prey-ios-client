@@ -127,6 +127,8 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Start Location Manager
     func startLocationManager()  {
+        PreyLogger("Starting location manager")
+        
         // End any existing background task first
         if locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
             UIApplication.shared.endBackgroundTask(locationBgTaskId)
@@ -153,11 +155,26 @@ class Location : PreyAction, CLLocationManagerDelegate {
             
             PreyLogger("Location background task expiring - ID: \(self.locationBgTaskId.rawValue)")
             
-            // Just end the task properly when it expires
-            if self.locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
+            // Try to create a new background task before the current one expires
+            let newBgTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+                guard let self = self else { return }
+                if self.locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
+                    UIApplication.shared.endBackgroundTask(self.locationBgTaskId)
+                    self.locationBgTaskId = UIBackgroundTaskIdentifier.invalid
+                    PreyLogger("Location background task finally ended")
+                }
+            }
+            
+            if newBgTask != UIBackgroundTaskIdentifier.invalid {
+                // End the old task and keep the new one
+                UIApplication.shared.endBackgroundTask(self.locationBgTaskId)
+                self.locationBgTaskId = newBgTask
+                PreyLogger("Location background task renewed with ID: \(newBgTask.rawValue)")
+            } else {
+                // Just end the old task if we couldn't create a new one
                 UIApplication.shared.endBackgroundTask(self.locationBgTaskId)
                 self.locationBgTaskId = UIBackgroundTaskIdentifier.invalid
-                PreyLogger("Location background task ended due to expiration")
+                PreyLogger("Location background task ended - couldn't renew")
             }
         }
         

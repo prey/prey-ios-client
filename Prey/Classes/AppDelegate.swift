@@ -153,6 +153,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Hide keyboard
         window?.endEditing(true)
         
+        // Create a background task to give us more time
+        self.bgTask = UIApplication.shared.beginBackgroundTask {
+            self.stopBackgroundTask()
+        }
+        
+        PreyLogger("Started background task in applicationDidEnterBackground: \(self.bgTask.rawValue)")
+        
+        // Force a location action to keep the app running in background
+        let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+        PreyModule.sharedInstance.actionArray.append(locationAction)
+        PreyLogger("Added background location action in applicationDidEnterBackground")
+        
         // Check for pending actions before going to background
         PreyModule.sharedInstance.checkActionArrayStatus()
         
@@ -162,12 +174,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Ensure location services are properly configured for background
         DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
         
-        // Create a background task to give us more time
-        self.bgTask = UIApplication.shared.beginBackgroundTask {
-            self.stopBackgroundTask()
+        // Request device status from server
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                username, 
+                password: "x", 
+                params: nil, 
+                messageId: nil, 
+                httpMethod: Method.GET.rawValue, 
+                endPoint: statusDeviceEndpoint, 
+                onCompletion: PreyHTTPResponse.checkResponse(
+                    RequestType.statusDevice, 
+                    preyAction: nil, 
+                    onCompletion: { (isSuccess: Bool) in 
+                        PreyLogger("Background status check: \(isSuccess)") 
+                    }
+                )
+            )
         }
-        
-        PreyLogger("Started background task in applicationDidEnterBackground: \(self.bgTask.rawValue)")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
