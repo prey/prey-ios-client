@@ -355,7 +355,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PreyLogger("didReceiveRemoteNotification - App State: \(application.applicationState == .background ? "Background" : "Foreground")")
         
         // Create a background task to ensure we have time to process
-        let notificationBgTask = UIApplication.shared.beginBackgroundTask {
+        var notificationBgTask = UIBackgroundTaskIdentifier.invalid
+        
+        notificationBgTask = UIApplication.shared.beginBackgroundTask {
             if notificationBgTask != UIBackgroundTaskIdentifier.invalid {
                 UIApplication.shared.endBackgroundTask(notificationBgTask)
                 PreyLogger("Notification background task expired")
@@ -365,7 +367,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PreyLogger("Started notification background task: \(notificationBgTask)")
         
         // Process the notification
-        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler: { result in
+        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler: { [notificationBgTask] result in
             // Check for pending actions after processing notification
             PreyModule.sharedInstance.checkActionArrayStatus()
             
