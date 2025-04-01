@@ -24,6 +24,7 @@ class PreyModule {
     // Check actionArrayStatus
     func checkActionArrayStatus() {
         
+        PreyLogger("Check actionArrayStatus")
         // Check device is missing
         guard PreyConfig.sharedInstance.isMissing else {
             return

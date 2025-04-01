@@ -68,11 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         PreyLogger("Registered background task with identifier: \(identifier)")
         
-        // Set background fetch interval
-        application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
-             
-        // Config Fabric SDK - Removed for iOS 13+
-        
         // Check settings info
         checkSettingsToBackup()
         
