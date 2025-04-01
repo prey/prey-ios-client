@@ -69,10 +69,9 @@ class Location : PreyAction, CLLocationManagerDelegate {
         // Start monitoring location pushes
         startMonitoringLocationPushes()
         
-        print("Start location")
+        PreyLogger("Start location")
     }
     
-    @available(iOS 13.0, *)
     private func startMonitoringLocationPushes() {
         if #available(iOS 15.0, *) {
             locManager.startMonitoringLocationPushes { [weak self] (token, error) in
@@ -81,15 +80,13 @@ class Location : PreyAction, CLLocationManagerDelegate {
                     return
                 }
                 
-                print("startMonitoringLocationPushes")
+                PreyLogger("startMonitoringLocationPushes")
                 
                 if let token = token {
                     self?.locationPushToken = token
                     self?.sendLocationPushToken(token)
                 }
             }
-        } else {
-            // Fallback on earlier versions
         }
     }
     
@@ -130,10 +127,24 @@ class Location : PreyAction, CLLocationManagerDelegate {
         locManager.requestAlwaysAuthorization()
         locManager.delegate = self
         locManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locManager.distanceFilter = kCLDistanceFilterNone
+        locManager.pausesLocationUpdatesAutomatically = false
+        locManager.allowsBackgroundLocationUpdates = true
+        
+        // Start significant location changes for background wake-ups
+        locManager.startMonitoringSignificantLocationChanges()
         locManager.startUpdatingLocation()
+        
+        // Begin background task to ensure we have time to get location
+        let application = UIApplication.shared
+        let bgTask = application.beginBackgroundTask {
+            application.endBackgroundTask(bgTask)
+        }
         
         isActive = true
         index = 0
+        
+        PreyLogger("Location manager started with background updates enabled")
     }
     
     // Stop Location Manager
@@ -141,6 +152,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
         PreyLogger("Stop location")
         
         locManager.stopUpdatingLocation()
+        locManager.stopMonitoringSignificantLocationChanges()
         locManager.delegate = nil
         
         isActive = false
@@ -181,35 +193,41 @@ class Location : PreyAction, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         PreyLogger("New location received on Location")
         
-        guard let currentLocation = locations.first else {
+        guard let currentLocation = locations.last else {
             return
         }
         
-        // Check if location is cached
+        // Check if location is cached (more lenient in background)
         let locationTime = abs(currentLocation.timestamp.timeIntervalSinceNow as Double)
-        guard locationTime < 5 else {
+        let timeThreshold = UIApplication.shared.applicationState == .active ? 5.0 : 30.0
+        
+        guard locationTime < timeThreshold else {
+            PreyLogger("Location too old: \(locationTime) seconds")
             return
         }
         
         if currentLocation.horizontalAccuracy < 0 {
+            PreyLogger("Invalid accuracy")
             return
         }
 
         if currentLocation.coordinate.longitude == 0 || currentLocation.coordinate.latitude == 0 {
+            PreyLogger("Invalid coordinates")
             return
         }
         
         // Send first location
         if lastLocation == nil {
-            // Send location to web panel
+            PreyLogger("Sending first location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
             locationReceived(currentLocation)
             lastLocation = currentLocation
             return
         }
         
-        // Compare accuracy
-        if currentLocation.horizontalAccuracy < lastLocation.horizontalAccuracy {
-            // Send location to web panel
+        // Compare accuracy or check if significant movement occurred
+        let distance = currentLocation.distance(from: lastLocation)
+        if currentLocation.horizontalAccuracy < lastLocation.horizontalAccuracy || distance > 100 {
+            PreyLogger("Sending updated location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude), distance: \(distance)m")
             locationReceived(currentLocation)
         }
 

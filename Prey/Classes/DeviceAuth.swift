@@ -42,50 +42,34 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     
     // Check notification
     func checkNotify(completionHandler:@escaping (_ granted: Bool) -> Void) {
-        if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().getNotificationSettings { settings in
-                // Check notification settings
-                if settings.authorizationStatus == .authorized {
-                    completionHandler(true)
-                } else {
-                    DispatchQueue.main.async {
-                        self.displayMessage("You need to grant Prey access to show alert notifications in order to remotely mark it as missing.".localized,
-                                       titleMessage:"Alert notification disabled".localized)
-                        completionHandler(false)
-                    }
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            // Check notification settings
+            if settings.authorizationStatus == .authorized {
+                completionHandler(true)
+            } else {
+                DispatchQueue.main.async {
+                    self.displayMessage("You need to grant Prey access to show alert notifications in order to remotely mark it as missing.".localized,
+                                   titleMessage:"Alert notification disabled".localized)
+                    completionHandler(false)
                 }
             }
-        } else {
-            // For iOS 8 and 9
-            if let notificationSettings = UIApplication.shared.currentUserNotificationSettings {
-                if notificationSettings.types.rawValue > 0 {
-                    completionHandler(true)
-                } else {
-                    DispatchQueue.main.async {
-                        self.displayMessage("You need to grant Prey access to show alert notifications in order to remotely mark it as missing.".localized,
-                                            titleMessage:"Alert notification disabled".localized)
-                        completionHandler(false)
-                    }
-                }
-            } else {completionHandler(true)}
         }
     }
     
     // Check location
     func checkLocation() -> Bool {
-        
         var locationAuth = false
         
-        if (CLLocationManager.locationServicesEnabled() &&
-            CLLocationManager.authorizationStatus() == .notDetermined) {
-            authLocation.requestAlwaysAuthorization()
-        }
-        
-        if (CLLocationManager.locationServicesEnabled() &&
-            CLLocationManager.authorizationStatus() != .notDetermined &&
-            CLLocationManager.authorizationStatus() != .denied &&
-            CLLocationManager.authorizationStatus() != .restricted) {
-            locationAuth = true
+        if CLLocationManager.locationServicesEnabled() {
+            let status = CLLocationManager.authorizationStatus()
+            
+            if status == .notDetermined {
+                authLocation.requestAlwaysAuthorization()
+            }
+            
+            if status == .authorizedAlways || status == .authorizedWhenInUse {
+                locationAuth = true
+            }
         }
         
         if !locationAuth {
@@ -121,27 +105,44 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     
     // Display message
     func displayMessage(_ alertMessage:String, titleMessage:String, cancelBtn:String = "Cancel".localized) {
+        let alertController = UIAlertController(
+            title: titleMessage,
+            message: alertMessage,
+            preferredStyle: .alert
+        )
         
-        let acceptBtn    = "Go to Settings".localized
+        alertController.addAction(UIAlertAction(
+            title: "Go to Settings".localized,
+            style: .default,
+            handler: { _ in
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            }
+        ))
         
-        let anAlert      = UIAlertView()
-        anAlert.title    = titleMessage
-        anAlert.message  = alertMessage
-        anAlert.delegate = self
-        anAlert.addButton(withTitle: acceptBtn)
-        anAlert.addButton(withTitle: cancelBtn)
+        alertController.addAction(UIAlertAction(
+            title: cancelBtn,
+            style: .cancel
+        ))
         
-        anAlert.show()
+        // Present the alert
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let rootViewController = windowScene.windows.first?.rootViewController {
+            rootViewController.present(alertController, animated: true)
+        }
     }
 
     // Call next request auth item
     func callNextRequestAuth(_ idBtn: String) {
-        guard let appWindow = UIApplication.shared.delegate?.window else {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else {
             PreyLogger("error with sharedApplication")
             return
         }
-        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-        if let homeWebVC:HomeWebVC = navigationController.topViewController as? HomeWebVC {
+        
+        let navigationController = window.rootViewController as! UINavigationController
+        if let homeWebVC = navigationController.topViewController as? HomeWebVC {
             homeWebVC.evaluateJS(homeWebVC.webView, code: "var btn = document.getElementById('\(idBtn)'); btn.click();")
         }
     }
@@ -181,56 +182,39 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     }
        
     func checkBackgroundRefreshStatus() -> Bool {
-        let refreshStatus=UIApplication.shared.backgroundRefreshStatus;
-        switch UIApplication.shared.backgroundRefreshStatus {
-        case .available:
-            return true;
-        case .denied:
-            return false;
-        case .restricted:
-            return false;
-        }
+        return UIApplication.shared.backgroundRefreshStatus == .available
     }
 
     // Request auth notification
     func requestAuthNotification(_ callNextView: Bool) {
-        if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
-                DispatchQueue.main.async {
-                    let alertCategory = UNNotificationCategory(identifier: categoryNotifPreyAlert, actions: [], intentIdentifiers: [], options: [])
-                    UNUserNotificationCenter.current().setNotificationCategories(Set([alertCategory]))
-                    if callNextView { self.callNextReactView() }
-                    // Check permission granted
-                    guard granted else { return }
-                    UNUserNotificationCenter.current().getNotificationSettings { settings in
-                        // Check notification settings
-                        guard settings.authorizationStatus == .authorized else { return }
-                        DispatchQueue.main.async {
-                            UIApplication.shared.registerForRemoteNotifications()
-                        }
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+            DispatchQueue.main.async {
+                let alertCategory = UNNotificationCategory(identifier: categoryNotifPreyAlert, actions: [], intentIdentifiers: [], options: [])
+                UNUserNotificationCenter.current().setNotificationCategories(Set([alertCategory]))
+                if callNextView { self.callNextReactView() }
+                // Check permission granted
+                guard granted else { return }
+                UNUserNotificationCenter.current().getNotificationSettings { settings in
+                    // Check notification settings
+                    guard settings.authorizationStatus == .authorized else { return }
+                    DispatchQueue.main.async {
+                        UIApplication.shared.registerForRemoteNotifications()
                     }
                 }
             }
-        } else {
-            // For iOS 8 and 9
-            let settings = UIUserNotificationSettings(types:[UIUserNotificationType.alert,
-                                                             UIUserNotificationType.badge,
-                                                             UIUserNotificationType.sound],
-                                                      categories: nil)
-            UIApplication.shared.registerUserNotificationSettings(settings)
-            UIApplication.shared.registerForRemoteNotifications()
-            if callNextView { self.callNextReactView() }
         }
     }
     
     // Call next ReactView
     func callNextReactView() {
-        guard let appWindow = UIApplication.shared.delegate?.window else {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else {
             PreyLogger("error with sharedApplication")
             return
         }
-        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-        if let homeWebVC:HomeWebVC = navigationController.topViewController as? HomeWebVC {
+        
+        let navigationController = window.rootViewController as! UINavigationController
+        if let homeWebVC = navigationController.topViewController as? HomeWebVC {
             homeWebVC.loadViewOnWebView("activation")
         }
         // Check location aware action on device status
@@ -244,17 +228,19 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         callNextRequestAuth("btnLocation")
     }
     
-    // MARK: UIAlertViewDelegate
-    
-    // AlertView
-    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
-        
-        guard buttonIndex == 0 else {
-            return
-        }
-        
-        if let url = URL(string:UIApplication.openSettingsURLString) {
-            UIApplication.shared.openURL(url)
+    // Add a method to ensure background location is properly configured
+    func ensureBackgroundLocationIsConfigured() {
+        if CLLocationManager.authorizationStatus() == .authorizedAlways {
+            // Configure location manager for background updates
+            let manager = CLLocationManager()
+            manager.pausesLocationUpdatesAutomatically = false
+            manager.allowsBackgroundLocationUpdates = true
+            
+            // Start and immediately stop to ensure system registers our background capability
+            manager.startUpdatingLocation()
+            manager.stopUpdatingLocation()
+            
+            PreyLogger("Background location configured")
         }
     }
 }

@@ -43,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if self.bgTask != UIBackgroundTaskIdentifier.invalid {
             UIApplication.shared.endBackgroundTask(self.bgTask)
             self.bgTask = UIBackgroundTaskIdentifier.invalid
+            PreyLogger("Background task ended")
         }
     }
     
@@ -52,21 +53,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         PreyLogger("didFinishLaunchingWithOptions")
         
-        // Request Always authorization for location pushes
-        if #available(iOS 13.0, *) {
-            let locationManager = CLLocationManager()
-            locationManager.requestAlwaysAuthorization()
+        // Request Always authorization for location
+        let locationManager = CLLocationManager()
+        locationManager.requestAlwaysAuthorization()
+        
+        // Register for background tasks
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.prey.refresh", using: nil) { task in
+            self.handleAppRefresh(task as! BGAppRefreshTask)
         }
+        
+        // Set background fetch interval
+        application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
              
-        // Config Fabric SDK
-//        Fabric.with([Crashlytics.self])
-//
-//        // Config Google Analytics
-//        GAI.sharedInstance().tracker(withTrackingId: GAICode)
-//        GAI.sharedInstance().trackUncaughtExceptions                = true
-//        GAI.sharedInstance().dispatchInterval                       = 120
-//        GAI.sharedInstance().logger.logLevel                        = GAILogLevel.none
-//        GAI.sharedInstance().defaultTracker.allowIDFACollection     = true
+        // Config Fabric SDK - Removed for iOS 13+
         
         // Check settings info
         checkSettingsToBackup()
@@ -126,6 +125,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
         }
         
+        // Schedule background refresh
+        scheduleAppRefresh()
+        
         return true
     }    
     
@@ -150,6 +152,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Hide keyboard
         window?.endEditing(true)
+        
+        // Schedule background refresh
+        scheduleAppRefresh()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -209,6 +214,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         PreyLogger("applicationWillTerminate")
         PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
+    }
+    
+    // MARK: Background Tasks
+    
+    func scheduleAppRefresh() {
+        let request = BGAppRefreshTaskRequest(identifier: "com.prey.refresh")
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60) // 15 minutes
+        
+        do {
+            try BGTaskScheduler.shared.submit(request)
+            PreyLogger("Background refresh scheduled")
+        } catch {
+            PreyLogger("Could not schedule app refresh: \(error)")
+        }
+    }
+    
+    func handleAppRefresh(_ task: BGAppRefreshTask) {
+        // Schedule a new refresh task
+        scheduleAppRefresh()
+        
+        // Create task assertion
+        let taskAssertionID = UIApplication.shared.beginBackgroundTask {
+            self.stopBackgroundTask()
+        }
+        self.bgTask = taskAssertionID
+        
+        // Add task expiration handler
+        task.expirationHandler = {
+            self.stopBackgroundTask()
+            task.setTaskCompleted(success: false)
+        }
+        
+        // Process any pending actions
+        PreyModule.sharedInstance.checkActionArrayStatus()
+        
+        // Process any cached requests
+        RequestCacheManager.sharedInstance.sendRequest()
+        
+        // Check device info and triggers
+        PreyDevice.infoDevice { isSuccess in
+            PreyLogger("Background refresh - infoDevice: \(isSuccess)")
+            
+            TriggerManager.sharedInstance.checkTriggers()
+            
+            // Complete the background task
+            task.setTaskCompleted(success: true)
+            self.stopBackgroundTask()
+        }
     }
     
     // MARK: Notification
