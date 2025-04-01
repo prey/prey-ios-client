@@ -60,7 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.requestAlwaysAuthorization()
         
         // Register for background tasks
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.prey.refresh", using: nil) { task in
+        let identifier = "io.prey.ios.refresh" // Use your app's bundle ID prefix
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: identifier, using: DispatchQueue.main) { task in
             self.handleAppRefresh(task as! BGAppRefreshTask)
         }
         
@@ -148,15 +149,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         PreyLogger("applicationDidEnterBackground")
-        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
         
         // Hide keyboard
         window?.endEditing(true)
         
         // Schedule background refresh
         scheduleAppRefresh()
+        
+        // Ensure location services are properly configured for background
+        DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -221,14 +224,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Background Tasks
     
     func scheduleAppRefresh() {
-        let request = BGAppRefreshTaskRequest(identifier: "com.prey.refresh")
+        let identifier = "io.prey.ios.refresh" // Use your app's bundle ID prefix
+        let request = BGAppRefreshTaskRequest(identifier: identifier)
         request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60) // 15 minutes
+        
+        // Cancel any existing tasks before scheduling a new one
+        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: identifier)
         
         do {
             try BGTaskScheduler.shared.submit(request)
-            PreyLogger("Background refresh scheduled")
+            PreyLogger("Background refresh scheduled successfully")
         } catch {
-            PreyLogger("Could not schedule app refresh: \(error)")
+            PreyLogger("Could not schedule app refresh: \(error.localizedDescription)")
+            
+            // Try again with a shorter interval if it failed
+            let retryRequest = BGAppRefreshTaskRequest(identifier: identifier)
+            retryRequest.earliestBeginDate = Date(timeIntervalSinceNow: 60) // 1 minute
+            
+            do {
+                try BGTaskScheduler.shared.submit(retryRequest)
+                PreyLogger("Background refresh retry scheduled")
+            } catch {
+                PreyLogger("Could not schedule retry app refresh: \(error.localizedDescription)")
+            }
         }
     }
     
@@ -282,7 +300,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Did register notifications
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         PreyLogger("didRegisterForRemoteNotificationsWithDeviceToken")
+        
+        // Log the token in a more readable format
+        let tokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
+        PreyLogger("Device token: \(tokenString)")
+        
+        // Process the token
         PreyNotification.sharedInstance.didRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
+        
+        // Schedule a background refresh when we get a new token
+        scheduleAppRefresh()
     }
     
     // Fail register notifications

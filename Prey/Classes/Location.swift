@@ -134,12 +134,14 @@ class Location : PreyAction, CLLocationManagerDelegate {
             PreyLogger("Ended previous location background task")
         }
         
+        // Configure location manager for maximum reliability
         locManager.requestAlwaysAuthorization()
         locManager.delegate = self
         locManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locManager.distanceFilter = kCLDistanceFilterNone
         locManager.pausesLocationUpdatesAutomatically = false
         locManager.allowsBackgroundLocationUpdates = true
+        locManager.showsBackgroundLocationIndicator = true // Shows the blue bar when app uses location in background
         
         // Start significant location changes for background wake-ups
         locManager.startMonitoringSignificantLocationChanges()
@@ -149,30 +151,13 @@ class Location : PreyAction, CLLocationManagerDelegate {
         locationBgTaskId = UIApplication.shared.beginBackgroundTask { [weak self] in
             guard let self = self else { return }
             
+            PreyLogger("Location background task expiring - ID: \(self.locationBgTaskId.rawValue)")
+            
+            // Just end the task properly when it expires
             if self.locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
-                PreyLogger("Location background task expiring - ID: \(self.locationBgTaskId.rawValue)")
-                
-                // Try to restart the background task before it expires
-                let newBgTask = UIApplication.shared.beginBackgroundTask { [weak self] in
-                    guard let self = self else { return }
-                    if self.locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
-                        UIApplication.shared.endBackgroundTask(self.locationBgTaskId)
-                        self.locationBgTaskId = UIBackgroundTaskIdentifier.invalid
-                        PreyLogger("Location background task finally ended")
-                    }
-                }
-                
-                if newBgTask != UIBackgroundTaskIdentifier.invalid {
-                    // End the old task and keep the new one
-                    UIApplication.shared.endBackgroundTask(self.locationBgTaskId)
-                    self.locationBgTaskId = newBgTask
-                    PreyLogger("Location background task renewed with ID: \(newBgTask.rawValue)")
-                } else {
-                    // Just end the old task if we couldn't create a new one
-                    UIApplication.shared.endBackgroundTask(self.locationBgTaskId)
-                    self.locationBgTaskId = UIBackgroundTaskIdentifier.invalid
-                    PreyLogger("Location background task ended - couldn't renew")
-                }
+                UIApplication.shared.endBackgroundTask(self.locationBgTaskId)
+                self.locationBgTaskId = UIBackgroundTaskIdentifier.invalid
+                PreyLogger("Location background task ended due to expiration")
             }
         }
         

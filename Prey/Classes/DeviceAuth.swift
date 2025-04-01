@@ -231,26 +231,43 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     // Add a method to ensure background location is properly configured
     func ensureBackgroundLocationIsConfigured() {
         if CLLocationManager.authorizationStatus() == .authorizedAlways {
-            // Configure location manager for background updates
+            // Create a persistent location manager that won't be deallocated
             let manager = CLLocationManager()
+            manager.delegate = self
             manager.pausesLocationUpdatesAutomatically = false
             manager.allowsBackgroundLocationUpdates = true
             manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            manager.distanceFilter = kCLDistanceFilterNone
             
-            // Start significant location changes to ensure system registers our background capability
+            // Start significant location changes which can wake up the app
             manager.startMonitoringSignificantLocationChanges()
+            
+            // Create a background task to ensure we have time to register
+            var bgTask = UIBackgroundTaskIdentifier.invalid
+            bgTask = UIApplication.shared.beginBackgroundTask {
+                if bgTask != UIBackgroundTaskIdentifier.invalid {
+                    UIApplication.shared.endBackgroundTask(bgTask)
+                    bgTask = UIBackgroundTaskIdentifier.invalid
+                }
+            }
             
             // Start regular updates too
             manager.startUpdatingLocation()
             
+            PreyLogger("Background location configuration started with task ID: \(bgTask.rawValue)")
+            
             // Keep it running for a moment to register properly
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                // Don't stop significant location changes - keep those running
                 manager.stopUpdatingLocation()
-                manager.stopMonitoringSignificantLocationChanges()
+                
+                if bgTask != UIBackgroundTaskIdentifier.invalid {
+                    UIApplication.shared.endBackgroundTask(bgTask)
+                    bgTask = UIBackgroundTaskIdentifier.invalid
+                }
+                
                 PreyLogger("Background location configured and registered")
             }
-            
-            PreyLogger("Background location configuration started")
         } else {
             PreyLogger("Cannot configure background location - no always authorization")
         }
