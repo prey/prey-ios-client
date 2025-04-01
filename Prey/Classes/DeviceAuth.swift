@@ -235,12 +235,24 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             let manager = CLLocationManager()
             manager.pausesLocationUpdatesAutomatically = false
             manager.allowsBackgroundLocationUpdates = true
+            manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
             
-            // Start and immediately stop to ensure system registers our background capability
+            // Start significant location changes to ensure system registers our background capability
+            manager.startMonitoringSignificantLocationChanges()
+            
+            // Start regular updates too
             manager.startUpdatingLocation()
-            manager.stopUpdatingLocation()
             
-            PreyLogger("Background location configured")
+            // Keep it running for a moment to register properly
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                manager.stopUpdatingLocation()
+                manager.stopMonitoringSignificantLocationChanges()
+                PreyLogger("Background location configured and registered")
+            }
+            
+            PreyLogger("Background location configuration started")
+        } else {
+            PreyLogger("Cannot configure background location - no always authorization")
         }
     }
 }

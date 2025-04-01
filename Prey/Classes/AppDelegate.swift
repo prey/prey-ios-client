@@ -41,9 +41,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func stopBackgroundTask() {
         if self.bgTask != UIBackgroundTaskIdentifier.invalid {
+            let taskId = self.bgTask
+            PreyLogger("Ending background task with ID: \(taskId.rawValue), time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
             UIApplication.shared.endBackgroundTask(self.bgTask)
             self.bgTask = UIBackgroundTaskIdentifier.invalid
-            PreyLogger("Background task ended")
+            PreyLogger("Background task ended: \(taskId.rawValue)")
         }
     }
     
@@ -234,14 +236,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Schedule a new refresh task
         scheduleAppRefresh()
         
-        // Create task assertion
+        // Create task assertion with longer timeout
         let taskAssertionID = UIApplication.shared.beginBackgroundTask {
+            PreyLogger("Background task expiring in AppDelegate")
             self.stopBackgroundTask()
         }
         self.bgTask = taskAssertionID
         
+        PreyLogger("Background refresh task started with ID: \(taskAssertionID.rawValue), time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
+        
         // Add task expiration handler
         task.expirationHandler = {
+            PreyLogger("BGTask expiring, time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
             self.stopBackgroundTask()
             task.setTaskCompleted(success: false)
         }
@@ -252,15 +258,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Process any cached requests
         RequestCacheManager.sharedInstance.sendRequest()
         
+        // Ensure location services are properly configured
+        DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
+        
         // Check device info and triggers
         PreyDevice.infoDevice { isSuccess in
-            PreyLogger("Background refresh - infoDevice: \(isSuccess)")
+            PreyLogger("Background refresh - infoDevice: \(isSuccess), time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
             
             TriggerManager.sharedInstance.checkTriggers()
             
-            // Complete the background task
-            task.setTaskCompleted(success: true)
-            self.stopBackgroundTask()
+            // Give location services a chance to update
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                // Complete the background task
+                PreyLogger("Completing background task, time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
+                task.setTaskCompleted(success: true)
+                self.stopBackgroundTask()
+            }
         }
     }
     
