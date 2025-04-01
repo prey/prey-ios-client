@@ -60,10 +60,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.requestAlwaysAuthorization()
         
         // Register for background tasks
-        let identifier = "com.prey"
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: identifier, using: DispatchQueue.main) { task in
+        let identifier = "com.prey.refresh"
+        
+        // Make sure we register before scheduling
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: identifier, using: nil) { task in
             self.handleAppRefresh(task as! BGAppRefreshTask)
         }
+        PreyLogger("Registered background task with identifier: \(identifier)")
         
         // Set background fetch interval
         application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
@@ -224,30 +227,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Background Tasks
     
     func scheduleAppRefresh() {
-        let identifier = "com.prey"
-        let request = BGAppRefreshTaskRequest(identifier: identifier)
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60) // 15 minutes
+
+        let identifier = "com.prey.refresh"
         
         // Cancel any existing tasks before scheduling a new one
         BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: identifier)
         
+        let request = BGAppRefreshTaskRequest(identifier: identifier)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60) // 15 minutes
+        
         do {
             try BGTaskScheduler.shared.submit(request)
-            PreyLogger("Background refresh scheduled successfully")
+            PreyLogger("Background refresh scheduled successfully with identifier: \(identifier)")
         } catch {
             PreyLogger("Could not schedule app refresh: \(error.localizedDescription)")
             
-            // Try again with a shorter interval if it failed
-            let retryRequest = BGAppRefreshTaskRequest(identifier: identifier)
-            retryRequest.earliestBeginDate = Date(timeIntervalSinceNow: 60) // 1 minute
+            // Try with a different approach - use regular background tasks instead
+            self.bgTask = UIApplication.shared.beginBackgroundTask {
+                self.stopBackgroundTask()
+            }
             
-            do {
-                try BGTaskScheduler.shared.submit(retryRequest)
-                PreyLogger("Background refresh retry scheduled")
-            } catch {
-                PreyLogger("Could not schedule retry app refresh: \(error.localizedDescription)")
+            if self.bgTask != .invalid {
+                PreyLogger("Started regular background task as fallback: \(self.bgTask.rawValue)")
+                
+                // Schedule a timer to check for updates
+                DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
+                    // Process any pending actions
+                    PreyModule.sharedInstance.checkActionArrayStatus()
+                    
+                    // Process any cached requests
+                    RequestCacheManager.sharedInstance.sendRequest()
+                    
+                    // End the background task
+                    self.stopBackgroundTask()
+                }
             }
         }
+
     }
     
     func handleAppRefresh(_ task: BGAppRefreshTask) {

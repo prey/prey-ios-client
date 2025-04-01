@@ -39,12 +39,10 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        if #available(iOS 13.0, *) {
-            if PreyConfig.sharedInstance.isSystemDarkMode {
-                return
-            }
-            self.overrideUserInterfaceStyle = PreyConfig.sharedInstance.isDarkMode ? .dark : .light
+        if PreyConfig.sharedInstance.isSystemDarkMode {
+            return
         }
+        self.overrideUserInterfaceStyle = PreyConfig.sharedInstance.isDarkMode ? .dark : .light
     }
     
     override func viewDidLoad() {
