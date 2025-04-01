@@ -190,6 +190,19 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Location received
     func locationReceived(_ location:CLLocation) {
+        PreyLogger("Processing location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+        
+        // Create a background task to ensure we have time to send the location
+        var bgTask = UIBackgroundTaskIdentifier.invalid
+        bgTask = UIApplication.shared.beginBackgroundTask {
+            if bgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(bgTask)
+                bgTask = UIBackgroundTaskIdentifier.invalid
+                PreyLogger("Location sending background task expired")
+            }
+        }
+        
+        PreyLogger("Started location sending background task: \(bgTask.rawValue)")
  
         let params:[String: Any] = [
             kLocation.lng.rawValue      : location.coordinate.longitude,
@@ -201,18 +214,31 @@ class Location : PreyAction, CLLocationManagerDelegate {
         let locParam:[String: Any] = [kAction.location.rawValue : params, kDataLocation.skip_toast.rawValue : (index > 0)]
         
         if self.isLocationAwareActive {
+            PreyLogger("Location aware is active, sending to location aware endpoint")
             GeofencingManager.sharedInstance.startLocationAwareManager(location)
             self.isLocationAwareActive = false
             self.sendData(locParam, toEndpoint: locationAwareEndpoint)
             stopLocationManager()
         } else {
+            PreyLogger("Sending location to data device endpoint")
             self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
             index = index + 1
         }
+        
         let paramName:[String: Any] = [ "name" : UIDevice.current.name]
         self.sendData(paramName, toEndpoint: dataDeviceEndpoint)
+        
         PreyDevice.infoDevice({(isSuccess: Bool) in
             PreyLogger("infoDevice isSuccess: \(isSuccess)")
+            
+            // End the background task after a delay to ensure data is sent
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                if bgTask != UIBackgroundTaskIdentifier.invalid {
+                    UIApplication.shared.endBackgroundTask(bgTask)
+                    bgTask = UIBackgroundTaskIdentifier.invalid
+                    PreyLogger("Location sending background task completed")
+                }
+            }
         })
     }
     

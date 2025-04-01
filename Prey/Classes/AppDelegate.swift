@@ -153,11 +153,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Hide keyboard
         window?.endEditing(true)
         
+        // Check for pending actions before going to background
+        PreyModule.sharedInstance.checkActionArrayStatus()
+        
         // Schedule background refresh
         scheduleAppRefresh()
         
         // Ensure location services are properly configured for background
         DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
+        
+        // Create a background task to give us more time
+        self.bgTask = UIApplication.shared.beginBackgroundTask {
+            self.stopBackgroundTask()
+        }
+        
+        PreyLogger("Started background task in applicationDidEnterBackground: \(self.bgTask.rawValue)")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -281,23 +291,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             task.setTaskCompleted(success: false)
         }
         
-        // Process any pending actions
+        // Process any pending actions - do this first and with more detailed logging
+        PreyLogger("Checking for pending actions in background refresh")
         PreyModule.sharedInstance.checkActionArrayStatus()
         
         // Process any cached requests
+        PreyLogger("Processing cached requests in background refresh")
         RequestCacheManager.sharedInstance.sendRequest()
         
         // Ensure location services are properly configured
+        PreyLogger("Ensuring location services are configured in background refresh")
         DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
         
         // Check device info and triggers
+        PreyLogger("Checking device info in background refresh")
         PreyDevice.infoDevice { isSuccess in
             PreyLogger("Background refresh - infoDevice: \(isSuccess), time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
             
             TriggerManager.sharedInstance.checkTriggers()
             
+            // Check for actions again after device info is updated
+            PreyLogger("Checking for actions again after device info update")
+            PreyModule.sharedInstance.checkActionArrayStatus()
+            
             // Give location services a chance to update
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                // Check for actions one more time before completing
+                PreyLogger("Final check for actions before completing background task")
+                PreyModule.sharedInstance.checkActionArrayStatus()
+                
                 // Complete the background task
                 PreyLogger("Completing background task, time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
                 task.setTaskCompleted(success: true)
@@ -330,8 +352,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Did receive remote notification
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        PreyLogger("didReceiveRemoteNotification")
-        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
+        PreyLogger("didReceiveRemoteNotification - App State: \(application.applicationState == .background ? "Background" : "Foreground")")
+        
+        // Create a background task to ensure we have time to process
+        let notificationBgTask = UIApplication.shared.beginBackgroundTask {
+            if notificationBgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(notificationBgTask)
+                PreyLogger("Notification background task expired")
+            }
+        }
+        
+        PreyLogger("Started notification background task: \(notificationBgTask)")
+        
+        // Process the notification
+        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler: { result in
+            // Check for pending actions after processing notification
+            PreyModule.sharedInstance.checkActionArrayStatus()
+            
+            // Process any cached requests
+            RequestCacheManager.sharedInstance.sendRequest()
+            
+            // Complete the task
+            completionHandler(result)
+            
+            // End the background task
+            if notificationBgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(notificationBgTask)
+                PreyLogger("Notification background task completed")
+            }
+        })
     }
     
     // Did receiveLocalNotification

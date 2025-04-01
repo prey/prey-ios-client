@@ -23,21 +23,26 @@ class PreyModule {
 
     // Check actionArrayStatus
     func checkActionArrayStatus() {
+        PreyLogger("Check actionArrayStatus - App State: \(UIApplication.shared.applicationState == .background ? "Background" : "Foreground")")
         
-        PreyLogger("Check actionArrayStatus")
         // Check device is missing
         guard PreyConfig.sharedInstance.isMissing else {
+            PreyLogger("Device is not missing, skipping actions")
             return
         }
     
         // Check actionArray
         guard actionArray.isEmpty else {
+            PreyLogger("Action array already has \(actionArray.count) actions")
+            // Make sure actions are running
+            runAction()
             return
         }
         
         // Add report action
         let reportAction:Report = Report(withTarget:kAction.report, withCommand:kCommand.get, withOptions:PreyConfig.sharedInstance.reportOptions)
         actionArray.append(reportAction)
+        PreyLogger("Added report action to action array")
         runAction()
     }
     
@@ -135,12 +140,44 @@ class PreyModule {
     
     // Run action
     func runAction() {
+        PreyLogger("Running actions - count: \(actionArray.count)")
+        
+        // Create a background task to ensure we have time to process actions
+        var bgTask = UIBackgroundTaskIdentifier.invalid
+        bgTask = UIApplication.shared.beginBackgroundTask {
+            if bgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(bgTask)
+                bgTask = UIBackgroundTaskIdentifier.invalid
+                PreyLogger("Background task for actions ended due to expiration")
+            }
+        }
+        
+        PreyLogger("Started background task for actions: \(bgTask.rawValue)")
 
         for action in actionArray {
             // Check selector
             if (action.responds(to: NSSelectorFromString(action.command.rawValue)) && !action.isActive) {
-                PreyLogger("Run action")
+                PreyLogger("Running action: \(action.target.rawValue) with command: \(action.command.rawValue)")
                 action.performSelector(onMainThread: NSSelectorFromString(action.command.rawValue), with: nil, waitUntilDone: true)
+            } else if action.isActive {
+                PreyLogger("Action already active: \(action.target.rawValue)")
+            } else {
+                PreyLogger("Action doesn't respond to selector: \(action.command.rawValue)")
+            }
+        }
+        
+        // If we're in the background, make sure location services are running
+        if UIApplication.shared.applicationState == .background {
+            PreyLogger("App is in background, ensuring location services are configured")
+            DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
+        }
+        
+        // End the background task after a delay to ensure actions have time to start
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            if bgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(bgTask)
+                bgTask = UIBackgroundTaskIdentifier.invalid
+                PreyLogger("Background task for actions completed normally")
             }
         }
     }
