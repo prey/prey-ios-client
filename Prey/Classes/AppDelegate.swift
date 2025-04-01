@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.requestAlwaysAuthorization()
         
         // Register for background tasks
-        let identifier = "io.prey.ios.refresh" // Use your app's bundle ID prefix
+        let identifier = "com.prey"
         BGTaskScheduler.shared.register(forTaskWithIdentifier: identifier, using: DispatchQueue.main) { task in
             self.handleAppRefresh(task as! BGAppRefreshTask)
         }
@@ -224,7 +224,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Background Tasks
     
     func scheduleAppRefresh() {
-        let identifier = "io.prey.ios.refresh" // Use your app's bundle ID prefix
+        let identifier = "com.prey"
         let request = BGAppRefreshTaskRequest(identifier: identifier)
         request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60) // 15 minutes
         

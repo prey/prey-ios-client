@@ -5,3 +5,4 @@ Prey.xcodeproj/project.xcworkspace/xcuserdata/*
 GoogleService-Info.plist
 *.xcscheme
 .aider.*
+.aider*
