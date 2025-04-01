@@ -25,6 +25,9 @@ class Location : PreyAction, CLLocationManagerDelegate {
     // Location Push Token
     private var locationPushToken: Data?
     
+    // Background task identifier
+    private var locationBgTaskId: UIBackgroundTaskIdentifier = .invalid
+    
     // MARK: Functions
     
     // Return init if location action don't exist
@@ -136,10 +139,18 @@ class Location : PreyAction, CLLocationManagerDelegate {
         locManager.startUpdatingLocation()
         
         // Begin background task to ensure we have time to get location
-        let application = UIApplication.shared
-        let bgTask = application.beginBackgroundTask {
-            application.endBackgroundTask(bgTask)
+        var bgTask = UIBackgroundTaskIdentifier.invalid
+        bgTask = UIApplication.shared.beginBackgroundTask {
+            if bgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(bgTask)
+                bgTask = UIBackgroundTaskIdentifier.invalid
+                PreyLogger("Location background task ended due to expiration")
+            }
         }
+        
+        // Store the background task ID as a property to end it properly later
+        self.locationBgTaskId = bgTask
+        PreyLogger("Location background task started with ID: \(bgTask.rawValue)")
         
         isActive = true
         index = 0
@@ -154,6 +165,13 @@ class Location : PreyAction, CLLocationManagerDelegate {
         locManager.stopUpdatingLocation()
         locManager.stopMonitoringSignificantLocationChanges()
         locManager.delegate = nil
+        
+        // End background task if active
+        if locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
+            UIApplication.shared.endBackgroundTask(locationBgTaskId)
+            PreyLogger("Location background task ended with ID: \(locationBgTaskId.rawValue)")
+            locationBgTaskId = UIBackgroundTaskIdentifier.invalid
+        }
         
         isActive = false
         PreyModule.sharedInstance.checkStatus(self)
