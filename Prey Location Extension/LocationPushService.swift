@@ -8,22 +8,60 @@
 
 import CoreLocation
 import Prey
+import UserNotifications
 
 class LocationPushService: NSObject, CLLocationPushServiceExtension, CLLocationManagerDelegate {
 
     var completion: (() -> Void)?
     var locationManager: CLLocationManager?
-
+    let userDefaults = UserDefaults(suiteName: "group.com.prey.ios")
+    
     func didReceiveLocationPushPayload(_ payload: [String : Any], completion: @escaping () -> Void) {
+        PreyLogger("Location push service received payload: \(payload)")
         self.completion = completion
+        
+        // Configure location manager
         self.locationManager = CLLocationManager()
         self.locationManager!.delegate = self
+        self.locationManager!.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager!.distanceFilter = kCLDistanceFilterNone
         self.locationManager!.requestLocation()
+        
+        // Store payload in shared container if needed
+        if let pushInfo = payload["push-info"] as? [String: Any] {
+            userDefaults?.set(pushInfo, forKey: "lastLocationPush")
+            userDefaults?.synchronize()
+            
+            // If this is a missing device alert, schedule a local notification
+            if let isMissing = pushInfo["missing"] as? Bool, isMissing == true {
+                scheduleLocalNotification("Location requested for missing device")
+            }
+        }
     }
     
     func serviceExtensionWillTerminate() {
         // Called just before the extension will be terminated by the system.
+        PreyLogger("Location push service will terminate")
         self.completion?()
+    }
+
+    // Schedule a local notification
+    private func scheduleLocalNotification(_ message: String) {
+        let content = UNMutableNotificationContent()
+        content.title = "Prey"
+        content.body = message
+        content.sound = UNNotificationSound.default
+        
+        let request = UNNotificationRequest(
+            identifier: "com.prey.location.update",
+            content: content,
+            trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false))
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                PreyLogger("Error scheduling notification: \(error)")
+            }
+        }
     }
 
     // MARK: - CLLocationManagerDelegate methods
@@ -31,23 +69,29 @@ class LocationPushService: NSObject, CLLocationPushServiceExtension, CLLocationM
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // Process the location(s) as appropriate
         guard let location = locations.last else {
-                   return
-               }
+            PreyLogger("No location found in update")
+            self.completion?()
+            return
+        }
 
-        // If sharing the locations to another user, end-to-end encrypt them to protect privacy
+        PreyLogger("Location push service location update: \(location)")
         
-        print("location: \(String(describing: location))")
+        // Save location to shared container
+        let locationDict: [String: Any] = [
+            "lng": location.coordinate.longitude,
+            "lat": location.coordinate.latitude,
+            "alt": location.altitude,
+            "accuracy": location.horizontalAccuracy,
+            "method": "native",
+            "timestamp": Date().timeIntervalSince1970
+        ]
+        
+        userDefaults?.set(locationDict, forKey: "lastLocation")
+        userDefaults?.synchronize()
         
         // Send location to Prey server
-               let params:[String: Any] = [
-                   "lng": location.coordinate.longitude,
-                   "lat": location.coordinate.latitude,
-                   "alt": location.altitude,
-                   "accuracy": location.horizontalAccuracy,
-                   "method": "native"
-               ]
-               
-               PreyHTTPClient.sharedInstance.sendLocation(params)
+        let params = locationDict
+        PreyHTTPClient.sharedInstance.sendLocation(params)
         
         // When finished, always call completion()
         self.completion?()
@@ -55,7 +99,11 @@ class LocationPushService: NSObject, CLLocationPushServiceExtension, CLLocationM
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         PreyLogger("Location Push Service Error: \(error.localizedDescription)")
+        
+        // Store error in shared container
+        userDefaults?.set(error.localizedDescription, forKey: "lastLocationError")
+        userDefaults?.synchronize()
+        
         self.completion?()
     }
-
 }

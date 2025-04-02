@@ -54,6 +54,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -62,7 +64,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Prey utilizes the device&apos;s camera to take pictures when you request evidence reports.</string>
+	<string>Prey utilizes the device's camera to take pictures when you request evidence reports.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Prey utilizes the biometric authentication to access device settings.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -91,7 +93,6 @@
 		<string>fetch</string>
 		<string>location</string>
 		<string>remote-notification</string>
-		<string>processing</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
@@ -116,8 +117,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 </dict>
 </plist>
