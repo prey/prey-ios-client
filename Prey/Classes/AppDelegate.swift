@@ -663,6 +663,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let tokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
         PreyLogger("📱 PUSH TOKEN: \(tokenString)")
         
+        // Determine if we're using sandbox or production APNs
+        let isSandboxAPNs = detectSandboxEnvironment()
+        PreyLogger("📱 PUSH ENVIRONMENT: \(isSandboxAPNs ? "SANDBOX/DEVELOPMENT" : "PRODUCTION") 🔑")
+        PreyLogger("📱 PUSH ENVIRONMENT NOTE: Server must send to the \(isSandboxAPNs ? "SANDBOX" : "PRODUCTION") gateway!")
+        
         // Also log token in different formats
         var tokenParts = [String]()
         for i in 0..<deviceToken.count {
@@ -1108,6 +1113,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     // MARK: Notification Helper Methods
+    
+    /// Detect if the app is running in the sandbox/development environment
+    func detectSandboxEnvironment() -> Bool {
+        // Delegate to PreyNotification's implementation for consistency
+        return PreyNotification.sharedInstance.detectSandboxEnvironment()
+    }
     
     /// Convert UNAuthorizationStatus to a readable string
     func authStatusString(_ status: UNAuthorizationStatus) -> String {
