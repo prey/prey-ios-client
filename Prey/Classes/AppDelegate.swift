@@ -18,6 +18,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var bgTask = UIBackgroundTaskIdentifier.invalid
     
+    override init() {
+        super.init()
+        
+        // Register for notifications about app state changes
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationWillResignActiveNotification),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
+    }
+    
     // MARK: Methods
     
     // Display screen
@@ -221,6 +233,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                        completion:{(Bool)  in backgroundImg.removeFromSuperview()})
         }
         
+        // Check if we need to sync with the server
+        if PreyConfig.sharedInstance.isRegistered {
+            // Perform immediate sync with server
+            syncWithServer()
+            
+            // Setup periodic timer for foreground API calls
+            setupForegroundTimer()
+        }
 
         // Check camouflagegeMode on mainView
         if PreyConfig.sharedInstance.isCamouflageMode, let rootVC = window?.rootViewController as? UINavigationController, let controller = rootVC.topViewController, controller is HomeWebVC {
@@ -491,6 +511,137 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Schedule a background refresh when we get a new token
         scheduleAppRefresh()
+        
+        // Perform immediate sync with server
+        syncWithServer()
+    }
+    
+    // MARK: Foreground API sync
+    
+    private var foregroundTimer: Timer?
+    
+    func setupForegroundTimer() {
+        // Cancel existing timer if any
+        foregroundTimer?.invalidate()
+        
+        // Create a new timer that runs every 3 minutes
+        foregroundTimer = Timer.scheduledTimer(
+            //timeInterval: 180,
+            timeInterval: 60,
+            target: self,
+            selector: #selector(foregroundTimerFired),
+            userInfo: nil,
+            repeats: true
+        )
+        
+        // Add timer to RunLoop to ensure it fires even during scrolling
+        RunLoop.current.add(foregroundTimer!, forMode: .common)
+        
+        // Configure timer to be more tolerant of exact timing
+        foregroundTimer?.tolerance = 10.0
+        
+        PreyLogger("Foreground timer set up to sync with server every 3 minutes")
+    }
+    
+    @objc private func applicationWillResignActiveNotification() {
+        PreyLogger("App will resign active - stopping foreground timer")
+        foregroundTimer?.invalidate()
+        foregroundTimer = nil
+    }
+    
+    @objc func foregroundTimerFired() {
+        syncWithServer()
+    }
+    
+    // Track server sync in progress to avoid overlapping calls
+    private var serverSyncInProgress = false
+    private var lastSyncTimestamp: Date?
+    
+    func syncWithServer() {
+        // Only sync if not already in progress and not done within the last 10 seconds
+        let shouldSync = !serverSyncInProgress && 
+            (lastSyncTimestamp == nil || Date().timeIntervalSince(lastSyncTimestamp!) > 10)
+        
+        guard shouldSync else {
+            let reason = serverSyncInProgress ? "sync already in progress" : "last sync was too recent"
+            PreyLogger("Skipping server sync - \(reason)")
+            return
+        }
+        
+        // Set sync in progress
+        serverSyncInProgress = true
+        lastSyncTimestamp = Date()
+        
+        PreyLogger("Starting server sync")
+        
+        // Make sure we have a valid API key
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
+            PreyLogger("No API key available for server sync")
+            serverSyncInProgress = false
+            return
+        }
+        
+        // Create a timeout timer to release the lock if something goes wrong
+        let timeoutTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: false) { [weak self] _ in
+            if self?.serverSyncInProgress == true {
+                PreyLogger("⚠️ Server sync timeout - releasing lock after 60 seconds")
+                self?.serverSyncInProgress = false
+            }
+        }
+        
+        // First check device info
+        PreyDevice.infoDevice { [weak self] isSuccess in
+            PreyLogger("Foreground sync - infoDevice: \(isSuccess)")
+            
+            // Then get user profile (whether device info succeeded or not)
+            PreyUser.logInToPrey(username, userPassword: "x") { isLoginSuccess in
+                PreyLogger("Foreground sync - profile: \(isLoginSuccess)")
+                
+                // Setup a dispatch group to wait for all API calls to finish
+                let syncGroup = DispatchGroup()
+                
+                // Check if token needs refreshing (more than 1 hour old)
+                if (PreyConfig.sharedInstance.tokenWebTimestamp + 60*60) < CFAbsoluteTimeGetCurrent() {
+                    syncGroup.enter()
+                    PreyUser.getTokenFromPanel(username, userPassword: "x") { isTokenSuccess in
+                        PreyLogger("Foreground sync - token refresh: \(isTokenSuccess)")
+                        syncGroup.leave()
+                    }
+                }
+                
+                // Check for actions from server
+                syncGroup.enter()
+                PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                    username,
+                    password: "x",
+                    params: nil,
+                    messageId: nil,
+                    httpMethod: Method.GET.rawValue,
+                    endPoint: actionsDeviceEndpoint,
+                    onCompletion: PreyHTTPResponse.checkResponse(
+                        RequestType.actionDevice,
+                        preyAction: nil,
+                        onCompletion: { isActionsSuccess in
+                            PreyLogger("Foreground sync - actions check: \(isActionsSuccess)")
+                            
+                            // Run actions if needed
+                            if isActionsSuccess {
+                                PreyModule.sharedInstance.runAction()
+                            }
+                            
+                            syncGroup.leave()
+                        }
+                    )
+                )
+                
+                // When all API calls finish
+                syncGroup.notify(queue: .main) {
+                    PreyLogger("Server sync completed")
+                    timeoutTimer.invalidate()
+                    self?.serverSyncInProgress = false
+                }
+            }
+        }
     }
     
     // Fail register notifications
@@ -501,6 +652,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Did receive remote notification
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         PreyLogger("didReceiveRemoteNotification - App State: \(application.applicationState == .background ? "Background" : "Foreground")")
+        
+        // Log the push notification content for debugging
+        PreyLogger("Push notification content: \(userInfo)")
         
         // Create a background task to ensure we have time to process
         var notificationBgTask = UIBackgroundTaskIdentifier.invalid
@@ -514,6 +668,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         PreyLogger("Started notification background task: \(notificationBgTask)")
         
+        // In foreground mode, trigger an immediate server sync
+        if application.applicationState != .background {
+            syncWithServer()
+        }
+        
         // Process the notification
         PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler: { [notificationBgTask] result in
             // Check for pending actions after processing notification
@@ -521,6 +680,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Process any cached requests
             RequestCacheManager.sharedInstance.sendRequest()
+            
+            // If in foreground, trigger an action check
+            if application.applicationState != .background, let username = PreyConfig.sharedInstance.userApiKey {
+                PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                    username,
+                    password: "x",
+                    params: nil,
+                    messageId: nil,
+                    httpMethod: Method.GET.rawValue,
+                    endPoint: actionsDeviceEndpoint,
+                    onCompletion: PreyHTTPResponse.checkResponse(
+                        RequestType.actionDevice,
+                        preyAction: nil,
+                        onCompletion: { isSuccess in
+                            PreyLogger("Push notification triggered action check: \(isSuccess)")
+                        }
+                    )
+                )
+            }
             
             // Complete the task
             completionHandler(result)

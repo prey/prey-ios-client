@@ -113,19 +113,27 @@ class PreyNotification {
     // Did Receive Remote Notifications
     func didReceiveRemoteNotifications(_ userInfo: [AnyHashable: Any], completionHandler:@escaping (UIBackgroundFetchResult) -> Void) {
         
-        PreyLogger("didReceiveRemoteNotifications")
+        PreyLogger("didReceiveRemoteNotifications with payload: \(userInfo)")
 
         // Check payload preymdm
         if let cmdPreyMDM = userInfo["preymdm"] as? NSDictionary {
+            PreyLogger("Processing preymdm payload")
             parsePayloadPreyMDMFromPushNotification(parameters: cmdPreyMDM)
         }
         // Check payload info
         if let cmdInstruction = userInfo["cmd"] as? NSArray {
+            PreyLogger("Processing cmd instruction payload")
             parsePayloadInfoFromPushNotification(instructionArray: cmdInstruction)
         }
         // Check payload info
         if let cmdArray = userInfo["instruction"] as? NSArray {
+            PreyLogger("Processing instruction payload")
             parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
+        }
+        
+        // APNS silent notification check (content-available = 1)
+        if let contentAvailable = userInfo["content-available"] as? Int, contentAvailable == 1 {
+            PreyLogger("Processing silent notification with content-available=1")
         }
         
         // Set completionHandler for request
@@ -133,10 +141,49 @@ class PreyNotification {
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.actionDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
-                PreyLogger("Request PreyAction")
-            }))
+            PreyLogger("Fetching actions from API in response to push notification")
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                username, 
+                password: "x", 
+                params: nil, 
+                messageId: nil, 
+                httpMethod: Method.GET.rawValue, 
+                endPoint: actionsDeviceEndpoint, 
+                onCompletion: PreyHTTPResponse.checkResponse(
+                    RequestType.actionDevice, 
+                    preyAction: nil, 
+                    onCompletion: { (isSuccess: Bool) in
+                        PreyLogger("Push notification triggered action fetch: \(isSuccess)")
+                        
+                        // If successful, run actions
+                        if isSuccess {
+                            PreyModule.sharedInstance.runAction()
+                        }
+                        
+                        // Try device status if actions didn't work
+                        if !isSuccess {
+                            PreyLogger("Fetching device status after push notification")
+                            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                                username,
+                                password: "x",
+                                params: nil,
+                                messageId: nil,
+                                httpMethod: Method.GET.rawValue,
+                                endPoint: statusDeviceEndpoint,
+                                onCompletion: PreyHTTPResponse.checkResponse(
+                                    RequestType.statusDevice,
+                                    preyAction: nil,
+                                    onCompletion: { (statusSuccess: Bool) in
+                                        PreyLogger("Push notification triggered status check: \(statusSuccess)")
+                                    }
+                                )
+                            )
+                        }
+                    }
+                )
+            )
         } else {
+            PreyLogger("No API key available, cannot process push notification")
             checkRequestVerificationSucceded(false)
         }
     }

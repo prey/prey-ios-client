@@ -49,9 +49,10 @@ public let fontTitilliumRegular =  "TitilliumWeb-Regular"
 
 // PreyLogger
 public func PreyLogger(_ message:String) {
-
-    print(message)
-    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+    let timestamp = dateFormatter.string(from: Date())
+    print("[\(timestamp)] \(message)")
 }
 
 // Biometric authentication
