@@ -339,14 +339,14 @@ class PreyHTTPResponse {
         PreyConfig.sharedInstance.reportError("SubscriptionReceipt", statusCode: statusCode, errorDescription: "SubscriptionReceipt error")
     }
     
-    // Check action device response
+    // Check Action Devices response
     class func checkActionDevice(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
 
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
                 PreyConfig.sharedInstance.reportError(error)
-                PreyLogger("Error: \(String(describing: error))")
+                PreyLogger("Error in actionDevice: \(String(describing: error))")
                 PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
                 return
             }
@@ -365,19 +365,97 @@ class PreyHTTPResponse {
         
         guard let dataResponse = data else {
             PreyConfig.sharedInstance.reportError("ActionDeviceData", statusCode: statusCode, errorDescription: "ActionDeviceData error")
-            PreyLogger("Failed to check action from panel")
+            PreyLogger("Failed to check action from panel - no data")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
             return
         }
+        
+        // Log the response for debugging
+        let responseStr = String(decoding: dataResponse, as: UTF8.self)
+        PreyLogger("Action device response: \(responseStr)")
+        
+        // First, try to parse as JSON to check for 'command' nodes
+        do {
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options: .mutableContainers)
+            
+            // Try to extract commands from different structures
+            if let dict = jsonObject as? [String: Any] {
+                
+                // Look for device status
+                if let deviceStatus = dict["status"] as? String {
+                    // Check string for status
+                    let isMissingDevice = deviceStatus == "missing" ? true : false
+                    
+                    PreyLogger("Device missing status: \(isMissingDevice)")
+                    
+                    // Save isMissing value
+                    if PreyConfig.sharedInstance.isMissing != isMissingDevice {
+                        PreyConfig.sharedInstance.isMissing = isMissingDevice
+                        PreyConfig.sharedInstance.saveValues()
+                        PreyLogger("Updated device missing status to: \(isMissingDevice)")
+                    }
+                }
+                
+                // Try to find instructions or commands
+                var foundCommands = false
+                
+                // Check for instructions array
+                if let instructions = dict["instruction"] as? NSArray, instructions.count > 0 {
+                    PreyLogger("Found instruction array with \(instructions.count) items")
+                    
+                    let jsonData = try JSONSerialization.data(withJSONObject: instructions, options: .prettyPrinted)
+                    if let jsonString = String(data: jsonData, encoding: .utf8) {
+                        PreyLogger("Parsing instructions from response: \(jsonString)")
+                        PreyModule.sharedInstance.parseActionsFromPanel(jsonString)
+                        foundCommands = true
+                    }
+                }
+                
+                // Check for command array
+                if let commands = dict["command"] as? NSArray, commands.count > 0 {
+                    PreyLogger("Found command array with \(commands.count) items")
+                    
+                    let jsonData = try JSONSerialization.data(withJSONObject: commands, options: .prettyPrinted)
+                    if let jsonString = String(data: jsonData, encoding: .utf8) {
+                        PreyLogger("Parsing commands from response: \(jsonString)")
+                        PreyModule.sharedInstance.parseActionsFromPanel(jsonString)
+                        foundCommands = true
+                    }
+                }
+                
+                // If no commands were found, try parsing the whole response as an array
+                if !foundCommands {
+                    PreyLogger("No commands found in object structure, trying raw response")
+                }
+            } else if let array = jsonObject as? NSArray, array.count > 0 {
+                // Direct command array
+                PreyLogger("Response is a direct array with \(array.count) items")
+                
+                let jsonData = try JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
+                if let jsonString = String(data: jsonData, encoding: .utf8) {
+                    PreyLogger("Parsing direct array from response: \(jsonString)")
+                    PreyModule.sharedInstance.parseActionsFromPanel(jsonString)
+                }
+            }
+        } catch {
+            // If JSON parsing fails, try the traditional approach
+            PreyLogger("JSON parsing failed, trying raw string approach: \(error.localizedDescription)")
+        }
+        
+        // Traditional approach as fallback - try to use the raw string
         if let actionArray: String = String(data:dataResponse, encoding:String.Encoding.utf8) {
             DispatchQueue.main.async {
+                PreyLogger("Parsing actions from raw string response")
                 PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
             }
         } else {
             PreyConfig.sharedInstance.reportError("ActionDeviceDecode", statusCode: statusCode, errorDescription: "ActionDeviceDecode error")
-            PreyLogger("Failed to check action from panel")
+            PreyLogger("Failed to check action from panel - string decoding failed")
             PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
         }
+        
+        // Mark verification as succeeded
+        PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
     }
     
     // Check add device response
@@ -600,24 +678,59 @@ class PreyHTTPResponse {
         
         do {
             guard let dataResponse = data else {
+                PreyLogger("No data in status device response")
                 return
             }
+            
+            // Log the response for debugging
+            let responseStr = String(decoding: dataResponse, as: UTF8.self)
+            PreyLogger("Status device response: \(responseStr)")
+            
             let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-                        
-            guard let dict = jsonObject as? [String: Any] else {return}
-            guard let settings = dict["settings"] as? [String: Any] else {return}
-            guard let localSettings = settings["local"] as? [String: Any] else {return}
-            guard let isActiveLocationAware = localSettings["location_aware"] as? Bool else {return}
-
-            if isActiveLocationAware == true {
-                // Active location aware action
-                let locationAction:Location = Location(withTarget:kAction.location, withCommand:kCommand.start_location_aware, withOptions:nil)
-                PreyModule.sharedInstance.actionArray.append(locationAction)
-                PreyModule.sharedInstance.runAction()
+            
+            // Check for commands in the response
+            if let commands = jsonObject["command"] as? NSArray, commands.count > 0 {
+                PreyLogger("Found commands in status device response: \(commands.count) commands")
+                
+                // Process commands from the response
+                let jsonData = try JSONSerialization.data(withJSONObject: commands, options: .prettyPrinted)
+                if let jsonString = String(data: jsonData, encoding: .utf8) {
+                    PreyLogger("Parsing commands from status response: \(jsonString)")
+                    PreyModule.sharedInstance.parseActionsFromPanel(jsonString)
+                }
+            }
+            
+            // Also check for settings/location_aware
+            if let dict = jsonObject as? [String: Any],
+               let settings = dict["settings"] as? [String: Any],
+               let localSettings = settings["local"] as? [String: Any],
+               let isActiveLocationAware = localSettings["location_aware"] as? Bool {
+                
+                PreyLogger("Location aware setting found: \(isActiveLocationAware)")
+                
+                if isActiveLocationAware == true {
+                    // Active location aware action
+                    let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.start_location_aware, withOptions: nil)
+                    
+                    // Check if this action already exists
+                    var hasLocationAwareAction = false
+                    for action in PreyModule.sharedInstance.actionArray {
+                        if action.target == kAction.location && action.command == kCommand.start_location_aware {
+                            hasLocationAwareAction = true
+                            break
+                        }
+                    }
+                    
+                    if !hasLocationAwareAction {
+                        PreyLogger("Adding location_aware action from status device")
+                        PreyModule.sharedInstance.actionArray.append(locationAction)
+                        PreyModule.sharedInstance.runAction()
+                    }
+                }
             }
         } catch let error {
             PreyConfig.sharedInstance.reportError(error)
-            PreyLogger("json error: \(error.localizedDescription)")
+            PreyLogger("JSON error in status device: \(error.localizedDescription)")
         }
     }
     

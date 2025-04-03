@@ -464,8 +464,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             task.setTaskCompleted(success: false)
         }
         
-        // Check for status updates from server
+        // Use a dispatch group to track completion of all operations
+        let fetchGroup = DispatchGroup()
+        var wasSuccess = false
+        
+        // Check for actions from server first
         if let username = PreyConfig.sharedInstance.userApiKey {
+            // First check for actions
+            fetchGroup.enter()
+            PreyLogger("Background fetch: checking for actions from server")
+            
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                username,
+                password: "x",
+                params: nil,
+                messageId: nil,
+                httpMethod: Method.GET.rawValue,
+                endPoint: actionsDeviceEndpoint,
+                onCompletion: PreyHTTPResponse.checkResponse(
+                    RequestType.actionDevice,
+                    preyAction: nil,
+                    onCompletion: { (isSuccess: Bool) in
+                        PreyLogger("Background fetch actions check: \(isSuccess)")
+                        if isSuccess {
+                            wasSuccess = true
+                        }
+                        fetchGroup.leave()
+                    }
+                )
+            )
+            
+            // Then check device status
+            fetchGroup.enter()
+            PreyLogger("Background fetch: checking device status")
+            
             PreyHTTPClient.sharedInstance.userRegisterToPrey(
                 username,
                 password: "x",
@@ -478,19 +510,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     preyAction: nil,
                     onCompletion: { (isSuccess: Bool) in
                         PreyLogger("Background fetch status check: \(isSuccess)")
-                        
-                        // Check for any actions from server response
-                        PreyModule.sharedInstance.checkActionArrayStatus()
-                        
-                        // Complete the background task
-                        PreyLogger("Completing background fetch task")
-                        task.setTaskCompleted(success: isSuccess)
-                        self.stopBackgroundTask()
+                        if isSuccess {
+                            wasSuccess = true
+                        }
+                        fetchGroup.leave()
                     }
                 )
             )
+            
+            // Then send current location if available
+            fetchGroup.enter()
+            if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
+               let locationDict = userDefaults.dictionary(forKey: "lastLocation") {
+                
+                PreyLogger("Background fetch: sending cached location to server")
+                
+                // Send the location to the server
+                let locParam:[String: Any] = [
+                    kAction.location.rawValue: locationDict,
+                    kDataLocation.skip_toast.rawValue: true
+                ]
+                
+                PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                    username,
+                    password: "x",
+                    params: locParam,
+                    messageId: nil,
+                    httpMethod: Method.POST.rawValue,
+                    endPoint: dataDeviceEndpoint,
+                    onCompletion: PreyHTTPResponse.checkResponse(
+                        RequestType.dataSend,
+                        preyAction: nil,
+                        onCompletion: { (isSuccess: Bool) in
+                            PreyLogger("Background fetch location send: \(isSuccess)")
+                            fetchGroup.leave()
+                        }
+                    )
+                )
+            } else {
+                // No location available
+                fetchGroup.leave()
+            }
+            
+            // Process any pending actions from previous calls
+            PreyModule.sharedInstance.checkActionArrayStatus()
+            
+            // When all operations are complete
+            fetchGroup.notify(queue: .main) {
+                // Ensure all actions are processed
+                PreyModule.sharedInstance.checkActionArrayStatus()
+                
+                // Complete the background task
+                PreyLogger("Completing background fetch task with success: \(wasSuccess)")
+                task.setTaskCompleted(success: wasSuccess)
+                self.stopBackgroundTask()
+                
+                // Ensure location services are configured
+                DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
+            }
         } else {
             // Complete task if we can't make the request
+            PreyLogger("No API key available for background fetch")
             task.setTaskCompleted(success: false)
             self.stopBackgroundTask()
         }

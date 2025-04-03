@@ -339,6 +339,18 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         
         PreyLogger("Background location manager received location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         
+        // Create a background task to ensure we have time to process
+        var bgTask = UIBackgroundTaskIdentifier.invalid
+        bgTask = UIApplication.shared.beginBackgroundTask {
+            if bgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(bgTask)
+                bgTask = UIBackgroundTaskIdentifier.invalid
+                PreyLogger("Background location processing task expired")
+            }
+        }
+        
+        PreyLogger("Started background location processing task: \(bgTask.rawValue)")
+        
         // Save to shared container
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios") {
             let locationDict: [String: Any] = [
@@ -355,11 +367,78 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             PreyLogger("Saved background location to shared container")
         }
         
+        // Use a dispatch group to track completion of all operations
+        let operationGroup = DispatchGroup()
+        
         // Trigger location action if available
+        var locationActionFound = false
         for action in PreyModule.sharedInstance.actionArray {
             if let locationAction = action as? Location {
+                locationActionFound = true
                 locationAction.locationReceived(location)
                 break
+            }
+        }
+        
+        // If no location action exists, create one
+        if !locationActionFound {
+            let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+            PreyModule.sharedInstance.actionArray.append(locationAction)
+            locationAction.locationReceived(location)
+            PreyLogger("Created and executed new location action for background location")
+        }
+        
+        // Also fetch actions from server while in background
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            operationGroup.enter()
+            PreyLogger("Fetching actions from server in background location update")
+            
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                username,
+                password: "x",
+                params: nil,
+                messageId: nil,
+                httpMethod: Method.GET.rawValue,
+                endPoint: actionsDeviceEndpoint,
+                onCompletion: PreyHTTPResponse.checkResponse(
+                    RequestType.actionDevice,
+                    preyAction: nil,
+                    onCompletion: { isSuccess in
+                        PreyLogger("Background fetch actions complete: \(isSuccess)")
+                        operationGroup.leave()
+                    }
+                )
+            )
+            
+            // Also check device status
+            operationGroup.enter()
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                username,
+                password: "x",
+                params: nil,
+                messageId: nil,
+                httpMethod: Method.GET.rawValue,
+                endPoint: statusDeviceEndpoint,
+                onCompletion: PreyHTTPResponse.checkResponse(
+                    RequestType.statusDevice,
+                    preyAction: nil,
+                    onCompletion: { isSuccess in
+                        PreyLogger("Background check status complete: \(isSuccess)")
+                        operationGroup.leave()
+                    }
+                )
+            )
+        }
+        
+        // When all operations complete, end the background task
+        operationGroup.notify(queue: .main) {
+            // Give a short delay to ensure all processing completes
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                if bgTask != UIBackgroundTaskIdentifier.invalid {
+                    UIApplication.shared.endBackgroundTask(bgTask)
+                    bgTask = UIBackgroundTaskIdentifier.invalid
+                    PreyLogger("Background location processing task completed")
+                }
             }
         }
     }
