@@ -50,28 +50,96 @@ class PreyNotification {
     // Register Device to Apple Push Notification Service
     func registerForRemoteNotifications() {
         if #available(iOS 10.0, *) {
+            // Create notification actions
+            let viewAction = UNNotificationAction(
+                identifier: "VIEW_ACTION", 
+                title: "View Details", 
+                options: [.foreground]
+            )
+            
+            let dismissAction = UNNotificationAction(
+                identifier: "DISMISS_ACTION", 
+                title: "Dismiss", 
+                options: [.destructive]
+            )
+            
+            // Create the category with the actions
+            let alertCategory = UNNotificationCategory(
+                identifier: categoryNotifPreyAlert, 
+                actions: [viewAction, dismissAction], 
+                intentIdentifiers: [], 
+                options: [.customDismissAction]
+            )
+            
+            // Register the notification categories
+            UNUserNotificationCenter.current().setNotificationCategories(Set([alertCategory]))
+            
+            // Request authorization
             UNUserNotificationCenter.current()
-                .requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
-                   // Check permission granted
-                    guard granted else { return }
-                    let alertCategory = UNNotificationCategory(identifier: categoryNotifPreyAlert, actions: [], intentIdentifiers: [], options: [])
-                    UNUserNotificationCenter.current().setNotificationCategories(Set([alertCategory]))
+                .requestAuthorization(options: [.alert, .sound, .badge, .providesAppNotificationSettings]) { (granted, error) in
+                    // Log permission result
+                    PreyLogger("Notification permission request result: \(granted)")
+                    if let error = error {
+                        PreyLogger("Notification permission error: \(error.localizedDescription)")
+                    }
+                    
+                    // Check permission granted
+                    guard granted else { 
+                        PreyLogger("Push notification permissions not granted")
+                        return 
+                    }
+                    
+                    // Get current settings and register for remote
                     UNUserNotificationCenter.current().getNotificationSettings { settings in
                         // Check notification settings
-                        guard settings.authorizationStatus == .authorized else { return }
+                        PreyLogger("Current notification authorization status: \(settings.authorizationStatus.rawValue)")
+                        
+                        guard settings.authorizationStatus == .authorized else { 
+                            PreyLogger("Notification authorization not available")
+                            return 
+                        }
+                        
+                        // Register for remote notifications on main thread
                         DispatchQueue.main.async {
                             UIApplication.shared.registerForRemoteNotifications()
+                            PreyLogger("Registered for remote notifications")
                         }
                     }
-            }
+                }
         } else {
             // For iOS 8 and 9
-            let settings = UIUserNotificationSettings(types:[UIUserNotificationType.alert,
-                                                             UIUserNotificationType.badge,
-                                                             UIUserNotificationType.sound],
-                                                      categories: nil)
+            // Create notification action
+            let viewAction = UIMutableUserNotificationAction()
+            viewAction.identifier = "VIEW_ACTION"
+            viewAction.title = "View Details"
+            viewAction.activationMode = .foreground
+            viewAction.isDestructive = false
+            viewAction.isAuthenticationRequired = false
+            
+            let dismissAction = UIMutableUserNotificationAction()
+            dismissAction.identifier = "DISMISS_ACTION"
+            dismissAction.title = "Dismiss"
+            dismissAction.activationMode = .background
+            dismissAction.isDestructive = true
+            dismissAction.isAuthenticationRequired = false
+            
+            // Create category
+            let alertCategory = UIMutableUserNotificationCategory()
+            alertCategory.identifier = categoryNotifPreyAlert
+            
+            // Add actions to category based on context
+            alertCategory.setActions([viewAction, dismissAction], for: .default)
+            alertCategory.setActions([viewAction, dismissAction], for: .minimal)
+            
+            // Register the notification categories
+            let settings = UIUserNotificationSettings(
+                types: [.alert, .badge, .sound],
+                categories: Set([alertCategory])
+            )
+            
             UIApplication.shared.registerUserNotificationSettings(settings)
             UIApplication.shared.registerForRemoteNotifications()
+            PreyLogger("Registered for legacy remote notifications with actions")
         }
     }
     

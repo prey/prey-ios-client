@@ -235,6 +235,10 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     private static var isBackgroundLocationConfigured = false
     private static var lastConfigTime: Date?
     
+    // Track timestamps for throttling operations
+    private static var lastLocationSentTime: Date?
+    private static var lastActionCheckTime: Date?
+    
     // Add a method to ensure background location is properly configured
     func ensureBackgroundLocationIsConfigured() {
         // Don't reconfigure if we've done it recently (within 60 seconds)
@@ -337,6 +341,23 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last, manager == DeviceAuth.backgroundLocationManager else { return }
         
+        // Throttle location updates to maximum once per 3 minutes
+        let minTimeBetweenLocationUpdates: TimeInterval = 180 // 3 minutes
+        let minTimeBetweenActionChecks: TimeInterval = 300 // 5 minutes
+        
+        let now = Date()
+        let shouldSendLocation = DeviceAuth.lastLocationSentTime == nil || 
+                                now.timeIntervalSince(DeviceAuth.lastLocationSentTime!) > minTimeBetweenLocationUpdates
+        
+        let shouldCheckActions = DeviceAuth.lastActionCheckTime == nil ||
+                               now.timeIntervalSince(DeviceAuth.lastActionCheckTime!) > minTimeBetweenActionChecks
+        
+        // Skip if we've sent location too recently
+        if !shouldSendLocation && !shouldCheckActions {
+            PreyLogger("Skipping location update - throttled")
+            return
+        }
+        
         PreyLogger("Background location manager received location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         
         // Create a background task to ensure we have time to process
@@ -351,7 +372,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         
         PreyLogger("Started background location processing task: \(bgTask.rawValue)")
         
-        // Save to shared container
+        // Always save to shared container, even when throttled
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios") {
             let locationDict: [String: Any] = [
                 "lng": location.coordinate.longitude,
@@ -370,26 +391,33 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         // Use a dispatch group to track completion of all operations
         let operationGroup = DispatchGroup()
         
-        // Trigger location action if available
-        var locationActionFound = false
-        for action in PreyModule.sharedInstance.actionArray {
-            if let locationAction = action as? Location {
-                locationActionFound = true
-                locationAction.locationReceived(location)
-                break
+        // Only trigger location action if not throttled
+        if shouldSendLocation {
+            // Trigger location action if available
+            var locationActionFound = false
+            for action in PreyModule.sharedInstance.actionArray {
+                if let locationAction = action as? Location {
+                    locationActionFound = true
+                    locationAction.locationReceived(location)
+                    PreyLogger("Using existing location action")
+                    break
+                }
             }
+            
+            // If no location action exists, create one
+            if !locationActionFound {
+                let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+                PreyModule.sharedInstance.actionArray.append(locationAction)
+                locationAction.locationReceived(location)
+                PreyLogger("Created and executed new location action for background location")
+            }
+            
+            // Update timestamp
+            DeviceAuth.lastLocationSentTime = now
         }
         
-        // If no location action exists, create one
-        if !locationActionFound {
-            let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
-            PreyModule.sharedInstance.actionArray.append(locationAction)
-            locationAction.locationReceived(location)
-            PreyLogger("Created and executed new location action for background location")
-        }
-        
-        // Also fetch actions from server while in background
-        if let username = PreyConfig.sharedInstance.userApiKey {
+        // Also fetch actions from server while in background, but only if not throttled
+        if shouldCheckActions, let username = PreyConfig.sharedInstance.userApiKey {
             operationGroup.enter()
             PreyLogger("Fetching actions from server in background location update")
             
@@ -428,6 +456,12 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
                     }
                 )
             )
+            
+            // Update timestamp
+            DeviceAuth.lastActionCheckTime = now
+        } else {
+            operationGroup.enter()
+            operationGroup.leave()
         }
         
         // When all operations complete, end the background task

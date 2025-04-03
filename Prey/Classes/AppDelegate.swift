@@ -9,9 +9,10 @@
 import UIKit
 import BackgroundTasks
 import CoreLocation
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     // MARK: Properties
     
@@ -91,6 +92,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         PreyLogger("Registered background tasks with identifiers: \(refreshIdentifier), \(updateIdentifier), \(fetchIdentifier)")
         
+        // Set up notification delegate
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().delegate = self
+            PreyLogger("Set UNUserNotificationCenter delegate to AppDelegate")
+        }
+        
         // Check settings info
         checkSettingsToBackup()
         
@@ -114,6 +121,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PreyNotification.sharedInstance.registerForRemoteNotifications()
             TriggerManager.sharedInstance.checkTriggers()
             RequestCacheManager.sharedInstance.sendRequest()
+            
+            // Handle notification if app was launched from a notification
+            if let notification = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? [AnyHashable: Any] {
+                PreyLogger("App launched from remote notification: \(notification)")
+                PreyNotification.sharedInstance.didReceiveRemoteNotifications(notification) { _ in
+                    PreyLogger("Finished processing launch notification")
+                }
+            }
             
             // Perform immediate sync with server
             syncWithServer()
@@ -722,6 +737,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+    }
+    
+    // MARK: UNUserNotificationCenterDelegate
+    
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, 
+                               didReceive response: UNNotificationResponse, 
+                               withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        let userInfo = response.notification.request.content.userInfo
+        PreyLogger("Received notification response: \(response.actionIdentifier) with userInfo: \(userInfo)")
+        
+        // Handle notification response based on action identifier
+        switch response.actionIdentifier {
+        case "VIEW_ACTION":
+            // Handle view action - show the relevant screen
+            if let message = userInfo[kOptions.IDLOCAL.rawValue] as? String {
+                // Display alert in app
+                DispatchQueue.main.async {
+                    // Add alert action to show in app
+                    let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
+                    let alertAction = Alert(withTarget: kAction.alert, 
+                                           withCommand: kCommand.start, 
+                                           withOptions: alertOptions)
+                    
+                    // Set trigger ID if available
+                    if let triggerId = userInfo[kOptions.trigger_id.rawValue] as? String {
+                        alertAction.triggerId = triggerId
+                    }
+                    
+                    // Show the alert
+                    PreyModule.sharedInstance.actionArray.append(alertAction)
+                    PreyModule.sharedInstance.runAction()
+                }
+            }
+            
+        case "DISMISS_ACTION", UNNotificationDefaultActionIdentifier, UNNotificationDismissActionIdentifier:
+            // Handle dismiss action or default actions
+            PreyLogger("Notification dismissed or default action taken")
+            
+        default:
+            PreyLogger("Unknown notification action: \(response.actionIdentifier)")
+        }
+        
+        // Call completion handler
+        completionHandler()
+    }
+    
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                               willPresent notification: UNNotification,
+                               withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        // Always show alert, sound, and badge when notification arrives in foreground
+        PreyLogger("Will present notification in foreground: \(notification.request.identifier)")
+        
+        // Show notification with alert, sound, and badge
+        completionHandler([.alert, .sound, .badge])
     }
     
     // Fail register notifications
