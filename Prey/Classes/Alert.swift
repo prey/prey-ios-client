@@ -29,11 +29,42 @@ class Alert: PreyAction {
         
         PreyLogger("Alert message: \(message)")
         
-        // Always show a notification regardless of app state
-        displayNotification(message)
-        
-        // Also show in-app alert if app is in foreground
-        if UIApplication.shared.applicationState != .background {
+        // Only show a notification in background, otherwise show the alert view
+        if UIApplication.shared.applicationState == .background {
+            // Send a single notification when in background
+            let content = UNMutableNotificationContent()
+            content.title = "Prey Alert"
+            content.body = message
+            content.sound = UNNotificationSound.default
+            content.categoryIdentifier = categoryNotifPreyAlert
+            
+            // Add action ID to user info
+            if let triggerId = self.triggerId {
+                content.userInfo = [
+                    kOptions.IDLOCAL.rawValue: message,
+                    kOptions.trigger_id.rawValue: triggerId
+                ]
+            } else {
+                content.userInfo = [kOptions.IDLOCAL.rawValue: message]
+            }
+            
+            // Create trigger with no delay
+            let request = UNNotificationRequest(
+                identifier: "prey.alert.\(UUID().uuidString)",
+                content: content,
+                trigger: nil // Fire immediately
+            )
+            
+            // Add the notification request
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    PreyLogger("Error displaying notification: \(error.localizedDescription)")
+                } else {
+                    PreyLogger("Alert notification scheduled successfully")
+                }
+            }
+        } else {
+            // In foreground, just show the alert view
             showAlertVC(message)
         }
         
@@ -49,86 +80,10 @@ class Alert: PreyAction {
         }
     }
     
-    // Display notification regardless of app state
+    // This method is kept for backwards compatibility but is no longer used
+    // Notification display is now handled directly in the start() method
     private func displayNotification(_ message: String) {
-        // First ensure we have authorization
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .criticalAlert]) { granted, error in
-            PreyLogger("Notification authorization request result: \(granted)")
-            if let error = error {
-                PreyLogger("Notification authorization error: \(error.localizedDescription)")
-                return
-            }
-            
-            guard granted else {
-                PreyLogger("Notification permission not granted")
-                return
-            }
-            
-            DispatchQueue.main.async {
-                let content = UNMutableNotificationContent()
-                
-                // Set notification content with higher priority
-                content.title = "Prey Alert"
-                content.body = message
-                content.sound = UNNotificationSound.defaultCritical
-                content.categoryIdentifier = categoryNotifPreyAlert
-                content.threadIdentifier = "prey.alerts"
-                
-                // Set to critical to ensure delivery (iOS 15+)
-                content.interruptionLevel = .critical
-                
-                // Add action ID to user info
-                if let triggerId = self.triggerId {
-                    content.userInfo = [
-                        kOptions.IDLOCAL.rawValue: message,
-                        kOptions.trigger_id.rawValue: triggerId,
-                        "alert_id": UUID().uuidString // Add unique ID for tracking
-                    ]
-                } else {
-                    content.userInfo = [
-                        kOptions.IDLOCAL.rawValue: message,
-                        "alert_id": UUID().uuidString
-                    ]
-                }
-                
-                // Create immediate trigger
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
-                
-                // Create the request with a unique identifier
-                let requestId = "prey.alert.\(UUID().uuidString)"
-                let request = UNNotificationRequest(
-                    identifier: requestId,
-                    content: content,
-                    trigger: trigger
-                )
-                
-                // Schedule the notification
-                UNUserNotificationCenter.current().add(request) { error in
-                    if let error = error {
-                        PreyLogger("Error displaying notification: \(error.localizedDescription)")
-                    } else {
-                        PreyLogger("Alert notification scheduled successfully with ID: \(requestId)")
-                    }
-                }
-                
-                // For critical alerts, try a second notification with a slight delay as backup
-                if UIApplication.shared.applicationState == .background {
-                    // Create a second trigger with a slight delay
-                    let backupTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false)
-                    let backupRequest = UNNotificationRequest(
-                        identifier: "prey.alert.backup.\(UUID().uuidString)",
-                        content: content,
-                        trigger: backupTrigger
-                    )
-                    
-                    UNUserNotificationCenter.current().add(backupRequest) { error in
-                        if let error = error {
-                            PreyLogger("Error displaying backup notification: \(error.localizedDescription)")
-                        }
-                    }
-                }
-            }
-        }
+        PreyLogger("displayNotification method is deprecated - use direct notification in start() instead")
     }
     
     // Show AlertVC

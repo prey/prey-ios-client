@@ -92,11 +92,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         PreyLogger("Registered background tasks with identifiers: \(refreshIdentifier), \(updateIdentifier), \(fetchIdentifier)")
         
-        // Set up notification delegate
-        if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().delegate = self
-            PreyLogger("Set UNUserNotificationCenter delegate to AppDelegate")
+        // Set up notification delegate and register notification categories
+        UNUserNotificationCenter.current().delegate = self
+        
+        // Create notification actions
+        let viewAction = UNNotificationAction(
+            identifier: "VIEW_ACTION",
+            title: "View Details",
+            options: [.foreground]
+        )
+        
+        let dismissAction = UNNotificationAction(
+            identifier: "DISMISS_ACTION",
+            title: "Dismiss",
+            options: [.destructive]
+        )
+        
+        // Create the category with the actions
+        let alertCategory = UNNotificationCategory(
+            identifier: categoryNotifPreyAlert,
+            actions: [viewAction, dismissAction],
+            intentIdentifiers: [],
+            options: [.customDismissAction]
+        )
+        
+        // Register the notification categories
+        UNUserNotificationCenter.current().setNotificationCategories([alertCategory])
+        
+        // Request notification permissions immediately at startup
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: [.alert, .badge, .sound, .criticalAlert]
+        ) { granted, error in
+            if let error = error {
+                PreyLogger("⚠️ Failed to request notification authorization: \(error.localizedDescription)")
+            } else {
+                PreyLogger("✓ Notification authorization granted: \(granted)")
+            }
         }
+        
+        PreyLogger("Set UNUserNotificationCenter delegate to AppDelegate and registered categories")
         
         // Check settings info
         checkSettingsToBackup()
@@ -759,10 +793,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                willPresent notification: UNNotification,
                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        // Always show alert, sound, and badge when notification arrives in foreground
+        // Don't show notifications in foreground, we're using the alert view instead
         PreyLogger("Will present notification in foreground: \(notification.request.identifier)")
         
-        completionHandler([.banner, .sound, .badge, .list])
+        // Check if this is a Prey alert notification
+        if notification.request.content.categoryIdentifier == categoryNotifPreyAlert {
+            // For Prey alerts, we don't show notification banners in foreground
+            // as we're already showing the AlertVC
+            completionHandler([])
+            
+            // Extract message and triggerId to show in AlertVC
+            let message = notification.request.content.body
+            
+            // Check if it's a Prey Alert and contain a trigger ID
+            if let userInfo = notification.request.content.userInfo as? [String: Any],
+               let message = userInfo[kOptions.IDLOCAL.rawValue] as? String {
+                
+                // Create and display the alert action through our Alert class
+                let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
+                let alertAction = Alert(withTarget: kAction.alert, withCommand: kCommand.start, withOptions: alertOptions)
+                
+                // Set trigger ID if available
+                if let triggerId = userInfo[kOptions.trigger_id.rawValue] as? String {
+                    alertAction.triggerId = triggerId
+                }
+                
+                // Add the action but don't run it - we just want the alert view
+                PreyModule.sharedInstance.actionArray.append(alertAction)
+                alertAction.showAlertVC(message)
+            }
+        } else {
+            // For other notifications, show them normally
+            if #available(iOS 14.0, *) {
+                completionHandler([.banner, .sound, .badge, .list])
+            } else {
+                completionHandler([.alert, .sound, .badge])
+            }
+        }
     }
     
     // Fail register notifications
