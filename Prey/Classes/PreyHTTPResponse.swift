@@ -347,7 +347,7 @@ class PreyHTTPResponse {
             guard error == nil else {
                 PreyConfig.sharedInstance.reportError(error)
                 PreyLogger("Error in actionDevice: \(String(describing: error))")
-                PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+                PreyNotification.sharedInstance.handlePushError("Error processing action device request")
                 return
             }
 
@@ -359,14 +359,14 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.reportError("ActionDevice", statusCode: statusCode, errorDescription: "ActionDevice error")
                 PreyLogger("Failed to check action from panel")
             }
-            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            PreyNotification.sharedInstance.handlePushError("Failed to check action from panel")
             return
         }
         
         guard let dataResponse = data else {
             PreyConfig.sharedInstance.reportError("ActionDeviceData", statusCode: statusCode, errorDescription: "ActionDeviceData error")
             PreyLogger("Failed to check action from panel - no data")
-            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            PreyNotification.sharedInstance.handlePushError("Failed to check action from panel - no data")
             return
         }
         
@@ -451,11 +451,11 @@ class PreyHTTPResponse {
         } else {
             PreyConfig.sharedInstance.reportError("ActionDeviceDecode", statusCode: statusCode, errorDescription: "ActionDeviceDecode error")
             PreyLogger("Failed to check action from panel - string decoding failed")
-            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            PreyNotification.sharedInstance.handlePushError("Failed to check action from panel - string decoding failed")
         }
         
         // Mark verification as succeeded
-        PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
+        // No need to call any verification method here as the action was successful
     }
     
     // Check add device response

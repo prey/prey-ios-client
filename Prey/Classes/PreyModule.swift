@@ -96,8 +96,8 @@ class PreyModule {
         // Convert actionsArray from String to NSData
         guard let jsonData: Data = actionsStr.data(using: String.Encoding.utf8) else {
             
-            PreyLogger("Error actionsArray to NSData")
-            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            PreyLogger("Error converting actions array to data")
+            PreyNotification.sharedInstance.handlePushError("Failed to parse actions from panel")
             
             return
         }
@@ -132,14 +132,13 @@ class PreyModule {
             
             // Check ActionArray empty
             if actionArray.isEmpty {
-                PreyLogger("Notification checkRequestVerificationSucceded OK")
-                PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
+                PreyLogger("All actions processed successfully")
                 if let app = UIApplication.shared.delegate as? AppDelegate {app.stopBackgroundTask()}
             }
             
-        } catch let error as NSError{
-            PreyLogger("json error: \(error.localizedDescription)")
-            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+        } catch let error as NSError {
+            PreyLogger("JSON parsing error: \(error.localizedDescription)")
+            PreyNotification.sharedInstance.handlePushError("Failed to parse actions: \(error.localizedDescription)")
         }
     }
     
@@ -337,8 +336,7 @@ class PreyModule {
      
         // Check ActionArray empty
         if actionArray.isEmpty {
-            PreyLogger("Notification checkRequestVerificationSucceded OK")
-            PreyNotification.sharedInstance.checkRequestVerificationSucceded(true)
+            PreyLogger("All actions completed")
             if let app = UIApplication.shared.delegate as? AppDelegate {app.stopBackgroundTask()}
         }
     }

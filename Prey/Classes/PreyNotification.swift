@@ -18,10 +18,6 @@ class PreyNotification {
     fileprivate init() {
     }
     
-    var requestVerificationSucceeded        = [((UIBackgroundFetchResult) -> Void)]()
-    
-    var isCheckingRequestVerificationArray  = false
-    
     // MARK: Functions
     
     // Handle notification response
@@ -148,82 +144,44 @@ class PreyNotification {
         }
     }
     
-    // Did Receive Remote Notifications
-    func didReceiveRemoteNotifications(_ userInfo: [AnyHashable: Any], completionHandler:@escaping (UIBackgroundFetchResult) -> Void) {
+    // Did Receive Remote Notifications with improved completion handling
+    func didReceiveRemoteNotifications(_ userInfo: [AnyHashable: Any], completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         PreyLogger("didReceiveRemoteNotifications with payload: \(userInfo)")
+        var receivedData = false
 
-        // Check payload preymdm
+        // Handle all payload types
         if let cmdPreyMDM = userInfo["preymdm"] as? NSDictionary {
             PreyLogger("Processing preymdm payload")
             parsePayloadPreyMDMFromPushNotification(parameters: cmdPreyMDM)
+            receivedData = true
         }
-        // Check payload info
+        
         if let cmdInstruction = userInfo["cmd"] as? NSArray {
             PreyLogger("Processing cmd instruction payload")
             parsePayloadInfoFromPushNotification(instructionArray: cmdInstruction)
+            receivedData = true
         }
-        // Check payload info
+        
         if let cmdArray = userInfo["instruction"] as? NSArray {
             PreyLogger("Processing instruction payload")
             parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
+            receivedData = true
         }
         
         // APNS silent notification check (content-available = 1)
         if let contentAvailable = userInfo["content-available"] as? Int, contentAvailable == 1 {
             PreyLogger("Processing silent notification with content-available=1")
+            receivedData = true
         }
         
-        // Set completionHandler for request
-        requestVerificationSucceeded.append(completionHandler)
-        
-        // Check userApiKey isn't empty
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyLogger("Fetching actions from API in response to push notification")
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                username, 
-                password: "x", 
-                params: nil, 
-                messageId: nil, 
-                httpMethod: Method.GET.rawValue, 
-                endPoint: actionsDeviceEndpoint, 
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.actionDevice, 
-                    preyAction: nil, 
-                    onCompletion: { (isSuccess: Bool) in
-                        PreyLogger("Push notification triggered action fetch: \(isSuccess)")
-                        
-                        // If successful, run actions
-                        if isSuccess {
-                            PreyModule.sharedInstance.runAction()
-                        }
-                        
-                        // Try device status if actions didn't work
-                        if !isSuccess {
-                            PreyLogger("Fetching device status after push notification")
-                            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                                username,
-                                password: "x",
-                                params: nil,
-                                messageId: nil,
-                                httpMethod: Method.GET.rawValue,
-                                endPoint: statusDeviceEndpoint,
-                                onCompletion: PreyHTTPResponse.checkResponse(
-                                    RequestType.statusDevice,
-                                    preyAction: nil,
-                                    onCompletion: { (statusSuccess: Bool) in
-                                        PreyLogger("Push notification triggered status check: \(statusSuccess)")
-                                    }
-                                )
-                            )
-                        }
-                    }
-                )
-            )
-        } else {
-            PreyLogger("No API key available, cannot process push notification")
-            checkRequestVerificationSucceded(false)
+        // Run any pending actions that may have been parsed from the notification
+        if !PreyModule.sharedInstance.actionArray.isEmpty {
+            PreyModule.sharedInstance.runAction()
         }
+        
+        // Complete with appropriate result
+        completionHandler(receivedData ? .newData : .noData)
     }
     
     // Parse payload info on push notification
@@ -232,19 +190,19 @@ class PreyNotification {
         // against data pollution attacks
         guard let token = parameters["token"] as? String else {
           PreyLogger("error reading token from json")
-          PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+          handlePushError("Missing token in preymdm payload")
           return
         }
       
         guard let accountID = parameters["account_id"] as? Int else {
             PreyLogger("error reading account_id from json")
-            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            handlePushError("Missing account_id in preymdm payload")
             return
         }
         
         guard let urlServer = parameters["url"] as? String else {
             PreyLogger("error reading url from json")
-            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+            handlePushError("Missing url in preymdm payload")
             return
         }
       
@@ -256,35 +214,17 @@ class PreyNotification {
         do {
             let data = try JSONSerialization.data(withJSONObject: instructionArray, options: JSONSerialization.WritingOptions.prettyPrinted)
             if let json = String(data: data, encoding:String.Encoding.utf8) {
-                PreyLogger("Instruction")
+                PreyLogger("Processing instruction: \(json)")
                 PreyModule.sharedInstance.parseActionsFromPanel(json)
             }
-        } catch let error as NSError{
-            PreyLogger("json error: \(error.localizedDescription)")
-            PreyNotification.sharedInstance.checkRequestVerificationSucceded(false)
+        } catch let error as NSError {
+            PreyLogger("JSON error: \(error.localizedDescription)")
+            handlePushError("Failed to parse instruction payload: \(error.localizedDescription)")
         }
     }
     
-    // Check request verification
-    func checkRequestVerificationSucceded(_ isSuccess:Bool) {
-        // Check if preyActionArray is empty
-        guard PreyModule.sharedInstance.actionArray.isEmpty else {
-            return
-        }
-        // Check if array is busy
-        guard isCheckingRequestVerificationArray == false else {
-            return
-        }
-        isCheckingRequestVerificationArray = true
-        // Finish all completionHandler
-        for item in requestVerificationSucceeded {
-            if isSuccess {
-                item(.newData)
-            } else {
-                item(.failed)
-            }
-        }
-        requestVerificationSucceeded.removeAll()
-        isCheckingRequestVerificationArray = false
+    // Helper method for handling errors from push notifications
+    func handlePushError(_ error: String) {
+        PreyLogger("Push notification error: \(error)")
     }
 }

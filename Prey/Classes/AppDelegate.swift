@@ -119,14 +119,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Register the notification categories
         UNUserNotificationCenter.current().setNotificationCategories([alertCategory])
         
-        // Request notification permissions immediately at startup
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: [.alert, .badge, .sound, .criticalAlert]
-        ) { granted, error in
+        // Request notification permissions immediately at startup with provisional option for iOS 12+
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound, .criticalAlert, .provisional]
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
             if let error = error {
                 PreyLogger("⚠️ Failed to request notification authorization: \(error.localizedDescription)")
             } else {
                 PreyLogger("✓ Notification authorization granted: \(granted)")
+                
+                // Register for remote notifications on successful authorization
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                    PreyLogger("Registered for remote notifications after authorization")
+                }
             }
         }
         
@@ -839,22 +844,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // Did receive remote notification
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        PreyLogger("didReceiveRemoteNotification - App State: \(application.applicationState == .background ? "Background" : "Foreground")")
+        PreyLogger("didReceiveRemoteNotification - App State: \(application.applicationState == .background ? "Background" : "Foreground"), Content-Available: \(userInfo["content-available"] as? Int ?? 0)")
         
         // Log the push notification content for debugging
         PreyLogger("Push notification content: \(userInfo)")
         
-        // Create a background task to ensure we have time to process
+        // Create a long-running background task to ensure we have time to process
         var notificationBgTask = UIBackgroundTaskIdentifier.invalid
         
         notificationBgTask = UIApplication.shared.beginBackgroundTask {
-            if notificationBgTask != UIBackgroundTaskIdentifier.invalid {
+            PreyLogger("⚠️ Notification background task expiring")
+            
+            // Try to request more time with a new background task before expiration
+            let newTask = UIApplication.shared.beginBackgroundTask {
+                PreyLogger("⚠️ Secondary notification background task expiring")
+                if notificationBgTask != UIBackgroundTaskIdentifier.invalid {
+                    UIApplication.shared.endBackgroundTask(notificationBgTask)
+                    notificationBgTask = UIBackgroundTaskIdentifier.invalid
+                }
+            }
+            
+            if newTask != UIBackgroundTaskIdentifier.invalid {
+                // End old task and use new one
                 UIApplication.shared.endBackgroundTask(notificationBgTask)
+                notificationBgTask = newTask
+                PreyLogger("Renewed notification background task: \(newTask.rawValue)")
+            } else {
+                if notificationBgTask != UIBackgroundTaskIdentifier.invalid {
+                    UIApplication.shared.endBackgroundTask(notificationBgTask)
+                    notificationBgTask = UIBackgroundTaskIdentifier.invalid
+                }
                 PreyLogger("Notification background task expired")
             }
         }
         
-        PreyLogger("Started notification background task: \(notificationBgTask)")
+        PreyLogger("Started notification background task: \(notificationBgTask.rawValue) with remaining time: \(UIApplication.shared.backgroundTimeRemaining)")
+        
+        // Use a dispatch group to ensure all operations complete
+        let dispatchGroup = DispatchGroup()
+        var wasDataReceived = false
+        
+        // Always try to sync device status when we receive a notification
+        dispatchGroup.enter()
+        PreyDevice.infoDevice { isSuccess in
+            PreyLogger("Remote notification infoDevice: \(isSuccess)")
+            dispatchGroup.leave()
+        }
         
         // In foreground mode, trigger an immediate server sync
         if application.applicationState != .background {
@@ -862,41 +897,90 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         // Process the notification
-        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler: { [notificationBgTask] result in
-            // Check for pending actions after processing notification
-            PreyModule.sharedInstance.checkActionArrayStatus()
-            
+        dispatchGroup.enter()
+        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo) { result in
             // Process any cached requests
             RequestCacheManager.sharedInstance.sendRequest()
             
-            // If in foreground, trigger an action check
-            if application.applicationState != .background, let username = PreyConfig.sharedInstance.userApiKey {
-                PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                    username,
-                    password: "x",
-                    params: nil,
-                    messageId: nil,
-                    httpMethod: Method.GET.rawValue,
-                    endPoint: actionsDeviceEndpoint,
-                    onCompletion: PreyHTTPResponse.checkResponse(
-                        RequestType.actionDevice,
-                        preyAction: nil,
-                        onCompletion: { isSuccess in
-                            PreyLogger("Push notification triggered action check: \(isSuccess)")
+            if result == .newData {
+                wasDataReceived = true
+            }
+            dispatchGroup.leave()
+        }
+        
+        // Always check for pending actions
+        dispatchGroup.enter()
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                username,
+                password: "x",
+                params: nil,
+                messageId: nil,
+                httpMethod: Method.GET.rawValue,
+                endPoint: actionsDeviceEndpoint,
+                onCompletion: PreyHTTPResponse.checkResponse(
+                    RequestType.actionDevice,
+                    preyAction: nil,
+                    onCompletion: { isSuccess in
+                        PreyLogger("Remote notification action check: \(isSuccess)")
+                        if isSuccess {
+                            wasDataReceived = true
+                            PreyModule.sharedInstance.runAction()
                         }
-                    )
+                        dispatchGroup.leave()
+                    }
                 )
-            }
+            )
+        } else {
+            dispatchGroup.leave()
+        }
+        
+        // Also always check device status
+        dispatchGroup.enter()
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                username,
+                password: "x",
+                params: nil,
+                messageId: nil,
+                httpMethod: Method.GET.rawValue,
+                endPoint: statusDeviceEndpoint,
+                onCompletion: PreyHTTPResponse.checkResponse(
+                    RequestType.statusDevice,
+                    preyAction: nil,
+                    onCompletion: { isSuccess in
+                        PreyLogger("Remote notification status check: \(isSuccess)")
+                        if isSuccess {
+                            wasDataReceived = true
+                        }
+                        dispatchGroup.leave()
+                    }
+                )
+            )
+        } else {
+            dispatchGroup.leave()
+        }
+        
+        // When all operations complete
+        dispatchGroup.notify(queue: .main) {
+            // Check for any pending actions
+            PreyModule.sharedInstance.checkActionArrayStatus()
             
-            // Complete the task
-            completionHandler(result)
-            
-            // End the background task
-            if notificationBgTask != UIBackgroundTaskIdentifier.invalid {
-                UIApplication.shared.endBackgroundTask(notificationBgTask)
-                PreyLogger("Notification background task completed")
+            // Give a small delay to ensure everything completes properly
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                // Complete the fetchCompletionHandler with appropriate result
+                let result: UIBackgroundFetchResult = wasDataReceived ? .newData : .noData
+                PreyLogger("Remote notification processing complete with result: \(result)")
+                completionHandler(result)
+                
+                // End the background task
+                if notificationBgTask != UIBackgroundTaskIdentifier.invalid {
+                    UIApplication.shared.endBackgroundTask(notificationBgTask)
+                    PreyLogger("Notification background task completed")
+                    notificationBgTask = UIBackgroundTaskIdentifier.invalid
+                }
             }
-        })
+        }
     }
     
     // Did receiveLocalNotification - this method is deprecated in iOS 10+
