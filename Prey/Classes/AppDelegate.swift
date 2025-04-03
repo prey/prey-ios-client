@@ -119,18 +119,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Register the notification categories
         UNUserNotificationCenter.current().setNotificationCategories([alertCategory])
         
-        // Request notification permissions immediately at startup with provisional option for iOS 12+
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound, .criticalAlert, .provisional]
-        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
-            if let error = error {
-                PreyLogger("⚠️ Failed to request notification authorization: \(error.localizedDescription)")
-            } else {
-                PreyLogger("✓ Notification authorization granted: \(granted)")
+        // First check existing notification status
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            PreyLogger("📱 PUSH INIT: Current notification authorization status: \(self.authStatusString(settings.authorizationStatus))")
+            PreyLogger("📱 PUSH INIT: Alert Setting: \(self.settingStatusString(settings.alertSetting))")
+            PreyLogger("📱 PUSH INIT: Badge Setting: \(self.settingStatusString(settings.badgeSetting))")
+            PreyLogger("📱 PUSH INIT: Sound Setting: \(self.settingStatusString(settings.soundSetting))")
+            
+            if #available(iOS 15.0, *) {
+                PreyLogger("📱 PUSH INIT: Critical Alert Setting: \(self.settingStatusString(settings.criticalAlertSetting))")
+            }
+            
+            // Request notification permissions if not already authorized
+            if settings.authorizationStatus != .authorized {
+                PreyLogger("📱 PUSH INIT: Requesting notification permissions...")
                 
-                // Register for remote notifications on successful authorization
+                // Request with multiple options
+                let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound, .criticalAlert, .provisional]
+                UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
+                    if let error = error {
+                        PreyLogger("📱 PUSH INIT ERROR: ⚠️ Failed to request notification authorization: \(error.localizedDescription)")
+                    } else {
+                        PreyLogger("📱 PUSH INIT: ✓ Notification authorization request result: \(granted)")
+                        
+                        // Register for remote notifications on successful authorization
+                        DispatchQueue.main.async {
+                            UIApplication.shared.registerForRemoteNotifications()
+                            PreyLogger("📱 PUSH INIT: Registered for remote notifications after authorization")
+                        }
+                    }
+                }
+            } else {
+                // Already authorized, register directly
                 DispatchQueue.main.async {
+                    PreyLogger("📱 PUSH INIT: Already authorized, registering for remote notifications")
                     UIApplication.shared.registerForRemoteNotifications()
-                    PreyLogger("Registered for remote notifications after authorization")
                 }
             }
         }
@@ -634,11 +657,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // Did register notifications
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        PreyLogger("didRegisterForRemoteNotificationsWithDeviceToken")
+        PreyLogger("📱 PUSH REGISTRATION SUCCESS: didRegisterForRemoteNotificationsWithDeviceToken")
         
         // Log the token in a more readable format
         let tokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
-        PreyLogger("Device token: \(tokenString)")
+        PreyLogger("📱 PUSH TOKEN: \(tokenString)")
+        
+        // Also log token in different formats
+        var tokenParts = [String]()
+        for i in 0..<deviceToken.count {
+            tokenParts.append(deviceToken[i].description)
+        }
+        PreyLogger("📱 PUSH TOKEN (Alt Format): <\(tokenParts.joined(separator: " "))>")
+        
+        // Log other notification settings
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            PreyLogger("📱 PUSH SETTINGS: Authorization Status: \(self.authStatusString(settings.authorizationStatus))")
+            PreyLogger("📱 PUSH SETTINGS: Alert Setting: \(self.settingStatusString(settings.alertSetting))")
+            PreyLogger("📱 PUSH SETTINGS: Badge Setting: \(self.settingStatusString(settings.badgeSetting))")
+            PreyLogger("📱 PUSH SETTINGS: Sound Setting: \(self.settingStatusString(settings.soundSetting))")
+            
+            if #available(iOS 15.0, *) {
+                PreyLogger("📱 PUSH SETTINGS: Critical Alert Setting: \(self.settingStatusString(settings.criticalAlertSetting))")
+            }
+        }
         
         // Process the token
         PreyNotification.sharedInstance.didRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
@@ -839,15 +881,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // Fail register notifications
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        PreyLogger("didFailToRegisterForRemoteNotificationsWithError: \(error)")
+        PreyLogger("📱 PUSH REGISTRATION ERROR: 🚨 \(error.localizedDescription)")
+        
+        // Log more details about the error
+        let nsError = error as NSError
+        PreyLogger("📱 PUSH REGISTRATION ERROR DETAILS: domain=\(nsError.domain), code=\(nsError.code), userInfo=\(nsError.userInfo)")
+        
+        // Check for common error codes
+        if nsError.code == 3000 {
+            PreyLogger("📱 PUSH REGISTRATION ERROR: This is likely an issue with APNs certificates or entitlements")
+        } else if nsError.code == 3010 {
+            PreyLogger("📱 PUSH REGISTRATION ERROR: This indicates the simulator was used (expected, as simulator cannot receive push notifications)")
+        }
     }
     
     // Did receive remote notification
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        PreyLogger("didReceiveRemoteNotification - App State: \(application.applicationState == .background ? "Background" : "Foreground"), Content-Available: \(userInfo["content-available"] as? Int ?? 0)")
+        PreyLogger("📱 PUSH RECEIVED: didReceiveRemoteNotification - App State: \(application.applicationState == .background ? "Background" : "Foreground"), Content-Available: \(userInfo["content-available"] as? Int ?? 0)")
         
-        // Log the push notification content for debugging
-        PreyLogger("Push notification content: \(userInfo)")
+        // Log the push notification content for debugging with better formatting
+        PreyLogger("📱 PUSH PAYLOAD: \(userInfo)")
+        
+        // Log each key-value pair separately for better readability
+        for (key, value) in userInfo {
+            PreyLogger("📱 PUSH KEY: \(key) = \(value)")
+        }
         
         // Create a long-running background task to ensure we have time to process
         var notificationBgTask = UIBackgroundTaskIdentifier.invalid
@@ -1047,5 +1105,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("Error: \(error) excluding from backup");
         }
         return success
+    }
+    
+    // MARK: Notification Helper Methods
+    
+    /// Convert UNAuthorizationStatus to a readable string
+    func authStatusString(_ status: UNAuthorizationStatus) -> String {
+        switch status {
+        case .authorized: return "Authorized"
+        case .denied: return "Denied"
+        case .notDetermined: return "Not Determined"
+        case .provisional: return "Provisional"
+        case .ephemeral: return "Ephemeral"
+        @unknown default: return "Unknown (\(status.rawValue))"
+        }
+    }
+    
+    /// Convert UNNotificationSetting to a readable string
+    func settingStatusString(_ setting: UNNotificationSetting) -> String {
+        switch setting {
+        case .enabled: return "Enabled"
+        case .disabled: return "Disabled"
+        case .notSupported: return "Not Supported"
+        @unknown default: return "Unknown (\(setting.rawValue))"
+        }
     }
 }
