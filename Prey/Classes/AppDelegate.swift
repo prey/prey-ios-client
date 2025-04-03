@@ -252,10 +252,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         PreyLogger("Started background task in applicationDidEnterBackground: \(self.bgTask.rawValue)")
         
-        // Force a location action to keep the app running in background
-        let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
-        PreyModule.sharedInstance.actionArray.append(locationAction)
-        PreyLogger("Added background location action in applicationDidEnterBackground")
+        // Remove the automatic location sending when entering background
+        // This was previously:
+        // let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+        // PreyModule.sharedInstance.actionArray.append(locationAction)
+        PreyLogger("NOT sending location when entering background - this is now disabled")
         
         // Check for pending actions before going to background
         PreyModule.sharedInstance.checkActionArrayStatus()
@@ -1116,8 +1117,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     /// Detect if the app is running in the sandbox/development environment
     func detectSandboxEnvironment() -> Bool {
-        // Delegate to PreyNotification's implementation for consistency
-        return PreyNotification.sharedInstance.detectSandboxEnvironment()
+        // Check if app is running in sandbox environment
+        
+        #if targetEnvironment(simulator)
+            return true // Simulator always uses sandbox
+        #endif
+        
+        // Check for development provisioning profile
+        if Bundle.main.path(forResource: "embedded", ofType: "mobileprovision") != nil {
+            return true // Development provisioning profile means sandbox
+        }
+        
+        // Check environment configuration
+        if let apsEnvironment = Bundle.main.object(forInfoDictionaryKey: "aps-environment") as? String,
+           apsEnvironment == "development" {
+            return true // Explicitly configured for development
+        }
+        
+        // Default to production if we can't determine
+        return false
     }
     
     /// Convert UNAuthorizationStatus to a readable string

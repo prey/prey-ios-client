@@ -115,6 +115,20 @@ class PreyNotification {
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
         PreyLogger("📣 TOKEN REGISTER: Token string: \(tokenAsString)")
         
+        // Check entitlements
+        checkEntitlements()
+        
+        // Determine which APNs environment we're using
+        let apnsEnvironment = detectAPNsEnvironment()
+        PreyLogger("📣 TOKEN REGISTER: APNs environment: \(apnsEnvironment)")
+        if apnsEnvironment.contains("sandbox") {
+            PreyLogger("📣 TOKEN REGISTER: Server must send to SANDBOX gateway")
+            PreyLogger("📣 TOKEN REGISTER: Use https://api.sandbox.push.apple.com")
+        } else {
+            PreyLogger("📣 TOKEN REGISTER: Server must send to PRODUCTION gateway")
+            PreyLogger("📣 TOKEN REGISTER: Use https://api.push.apple.com")
+        }
+        
         // Create device info for the server
         let preyDevice = PreyDevice()
         let firmwareInfo : [String:String] = [
@@ -134,10 +148,16 @@ class PreyNotification {
             "ram_size" : preyDevice.ramSize!,
             "uuid" : preyDevice.uuid!,
         ]
+        // Get environment information - reuse the earlier variable
+        let isSandbox = apnsEnvironment.contains("sandbox")
+        
         let params:[String: Any] = [
             "notification_id" : tokenAsString,
             "specs": specs,
-            //"hardware_attributes":hardwareAttributes
+            "sandbox_token": isSandbox,
+            "apns_environment": apnsEnvironment,
+            "device_name": UIDevice.current.name,
+            "hardware_attributes":hardwareAttributes
         ]
         
         PreyLogger("📣 TOKEN REGISTER: Preparing to send token to Prey server with params: \(params)")
@@ -289,5 +309,47 @@ class PreyNotification {
     // Helper method for handling errors from push notifications
     func handlePushError(_ error: String) {
         PreyLogger("📣 PN ERROR: 🚨 \(error)")
+    }
+    
+    // Check entitlements and device name
+    func checkEntitlements() {
+        // Check for device-name entitlement
+        if let deviceNameEntitlement = Bundle.main.object(forInfoDictionaryKey: "com.apple.developer.device-information.user-assigned-device-name") as? Bool {
+            PreyLogger("🔐 ENTITLEMENT: Device name entitlement found: \(deviceNameEntitlement)")
+        } else {
+            PreyLogger("🔐 ENTITLEMENT: Device name entitlement not found in runtime bundle")
+            PreyLogger("🔐 ENTITLEMENT: Check that it's properly set in Prey.entitlements file")
+        }
+        
+        // Check for APNs environment entitlement
+        if let apsEnvironment = Bundle.main.object(forInfoDictionaryKey: "aps-environment") as? String {
+            PreyLogger("🔐 ENTITLEMENT: APNs environment: \(apsEnvironment)")
+        } else {
+            PreyLogger("🔐 ENTITLEMENT: APNs environment not found in runtime bundle")
+            PreyLogger("🔐 ENTITLEMENT: Check that it's properly set in Prey.entitlements file")
+        }
+        
+        // Get the device name
+        let deviceName = UIDevice.current.name
+        PreyLogger("📱 DEVICE: Current device name: \(deviceName)")
+    }
+    
+    // Helper function to detect which APNs environment we're using
+    func detectAPNsEnvironment() -> String {
+        #if targetEnvironment(simulator)
+            return "sandbox (simulator)"
+        #endif
+        
+        if let apsEnv = Bundle.main.object(forInfoDictionaryKey: "aps-environment") as? String {
+            // Even with production entitlement, if app is installed from Xcode, it uses sandbox
+            if let embeddedProfile = Bundle.main.path(forResource: "embedded", ofType: "mobileprovision") {
+                PreyLogger("📲 APNs: App has embedded.mobileprovision, likely using sandbox despite entitlements")
+                return "sandbox (development install)"
+            }
+            
+            return apsEnv
+        }
+        
+        return "unknown (likely sandbox)"
     }
 }
