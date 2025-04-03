@@ -187,18 +187,54 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
 
     // Request auth notification
     func requestAuthNotification(_ callNextView: Bool) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+        // Create notification actions for better user interaction
+        let viewAction = UNNotificationAction(
+            identifier: "VIEW_ACTION", 
+            title: "View Details", 
+            options: [.foreground]
+        )
+        
+        let dismissAction = UNNotificationAction(
+            identifier: "DISMISS_ACTION", 
+            title: "Dismiss", 
+            options: [.destructive]
+        )
+        
+        // Create the category with the actions
+        let alertCategory = UNNotificationCategory(
+            identifier: categoryNotifPreyAlert, 
+            actions: [viewAction, dismissAction], 
+            intentIdentifiers: [], 
+            options: [.customDismissAction]
+        )
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .providesAppNotificationSettings, .criticalAlert]) { (granted, error) in
             DispatchQueue.main.async {
-                let alertCategory = UNNotificationCategory(identifier: categoryNotifPreyAlert, actions: [], intentIdentifiers: [], options: [])
+                // Set notification categories with appropriate actions
                 UNUserNotificationCenter.current().setNotificationCategories(Set([alertCategory]))
-                if callNextView { self.callNextReactView() }
+                
+                if callNextView { 
+                    self.callNextReactView() 
+                }
+                
                 // Check permission granted
-                guard granted else { return }
+                guard granted else { 
+                    PreyLogger("Notification permission not granted")
+                    return 
+                }
+                
                 UNUserNotificationCenter.current().getNotificationSettings { settings in
                     // Check notification settings
-                    guard settings.authorizationStatus == .authorized else { return }
+                    PreyLogger("Current notification settings: \(settings.authorizationStatus.rawValue)")
+                    
+                    guard settings.authorizationStatus == .authorized else { 
+                        PreyLogger("Notification authorization not available")
+                        return 
+                    }
+                    
                     DispatchQueue.main.async {
                         UIApplication.shared.registerForRemoteNotifications()
+                        PreyLogger("Registered for remote notifications")
                     }
                 }
             }
@@ -341,22 +377,14 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last, manager == DeviceAuth.backgroundLocationManager else { return }
         
-        // Throttle location updates to maximum once per 3 minutes
-        let minTimeBetweenLocationUpdates: TimeInterval = 180 // 3 minutes
-        let minTimeBetweenActionChecks: TimeInterval = 300 // 5 minutes
+        // Throttle only location updates to once per hour (3600 seconds)
+        let minTimeBetweenLocationUpdates: TimeInterval = 3600 // 1 hour
         
         let now = Date()
         let shouldSendLocation = DeviceAuth.lastLocationSentTime == nil || 
                                 now.timeIntervalSince(DeviceAuth.lastLocationSentTime!) > minTimeBetweenLocationUpdates
         
-        let shouldCheckActions = DeviceAuth.lastActionCheckTime == nil ||
-                               now.timeIntervalSince(DeviceAuth.lastActionCheckTime!) > minTimeBetweenActionChecks
-        
-        // Skip if we've sent location too recently
-        if !shouldSendLocation && !shouldCheckActions {
-            PreyLogger("Skipping location update - throttled")
-            return
-        }
+        // Always check for actions immediately, no throttling
         
         PreyLogger("Background location manager received location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         
@@ -414,10 +442,12 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             
             // Update timestamp
             DeviceAuth.lastLocationSentTime = now
+        } else {
+            PreyLogger("Skipping location sending - throttled to once per hour (last sent: \(String(describing: DeviceAuth.lastLocationSentTime)))")
         }
         
-        // Also fetch actions from server while in background, but only if not throttled
-        if shouldCheckActions, let username = PreyConfig.sharedInstance.userApiKey {
+        // Always fetch actions from server immediately - no throttling for actions
+        if let username = PreyConfig.sharedInstance.userApiKey {
             operationGroup.enter()
             PreyLogger("Fetching actions from server in background location update")
             
@@ -456,9 +486,6 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
                     }
                 )
             )
-            
-            // Update timestamp
-            DeviceAuth.lastActionCheckTime = now
         } else {
             operationGroup.enter()
             operationGroup.leave()

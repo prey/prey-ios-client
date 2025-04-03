@@ -741,7 +741,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // MARK: UNUserNotificationCenterDelegate
     
-    @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, 
                                didReceive response: UNNotificationResponse, 
                                withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -749,43 +748,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let userInfo = response.notification.request.content.userInfo
         PreyLogger("Received notification response: \(response.actionIdentifier) with userInfo: \(userInfo)")
         
-        // Handle notification response based on action identifier
-        switch response.actionIdentifier {
-        case "VIEW_ACTION":
-            // Handle view action - show the relevant screen
-            if let message = userInfo[kOptions.IDLOCAL.rawValue] as? String {
-                // Display alert in app
-                DispatchQueue.main.async {
-                    // Add alert action to show in app
-                    let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
-                    let alertAction = Alert(withTarget: kAction.alert, 
-                                           withCommand: kCommand.start, 
-                                           withOptions: alertOptions)
-                    
-                    // Set trigger ID if available
-                    if let triggerId = userInfo[kOptions.trigger_id.rawValue] as? String {
-                        alertAction.triggerId = triggerId
-                    }
-                    
-                    // Show the alert
-                    PreyModule.sharedInstance.actionArray.append(alertAction)
-                    PreyModule.sharedInstance.runAction()
-                }
-            }
-            
-        case "DISMISS_ACTION", UNNotificationDefaultActionIdentifier, UNNotificationDismissActionIdentifier:
-            // Handle dismiss action or default actions
-            PreyLogger("Notification dismissed or default action taken")
-            
-        default:
-            PreyLogger("Unknown notification action: \(response.actionIdentifier)")
-        }
+        // Forward handling to PreyNotification
+        PreyNotification.sharedInstance.handleNotificationResponse(response)
         
         // Call completion handler
         completionHandler()
     }
     
-    @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                willPresent notification: UNNotification,
                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -793,8 +762,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Always show alert, sound, and badge when notification arrives in foreground
         PreyLogger("Will present notification in foreground: \(notification.request.identifier)")
         
-        // Show notification with alert, sound, and badge
-        completionHandler([.alert, .sound, .badge])
+        completionHandler([.banner, .sound, .badge, .list])
     }
     
     // Fail register notifications
@@ -864,10 +832,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         })
     }
     
-    // Did receiveLocalNotification
+    // Did receiveLocalNotification - this method is deprecated in iOS 10+
+    // but we're implementing it for compatibility if needed
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
-        PreyLogger("didReceive")
-        PreyNotification.sharedInstance.checkLocalNotification(application, localNotification:notification)
+        PreyLogger("Received local notification - deprecated method called")
+        
+        // Extract the message from the notification
+        if let message = notification.alertBody {
+            PreyLogger("Local notification message: \(message)")
+            
+            // Create an alert action 
+            let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
+            let alertAction = Alert(withTarget: kAction.alert, withCommand: kCommand.start, withOptions: alertOptions)
+            
+            // Add trigger ID if available
+            if let info = notification.userInfo, let triggerId = info[kOptions.trigger_id.rawValue] as? String {
+                alertAction.triggerId = triggerId
+            }
+            
+            // Run the action
+            PreyModule.sharedInstance.actionArray.append(alertAction)
+            PreyModule.sharedInstance.runAction()
+        }
+        
+        // Reset badge count
+        application.applicationIconBadgeNumber = 0
     }
     
      // MARK: Handling Launch for Tasks

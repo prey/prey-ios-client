@@ -51,136 +51,82 @@ class Alert: PreyAction {
     
     // Display notification regardless of app state
     private func displayNotification(_ message: String) {
-        if #available(iOS 10.0, *) {
-            // First ensure we have authorization
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-                PreyLogger("Notification authorization request result: \(granted)")
-                if let error = error {
-                    PreyLogger("Notification authorization error: \(error.localizedDescription)")
-                    return
+        // First ensure we have authorization
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .criticalAlert]) { granted, error in
+            PreyLogger("Notification authorization request result: \(granted)")
+            if let error = error {
+                PreyLogger("Notification authorization error: \(error.localizedDescription)")
+                return
+            }
+            
+            guard granted else {
+                PreyLogger("Notification permission not granted")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                let content = UNMutableNotificationContent()
+                
+                // Set notification content with higher priority
+                content.title = "Prey Alert"
+                content.body = message
+                content.sound = UNNotificationSound.defaultCritical
+                content.categoryIdentifier = categoryNotifPreyAlert
+                content.threadIdentifier = "prey.alerts"
+                
+                // Set to critical to ensure delivery (iOS 15+)
+                content.interruptionLevel = .critical
+                
+                // Add action ID to user info
+                if let triggerId = self.triggerId {
+                    content.userInfo = [
+                        kOptions.IDLOCAL.rawValue: message,
+                        kOptions.trigger_id.rawValue: triggerId,
+                        "alert_id": UUID().uuidString // Add unique ID for tracking
+                    ]
+                } else {
+                    content.userInfo = [
+                        kOptions.IDLOCAL.rawValue: message,
+                        "alert_id": UUID().uuidString
+                    ]
                 }
                 
-                guard granted else {
-                    PreyLogger("Notification permission not granted")
-                    return
+                // Create immediate trigger
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+                
+                // Create the request with a unique identifier
+                let requestId = "prey.alert.\(UUID().uuidString)"
+                let request = UNNotificationRequest(
+                    identifier: requestId,
+                    content: content,
+                    trigger: trigger
+                )
+                
+                // Schedule the notification
+                UNUserNotificationCenter.current().add(request) { error in
+                    if let error = error {
+                        PreyLogger("Error displaying notification: \(error.localizedDescription)")
+                    } else {
+                        PreyLogger("Alert notification scheduled successfully with ID: \(requestId)")
+                    }
                 }
                 
-                DispatchQueue.main.async {
-                    let content = UNMutableNotificationContent()
-                    
-                    // Set notification content with higher priority
-                    content.title = "Prey Alert"
-                    content.body = message
-                    content.sound = UNNotificationSound.default
-                    content.categoryIdentifier = categoryNotifPreyAlert
-                    content.threadIdentifier = "prey.alerts"
-                    
-                    // Request critical alert authorization if needed
-                    if #available(iOS 15.0, *) {
-                        content.interruptionLevel = .timeSensitive
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                    
-                    // Add action ID to user info
-                    if let triggerId = self.triggerId {
-                        content.userInfo = [
-                            kOptions.IDLOCAL.rawValue: message,
-                            kOptions.trigger_id.rawValue: triggerId,
-                            "alert_id": UUID().uuidString // Add unique ID for tracking
-                        ]
-                    } else {
-                        content.userInfo = [
-                            kOptions.IDLOCAL.rawValue: message,
-                            "alert_id": UUID().uuidString
-                        ]
-                    }
-                    
-                    // Create immediate trigger
-                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
-                    
-                    // Create the request with a unique identifier
-                    let requestId = "prey.alert.\(UUID().uuidString)"
-                    let request = UNNotificationRequest(
-                        identifier: requestId,
+                // For critical alerts, try a second notification with a slight delay as backup
+                if UIApplication.shared.applicationState == .background {
+                    // Create a second trigger with a slight delay
+                    let backupTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false)
+                    let backupRequest = UNNotificationRequest(
+                        identifier: "prey.alert.backup.\(UUID().uuidString)",
                         content: content,
-                        trigger: trigger
+                        trigger: backupTrigger
                     )
                     
-                    // Schedule the notification
-                    UNUserNotificationCenter.current().add(request) { error in
+                    UNUserNotificationCenter.current().add(backupRequest) { error in
                         if let error = error {
-                            PreyLogger("Error displaying notification: \(error.localizedDescription)")
-                        } else {
-                            PreyLogger("Alert notification scheduled successfully with ID: \(requestId)")
-                        }
-                    }
-                    
-                    // For critical alerts, try a second notification with a slight delay as backup
-                    if UIApplication.shared.applicationState == .background {
-                        // Create a second trigger with a slight delay
-                        let backupTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false)
-                        let backupRequest = UNNotificationRequest(
-                            identifier: "prey.alert.backup.\(UUID().uuidString)",
-                            content: content,
-                            trigger: backupTrigger
-                        )
-                        
-                        UNUserNotificationCenter.current().add(backupRequest) { error in
-                            if let error = error {
-                                PreyLogger("Error displaying backup notification: \(error.localizedDescription)")
-                            }
+                            PreyLogger("Error displaying backup notification: \(error.localizedDescription)")
                         }
                     }
                 }
-            }
-        } else {
-            // Legacy local notification for iOS 9
-            let localNotif = UILocalNotification()
-            
-            // Set notification content
-            localNotif.alertTitle = "Prey Alert"
-            localNotif.alertBody = message
-            localNotif.soundName = UILocalNotificationDefaultSoundName
-            localNotif.applicationIconBadgeNumber = 1
-            localNotif.hasAction = true
-            localNotif.category = categoryNotifPreyAlert
-            
-            // Add action ID to user info
-            if let triggerId = self.triggerId {
-                localNotif.userInfo = [
-                    kOptions.IDLOCAL.rawValue: message,
-                    kOptions.trigger_id.rawValue: triggerId,
-                    "alert_id": UUID().uuidString
-                ]
-            } else {
-                localNotif.userInfo = [
-                    kOptions.IDLOCAL.rawValue: message,
-                    "alert_id": UUID().uuidString
-                ]
-            }
-            
-            // Present the notification immediately
-            UIApplication.shared.presentLocalNotificationNow(localNotif)
-            PreyLogger("Legacy alert notification scheduled")
-            
-            // If in background, try a second notification with delay as backup
-            if UIApplication.shared.applicationState == .background {
-                let backupNotif = UILocalNotification()
-                backupNotif.alertTitle = "Prey Alert"
-                backupNotif.alertBody = message
-                backupNotif.soundName = UILocalNotificationDefaultSoundName
-                backupNotif.applicationIconBadgeNumber = 1
-                backupNotif.hasAction = true
-                backupNotif.category = categoryNotifPreyAlert
-                backupNotif.fireDate = Date(timeIntervalSinceNow: 1.0)
-                
-                // Add same user info
-                backupNotif.userInfo = localNotif.userInfo
-                
-                // Schedule the backup notification
-                UIApplication.shared.scheduleLocalNotification(backupNotif)
-                PreyLogger("Backup legacy alert notification scheduled")
             }
         }
     }
