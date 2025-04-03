@@ -228,11 +228,36 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         callNextRequestAuth("btnLocation")
     }
     
+    // Persistent location manager so it doesn't get deallocated
+    private static var backgroundLocationManager: CLLocationManager?
+    
+    // Track if background location is already configured to avoid redundant setup
+    private static var isBackgroundLocationConfigured = false
+    private static var lastConfigTime: Date?
+    
     // Add a method to ensure background location is properly configured
     func ensureBackgroundLocationIsConfigured() {
+        // Don't reconfigure if we've done it recently (within 60 seconds)
+        let shouldConfigure = !DeviceAuth.isBackgroundLocationConfigured || 
+                              DeviceAuth.lastConfigTime == nil ||
+                              Date().timeIntervalSince(DeviceAuth.lastConfigTime!) > 60
+        
+        if !shouldConfigure {
+            // Avoid spamming logs
+            return
+        }
+        
+        PreyLogger("Ensuring background location is configured - Auth status: \(CLLocationManager.authorizationStatus().rawValue)")
+        
         if CLLocationManager.authorizationStatus() == .authorizedAlways {
-            // Create a persistent location manager that won't be deallocated
-            let manager = CLLocationManager()
+            // Use persistent static location manager that won't be deallocated
+            if DeviceAuth.backgroundLocationManager == nil {
+                DeviceAuth.backgroundLocationManager = CLLocationManager()
+                PreyLogger("Created new persistent background location manager")
+            }
+            
+            // Configure the location manager
+            let manager = DeviceAuth.backgroundLocationManager!
             manager.delegate = self
             manager.pausesLocationUpdatesAutomatically = false
             manager.allowsBackgroundLocationUpdates = true
@@ -240,54 +265,102 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             manager.distanceFilter = kCLDistanceFilterNone
             
             // Start significant location changes which can wake up the app
-            manager.startMonitoringSignificantLocationChanges()
+            // There's no direct property to check if already monitoring, so we'll use our flag
+            if !DeviceAuth.isBackgroundLocationConfigured {
+                manager.startMonitoringSignificantLocationChanges()
+                PreyLogger("Started monitoring significant location changes")
+            }
             
-            // Create a background task to ensure we have time to register
-            var bgTask = UIBackgroundTaskIdentifier.invalid
-            bgTask = UIApplication.shared.beginBackgroundTask {
-                if bgTask != UIBackgroundTaskIdentifier.invalid {
-                    UIApplication.shared.endBackgroundTask(bgTask)
-                    bgTask = UIBackgroundTaskIdentifier.invalid
-                    PreyLogger("Background location config task expired")
+            // Create a background task to ensure we have time to register, but only if not already configured
+            if !DeviceAuth.isBackgroundLocationConfigured {
+                var bgTask = UIBackgroundTaskIdentifier.invalid
+                bgTask = UIApplication.shared.beginBackgroundTask {
+                    if bgTask != UIBackgroundTaskIdentifier.invalid {
+                        UIApplication.shared.endBackgroundTask(bgTask)
+                        bgTask = UIBackgroundTaskIdentifier.invalid
+                        PreyLogger("Background location config task expired")
+                    }
                 }
-            }
-            
-            // Start regular updates too
-            manager.startUpdatingLocation()
-            
-            PreyLogger("Background location configuration started with task ID: \(bgTask.rawValue)")
-            
-            // Add a location action to the module to ensure we're tracking location
-            let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
-            
-            // Only add if not already in the array
-            var hasLocationAction = false
-            for action in PreyModule.sharedInstance.actionArray {
-                if action.target == kAction.location {
-                    hasLocationAction = true
-                    break
-                }
-            }
-            
-            if !hasLocationAction {
-                PreyModule.sharedInstance.actionArray.append(locationAction)
-                PreyLogger("Added location action from background location config")
-                PreyModule.sharedInstance.runAction()
-            }
-            
-            // Keep it running for a moment to register properly
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-                // Don't stop significant location changes - keep those running
-                // manager.stopUpdatingLocation()
                 
-                if bgTask != UIBackgroundTaskIdentifier.invalid {
-                    UIApplication.shared.endBackgroundTask(bgTask)
-                    bgTask = UIBackgroundTaskIdentifier.invalid
-                    PreyLogger("Background location configured and registered")
+                // Start regular updates too if not already started
+                manager.startUpdatingLocation()
+                
+                PreyLogger("Background location configuration started with task ID: \(bgTask.rawValue)")
+                
+                // Add a location action to the module to ensure we're tracking location
+                // Only do this if we're not already configured
+                let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+                
+                // Only add if not already in the array
+                var hasLocationAction = false
+                for action in PreyModule.sharedInstance.actionArray {
+                    if action.target == kAction.location {
+                        hasLocationAction = true
+                        break
+                    }
+                }
+                
+                if !hasLocationAction {
+                    PreyLogger("Adding location action from background location config")
+                    PreyModule.sharedInstance.actionArray.append(locationAction)
+                    // Run only the location action, not all actions
+                    PreyModule.sharedInstance.runSingleAction(locationAction)
+                }
+                
+                // Keep background task running for a moment to register properly
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                    if bgTask != UIBackgroundTaskIdentifier.invalid {
+                        UIApplication.shared.endBackgroundTask(bgTask)
+                        bgTask = UIBackgroundTaskIdentifier.invalid
+                        PreyLogger("Background location configured and registered")
+                    }
                 }
             }
+            
+            // Mark as configured and update timestamp
+            DeviceAuth.isBackgroundLocationConfigured = true
+            DeviceAuth.lastConfigTime = Date()
+            
         } else {
             PreyLogger("Cannot configure background location - no always authorization")
+            
+            // Request authorization anyway, but don't spam
+            if DeviceAuth.lastConfigTime == nil || Date().timeIntervalSince(DeviceAuth.lastConfigTime!) > 300 {
+                let locationManager = CLLocationManager()
+                locationManager.requestAlwaysAuthorization()
+                DeviceAuth.lastConfigTime = Date()
+            }
+        }
+    }
+    
+    // Handle location updates from background manager
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last, manager == DeviceAuth.backgroundLocationManager else { return }
+        
+        PreyLogger("Background location manager received location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+        
+        // Save to shared container
+        if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios") {
+            let locationDict: [String: Any] = [
+                "lng": location.coordinate.longitude,
+                "lat": location.coordinate.latitude,
+                "alt": location.altitude,
+                "accuracy": location.horizontalAccuracy,
+                "method": "native",
+                "timestamp": Date().timeIntervalSince1970
+            ]
+            
+            userDefaults.set(locationDict, forKey: "lastLocation")
+            userDefaults.synchronize()
+            PreyLogger("Saved background location to shared container")
+        }
+        
+        // Trigger location action if available
+        for action in PreyModule.sharedInstance.actionArray {
+            if let locationAction = action as? Location {
+                locationAction.locationReceived(location)
+                break
+            }
         }
     }
 }

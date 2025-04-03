@@ -64,15 +64,67 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Prey command
     override func get() {
-        startLocationManager()
-        // Schedule get location
+        PreyLogger("Location.get() called - App State: \(UIApplication.shared.applicationState == .background ? "Background" : "Foreground")")
         
+        // Make sure location services are enabled
+        if CLLocationManager.locationServicesEnabled() == false {
+            PreyLogger("⚠️ Location services are disabled system-wide")
+            // Try to initialize anyway in case user enables later
+        }
+        
+        // Check authorization status
+        let authStatus = CLLocationManager.authorizationStatus()
+        if authStatus != .authorizedAlways {
+            PreyLogger("⚠️ Location authorization status is not .authorizedAlways: \(authStatus)")
+            // Request authorization just in case
+            locManager.requestAlwaysAuthorization()
+        }
+        
+        // Start the location manager
+        startLocationManager()
+        
+        // Schedule get location with timeout - 30 seconds
         Timer.scheduledTimer(timeInterval: 30.0, target:self, selector:#selector(stopLocationTimer(_:)), userInfo:nil, repeats:false)
         
-        // Start monitoring location pushes
+        // Start monitoring location pushes for iOS 15+
         startMonitoringLocationPushes()
         
-        PreyLogger("Start location")
+        // Check for cached location in shared container
+        if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
+           let cachedLocation = userDefaults.dictionary(forKey: "lastLocation") {
+            
+            PreyLogger("Found cached location in shared container: \(cachedLocation)")
+            
+            // Convert cached data to a CLLocation if possible
+            if let lat = cachedLocation["lat"] as? Double,
+               let lng = cachedLocation["lng"] as? Double,
+               let accuracy = cachedLocation["accuracy"] as? Double,
+               let altitude = cachedLocation["alt"] as? Double,
+               let timestamp = cachedLocation["timestamp"] as? TimeInterval {
+                
+                let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+                let date = Date(timeIntervalSince1970: timestamp)
+                
+                // Only use cached location if it's recent (within last 5 minutes)
+                if abs(date.timeIntervalSinceNow) < 300 {
+                    let location = CLLocation(
+                        coordinate: coordinate,
+                        altitude: altitude,
+                        horizontalAccuracy: accuracy,
+                        verticalAccuracy: 0,
+                        timestamp: date
+                    )
+                    
+                    PreyLogger("Using cached location from shared container")
+                    self.lastLocation = location
+                    self.locationReceived(location)
+                } else {
+                    PreyLogger("Cached location is too old: \(abs(date.timeIntervalSinceNow)) seconds")
+                }
+            }
+        }
+        
+        PreyLogger("Location started successfully")
     }
     
     private func startMonitoringLocationPushes() {
@@ -221,6 +273,22 @@ class Location : PreyAction, CLLocationManagerDelegate {
         
         PreyLogger("Started location sending background task: \(bgTask.rawValue)")
  
+        // Save location to shared container if available
+        if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios") {
+            let locationDict: [String: Any] = [
+                "lng": location.coordinate.longitude,
+                "lat": location.coordinate.latitude,
+                "alt": location.altitude,
+                "accuracy": location.horizontalAccuracy,
+                "method": "native",
+                "timestamp": Date().timeIntervalSince1970
+            ]
+            
+            userDefaults.set(locationDict, forKey: "lastLocation")
+            userDefaults.synchronize()
+            PreyLogger("Saved location to shared container")
+        }
+        
         let params:[String: Any] = [
             kLocation.lng.rawValue      : location.coordinate.longitude,
             kLocation.lat.rawValue      : location.coordinate.latitude,
@@ -230,33 +298,85 @@ class Location : PreyAction, CLLocationManagerDelegate {
         
         let locParam:[String: Any] = [kAction.location.rawValue : params, kDataLocation.skip_toast.rawValue : (index > 0)]
         
+        // Use dispatch group to track when all API calls complete
+        let dispatchGroup = DispatchGroup()
+        
         if self.isLocationAwareActive {
             PreyLogger("Location aware is active, sending to location aware endpoint")
             GeofencingManager.sharedInstance.startLocationAwareManager(location)
             self.isLocationAwareActive = false
-            self.sendData(locParam, toEndpoint: locationAwareEndpoint)
+            
+            dispatchGroup.enter()
+            self.sendDataWithCallback(locParam, toEndpoint: locationAwareEndpoint) { success in
+                PreyLogger("Location aware endpoint request completed with success: \(success)")
+                dispatchGroup.leave()
+            }
+            
             stopLocationManager()
         } else {
             PreyLogger("Sending location to data device endpoint")
-            self.sendData(locParam, toEndpoint: dataDeviceEndpoint)
+            
+            dispatchGroup.enter()
+            self.sendDataWithCallback(locParam, toEndpoint: dataDeviceEndpoint) { success in
+                PreyLogger("Data device endpoint location request completed with success: \(success)")
+                dispatchGroup.leave()
+            }
+            
             index = index + 1
         }
         
+        // Send device name
         let paramName:[String: Any] = [ "name" : UIDevice.current.name]
-        self.sendData(paramName, toEndpoint: dataDeviceEndpoint)
         
-        PreyDevice.infoDevice({(isSuccess: Bool) in
+        dispatchGroup.enter()
+        self.sendDataWithCallback(paramName, toEndpoint: dataDeviceEndpoint) { success in
+            PreyLogger("Device name request completed with success: \(success)")
+            dispatchGroup.leave()
+        }
+        
+        // Get device info
+        dispatchGroup.enter()
+        PreyDevice.infoDevice { isSuccess in
             PreyLogger("infoDevice isSuccess: \(isSuccess)")
-            
-            // End the background task after a delay to ensure data is sent
+            dispatchGroup.leave()
+        }
+        
+        // When all requests complete, end the background task
+        dispatchGroup.notify(queue: .main) {
+            // Give a little extra time for any pending network operations
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 if bgTask != UIBackgroundTaskIdentifier.invalid {
                     UIApplication.shared.endBackgroundTask(bgTask)
                     bgTask = UIBackgroundTaskIdentifier.invalid
-                    PreyLogger("Location sending background task completed")
+                    PreyLogger("Location sending background task completed - all requests finished")
                 }
             }
-        })
+        }
+    }
+    
+    // Helper method to send data with callback
+    private func sendDataWithCallback(_ data: [String: Any], toEndpoint endpoint: String, completion: @escaping (Bool) -> Void) {
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
+            PreyLogger("Cannot send data - no API key")
+            completion(false)
+            return
+        }
+        
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            username,
+            password: "x",
+            params: data,
+            messageId: self.messageId,
+            httpMethod: Method.POST.rawValue,
+            endPoint: endpoint,
+            onCompletion: PreyHTTPResponse.checkResponse(
+                RequestType.dataSend,
+                preyAction: self,
+                onCompletion: { success in
+                    completion(success)
+                }
+            )
+        )
     }
     
     // MARK: CLLocationManagerDelegate
