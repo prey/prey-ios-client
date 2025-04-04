@@ -191,14 +191,17 @@ class Location : PreyAction, CLLocationManagerDelegate {
         // Configure location manager for maximum reliability
         locManager.requestAlwaysAuthorization()
         locManager.delegate = self
-        locManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locManager.distanceFilter = kCLDistanceFilterNone
-        locManager.pausesLocationUpdatesAutomatically = false
+        locManager.desiredAccuracy = kCLLocationAccuracyHundredMeters // Reduce power usage
+        locManager.distanceFilter = 100 // Only update when device moves more than 100 meters
+        locManager.pausesLocationUpdatesAutomatically = true // Allow system to pause updates
         locManager.allowsBackgroundLocationUpdates = true
         locManager.showsBackgroundLocationIndicator = true // Shows the blue bar when app uses location in background
         
-        // Start significant location changes for background wake-ups
+        // Always enable significant location changes to support wake-ups for action checks
         locManager.startMonitoringSignificantLocationChanges()
+        PreyLogger("Started monitoring significant location changes")
+        
+        // Start regular location updates
         locManager.startUpdatingLocation()
         
         // Begin background task to ensure we have time to get location

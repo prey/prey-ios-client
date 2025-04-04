@@ -299,16 +299,16 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             // Configure the location manager
             let manager = DeviceAuth.backgroundLocationManager!
             manager.delegate = self
-            manager.pausesLocationUpdatesAutomatically = false
+            manager.pausesLocationUpdatesAutomatically = true // Allow system to pause updates
             manager.allowsBackgroundLocationUpdates = true
-            manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-            manager.distanceFilter = kCLDistanceFilterNone
+            manager.desiredAccuracy = kCLLocationAccuracyHundredMeters // Reduce power usage
+            manager.distanceFilter = 100 // Only update when device moves more than 100 meters
             
-            // Start significant location changes which can wake up the app
-            // There's no direct property to check if already monitoring, so we'll use our flag
+            // Always start significant location changes to allow wake-ups for actions
+            // But only if not already monitoring
             if !DeviceAuth.isBackgroundLocationConfigured {
                 manager.startMonitoringSignificantLocationChanges()
-                PreyLogger("Started monitoring significant location changes")
+                PreyLogger("Started monitoring significant location changes for background wake-ups")
             }
             
             // Create a background task to ensure we have time to register, but only if not already configured
@@ -377,14 +377,28 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last, manager == DeviceAuth.backgroundLocationManager else { return }
         
-        // Throttle only location updates to once per hour (3600 seconds)
-        let minTimeBetweenLocationUpdates: TimeInterval = 3600 // 1 hour
+        // Throttle location updates to once per 2 hours (7200 seconds) for normal devices
+        // This will prevent excessive location sending while still allowing the device to wake up
+        let minTimeBetweenLocationUpdates: TimeInterval = 7200 // 2 hours
         
         let now = Date()
-        let shouldSendLocation = DeviceAuth.lastLocationSentTime == nil || 
-                                now.timeIntervalSince(DeviceAuth.lastLocationSentTime!) > minTimeBetweenLocationUpdates
         
-        // Always check for actions immediately, no throttling
+        // If the device is missing, use a shorter throttle time (30 minutes)
+        let minTimeBetweenUpdates = PreyConfig.sharedInstance.isMissing ? 1800.0 : minTimeBetweenLocationUpdates
+        
+        let shouldSendLocation = DeviceAuth.lastLocationSentTime == nil || 
+                               now.timeIntervalSince(DeviceAuth.lastLocationSentTime!) > minTimeBetweenUpdates
+        
+        // Log which throttling time is being used
+        if PreyConfig.sharedInstance.isMissing {
+            PreyLogger("Device is missing - using shorter location throttle time (30 minutes)")
+        }
+        
+        // Skip location sending if throttled but still check for actions
+        if !shouldSendLocation  {
+            PreyLogger("Skipping location processing - throttled")
+            // Don't return, still proceed with checking actions
+        }
         
         PreyLogger("Background location manager received location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         
@@ -446,7 +460,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             PreyLogger("Skipping location sending - throttled to once per hour (last sent: \(String(describing: DeviceAuth.lastLocationSentTime)))")
         }
         
-        // Always fetch actions from server immediately - no throttling for actions
+        // Fetch actions from server with throttling
         if let username = PreyConfig.sharedInstance.userApiKey {
             operationGroup.enter()
             PreyLogger("Fetching actions from server in background location update")
@@ -463,12 +477,14 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
                     preyAction: nil,
                     onCompletion: { isSuccess in
                         PreyLogger("Background fetch actions complete: \(isSuccess)")
+                        // Update the action check timestamp
+                        DeviceAuth.lastActionCheckTime = Date()
                         operationGroup.leave()
                     }
                 )
             )
             
-            // Also check device status
+            // Only check device status when we check actions
             operationGroup.enter()
             PreyHTTPClient.sharedInstance.userRegisterToPrey(
                 username,
