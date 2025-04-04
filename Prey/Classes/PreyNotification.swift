@@ -111,9 +111,8 @@ class PreyNotification {
     
     // Did Register Remote Notifications
     func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
-        PreyLogger("📣 TOKEN REGISTER: Got device token from APNS")
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
-        PreyLogger("📣 TOKEN REGISTER: Token string: \(tokenAsString)")
+        PreyLogger("📣 TOKEN REGISTER: Got device token from APNS: \(tokenAsString)")
         
         // Check entitlements
         checkEntitlements()
@@ -123,10 +122,8 @@ class PreyNotification {
         PreyLogger("📣 TOKEN REGISTER: APNs environment: \(apnsEnvironment)")
         if apnsEnvironment.contains("sandbox") {
             PreyLogger("📣 TOKEN REGISTER: Server must send to SANDBOX gateway")
-            PreyLogger("📣 TOKEN REGISTER: Use https://api.sandbox.push.apple.com")
         } else {
             PreyLogger("📣 TOKEN REGISTER: Server must send to PRODUCTION gateway")
-            PreyLogger("📣 TOKEN REGISTER: Use https://api.push.apple.com")
         }
         
         // Create device info for the server
@@ -317,16 +314,14 @@ class PreyNotification {
         if let deviceNameEntitlement = Bundle.main.object(forInfoDictionaryKey: "com.apple.developer.device-information.user-assigned-device-name") as? Bool {
             PreyLogger("🔐 ENTITLEMENT: Device name entitlement found: \(deviceNameEntitlement)")
         } else {
-            PreyLogger("🔐 ENTITLEMENT: Device name entitlement not found in runtime bundle")
-            PreyLogger("🔐 ENTITLEMENT: Check that it's properly set in Prey.entitlements file")
+            PreyLogger("🔐 ENTITLEMENT: Device name entitlement not found in runtime bundle, check that it's properly set in Prey.entitlements file")
         }
         
         // Check for APNs environment entitlement
         if let apsEnvironment = Bundle.main.object(forInfoDictionaryKey: "aps-environment") as? String {
             PreyLogger("🔐 ENTITLEMENT: APNs environment: \(apsEnvironment)")
         } else {
-            PreyLogger("🔐 ENTITLEMENT: APNs environment not found in runtime bundle")
-            PreyLogger("🔐 ENTITLEMENT: Check that it's properly set in Prey.entitlements file")
+            PreyLogger("🔐 ENTITLEMENT: APNs environment not found in runtime bundle, check that it's properly set in Prey.entitlements file")
         }
         
         // Get the device name

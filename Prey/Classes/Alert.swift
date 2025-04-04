@@ -80,12 +80,6 @@ class Alert: PreyAction {
         }
     }
     
-    // This method is kept for backwards compatibility but is no longer used
-    // Notification display is now handled directly in the start() method
-    private func displayNotification(_ message: String) {
-        PreyLogger("displayNotification method is deprecated - use direct notification in start() instead")
-    }
-    
     // Show AlertVC
     func showAlertVC(_ msg:String) {
         
