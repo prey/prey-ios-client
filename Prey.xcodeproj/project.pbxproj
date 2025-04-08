@@ -323,13 +323,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0579E5DC2D935D6200D79B3C /* Prey Location Extension */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Prey Location Extension";
-			sourceTree = "<group>";
-		};
 		3B36116D1EE75470006BA074 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,7 +406,6 @@
 				3BAE5811214ACD9F00DB4BAB /* InfoPlist.strings */,
 				3B828402199198E6000E4545 /* PreyTests */,
 				3BCE971C23021AB500AF1AD4 /* PreyNotify */,
-				0579E5DC2D935D6200D79B3C /* Prey Location Extension */,
 				3BB6E2211D47CBD800074E97 /* Frameworks */,
 				3B8283EE199198E6000E4545 /* Products */,
 				91C83753BD82DE7017E63F0E /* Pods */,
