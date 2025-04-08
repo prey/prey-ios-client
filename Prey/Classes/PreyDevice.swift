@@ -95,19 +95,76 @@ class PreyDevice {
         }
     }
     
+    // Track retry attempts to avoid infinite recursion
+    private static var infoDeviceRetryCount = [String: Int]()
+    private static let maxRetryAttempts = 2
+    
     class func infoDevice(_ onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
-
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:infoEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.infoDevice, preyAction:nil,  onCompletion:{
-                (isSuccess: Bool) in PreyLogger("Request: infoDevice")
-                if !isSuccess {
-                    infoDevice({(isSuccess: Bool) in
-                        PreyLogger("infoDevice isSuccess:\(isSuccess)")
-                    })
-                }
-            }))
-        }else{
-            PreyLogger("Error infoDevice")
+        // Generate a unique request ID for tracking retries
+        let requestId = UUID().uuidString
+        
+        // Initialize retry count for this request ID
+        infoDeviceRetryCount[requestId] = 0
+        
+        // Call the actual implementation with retry tracking
+        infoDeviceWithRetry(requestId: requestId, onCompletion: onCompletion)
+    }
+    
+    private class func infoDeviceWithRetry(requestId: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
+            PreyLogger("Error infoDevice - No API key available")
+            onCompletion(false)
+            return
         }
+        
+        // Get current retry count
+        let currentRetryCount = infoDeviceRetryCount[requestId] ?? 0
+        
+        // Check if we've exceeded max retries
+        if currentRetryCount >= maxRetryAttempts {
+            PreyLogger("infoDevice - Max retry attempts (\(maxRetryAttempts)) reached for request \(requestId)")
+            // Clean up the retry counter
+            infoDeviceRetryCount.removeValue(forKey: requestId)
+            onCompletion(false)
+            return
+        }
+        
+        // Increment retry count
+        infoDeviceRetryCount[requestId] = currentRetryCount + 1
+        
+        PreyLogger("infoDevice - Starting request (attempt \(currentRetryCount + 1)/\(maxRetryAttempts + 1)) with ID: \(requestId)")
+        
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            username, 
+            password: "x", 
+            params: nil, 
+            messageId: nil, 
+            httpMethod: Method.GET.rawValue, 
+            endPoint: infoEndpoint, 
+            onCompletion: PreyHTTPResponse.checkResponse(
+                RequestType.infoDevice, 
+                preyAction: nil,  
+                onCompletion: { (isSuccess: Bool) in
+                    PreyLogger("infoDevice - Request \(requestId) completed with success: \(isSuccess)")
+                    
+                    if isSuccess {
+                        // Clean up the retry counter on success
+                        infoDeviceRetryCount.removeValue(forKey: requestId)
+                        onCompletion(true)
+                    } else if currentRetryCount < maxRetryAttempts {
+                        // If not successful and under retry limit, retry after a delay
+                        PreyLogger("infoDevice - Will retry request \(requestId) after delay")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                            infoDeviceWithRetry(requestId: requestId, onCompletion: onCompletion)
+                        }
+                    } else {
+                        // If we've reached the retry limit, give up
+                        PreyLogger("infoDevice - Failed after \(currentRetryCount + 1) attempts for request \(requestId)")
+                        infoDeviceRetryCount.removeValue(forKey: requestId)
+                        onCompletion(false)
+                    }
+                }
+            )
+        )
     }
 }

@@ -52,17 +52,53 @@ class AlertVC: UIViewController {
     }
     
     @IBAction func closeButton(_ sender: UIButton) {
-        guard let appWindow = UIApplication.shared.delegate?.window else {
-            PreyLogger("error with sharedApplication")
+        PreyLogger("Alert close button tapped")
+        
+        // Create a background task for the transition
+        var bgTask = UIBackgroundTaskIdentifier.invalid
+        bgTask = UIApplication.shared.beginBackgroundTask {
+            if bgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(bgTask)
+                bgTask = UIBackgroundTaskIdentifier.invalid
+                PreyLogger("Alert close background task expired")
+            }
+        }
+        
+        PreyLogger("Started alert close background task: \(bgTask.rawValue)")
+        
+        // Get application delegate and window
+        guard let appDelegate = UIApplication.shared.delegate,
+              let appWindow = appDelegate.window else {
+            PreyLogger("Error with sharedApplication or window")
             return
         }
-        let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
-        let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.homeWeb.rawValue)
-        let rootVC: UINavigationController  = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
-        rootVC.setViewControllers([resultController], animated: false)
-        appWindow?.rootViewController = rootVC
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+        
+        // Set up homeWeb screen
+        let mainStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
+        
+        // Check if camouflage mode is active, and use appropriate controller
+        let homeControllerID = PreyConfig.sharedInstance.isCamouflageMode ? 
+                               StoryboardIdVC.home.rawValue : 
+                               StoryboardIdVC.homeWeb.rawValue
+        
+        if let resultController = mainStoryboard.instantiateViewController(withIdentifier: homeControllerID) as? UIViewController {
+            let rootVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
+            rootVC.setViewControllers([resultController], animated: false)
+            
+            // Set the new root view controller
+            appWindow?.rootViewController = rootVC
+            appWindow?.makeKeyAndVisible()
+            
+            PreyLogger("Set new root view controller")
+            
+            // End the background task
+            if bgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(bgTask)
+                bgTask = UIBackgroundTaskIdentifier.invalid
+                PreyLogger("Alert close background task completed")
+            }
+        } else {
+            PreyLogger("Failed to instantiate home controller")
         }
     }
 

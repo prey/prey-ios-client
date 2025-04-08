@@ -46,6 +46,19 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         
         let sessionConfig = URLSessionConfiguration.default
         
+        // Configure for better background performance
+        sessionConfig.waitsForConnectivity = true
+        sessionConfig.allowsCellularAccess = true 
+        sessionConfig.timeoutIntervalForRequest = 60.0
+        sessionConfig.timeoutIntervalForResource = 60.0
+        
+        // Set appropriate background policy based on app state
+        if UIApplication.shared.applicationState == .background {
+            sessionConfig.networkServiceType = .background
+        } else {
+            sessionConfig.networkServiceType = .default
+        }
+        
         var additionalHeader :[AnyHashable: Any] = ["User-Agent" : userAgent, "Content-Type" : "application/json", "Authorization" : authString]
         
         // Check if exist MessageId for action group
@@ -55,9 +68,14 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             additionalHeader["X-Prey-Correlation-Id"]   = msg
         }
         
+        // Always include device identifier in headers
+        if let deviceKey = PreyConfig.sharedInstance.deviceKey {
+            additionalHeader["X-Prey-Device-Id"] = deviceKey
+        }
+        
         // Check if endpoint is event
         if endPoint == eventsDeviceEndpoint {
-            additionalHeader["X-Prey-Status"]           = Battery.sharedInstance.getHeaderPreyStatus()
+            additionalHeader["X-Prey-Status"] = Battery.sharedInstance.getHeaderPreyStatus()
         }
         
         sessionConfig.httpAdditionalHeaders = additionalHeader
