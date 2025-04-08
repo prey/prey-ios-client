@@ -168,8 +168,22 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         
         PreyLogger("get photos")
         
-        // Set photos to reportImages
-        reportImages = photos
+        // Create a copy of the dictionary to avoid memory leaks
+        let imagesCopy = NSMutableDictionary(dictionary: photos)
+        
+        // Resize images to reduce memory usage
+        if let picture = imagesCopy["picture"] as? UIImage {
+            let resizedPicture = resizeImage(picture, targetSize: CGSize(width: 800, height: 600))
+            imagesCopy["picture"] = resizedPicture
+        }
+        
+        if let screenshot = imagesCopy["screenshot"] as? UIImage {
+            let resizedScreenshot = resizeImage(screenshot, targetSize: CGSize(width: 800, height: 600))
+            imagesCopy["screenshot"] = resizedScreenshot
+        }
+        
+        // Set processed photos to reportImages
+        reportImages = imagesCopy
         
         // Set location wait
         reportPhoto.waitForRequest = false
@@ -180,6 +194,29 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         
         // Send report to panel
         sendReport()
+    }
+    
+    // Utility method to resize images and reduce memory usage
+    private func resizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
+        // Calculate aspect-fit size
+        let size = image.size
+        let widthRatio = targetSize.width / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        let newSize: CGSize
+        if widthRatio > heightRatio {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+        
+        // Create a new context with the target size
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        image.draw(in: CGRect(origin: .zero, size: newSize))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage ?? image // Return the original if resizing fails
     }
     
     // MARK: ReportLocation Delegate

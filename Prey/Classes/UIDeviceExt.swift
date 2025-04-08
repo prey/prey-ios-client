@@ -254,8 +254,6 @@ extension UIDevice {
                 ptr in String.init(validatingUTF8: ptr)
             }
         }
-        
-        print("LOG: modelCode is: \(String(describing: modelCode))")
 
         let modelMap : [String: Model] = [
 
