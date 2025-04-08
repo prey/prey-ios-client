@@ -383,11 +383,11 @@ class ReportPhotoiOS10: ReportPhoto, AVCapturePhotoCaptureDelegate {
         self.saveImagePhotoArray(imageData: imageData)
     }
     
-    // Save image to Photo Array
+    // Save image to Photo Array with memory optimization
     func saveImagePhotoArray(imageData: Data) {
-        
-        guard let image = UIImage(data: imageData) else {
-            PreyLogger("Error NSData to UIImage")
+        // Create a downsampled image to reduce memory usage
+        guard let image = downsampleImage(imageData, to: CGSize(width: 1024, height: 768)) else {
+            PreyLogger("Error creating image from data")
             self.delegate?.photoReceived(self.photoArray)
             return
         }
@@ -408,6 +408,33 @@ class ReportPhotoiOS10: ReportPhoto, AVCapturePhotoCaptureDelegate {
             // Send Photo Array to Delegate
             self.delegate?.photoReceived(self.photoArray)
         }
+    }
+    
+    // Downsamples an image from data to a specified size - much more memory efficient
+    private func downsampleImage(_ imageData: Data, to targetSize: CGSize) -> UIImage? {
+        // Create a source from data
+        guard let source = CGImageSourceCreateWithData(imageData as CFData, nil) else {
+            return nil
+        }
+        
+        // Calculate the max dimension
+        let maxDimension = max(targetSize.width, targetSize.height)
+        
+        // Create thumbnail options specifying the downsampling
+        let options: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxDimension
+        ]
+        
+        // Create the thumbnail
+        guard let thumbnail = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else {
+            return UIImage(data: imageData, scale: 1.0)
+        }
+        
+        // Return UIImage from the downsampled CGImage
+        return UIImage(cgImage: thumbnail)
     }
 }
 
@@ -614,6 +641,33 @@ class ReportPhotoiOS8: ReportPhoto {
         self.stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler:self.checkPhotoCapture(isFirstPhoto))
     }
     
+    // Downsamples an image from data to a specified size - much more memory efficient
+    private func downsampleImage(_ imageData: Data, to targetSize: CGSize) -> UIImage? {
+        // Create a source from data
+        guard let source = CGImageSourceCreateWithData(imageData as CFData, nil) else {
+            return nil
+        }
+        
+        // Calculate the max dimension
+        let maxDimension = max(targetSize.width, targetSize.height)
+        
+        // Create thumbnail options specifying the downsampling
+        let options: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxDimension
+        ]
+        
+        // Create the thumbnail
+        guard let thumbnail = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else {
+            return UIImage(data: imageData, scale: 1.0)
+        }
+        
+        // Return UIImage from the downsampled CGImage
+        return UIImage(cgImage: thumbnail)
+    }
+    
     // Completion Handler to Photo Capture
     func checkPhotoCapture(_ isFirstPhoto:Bool) -> (CMSampleBuffer?, Error?) -> Void {
         
@@ -632,9 +686,9 @@ class ReportPhotoiOS8: ReportPhoto {
                 return
             }
             
-            // Save image to Photo Array
-            guard let image = UIImage(data: imageData) else {
-                PreyLogger("Error NSData to UIImage")
+            // Use the same downsampling method as in iOS 10+
+            guard let image = self.downsampleImage(imageData, to: CGSize(width: 1024, height: 768)) else {
+                PreyLogger("Error creating downsampled image")
                 self.delegate?.photoReceived(self.photoArray)
                 return
             }

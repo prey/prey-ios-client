@@ -27,37 +27,55 @@ class Alert: PreyAction {
             return
         }
         
-        // Show message
-        if UIApplication.shared.applicationState != .background {
-           showAlertVC(message)
-        } else {
-             if #available(iOS 10.0, *) {
-                let content = UNMutableNotificationContent()
-                let userInfoLocalNotification:[String: String] = [kOptions.IDLOCAL.rawValue : message]
-                content.userInfo = userInfoLocalNotification
-                content.categoryIdentifier = categoryNotifPreyAlert
-                content.body = message
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-                UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-             } else {
-                // Legacy local notification
-                let localNotif:UILocalNotification = UILocalNotification()
-                let userInfoLocalNotification:[String: String] = [kOptions.IDLOCAL.rawValue : message]
-                localNotif.userInfo     = userInfoLocalNotification
-                localNotif.alertBody    = message
-                localNotif.hasAction    = false
-                UIApplication.shared.presentLocalNotificationNow(localNotif)
+        PreyLogger("Alert message: \(message)")
+        
+        // Only show a notification in background, otherwise show the alert view
+        if UIApplication.shared.applicationState == .background {
+            // Send a single notification when in background
+            let content = UNMutableNotificationContent()
+            content.title = "Prey Alert"
+            content.body = message
+            content.sound = UNNotificationSound.default
+            content.categoryIdentifier = categoryNotifPreyAlert
+            
+            // Add action ID to user info
+            if let triggerId = self.triggerId {
+                content.userInfo = [
+                    kOptions.IDLOCAL.rawValue: message,
+                    kOptions.trigger_id.rawValue: triggerId
+                ]
+            } else {
+                content.userInfo = [kOptions.IDLOCAL.rawValue: message]
             }
+            
+            // Create trigger with no delay
+            let request = UNNotificationRequest(
+                identifier: "prey.alert.\(UUID().uuidString)",
+                content: content,
+                trigger: nil // Fire immediately
+            )
+            
+            // Add the notification request
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    PreyLogger("Error displaying notification: \(error.localizedDescription)")
+                } else {
+                    PreyLogger("Alert notification scheduled successfully")
+                }
+            }
+        } else {
+            // In foreground, just show the alert view
+            showAlertVC(message)
         }
         
         // Send start action
-        let params  = getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
+        let params = getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
         self.sendData(params, toEndpoint: responseDeviceEndpoint)
+        
         let action = self
         DispatchQueue.main.async {
             sleep(4)
-            let paramsStopped  = action.getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
+            let paramsStopped = action.getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
             action.sendData(paramsStopped, toEndpoint: responseDeviceEndpoint)
         }
     }
