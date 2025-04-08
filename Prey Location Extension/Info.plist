@@ -11,17 +11,5 @@
 	</dict>
 	<key>NSExtensionBackgroundTaskIdentifierPrefix</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER).location</string>
-	<key>CFBundleDisplayName</key>
-	<string>Prey Location</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Prey needs your location to help you track and find this device using our platform.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Prey needs your location to help you track and find this device using our platform.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Prey needs your location to help you track and find this device using our platform.</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
-	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
 </dict>
 </plist>
