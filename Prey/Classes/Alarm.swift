@@ -56,7 +56,7 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
             audioPlayer.play()
             
             // Schedule stop after 30 seconds
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) { [weak self] in
                 self?.stopAction()
             }
             
