@@ -21,10 +21,16 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
     override func start() {
         PreyLogger("Playing alarm now")
         
+        // Prevent starting an already active alarm
+        if isActive && audioPlayer?.isPlaying == true {
+            PreyLogger("Alarm already playing, ignoring start command")
+            return
+        }
+        
         do {
             // Config AVAudioSession on device
             let audioSession = AVAudioSession.sharedInstance()
-            audioSession.perform(NSSelectorFromString("setCategory:withOptions:error:"), with: AVAudioSession.Category.playAndRecord, with:[AVAudioSession.CategoryOptions.mixWithOthers])
+            try audioSession.setCategory(.playAndRecord, options: [.mixWithOthers, .duckOthers])
             try audioSession.setActive(true)
             try audioSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
             
@@ -46,8 +52,13 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
             audioPlayer.delegate = self
             audioPlayer.prepareToPlay()
             audioPlayer.volume = 1.0
-            audioPlayer.numberOfLoops = 1
+            audioPlayer.numberOfLoops = -1
             audioPlayer.play()
+            
+            // Schedule stop after 30 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) { [weak self] in
+                self?.stopAction()
+            }
             
             // Send start action
             isActive = true
@@ -75,6 +86,12 @@ class Alarm : PreyAction, AVAudioPlayerDelegate {
     func stopAction() {
         isActive = false
         checkVolumeTimer?.invalidate()
+        
+        // Stop audio player if it exists and is playing
+        if audioPlayer != nil && audioPlayer.isPlaying {
+            audioPlayer.stop()
+        }
+        
         let params = getParamsTo(kAction.alarm.rawValue, command: kCommand.stop.rawValue, status: kStatus.stopped.rawValue)
         self.sendData(params, toEndpoint: responseDeviceEndpoint)
     }
