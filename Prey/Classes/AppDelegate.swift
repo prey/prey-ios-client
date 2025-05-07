@@ -347,11 +347,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Ensure location services are properly configured for background
         DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
         
-        // Check for shared location data from extension
+        // Check for shared location data from extension and process it
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
-           let lastLocation = userDefaults.dictionary(forKey: "lastLocation") {
-            PreyLogger("Found shared location data from extension: \(lastLocation)")
-            // Process location data if needed
+           let extensionLocation = userDefaults.dictionary(forKey: "lastLocation"),
+           let method = extensionLocation["method"] as? String,
+           method == "extension",
+           let lat = extensionLocation["lat"] as? Double,
+           let lng = extensionLocation["lng"] as? Double,
+           let accuracy = extensionLocation["accuracy"] as? Double,
+           let timestamp = extensionLocation["timestamp"] as? TimeInterval {
+            
+            let age = Date().timeIntervalSince1970 - timestamp
+            PreyLogger("✅ Found location from extension (age: \(Int(age))s): \(lat), \(lng)")
+            
+            // Only use if less than 10 minutes old
+            if age < 600 && let username = PreyConfig.sharedInstance.userApiKey {
+                // Send this location to the server immediately
+                let locationParams: [String: Any] = [
+                    "lng": lng,
+                    "lat": lat,
+                    "accuracy": accuracy,
+                    "method": "extension_background",
+                    "altitude": extensionLocation["alt"] as? Double ?? 0
+                ]
+                
+                let params: [String: Any] = [
+                    "location": locationParams,
+                    "skip_toast": true
+                ]
+                
+                // Send to server
+                PreyLogger("Sending extension location to server")
+                PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                    username,
+                    password: "x",
+                    params: params,
+                    messageId: nil,
+                    httpMethod: Method.POST.rawValue,
+                    endPoint: dataDeviceEndpoint,
+                    onCompletion: PreyHTTPResponse.checkResponse(
+                        RequestType.dataSend,
+                        preyAction: nil,
+                        onCompletion: { isSuccess in
+                            PreyLogger("Extension location sent to server: \(isSuccess)")
+                        }
+                    )
+                )
+            } else {
+                PreyLogger("Extension location too old or no API key available")
+            }
         }
         
         // Request device status from server
@@ -552,11 +596,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             task.setTaskCompleted(success: false)
         }
         
-        // Check for shared location data from extension
+        // Check for shared location data from extension and process it
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
-           let lastLocation = userDefaults.dictionary(forKey: "lastLocation") {
-            PreyLogger("Found shared location data from extension: \(lastLocation)")
-            // Process location data if needed
+           let extensionLocation = userDefaults.dictionary(forKey: "lastLocation"),
+           let method = extensionLocation["method"] as? String,
+           method == "extension",
+           let lat = extensionLocation["lat"] as? Double,
+           let lng = extensionLocation["lng"] as? Double,
+           let accuracy = extensionLocation["accuracy"] as? Double,
+           let timestamp = extensionLocation["timestamp"] as? TimeInterval {
+            
+            let age = Date().timeIntervalSince1970 - timestamp
+            PreyLogger("✅ Found location from extension (age: \(Int(age))s): \(lat), \(lng)")
+            
+            // Only use if less than 10 minutes old
+            if age < 600 && let username = PreyConfig.sharedInstance.userApiKey {
+                // Send this location to the server immediately
+                let locationParams: [String: Any] = [
+                    "lng": lng,
+                    "lat": lat,
+                    "accuracy": accuracy,
+                    "method": "extension_background",
+                    "altitude": extensionLocation["alt"] as? Double ?? 0
+                ]
+                
+                let params: [String: Any] = [
+                    "location": locationParams,
+                    "skip_toast": true
+                ]
+                
+                // Send to server
+                PreyLogger("Sending extension location to server")
+                PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                    username,
+                    password: "x",
+                    params: params,
+                    messageId: nil,
+                    httpMethod: Method.POST.rawValue,
+                    endPoint: dataDeviceEndpoint,
+                    onCompletion: PreyHTTPResponse.checkResponse(
+                        RequestType.dataSend,
+                        preyAction: nil,
+                        onCompletion: { isSuccess in
+                            PreyLogger("Extension location sent to server: \(isSuccess)")
+                        }
+                    )
+                )
+            } else {
+                PreyLogger("Extension location too old or no API key available")
+            }
         }
         
         // Process any pending actions - do this first and with more detailed logging

@@ -3,11 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		053EA8A5284FD74700A299C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */; };
+		056DF5962DCB7BDF00A70B27 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 056DF5922DCB7BDF00A70B27 /* Info.plist */; };
+		056DF5972DCB7BDF00A70B27 /* LocationPushService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056DF5932DCB7BDF00A70B27 /* LocationPushService.swift */; };
+		056DF5A32DCB7C4C00A70B27 /* Prey Location Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 056DF59C2DCB7C4C00A70B27 /* Prey Location Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
@@ -125,6 +128,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		056DF5A12DCB7C4C00A70B27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3B8283E5199198E6000E4545 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 056DF59B2DCB7C4C00A70B27;
+			remoteInfo = "Prey Location Extension";
+		};
 		3B828400199198E6000E4545 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3B8283E5199198E6000E4545 /* Project object */;
@@ -163,6 +173,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				3BCE972523021AB500AF1AD4 /* PreyNotify.appex in Embed Foundation Extensions */,
+				056DF5A32DCB7C4C00A70B27 /* Prey Location Extension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 1;
@@ -171,6 +182,10 @@
 
 /* Begin PBXFileReference section */
 		053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		056DF5922DCB7BDF00A70B27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		056DF5932DCB7BDF00A70B27 /* LocationPushService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPushService.swift; sourceTree = "<group>"; };
+		056DF5942DCB7BDF00A70B27 /* Prey Location Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Prey Location Extension.entitlements"; sourceTree = "<group>"; };
+		056DF59C2DCB7C4C00A70B27 /* Prey Location Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Prey Location Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TriggerManager.swift; path = Classes/TriggerManager.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
@@ -293,7 +308,28 @@
 		74C856A2292318DC0053EB6A /* GeofencingLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofencingLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		056DF5A42DCB7C4C00A70B27 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 056DF59B2DCB7C4C00A70B27 /* Prey Location Extension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		056DF59D2DCB7C4C00A70B27 /* Prey Location Extension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (056DF5A42DCB7C4C00A70B27 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Prey Location Extension"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		056DF5992DCB7C4C00A70B27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B8283EA199198E6000E4545 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -323,6 +359,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		056DF5952DCB7BDF00A70B27 /* Prey Location Extension */ = {
+			isa = PBXGroup;
+			children = (
+				056DF5922DCB7BDF00A70B27 /* Info.plist */,
+				056DF5932DCB7BDF00A70B27 /* LocationPushService.swift */,
+				056DF5942DCB7BDF00A70B27 /* Prey Location Extension.entitlements */,
+			);
+			path = "Prey Location Extension";
+			sourceTree = "<group>";
+		};
 		3B36116D1EE75470006BA074 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -400,12 +446,14 @@
 		3B8283E4199198E6000E4545 = {
 			isa = PBXGroup;
 			children = (
+				056DF5952DCB7BDF00A70B27 /* Prey Location Extension */,
 				053EA8A4284FD74700A299C4 /* GoogleService-Info.plist */,
 				3B8283EF199198E6000E4545 /* Prey */,
 				3BCD4C8B1C98942900CDEE1C /* Localizable.strings */,
 				3BAE5811214ACD9F00DB4BAB /* InfoPlist.strings */,
 				3B828402199198E6000E4545 /* PreyTests */,
 				3BCE971C23021AB500AF1AD4 /* PreyNotify */,
+				056DF59D2DCB7C4C00A70B27 /* Prey Location Extension */,
 				3BB6E2211D47CBD800074E97 /* Frameworks */,
 				3B8283EE199198E6000E4545 /* Products */,
 				91C83753BD82DE7017E63F0E /* Pods */,
@@ -418,6 +466,7 @@
 				3B8283ED199198E6000E4545 /* Prey.app */,
 				3B8283FF199198E6000E4545 /* PreyTests.xctest */,
 				3BCE971923021AB500AF1AD4 /* PreyNotify.appex */,
+				056DF59C2DCB7C4C00A70B27 /* Prey Location Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -622,6 +671,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		056DF59B2DCB7C4C00A70B27 /* Prey Location Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 056DF5A52DCB7C4C00A70B27 /* Build configuration list for PBXNativeTarget "Prey Location Extension" */;
+			buildPhases = (
+				056DF5982DCB7C4C00A70B27 /* Sources */,
+				056DF5992DCB7C4C00A70B27 /* Frameworks */,
+				056DF59A2DCB7C4C00A70B27 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				056DF59D2DCB7C4C00A70B27 /* Prey Location Extension */,
+			);
+			name = "Prey Location Extension";
+			packageProductDependencies = (
+			);
+			productName = "Prey Location Extension";
+			productReference = 056DF59C2DCB7C4C00A70B27 /* Prey Location Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		3B8283EC199198E6000E4545 /* Prey */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3B828409199198E6000E4545 /* Build configuration list for PBXNativeTarget "Prey" */;
@@ -637,6 +708,7 @@
 			);
 			dependencies = (
 				3BCE972423021AB500AF1AD4 /* PBXTargetDependency */,
+				056DF5A22DCB7C4C00A70B27 /* PBXTargetDependency */,
 			);
 			name = Prey;
 			productName = Prey;
@@ -692,6 +764,9 @@
 				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = "Prey, Inc.";
 				TargetAttributes = {
+					056DF59B2DCB7C4C00A70B27 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					3B8283EC199198E6000E4545 = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 1020;
@@ -743,11 +818,19 @@
 				3B8283EC199198E6000E4545 /* Prey */,
 				3B8283FE199198E6000E4545 /* PreyTests */,
 				3BCE971823021AB500AF1AD4 /* PreyNotify */,
+				056DF59B2DCB7C4C00A70B27 /* Prey Location Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		056DF59A2DCB7C4C00A70B27 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B8283EB199198E6000E4545 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -772,6 +855,7 @@
 				3BCE972B23021B1600AF1AD4 /* regular-book.otf in Resources */,
 				3B3AA5C322835F560035C63C /* ReactViews in Resources */,
 				053EA8A5284FD74700A299C4 /* GoogleService-Info.plist in Resources */,
+				056DF5962DCB7BDF00A70B27 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -829,6 +913,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		056DF5982DCB7C4C00A70B27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B8283E9199198E6000E4545 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -906,6 +997,7 @@
 				3B8629A01EF03CB400BE92D4 /* String+Misc.swift in Sources */,
 				3BAB25D223A923C300BDA263 /* TriggersActions+Properties.swift in Sources */,
 				3B8629931EF03CB400BE92D4 /* HttpParser.swift in Sources */,
+				056DF5972DCB7BDF00A70B27 /* LocationPushService.swift in Sources */,
 				3B40AB691DB901F1003045C1 /* WebKitVC.swift in Sources */,
 				3B86299C1EF03CB400BE92D4 /* Socket+Server.swift in Sources */,
 				3B8629971EF03CB400BE92D4 /* HttpServer.swift in Sources */,
@@ -938,6 +1030,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		056DF5A22DCB7C4C00A70B27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 056DF59B2DCB7C4C00A70B27 /* Prey Location Extension */;
+			targetProxy = 056DF5A12DCB7C4C00A70B27 /* PBXContainerItemProxy */;
+		};
 		3B828401199198E6000E4545 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3B8283EC199198E6000E4545 /* Prey */;
@@ -998,6 +1095,95 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		056DF5A62DCB7C4C00A70B27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = M2J57RQ35B;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Prey Location Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Prey Location Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Prey, Inc. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prey.locationExtensino;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		056DF5A72DCB7C4C00A70B27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = M2J57RQ35B;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Prey Location Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Prey Location Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Prey, Inc. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prey.locationExtensino;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		3B828407199198E6000E4545 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1343,6 +1529,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		056DF5A52DCB7C4C00A70B27 /* Build configuration list for PBXNativeTarget "Prey Location Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				056DF5A62DCB7C4C00A70B27 /* Debug */,
+				056DF5A72DCB7C4C00A70B27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3B8283E8199198E6000E4545 /* Build configuration list for PBXProject "Prey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

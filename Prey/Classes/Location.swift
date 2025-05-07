@@ -129,18 +129,64 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     private func startMonitoringLocationPushes() {
         if #available(iOS 15.0, *) {
+            PreyLogger("Starting location push monitoring (iOS 15+)")
             locManager.startMonitoringLocationPushes { [weak self] (token, error) in
                 if let error = error {
-                    PreyLogger("Location Push Error: \(error.localizedDescription)")
+                    PreyLogger("⚠️ Location Push Error: \(error.localizedDescription)")
                     return
                 }
                 
-                PreyLogger("startMonitoringLocationPushes")
+                PreyLogger("✅ Received location push token")
                 
                 if let token = token {
                     self?.locationPushToken = token
                     self?.sendLocationPushToken(token)
+                    
+                    // Check for extension location data immediately after getting token
+                    self?.checkSharedLocationFromExtension()
                 }
+            }
+        } else {
+            PreyLogger("Location push not available on this iOS version (requires iOS 15+)")
+        }
+    }
+    
+    // Check for location data from extension
+    private func checkSharedLocationFromExtension() {
+        guard let userDefaults = UserDefaults(suiteName: "group.com.prey.ios") else {
+            PreyLogger("Unable to access shared container")
+            return
+        }
+        
+        if let extensionLocation = userDefaults.dictionary(forKey: "lastLocation"),
+           let method = extensionLocation["method"] as? String,
+           method == "extension",
+           let lat = extensionLocation["lat"] as? Double,
+           let lng = extensionLocation["lng"] as? Double,
+           let accuracy = extensionLocation["accuracy"] as? Double,
+           let timestamp = extensionLocation["timestamp"] as? TimeInterval {
+            
+            let age = Date().timeIntervalSince1970 - timestamp
+            PreyLogger("Found location from extension (age: \(Int(age))s): \(lat), \(lng)")
+            
+            // Only use if less than 5 minutes old
+            if age < 300 {
+                let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+                let date = Date(timeIntervalSince1970: timestamp)
+                let location = CLLocation(
+                    coordinate: coordinate,
+                    altitude: extensionLocation["alt"] as? Double ?? 0,
+                    horizontalAccuracy: accuracy,
+                    verticalAccuracy: 0,
+                    timestamp: date
+                )
+                
+                // Save and use this location
+                self.lastLocation = location
+                self.locationReceived(location)
+                PreyLogger("Using recent location from extension")
+            } else {
+                PreyLogger("Extension location too old: \(Int(age))s old")
             }
         }
     }
