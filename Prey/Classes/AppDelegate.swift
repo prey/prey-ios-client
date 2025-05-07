@@ -361,7 +361,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("✅ Found location from extension (age: \(Int(age))s): \(lat), \(lng)")
             
             // Only use if less than 10 minutes old
-            if age < 600 && let username = PreyConfig.sharedInstance.userApiKey {
+            if age < 600, let username = PreyConfig.sharedInstance.userApiKey {
                 // Send this location to the server immediately
                 let locationParams: [String: Any] = [
                     "lng": lng,
@@ -610,7 +610,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("✅ Found location from extension (age: \(Int(age))s): \(lat), \(lng)")
             
             // Only use if less than 10 minutes old
-            if age < 600 && let username = PreyConfig.sharedInstance.userApiKey {
+            if age < 600, let username = PreyConfig.sharedInstance.userApiKey {
                 // Send this location to the server immediately
                 let locationParams: [String: Any] = [
                     "lng": lng,
