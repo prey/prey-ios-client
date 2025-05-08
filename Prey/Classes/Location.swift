@@ -14,7 +14,17 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // MARK: Properties
     
-    let locManager   = CLLocationManager()
+    // Use a lazy property to ensure location manager is only created once
+    lazy var locManager: CLLocationManager = {
+        let manager = CLLocationManager()
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        manager.distanceFilter = 100
+        manager.pausesLocationUpdatesAutomatically = true
+        manager.allowsBackgroundLocationUpdates = true
+        manager.showsBackgroundLocationIndicator = true
+        return manager
+    }()
     
     var lastLocation : CLLocation!
     
@@ -72,11 +82,9 @@ class Location : PreyAction, CLLocationManagerDelegate {
             // Try to initialize anyway in case user enables later
         }
         
-        // Check authorization status
-        let authStatus = CLLocationManager.authorizationStatus()
-        if authStatus != .authorizedAlways {
-            PreyLogger("⚠️ Location authorization status is not .authorizedAlways: \(authStatus)")
-            // Request authorization just in case
+            // Delegate is already set in the lazy property, no need to set it again
+        // Request authorization if needed, using the delegate pattern
+        if CLLocationManager.authorizationStatus() != .authorizedAlways {
             locManager.requestAlwaysAuthorization()
         }
         
@@ -188,14 +196,11 @@ class Location : PreyAction, CLLocationManagerDelegate {
             PreyLogger("Ended previous location background task")
         }
         
-        // Configure location manager for maximum reliability
-        locManager.requestAlwaysAuthorization()
-        locManager.delegate = self
-        locManager.desiredAccuracy = kCLLocationAccuracyHundredMeters // Reduce power usage
-        locManager.distanceFilter = 100 // Only update when device moves more than 100 meters
-        locManager.pausesLocationUpdatesAutomatically = true // Allow system to pause updates
-        locManager.allowsBackgroundLocationUpdates = true
-        locManager.showsBackgroundLocationIndicator = true // Shows the blue bar when app uses location in background
+        // Configure location manager - core settings already set in lazy property
+        // Just request authorization if needed
+        if CLLocationManager.authorizationStatus() != .authorizedAlways {
+            locManager.requestAlwaysAuthorization()
+        }
         
         // Always enable significant location changes to support wake-ups for action checks
         locManager.startMonitoringSignificantLocationChanges()
@@ -245,9 +250,14 @@ class Location : PreyAction, CLLocationManagerDelegate {
     func stopLocationManager()  {
         PreyLogger("Stop location")
         
+        // Pause during active location monitoring to reduce CPU/battery
+        locManager.pausesLocationUpdatesAutomatically = true
+        
+        // Stop regular location updates (high accuracy) but keep significant changes
         locManager.stopUpdatingLocation()
-        locManager.stopMonitoringSignificantLocationChanges()
-        locManager.delegate = nil
+        
+        // We deliberately DO NOT stop monitoring significant location changes
+        // But we clean up other resources
         
         // End background task if active
         if locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
@@ -258,6 +268,12 @@ class Location : PreyAction, CLLocationManagerDelegate {
         
         isActive = false
         PreyModule.sharedInstance.checkStatus(self)
+        
+        // Force memory cleanup
+        autoreleasepool {
+            // Create and release temporary objects to help memory cleanup
+            _ = [String](repeating: "", count: 10)
+        }
     }
     
     // Location received

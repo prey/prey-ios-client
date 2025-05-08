@@ -17,7 +17,14 @@ class PreyModule {
     fileprivate init() {
     }
     
+    // Memory and CPU management variables
+    private var lastMemoryCleanupTime: Date?
+    
+    // Strong reference array to retain actions
     var actionArray = [PreyAction] ()
+    
+    // Ensure Location instance is retained
+    private var locationInstance: Location?
     
     // MARK: Functions
 
@@ -75,6 +82,8 @@ class PreyModule {
             if !hasLocationAction && UIApplication.shared.applicationState == .background {
                 let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
                 actionArray.append(locationAction)
+                // Store strong reference to prevent immediate deallocation
+                self.locationInstance = locationAction
                 PreyLogger("Added background location action")
                 runAction()
             } else if !actionArray.isEmpty {
@@ -354,6 +363,73 @@ class PreyModule {
                     actionArray.remove(at:indexItem)
                     PreyLogger("Deleted action")
                 }
+            }
+        }
+    }
+    
+    // Memory management functions
+    
+    // Clear non-essential data to reduce memory footprint
+    func clearNonEssentialData() {
+        // Don't clean up too frequently (max once per minute)
+        if let lastCleanup = lastMemoryCleanupTime, 
+           Date().timeIntervalSince(lastCleanup) < 60 {
+            return
+        }
+        
+        lastMemoryCleanupTime = Date()
+        PreyLogger("Clearing non-essential data to reduce memory usage")
+        
+        // Remove completed actions from array
+        actionArray = actionArray.filter { $0.isActive || $0.target == kAction.location }
+        
+        // Reset any retained but unused resources
+        if !actionArray.contains(where: { $0.target == kAction.location && $0.isActive }) {
+            locationInstance = nil
+            PreyLogger("Releasing unused location instance to free memory")
+        }
+        
+        // Force multiple garbage collection cycles to ensure memory is freed
+        for _ in 0..<3 {
+            autoreleasepool {
+                // Create and immediately release some temporary objects
+                _ = [String](repeating: "", count: 100)
+                // Force a memory cleanup cycle
+                Thread.sleep(forTimeInterval: 0.01)
+            }
+        }
+    }
+    
+    // More aggressive memory reduction for low memory situations
+    func reduceCPUAndMemoryUsage(aggressive: Bool) {
+        // Always clear non-essential data
+        clearNonEssentialData()
+        
+        if aggressive {
+            PreyLogger("Aggressive memory/CPU reduction - suspending non-critical operations")
+            
+            // Keep only the most essential actions
+            var essentialActions = [PreyAction]()
+            
+            // Only keep the most important actions (like location)
+            for action in actionArray {
+                if action.target == kAction.location {
+                    essentialActions.append(action)
+                } else if !action.isActive {
+                    // Remove non-active, non-essential actions
+                    continue
+                } else {
+                    essentialActions.append(action)
+                }
+            }
+            
+            // Replace action array with just essential actions
+            actionArray = essentialActions
+            
+            // Force a garbage collection cycle
+            autoreleasepool {
+                // Create and immediately release some temporary objects
+                _ = [String](repeating: "", count: 1000)
             }
         }
     }

@@ -60,10 +60,20 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     func checkLocation() -> Bool {
         var locationAuth = false
         
+        // Check if we're on the main thread - if not, dispatch synchronously to avoid warning
+        if !Thread.isMainThread {
+            var result = false
+            DispatchQueue.main.sync {
+                result = self.checkLocation()
+            }
+            return result
+        }
+        
         if CLLocationManager.locationServicesEnabled() {
             let status = CLLocationManager.authorizationStatus()
             
             if status == .notDetermined {
+                // This will trigger the delegate callback instead of checking directly
                 authLocation.requestAlwaysAuthorization()
             }
             

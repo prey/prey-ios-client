@@ -325,6 +325,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Hide keyboard
         window?.endEditing(true)
         
+        // Reduce memory footprint before entering background
+        URLCache.shared.removeAllCachedResponses()
+        PreyModule.sharedInstance.clearNonEssentialData()
+        
         // Create a background task to give us more time
         self.bgTask = UIApplication.shared.beginBackgroundTask {
             self.stopBackgroundTask()
@@ -338,14 +342,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // PreyModule.sharedInstance.actionArray.append(locationAction)
         PreyLogger("NOT sending location when entering background - this is now disabled")
         
-        // Check for pending actions before going to background
-        PreyModule.sharedInstance.checkActionArrayStatus()
-        
-        // Schedule background refresh
-        scheduleAppRefresh()
-        
-        // Ensure location services are properly configured for background
-        DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
+        // Check for pending actions before going to background - but limit CPU intensive work
+        DispatchQueue.global(qos: .utility).async {
+            PreyModule.sharedInstance.checkActionArrayStatus()
+            
+            // Schedule background refresh
+            self.scheduleAppRefresh()
+            
+            // Ensure location services are properly configured for background
+            DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
+        }
         
         // Check for shared location data from extension
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
@@ -439,6 +445,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillTerminate(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         PreyLogger("applicationWillTerminate")
         PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
+    }
+    
+    // Handle memory warnings
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
+        PreyLogger("⚠️ MEMORY WARNING: Reducing memory footprint")
+        
+        // Clear any cached images or data
+        URLCache.shared.removeAllCachedResponses()
+        
+        // Clear any temporary dictionaries or arrays in the app
+        PreyModule.sharedInstance.clearNonEssentialData()
     }
     
     // MARK: Background Tasks
