@@ -371,6 +371,12 @@ class PreyModule {
     
     // Clear non-essential data to reduce memory footprint
     func clearNonEssentialData() {
+        // Skip if memory restrictions are temporarily disabled for important operations
+        if memoryRestrictionsDisabled {
+            PreyLogger("Skipping memory cleanup - restrictions temporarily disabled for critical operations")
+            return
+        }
+        
         // Don't clean up too frequently (max once per minute)
         if let lastCleanup = lastMemoryCleanupTime, 
            Date().timeIntervalSince(lastCleanup) < 60 {
@@ -432,5 +438,29 @@ class PreyModule {
                 _ = [String](repeating: "", count: 1000)
             }
         }
+    }
+    
+    // Memory restriction control for critical operations
+    private var memoryRestrictionsDisabled = false
+    
+    // Temporarily disable memory restrictions for important operations
+    func tempDisableMemoryRestrictions() {
+        memoryRestrictionsDisabled = true
+        PreyLogger("Temporarily disabled memory restrictions for critical operations")
+        
+        // Re-enable restrictions after 10 seconds
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 10) { [weak self] in
+            guard let self = self else { return }
+            self.memoryRestrictionsDisabled = false
+            PreyLogger("Re-enabled memory restrictions after critical operations")
+            
+            // Clean up after critical operations complete
+            self.clearNonEssentialData()
+        }
+    }
+    
+    // Check if memory restrictions should be applied
+    func shouldApplyMemoryRestrictions() -> Bool {
+        return !memoryRestrictionsDisabled
     }
 }

@@ -34,7 +34,8 @@ class AlertVC: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        // Handle memory pressure by releasing any cached resources
+        PreyLogger("⚠️ Alert view received memory warning")
     }
     
     override func viewWillAppear(_ animated: Bool){
@@ -70,26 +71,34 @@ class AlertVC: UIViewController {
         guard let appDelegate = UIApplication.shared.delegate,
               let appWindow = appDelegate.window else {
             PreyLogger("Error with sharedApplication or window")
+            if bgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(bgTask)
+            }
             return
         }
         
-        // Set up homeWeb screen
-        let mainStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
-        
-        // Check if camouflage mode is active, and use appropriate controller
-        let homeControllerID = PreyConfig.sharedInstance.isCamouflageMode ? 
-                               StoryboardIdVC.home.rawValue : 
-                               StoryboardIdVC.homeWeb.rawValue
-        
-        if let resultController = mainStoryboard.instantiateViewController(withIdentifier: homeControllerID) as? UIViewController {
-            let rootVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
-            rootVC.setViewControllers([resultController], animated: false)
+        // Perform UI updates on the main thread with optimized performance
+        DispatchQueue.main.async {
+            // Set up homeWeb screen
+            let mainStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
             
-            // Set the new root view controller
-            appWindow?.rootViewController = rootVC
-            appWindow?.makeKeyAndVisible()
+            // Check if camouflage mode is active, and use appropriate controller
+            let homeControllerID = PreyConfig.sharedInstance.isCamouflageMode ? 
+                                   StoryboardIdVC.home.rawValue : 
+                                   StoryboardIdVC.homeWeb.rawValue
             
-            PreyLogger("Set new root view controller")
+            if let resultController = mainStoryboard.instantiateViewController(withIdentifier: homeControllerID) as? UIViewController {
+                let rootVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
+                rootVC.setViewControllers([resultController], animated: false)
+                
+                // Set the new root view controller - use optional chaining with unwrapped value
+                appWindow?.rootViewController = rootVC
+                appWindow?.makeKeyAndVisible()
+                
+                PreyLogger("Set new root view controller")
+            } else {
+                PreyLogger("Failed to instantiate home controller")
+            }
             
             // End the background task
             if bgTask != UIBackgroundTaskIdentifier.invalid {
@@ -97,8 +106,6 @@ class AlertVC: UIViewController {
                 bgTask = UIBackgroundTaskIdentifier.invalid
                 PreyLogger("Alert close background task completed")
             }
-        } else {
-            PreyLogger("Failed to instantiate home controller")
         }
     }
 

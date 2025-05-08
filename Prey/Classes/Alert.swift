@@ -35,6 +35,8 @@ class Alert: PreyAction {
             let content = UNMutableNotificationContent()
             content.title = "Prey Alert"
             content.body = message
+            
+            // Use default sound to avoid loading custom sounds that might consume memory
             content.sound = UNNotificationSound.default
             content.categoryIdentifier = categoryNotifPreyAlert
             
@@ -55,10 +57,16 @@ class Alert: PreyAction {
                 trigger: nil // Fire immediately
             )
             
-            // Add the notification request
-            UNUserNotificationCenter.current().add(request) { error in
+            // Add the notification request - use weak self to prevent potential retain cycles
+            UNUserNotificationCenter.current().add(request) { [weak self] error in
                 if let error = error {
                     PreyLogger("Error displaying notification: \(error.localizedDescription)")
+                    
+                    // Send stopped status if there was an error
+                    if let self = self {
+                        let errorParams = self.getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
+                        self.sendData(errorParams, toEndpoint: responseDeviceEndpoint)
+                    }
                 } else {
                     PreyLogger("Alert notification scheduled successfully")
                 }
@@ -72,16 +80,25 @@ class Alert: PreyAction {
         let params = getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
         self.sendData(params, toEndpoint: responseDeviceEndpoint)
         
-        let action = self
-        DispatchQueue.main.async {
-            sleep(4)
-            let paramsStopped = action.getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
-            action.sendData(paramsStopped, toEndpoint: responseDeviceEndpoint)
+        // Use a background queue with a delay instead of sleeping on the main thread
+        // Use weak self to prevent retain cycles and memory leaks
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 4.0) { [weak self] in
+            guard let self = self else { return }
+            let paramsStopped = self.getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
+            self.sendData(paramsStopped, toEndpoint: responseDeviceEndpoint)
+            PreyLogger("Alert action completed")
         }
     }
     
     // Show AlertVC
     func showAlertVC(_ msg:String) {
+        // Ensure we're on the main thread for UI operations
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { [weak self] in
+                self?.showAlertVC(msg)
+            }
+            return
+        }
         
         // Get SharedApplication delegate
         guard let appWindow = UIApplication.shared.delegate?.window else {
@@ -89,14 +106,21 @@ class Alert: PreyAction {
             return
         }
         
-        let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
+        // Load storyboard and controller asynchronously to avoid blocking UI
+        let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         
         if let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.alert.rawValue) as? AlertVC {
-            
-            resultController.messageToShow      = msg
-            let rootVC: UINavigationController  = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController            
+            resultController.messageToShow = msg
+            let rootVC: UINavigationController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController            
             rootVC.setViewControllers([resultController], animated: false)
+            
+            // Set the root view controller
             appWindow?.rootViewController = rootVC
+            appWindow?.makeKeyAndVisible()
+            
+            PreyLogger("Alert view controller displayed")
+        } else {
+            PreyLogger("Failed to instantiate alert controller")
         }
     }
 }

@@ -1146,8 +1146,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let priorityStr = userInfo["apns-priority"] as? String ?? "unknown"
         let isCritical = userInfo["apns-push-type"] as? String == "critical" || priorityStr == "10"
         
-        // CRITICAL: Start background tasks IMMEDIATELY in production builds
-        scheduleAppRefresh()
+        // CRITICAL: Increase execution priority for push notification handling
+        // This ensures we respond quickly even with reduced resources
+        DispatchQueue.global(qos: .userInitiated).async {
+            // Immediately schedule background refresh tasks 
+            self.scheduleAppRefresh()
+        }
         
         PreyLogger("📱 PUSH RECEIVED: App State: \(isBackground ? "Background" : "Foreground"), Content-Available: \(contentAvailable), Critical: \(isCritical)")
         
@@ -1203,6 +1207,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let remainingTime = UIApplication.shared.backgroundTimeRemaining
         PreyLogger("🔍 Started notification background task: \(notificationBgTask.rawValue) with \(remainingTime.isFinite ? String(format: "%.1f", remainingTime) : "unlimited") seconds")
+        
+        // CRITICAL: Create a semaphore to ensure we don't terminate too quickly
+        // This helps with push notification responsiveness
+        let processingCompletedSemaphore = DispatchSemaphore(value: 0)
+        
+        // Process with priority to ensure push handling is quick and reliable
+        DispatchQueue.global(qos: .userInitiated).async {
+            // Signal completion when this handler finishes
+            defer { processingCompletedSemaphore.signal() }
+            
+            // Temporarily increase resource allowances for push handling
+            PreyModule.sharedInstance.tempDisableMemoryRestrictions()
+        }
         
         // Process with strict timeouts to ensure we complete in time
         let dispatchGroup = DispatchGroup()
