@@ -744,6 +744,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             if nameDevice == nil {
                 nameDevice="iPhone";
             }
+            self.evaluateJS(self.webView, code: "document.getElementById('currentName').value = '\(nameDevice!)';")
             self.evaluateJS(self.webView, code: "document.getElementById('name_device_1').innerText = '\(nameDevice!)';")
             if PreyConfig.sharedInstance.isMsp {
                 self.evaluateJS(self.webView, code: "document.getElementById('name_device_0').innerText = '\(nameDevice!)';")
