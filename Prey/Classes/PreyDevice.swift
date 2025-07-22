@@ -84,12 +84,15 @@ class PreyDevice {
         let language:String = Locale.preferredLanguages[0] as String
         let languageES  = (language as NSString).substring(to: 2)
         
+        let paramsInfo : [String:String] = [
+            "new_name"                  : newName]
+        
         let params:[String: Any] = [
-            "name"                      : newName,
-            "lang"                      : languageES]
+            "name"                      : "device_renamed",
+            "info"                      : paramsInfo]
         
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.PUT.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.signUp, preyAction:nil, onCompletion:onCompletion))
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:eventsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.signUp, preyAction:nil, onCompletion:onCompletion))
         }else{
             PreyLogger("Error renameDevice")
         }
