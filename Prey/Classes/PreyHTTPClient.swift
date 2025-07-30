@@ -199,7 +199,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         sendRequest(session, request: request)
     }
 
-    // SignUp/LogIn User to Control Panel
+    // Uploads files
     func sendFileToPrey(_ username: String, password: String, file: Data, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
         
         // Encode username and pwd

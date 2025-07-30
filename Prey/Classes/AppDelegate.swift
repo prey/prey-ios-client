@@ -286,27 +286,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             // Process location data if needed (should be quick or trigger a BGTask)
         }
         
-        // Request device status from server. This should be part of a BGTask, not directly here.
-        // If this HTTP request takes time, it will be terminated by iOS.
-        // This block should be removed or moved into a BGProcessingTask.
-        // For demonstration, commenting it out:
-        // if let username = PreyConfig.sharedInstance.userApiKey {
-        //     PreyHTTPClient.sharedInstance.userRegisterToPrey(
-        //         username,
-        //         password: "x",
-        //         params: nil,
-        //         messageId: nil,
-        //         httpMethod: Method.GET.rawValue,
-        //         endPoint: statusDeviceEndpoint,
-        //         onCompletion: PreyHTTPResponse.checkResponse(
-        //             RequestType.statusDevice,
-        //             preyAction: nil,
-        //             onCompletion: { (isSuccess: Bool) in
-        //                 PreyLogger("Background status check: \(isSuccess)")
-        //             }
-        //         )
-        //     )
-        // }
     }
     
     // When app enters foreground from background
@@ -542,6 +521,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         PreyLogger("Processing cached requests in background processing")
         RequestCacheManager.sharedInstance.sendRequest()
         dispatchGroup.leave()
+        
+        // Check device status from server - moved from applicationDidEnterBackground
+        dispatchGroup.enter()
+        PreyLogger("Checking device status in background processing")
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                username,
+                password: "x",
+                params: nil,
+                messageId: nil,
+                httpMethod: Method.GET.rawValue,
+                endPoint: statusDeviceEndpoint,
+                onCompletion: PreyHTTPResponse.checkResponse(
+                    RequestType.statusDevice,
+                    preyAction: nil,
+                    onCompletion: { isSuccess in
+                        PreyLogger("Background processing - status check: \(isSuccess)")
+                        dispatchGroup.leave()
+                    }
+                )
+            )
+        } else {
+            dispatchGroup.leave()
+        }
         
         // Check device info and triggers - this has longer to run than refresh
         dispatchGroup.enter()
