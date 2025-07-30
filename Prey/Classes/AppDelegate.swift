@@ -206,6 +206,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             }
             
+            // Configure background location services for registered users
+            DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
+            
             // Perform initial sync with server. This will also set up foreground timer.
             syncWithServer()
             
@@ -227,7 +230,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
         }
         
-        // Schedule background refresh AFTER initial setup is complete
+        // Setup foreground timer and schedule background tasks
+        if PreyConfig.sharedInstance.isRegistered {
+            setupForegroundTimer()
+        }
         scheduleBackgroundTasks()
         
         return true
@@ -272,9 +278,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Check for pending actions. These should be quick or trigger async tasks.
         PreyModule.sharedInstance.checkActionArrayStatus()
         
-        // Ensure location services are properly configured for background (if always-on location is needed)
-        // This should be more about initial setup, not repeated calls in didEnterBackground
-        // DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured() // If this does heavy work, reconsider its placement here.
         
         // Check for shared location data from extension (read-only, efficient)
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
@@ -475,14 +478,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Process any cached requests (e.g., failed uploads from previous attempts)
         dispatchGroup.enter()
         PreyLogger("Processing cached requests in background refresh")
-        RequestCacheManager.sharedInstance.sendRequest() // Assuming this sends requests asynchronously
-        dispatchGroup.leave() // Make sure this is called when `sendRequest` completes, if it's async.
-                               // If `sendRequest` is async, you'll need its completion handler to call `dispatchGroup.leave()`.
+        RequestCacheManager.sharedInstance.sendRequest()
+        dispatchGroup.leave()
         
-        // Ensure location services are properly configured (more of a setup, less of a continuous task)
+        // Ensure location services are properly configured (lightweight check)
         dispatchGroup.enter()
         PreyLogger("Ensuring location services are configured in background refresh")
-        DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured() // Assuming this is quick
+        DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
         dispatchGroup.leave()
         
         // Check device info and triggers
@@ -504,7 +506,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("⚠️ Background refresh group timed out. Completing task with failure.")
             task.setTaskCompleted(success: false)
         }
-        DispatchQueue.global().asyncAfter(deadline: .now() + task.expirationHandlerTimeout - 2.0, execute: timeoutWorkItem) // Schedule slightly before actual timeout
+        DispatchQueue.global().asyncAfter(deadline: .now() + 25.0, execute: timeoutWorkItem) // Schedule slightly before typical 30s timeout
         
         dispatchGroup.notify(queue: .main) { // Use main queue for final UI updates or logging if any
             timeoutWorkItem.cancel() // Cancel the timeout if group completes successfully
@@ -538,10 +540,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Process any cached requests that might need more time or network connectivity
         dispatchGroup.enter()
         PreyLogger("Processing cached requests in background processing")
-        RequestCacheManager.sharedInstance.sendRequest() { success in // Assuming sendRequest takes a completion handler now
-            PreyLogger("RequestCacheManager.sendRequest completed: \(success)")
-            dispatchGroup.leave()
-        }
+        RequestCacheManager.sharedInstance.sendRequest()
+        dispatchGroup.leave()
         
         // Check device info and triggers - this has longer to run than refresh
         dispatchGroup.enter()
@@ -557,7 +557,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("⚠️ Background processing group timed out. Completing task with failure.")
             task.setTaskCompleted(success: false)
         }
-        DispatchQueue.global().asyncAfter(deadline: .now() + task.expirationHandlerTimeout - 2.0, execute: timeoutWorkItem)
+        DispatchQueue.global().asyncAfter(deadline: .now() + 58.0, execute: timeoutWorkItem) // Schedule slightly before typical 60s timeout for processing tasks
         
         dispatchGroup.notify(queue: .main) {
             timeoutWorkItem.cancel()
@@ -839,7 +839,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo) { result in
             PreyLogger("PreyNotification didReceiveRemoteNotifications result: \(result)")
             // Process any cached requests (assuming this is efficient)
-            RequestCacheManager.sharedInstance.sendRequest() // Assuming this sends requests asynchronously
+            RequestCacheManager.sharedInstance.sendRequest()
             
             if result == .newData {
                 wasDataReceived = true
@@ -925,30 +925,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
-    
-    // Did receiveLocalNotification - this method is deprecated in iOS 10+.
-    // It's better to implement userNotificationCenter(_:willPresent:withCompletionHandler:) for local notifications on modern iOS.
-    // Keep it for backward compatibility if needed, but primary logic should be in UNUserNotificationCenterDelegate.
-    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
-        PreyLogger("Received local notification - deprecated method called")
-        
-        if let message = notification.alertBody {
-            PreyLogger("Local notification message: \(message)")
-            
-            let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
-            let alertAction = Alert(withTarget: kAction.alert, withCommand: kCommand.start, withOptions: alertOptions)
-            
-            if let info = notification.userInfo, let triggerId = info[kOptions.trigger_id.rawValue] as? String {
-                alertAction.triggerId = triggerId
-            }
-            
-            PreyModule.sharedInstance.actionArray.append(alertAction)
-            PreyModule.sharedInstance.runAction() // This will trigger UI, ensure it's handled on main thread
-        }
-        
-        application.applicationIconBadgeNumber = 0 // Reset badge count
-    }
-    
+
     // MARK: Check settings on backup (no changes, logic seems okay for file system interaction)
     
     func checkSettingsToBackup() {
