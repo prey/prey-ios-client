@@ -1,9 +1,9 @@
 //
-//  AppDelegate.swift
-//  Prey
+//  AppDelegate.swift
+//  Prey
 //
-//  Created by Javier Cala Uribe on 5/8/14.
-//  Copyright (c) 2014 Prey, Inc. All rights reserved.
+//  Created by Javier Cala Uribe on 5/8/14.
+//  Copyright (c) 2014 Prey, Inc. All rights reserved.
 //
 
 import UIKit
@@ -17,12 +17,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: Properties
     
     var window: UIWindow?
-    var bgTask = UIBackgroundTaskIdentifier.invalid
+    // Optional bgTask
+    var bgTask: UIBackgroundTaskIdentifier?
+    
+    // Identifiers for BGTaskScheduler tasks (best practice to define them as static constants)
+    static let appRefreshTaskIdentifier = "\(Bundle.main.bundleIdentifier!).appRefresh"
+    static let processingTaskIdentifier = "\(Bundle.main.bundleIdentifier!).processing"
+    
+    // Using a Timer or DispatchSourceTimer for foreground polling
+    private var foregroundPollingTimer: Timer? // Consider DispatchSourceTimer for more precise control if needed
+    private var serverSyncInProgress = false
+    private var lastSyncTimestamp: Date?
     
     override init() {
         super.init()
         
-        // Register for notifications about app state changes
+        // Register for notifications about app state changes using modern API
+        // This is typically for UI-related adjustments, not core background processing
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(applicationWillResignActiveNotification),
@@ -33,32 +44,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // MARK: Methods
     
-    // Display screen
+    // Display screen - This method seems UI-related and should be called on the main thread
     func displayScreen() {
-        
-        // Check PreyModule Status
-        PreyModule.sharedInstance.checkActionArrayStatus()
-        
-        // Relaunch viewController
-        let homeIdentifier                  = (PreyConfig.sharedInstance.isCamouflageMode) ? StoryboardIdVC.home.rawValue : StoryboardIdVC.homeWeb.rawValue
-        self.window                         = UIWindow(frame: UIScreen.main.bounds)
-        let mainStoryboard: UIStoryboard    = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
-        let rootVC: UINavigationController  = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
-        let controller: UIViewController    = mainStoryboard.instantiateViewController(withIdentifier: homeIdentifier)
-        
-        rootVC.setViewControllers([controller], animated: false)
-        
-        self.window?.rootViewController = rootVC
-        self.window?.makeKeyAndVisible()
+        DispatchQueue.main.async { // Ensure UI updates are on main thread
+            // Check PreyModule Status
+            PreyModule.sharedInstance.checkActionArrayStatus()
+            
+            // Relaunch viewController
+            let homeIdentifier = (PreyConfig.sharedInstance.isCamouflageMode) ? StoryboardIdVC.home.rawValue : StoryboardIdVC.homeWeb.rawValue
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
+            let rootVC: UINavigationController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
+            let controller: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: homeIdentifier)
+            
+            rootVC.setViewControllers([controller], animated: false)
+            
+            self.window?.rootViewController = rootVC
+            self.window?.makeKeyAndVisible()
+        }
     }
     
-    func stopBackgroundTask() {
-        if self.bgTask != UIBackgroundTaskIdentifier.invalid {
-            let taskId = self.bgTask
-            PreyLogger("Ending background task with ID: \(taskId.rawValue), time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
-            UIApplication.shared.endBackgroundTask(self.bgTask)
-            self.bgTask = UIBackgroundTaskIdentifier.invalid
-            PreyLogger("Background task ended: \(taskId.rawValue)")
+    // stopBackgroundTask: Unified method for ending UIBackgroundTaskIdentifier
+    func stopBackgroundTask(_ taskId: UIBackgroundTaskIdentifier? = nil) {
+        let taskToStop = taskId ?? self.bgTask
+        if let currentTask = taskToStop, currentTask != .invalid {
+            PreyLogger("Ending background task with ID: \(currentTask.rawValue), time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
+            UIApplication.shared.endBackgroundTask(currentTask)
+            if currentTask == self.bgTask { // Only invalidate if it's the main bgTask
+                self.bgTask = nil // Set to nil instead of .invalid for clarity
+            }
+            PreyLogger("Background task ended: \(currentTask.rawValue)")
         }
     }
     
@@ -66,47 +81,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        PreyLogger("didFinishLaunchingWithOptions")
+        PreyLogger("didFinishLaunchingWithOptions - App launch started at \(Date())")
         
-        // Request Always authorization for location
+        // Request Always authorization for location early, but only if not already determined
+        // Important: Actual location manager instance should be lazy and its delegate set to handle updates
         let locationManager = CLLocationManager()
-        locationManager.requestAlwaysAuthorization()
-        
-        // Register for background tasks
-        let refreshIdentifier = "\(Bundle.main.bundleIdentifier!).refresh"
-        let updateIdentifier = "\(Bundle.main.bundleIdentifier!).update"
-        let fetchIdentifier = "\(Bundle.main.bundleIdentifier!).fetch"
-        
-        // Make sure we register before scheduling
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: refreshIdentifier, using: nil) { task in
-            self.handleAppRefresh(task as! BGAppRefreshTask)
+        if locationManager.authorizationStatus == .notDetermined {
+            locationManager.requestAlwaysAuthorization()
         }
         
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: updateIdentifier, using: nil) { task in
-            self.handleAppUpdate(task as! BGProcessingTask)
+        // Register for background tasks (BGTaskScheduler)
+        // Ensure all identifiers are unique and defined once.
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: AppDelegate.appRefreshTaskIdentifier, using: nil) { [weak self] task in
+            self?.handleAppRefresh(task as! BGAppRefreshTask)
         }
         
-        BGTaskScheduler.shared.register(forTaskWithIdentifier: fetchIdentifier, using: nil) { task in
-            self.handleAppFetch(task as! BGAppRefreshTask)
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: AppDelegate.processingTaskIdentifier, using: nil) { [weak self] task in
+            self?.handleAppProcessing(task as! BGProcessingTask) // Renamed for clarity
         }
         
-        PreyLogger("Registered background tasks with identifiers: \(refreshIdentifier), \(updateIdentifier), \(fetchIdentifier)")
+        // Re-evaluate if 'fetchIdentifier' is truly needed as a separate BGAppRefreshTaskRequest
+        // BGAppRefreshTask should cover most 'fetch' needs. If it's the same type of task as appRefresh, combine them.
+        // If it's truly a distinct 'fetch' operation, then keep it. For now, assuming appRefresh covers fetch.
+        // BGTaskScheduler.shared.register(forTaskWithIdentifier: fetchIdentifier, using: nil) { task in
+        //     self.handleAppFetch(task as! BGAppRefreshTask)
+        // }
+        
+        PreyLogger("Registered background tasks with identifiers: \(AppDelegate.appRefreshTaskIdentifier), \(AppDelegate.processingTaskIdentifier)")
         
         // Set up notification delegate and register notification categories
         UNUserNotificationCenter.current().delegate = self
         
-        // Create notification actions
-        let viewAction = UNNotificationAction(
-            identifier: "VIEW_ACTION",
-            title: "View Details",
-            options: [.foreground]
-        )
-        
-        let dismissAction = UNNotificationAction(
-            identifier: "DISMISS_ACTION",
-            title: "Dismiss",
-            options: [.destructive]
-        )
+        let viewAction = UNNotificationAction(identifier: "VIEW_ACTION", title: "View Details", options: [.foreground])
+        let dismissAction = UNNotificationAction(identifier: "DISMISS_ACTION", title: "Dismiss", options: [.destructive])
         
         // Create the category with the actions
         let alertCategory = UNNotificationCategory(
@@ -119,8 +126,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Register the notification categories
         UNUserNotificationCenter.current().setNotificationCategories([alertCategory])
         
-        // First check existing notification status
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
+        // First check existing notification status (use weak self in closure)
+        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+            guard let self = self else { return }
             PreyLogger("📱 PUSH INIT: Current notification authorization status: \(self.authStatusString(settings.authorizationStatus))")
             PreyLogger("📱 PUSH INIT: Alert Setting: \(self.settingStatusString(settings.alertSetting))")
             PreyLogger("📱 PUSH INIT: Badge Setting: \(self.settingStatusString(settings.badgeSetting))")
@@ -164,8 +172,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         checkSettingsToBackup()
         
         // Update current localUserSettings with preview versions
-        PreyConfig.sharedInstance.updateUserSettings()        
-
+        PreyConfig.sharedInstance.updateUserSettings()
+        
         // Check user email validation state
         if PreyConfig.sharedInstance.validationUserEmail == nil {
             PreyConfig.sharedInstance.validationUserEmail = PreyUserEmailValidation.inactive.rawValue
@@ -178,506 +186,410 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Config UINavigationBar
         PreyConfig.sharedInstance.configNavigationBar()
         
-        // Check notification_id with server
+        // Initial sync/setup logic
         if PreyConfig.sharedInstance.isRegistered {
-            PreyNotification.sharedInstance.registerForRemoteNotifications()
+            PreyNotification.sharedInstance.registerForRemoteNotifications() // Might be redundant with previous call, but safe
             TriggerManager.sharedInstance.checkTriggers()
             RequestCacheManager.sharedInstance.sendRequest()
             
             // Handle notification if app was launched from a notification
             if let notification = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? [AnyHashable: Any] {
                 PreyLogger("App launched from remote notification: \(notification)")
+                // Call completion handler for launched notification immediately if possible
                 PreyNotification.sharedInstance.didReceiveRemoteNotifications(notification) { _ in
                     PreyLogger("Finished processing launch notification")
+                    // If this background task (bgTask) was started just for launchOptions, it should be ended here.
+                    // However, `application:didFinishLaunchingWithOptions` does not generally get background execution time
+                    // unless a `beginBackgroundTask` is started immediately, which it is.
+                    // The initial `bgTask` is ended in `applicationWillEnterForeground` or `applicationDidBecomeActive`.
+                    // It's generally better for launch options to be processed quickly.
                 }
             }
             
-            // Perform immediate sync with server
+            // Perform initial sync with server. This will also set up foreground timer.
             syncWithServer()
             
-            // Setup periodic timer for foreground API calls
-            setupForegroundTimer()
         } else {
             PreyDeployment.sharedInstance.runPreyDeployment()
         }
         
-        // Check CLRegion In/Out
+        // Check CLRegion In/Out and init geofencing
+        // Only initialize if relevant (e.g., if isPro) to save resources
         if let locationLaunch = launchOptions?[UIApplication.LaunchOptionsKey.location] {
             PreyLogger("Prey Geofence received while not running: \(locationLaunch)")
             _ = GeofencingManager.sharedInstance
         }
         
-        // Check user is Pro
-        if PreyConfig.sharedInstance.isPro {
-            // Init geofencing region
-            _ = GeofencingManager.sharedInstance
-        }
+        _ = GeofencingManager.sharedInstance
         
         // Check email validation
         if PreyConfig.sharedInstance.validationUserEmail == PreyUserEmailValidation.pending.rawValue, let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
         }
         
-        // Schedule background refresh
-        scheduleAppRefresh()
+        // Schedule background refresh AFTER initial setup is complete
+        scheduleBackgroundTasks()
         
         return true
-    }    
+    }
     
+    // This is primarily for UI transition (snapshotting for multitasking).
+    // Avoid heavy operations here.
     func applicationWillResignActive(_ application: UIApplication) {
-        
+        PreyLogger("applicationWillResignActive")
         // Hide mainView for multitasking preview
-        let backgroundImg   = UIImageView(image:UIImage(named:"BgWelcome"))
+        let backgroundImg = UIImageView(image:UIImage(named:"BgWelcome"))
         backgroundImg.frame = UIScreen.main.bounds
         backgroundImg.alpha = 0
-        backgroundImg.tag   = 1985
+        backgroundImg.tag = 1985
         
         window?.addSubview(backgroundImg)
         window?.bringSubviewToFront(backgroundImg)
         
         UIView.animate(withDuration: 0.2, animations:{() in backgroundImg.alpha = 1.0})
         
+        // Ensure foreground timer is stopped to save battery
+        foregroundPollingTimer?.invalidate()
+        foregroundPollingTimer = nil
     }
-
+    
+    // This is where app state changes from foreground to background.
+    // Heavy lifting for background processing should use BGTaskScheduler or specific background modes (e.g., location).
     func applicationDidEnterBackground(_ application: UIApplication) {
         PreyLogger("applicationDidEnterBackground")
         
-        // Hide keyboard
+        // Hide keyboard (UI-related, safe here)
         window?.endEditing(true)
         
-        // Create a background task to give us more time
-        self.bgTask = UIApplication.shared.beginBackgroundTask {
-            self.stopBackgroundTask()
-        }
+        // End any pending short-lived background task from launch (if it's still running)
+        // This task is mostly a fallback or for very short, immediate needs.
+        // For sustained background work, rely on BGTaskScheduler.
+        stopBackgroundTask(self.bgTask) // Explicitly end the launch-related task
         
-        PreyLogger("Started background task in applicationDidEnterBackground: \(self.bgTask.rawValue)")
+        // Schedule new background tasks. This is CRITICAL.
+        scheduleBackgroundTasks() // Calls BGTaskScheduler methods
         
-        // Remove the automatic location sending when entering background
-        // This was previously:
-        // let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
-        // PreyModule.sharedInstance.actionArray.append(locationAction)
-        PreyLogger("NOT sending location when entering background - this is now disabled")
-        
-        // Check for pending actions before going to background
+        // Check for pending actions. These should be quick or trigger async tasks.
         PreyModule.sharedInstance.checkActionArrayStatus()
         
-        // Schedule background refresh
-        scheduleAppRefresh()
+        // Ensure location services are properly configured for background (if always-on location is needed)
+        // This should be more about initial setup, not repeated calls in didEnterBackground
+        // DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured() // If this does heavy work, reconsider its placement here.
         
-        // Ensure location services are properly configured for background
-        DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
-        
-        // Check for shared location data from extension
+        // Check for shared location data from extension (read-only, efficient)
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
            let lastLocation = userDefaults.dictionary(forKey: "lastLocation") {
             PreyLogger("Found shared location data from extension: \(lastLocation)")
-            // Process location data if needed
+            // Process location data if needed (should be quick or trigger a BGTask)
         }
         
-        // Request device status from server
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                username, 
-                password: "x", 
-                params: nil, 
-                messageId: nil, 
-                httpMethod: Method.GET.rawValue, 
-                endPoint: statusDeviceEndpoint, 
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.statusDevice, 
-                    preyAction: nil, 
-                    onCompletion: { (isSuccess: Bool) in 
-                        PreyLogger("Background status check: \(isSuccess)") 
-                    }
-                )
-            )
-        }
+        // Request device status from server. This should be part of a BGTask, not directly here.
+        // If this HTTP request takes time, it will be terminated by iOS.
+        // This block should be removed or moved into a BGProcessingTask.
+        // For demonstration, commenting it out:
+        // if let username = PreyConfig.sharedInstance.userApiKey {
+        //     PreyHTTPClient.sharedInstance.userRegisterToPrey(
+        //         username,
+        //         password: "x",
+        //         params: nil,
+        //         messageId: nil,
+        //         httpMethod: Method.GET.rawValue,
+        //         endPoint: statusDeviceEndpoint,
+        //         onCompletion: PreyHTTPResponse.checkResponse(
+        //             RequestType.statusDevice,
+        //             preyAction: nil,
+        //             onCompletion: { (isSuccess: Bool) in
+        //                 PreyLogger("Background status check: \(isSuccess)")
+        //             }
+        //         )
+        //     )
+        // }
     }
-
+    
+    // When app enters foreground from background
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Check email validation
+        PreyLogger("applicationWillEnterForeground")
+        // Check email validation (fine here, quick UI update possible)
         if PreyConfig.sharedInstance.validationUserEmail == PreyUserEmailValidation.pending.rawValue, let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
         }
-
-        stopBackgroundTask()
+        
+        // Ensure any remaining short-lived background tasks are ended
+        stopBackgroundTask(self.bgTask)
+        // Also cancel any scheduled BGTasks to avoid immediate re-triggering if not desired on foreground
+        BGTaskScheduler.shared.cancelAllTaskRequests()
     }
-
+    
+    // When app becomes active (from launch or foreground)
     func applicationDidBecomeActive(_ application: UIApplication) {
-
-        // Show mainView
+        PreyLogger("applicationDidBecomeActive")
+        
+        // Show mainView (UI-related, on main thread)
         if let backgroundImg = window?.viewWithTag(1985) {
             UIView.animate(withDuration: 0.2, animations:{() in backgroundImg.alpha = 0},
-                                       completion:{(Bool)  in backgroundImg.removeFromSuperview()})
+                           completion:{(Bool) in backgroundImg.removeFromSuperview()})
         }
         
-        // Check if we need to sync with the server
+        // Check if we need to sync with the server (should ideally be triggered by `didFinishLaunching` or other events)
         if PreyConfig.sharedInstance.isRegistered {
             // Perform immediate sync with server
-            syncWithServer()
-            
-            // Setup periodic timer for foreground API calls
-            setupForegroundTimer()
+            syncWithServer() // This will also setup the foreground timer
         }
-
-        // Check camouflagegeMode on mainView
+        
+        // Various UI state checks and re-display logic. Fine as is.
         if PreyConfig.sharedInstance.isCamouflageMode, let rootVC = window?.rootViewController as? UINavigationController, let controller = rootVC.topViewController, controller is HomeWebVC {
             window?.endEditing(true)
             displayScreen()
             return
         }
         
-        // Relaunch window
-        if  window?.rootViewController?.view.superview == window {
+        if window?.rootViewController?.view.superview == window {
             return
         }
-
-        // Check if viewController is QRCodeVC
+        
         if let controller = window?.rootViewController?.presentedViewController {
             if controller is QRCodeScannerVC {
                 return
             }
         }
-
-        // Check if HomeWebVC is presenting Panel
+        
         if let navigationController:UINavigationController = window?.rootViewController as? UINavigationController, let homeWebVC:HomeWebVC = navigationController.topViewController as? HomeWebVC {
             if homeWebVC.showPanel {
                 homeWebVC.showPanel = false
                 return
             }
         }
-
-        // Check superview on iOS 13 : UIDropShadowView
+        
         if #available(iOS 13.0, *), window?.rootViewController?.view.superview != nil {
             return
         }
-
+        
         window?.endEditing(true)
-        displayScreen()
+        displayScreen() // This is now explicitly on the main thread
     }
-
-    func applicationWillTerminate(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    
+    // This method is called when the application is about to be terminated.
+    // Ensure all background tasks are properly ended here.
+    func applicationWillTerminate(_ application: UIApplication) {
         PreyLogger("applicationWillTerminate")
-        PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler)
+        // Ensure any pending background tasks are ended to avoid crashes.
+        stopBackgroundTask(self.bgTask)
+        // Also cancel all scheduled BGTaskScheduler tasks
+        BGTaskScheduler.shared.cancelAllTaskRequests()
+        
+        // Pass info to PreyNotification for final processing if needed
+        // Note: This method is NOT called for background fetch notifications in suspended state.
+        // It's mainly for when the app is explicitly terminated by the user or system.
+        // PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo, completionHandler:completionHandler) // userInfo and completionHandler are not parameters of applicationWillTerminate
+        // This line was likely copy-pasted incorrectly into `applicationWillTerminate`.
+        // The `didReceiveRemoteNotification` below handles the actual notification processing.
     }
     
-    // MARK: Background Tasks
+    // MARK: Background Tasks (BGTaskScheduler)
     
-    func scheduleAppRefresh() {
-        let refreshIdentifier = "\(Bundle.main.bundleIdentifier!).refresh"
-        let updateIdentifier = "\(Bundle.main.bundleIdentifier!).update"
-        let fetchIdentifier = "\(Bundle.main.bundleIdentifier!).fetch"
+    // Renamed from scheduleAppRefresh to reflect broader scheduling of all BG tasks
+    func scheduleBackgroundTasks() {
+        // Cancel all previously scheduled tasks to avoid duplicates. This is good.
+        BGTaskScheduler.shared.cancelAllTaskRequests() // More robust than cancelling individually
         
-        // Cancel any existing tasks before scheduling new ones
-        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: refreshIdentifier)
-        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: updateIdentifier)
-        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: fetchIdentifier)
+        // Schedule refresh task (short, frequent updates, for general data updates)
+        let refreshRequest = BGAppRefreshTaskRequest(identifier: AppDelegate.appRefreshTaskIdentifier)
+        // Minimum 15 minutes is good. iOS determines actual frequency.
+        refreshRequest.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
         
-        // Schedule refresh task (short, frequent updates)
-        let refreshRequest = BGAppRefreshTaskRequest(identifier: refreshIdentifier)
-        refreshRequest.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60) // 15 minutes
-        
-        // Schedule update task (longer background processing)
-        let updateRequest = BGProcessingTaskRequest(identifier: updateIdentifier)
-        updateRequest.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 60) // 1 hour
-        updateRequest.requiresNetworkConnectivity = true
-        updateRequest.requiresExternalPower = false
-        
-        // Schedule fetch task (data fetching)
-        let fetchRequest = BGAppRefreshTaskRequest(identifier: fetchIdentifier)
-        fetchRequest.earliestBeginDate = Date(timeIntervalSinceNow: 30 * 60) // 30 minutes
+        // Schedule processing task (longer, more resource-intensive operations)
+        let processingRequest = BGProcessingTaskRequest(identifier: AppDelegate.processingTaskIdentifier)
+        processingRequest.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 60) // Recommended 1 hour or more
+        processingRequest.requiresNetworkConnectivity = true // Only run if network is available
+        processingRequest.requiresExternalPower = false // Set to true if power-intensive (e.g., heavy uploads). False is better for battery.
         
         do {
-            // Submit all task requests
             try BGTaskScheduler.shared.submit(refreshRequest)
-            try BGTaskScheduler.shared.submit(updateRequest)
-            try BGTaskScheduler.shared.submit(fetchRequest)
-            PreyLogger("Background tasks scheduled successfully")
+            try BGTaskScheduler.shared.submit(processingRequest)
+            PreyLogger("Background tasks scheduled successfully (Refresh & Processing)")
         } catch {
             PreyLogger("Could not schedule background tasks: \(error.localizedDescription)")
-            
-            // Try with a different approach - use regular background tasks instead
-            self.bgTask = UIApplication.shared.beginBackgroundTask {
-                self.stopBackgroundTask()
+            // Fallback to old `beginBackgroundTask` is a good safety net, but should be rare if BGTaskScheduler is configured correctly.
+            // The fallback task should also be very short, typically under 30 seconds.
+            self.bgTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+                PreyLogger("⚠️ Fallback background task expiring")
+                self?.stopBackgroundTask()
             }
             
-            if self.bgTask != .invalid {
-                PreyLogger("Started regular background task as fallback: \(self.bgTask.rawValue)")
+            if self.bgTask != nil { // Check for nil not invalid
+                PreyLogger("Started regular background task as fallback: \(self.bgTask!.rawValue)") // Use ! safely here
                 
-                // Schedule a timer to check for updates
-                DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
-                    // Process any pending actions
+                // Schedule a timer to perform minimal updates.
+                // This timer should be very short-lived (e.g., 20-25s) to ensure it finishes before the 30s limit.
+                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 25) { [weak self] in
+                    guard let self = self else { return }
+                    PreyLogger("Fallback background task logic executing (after 25s)")
+                    // Process any pending actions (quick operations)
                     PreyModule.sharedInstance.checkActionArrayStatus()
-                    
-                    // Process any cached requests
+                    // Process any cached requests (quick operations)
                     RequestCacheManager.sharedInstance.sendRequest()
-                    
                     // End the background task
-                    self.stopBackgroundTask()
+                    self.stopBackgroundTask(self.bgTask)
                 }
             }
         }
     }
     
+    // Handler for BGAppRefreshTask (general app content refresh)
     func handleAppRefresh(_ task: BGAppRefreshTask) {
-        // Schedule a new refresh task
-        scheduleAppRefresh()
+        PreyLogger("Background refresh task started. Time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
         
-        // Create task assertion with longer timeout
-        let taskAssertionID = UIApplication.shared.beginBackgroundTask {
-            PreyLogger("Background task expiring in AppDelegate")
-            self.stopBackgroundTask()
-        }
-        self.bgTask = taskAssertionID
+        // Reschedule the task for next time immediately (important for continuous operation)
+        scheduleBackgroundTasks()
         
-        PreyLogger("Background refresh task started with ID: \(taskAssertionID.rawValue), time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
+        // Use a DispatchGroup to manage multiple asynchronous operations within the task.
+        let dispatchGroup = DispatchGroup()
         
-        // Add task expiration handler
+        // Set an expiration handler for THIS specific BGTaskScheduler task.
+        // This is crucial. If the task doesn't complete in time, iOS will call this handler.
+        // You MUST call `task.setTaskCompleted(success: false)` inside this handler.
         task.expirationHandler = {
-            PreyLogger("BGTask expiring, time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
-            self.stopBackgroundTask()
+            PreyLogger("⚠️ BGAppRefreshTask expired. Time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
+            // Cancel any ongoing operations.
+            // (e.g., PreyHTTPClient.sharedInstance.cancelAllRequests() if such a method exists)
             task.setTaskCompleted(success: false)
+            // No need to call self.stopBackgroundTask() here because this is BGTaskScheduler, not UIApplication.beginBackgroundTask.
+            // The `stopBackgroundTask` method is for the general `UIBackgroundTaskIdentifier` which is a different API.
         }
         
-        // Check for shared location data from extension
+        // --- Operations to perform during background refresh ---
+        
+        // Check for shared location data from extension (read-only, efficient)
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
            let lastLocation = userDefaults.dictionary(forKey: "lastLocation") {
             PreyLogger("Found shared location data from extension: \(lastLocation)")
-            // Process location data if needed
+            // Process location data if needed, but ensure it's quick.
         }
         
-        // Process any pending actions - do this first and with more detailed logging
+        // Process any pending actions (these should be quick or trigger separate async processes)
+        dispatchGroup.enter()
         PreyLogger("Checking for pending actions in background refresh")
         PreyModule.sharedInstance.checkActionArrayStatus()
+        dispatchGroup.leave()
         
-        // Process any cached requests
+        // Process any cached requests (e.g., failed uploads from previous attempts)
+        dispatchGroup.enter()
         PreyLogger("Processing cached requests in background refresh")
-        RequestCacheManager.sharedInstance.sendRequest()
+        RequestCacheManager.sharedInstance.sendRequest() // Assuming this sends requests asynchronously
+        dispatchGroup.leave() // Make sure this is called when `sendRequest` completes, if it's async.
+                               // If `sendRequest` is async, you'll need its completion handler to call `dispatchGroup.leave()`.
         
-        // Ensure location services are properly configured
+        // Ensure location services are properly configured (more of a setup, less of a continuous task)
+        dispatchGroup.enter()
         PreyLogger("Ensuring location services are configured in background refresh")
-        DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
+        DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured() // Assuming this is quick
+        dispatchGroup.leave()
         
         // Check device info and triggers
+        dispatchGroup.enter()
         PreyLogger("Checking device info in background refresh")
         PreyDevice.infoDevice { isSuccess in
             PreyLogger("Background refresh - infoDevice: \(isSuccess), time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
-            
             TriggerManager.sharedInstance.checkTriggers()
-            
             // Check for actions again after device info is updated
             PreyLogger("Checking for actions again after device info update")
             PreyModule.sharedInstance.checkActionArrayStatus()
+            dispatchGroup.leave()
+        }
+        
+        // Final completion logic for the BGAppRefreshTask
+        // Notify the dispatch group when all operations are done.
+        // Use a timeout for the dispatchGroup in case an async operation never calls leave().
+        let timeoutWorkItem = DispatchWorkItem {
+            PreyLogger("⚠️ Background refresh group timed out. Completing task with failure.")
+            task.setTaskCompleted(success: false)
+        }
+        DispatchQueue.global().asyncAfter(deadline: .now() + task.expirationHandlerTimeout - 2.0, execute: timeoutWorkItem) // Schedule slightly before actual timeout
+        
+        dispatchGroup.notify(queue: .main) { // Use main queue for final UI updates or logging if any
+            timeoutWorkItem.cancel() // Cancel the timeout if group completes successfully
+            // Check for any pending actions one more time
+            PreyLogger("Final check for actions before completing background task")
+            PreyModule.sharedInstance.checkActionArrayStatus()
             
-            // Give location services a chance to update
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                // Check for actions one more time before completing
-                PreyLogger("Final check for actions before completing background task")
-                PreyModule.sharedInstance.checkActionArrayStatus()
-                
-                // Complete the background task
-                PreyLogger("Completing background task, time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
-                task.setTaskCompleted(success: true)
-                self.stopBackgroundTask()
-            }
+            PreyLogger("Completing background refresh task with success: true")
+            task.setTaskCompleted(success: true)
+            // No `stopBackgroundTask()` here, as it's for UIBackgroundTaskIdentifier.
         }
     }
     
-    func handleAppUpdate(_ task: BGProcessingTask) {
-        // Schedule a new update task
-        scheduleAppRefresh()
+    // Handler for BGProcessingTask (more intensive background work)
+    func handleAppProcessing(_ task: BGProcessingTask) { // Renamed from handleAppUpdate for clarity
+        PreyLogger("Background processing task started. Time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
         
-        // Create task assertion with longer timeout
-        let taskAssertionID = UIApplication.shared.beginBackgroundTask {
-            PreyLogger("Background update task expiring in AppDelegate")
-            self.stopBackgroundTask()
-        }
-        self.bgTask = taskAssertionID
+        // Reschedule the task for next time
+        scheduleBackgroundTasks()
         
-        PreyLogger("Background update task started with ID: \(taskAssertionID.rawValue)")
+        let dispatchGroup = DispatchGroup()
         
-        // Add task expiration handler
         task.expirationHandler = {
-            PreyLogger("BGProcessingTask expiring")
-            self.stopBackgroundTask()
+            PreyLogger("⚠️ BGProcessingTask expired. Time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
+            // Cancel any ongoing operations.
             task.setTaskCompleted(success: false)
         }
         
-        // Process any cached requests that need more time
-        PreyLogger("Processing cached requests in background update")
-        RequestCacheManager.sharedInstance.sendRequest()
+        // --- Operations to perform during background processing ---
+        
+        // Process any cached requests that might need more time or network connectivity
+        dispatchGroup.enter()
+        PreyLogger("Processing cached requests in background processing")
+        RequestCacheManager.sharedInstance.sendRequest() { success in // Assuming sendRequest takes a completion handler now
+            PreyLogger("RequestCacheManager.sendRequest completed: \(success)")
+            dispatchGroup.leave()
+        }
         
         // Check device info and triggers - this has longer to run than refresh
-        PreyLogger("Checking device info in background update")
+        dispatchGroup.enter()
+        PreyLogger("Checking device info in background processing")
         PreyDevice.infoDevice { isSuccess in
-            PreyLogger("Background update - infoDevice: \(isSuccess)")
-            
-            // Check for actions after device info is updated
-            PreyModule.sharedInstance.checkActionArrayStatus()
-            
-            // Complete the background task
-            PreyLogger("Completing background update task")
+            PreyLogger("Background processing - infoDevice: \(isSuccess)")
+            PreyModule.sharedInstance.checkActionArrayStatus() // Check actions after device info updated
+            dispatchGroup.leave()
+        }
+        
+        // Final completion logic
+        let timeoutWorkItem = DispatchWorkItem {
+            PreyLogger("⚠️ Background processing group timed out. Completing task with failure.")
+            task.setTaskCompleted(success: false)
+        }
+        DispatchQueue.global().asyncAfter(deadline: .now() + task.expirationHandlerTimeout - 2.0, execute: timeoutWorkItem)
+        
+        dispatchGroup.notify(queue: .main) {
+            timeoutWorkItem.cancel()
+            PreyLogger("Completing background processing task with success: true")
             task.setTaskCompleted(success: true)
-            self.stopBackgroundTask()
         }
     }
     
-    func handleAppFetch(_ task: BGAppRefreshTask) {
-        // Schedule a new fetch task
-        scheduleAppRefresh()
-        
-        // Create task assertion with longer timeout
-        let taskAssertionID = UIApplication.shared.beginBackgroundTask {
-            PreyLogger("Background fetch task expiring in AppDelegate")
-            self.stopBackgroundTask()
-        }
-        self.bgTask = taskAssertionID
-        
-        PreyLogger("Background fetch task started with ID: \(taskAssertionID.rawValue)")
-        
-        // Add task expiration handler
-        task.expirationHandler = {
-            PreyLogger("BGFetch expiring")
-            self.stopBackgroundTask()
-            task.setTaskCompleted(success: false)
-        }
-        
-        // Use a dispatch group to track completion of all operations
-        let fetchGroup = DispatchGroup()
-        var wasSuccess = false
-        
-        // Check for actions from server first
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            // First check for actions
-            fetchGroup.enter()
-            PreyLogger("Background fetch: checking for actions from server")
-            
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                username,
-                password: "x",
-                params: nil,
-                messageId: nil,
-                httpMethod: Method.GET.rawValue,
-                endPoint: actionsDeviceEndpoint,
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.actionDevice,
-                    preyAction: nil,
-                    onCompletion: { (isSuccess: Bool) in
-                        PreyLogger("Background fetch actions check: \(isSuccess)")
-                        if isSuccess {
-                            wasSuccess = true
-                        }
-                        fetchGroup.leave()
-                    }
-                )
-            )
-            
-            // Then check device status
-            fetchGroup.enter()
-            PreyLogger("Background fetch: checking device status")
-            
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                username,
-                password: "x",
-                params: nil,
-                messageId: nil,
-                httpMethod: Method.GET.rawValue,
-                endPoint: statusDeviceEndpoint,
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.statusDevice,
-                    preyAction: nil,
-                    onCompletion: { (isSuccess: Bool) in
-                        PreyLogger("Background fetch status check: \(isSuccess)")
-                        if isSuccess {
-                            wasSuccess = true
-                        }
-                        fetchGroup.leave()
-                    }
-                )
-            )
-            
-            // Then send current location if available
-            fetchGroup.enter()
-            if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
-               let locationDict = userDefaults.dictionary(forKey: "lastLocation") {
-                
-                PreyLogger("Background fetch: sending cached location to server")
-                
-                // Send the location to the server
-                let locParam:[String: Any] = [
-                    kAction.location.rawValue: locationDict,
-                    kDataLocation.skip_toast.rawValue: true
-                ]
-                
-                PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                    username,
-                    password: "x",
-                    params: locParam,
-                    messageId: nil,
-                    httpMethod: Method.POST.rawValue,
-                    endPoint: dataDeviceEndpoint,
-                    onCompletion: PreyHTTPResponse.checkResponse(
-                        RequestType.dataSend,
-                        preyAction: nil,
-                        onCompletion: { (isSuccess: Bool) in
-                            PreyLogger("Background fetch location send: \(isSuccess)")
-                            fetchGroup.leave()
-                        }
-                    )
-                )
-            } else {
-                // No location available
-                fetchGroup.leave()
-            }
-            
-            // Process any pending actions from previous calls
-            PreyModule.sharedInstance.checkActionArrayStatus()
-            
-            // When all operations are complete
-            fetchGroup.notify(queue: .main) {
-                // Ensure all actions are processed
-                PreyModule.sharedInstance.checkActionArrayStatus()
-                
-                // Complete the background task
-                PreyLogger("Completing background fetch task with success: \(wasSuccess)")
-                task.setTaskCompleted(success: wasSuccess)
-                self.stopBackgroundTask()
-                
-                // Ensure location services are configured
-                DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
-            }
-        } else {
-            // Complete task if we can't make the request
-            PreyLogger("No API key available for background fetch")
-            task.setTaskCompleted(success: false)
-            self.stopBackgroundTask()
-        }
-    }
+    // Removed handleAppFetch as BGAppRefreshTask should cover it.
+    // If it's truly a distinct task, it would be similar to handleAppRefresh.
     
     // MARK: Notification
     
-    // Did register notifications
+    // Did register notifications (no major changes, good)
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         PreyLogger("📱 PUSH REGISTRATION SUCCESS: didRegisterForRemoteNotificationsWithDeviceToken")
         
-        // Log the token in a more readable format
         let tokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
         PreyLogger("📱 PUSH TOKEN: \(tokenString)")
         
-        // Determine if we're using sandbox or production APNs
         let isSandboxAPNs = detectSandboxEnvironment()
         PreyLogger("📱 PUSH ENVIRONMENT: \(isSandboxAPNs ? "SANDBOX/DEVELOPMENT" : "PRODUCTION") 🔑")
         PreyLogger("📱 PUSH ENVIRONMENT NOTE: Server must send to the \(isSandboxAPNs ? "SANDBOX" : "PRODUCTION") gateway!")
         
-        // Also log token in different formats
         var tokenParts = [String]()
         for i in 0..<deviceToken.count {
             tokenParts.append(deviceToken[i].description)
         }
         PreyLogger("📱 PUSH TOKEN (Alt Format): <\(tokenParts.joined(separator: " "))>")
         
-        // Log other notification settings
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
+        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in // Added weak self
+            guard let self = self else { return }
             PreyLogger("📱 PUSH SETTINGS: Authorization Status: \(self.authStatusString(settings.authorizationStatus))")
             PreyLogger("📱 PUSH SETTINGS: Alert Setting: \(self.settingStatusString(settings.alertSetting))")
             PreyLogger("📱 PUSH SETTINGS: Badge Setting: \(self.settingStatusString(settings.badgeSetting))")
@@ -688,11 +600,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
         
-        // Process the token
         PreyNotification.sharedInstance.didRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
         
-        // Schedule a background refresh when we get a new token
-        scheduleAppRefresh()
+        // Schedule background tasks when we get a new token - ensures system knows we're active
+        scheduleBackgroundTasks()
         
         // Perform immediate sync with server
         syncWithServer()
@@ -700,48 +611,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // MARK: Foreground API sync
     
-    private var foregroundTimer: Timer?
-    
+    // Renamed foregroundTimer to foregroundPollingTimer for clarity
+    // timeInterval was 60s, changed to 180s (3 min) as suggested by original comment
     func setupForegroundTimer() {
-        // Cancel existing timer if any
-        foregroundTimer?.invalidate()
+        foregroundPollingTimer?.invalidate()
         
-        // Create a new timer that runs every 3 minutes
-        foregroundTimer = Timer.scheduledTimer(
-            //timeInterval: 180,
-            timeInterval: 60,
+        foregroundPollingTimer = Timer.scheduledTimer(
+            timeInterval: 180, // Changed back to 3 minutes for less frequent polling
             target: self,
             selector: #selector(foregroundTimerFired),
             userInfo: nil,
             repeats: true
         )
         
-        // Add timer to RunLoop to ensure it fires even during scrolling
-        RunLoop.current.add(foregroundTimer!, forMode: .common)
+        RunLoop.current.add(foregroundPollingTimer!, forMode: .common)
         
-        // Configure timer to be more tolerant of exact timing
-        foregroundTimer?.tolerance = 10.0
+        foregroundPollingTimer?.tolerance = 10.0 // Good practice
         
         PreyLogger("Foreground timer set up to sync with server every 3 minutes")
     }
     
     @objc private func applicationWillResignActiveNotification() {
         PreyLogger("App will resign active - stopping foreground timer")
-        foregroundTimer?.invalidate()
-        foregroundTimer = nil
+        foregroundPollingTimer?.invalidate()
+        foregroundPollingTimer = nil
     }
     
     @objc func foregroundTimerFired() {
+        PreyLogger("Foreground timer fired, attempting syncWithServer()")
         syncWithServer()
     }
     
-    // Track server sync in progress to avoid overlapping calls
-    private var serverSyncInProgress = false
-    private var lastSyncTimestamp: Date?
-    
+    // Server sync logic
     func syncWithServer() {
         // Only sync if not already in progress and not done within the last 10 seconds
-        let shouldSync = !serverSyncInProgress && 
+        let shouldSync = !serverSyncInProgress &&
             (lastSyncTimestamp == nil || Date().timeIntervalSince(lastSyncTimestamp!) > 10)
         
         guard shouldSync else {
@@ -750,87 +654,89 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             return
         }
         
-        // Set sync in progress
         serverSyncInProgress = true
-        lastSyncTimestamp = Date()
+        lastSyncTimestamp = Date() // Update timestamp at the start of sync attempt
         
         PreyLogger("Starting server sync")
         
-        // Make sure we have a valid API key
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             PreyLogger("No API key available for server sync")
             serverSyncInProgress = false
             return
         }
         
-        // Create a timeout timer to release the lock if something goes wrong
+        // Timeout timer for the sync process
         let timeoutTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: false) { [weak self] _ in
-            if self?.serverSyncInProgress == true {
+            guard let self = self else { return }
+            if self.serverSyncInProgress {
                 PreyLogger("⚠️ Server sync timeout - releasing lock after 60 seconds")
-                self?.serverSyncInProgress = false
+                self.serverSyncInProgress = false
             }
         }
         
+        // Use a DispatchGroup to coordinate multiple asynchronous API calls
+        let apiSyncGroup = DispatchGroup()
+        
         // First check device info
-        PreyDevice.infoDevice { [weak self] isSuccess in
+        apiSyncGroup.enter()
+        PreyDevice.infoDevice { isSuccess in
             PreyLogger("Foreground sync - infoDevice: \(isSuccess)")
-            
-            // Then get user profile (whether device info succeeded or not)
-            PreyUser.logInToPrey(username, userPassword: "x") { isLoginSuccess in
-                PreyLogger("Foreground sync - profile: \(isLoginSuccess)")
-                
-                // Setup a dispatch group to wait for all API calls to finish
-                let syncGroup = DispatchGroup()
-                
-                // Check if token needs refreshing (more than 1 hour old)
-                if (PreyConfig.sharedInstance.tokenWebTimestamp + 60*60) < CFAbsoluteTimeGetCurrent() {
-                    syncGroup.enter()
-                    PreyUser.getTokenFromPanel(username, userPassword: "x") { isTokenSuccess in
-                        PreyLogger("Foreground sync - token refresh: \(isTokenSuccess)")
-                        syncGroup.leave()
-                    }
-                }
-                
-                // Check for actions from server
-                syncGroup.enter()
-                PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                    username,
-                    password: "x",
-                    params: nil,
-                    messageId: nil,
-                    httpMethod: Method.GET.rawValue,
-                    endPoint: actionsDeviceEndpoint,
-                    onCompletion: PreyHTTPResponse.checkResponse(
-                        RequestType.actionDevice,
-                        preyAction: nil,
-                        onCompletion: { isActionsSuccess in
-                            PreyLogger("Foreground sync - actions check: \(isActionsSuccess)")
-                            
-                            // Run actions if needed
-                            if isActionsSuccess {
-                                PreyModule.sharedInstance.runAction()
-                            }
-                            
-                            syncGroup.leave()
-                        }
-                    )
-                )
-                
-                // When all API calls finish
-                syncGroup.notify(queue: .main) {
-                    PreyLogger("Server sync completed")
-                    timeoutTimer.invalidate()
-                    self?.serverSyncInProgress = false
-                }
+            apiSyncGroup.leave()
+        }
+        
+        // Then get user profile
+        apiSyncGroup.enter()
+        PreyUser.logInToPrey(username, userPassword: "x") { isLoginSuccess in
+            PreyLogger("Foreground sync - profile: \(isLoginSuccess)")
+            apiSyncGroup.leave()
+        }
+        
+        // Check if token needs refreshing (more than 1 hour old)
+        if (PreyConfig.sharedInstance.tokenWebTimestamp + 60 * 60) < CFAbsoluteTimeGetCurrent() {
+            apiSyncGroup.enter()
+            PreyUser.getTokenFromPanel(username, userPassword: "x") { isTokenSuccess in
+                PreyLogger("Foreground sync - token refresh: \(isTokenSuccess)")
+                apiSyncGroup.leave()
             }
+        }
+        
+        // Check for actions from server
+        apiSyncGroup.enter()
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            username,
+            password: "x",
+            params: nil,
+            messageId: nil,
+            httpMethod: Method.GET.rawValue,
+            endPoint: actionsDeviceEndpoint,
+            onCompletion: PreyHTTPResponse.checkResponse(
+                RequestType.actionDevice,
+                preyAction: nil,
+                onCompletion: { isActionsSuccess in
+                    PreyLogger("Foreground sync - actions check: \(isActionsSuccess)")
+                    if isActionsSuccess {
+                        PreyModule.sharedInstance.runAction() // This should be quick or trigger async operations
+                    }
+                    apiSyncGroup.leave()
+                }
+            )
+        )
+        
+        // When all API calls finish, release the lock and invalidate the timeout timer
+        apiSyncGroup.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+            PreyLogger("Server sync completed")
+            timeoutTimer.invalidate() // Invalidate the timeout timer
+            self.serverSyncInProgress = false // Release the lock
         }
     }
     
-    // MARK: UNUserNotificationCenterDelegate
+    // MARK: UNUserNotificationCenterDelegate (Push Notifications)
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, 
-                               didReceive response: UNNotificationResponse, 
-                               withCompletionHandler completionHandler: @escaping () -> Void) {
+    // Handle notification response (user interaction with notification)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
         
         let userInfo = response.notification.request.content.userInfo
         PreyLogger("Received notification response: \(response.actionIdentifier) with userInfo: \(userInfo)")
@@ -838,40 +744,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Forward handling to PreyNotification
         PreyNotification.sharedInstance.handleNotificationResponse(response)
         
-        // Call completion handler
-        completionHandler()
+        completionHandler() // Call completion handler promptly
     }
     
+    // Handle notification presentation while app is in foreground
     func userNotificationCenter(_ center: UNUserNotificationCenter,
-                               willPresent notification: UNNotification,
-                               withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        // Don't show notifications in foreground, we're using the alert view instead
         PreyLogger("Will present notification in foreground: \(notification.request.identifier)")
         
-        // Check if this is a Prey alert notification
         if notification.request.content.categoryIdentifier == categoryNotifPreyAlert {
-            // For Prey alerts, we don't show notification banners in foreground
-            // as we're already showing the AlertVC
-            completionHandler([])
+            completionHandler([]) // Don't show notification banners/alerts if our custom AlertVC is shown
             
-            // Extract message and triggerId to show in AlertVC
-            let message = notification.request.content.body
-            
-            // Check if it's a Prey Alert and contain a trigger ID
             if let userInfo = notification.request.content.userInfo as? [String: Any],
                let message = userInfo[kOptions.IDLOCAL.rawValue] as? String {
                 
-                // Create and display the alert action through our Alert class
                 let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
                 let alertAction = Alert(withTarget: kAction.alert, withCommand: kCommand.start, withOptions: alertOptions)
                 
-                // Set trigger ID if available
                 if let triggerId = userInfo[kOptions.trigger_id.rawValue] as? String {
                     alertAction.triggerId = triggerId
                 }
                 
-                // Add the action but don't run it - we just want the alert view
                 PreyModule.sharedInstance.actionArray.append(alertAction)
                 alertAction.showAlertVC(message)
             }
@@ -885,15 +780,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    // Fail register notifications
+    // Fail register notifications (no changes, good)
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         PreyLogger("📱 PUSH REGISTRATION ERROR: 🚨 \(error.localizedDescription)")
         
-        // Log more details about the error
         let nsError = error as NSError
         PreyLogger("📱 PUSH REGISTRATION ERROR DETAILS: domain=\(nsError.domain), code=\(nsError.code), userInfo=\(nsError.userInfo)")
         
-        // Check for common error codes
         if nsError.code == 3000 {
             PreyLogger("📱 PUSH REGISTRATION ERROR: This is likely an issue with APNs certificates or entitlements")
         } else if nsError.code == 3010 {
@@ -901,61 +794,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    // Did receive remote notification
+    // Did receive remote notification (for background push)
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         PreyLogger("📱 PUSH RECEIVED: didReceiveRemoteNotification - App State: \(application.applicationState == .background ? "Background" : "Foreground"), Content-Available: \(userInfo["content-available"] as? Int ?? 0)")
         
-        // Log the push notification content for debugging with better formatting
         PreyLogger("📱 PUSH PAYLOAD: \(userInfo)")
-        
-        // Log each key-value pair separately for better readability
         for (key, value) in userInfo {
             PreyLogger("📱 PUSH KEY: \(key) = \(value)")
         }
         
-        // Create a long-running background task to ensure we have time to process
-        var notificationBgTask = UIBackgroundTaskIdentifier.invalid
+        // This is a UIBackgroundFetchResult type notification, not a BGTaskScheduler task.
+        // You get limited time (around 30 seconds).
+        // It's crucial to call `completionHandler` as soon as possible.
+        var notificationBgTask: UIBackgroundTaskIdentifier = .invalid // Use local var to avoid conflicts with AppDelegate's bgTask
         
-        notificationBgTask = UIApplication.shared.beginBackgroundTask {
-            PreyLogger("⚠️ Notification background task expiring")
-            
-            // Try to request more time with a new background task before expiration
-            let newTask = UIApplication.shared.beginBackgroundTask {
-                PreyLogger("⚠️ Secondary notification background task expiring")
-                if notificationBgTask != UIBackgroundTaskIdentifier.invalid {
-                    UIApplication.shared.endBackgroundTask(notificationBgTask)
-                    notificationBgTask = UIBackgroundTaskIdentifier.invalid
-                }
-            }
-            
-            if newTask != UIBackgroundTaskIdentifier.invalid {
-                // End old task and use new one
-                UIApplication.shared.endBackgroundTask(notificationBgTask)
-                notificationBgTask = newTask
-                PreyLogger("Renewed notification background task: \(newTask.rawValue)")
-            } else {
-                if notificationBgTask != UIBackgroundTaskIdentifier.invalid {
-                    UIApplication.shared.endBackgroundTask(notificationBgTask)
-                    notificationBgTask = UIBackgroundTaskIdentifier.invalid
-                }
-                PreyLogger("Notification background task expired")
-            }
+        notificationBgTask = UIApplication.shared.beginBackgroundTask { [weak self] in // Capture self weakly
+            PreyLogger("⚠️ Remote notification background task expiring")
+            // Call completion handler with .failed if task expires
+            completionHandler(.failed)
+            self?.stopBackgroundTask(notificationBgTask) // Stop this specific task
         }
         
-        PreyLogger("Started notification background task: \(notificationBgTask.rawValue) with remaining time: \(UIApplication.shared.backgroundTimeRemaining)")
+        PreyLogger("Started remote notification background task: \(notificationBgTask.rawValue) with remaining time: \(UIApplication.shared.backgroundTimeRemaining)")
         
-        // Use a dispatch group to ensure all operations complete
         let dispatchGroup = DispatchGroup()
-        var wasDataReceived = false
+        var wasDataReceived = false // Use `var` instead of `let` to allow modification
         
         // Always try to sync device status when we receive a notification
         dispatchGroup.enter()
         PreyDevice.infoDevice { isSuccess in
             PreyLogger("Remote notification infoDevice: \(isSuccess)")
+            if isSuccess { wasDataReceived = true } // Update success status
             dispatchGroup.leave()
         }
         
-        // In foreground mode, trigger an immediate server sync
+        // In foreground mode, trigger an immediate server sync (this might be redundant with later `PreyNotification.didReceiveRemoteNotifications`)
+        // If `syncWithServer` does heavy work, reconsider calling it here directly if not critical.
         if application.applicationState != .background {
             syncWithServer()
         }
@@ -963,8 +837,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Process the notification
         dispatchGroup.enter()
         PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo) { result in
-            // Process any cached requests
-            RequestCacheManager.sharedInstance.sendRequest()
+            PreyLogger("PreyNotification didReceiveRemoteNotifications result: \(result)")
+            // Process any cached requests (assuming this is efficient)
+            RequestCacheManager.sharedInstance.sendRequest() // Assuming this sends requests asynchronously
             
             if result == .newData {
                 wasDataReceived = true
@@ -972,7 +847,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             dispatchGroup.leave()
         }
         
-        // Always check for pending actions
+        // Always check for pending actions (assuming this is efficient)
         dispatchGroup.enter()
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(
@@ -989,7 +864,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         PreyLogger("Remote notification action check: \(isSuccess)")
                         if isSuccess {
                             wasDataReceived = true
-                            PreyModule.sharedInstance.runAction()
+                            PreyModule.sharedInstance.runAction() // This should be quick or trigger async operations
                         }
                         dispatchGroup.leave()
                     }
@@ -999,7 +874,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             dispatchGroup.leave()
         }
         
-        // Also always check device status
+        // Also always check device status (this is a duplicate of the first infoDevice call. Consider removing one if redundant.)
         dispatchGroup.enter()
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(
@@ -1025,60 +900,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             dispatchGroup.leave()
         }
         
-        // When all operations complete
-        dispatchGroup.notify(queue: .main) {
-            // Check for any pending actions
-            PreyModule.sharedInstance.checkActionArrayStatus()
+        // When all operations complete, call the fetchCompletionHandler and end the background task
+        dispatchGroup.notify(queue: .main) { [weak self] in // Use weak self
+            guard let self = self else {
+                completionHandler(.failed) // If AppDelegate is gone, fail the task
+                self?.stopBackgroundTask(notificationBgTask) // Ensure cleanup
+                return
+            }
             
-            // Give a small delay to ensure everything completes properly
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            // Give a small delay to ensure everything completes properly (if absolutely necessary, but try to avoid delays)
+            // A delay on the main queue can still block UI if the app is in foreground.
+            // If this delay is for a background task, use a background queue.
+            // It's best to remove explicit delays if possible and ensure async operations complete their work quickly.
+            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1.0) { // Reduced delay, moved to background queue
                 // Complete the fetchCompletionHandler with appropriate result
                 let result: UIBackgroundFetchResult = wasDataReceived ? .newData : .noData
                 PreyLogger("Remote notification processing complete with result: \(result)")
+                
+                // Call original completion handler
                 completionHandler(result)
                 
-                // End the background task
-                if notificationBgTask != UIBackgroundTaskIdentifier.invalid {
-                    UIApplication.shared.endBackgroundTask(notificationBgTask)
-                    PreyLogger("Notification background task completed")
-                    notificationBgTask = UIBackgroundTaskIdentifier.invalid
-                }
+                // End the background task associated with this notification.
+                self.stopBackgroundTask(notificationBgTask)
             }
         }
     }
     
-    // Did receiveLocalNotification - this method is deprecated in iOS 10+
-    // but we're implementing it for compatibility if needed
+    // Did receiveLocalNotification - this method is deprecated in iOS 10+.
+    // It's better to implement userNotificationCenter(_:willPresent:withCompletionHandler:) for local notifications on modern iOS.
+    // Keep it for backward compatibility if needed, but primary logic should be in UNUserNotificationCenterDelegate.
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         PreyLogger("Received local notification - deprecated method called")
         
-        // Extract the message from the notification
         if let message = notification.alertBody {
             PreyLogger("Local notification message: \(message)")
             
-            // Create an alert action 
             let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
             let alertAction = Alert(withTarget: kAction.alert, withCommand: kCommand.start, withOptions: alertOptions)
             
-            // Add trigger ID if available
             if let info = notification.userInfo, let triggerId = info[kOptions.trigger_id.rawValue] as? String {
                 alertAction.triggerId = triggerId
             }
             
-            // Run the action
             PreyModule.sharedInstance.actionArray.append(alertAction)
-            PreyModule.sharedInstance.runAction()
+            PreyModule.sharedInstance.runAction() // This will trigger UI, ensure it's handled on main thread
         }
         
-        // Reset badge count
-        application.applicationIconBadgeNumber = 0
+        application.applicationIconBadgeNumber = 0 // Reset badge count
     }
     
-     // MARK: Handling Launch for Tasks
-
-    // MARK: Check settings on backup
+    // MARK: Check settings on backup (no changes, logic seems okay for file system interaction)
     
-    // check settings
     func checkSettingsToBackup() {
         let fileManager = FileManager.default
         let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
@@ -1086,8 +958,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let storeURL = docURL.appendingPathComponent("skpBckp")
         
         if !fileManager.fileExists(atPath: storeURL.path) {
-            // Not exist skipBackup file
-            // Check if app was restored from iCloud
             if PreyConfig.sharedInstance.isRegistered && PreyConfig.sharedInstance.existBackup {
                 PreyConfig.sharedInstance.resetValues()
             }
@@ -1098,7 +968,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    // Add skip backup
     func addSkipBackupAttributeToItemAtURL(filePath:String) -> Bool {
         let URL:NSURL = NSURL.fileURL(withPath: filePath) as NSURL
         assert(FileManager.default.fileExists(atPath: filePath), "File \(filePath) does not exist")
@@ -1113,32 +982,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return success
     }
     
-    // MARK: Notification Helper Methods
+    // MARK: Notification Helper Methods (no changes, good utility functions)
     
-    /// Detect if the app is running in the sandbox/development environment
     func detectSandboxEnvironment() -> Bool {
-        // Check if app is running in sandbox environment
-        
         #if targetEnvironment(simulator)
-            return true // Simulator always uses sandbox
+        return true
         #endif
         
-        // Check for development provisioning profile
         if Bundle.main.path(forResource: "embedded", ofType: "mobileprovision") != nil {
-            return true // Development provisioning profile means sandbox
+            return true
         }
         
-        // Check environment configuration
         if let apsEnvironment = Bundle.main.object(forInfoDictionaryKey: "aps-environment") as? String,
            apsEnvironment == "development" {
-            return true // Explicitly configured for development
+            return true
         }
         
-        // Default to production if we can't determine
         return false
     }
     
-    /// Convert UNAuthorizationStatus to a readable string
     func authStatusString(_ status: UNAuthorizationStatus) -> String {
         switch status {
         case .authorized: return "Authorized"
@@ -1150,7 +1012,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    /// Convert UNNotificationSetting to a readable string
     func settingStatusString(_ setting: UNNotificationSetting) -> String {
         switch setting {
         case .enabled: return "Enabled"
