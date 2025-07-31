@@ -106,7 +106,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //     self.handleAppFetch(task as! BGAppRefreshTask)
         // }
         
-        PreyLogger("Registered background tasks with identifiers: \(AppDelegate.appRefreshTaskIdentifier), \(AppDelegate.processingTaskIdentifier)")
         
         // Set up notification delegate and register notification categories
         UNUserNotificationCenter.current().delegate = self
@@ -379,7 +378,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         do {
             try BGTaskScheduler.shared.submit(refreshRequest)
             try BGTaskScheduler.shared.submit(processingRequest)
-            PreyLogger("Background tasks scheduled successfully (Refresh & Processing)")
+            PreyLogger("Background tasks scheduled with identifiers: \(AppDelegate.appRefreshTaskIdentifier), \(AppDelegate.processingTaskIdentifier)")
         } catch {
             PreyLogger("Could not schedule background tasks: \(error.localizedDescription)")
             // Fallback to old `beginBackgroundTask` is a good safety net, but should be rare if BGTaskScheduler is configured correctly.
@@ -393,10 +392,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 PreyLogger("Started regular background task as fallback: \(self.bgTask!.rawValue)") // Use ! safely here
                 
                 // Schedule a timer to perform minimal updates.
-                // This timer should be very short-lived (e.g., 20-25s) to ensure it finishes before the 30s limit.
-                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 25) { [weak self] in
+                // This timer should be very short-lived (e.g., 15-20s) to ensure it finishes before the 30s limit.
+                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 15) { [weak self] in
                     guard let self = self else { return }
-                    PreyLogger("Fallback background task logic executing (after 25s)")
+                    PreyLogger("Fallback background task logic executing (after 15s)")
                     // Process any pending actions (quick operations)
                     PreyModule.sharedInstance.checkActionArrayStatus()
                     // Process any cached requests (quick operations)
@@ -476,7 +475,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("⚠️ Background refresh group timed out. Completing task with failure.")
             task.setTaskCompleted(success: false)
         }
-        DispatchQueue.global().asyncAfter(deadline: .now() + 25.0, execute: timeoutWorkItem) // Schedule slightly before typical 30s timeout
+        DispatchQueue.global().asyncAfter(deadline: .now() + 20.0, execute: timeoutWorkItem) // Reduced to 20s to avoid system termination
         
         dispatchGroup.notify(queue: .main) { // Use main queue for final UI updates or logging if any
             timeoutWorkItem.cancel() // Cancel the timeout if group completes successfully

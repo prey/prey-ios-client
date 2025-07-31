@@ -577,7 +577,7 @@ class PreyHTTPResponse {
                 detachModule.detachDevice()
             } else {
                 PreyConfig.sharedInstance.reportError("DataSend", statusCode: statusCode, errorDescription: "DataSend error")
-                PreyLogger("Failed data send")
+                PreyLogger("Failed data send: status code \(String(describing: statusCode))")
             }
             return
         }

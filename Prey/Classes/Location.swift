@@ -164,12 +164,9 @@ class Location : PreyAction, CLLocationManagerDelegate {
         PreyLogger("Starting location manager with enhanced configuration")
         
         // End any existing background task first
-        endBackgroundTask(name: "location_main")
-        
-        // Start new background task for location tracking
-        beginBackgroundTask(name: "location_main") {
-            PreyLogger("Location background task expired - stopping location manager")
-            self.locManager.stopUpdatingLocation()
+        if locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
+            UIApplication.shared.endBackgroundTask(locationBgTaskId)
+            locationBgTaskId = UIBackgroundTaskIdentifier.invalid
         }
         
         // Configure location manager with adaptive settings
@@ -231,9 +228,19 @@ class Location : PreyAction, CLLocationManagerDelegate {
     func stopLocationManager()  {
         PreyLogger("Stop location")
         
+        // Check if location manager is actually running to avoid unnecessary stops
+        guard isActive else {
+            PreyLogger("Location manager already stopped, skipping")
+            return
+        }
+        
         locManager.stopUpdatingLocation()
-        locManager.stopMonitoringSignificantLocationChanges()
-        locManager.delegate = nil
+        
+        // Only stop significant location changes if we're not in location aware mode
+        if !isLocationAwareActive {
+            locManager.stopMonitoringSignificantLocationChanges()
+            PreyLogger("Stopped monitoring significant location changes")
+        }
         
         // End background task if active
         if locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
@@ -241,6 +248,18 @@ class Location : PreyAction, CLLocationManagerDelegate {
             PreyLogger("Location background task ended with ID: \(locationBgTaskId.rawValue)")
             locationBgTaskId = UIBackgroundTaskIdentifier.invalid
         }
+        
+        // End all managed background tasks
+        for (name, taskId) in backgroundTasks {
+            if taskId != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(taskId)
+                PreyLogger("Ended background task: \(name)")
+            }
+        }
+        backgroundTasks.removeAll()
+        
+        // Set delegate to nil to prevent callbacks
+        locManager.delegate = nil
         
         isActive = false
         PreyModule.sharedInstance.checkStatus(self)

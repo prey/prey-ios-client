@@ -49,8 +49,8 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         // Configure for better background performance
         sessionConfig.waitsForConnectivity = true
         sessionConfig.allowsCellularAccess = true 
-        sessionConfig.timeoutIntervalForRequest = 60.0
-        sessionConfig.timeoutIntervalForResource = 60.0
+        sessionConfig.timeoutIntervalForRequest = 30.0
+        sessionConfig.timeoutIntervalForResource = 45.0
         
         // Set appropriate background policy based on app state
         // Fix: Check app state on main thread to avoid Main Thread Checker warning
