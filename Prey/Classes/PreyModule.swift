@@ -23,7 +23,16 @@ class PreyModule {
 
     // Check actionArrayStatus
     func checkActionArrayStatus() {
-        PreyLogger("Check actionArrayStatus - App State: \(UIApplication.shared.applicationState == .background ? "Background" : "Foreground")")
+        // Fix: Check app state on main thread to avoid Main Thread Checker warning
+        var appStateString = "Unknown"
+        if Thread.isMainThread {
+            appStateString = UIApplication.shared.applicationState == .background ? "Background" : "Foreground"
+        } else {
+            DispatchQueue.main.sync {
+                appStateString = UIApplication.shared.applicationState == .background ? "Background" : "Foreground"
+            }
+        }
+        PreyLogger("Check actionArrayStatus - App State: \(appStateString)")
         
         // Always check for pending actions from server
         if let username = PreyConfig.sharedInstance.userApiKey {
@@ -72,7 +81,17 @@ class PreyModule {
             }
             
             // If no location action exists, add one for background updates
-            if !hasLocationAction && UIApplication.shared.applicationState == .background {
+            // Fix: Check app state on main thread to avoid Main Thread Checker warning
+            var isAppInBackground = false
+            if Thread.isMainThread {
+                isAppInBackground = UIApplication.shared.applicationState == .background
+            } else {
+                DispatchQueue.main.sync {
+                    isAppInBackground = UIApplication.shared.applicationState == .background
+                }
+            }
+            
+            if !hasLocationAction && isAppInBackground {
                 let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
                 actionArray.append(locationAction)
                 PreyLogger("Added background location action")
@@ -256,7 +275,17 @@ class PreyModule {
         }
         
         // If we're in the background, make sure location services are running but only if we have actions
-        if UIApplication.shared.applicationState == .background && !actionArray.isEmpty {
+        // Fix: Check app state on main thread to avoid Main Thread Checker warning
+        var isAppInBackground = false
+        if Thread.isMainThread {
+            isAppInBackground = UIApplication.shared.applicationState == .background
+        } else {
+            DispatchQueue.main.sync {
+                isAppInBackground = UIApplication.shared.applicationState == .background
+            }
+        }
+        
+        if isAppInBackground && !actionArray.isEmpty {
             // Only configure location services if needed
             var needsLocationServices = false
             for action in actionArray {

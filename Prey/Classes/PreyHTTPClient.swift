@@ -53,7 +53,17 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         sessionConfig.timeoutIntervalForResource = 60.0
         
         // Set appropriate background policy based on app state
-        if UIApplication.shared.applicationState == .background {
+        // Fix: Check app state on main thread to avoid Main Thread Checker warning
+        var isAppInBackground = false
+        if Thread.isMainThread {
+            isAppInBackground = UIApplication.shared.applicationState == .background
+        } else {
+            DispatchQueue.main.sync {
+                isAppInBackground = UIApplication.shared.applicationState == .background
+            }
+        }
+        
+        if isAppInBackground {
             sessionConfig.networkServiceType = .background
         } else {
             sessionConfig.networkServiceType = .default

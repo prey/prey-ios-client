@@ -30,7 +30,17 @@ class Alert: PreyAction {
         PreyLogger("Alert message: \(message)")
         
         // Only show a notification in background, otherwise show the alert view
-        if UIApplication.shared.applicationState == .background {
+        // Fix: Check app state on main thread to avoid Main Thread Checker warning
+        var isAppInBackground = false
+        if Thread.isMainThread {
+            isAppInBackground = UIApplication.shared.applicationState == .background
+        } else {
+            DispatchQueue.main.sync {
+                isAppInBackground = UIApplication.shared.applicationState == .background
+            }
+        }
+        
+        if isAppInBackground {
             // Send a single notification when in background
             let content = UNMutableNotificationContent()
             content.title = "Prey Alert"

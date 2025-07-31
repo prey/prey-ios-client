@@ -20,10 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // Optional bgTask
     var bgTask: UIBackgroundTaskIdentifier?
     
-    // Identifiers for BGTaskScheduler tasks (best practice to define them as static constants)
-    static let appRefreshTaskIdentifier = "\(Bundle.main.bundleIdentifier!).appRefresh"
-    static let processingTaskIdentifier = "\(Bundle.main.bundleIdentifier!).processing"
-    
     // Using a Timer or DispatchSourceTimer for foreground polling
     private var foregroundPollingTimer: Timer? // Consider DispatchSourceTimer for more precise control if needed
     private var serverSyncInProgress = false
@@ -576,31 +572,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // Did register notifications (no major changes, good)
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        PreyLogger("📱 PUSH REGISTRATION SUCCESS: didRegisterForRemoteNotificationsWithDeviceToken")
-        
-        let tokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
-        PreyLogger("📱 PUSH TOKEN: \(tokenString)")
-        
-        let isSandboxAPNs = detectSandboxEnvironment()
-        PreyLogger("📱 PUSH ENVIRONMENT: \(isSandboxAPNs ? "SANDBOX/DEVELOPMENT" : "PRODUCTION") 🔑")
-        PreyLogger("📱 PUSH ENVIRONMENT NOTE: Server must send to the \(isSandboxAPNs ? "SANDBOX" : "PRODUCTION") gateway!")
-        
-        var tokenParts = [String]()
-        for i in 0..<deviceToken.count {
-            tokenParts.append(deviceToken[i].description)
-        }
-        PreyLogger("📱 PUSH TOKEN (Alt Format): <\(tokenParts.joined(separator: " "))>")
-        
+        PreyLogger("didRegisterForRemoteNotificationsWithDeviceToken")
+      
         UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in // Added weak self
             guard let self = self else { return }
             PreyLogger("📱 PUSH SETTINGS: Authorization Status: \(self.authStatusString(settings.authorizationStatus))")
             PreyLogger("📱 PUSH SETTINGS: Alert Setting: \(self.settingStatusString(settings.alertSetting))")
             PreyLogger("📱 PUSH SETTINGS: Badge Setting: \(self.settingStatusString(settings.badgeSetting))")
             PreyLogger("📱 PUSH SETTINGS: Sound Setting: \(self.settingStatusString(settings.soundSetting))")
-            
-            if #available(iOS 15.0, *) {
-                PreyLogger("📱 PUSH SETTINGS: Critical Alert Setting: \(self.settingStatusString(settings.criticalAlertSetting))")
-            }
+            PreyLogger("📱 PUSH SETTINGS: Critical Alert Setting: \(self.settingStatusString(settings.criticalAlertSetting))")
         }
         
         PreyNotification.sharedInstance.didRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
@@ -963,23 +943,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     // MARK: Notification Helper Methods (no changes, good utility functions)
-    
-    func detectSandboxEnvironment() -> Bool {
-        #if targetEnvironment(simulator)
-        return true
-        #endif
-        
-        if Bundle.main.path(forResource: "embedded", ofType: "mobileprovision") != nil {
-            return true
-        }
-        
-        if let apsEnvironment = Bundle.main.object(forInfoDictionaryKey: "aps-environment") as? String,
-           apsEnvironment == "development" {
-            return true
-        }
-        
-        return false
-    }
     
     func authStatusString(_ status: UNAuthorizationStatus) -> String {
         switch status {

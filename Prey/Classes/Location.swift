@@ -22,9 +22,6 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     var index = 0
     
-    // Location Push Token
-    private var locationPushToken: Data?
-    
     // Background task identifier
     private var locationBgTaskId: UIBackgroundTaskIdentifier = .invalid
     
@@ -79,7 +76,16 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Prey command
     override func get() {
-        PreyLogger("Location.get() called - App State: \(UIApplication.shared.applicationState == .background ? "Background" : "Foreground")")
+        // Fix: Check app state on main thread to avoid Main Thread Checker warning
+        var appStateString = "Unknown"
+        if Thread.isMainThread {
+            appStateString = UIApplication.shared.applicationState == .background ? "Background" : "Foreground"
+        } else {
+            DispatchQueue.main.sync {
+                appStateString = UIApplication.shared.applicationState == .background ? "Background" : "Foreground"
+            }
+        }
+        PreyLogger("Location.get() called - App State: \(appStateString)")
         
         // Make sure location services are enabled
         if CLLocationManager.locationServicesEnabled() == false {
@@ -101,8 +107,6 @@ class Location : PreyAction, CLLocationManagerDelegate {
         // Schedule get location with timeout - 30 seconds
         Timer.scheduledTimer(timeInterval: 30.0, target:self, selector:#selector(stopLocationTimer(_:)), userInfo:nil, repeats:false)
         
-        // Start monitoring location pushes for iOS 15+
-        startMonitoringLocationPushes()
         
         // Check for cached location in shared container
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
@@ -140,43 +144,6 @@ class Location : PreyAction, CLLocationManagerDelegate {
         }
         
         PreyLogger("Location started successfully")
-    }
-    
-    private func startMonitoringLocationPushes() {
-        if #available(iOS 15.0, *) {
-            locManager.startMonitoringLocationPushes { [weak self] (token, error) in
-                if let error = error {
-                    PreyLogger("Location Push Error: \(error.localizedDescription)")
-                    return
-                }
-                
-                PreyLogger("startMonitoringLocationPushes")
-                
-                if let token = token {
-                    self?.locationPushToken = token
-                    self?.sendLocationPushToken(token)
-                }
-            }
-        }
-    }
-    
-    private func sendLocationPushToken(_ token: Data) {
-        let tokenString = token.map { String(format: "%02x", $0) }.joined()
-        
-        let params: [String: Any] = [
-            "location_push_token": tokenString
-        ]
-        
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(
-            PreyConfig.sharedInstance.userApiKey ?? "",
-            password: "x",
-            params: params,
-            messageId: nil,
-            httpMethod: Method.POST.rawValue,
-            endPoint: dataDeviceEndpoint,
-            onCompletion: PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction: nil) { success in
-                PreyLogger("Location Push Token Send: \(success)")
-            })
     }
     
     // Start location aware
@@ -561,7 +528,18 @@ class Location : PreyAction, CLLocationManagerDelegate {
         
         // Check location age with different thresholds based on app state
         let locationTime = abs(location.timestamp.timeIntervalSinceNow)
-        let maxAge: TimeInterval = isEmergencyMode ? 10.0 : (UIApplication.shared.applicationState == .active ? 5.0 : 30.0)
+        
+        // Fix: Get app state on main thread to avoid Main Thread Checker warning
+        var isAppActive = false
+        if Thread.isMainThread {
+            isAppActive = UIApplication.shared.applicationState == .active
+        } else {
+            DispatchQueue.main.sync {
+                isAppActive = UIApplication.shared.applicationState == .active
+            }
+        }
+        
+        let maxAge: TimeInterval = isEmergencyMode ? 10.0 : (isAppActive ? 5.0 : 30.0)
         
         guard locationTime < maxAge else {
             PreyLogger("Location too old: \(locationTime) seconds, max allowed: \(maxAge)")

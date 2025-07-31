@@ -117,15 +117,6 @@ class PreyNotification {
         // Check entitlements
         checkEntitlements()
         
-        // Determine which APNs environment we're using
-        let apnsEnvironment = detectAPNsEnvironment()
-        PreyLogger("📣 TOKEN REGISTER: APNs environment: \(apnsEnvironment)")
-        if apnsEnvironment.contains("sandbox") {
-            PreyLogger("📣 TOKEN REGISTER: Server must send to SANDBOX gateway")
-        } else {
-            PreyLogger("📣 TOKEN REGISTER: Server must send to PRODUCTION gateway")
-        }
-        
         // Create device info for the server
         let preyDevice = PreyDevice()
         let firmwareInfo : [String:String] = [
@@ -145,14 +136,10 @@ class PreyNotification {
             "ram_size" : preyDevice.ramSize!,
             "uuid" : preyDevice.uuid!,
         ]
-        // Get environment information - reuse the earlier variable
-        let isSandbox = apnsEnvironment.contains("sandbox")
-        
+    
         let params:[String: Any] = [
             "notification_id" : tokenAsString,
             "specs": specs,
-            "sandbox_token": isSandbox,
-            "apns_environment": apnsEnvironment,
             "device_name": UIDevice.current.name,
             "hardware_attributes":hardwareAttributes
         ]
@@ -327,24 +314,5 @@ class PreyNotification {
         // Get the device name
         let deviceName = UIDevice.current.name
         PreyLogger("📱 DEVICE: Current device name: \(deviceName)")
-    }
-    
-    // Helper function to detect which APNs environment we're using
-    func detectAPNsEnvironment() -> String {
-        #if targetEnvironment(simulator)
-            return "sandbox (simulator)"
-        #endif
-        
-        if let apsEnv = Bundle.main.object(forInfoDictionaryKey: "aps-environment") as? String {
-            // Even with production entitlement, if app is installed from Xcode, it uses sandbox
-            if let embeddedProfile = Bundle.main.path(forResource: "embedded", ofType: "mobileprovision") {
-                PreyLogger("📲 APNs: App has embedded.mobileprovision, likely using sandbox despite entitlements")
-                return "sandbox (development install)"
-            }
-            
-            return apsEnv
-        }
-        
-        return "unknown (likely sandbox)"
     }
 }

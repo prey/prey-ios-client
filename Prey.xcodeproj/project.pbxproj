@@ -408,7 +408,6 @@
 				3BCE971C23021AB500AF1AD4 /* PreyNotify */,
 				3BB6E2211D47CBD800074E97 /* Frameworks */,
 				3B8283EE199198E6000E4545 /* Products */,
-				91C83753BD82DE7017E63F0E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -610,13 +609,6 @@
 				3B86297C1EF03CB400BE92D4 /* Swifter */,
 			);
 			name = External;
-			sourceTree = "<group>";
-		};
-		91C83753BD82DE7017E63F0E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
