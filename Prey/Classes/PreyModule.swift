@@ -218,14 +218,8 @@ class PreyModule {
     
     // Run action
     func runAction() {
-        // Skip if already running actions or ran too recently (within 10 seconds)
-        let shouldRunActions = !PreyModule.isRunningActions && 
-                              (PreyModule.lastActionRunTime == nil || 
-                              Date().timeIntervalSince(PreyModule.lastActionRunTime!) > 10)
-        
-        if !shouldRunActions {
+        if !PreyModule.isRunningActions {
             PreyLogger("PreyModule: should not RunActions due validation")
-            // Don't log anything here to reduce spam
             return
         }
         
