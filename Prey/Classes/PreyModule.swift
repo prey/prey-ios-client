@@ -194,6 +194,14 @@ class PreyModule {
         // Action Options
         let actionOptions: NSDictionary? = jsonDict.object(forKey: kInstruction.options.rawValue) as? NSDictionary
 
+        // Check if action already exists to prevent duplicates
+        for existingAction in actionArray {
+            if existingAction.target == actionName && existingAction.command == actionCmd {
+                PreyLogger("Action already exists: \(actionName.rawValue) with command: \(actionCmd.rawValue)")
+                return
+            }
+        }
+
         // Add new Prey Action
         if let action:PreyAction = PreyAction.newAction(withName: actionName, withCommand: actionCmd, withOptions: actionOptions) {
             PreyLogger("Action added")
@@ -218,8 +226,9 @@ class PreyModule {
     
     // Run action
     func runAction() {
-        if !PreyModule.isRunningActions {
-            PreyLogger("PreyModule: should not RunActions due validation")
+        // Prevent multiple simultaneous calls
+        if PreyModule.isRunningActions {
+            PreyLogger("PreyModule: Already running actions, ignoring duplicate call")
             return
         }
         

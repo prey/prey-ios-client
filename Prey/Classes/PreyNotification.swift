@@ -114,9 +114,6 @@ class PreyNotification {
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
         PreyLogger("📣 TOKEN REGISTER: Got device token from APNS: \(tokenAsString)")
         
-        // Check entitlements
-        checkEntitlements()
-        
         // Create device info for the server
         let preyDevice = PreyDevice()
         let firmwareInfo : [String:String] = [
@@ -132,16 +129,10 @@ class PreyNotification {
             "processor_info": processorInfo,
             "firmware_info": firmwareInfo,
         ]
-        let hardwareAttributes : [String:String] = [
-            "uuid" : preyDevice.uuid!,
-            "ram_size" : preyDevice.ramSize!
-        ]
-    
         let params:[String: Any] = [
             "notification_id" : tokenAsString,
             "specs": specs,
-            "device_name": UIDevice.current.name,
-            "hardware_attributes":hardwareAttributes
+            "device_name": UIDevice.current.name
         ]
         
         PreyLogger("📣 TOKEN REGISTER: Preparing to send token to Prey server with params: \(params)")
@@ -182,6 +173,13 @@ class PreyNotification {
         
         // Track whether we received any data to return appropriate completion result
         var receivedData = false
+        
+        // Handle all payload types
+        if let cmdPreyMDM = userInfo["preymdm"] as? NSDictionary {
+            PreyLogger("📣 PN TYPE: preymdm payload detected")
+            parsePayloadPreyMDMFromPushNotification(parameters: cmdPreyMDM)
+            receivedData = true
+        }
         
         if let cmdInstruction = userInfo["cmd"] as? NSArray {
             PreyLogger("📣 PN TYPE: cmd instruction payload detected with \(cmdInstruction.count) items")
@@ -282,26 +280,7 @@ class PreyNotification {
         PreyLogger("📣 PN ERROR: 🚨 \(error)")
     }
     
-    // Check entitlements and device name
-    func checkEntitlements() {
-        // Check for device-name entitlement
-        if let deviceNameEntitlement = Bundle.main.object(forInfoDictionaryKey: "com.apple.developer.device-information.user-assigned-device-name") as? Bool {
-            PreyLogger("🔐 ENTITLEMENT: Device name entitlement found: \(deviceNameEntitlement)")
-        } else {
-            PreyLogger("🔐 ENTITLEMENT: Device name entitlement not found in runtime bundle, check that it's properly set in Prey.entitlements file")
-        }
-        
-        // Check for APNs environment entitlement
-        if let apsEnvironment = Bundle.main.object(forInfoDictionaryKey: "aps-environment") as? String {
-            PreyLogger("🔐 ENTITLEMENT: APNs environment: \(apsEnvironment)")
-        } else {
-            PreyLogger("🔐 ENTITLEMENT: APNs environment not found in runtime bundle, check that it's properly set in Prey.entitlements file")
-        }
-        
-        // Get the device name
-        let deviceName = UIDevice.current.name
-        PreyLogger("📱 DEVICE: Current device name: \(deviceName)")
-    }
+   
     
     // Check for remote actions when receiving silent push notification
     private func checkRemoteActionsFromSilentPush(completion: @escaping (Bool) -> Void) {

@@ -428,25 +428,24 @@ class PreyHTTPResponse {
                 
                 let jsonData = try JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
-                    PreyLogger("Parsing direct array from response: \(jsonString)")
                     PreyModule.sharedInstance.parseActionsFromPanel(jsonString)
                 }
             }
         } catch {
             // If JSON parsing fails, try the traditional approach
             PreyLogger("JSON parsing failed, trying raw string approach: \(error.localizedDescription)")
-        }
-        
-        // Traditional approach as fallback - try to use the raw string
-        if let actionArray: String = String(data:dataResponse, encoding:String.Encoding.utf8) {
-            DispatchQueue.main.async {
-                PreyLogger("Parsing actions from raw string response")
-                PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
+            
+            // Only use fallback if JSON parsing actually failed
+            if let actionArray: String = String(data:dataResponse, encoding:String.Encoding.utf8) {
+                DispatchQueue.main.async {
+                    PreyLogger("Parsing actions from raw string response")
+                    PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
+                }
+            } else {
+                PreyConfig.sharedInstance.reportError("ActionDeviceDecode", statusCode: statusCode, errorDescription: "ActionDeviceDecode error")
+                PreyLogger("Failed to check action from panel - string decoding failed")
+                PreyNotification.sharedInstance.handlePushError("Failed to check action from panel - string decoding failed")
             }
-        } else {
-            PreyConfig.sharedInstance.reportError("ActionDeviceDecode", statusCode: statusCode, errorDescription: "ActionDeviceDecode error")
-            PreyLogger("Failed to check action from panel - string decoding failed")
-            PreyNotification.sharedInstance.handlePushError("Failed to check action from panel - string decoding failed")
         }
         
         // Mark verification as succeeded
