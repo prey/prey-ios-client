@@ -60,8 +60,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     func checkLocation() -> Bool {
         var locationAuth = false
         
+        // Use instance method to avoid main thread blocking
         if CLLocationManager.locationServicesEnabled() {
-            let status = CLLocationManager.authorizationStatus()
+            let status = authLocation.authorizationStatus
             
             if status == .notDetermined {
                 authLocation.requestAlwaysAuthorization()

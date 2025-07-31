@@ -635,7 +635,8 @@ class Location : PreyAction, CLLocationManagerDelegate {
     
     // Request location permission if needed
     private func requestLocationPermissionIfNeeded() {
-        let status = CLLocationManager.authorizationStatus()
+        // Use the instance's authorizationStatus to avoid main thread blocking
+        let status = locManager.authorizationStatus
         PreyLogger("Current location authorization status: \(status.rawValue)")
         
         switch status {

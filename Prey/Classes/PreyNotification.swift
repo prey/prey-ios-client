@@ -188,24 +188,18 @@ class PreyNotification {
             PreyLogger("📣 PN TYPE: preymdm payload detected")
             parsePayloadPreyMDMFromPushNotification(parameters: cmdPreyMDM)
             receivedData = true
-        } else {
-            PreyLogger("📣 PN CHECK: No preymdm payload found")
         }
         
         if let cmdInstruction = userInfo["cmd"] as? NSArray {
             PreyLogger("📣 PN TYPE: cmd instruction payload detected with \(cmdInstruction.count) items")
             parsePayloadInfoFromPushNotification(instructionArray: cmdInstruction)
             receivedData = true
-        } else {
-            PreyLogger("📣 PN CHECK: No cmd payload found")
         }
         
         if let cmdArray = userInfo["instruction"] as? NSArray {
             PreyLogger("📣 PN TYPE: instruction payload detected with \(cmdArray.count) items")
             parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
             receivedData = true
-        } else {
-            PreyLogger("📣 PN CHECK: No instruction payload found")
         }
         
         // APNS silent notification check (content-available = 1)
@@ -214,15 +208,6 @@ class PreyNotification {
             receivedData = true
         } else {
             PreyLogger("📣 PN CHECK: No content-available=1 found")
-        }
-        
-        // APNs aps payload check
-        if let aps = userInfo["aps"] as? [String: Any] {
-            PreyLogger("📣 PN TYPE: aps payload detected: \(aps)")
-            // This is a standard APNS notification
-            receivedData = true
-        } else {
-            PreyLogger("📣 PN CHECK: No aps payload found")
         }
         
         // Run any pending actions that may have been parsed from the notification
