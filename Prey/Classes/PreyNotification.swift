@@ -182,13 +182,6 @@ class PreyNotification {
         
         // Track whether we received any data to return appropriate completion result
         var receivedData = false
-
-        // Handle all payload types
-        if let cmdPreyMDM = userInfo["preymdm"] as? NSDictionary {
-            PreyLogger("📣 PN TYPE: preymdm payload detected")
-            parsePayloadPreyMDMFromPushNotification(parameters: cmdPreyMDM)
-            receivedData = true
-        }
         
         if let cmdInstruction = userInfo["cmd"] as? NSArray {
             PreyLogger("📣 PN TYPE: cmd instruction payload detected with \(cmdInstruction.count) items")

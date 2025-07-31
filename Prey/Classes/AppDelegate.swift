@@ -730,6 +730,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         PreyLogger("Will present notification in foreground: \(notification.request.identifier)")
+        let userInfo = notification.request.content.userInfo
+        
+        // Process MDM payloads that arrive in foreground
+        if let cmdPreyMDM = userInfo["preymdm"] as? NSDictionary {
+            PreyLogger("📣 PN TYPE: preymdm payload detected in willPresent")
+            PreyNotification.sharedInstance.parsePayloadPreyMDMFromPushNotification(parameters: cmdPreyMDM)
+            completionHandler([]) // Don't show notification for MDM payloads
+            return
+        }
         
         if notification.request.content.categoryIdentifier == categoryNotifPreyAlert {
             completionHandler([]) // Don't show notification banners/alerts if our custom AlertVC is shown
