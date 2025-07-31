@@ -216,16 +216,21 @@ class PreyNotification {
                 } else {
                     PreyLogger("📣 PN ACTION: No remote actions found")
                 }
+                
+                // Complete with result after async operation finishes
+                let result = receivedData ? UIBackgroundFetchResult.newData : UIBackgroundFetchResult.noData
+                PreyLogger("📣 PN COMPLETE: Finishing notification processing with result: \(result == .newData ? "newData" : "noData")")
+                completionHandler(result)
             }
-            receivedData = true
+            // Don't set receivedData = true here, let the async callback handle it
         } else {
             PreyLogger("📣 PN CHECK: No content-available=1 found in aps payload")
+            
+            // Complete immediately if no silent notification
+            let result = receivedData ? UIBackgroundFetchResult.newData : UIBackgroundFetchResult.noData
+            PreyLogger("📣 PN COMPLETE: Finishing notification processing with result: \(result == .newData ? "newData" : "noData")")
+            completionHandler(result)
         }
-        
-        // Complete with appropriate result
-        let result = receivedData ? UIBackgroundFetchResult.newData : UIBackgroundFetchResult.noData
-        PreyLogger("📣 PN COMPLETE: Finishing notification processing with result: \(result == .newData ? "newData" : "noData")")
-        completionHandler(result)
     }
     
     // Parse payload info on push notification
