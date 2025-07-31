@@ -29,7 +29,7 @@ public let reloadConnection: Int = 5
 public let delayTime: Double = 2
 
 // TimeoutInterval for URLRequest
-public let timeoutIntervalRequest: Double = 300.0
+public let timeoutIntervalRequest: Double = 30.0
 
 // Email RegExp
 public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b"
@@ -55,6 +55,7 @@ public func PreyLogger(_ message:String) {
         let timestamp = dateFormatter.string(from: Date())
         print("[\(timestamp)] \(message)")
     #endif
+    
 }
 
 // Biometric authentication
@@ -78,9 +79,6 @@ public let biometricAuth : String = {
     }
     return textID
 }()
-
-// Permitted background task scheduler identifiers
-public let bgTaskToPanel = "com.prey.refresh"
 
 // Category notification
 public let categoryNotifPreyAlert = "PreyAlert"
