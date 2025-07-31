@@ -196,26 +196,30 @@ class PreyNotification {
             receivedData = true
         }
         
-        if let cmdArray = userInfo["instruction"] as? NSArray {
-            PreyLogger("📣 PN TYPE: instruction payload detected with \(cmdArray.count) items")
-            parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
-            receivedData = true
-        }
+        // Currently not being used
+        // if let cmdArray = userInfo["instruction"] as? NSArray {
+            // PreyLogger("📣 PN TYPE: instruction payload detected with \(cmdArray.count) items")
+            // parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
+            // receivedData = true
+        // }
         
         // APNS silent notification check (content-available = 1)
-        if let contentAvailable = userInfo["content-available"] as? Int, contentAvailable == 1 {
+        if let aps = userInfo["aps"] as? [String: Any],
+           let contentAvailable = aps["content-available"] as? Int, contentAvailable == 1 {
             PreyLogger("📣 PN TYPE: Silent notification detected with content-available=1")
+            
+            // Check for remote actions when receiving silent push notification
+            checkRemoteActionsFromSilentPush { hasActions in
+                if hasActions {
+                    receivedData = true
+                    PreyLogger("📣 PN ACTION: Remote actions retrieved and processed")
+                } else {
+                    PreyLogger("📣 PN ACTION: No remote actions found")
+                }
+            }
             receivedData = true
         } else {
-            PreyLogger("📣 PN CHECK: No content-available=1 found")
-        }
-        
-        // Run any pending actions that may have been parsed from the notification
-        if !PreyModule.sharedInstance.actionArray.isEmpty {
-            PreyLogger("📣 PN ACTIONS: Found \(PreyModule.sharedInstance.actionArray.count) actions to run")
-            PreyModule.sharedInstance.runAction()
-        } else {
-            PreyLogger("📣 PN ACTIONS: No actions found to run")
+            PreyLogger("📣 PN CHECK: No content-available=1 found in aps payload")
         }
         
         // Complete with appropriate result
@@ -299,5 +303,49 @@ class PreyNotification {
         // Get the device name
         let deviceName = UIDevice.current.name
         PreyLogger("📱 DEVICE: Current device name: \(deviceName)")
+    }
+    
+    // Check for remote actions when receiving silent push notification
+    private func checkRemoteActionsFromSilentPush(completion: @escaping (Bool) -> Void) {
+        PreyLogger("📣 PN REMOTE: Starting remote action check from silent push")
+        
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
+            PreyLogger("📣 PN REMOTE: No API key available for remote action check")
+            completion(false)
+            return
+        }
+        
+        // Use PreyHTTPResponse.checkResponse for actionsDevice endpoint
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            username,
+            password: "x",
+            params: nil,
+            messageId: nil,
+            httpMethod: Method.GET.rawValue,
+            endPoint: actionsDeviceEndpoint,
+            onCompletion: PreyHTTPResponse.checkResponse(
+                RequestType.actionDevice,
+                preyAction: nil,
+                onCompletion: { isSuccess in
+                    PreyLogger("📣 PN REMOTE: Remote action check completed with success: \(isSuccess)")
+                    
+                    if isSuccess {
+                        // Check if any actions were added to the action array
+                        let hasActions = !PreyModule.sharedInstance.actionArray.isEmpty
+                        PreyLogger("📣 PN REMOTE: Found \(PreyModule.sharedInstance.actionArray.count) actions from remote check")
+                        
+                        if hasActions {
+                            // Run the actions that were retrieved
+                            PreyModule.sharedInstance.runAction()
+                        }
+                        
+                        completion(hasActions)
+                    } else {
+                        PreyLogger("📣 PN REMOTE: Failed to retrieve remote actions")
+                        completion(false)
+                    }
+                }
+            )
+        )
     }
 }

@@ -773,13 +773,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // Did receive remote notification (for background push)
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        PreyLogger("📱 PUSH RECEIVED: didReceiveRemoteNotification - App State: \(application.applicationState == .background ? "Background" : "Foreground"), Content-Available: \(userInfo["content-available"] as? Int ?? 0)")
-        
         PreyLogger("📱 PUSH PAYLOAD: \(userInfo)")
-        for (key, value) in userInfo {
-            PreyLogger("📱 PUSH KEY: \(key) = \(value)")
-        }
-        
+       
         // This is a UIBackgroundFetchResult type notification, not a BGTaskScheduler task.
         // You get limited time (around 30 seconds).
         // It's crucial to call `completionHandler` as soon as possible.
@@ -803,12 +798,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("Remote notification infoDevice: \(isSuccess)")
             if isSuccess { wasDataReceived = true } // Update success status
             dispatchGroup.leave()
-        }
-        
-        // In foreground mode, trigger an immediate server sync (this might be redundant with later `PreyNotification.didReceiveRemoteNotifications`)
-        // If `syncWithServer` does heavy work, reconsider calling it here directly if not critical.
-        if application.applicationState != .background {
-            syncWithServer()
         }
         
         // Process the notification

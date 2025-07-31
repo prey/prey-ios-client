@@ -224,6 +224,7 @@ class PreyModule {
                               Date().timeIntervalSince(PreyModule.lastActionRunTime!) > 10)
         
         if !shouldRunActions {
+            PreyLogger("PreyModule: should not RunActions due validation")
             // Don't log anything here to reduce spam
             return
         }
@@ -232,7 +233,7 @@ class PreyModule {
         PreyModule.isRunningActions = true
         PreyModule.lastActionRunTime = Date()
         
-        PreyLogger("Running actions - count: \(actionArray.count)")
+        PreyLogger("PreyModule: Running actions - count: \(actionArray.count)")
         
         // Create a background task to ensure we have time to process actions
         var bgTask = UIBackgroundTaskIdentifier.invalid
@@ -240,12 +241,12 @@ class PreyModule {
             if bgTask != UIBackgroundTaskIdentifier.invalid {
                 UIApplication.shared.endBackgroundTask(bgTask)
                 bgTask = UIBackgroundTaskIdentifier.invalid
-                PreyLogger("Background task for actions ended due to expiration")
+                PreyLogger("PreyModule: Background task for actions ended due to expiration")
                 PreyModule.isRunningActions = false
             }
         }
         
-        PreyLogger("Started background task for actions: \(bgTask.rawValue)")
+        PreyLogger("PreyModule: Started background task for actions: \(bgTask.rawValue)")
 
         // Create a dispatch group to track completion of all actions
         let actionGroup = DispatchGroup()
@@ -253,7 +254,7 @@ class PreyModule {
         for action in actionArray {
             // Check selector
             if (action.responds(to: NSSelectorFromString(action.command.rawValue)) && !action.isActive) {
-                PreyLogger("Running action: \(action.target.rawValue) with command: \(action.command.rawValue)")
+                PreyLogger("PreyModule: Running action: \(action.target.rawValue) with command: \(action.command.rawValue)")
                 
                 // Enter dispatch group
                 actionGroup.enter()
@@ -268,9 +269,9 @@ class PreyModule {
                     }
                 }
             } else if action.isActive {
-                PreyLogger("Action already active: \(action.target.rawValue)")
+                PreyLogger("PreyModule: Action already active: \(action.target.rawValue)")
             } else {
-                PreyLogger("Action doesn't respond to selector: \(action.command.rawValue)")
+                PreyLogger("PreyModule: Action doesn't respond to selector: \(action.command.rawValue)")
             }
         }
         
@@ -296,7 +297,7 @@ class PreyModule {
             }
             
             if needsLocationServices {
-                PreyLogger("App is in background, ensuring location services are configured")
+                PreyLogger("PreyModule: App is in background, ensuring location services are configured")
                 DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
             }
         }
@@ -308,7 +309,7 @@ class PreyModule {
                 if bgTask != UIBackgroundTaskIdentifier.invalid {
                     UIApplication.shared.endBackgroundTask(bgTask)
                     bgTask = UIBackgroundTaskIdentifier.invalid
-                    PreyLogger("Background task for actions completed normally")
+                    PreyLogger("PreyModule: Background task for actions completed normally")
                 }
                 
                 // Reset flag after a delay to prevent rapid consecutive calls

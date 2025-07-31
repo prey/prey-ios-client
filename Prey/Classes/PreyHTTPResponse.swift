@@ -360,7 +360,7 @@ class PreyHTTPResponse {
         
         guard let dataResponse = data else {
             PreyConfig.sharedInstance.reportError("ActionDeviceData", statusCode: statusCode, errorDescription: "ActionDeviceData error")
-            PreyLogger("Failed to check action from panel - no data")
+
             PreyNotification.sharedInstance.handlePushError("Failed to check action from panel - no data")
             return
         }
