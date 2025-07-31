@@ -28,8 +28,6 @@
 		3B40AB691DB901F1003045C1 /* WebKitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B40AB681DB901F1003045C1 /* WebKitVC.swift */; };
 		3B40AB6B1DB90B57003045C1 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B40AB6A1DB90B57003045C1 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */; };
-		3B41BDAD1D05FF9F003DF0CE /* GeofenceZones+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+Properties.swift */; };
-		3B41BDAE1D05FF9F003DF0CE /* GeofenceZones+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDAC1D05FF9F003DF0CE /* GeofenceZones+Class.swift */; };
 		3B41BDB11D05FFF0003DF0CE /* PreyCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */; };
 		3B42A2671D2581EF002848C0 /* large9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B42A2661D2581EF002848C0 /* large9.ttf */; };
 		3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */; };
@@ -42,14 +40,12 @@
 		3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67A01B1D381A890028255E /* PreyStoreManager.swift */; };
 		3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D709F1CD7D62A00DEB461 /* UIDeviceExt.swift */; };
 		3B6D70A31CD7E3D400DEB461 /* SwiftExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D70A21CD7E3D400DEB461 /* SwiftExt.swift */; };
-		3B71E9DD1D09BF1D00D5F6D5 /* GeofencingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B71E9DC1D09BF1D00D5F6D5 /* GeofencingManager.swift */; };
 		3B77804E1A600CCE0050C747 /* PreyUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B77804D1A600CCE0050C747 /* PreyUser.swift */; };
 		3B7D73B5238450A20013AC9F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B7D73B4238450A20013AC9F /* Colors.xcassets */; };
 		3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F6199198E6000E4545 /* PreyStoryBoard.storyboard */; };
 		3B8283FA199198E6000E4545 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F9199198E6000E4545 /* Images.xcassets */; };
 		3B828406199198E6000E4545 /* PreyRestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B828405199198E6000E4545 /* PreyRestTests.swift */; };
 		3B849AE81D0710E9002DB6CC /* PreyData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE61D0710E9002DB6CC /* PreyData.xcdatamodeld */; };
-		3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B849AE91D071AF4002DB6CC /* Geofencing.swift */; };
 		3B86297B1EF039E800BE92D4 /* PreyMobileConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86297A1EF039E800BE92D4 /* PreyMobileConfig.swift */; };
 		3B8629901EF03CB400BE92D4 /* DemoServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86297D1EF03CB400BE92D4 /* DemoServer.swift */; };
 		3B8629911EF03CB400BE92D4 /* Errno.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86297E1EF03CB400BE92D4 /* Errno.swift */; };
@@ -121,7 +117,6 @@
 		3BFF00841D3E8A2400BEF7E0 /* AppFeedback.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00811D3E8A2400BEF7E0 /* AppFeedback.plist */; };
 		3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */; };
 		747FA51E2BAB1683003242C7 /* ListPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747FA51D2BAB1683003242C7 /* ListPermissions.swift */; };
-		74C856A3292318DC0053EB6A /* GeofencingLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C856A2292318DC0053EB6A /* GeofencingLocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,8 +188,6 @@
 		3B40AB681DB901F1003045C1 /* WebKitVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebKitVC.swift; path = Classes/WebKitVC.swift; sourceTree = "<group>"; };
 		3B40AB6A1DB90B57003045C1 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceAuth.swift; path = Classes/DeviceAuth.swift; sourceTree = "<group>"; };
-		3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GeofenceZones+Properties.swift"; path = "Classes/GeofenceZones+Properties.swift"; sourceTree = "<group>"; };
-		3B41BDAC1D05FF9F003DF0CE /* GeofenceZones+Class.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "GeofenceZones+Class.swift"; path = "Classes/GeofenceZones+Class.swift"; sourceTree = "<group>"; };
 		3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyCoreData.swift; path = Classes/PreyCoreData.swift; sourceTree = "<group>"; };
 		3B42A2661D2581EF002848C0 /* large9.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = large9.ttf; sourceTree = "<group>"; };
 		3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyProtocol.swift; path = Classes/PreyProtocol.swift; sourceTree = "<group>"; };
@@ -207,7 +200,6 @@
 		3B67A01B1D381A890028255E /* PreyStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyStoreManager.swift; path = Classes/PreyStoreManager.swift; sourceTree = "<group>"; };
 		3B6D709F1CD7D62A00DEB461 /* UIDeviceExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIDeviceExt.swift; path = Classes/UIDeviceExt.swift; sourceTree = "<group>"; };
 		3B6D70A21CD7E3D400DEB461 /* SwiftExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftExt.swift; path = Classes/SwiftExt.swift; sourceTree = "<group>"; };
-		3B71E9DC1D09BF1D00D5F6D5 /* GeofencingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeofencingManager.swift; path = Classes/GeofencingManager.swift; sourceTree = "<group>"; };
 		3B77804D1A600CCE0050C747 /* PreyUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyUser.swift; path = Classes/PreyUser.swift; sourceTree = "<group>"; };
 		3B7D73B4238450A20013AC9F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = Resources/Colors.xcassets; sourceTree = "<group>"; };
 		3B8283ED199198E6000E4545 /* Prey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prey.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,7 +209,6 @@
 		3B828404199198E6000E4545 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B828405199198E6000E4545 /* PreyRestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyRestTests.swift; sourceTree = "<group>"; };
 		3B849AE71D0710E9002DB6CC /* PreyData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PreyData.xcdatamodel; sourceTree = "<group>"; };
-		3B849AE91D071AF4002DB6CC /* Geofencing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Geofencing.swift; path = Classes/Geofencing.swift; sourceTree = "<group>"; };
 		3B86297A1EF039E800BE92D4 /* PreyMobileConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyMobileConfig.swift; path = Classes/PreyMobileConfig.swift; sourceTree = "<group>"; };
 		3B86297D1EF03CB400BE92D4 /* DemoServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoServer.swift; sourceTree = "<group>"; };
 		3B86297E1EF03CB400BE92D4 /* Errno.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errno.swift; sourceTree = "<group>"; };
@@ -290,7 +281,6 @@
 		3BFF00821D3E8A2400BEF7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plist/Info.plist; sourceTree = "<group>"; };
 		3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ManagedAppConfig.plist; path = Plist/ManagedAppConfig.plist; sourceTree = "<group>"; };
 		747FA51D2BAB1683003242C7 /* ListPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListPermissions.swift; path = Classes/ListPermissions.swift; sourceTree = "<group>"; };
-		74C856A2292318DC0053EB6A /* GeofencingLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofencingLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -344,8 +334,6 @@
 				3BAB25CA23A923C200BDA263 /* TriggersEvents+Class.swift */,
 				3BAB25CD23A923C200BDA263 /* TriggersEvents+Properties.swift */,
 				3B849AE61D0710E9002DB6CC /* PreyData.xcdatamodeld */,
-				3B41BDAB1D05FF9F003DF0CE /* GeofenceZones+Properties.swift */,
-				3B41BDAC1D05FF9F003DF0CE /* GeofenceZones+Class.swift */,
 				3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */,
 			);
 			name = "Core Data";
@@ -535,12 +523,9 @@
 				3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */,
 				3B3742161CF791D900E52B6C /* ReportPhoto.swift */,
 				3B3742181CF792CA00E52B6C /* ReportWifi.swift */,
-				3B849AE91D071AF4002DB6CC /* Geofencing.swift */,
-				3B71E9DC1D09BF1D00D5F6D5 /* GeofencingManager.swift */,
 				3B38BA921D231B1C00B6799B /* Detach.swift */,
 				3B33A76320F69D0B00F3B64E /* Battery.swift */,
 				3BDA80D821120DE4003B028C /* FileRetrieval.swift */,
-				74C856A2292318DC0053EB6A /* GeofencingLocation.swift */,
 				747FA51D2BAB1683003242C7 /* ListPermissions.swift */,
 			);
 			name = "Prey Modules";
@@ -828,7 +813,6 @@
 				3B8629961EF03CB400BE92D4 /* HttpRouter.swift in Sources */,
 				3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */,
 				3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */,
-				3B71E9DD1D09BF1D00D5F6D5 /* GeofencingManager.swift in Sources */,
 				3BAB25CF23A923C300BDA263 /* Triggers+Class.swift in Sources */,
 				3BDCBCFF2459DB8C00146ED9 /* RequestCache+Properties.swift in Sources */,
 				3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */,
@@ -856,7 +840,6 @@
 				3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */,
 				3BDCBCFE2459DB8C00146ED9 /* RequestCache+Class.swift in Sources */,
 				3B86299F1EF03CB400BE92D4 /* String+File.swift in Sources */,
-				3B849AEA1D071AF4002DB6CC /* Geofencing.swift in Sources */,
 				3BAB25D123A923C300BDA263 /* TriggersActions+Class.swift in Sources */,
 				3B33A76420F69D0B00F3B64E /* Battery.swift in Sources */,
 				3BC4774B23A1355900109844 /* UserActivated.swift in Sources */,
@@ -864,7 +847,6 @@
 				3B86299E1EF03CB400BE92D4 /* String+BASE64.swift in Sources */,
 				3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */,
 				3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */,
-				3B41BDAD1D05FF9F003DF0CE /* GeofenceZones+Properties.swift in Sources */,
 				3B41BDB11D05FFF0003DF0CE /* PreyCoreData.swift in Sources */,
 				3B51FFB21D3EB77C00CFE4E8 /* QRCodeScannerVC.swift in Sources */,
 				3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */,
@@ -885,8 +867,6 @@
 				3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */,
 				3BDF988120338AC70023D4AA /* HomeWebVC.swift in Sources */,
 				3B8629911EF03CB400BE92D4 /* Errno.swift in Sources */,
-				74C856A3292318DC0053EB6A /* GeofencingLocation.swift in Sources */,
-				3B41BDAE1D05FF9F003DF0CE /* GeofenceZones+Class.swift in Sources */,
 				3BFF00801D3E7EAC00BEF7E0 /* PreyDeployment.swift in Sources */,
 				3B86299B1EF03CB400BE92D4 /* Socket+File.swift in Sources */,
 				3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */,

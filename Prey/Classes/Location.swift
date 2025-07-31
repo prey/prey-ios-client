@@ -292,7 +292,6 @@ class Location : PreyAction, CLLocationManagerDelegate {
         
         if self.isLocationAwareActive {
             PreyLogger("Location aware is active, sending to location aware endpoint")
-            GeofencingManager.sharedInstance.startLocationAwareManager(location)
             self.isLocationAwareActive = false
             
             dispatchGroup.enter()
@@ -344,7 +343,7 @@ class Location : PreyAction, CLLocationManagerDelegate {
                 self.retryCount = 0
                 
                 // Process any queued offline locations
-                self.processOfflineLocationQueue()
+                // self.processOfflineLocationQueue()
             }
         }
     }

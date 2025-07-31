@@ -54,8 +54,8 @@ class Battery: NSObject {
         }
         
         let params:[String: Any] = [
-            kGeofence.INFO.rawValue         : "",
-            kGeofence.NAME.rawValue         : kBattery.LOW.rawValue]        
+            kEvent.info.rawValue : "",
+            kEvent.name.rawValue : kBattery.LOW.rawValue]        
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {

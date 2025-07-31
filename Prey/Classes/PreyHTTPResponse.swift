@@ -10,7 +10,7 @@ import Foundation
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, geofenceZones, dataSend, statusDevice, trigger, emailValidation, resendEmailValidation, infoDevice
+    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, dataSend, statusDevice, trigger, emailValidation, resendEmailValidation, infoDevice
 }
 
 class PreyHTTPResponse {
@@ -66,11 +66,6 @@ class PreyHTTPResponse {
 
         case .actionDevice:
             checkActionDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
-
-        case .geofenceZones:
-            let out=checkGeofenceZones(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
-            onCompletion(out)
-            return
 
         case .trigger:
             checkTrigger(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
@@ -458,66 +453,6 @@ class PreyHTTPResponse {
         // No need to call any verification method here as the action was successful
     }
     
-    // Check add device response
-    class func checkGeofenceZones(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) ->Bool{
-        do {
-            guard let dataResponse = data else {
-                return true
-            }
-            let str = String(decoding: dataResponse, as: UTF8.self)
-            guard let jsonObject: String = String(data:dataResponse, encoding:String.Encoding.utf8) else {
-                PreyConfig.sharedInstance.reportError("GeofenceZonesJson", statusCode: statusCode, errorDescription: "GeofenceZonesJson error")
-                PreyLogger("Error reading json data")
-                return false
-            }
-        } catch let error {
-            PreyConfig.sharedInstance.reportError(error)
-            PreyLogger("json error: \(error.localizedDescription)")
-            return false
-        }
-        guard isSuccess else {
-            // Check error with URLSession request
-            guard error == nil else {
-                PreyConfig.sharedInstance.reportError(error)
-                PreyLogger("PreyGeofenceZones error")
-                return false
-            }
-            PreyConfig.sharedInstance.reportError("GeofenceZones", statusCode: statusCode, errorDescription: "GeofenceZones error")
-            PreyLogger("Failed data send")
-            return false
-        }
-
-        // === Success
-        guard let dataResponse = data else {
-            PreyConfig.sharedInstance.reportError("GeofenceZonesRequest", statusCode: statusCode, errorDescription: "GeofenceZonesRequest error")
-            PreyLogger("Errod reading request data")
-            return false
-        }
-        guard let jsonObject: String = String(data:dataResponse, encoding:String.Encoding.utf8) else {
-            PreyConfig.sharedInstance.reportError("GeofenceZonesJson", statusCode: statusCode, errorDescription: "GeofenceZonesJson error")
-            PreyLogger("Error reading json data")
-            return false
-        }
-        // Convert actionsArray from String to NSData
-        guard let jsonData: Data = jsonObject.data(using: String.Encoding.utf8) else {
-            PreyConfig.sharedInstance.reportError("GeofenceZonesObject", statusCode: statusCode, errorDescription: "GeofenceZonesObject error")
-            PreyLogger("Error jsonObject to NSData")
-            return false
-        }
-        // Convert NSData to NSArray
-        do {
-            let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
-            if let geofencingAction = action as? Geofencing {
-                geofencingAction.updateGeofenceZones(jsonArray)
-            }
-            return true
-        } catch let error {
-            PreyConfig.sharedInstance.reportError(error)
-            PreyLogger("json error: \(error.localizedDescription)")
-            return false
-        }
-    }
-    
     // Check trigger response
     class func checkTrigger(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
         
@@ -650,7 +585,7 @@ class PreyHTTPResponse {
         // Check response panel to stop location aware
         if statusCode == 201 {
             if action == nil || action is Location {
-                GeofencingManager.sharedInstance.stopLocationAwareManager()
+                PreyLogger("TODO: remove location aware?")
             }
         }
         

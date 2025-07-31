@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // Optional bgTask
     var bgTask: UIBackgroundTaskIdentifier?
     
+    static let appRefreshTaskIdentifier = "\(Bundle.main.bundleIdentifier!).appRefresh"
+    static let processingTaskIdentifier = "\(Bundle.main.bundleIdentifier!).processing"
+    
     // Using a Timer or DispatchSourceTimer for foreground polling
     private var foregroundPollingTimer: Timer? // Consider DispatchSourceTimer for more precise control if needed
     private var serverSyncInProgress = false
@@ -211,15 +214,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } else {
             PreyDeployment.sharedInstance.runPreyDeployment()
         }
-        
-        // Check CLRegion In/Out and init geofencing
-        // Only initialize if relevant (e.g., if isPro) to save resources
-        if let locationLaunch = launchOptions?[UIApplication.LaunchOptionsKey.location] {
-            PreyLogger("Prey Geofence received while not running: \(locationLaunch)")
-            _ = GeofencingManager.sharedInstance
-        }
-        
-        _ = GeofencingManager.sharedInstance
+    
         
         // Check email validation
         if PreyConfig.sharedInstance.validationUserEmail == PreyUserEmailValidation.pending.rawValue, let username = PreyConfig.sharedInstance.userApiKey {
@@ -278,7 +273,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Check for shared location data from extension (read-only, efficient)
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
            let lastLocation = userDefaults.dictionary(forKey: "lastLocation") {
-            PreyLogger("Found shared location data from extension: \(lastLocation)")
+            PreyLogger("Found shared location data: \(lastLocation)")
             // Process location data if needed (should be quick or trigger a BGTask)
         }
         
@@ -440,7 +435,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Check for shared location data from extension (read-only, efficient)
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
            let lastLocation = userDefaults.dictionary(forKey: "lastLocation") {
-            PreyLogger("Found shared location data from extension: \(lastLocation)")
+            PreyLogger("Found shared location data: \(lastLocation)")
             // Process location data if needed, but ensure it's quick.
         }
         
