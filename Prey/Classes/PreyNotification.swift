@@ -80,9 +80,9 @@ class PreyNotification {
         UNUserNotificationCenter.current()
             .requestAuthorization(options: [.alert, .sound, .badge, .providesAppNotificationSettings, .criticalAlert]) { (granted, error) in
                 // Log permission result
-                PreyLogger("Notification permission request result: \(granted)")
+                PreyLogger("Permission request result: \(granted)")
                 if let error = error {
-                    PreyLogger("Notification permission error: \(error.localizedDescription)")
+                    PreyLogger("Permission request error: \(error.localizedDescription)")
                 }
                 
                 // Check permission granted

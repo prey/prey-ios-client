@@ -100,14 +100,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             self?.handleAppProcessing(task as! BGProcessingTask) // Renamed for clarity
         }
         
-        // Re-evaluate if 'fetchIdentifier' is truly needed as a separate BGAppRefreshTaskRequest
-        // BGAppRefreshTask should cover most 'fetch' needs. If it's the same type of task as appRefresh, combine them.
-        // If it's truly a distinct 'fetch' operation, then keep it. For now, assuming appRefresh covers fetch.
-        // BGTaskScheduler.shared.register(forTaskWithIdentifier: fetchIdentifier, using: nil) { task in
-        //     self.handleAppFetch(task as! BGAppRefreshTask)
-        // }
-        
-        
         // Set up notification delegate and register notification categories
         UNUserNotificationCenter.current().delegate = self
         
@@ -559,13 +551,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             task.setTaskCompleted(success: true)
         }
     }
-    
-    // Removed handleAppFetch as BGAppRefreshTask should cover it.
-    // If it's truly a distinct task, it would be similar to handleAppRefresh.
+
     
     // MARK: Notification
     
-    // Did register notifications (no major changes, good)
+    // Did register notifications
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         PreyLogger("didRegisterForRemoteNotificationsWithDeviceToken")
       
