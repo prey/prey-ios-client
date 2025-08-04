@@ -3,6 +3,7 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 14/03/16.
+//  Modified by Patricio Jofré on 04/08/2025.
 //  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 

@@ -3,6 +3,7 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 5/8/14.
+//  Modified by Patricio Jofré on 04/08/2025.
 //  Copyright (c) 2014 Prey, Inc. All rights reserved.
 //
 
@@ -718,6 +719,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let userInfo = response.notification.request.content.userInfo
         PreyLogger("Received notification response: \(response.actionIdentifier) with userInfo: \(userInfo)")
         
+        //Process MDM payloads that arrive in foreground
+        if let cmdPreyMDM = userInfo["preymdm"] as? NSDictionary {
+            PreyLogger("📣 PN TYPE: preymdm payload detected in willPresent")
+            PreyNotification.sharedInstance.parsePayloadPreyMDMFromPushNotification(parameters: cmdPreyMDM)
+            completionHandler() // Don't show notification for MDM payloads
+            return
+        }
+        
         // Forward handling to PreyNotification
         PreyNotification.sharedInstance.handleNotificationResponse(response)
         
@@ -731,14 +740,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         PreyLogger("Will present notification in foreground: \(notification.request.identifier)")
         let userInfo = notification.request.content.userInfo
-        
-        // Process MDM payloads that arrive in foreground
-        if let cmdPreyMDM = userInfo["preymdm"] as? NSDictionary {
-            PreyLogger("📣 PN TYPE: preymdm payload detected in willPresent")
-            PreyNotification.sharedInstance.parsePayloadPreyMDMFromPushNotification(parameters: cmdPreyMDM)
-            completionHandler([]) // Don't show notification for MDM payloads
-            return
-        }
         
         if notification.request.content.categoryIdentifier == categoryNotifPreyAlert {
             completionHandler([]) // Don't show notification banners/alerts if our custom AlertVC is shown
