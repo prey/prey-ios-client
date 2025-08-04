@@ -19,7 +19,88 @@ class PreyModule {
     
     var actionArray = [PreyAction] ()
     
+    // Status device request throttling
+    private static var lastStatusDeviceCallTime: Date?
+    private static var pendingStatusDeviceCallbacks: [(_ isSuccess: Bool) -> Void] = []
+    private static var isStatusDeviceInProgress = false
+    private static let statusDeviceThrottleInterval: TimeInterval = 30 // 30 seconds
+    
     // MARK: Functions
+    
+    // Centralized status device request with throttling
+    func requestStatusDevice(context: String = "unknown", onCompletion: @escaping (_ isSuccess: Bool) -> Void = { _ in }) {
+        let now = Date()
+        
+        // Check if we should throttle this call
+        if let lastCallTime = PreyModule.lastStatusDeviceCallTime,
+           now.timeIntervalSince(lastCallTime) < PreyModule.statusDeviceThrottleInterval {
+            
+            // If there's already a request in progress, queue this callback
+            if PreyModule.isStatusDeviceInProgress {
+                PreyLogger("StatusDevice - Throttled (\(context)): adding callback to pending queue")
+                PreyModule.pendingStatusDeviceCallbacks.append(onCompletion)
+                return
+            }
+            
+            // If not in progress but within throttle time, use last result
+            PreyLogger("StatusDevice - Throttled (\(context)): using cached result from recent call")
+            onCompletion(true) // Assume success for throttled calls
+            return
+        }
+        
+        // If there's already a request in progress, queue this callback
+        if PreyModule.isStatusDeviceInProgress {
+            PreyLogger("StatusDevice - Request in progress (\(context)): adding callback to pending queue")
+            PreyModule.pendingStatusDeviceCallbacks.append(onCompletion)
+            return
+        }
+        
+        // Mark as in progress and update timestamps
+        PreyModule.isStatusDeviceInProgress = true
+        PreyModule.lastStatusDeviceCallTime = now
+        
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
+            PreyLogger("StatusDevice - Error: No API key available")
+            PreyModule.isStatusDeviceInProgress = false
+            onCompletion(false)
+            return
+        }
+        
+        PreyLogger("StatusDevice - Making request (\(context))")
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            username, 
+            password: "x", 
+            params: nil, 
+            messageId: nil, 
+            httpMethod: Method.GET.rawValue, 
+            endPoint: statusDeviceEndpoint, 
+            onCompletion: PreyHTTPResponse.checkResponse(
+                RequestType.statusDevice, 
+                preyAction: nil, 
+                onCompletion: { (isSuccess: Bool) in 
+                    // Mark as no longer in progress
+                    PreyModule.isStatusDeviceInProgress = false
+                    
+                    PreyLogger("StatusDevice - Completed (\(context)): \(isSuccess)")
+                    
+                    // Call the original completion handler
+                    onCompletion(isSuccess)
+                    
+                    // Call all pending callbacks
+                    let callbacks = PreyModule.pendingStatusDeviceCallbacks
+                    PreyModule.pendingStatusDeviceCallbacks.removeAll()
+                    
+                    for callback in callbacks {
+                        callback(isSuccess)
+                    }
+                    
+                    if !callbacks.isEmpty {
+                        PreyLogger("StatusDevice - Completed with \(callbacks.count) pending callbacks")
+                    }
+                }
+            )
+        )
+    }
 
     // Check actionArrayStatus
     func checkActionArrayStatus() {
@@ -34,24 +115,9 @@ class PreyModule {
         }
         PreyLogger("Check actionArrayStatus - App State: \(appStateString)")
         
-        // Always check for pending actions from server
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyLogger("Checking for pending actions from server")
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                username, 
-                password: "x", 
-                params: nil, 
-                messageId: nil, 
-                httpMethod: Method.GET.rawValue, 
-                endPoint: statusDeviceEndpoint, 
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.statusDevice, 
-                    preyAction: nil, 
-                    onCompletion: { (isSuccess: Bool) in 
-                        PreyLogger("Request check status: \(isSuccess)") 
-                    }
-                )
-            )
+        // Always check for pending actions from server using centralized throttled method
+        requestStatusDevice(context: "checkActionArrayStatus") { isSuccess in
+            PreyLogger("Request check status: \(isSuccess)")
         }
         
         // If device is missing, add report action

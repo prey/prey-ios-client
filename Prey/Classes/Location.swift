@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import UIKit
 
-class Location : PreyAction, CLLocationManagerDelegate {
+class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     
     // MARK: Properties
     
@@ -36,11 +36,24 @@ class Location : PreyAction, CLLocationManagerDelegate {
     // Background task manager for better task handling
     private var backgroundTasks: [String: UIBackgroundTaskIdentifier] = [:]
     
+    // Location deduplication to prevent processing same location multiple times
+    private static var lastProcessedLocation: CLLocation?
+    private static var lastProcessedLocationTime: Date?
+    private static let locationDeduplicationThreshold: TimeInterval = 5.0 // 5 seconds
+    private static let locationDistanceThreshold: CLLocationDistance = 10.0 // 10 meters
+    
     // Offline location queue for failed transmissions
     private var offlineLocationQueue: [LocationData] = []
     private let offlineQueue = DispatchQueue(label: "location.offline", qos: .utility)
     
     // MARK: Functions
+    
+    // MARK: LocationDelegate Implementation
+    func didReceiveLocationUpdate(_ location: CLLocation) {
+        PreyLogger("Received location update from DeviceAuth: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+        // Process the location using our existing logic
+        locationReceived(location)
+    }
     
     // Return init if location action don't exist
     class func initLocationAction(withTarget target:kAction, withCommand cmd:kCommand, withOptions opt:NSDictionary?) -> Location? {
@@ -163,6 +176,14 @@ class Location : PreyAction, CLLocationManagerDelegate {
     func startLocationManager()  {
         PreyLogger("Starting location manager with enhanced configuration")
         
+        // Check if DeviceAuth already has a background location manager running
+        if DeviceAuth.sharedInstance.isBackgroundLocationManagerActive() {
+            PreyLogger("Using existing background location manager from DeviceAuth")
+            // Register as delegate to receive location updates from DeviceAuth
+            DeviceAuth.sharedInstance.addLocationDelegate(self)
+            return
+        }
+        
         // End any existing background task first
         if locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
             UIApplication.shared.endBackgroundTask(locationBgTaskId)
@@ -228,6 +249,9 @@ class Location : PreyAction, CLLocationManagerDelegate {
     func stopLocationManager()  {
         PreyLogger("Stop location")
         
+        // Remove ourselves as delegate from DeviceAuth if we were using their location manager
+        DeviceAuth.sharedInstance.removeLocationDelegate(self)
+        
         // Check if location manager is actually running to avoid unnecessary stops
         guard isActive else {
             PreyLogger("Location manager already stopped, skipping")
@@ -268,6 +292,26 @@ class Location : PreyAction, CLLocationManagerDelegate {
     // Location received
     func locationReceived(_ location:CLLocation) {
         PreyLogger("Processing location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+        
+        // Check for duplicate location processing
+        let now = Date()
+        if let lastLocation = Location.lastProcessedLocation,
+           let lastTime = Location.lastProcessedLocationTime {
+            
+            let timeDifference = now.timeIntervalSince(lastTime)
+            let distance = location.distance(from: lastLocation)
+            
+            // Skip if same location processed recently
+            if timeDifference < Location.locationDeduplicationThreshold && 
+               distance < Location.locationDistanceThreshold {
+                PreyLogger("Skipping duplicate location processing - distance: \(distance)m, time: \(timeDifference)s")
+                return
+            }
+        }
+        
+        // Update last processed location tracking
+        Location.lastProcessedLocation = location
+        Location.lastProcessedLocationTime = now
         
         // Create a background task to ensure we have time to send the location
         var bgTask = UIBackgroundTaskIdentifier.invalid
@@ -341,12 +385,8 @@ class Location : PreyAction, CLLocationManagerDelegate {
             dispatchGroup.leave()
         }
         
-        // Get device info
-        dispatchGroup.enter()
-        PreyDevice.infoDevice { isSuccess in
-            PreyLogger("infoDevice isSuccess: \(isSuccess)")
-            dispatchGroup.leave()
-        }
+        // Device info is now handled by scheduled sync tasks to avoid excessive calls
+        // No need to call infoDevice on every location update
         
         // When all requests complete, end the background task
         dispatchGroup.notify(queue: .main) {

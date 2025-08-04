@@ -507,25 +507,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Check device status from server - moved from applicationDidEnterBackground
         dispatchGroup.enter()
-        PreyLogger("Checking device status in background processing")
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                username,
-                password: "x",
-                params: nil,
-                messageId: nil,
-                httpMethod: Method.GET.rawValue,
-                endPoint: statusDeviceEndpoint,
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.statusDevice,
-                    preyAction: nil,
-                    onCompletion: { isSuccess in
-                        PreyLogger("Background processing - status check: \(isSuccess)")
-                        dispatchGroup.leave()
-                    }
-                )
-            )
-        } else {
+        PreyModule.sharedInstance.requestStatusDevice(context: "AppDelegate-backgroundProcessing") { isSuccess in
+            PreyLogger("Background processing - status check: \(isSuccess)")
             dispatchGroup.leave()
         }
         
@@ -840,29 +823,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             dispatchGroup.leave()
         }
         
-        // Also always check device status (this is a duplicate of the first infoDevice call. Consider removing one if redundant.)
+        // Check device status using centralized throttled method
         dispatchGroup.enter()
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                username,
-                password: "x",
-                params: nil,
-                messageId: nil,
-                httpMethod: Method.GET.rawValue,
-                endPoint: statusDeviceEndpoint,
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.statusDevice,
-                    preyAction: nil,
-                    onCompletion: { isSuccess in
-                        PreyLogger("Remote notification status check: \(isSuccess)")
-                        if isSuccess {
-                            wasDataReceived = true
-                        }
-                        dispatchGroup.leave()
-                    }
-                )
-            )
-        } else {
+        PreyModule.sharedInstance.requestStatusDevice(context: "AppDelegate-remoteNotification") { isSuccess in
+            PreyLogger("Remote notification status check: \(isSuccess)")
+            if isSuccess {
+                wasDataReceived = true
+            }
             dispatchGroup.leave()
         }
         

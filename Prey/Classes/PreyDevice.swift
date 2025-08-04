@@ -102,7 +102,43 @@ class PreyDevice {
     private static var infoDeviceRetryCount = [String: Int]()
     private static let maxRetryAttempts = 2
     
+    // Throttling mechanism to prevent excessive infoDevice calls
+    private static var lastInfoDeviceCallTime: Date?
+    private static var pendingInfoDeviceCallbacks: [(_ isSuccess: Bool) -> Void] = []
+    private static var isInfoDeviceInProgress = false
+    private static let infoDeviceThrottleInterval: TimeInterval = 60 // 1 minute
+    
     class func infoDevice(_ onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
+        let now = Date()
+        
+        // Check if we should throttle this call
+        if let lastCallTime = lastInfoDeviceCallTime,
+           now.timeIntervalSince(lastCallTime) < infoDeviceThrottleInterval {
+            
+            // If there's already a request in progress, queue this callback
+            if isInfoDeviceInProgress {
+                PreyLogger("infoDevice - Throttled: adding callback to pending queue")
+                pendingInfoDeviceCallbacks.append(onCompletion)
+                return
+            }
+            
+            // If not in progress but within throttle time, use last result
+            PreyLogger("infoDevice - Throttled: using cached result from recent call")
+            onCompletion(true) // Assume success for throttled calls
+            return
+        }
+        
+        // If there's already a request in progress, queue this callback
+        if isInfoDeviceInProgress {
+            PreyLogger("infoDevice - Request in progress: adding callback to pending queue")
+            pendingInfoDeviceCallbacks.append(onCompletion)
+            return
+        }
+        
+        // Mark as in progress and update timestamps
+        isInfoDeviceInProgress = true
+        lastInfoDeviceCallTime = now
+        
         // Generate a unique request ID for tracking retries
         let requestId = UUID().uuidString
         
@@ -110,7 +146,25 @@ class PreyDevice {
         infoDeviceRetryCount[requestId] = 0
         
         // Call the actual implementation with retry tracking
-        infoDeviceWithRetry(requestId: requestId, onCompletion: onCompletion)
+        infoDeviceWithRetry(requestId: requestId) { isSuccess in
+            // Mark as no longer in progress
+            isInfoDeviceInProgress = false
+            
+            // Call the original completion handler
+            onCompletion(isSuccess)
+            
+            // Call all pending callbacks
+            let callbacks = pendingInfoDeviceCallbacks
+            pendingInfoDeviceCallbacks.removeAll()
+            
+            for callback in callbacks {
+                callback(isSuccess)
+            }
+            
+            if !callbacks.isEmpty {
+                PreyLogger("infoDevice - Completed with \(callbacks.count) pending callbacks")
+            }
+        }
     }
     
     private class func infoDeviceWithRetry(requestId: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
