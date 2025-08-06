@@ -43,8 +43,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     private static let locationDistanceThreshold: CLLocationDistance = 10.0 // 10 meters
     
     // MARK: Constants
-    private static let deviceAuthDetectionTimeThreshold: TimeInterval = 2.0 // seconds
-    private static let deviceAuthCoordinateThreshold: Double = 0.0001 // coordinate precision
     private static let cachedLocationMaxAge: TimeInterval = 300 // 5 minutes
     private static let locationTimeoutDuration: TimeInterval = 30.0 // seconds
     private static let backgroundTaskExtraTime: TimeInterval = 2.0 // seconds
@@ -158,8 +156,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     func sendLastLocation() {
 
         if lastLocation != nil {
-            // Send location to web panel - force update to ensure response even if duplicate
-            locationReceived(lastLocation, forceUpdate: true)
+            // Send location to web panel
+            locationReceived(lastLocation)
         }
     }
     
@@ -225,7 +223,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
                     
                     PreyLogger("Using cached location from shared container")
                     self.lastLocation = location
-                    self.locationReceived(location, forceUpdate: true)
+                    self.locationReceived(location)
                 } else {
                     PreyLogger("Cached location is too old: \(abs(date.timeIntervalSinceNow)) seconds")
                 }
@@ -366,28 +364,12 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     }
     
     // Location received
-    func locationReceived(_ location:CLLocation, forceUpdate: Bool = false) {
+    func locationReceived(_ location:CLLocation) {
         PreyLogger("Processing location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         
-        // Check for duplicate location processing, but allow forced updates (web requests)
         let now = Date()
         
-        if !forceUpdate,
-           let lastLocation = Location.lastProcessedLocation,
-           let lastTime = Location.lastProcessedLocationTime {
-            
-            let timeDifference = now.timeIntervalSince(lastTime)
-            let distance = location.distance(from: lastLocation)
-            
-            // Skip duplicates only for automatic location updates
-            if timeDifference < Location.locationDeduplicationThreshold && 
-               distance < Location.locationDistanceThreshold {
-                PreyLogger("Skipping duplicate location processing - distance: \(distance)m, time: \(timeDifference)s")
-                return
-            }
-        }
-        
-        // Update last processed location tracking
+        // Update last processed location tracking for reference
         Location.lastProcessedLocation = location
         Location.lastProcessedLocationTime = now
         
@@ -403,76 +385,29 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         
         PreyLogger("Started location sending background task: \(bgTask.rawValue)")
  
-        // Check if location was already processed by DeviceAuth (exists in shared container with same coordinates)
-        var isFromDeviceAuth = false
-        if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
-           let cachedLocation = userDefaults.dictionary(forKey: "lastLocation"),
-           let cachedLat = cachedLocation["lat"] as? Double,
-           let cachedLng = cachedLocation["lng"] as? Double,
-           let cachedTimestamp = cachedLocation["timestamp"] as? TimeInterval {
-            
-            // Check if this is the same location DeviceAuth just saved
-            let timeDiff = abs(Date().timeIntervalSince1970 - cachedTimestamp)
-            let latDiff = abs(cachedLat - location.coordinate.latitude)
-            let lngDiff = abs(cachedLng - location.coordinate.longitude)
-            
-            if timeDiff < Location.deviceAuthDetectionTimeThreshold && 
-               latDiff < Location.deviceAuthCoordinateThreshold && 
-               lngDiff < Location.deviceAuthCoordinateThreshold {
-                isFromDeviceAuth = true
-                PreyLogger("Location detected as coming from DeviceAuth - using cached data to avoid duplication")
-            }
-        }
+        // Create location params - always send fresh location data
+        let params:[String: Any] = [
+            kLocation.lng.rawValue      : location.coordinate.longitude,
+            kLocation.lat.rawValue      : location.coordinate.latitude,
+            kLocation.alt.rawValue      : location.altitude,
+            kLocation.accuracy.rawValue : location.horizontalAccuracy,
+            kLocation.method.rawValue   : "native"
+        ]
         
-        let params:[String: Any]
-        
-        if isFromDeviceAuth {
-            // Use the data from shared container to avoid duplication
-            if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
-               let cachedLocation = userDefaults.dictionary(forKey: "lastLocation") {
-                params = [
-                    kLocation.lng.rawValue      : cachedLocation["lng"] ?? location.coordinate.longitude,
-                    kLocation.lat.rawValue      : cachedLocation["lat"] ?? location.coordinate.latitude,
-                    kLocation.alt.rawValue      : cachedLocation["alt"] ?? location.altitude,
-                    kLocation.accuracy.rawValue : cachedLocation["accuracy"] ?? location.horizontalAccuracy,
-                    kLocation.method.rawValue   : cachedLocation["method"] ?? "native"
-                ]
-                PreyLogger("Using cached location data from DeviceAuth")
-            } else {
-                // Fallback to creating new params
-                params = [
-                    kLocation.lng.rawValue      : location.coordinate.longitude,
-                    kLocation.lat.rawValue      : location.coordinate.latitude,
-                    kLocation.alt.rawValue      : location.altitude,
-                    kLocation.accuracy.rawValue : location.horizontalAccuracy,
-                    kLocation.method.rawValue   : "native"
-                ]
-            }
-        } else {
-            // Create new params and save to shared container
-            params = [
-                kLocation.lng.rawValue      : location.coordinate.longitude,
-                kLocation.lat.rawValue      : location.coordinate.latitude,
-                kLocation.alt.rawValue      : location.altitude,
-                kLocation.accuracy.rawValue : location.horizontalAccuracy,
-                kLocation.method.rawValue   : "native"
+        // Save location to shared container
+        if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios") {
+            let locationDict: [String: Any] = [
+                "lng": location.coordinate.longitude,
+                "lat": location.coordinate.latitude,
+                "alt": location.altitude,
+                "accuracy": location.horizontalAccuracy,
+                "method": "native",
+                "timestamp": Date().timeIntervalSince1970
             ]
             
-            // Save location to shared container
-            if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios") {
-                let locationDict: [String: Any] = [
-                    "lng": location.coordinate.longitude,
-                    "lat": location.coordinate.latitude,
-                    "alt": location.altitude,
-                    "accuracy": location.horizontalAccuracy,
-                    "method": "native",
-                    "timestamp": Date().timeIntervalSince1970
-                ]
-                
-                userDefaults.set(locationDict, forKey: "lastLocation")
-                userDefaults.synchronize()
-                PreyLogger("Saved location to shared container")
-            }
+            userDefaults.set(locationDict, forKey: "lastLocation")
+            userDefaults.synchronize()
+            PreyLogger("Saved location to shared container")
         }
         
         let locParam:[String: Any] = [kAction.location.rawValue : params, kDataLocation.skip_toast.rawValue : (index > 0)]
