@@ -476,6 +476,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("Final check for actions before completing background task")
             PreyModule.sharedInstance.checkActionArrayStatus()
             
+            // Check if daily location update is needed during background refresh
+            Location.checkDailyLocationUpdate()
+            
             PreyLogger("Completing background refresh task with success: true")
             task.setTaskCompleted(success: true)
             // No `stopBackgroundTask()` here, as it's for UIBackgroundTaskIdentifier.
@@ -558,6 +561,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Perform immediate sync with server
         syncWithServer()
+        
+        // Check if daily location update is needed when app becomes active
+        Location.checkDailyLocationUpdate()
     }
     
     // MARK: Foreground API sync

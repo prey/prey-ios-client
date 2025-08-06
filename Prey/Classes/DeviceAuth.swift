@@ -263,6 +263,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:statusDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.statusDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request check status") }))
         }
+        
+        // Check if daily location update is needed
+        Location.checkDailyLocationUpdate()
     }
 
     // MARK: CLLocationManagerDelegate
@@ -527,6 +530,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
                 PreyLogger("Background check status complete: \(isSuccess)")
                 operationGroup.leave()
             }
+            
+            // Check if daily location update is needed during background processing
+            Location.checkDailyLocationUpdate()
         } else {
             operationGroup.enter()
             operationGroup.leave()

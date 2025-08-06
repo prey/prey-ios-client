@@ -58,6 +58,10 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     private static let locationRetryDelay: TimeInterval = 2.0 // seconds
     private static let maxRetryDelay: TimeInterval = 60.0 // seconds
     
+    // Daily location check constants
+    private static let dailyLocationInterval: TimeInterval = 24 * 60 * 60 // 24 hours - parametrizable
+    private static let dailyLocationCheckKey = "PreyLastDailyLocationCheck"
+    
     // Offline location queue for failed transmissions
     private var offlineLocationQueue: [LocationData] = []
     private let offlineQueue = DispatchQueue(label: "location.offline", qos: .utility)
@@ -69,6 +73,62 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         PreyLogger("Received location update from DeviceAuth: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         // Process the location using our existing logic
         locationReceived(location)
+    }
+    
+    // MARK: Daily Location Check Implementation
+    
+    // Check if daily location update is needed (similar to DeviceAuth pattern)
+    class func checkDailyLocationUpdate() {
+        let now = Date()
+        let lastCheckTime = UserDefaults.standard.object(forKey: Location.dailyLocationCheckKey) as? Date
+        
+        // If never checked or more than dailyLocationInterval has passed
+        let shouldCheck = lastCheckTime == nil || now.timeIntervalSince(lastCheckTime!) >= Location.dailyLocationInterval
+        
+        if shouldCheck {
+            PreyLogger("Daily location check needed - last check: \(String(describing: lastCheckTime))")
+            
+            // Check if we have valid API key (following DeviceAuth pattern)
+            guard let username = PreyConfig.sharedInstance.userApiKey else {
+                PreyLogger("Cannot perform daily location check - no API key")
+                return
+            }
+            
+            // Update last check time immediately to prevent duplicate checks
+            UserDefaults.standard.set(now, forKey: Location.dailyLocationCheckKey)
+            UserDefaults.standard.synchronize()
+            
+            // Create a location action to ensure location is sent
+            let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+            
+            // Check if there's already a location action in the array
+            var hasLocationAction = false
+            for action in PreyModule.sharedInstance.actionArray {
+                if action.target == kAction.location {
+                    hasLocationAction = true
+                    break
+                }
+            }
+            
+            if !hasLocationAction {
+                PreyLogger("Adding daily location action")
+                PreyModule.sharedInstance.actionArray.append(locationAction)
+            }
+            
+            // Run the location action to get current location
+            PreyModule.sharedInstance.runSingleAction(locationAction)
+            
+            PreyLogger("Daily location check initiated")
+        } else {
+            let timeUntilNext = Location.dailyLocationInterval - now.timeIntervalSince(lastCheckTime!)
+            PreyLogger("Daily location check not needed - next check in: \(timeUntilNext/3600) hours")
+        }
+    }
+    
+    // Get configured daily location interval (allows for future server configuration)
+    class func getDailyLocationInterval() -> TimeInterval {
+        // Could be extended to read from server config or PreyConfig
+        return dailyLocationInterval
     }
     
     // Return init if location action don't exist
