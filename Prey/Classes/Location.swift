@@ -42,6 +42,22 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     private static let locationDeduplicationThreshold: TimeInterval = 5.0 // 5 seconds
     private static let locationDistanceThreshold: CLLocationDistance = 10.0 // 10 meters
     
+    // MARK: Constants
+    private static let deviceAuthDetectionTimeThreshold: TimeInterval = 2.0 // seconds
+    private static let deviceAuthCoordinateThreshold: Double = 0.0001 // coordinate precision
+    private static let cachedLocationMaxAge: TimeInterval = 300 // 5 minutes
+    private static let locationTimeoutDuration: TimeInterval = 30.0 // seconds
+    private static let backgroundTaskExtraTime: TimeInterval = 2.0 // seconds
+    private static let offlineQueueRetryDelay: TimeInterval = 1.0 // seconds
+    private static let offlineQueueMaxSize: Int = 50
+    private static let maxLocationAccuracy: CLLocationAccuracy = 200.0 // meters
+    private static let significantMovementDistance: CLLocationDistance = 100.0 // meters
+    private static let maxReasonableSpeedMps: Double = 100.0 // m/s (360 km/h)
+    private static let teleportationDistanceThreshold: CLLocationDistance = 1000.0 // meters
+    private static let teleportationTimeThreshold: TimeInterval = 60.0 // seconds
+    private static let locationRetryDelay: TimeInterval = 2.0 // seconds
+    private static let maxRetryDelay: TimeInterval = 60.0 // seconds
+    
     // Offline location queue for failed transmissions
     private var offlineLocationQueue: [LocationData] = []
     private let offlineQueue = DispatchQueue(label: "location.offline", qos: .utility)
@@ -117,8 +133,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         // Start the location manager
         startLocationManager()
         
-        // Schedule get location with timeout - 30 seconds
-        Timer.scheduledTimer(timeInterval: 30.0, target:self, selector:#selector(stopLocationTimer(_:)), userInfo:nil, repeats:false)
+        // Schedule get location with timeout
+        Timer.scheduledTimer(timeInterval: Location.locationTimeoutDuration, target:self, selector:#selector(stopLocationTimer(_:)), userInfo:nil, repeats:false)
         
         
         // Check for cached location in shared container
@@ -137,8 +153,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
                 let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
                 let date = Date(timeIntervalSince1970: timestamp)
                 
-                // Only use cached location if it's recent (within last 5 minutes)
-                if abs(date.timeIntervalSinceNow) < 300 {
+                // Only use cached location if it's recent
+                if abs(date.timeIntervalSinceNow) < Location.cachedLocationMaxAge {
                     let location = CLLocation(
                         coordinate: coordinate,
                         altitude: altitude,
@@ -327,28 +343,77 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         
         PreyLogger("Started location sending background task: \(bgTask.rawValue)")
  
-        // Save location to shared container if available
-        if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios") {
-            let locationDict: [String: Any] = [
-                "lng": location.coordinate.longitude,
-                "lat": location.coordinate.latitude,
-                "alt": location.altitude,
-                "accuracy": location.horizontalAccuracy,
-                "method": "native",
-                "timestamp": Date().timeIntervalSince1970
-            ]
+        // Check if location was already processed by DeviceAuth (exists in shared container with same coordinates)
+        var isFromDeviceAuth = false
+        if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
+           let cachedLocation = userDefaults.dictionary(forKey: "lastLocation"),
+           let cachedLat = cachedLocation["lat"] as? Double,
+           let cachedLng = cachedLocation["lng"] as? Double,
+           let cachedTimestamp = cachedLocation["timestamp"] as? TimeInterval {
             
-            userDefaults.set(locationDict, forKey: "lastLocation")
-            userDefaults.synchronize()
-            PreyLogger("Saved location to shared container")
+            // Check if this is the same location DeviceAuth just saved
+            let timeDiff = abs(Date().timeIntervalSince1970 - cachedTimestamp)
+            let latDiff = abs(cachedLat - location.coordinate.latitude)
+            let lngDiff = abs(cachedLng - location.coordinate.longitude)
+            
+            if timeDiff < Location.deviceAuthDetectionTimeThreshold && 
+               latDiff < Location.deviceAuthCoordinateThreshold && 
+               lngDiff < Location.deviceAuthCoordinateThreshold {
+                isFromDeviceAuth = true
+                PreyLogger("Location detected as coming from DeviceAuth - using cached data to avoid duplication")
+            }
         }
         
-        let params:[String: Any] = [
-            kLocation.lng.rawValue      : location.coordinate.longitude,
-            kLocation.lat.rawValue      : location.coordinate.latitude,
-            kLocation.alt.rawValue      : location.altitude,
-            kLocation.accuracy.rawValue : location.horizontalAccuracy,
-            kLocation.method.rawValue   : "native"]
+        let params:[String: Any]
+        
+        if isFromDeviceAuth {
+            // Use the data from shared container to avoid duplication
+            if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
+               let cachedLocation = userDefaults.dictionary(forKey: "lastLocation") {
+                params = [
+                    kLocation.lng.rawValue      : cachedLocation["lng"] ?? location.coordinate.longitude,
+                    kLocation.lat.rawValue      : cachedLocation["lat"] ?? location.coordinate.latitude,
+                    kLocation.alt.rawValue      : cachedLocation["alt"] ?? location.altitude,
+                    kLocation.accuracy.rawValue : cachedLocation["accuracy"] ?? location.horizontalAccuracy,
+                    kLocation.method.rawValue   : cachedLocation["method"] ?? "native"
+                ]
+                PreyLogger("Using cached location data from DeviceAuth")
+            } else {
+                // Fallback to creating new params
+                params = [
+                    kLocation.lng.rawValue      : location.coordinate.longitude,
+                    kLocation.lat.rawValue      : location.coordinate.latitude,
+                    kLocation.alt.rawValue      : location.altitude,
+                    kLocation.accuracy.rawValue : location.horizontalAccuracy,
+                    kLocation.method.rawValue   : "native"
+                ]
+            }
+        } else {
+            // Create new params and save to shared container
+            params = [
+                kLocation.lng.rawValue      : location.coordinate.longitude,
+                kLocation.lat.rawValue      : location.coordinate.latitude,
+                kLocation.alt.rawValue      : location.altitude,
+                kLocation.accuracy.rawValue : location.horizontalAccuracy,
+                kLocation.method.rawValue   : "native"
+            ]
+            
+            // Save location to shared container
+            if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios") {
+                let locationDict: [String: Any] = [
+                    "lng": location.coordinate.longitude,
+                    "lat": location.coordinate.latitude,
+                    "alt": location.altitude,
+                    "accuracy": location.horizontalAccuracy,
+                    "method": "native",
+                    "timestamp": Date().timeIntervalSince1970
+                ]
+                
+                userDefaults.set(locationDict, forKey: "lastLocation")
+                userDefaults.synchronize()
+                PreyLogger("Saved location to shared container")
+            }
+        }
         
         let locParam:[String: Any] = [kAction.location.rawValue : params, kDataLocation.skip_toast.rawValue : (index > 0)]
         
@@ -393,7 +458,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         // When all requests complete, end the background task
         dispatchGroup.notify(queue: .main) {
             // Give a little extra time for any pending network operations
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Location.backgroundTaskExtraTime) {
                 if bgTask != UIBackgroundTaskIdentifier.invalid {
                     UIApplication.shared.endBackgroundTask(bgTask)
                     bgTask = UIBackgroundTaskIdentifier.invalid
@@ -447,7 +512,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
             self.offlineLocationQueue.append(locationData)
             
             // Limit queue size to prevent memory issues
-            if self.offlineLocationQueue.count > 50 {
+            if self.offlineLocationQueue.count > Location.offlineQueueMaxSize {
                 self.offlineLocationQueue.removeFirst()
                 PreyLogger("Offline location queue full - removed oldest entry")
             }
@@ -463,23 +528,35 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         PreyLogger("Processing \(offlineLocationQueue.count) queued offline locations")
         
         offlineQueue.async {
-            for locationData in self.offlineLocationQueue {
-                // Try to send each queued location
-                DispatchQueue.main.async {
-                    self.sendDataWithCallback(locationData.data, toEndpoint: locationData.endpoint) { success in
-                        if success {
-                            self.offlineQueue.async {
-                                if let index = self.offlineLocationQueue.firstIndex(where: { $0.id == locationData.id }) {
-                                    self.offlineLocationQueue.remove(at: index)
-                                    PreyLogger("Successfully sent queued location data")
-                                }
-                            }
+            self.processOfflineQueueRecursively(locations: Array(self.offlineLocationQueue), index: 0)
+        }
+    }
+    
+    // Process offline queue recursively with proper async delays
+    private func processOfflineQueueRecursively(locations: [LocationData], index: Int) {
+        guard index < locations.count else { 
+            PreyLogger("Finished processing offline location queue")
+            return 
+        }
+        
+        let locationData = locations[index]
+        
+        // Try to send each queued location
+        DispatchQueue.main.async {
+            self.sendDataWithCallback(locationData.data, toEndpoint: locationData.endpoint) { success in
+                if success {
+                    self.offlineQueue.async {
+                        if let removeIndex = self.offlineLocationQueue.firstIndex(where: { $0.id == locationData.id }) {
+                            self.offlineLocationQueue.remove(at: removeIndex)
+                            PreyLogger("Successfully sent queued location data")
                         }
                     }
                 }
                 
-                // Small delay between retries to avoid overwhelming the server
-                Thread.sleep(forTimeInterval: 1.0)
+                // Schedule next item with delay to avoid overwhelming the server
+                DispatchQueue.main.asyncAfter(deadline: .now() + Location.offlineQueueRetryDelay) {
+                    self.processOfflineQueueRecursively(locations: locations, index: index + 1)
+                }
             }
         }
     }
@@ -516,7 +593,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         
         // Compare accuracy or check if significant movement occurred
         let distance = currentLocation.distance(from: lastLocation)
-        if currentLocation.horizontalAccuracy < lastLocation.horizontalAccuracy || distance > 100 {
+        if currentLocation.horizontalAccuracy < lastLocation.horizontalAccuracy || distance > Location.significantMovementDistance {
             PreyLogger("Sending updated location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude), distance: \(distance)m")
             locationReceived(currentLocation)
         }
@@ -575,14 +652,20 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     // Enhanced location quality validation
     private func validateLocationQuality(_ location: CLLocation) -> Bool {
         // Check basic validity
-        guard location.horizontalAccuracy > 0 && location.horizontalAccuracy < 200 else {
+        guard location.horizontalAccuracy > 0 && location.horizontalAccuracy < Location.maxLocationAccuracy else {
             PreyLogger("Location accuracy out of bounds: \(location.horizontalAccuracy)")
             return false
         }
         
-        // Check for null island coordinates (0,0)
-        guard location.coordinate.longitude != 0 || location.coordinate.latitude != 0 else {
-            PreyLogger("Invalid null coordinates detected")
+        // Check for null island coordinates (0,0) and invalid coordinate ranges
+        guard CLLocationCoordinate2DIsValid(location.coordinate) else {
+            PreyLogger("Invalid coordinates detected")
+            return false
+        }
+        
+        // Check for null island coordinates (0,0) - both coordinates must be exactly zero to be invalid
+        if location.coordinate.longitude == 0 && location.coordinate.latitude == 0 {
+            PreyLogger("Invalid null island coordinates (0,0) detected")
             return false
         }
         
@@ -626,16 +709,15 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         }
         
         let speed = distance / timeInterval // meters per second
-        let maxReasonableSpeed: Double = 100 // 100 m/s = 360 km/h
         
-        if speed > maxReasonableSpeed {
+        if speed > Location.maxReasonableSpeedMps {
             PreyLogger("⚠️ SECURITY ALERT: Impossible speed detected: \(speed) m/s (\(speed * 3.6) km/h) - potential GPS spoofing")
             // For security app, we still want to log this but maybe with lower confidence
             return false
         }
         
         // Additional validation: check for teleportation (large distance, short time)
-        if distance > 1000 && timeInterval < 60 {
+        if distance > Location.teleportationDistanceThreshold && timeInterval < Location.teleportationTimeThreshold {
             PreyLogger("⚠️ SECURITY ALERT: Potential teleportation detected: \(distance)m in \(timeInterval)s")
             return false
         }
@@ -718,7 +800,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         
         // Restart location updates
         locManager.stopUpdatingLocation()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Location.locationRetryDelay) {
             self.locManager.startUpdatingLocation()
         }
     }
@@ -731,7 +813,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         }
         
         retryCount += 1
-        let retryDelay = min(pow(2.0, Double(retryCount)), 60.0) // Exponential backoff, max 60s
+        let retryDelay = min(pow(2.0, Double(retryCount)), Location.maxRetryDelay) // Exponential backoff
         
         PreyLogger("Scheduling location retry in \(retryDelay) seconds (attempt \(retryCount)/\(maxRetryCount))")
         
