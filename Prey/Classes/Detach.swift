@@ -37,7 +37,17 @@ class Detach: PreyAction, UIActionSheetDelegate {
         // check when report active
         PreyConfig.sharedInstance.resetValues()
 
-        guard UIApplication.shared.applicationState != .background else {
+        // Fix: Check app state on main thread to avoid Main Thread Checker warning
+        var isAppInBackground = false
+        if Thread.isMainThread {
+            isAppInBackground = UIApplication.shared.applicationState == .background
+        } else {
+            DispatchQueue.main.sync {
+                isAppInBackground = UIApplication.shared.applicationState == .background
+            }
+        }
+        
+        guard !isAppInBackground else {
             PreyLogger("App in background")
             return
         }

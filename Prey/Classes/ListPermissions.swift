@@ -13,7 +13,7 @@ import UserNotifications
 import Photos
 import UIKit
 
-class ListPermissions : PreyAction {
+class ListPermissions : PreyAction, @unchecked Sendable {
     
     // MARK: Properties
     
@@ -54,6 +54,7 @@ class ListPermissions : PreyAction {
                 case PHAuthorizationStatus.restricted:
                     photos=false;
                 }
+                
                 //send listPermissions
                 let permissionParam:[String: Any] = [
                     kPermission.location.rawValue : location,
@@ -63,10 +64,10 @@ class ListPermissions : PreyAction {
                     kPermission.notification.rawValue : notification,
                     kPermission.photos.rawValue : photos]
                 let params:[String: Any] = [
-                    kGeofence.INFO.rawValue : permissionParam,
-                    kGeofence.NAME.rawValue : "list_permission"]
+                    kEvent.info.rawValue : permissionParam,
+                    kEvent.name.rawValue : "list_permission"]
                 PreyLogger("listPermissions\(params)")
-                GeofencingManager.sharedInstance.sendNotifyToPanel(params,toEndpoint:eventsDeviceEndpoint);
+                self.sendData(params, toEndpoint: eventsDeviceEndpoint)
                 //send stop list_permissions
                 let paramsStop = self.getParamsTo(kAction.list_permissions.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
                 self.sendData(paramsStop, toEndpoint: responseDeviceEndpoint)

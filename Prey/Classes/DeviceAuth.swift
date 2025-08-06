@@ -13,6 +13,11 @@ import UserNotifications
 import Photos
 import UIKit
 
+// Protocol for location delegates to receive location updates
+protocol LocationDelegate: AnyObject {
+    func didReceiveLocationUpdate(_ location: CLLocation)
+}
+
 class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
 
     // MARK: Singleton
@@ -60,8 +65,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     func checkLocation() -> Bool {
         var locationAuth = false
         
+        // Use instance method to avoid main thread blocking
         if CLLocationManager.locationServicesEnabled() {
-            let status = CLLocationManager.authorizationStatus()
+            let status = authLocation.authorizationStatus
             
             if status == .notDetermined {
                 authLocation.requestAlwaysAuthorization()
@@ -275,6 +281,34 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     private static var lastLocationSentTime: Date?
     private static var lastActionCheckTime: Date?
     
+    // Location delegates for consolidated location management
+    private var locationDelegates: [LocationDelegate] = []
+    
+    // MARK: Location Delegate Management
+    
+    func isBackgroundLocationManagerActive() -> Bool {
+        return DeviceAuth.backgroundLocationManager != nil && DeviceAuth.isBackgroundLocationConfigured
+    }
+    
+    func addLocationDelegate(_ delegate: LocationDelegate) {
+        // Avoid duplicate delegates
+        if !locationDelegates.contains(where: { $0 === delegate }) {
+            locationDelegates.append(delegate)
+            PreyLogger("Added location delegate")
+        }
+    }
+    
+    func removeLocationDelegate(_ delegate: LocationDelegate) {
+        locationDelegates.removeAll { $0 === delegate }
+        PreyLogger("Removed location delegate")
+    }
+    
+    private func notifyLocationDelegates(_ location: CLLocation) {
+        for delegate in locationDelegates {
+            delegate.didReceiveLocationUpdate(location)
+        }
+    }
+    
     // Add a method to ensure background location is properly configured
     func ensureBackgroundLocationIsConfigured() {
         // Don't reconfigure if we've done it recently (within 60 seconds)
@@ -402,6 +436,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         
         PreyLogger("Background location manager received location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         
+        // Notify any registered location delegates
+        notifyLocationDelegates(location)
+        
         // Create a background task to ensure we have time to process
         var bgTask = UIBackgroundTaskIdentifier.invalid
         bgTask = UIApplication.shared.beginBackgroundTask {
@@ -486,22 +523,10 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             
             // Only check device status when we check actions
             operationGroup.enter()
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                username,
-                password: "x",
-                params: nil,
-                messageId: nil,
-                httpMethod: Method.GET.rawValue,
-                endPoint: statusDeviceEndpoint,
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.statusDevice,
-                    preyAction: nil,
-                    onCompletion: { isSuccess in
-                        PreyLogger("Background check status complete: \(isSuccess)")
-                        operationGroup.leave()
-                    }
-                )
-            )
+            PreyModule.sharedInstance.requestStatusDevice(context: "DeviceAuth-backgroundLocation") { isSuccess in
+                PreyLogger("Background check status complete: \(isSuccess)")
+                operationGroup.leave()
+            }
         } else {
             operationGroup.enter()
             operationGroup.leave()

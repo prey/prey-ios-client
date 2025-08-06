@@ -52,35 +52,6 @@ class PreyCoreData {
     
     // MARK: Functions
     
-    // Get current geofence zones
-    func getCurrentGeofenceZones() -> [GeofenceZones] {
-    
-        var fetchedObjects  = [GeofenceZones]()
-        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest()
-        
-        guard let entity = NSEntityDescription.entity(forEntityName: "GeofenceZones", in:managedObjectContext) else {
-            return fetchedObjects
-        }
-        
-        fetchRequest.entity = entity
-        
-        do {
-            if let context = managedObjectContext {
-                fetchedObjects = try context.fetch(fetchRequest) as! [GeofenceZones]
-            }
-        } catch let error as NSError {
-            PreyLogger("CoreData error: \(error.localizedDescription)")
-        }
-        
-        return fetchedObjects
-    }
-    
-    // Check Geofence Active
-    func isGeofenceActive() -> Bool {
-        let fetchedObjects = getCurrentGeofenceZones()
-        return fetchedObjects.count > 0 ? true : false
-    }
-    
     // Get current triggers
     func getCurrentTriggers() -> [Triggers] {
         

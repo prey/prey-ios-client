@@ -19,30 +19,105 @@ class PreyModule {
     
     var actionArray = [PreyAction] ()
     
+    // Status device request throttling
+    private static var lastStatusDeviceCallTime: Date?
+    private static var pendingStatusDeviceCallbacks: [(_ isSuccess: Bool) -> Void] = []
+    private static var isStatusDeviceInProgress = false
+    private static let statusDeviceThrottleInterval: TimeInterval = 30 // 30 seconds
+    
     // MARK: Functions
+    
+    // Centralized status device request with throttling
+    func requestStatusDevice(context: String = "unknown", onCompletion: @escaping (_ isSuccess: Bool) -> Void = { _ in }) {
+        let now = Date()
+        
+        // Check if we should throttle this call
+        if let lastCallTime = PreyModule.lastStatusDeviceCallTime,
+           now.timeIntervalSince(lastCallTime) < PreyModule.statusDeviceThrottleInterval {
+            
+            // If there's already a request in progress, queue this callback
+            if PreyModule.isStatusDeviceInProgress {
+                PreyLogger("StatusDevice - Throttled (\(context)): adding callback to pending queue")
+                PreyModule.pendingStatusDeviceCallbacks.append(onCompletion)
+                return
+            }
+            
+            // If not in progress but within throttle time, use last result
+            PreyLogger("StatusDevice - Throttled (\(context)): using cached result from recent call")
+            onCompletion(true) // Assume success for throttled calls
+            return
+        }
+        
+        // If there's already a request in progress, queue this callback
+        if PreyModule.isStatusDeviceInProgress {
+            PreyLogger("StatusDevice - Request in progress (\(context)): adding callback to pending queue")
+            PreyModule.pendingStatusDeviceCallbacks.append(onCompletion)
+            return
+        }
+        
+        // Mark as in progress and update timestamps
+        PreyModule.isStatusDeviceInProgress = true
+        PreyModule.lastStatusDeviceCallTime = now
+        
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
+            PreyLogger("StatusDevice - Error: No API key available")
+            PreyModule.isStatusDeviceInProgress = false
+            onCompletion(false)
+            return
+        }
+        
+        PreyLogger("StatusDevice - Making request (\(context))")
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            username, 
+            password: "x", 
+            params: nil, 
+            messageId: nil, 
+            httpMethod: Method.GET.rawValue, 
+            endPoint: statusDeviceEndpoint, 
+            onCompletion: PreyHTTPResponse.checkResponse(
+                RequestType.statusDevice, 
+                preyAction: nil, 
+                onCompletion: { (isSuccess: Bool) in 
+                    // Mark as no longer in progress
+                    PreyModule.isStatusDeviceInProgress = false
+                    
+                    PreyLogger("StatusDevice - Completed (\(context)): \(isSuccess)")
+                    
+                    // Call the original completion handler
+                    onCompletion(isSuccess)
+                    
+                    // Call all pending callbacks
+                    let callbacks = PreyModule.pendingStatusDeviceCallbacks
+                    PreyModule.pendingStatusDeviceCallbacks.removeAll()
+                    
+                    for callback in callbacks {
+                        callback(isSuccess)
+                    }
+                    
+                    if !callbacks.isEmpty {
+                        PreyLogger("StatusDevice - Completed with \(callbacks.count) pending callbacks")
+                    }
+                }
+            )
+        )
+    }
 
     // Check actionArrayStatus
     func checkActionArrayStatus() {
-        PreyLogger("Check actionArrayStatus - App State: \(UIApplication.shared.applicationState == .background ? "Background" : "Foreground")")
+        // Fix: Check app state on main thread to avoid Main Thread Checker warning
+        var appStateString = "Unknown"
+        if Thread.isMainThread {
+            appStateString = UIApplication.shared.applicationState == .background ? "Background" : "Foreground"
+        } else {
+            DispatchQueue.main.sync {
+                appStateString = UIApplication.shared.applicationState == .background ? "Background" : "Foreground"
+            }
+        }
+        PreyLogger("Check actionArrayStatus - App State: \(appStateString)")
         
-        // Always check for pending actions from server
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyLogger("Checking for pending actions from server")
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                username, 
-                password: "x", 
-                params: nil, 
-                messageId: nil, 
-                httpMethod: Method.GET.rawValue, 
-                endPoint: statusDeviceEndpoint, 
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.statusDevice, 
-                    preyAction: nil, 
-                    onCompletion: { (isSuccess: Bool) in 
-                        PreyLogger("Request check status: \(isSuccess)") 
-                    }
-                )
-            )
+        // Always check for pending actions from server using centralized throttled method
+        requestStatusDevice(context: "checkActionArrayStatus") { isSuccess in
+            PreyLogger("Request check status: \(isSuccess)")
         }
         
         // If device is missing, add report action
@@ -72,7 +147,17 @@ class PreyModule {
             }
             
             // If no location action exists, add one for background updates
-            if !hasLocationAction && UIApplication.shared.applicationState == .background {
+            // Fix: Check app state on main thread to avoid Main Thread Checker warning
+            var isAppInBackground = false
+            if Thread.isMainThread {
+                isAppInBackground = UIApplication.shared.applicationState == .background
+            } else {
+                DispatchQueue.main.sync {
+                    isAppInBackground = UIApplication.shared.applicationState == .background
+                }
+            }
+            
+            if !hasLocationAction && isAppInBackground {
                 let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
                 actionArray.append(locationAction)
                 PreyLogger("Added background location action")
@@ -175,6 +260,14 @@ class PreyModule {
         // Action Options
         let actionOptions: NSDictionary? = jsonDict.object(forKey: kInstruction.options.rawValue) as? NSDictionary
 
+        // Check if action already exists to prevent duplicates
+        for existingAction in actionArray {
+            if existingAction.target == actionName && existingAction.command == actionCmd {
+                PreyLogger("Action already exists: \(actionName.rawValue) with command: \(actionCmd.rawValue)")
+                return
+            }
+        }
+
         // Add new Prey Action
         if let action:PreyAction = PreyAction.newAction(withName: actionName, withCommand: actionCmd, withOptions: actionOptions) {
             PreyLogger("Action added")
@@ -199,13 +292,9 @@ class PreyModule {
     
     // Run action
     func runAction() {
-        // Skip if already running actions or ran too recently (within 10 seconds)
-        let shouldRunActions = !PreyModule.isRunningActions && 
-                              (PreyModule.lastActionRunTime == nil || 
-                              Date().timeIntervalSince(PreyModule.lastActionRunTime!) > 10)
-        
-        if !shouldRunActions {
-            // Don't log anything here to reduce spam
+        // Prevent multiple simultaneous calls
+        if PreyModule.isRunningActions {
+            PreyLogger("PreyModule: Already running actions, ignoring duplicate call")
             return
         }
         
@@ -213,7 +302,7 @@ class PreyModule {
         PreyModule.isRunningActions = true
         PreyModule.lastActionRunTime = Date()
         
-        PreyLogger("Running actions - count: \(actionArray.count)")
+        PreyLogger("PreyModule: Running actions - count: \(actionArray.count)")
         
         // Create a background task to ensure we have time to process actions
         var bgTask = UIBackgroundTaskIdentifier.invalid
@@ -221,12 +310,12 @@ class PreyModule {
             if bgTask != UIBackgroundTaskIdentifier.invalid {
                 UIApplication.shared.endBackgroundTask(bgTask)
                 bgTask = UIBackgroundTaskIdentifier.invalid
-                PreyLogger("Background task for actions ended due to expiration")
+                PreyLogger("PreyModule: Background task for actions ended due to expiration")
                 PreyModule.isRunningActions = false
             }
         }
         
-        PreyLogger("Started background task for actions: \(bgTask.rawValue)")
+        PreyLogger("PreyModule: Started background task for actions: \(bgTask.rawValue)")
 
         // Create a dispatch group to track completion of all actions
         let actionGroup = DispatchGroup()
@@ -234,7 +323,7 @@ class PreyModule {
         for action in actionArray {
             // Check selector
             if (action.responds(to: NSSelectorFromString(action.command.rawValue)) && !action.isActive) {
-                PreyLogger("Running action: \(action.target.rawValue) with command: \(action.command.rawValue)")
+                PreyLogger("PreyModule: Running action: \(action.target.rawValue) with command: \(action.command.rawValue)")
                 
                 // Enter dispatch group
                 actionGroup.enter()
@@ -249,14 +338,24 @@ class PreyModule {
                     }
                 }
             } else if action.isActive {
-                PreyLogger("Action already active: \(action.target.rawValue)")
+                PreyLogger("PreyModule: Action already active: \(action.target.rawValue)")
             } else {
-                PreyLogger("Action doesn't respond to selector: \(action.command.rawValue)")
+                PreyLogger("PreyModule: Action doesn't respond to selector: \(action.command.rawValue)")
             }
         }
         
         // If we're in the background, make sure location services are running but only if we have actions
-        if UIApplication.shared.applicationState == .background && !actionArray.isEmpty {
+        // Fix: Check app state on main thread to avoid Main Thread Checker warning
+        var isAppInBackground = false
+        if Thread.isMainThread {
+            isAppInBackground = UIApplication.shared.applicationState == .background
+        } else {
+            DispatchQueue.main.sync {
+                isAppInBackground = UIApplication.shared.applicationState == .background
+            }
+        }
+        
+        if isAppInBackground && !actionArray.isEmpty {
             // Only configure location services if needed
             var needsLocationServices = false
             for action in actionArray {
@@ -267,7 +366,7 @@ class PreyModule {
             }
             
             if needsLocationServices {
-                PreyLogger("App is in background, ensuring location services are configured")
+                PreyLogger("PreyModule: App is in background, ensuring location services are configured")
                 DeviceAuth.sharedInstance.ensureBackgroundLocationIsConfigured()
             }
         }
@@ -279,7 +378,7 @@ class PreyModule {
                 if bgTask != UIBackgroundTaskIdentifier.invalid {
                     UIApplication.shared.endBackgroundTask(bgTask)
                     bgTask = UIBackgroundTaskIdentifier.invalid
-                    PreyLogger("Background task for actions completed normally")
+                    PreyLogger("PreyModule: Background task for actions completed normally")
                 }
                 
                 // Reset flag after a delay to prevent rapid consecutive calls
