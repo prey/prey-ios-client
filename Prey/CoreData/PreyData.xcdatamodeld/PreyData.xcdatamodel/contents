@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="18G1012" minimumToolsVersion="Xcode 7.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="GeofenceZones" representedClassName="GeofenceZones" syncable="YES">
-        <attribute name="account_id" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="color" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="created_at" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="deleted_at" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="direction" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="expires" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="lng" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="radius" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="updated_at" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="zones" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
     <entity name="RequestCache" representedClassName=".RequestCache" syncable="YES">
         <attribute name="error" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="request" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -39,7 +23,6 @@
         <relationship name="trigger" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Triggers" inverseName="events" inverseEntity="Triggers" syncable="YES"/>
     </entity>
     <elements>
-        <element name="GeofenceZones" positionX="-310.34765625" positionY="-88.296875" width="128" height="255"/>
         <element name="Triggers" positionX="-118.265625" positionY="31.73046875" width="128" height="103"/>
         <element name="TriggersActions" positionX="233.9453125" positionY="-38.8046875" width="128" height="90"/>
         <element name="TriggersEvents" positionX="141.91796875" positionY="262.14453125" width="128" height="88"/>
