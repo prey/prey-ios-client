@@ -414,28 +414,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last, manager == DeviceAuth.backgroundLocationManager else { return }
         
-        // Throttle location updates to once per 2 hours (7200 seconds) for normal devices
-        // This will prevent excessive location sending while still allowing the device to wake up
-        let minTimeBetweenLocationUpdates: TimeInterval = 7200 // 2 hours
-        
+        // Remove throttling restriction - always process location updates
         let now = Date()
-        
-        // If the device is missing, use a shorter throttle time (30 minutes)
-        let minTimeBetweenUpdates = PreyConfig.sharedInstance.isMissing ? 1800.0 : minTimeBetweenLocationUpdates
-        
-        let shouldSendLocation = DeviceAuth.lastLocationSentTime == nil || 
-                               now.timeIntervalSince(DeviceAuth.lastLocationSentTime!) > minTimeBetweenUpdates
-        
-        // Log which throttling time is being used
-        if PreyConfig.sharedInstance.isMissing {
-            PreyLogger("Device is missing - using shorter location throttle time (30 minutes)")
-        }
-        
-        // Skip location sending if throttled but still check for actions
-        if !shouldSendLocation  {
-            PreyLogger("Skipping location processing - throttled")
-            // Don't return, still proceed with checking actions
-        }
+        PreyLogger("Location update processing - no throttling restrictions")
         
         PreyLogger("Background location manager received location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         
@@ -473,32 +454,27 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         // Use a dispatch group to track completion of all operations
         let operationGroup = DispatchGroup()
         
-        // Only trigger location action if not throttled
-        if shouldSendLocation {
-            // Trigger location action if available
-            var locationActionFound = false
-            for action in PreyModule.sharedInstance.actionArray {
-                if let locationAction = action as? Location {
-                    locationActionFound = true
-                    locationAction.locationReceived(location)
-                    PreyLogger("Using existing location action")
-                    break
-                }
-            }
-            
-            // If no location action exists, create one
-            if !locationActionFound {
-                let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
-                PreyModule.sharedInstance.actionArray.append(locationAction)
+        // Always trigger location action - no throttling
+        var locationActionFound = false
+        for action in PreyModule.sharedInstance.actionArray {
+            if let locationAction = action as? Location {
+                locationActionFound = true
                 locationAction.locationReceived(location)
-                PreyLogger("Created and executed new location action for background location")
+                PreyLogger("Using existing location action")
+                break
             }
-            
-            // Update timestamp
-            DeviceAuth.lastLocationSentTime = now
-        } else {
-            PreyLogger("Skipping location sending - throttled to once per hour (last sent: \(String(describing: DeviceAuth.lastLocationSentTime)))")
         }
+        
+        // If no location action exists, create one
+        if !locationActionFound {
+            let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+            PreyModule.sharedInstance.actionArray.append(locationAction)
+            locationAction.locationReceived(location)
+            PreyLogger("Created and executed new location action for background location")
+        }
+        
+        // Update timestamp for reference
+        DeviceAuth.lastLocationSentTime = now
         
         // Fetch actions from server with throttling
         if let username = PreyConfig.sharedInstance.userApiKey {
