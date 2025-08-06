@@ -24,7 +24,17 @@ class Camouflage: PreyAction {
         PreyConfig.sharedInstance.saveValues()
 
         // Reload HomeView
-        if UIApplication.shared.applicationState != .background {
+        // Fix: Check app state on main thread to avoid Main Thread Checker warning
+        var isAppInBackground = false
+        if Thread.isMainThread {
+            isAppInBackground = UIApplication.shared.applicationState == .background
+        } else {
+            DispatchQueue.main.sync {
+                isAppInBackground = UIApplication.shared.applicationState == .background
+            }
+        }
+        
+        if !isAppInBackground {
             showHomeView(identifier: StoryboardIdVC.home.rawValue)
         }
         
@@ -56,7 +66,17 @@ class Camouflage: PreyAction {
         PreyConfig.sharedInstance.saveValues()
 
         // Reload HomeView
-        if UIApplication.shared.applicationState != .background {
+        // Fix: Check app state on main thread to avoid Main Thread Checker warning
+        var isAppInBackground = false
+        if Thread.isMainThread {
+            isAppInBackground = UIApplication.shared.applicationState == .background
+        } else {
+            DispatchQueue.main.sync {
+                isAppInBackground = UIApplication.shared.applicationState == .background
+            }
+        }
+        
+        if !isAppInBackground {
             showHomeView(identifier: StoryboardIdVC.homeWeb.rawValue)
         }
         

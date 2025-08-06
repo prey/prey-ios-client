@@ -15,7 +15,7 @@ enum kInstruction: String {
 
 // Prey actions definitions
 enum kAction: String {
-    case location, report, alarm, alert, geofencing, detach, camouflage, ping, tree, fileretrieval, triggers, user_activated, list_permissions
+    case location, report, alarm, alert, detach, camouflage, ping, tree, fileretrieval, triggers, user_activated, list_permissions
 }
 
 // Prey options definitions
@@ -47,6 +47,10 @@ enum kLocation: String {
 
 enum kPermission: String {
     case location, location_background, camera, photos, background_app_refresh, notification
+}
+
+enum kEvent: String {
+    case name, info
 }
 
 // Prey location data
@@ -142,9 +146,6 @@ public var responseDeviceEndpoint : String {return String(format:"/devices/%@/re
 
 // Endpoint for Events Data
 public var eventsDeviceEndpoint : String {return String(format:"/devices/%@/events",(PreyConfig.sharedInstance.getDeviceKey()))}
-
-// Endpoint for Geofencing Data
-public var geofencingEndpoint : String {return String(format:"/devices/%@/geofencing.json",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Trigger
 public var triggerEndpoint : String {return String(format:"/devices/%@/triggers.json",(PreyConfig.sharedInstance.getDeviceKey()))}

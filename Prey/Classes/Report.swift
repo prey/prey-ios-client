@@ -89,7 +89,17 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         }
         
         // Get Photo
-        if !excPicture, UIApplication.shared.applicationState != .background {
+        // Fix: Check app state on main thread to avoid Main Thread Checker warning
+        var isAppInBackground = false
+        if Thread.isMainThread {
+            isAppInBackground = UIApplication.shared.applicationState == .background
+        } else {
+            DispatchQueue.main.sync {
+                isAppInBackground = UIApplication.shared.applicationState == .background
+            }
+        }
+        
+        if !excPicture, !isAppInBackground {
             reportPhoto.waitForRequest = true
             reportPhoto.delegate = self
             reportPhoto.startSession()

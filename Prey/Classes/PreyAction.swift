@@ -9,7 +9,7 @@
 import Foundation
 
 
-class PreyAction : Operation {
+class PreyAction : Operation, @unchecked Sendable {
    
     // MARK: Properties
     var target: kAction
@@ -56,9 +56,6 @@ class PreyAction : Operation {
             
         case kAction.report:
             actionItem = Report(withTarget: kAction.report, withCommand: cmd, withOptions: opt)
-
-        case kAction.geofencing:
-            actionItem = Geofencing(withTarget: kAction.geofencing, withCommand: cmd, withOptions: opt)
 
         case kAction.detach:
             actionItem = Detach(withTarget: kAction.detach, withCommand: cmd, withOptions: opt)
@@ -132,21 +129,6 @@ class PreyAction : Operation {
             PreyLogger("Error send data auth")
         }
         
-    }
-    
-    // Check Geofence Zones
-    func checkGeofenceZones(_ action:Geofencing) {
-        // Check userApiKey isn't empty
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:geofencingEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.geofenceZones, preyAction:action, onCompletion:{
-                (isSuccess: Bool) in PreyLogger("Request geofencesZones:\(isSuccess)")
-                if !isSuccess {
-                    self.checkGeofenceZones(action)
-                }
-            }))
-        } else {
-            PreyLogger("Error auth check Geofence")
-        }
     }
 
     // Check Triggers

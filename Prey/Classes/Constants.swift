@@ -3,6 +3,7 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 14/03/16.
+//  Modified by Patricio Jofré on 04/08/2025.
 //  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
@@ -29,7 +30,7 @@ public let reloadConnection: Int = 5
 public let delayTime: Double = 2
 
 // TimeoutInterval for URLRequest
-public let timeoutIntervalRequest: Double = 300.0
+public let timeoutIntervalRequest: Double = 30.0
 
 // Email RegExp
 public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b"
@@ -48,13 +49,15 @@ public let fontTitilliumBold    =  "TitilliumWeb-Bold"
 public let fontTitilliumRegular =  "TitilliumWeb-Regular"
 
 // PreyLogger
-public func PreyLogger(_ message:String) {
+public func PreyLogger(_ message: String, file: String = #file) {
     #if DEBUG
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         let timestamp = dateFormatter.string(from: Date())
-        print("[\(timestamp)] \(message)")
+        let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
+        print("[\(timestamp)] [\(fileName)] \(message)")
     #endif
+    
 }
 
 // Biometric authentication
@@ -78,9 +81,6 @@ public let biometricAuth : String = {
     }
     return textID
 }()
-
-// Permitted background task scheduler identifiers
-public let bgTaskToPanel = "com.prey.refresh"
 
 // Category notification
 public let categoryNotifPreyAlert = "PreyAlert"

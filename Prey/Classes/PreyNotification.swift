@@ -3,6 +3,7 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 3/05/16.
+//  Modified by Patricio Jofré on 04/08/2025.
 //  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
@@ -79,9 +80,9 @@ class PreyNotification {
         UNUserNotificationCenter.current()
             .requestAuthorization(options: [.alert, .sound, .badge, .providesAppNotificationSettings, .criticalAlert]) { (granted, error) in
                 // Log permission result
-                PreyLogger("Notification permission request result: \(granted)")
+                PreyLogger("Permission request result: \(granted)")
                 if let error = error {
-                    PreyLogger("Notification permission error: \(error.localizedDescription)")
+                    PreyLogger("Permission request error: \(error.localizedDescription)")
                 }
                 
                 // Check permission granted
@@ -114,18 +115,6 @@ class PreyNotification {
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
         PreyLogger("📣 TOKEN REGISTER: Got device token from APNS: \(tokenAsString)")
         
-        // Check entitlements
-        checkEntitlements()
-        
-        // Determine which APNs environment we're using
-        let apnsEnvironment = detectAPNsEnvironment()
-        PreyLogger("📣 TOKEN REGISTER: APNs environment: \(apnsEnvironment)")
-        if apnsEnvironment.contains("sandbox") {
-            PreyLogger("📣 TOKEN REGISTER: Server must send to SANDBOX gateway")
-        } else {
-            PreyLogger("📣 TOKEN REGISTER: Server must send to PRODUCTION gateway")
-        }
-        
         // Create device info for the server
         let preyDevice = PreyDevice()
         let firmwareInfo : [String:String] = [
@@ -141,20 +130,10 @@ class PreyNotification {
             "processor_info": processorInfo,
             "firmware_info": firmwareInfo,
         ]
-        let hardwareAttributes : [String:String] = [
-            "ram_size" : preyDevice.ramSize!,
-            "uuid" : preyDevice.uuid!,
-        ]
-        // Get environment information - reuse the earlier variable
-        let isSandbox = apnsEnvironment.contains("sandbox")
-        
         let params:[String: Any] = [
             "notification_id" : tokenAsString,
             "specs": specs,
-            "sandbox_token": isSandbox,
-            "apns_environment": apnsEnvironment,
-            "device_name": UIDevice.current.name,
-            "hardware_attributes":hardwareAttributes
+            "device_name": UIDevice.current.name
         ]
         
         PreyLogger("📣 TOKEN REGISTER: Preparing to send token to Prey server with params: \(params)")
@@ -195,61 +174,48 @@ class PreyNotification {
         
         // Track whether we received any data to return appropriate completion result
         var receivedData = false
-
-        // Handle all payload types
-        if let cmdPreyMDM = userInfo["preymdm"] as? NSDictionary {
-            PreyLogger("📣 PN TYPE: preymdm payload detected")
-            parsePayloadPreyMDMFromPushNotification(parameters: cmdPreyMDM)
-            receivedData = true
-        } else {
-            PreyLogger("📣 PN CHECK: No preymdm payload found")
-        }
         
         if let cmdInstruction = userInfo["cmd"] as? NSArray {
             PreyLogger("📣 PN TYPE: cmd instruction payload detected with \(cmdInstruction.count) items")
             parsePayloadInfoFromPushNotification(instructionArray: cmdInstruction)
             receivedData = true
-        } else {
-            PreyLogger("📣 PN CHECK: No cmd payload found")
         }
         
-        if let cmdArray = userInfo["instruction"] as? NSArray {
-            PreyLogger("📣 PN TYPE: instruction payload detected with \(cmdArray.count) items")
-            parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
-            receivedData = true
-        } else {
-            PreyLogger("📣 PN CHECK: No instruction payload found")
-        }
+        // Currently not being used
+        // if let cmdArray = userInfo["instruction"] as? NSArray {
+            // PreyLogger("📣 PN TYPE: instruction payload detected with \(cmdArray.count) items")
+            // parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
+            // receivedData = true
+        // }
         
         // APNS silent notification check (content-available = 1)
-        if let contentAvailable = userInfo["content-available"] as? Int, contentAvailable == 1 {
+        if let aps = userInfo["aps"] as? [String: Any],
+           let contentAvailable = aps["content-available"] as? Int, contentAvailable == 1 {
             PreyLogger("📣 PN TYPE: Silent notification detected with content-available=1")
-            receivedData = true
+            
+            // Check for remote actions when receiving silent push notification
+            checkRemoteActionsFromSilentPush { hasActions in
+                if hasActions {
+                    receivedData = true
+                    PreyLogger("📣 PN ACTION: Remote actions retrieved and processed")
+                } else {
+                    PreyLogger("📣 PN ACTION: No remote actions found")
+                }
+                
+                // Complete with result after async operation finishes
+                let result = receivedData ? UIBackgroundFetchResult.newData : UIBackgroundFetchResult.noData
+                PreyLogger("📣 PN COMPLETE: Finishing notification processing with result: \(result == .newData ? "newData" : "noData")")
+                completionHandler(result)
+            }
+            // Don't set receivedData = true here, let the async callback handle it
         } else {
-            PreyLogger("📣 PN CHECK: No content-available=1 found")
+            PreyLogger("📣 PN CHECK: No content-available=1 found in aps payload")
+            
+            // Complete immediately if no silent notification
+            let result = receivedData ? UIBackgroundFetchResult.newData : UIBackgroundFetchResult.noData
+            PreyLogger("📣 PN COMPLETE: Finishing notification processing with result: \(result == .newData ? "newData" : "noData")")
+            completionHandler(result)
         }
-        
-        // APNs aps payload check
-        if let aps = userInfo["aps"] as? [String: Any] {
-            PreyLogger("📣 PN TYPE: aps payload detected: \(aps)")
-            // This is a standard APNS notification
-            receivedData = true
-        } else {
-            PreyLogger("📣 PN CHECK: No aps payload found")
-        }
-        
-        // Run any pending actions that may have been parsed from the notification
-        if !PreyModule.sharedInstance.actionArray.isEmpty {
-            PreyLogger("📣 PN ACTIONS: Found \(PreyModule.sharedInstance.actionArray.count) actions to run")
-            PreyModule.sharedInstance.runAction()
-        } else {
-            PreyLogger("📣 PN ACTIONS: No actions found to run")
-        }
-        
-        // Complete with appropriate result
-        let result = receivedData ? UIBackgroundFetchResult.newData : UIBackgroundFetchResult.noData
-        PreyLogger("📣 PN COMPLETE: Finishing notification processing with result: \(result == .newData ? "newData" : "noData")")
-        completionHandler(result)
     }
     
     // Parse payload info on push notification
@@ -308,43 +274,49 @@ class PreyNotification {
         PreyLogger("📣 PN ERROR: 🚨 \(error)")
     }
     
-    // Check entitlements and device name
-    func checkEntitlements() {
-        // Check for device-name entitlement
-        if let deviceNameEntitlement = Bundle.main.object(forInfoDictionaryKey: "com.apple.developer.device-information.user-assigned-device-name") as? Bool {
-            PreyLogger("🔐 ENTITLEMENT: Device name entitlement found: \(deviceNameEntitlement)")
-        } else {
-            PreyLogger("🔐 ENTITLEMENT: Device name entitlement not found in runtime bundle, check that it's properly set in Prey.entitlements file")
-        }
-        
-        // Check for APNs environment entitlement
-        if let apsEnvironment = Bundle.main.object(forInfoDictionaryKey: "aps-environment") as? String {
-            PreyLogger("🔐 ENTITLEMENT: APNs environment: \(apsEnvironment)")
-        } else {
-            PreyLogger("🔐 ENTITLEMENT: APNs environment not found in runtime bundle, check that it's properly set in Prey.entitlements file")
-        }
-        
-        // Get the device name
-        let deviceName = UIDevice.current.name
-        PreyLogger("📱 DEVICE: Current device name: \(deviceName)")
-    }
+   
     
-    // Helper function to detect which APNs environment we're using
-    func detectAPNsEnvironment() -> String {
-        #if targetEnvironment(simulator)
-            return "sandbox (simulator)"
-        #endif
+    // Check for remote actions when receiving silent push notification
+    private func checkRemoteActionsFromSilentPush(completion: @escaping (Bool) -> Void) {
+        PreyLogger("📣 PN REMOTE: Starting remote action check from silent push")
         
-        if let apsEnv = Bundle.main.object(forInfoDictionaryKey: "aps-environment") as? String {
-            // Even with production entitlement, if app is installed from Xcode, it uses sandbox
-            if let embeddedProfile = Bundle.main.path(forResource: "embedded", ofType: "mobileprovision") {
-                PreyLogger("📲 APNs: App has embedded.mobileprovision, likely using sandbox despite entitlements")
-                return "sandbox (development install)"
-            }
-            
-            return apsEnv
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
+            PreyLogger("📣 PN REMOTE: No API key available for remote action check")
+            completion(false)
+            return
         }
         
-        return "unknown (likely sandbox)"
+        // Use PreyHTTPResponse.checkResponse for actionsDevice endpoint
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            username,
+            password: "x",
+            params: nil,
+            messageId: nil,
+            httpMethod: Method.GET.rawValue,
+            endPoint: actionsDeviceEndpoint,
+            onCompletion: PreyHTTPResponse.checkResponse(
+                RequestType.actionDevice,
+                preyAction: nil,
+                onCompletion: { isSuccess in
+                    PreyLogger("📣 PN REMOTE: Remote action check completed with success: \(isSuccess)")
+                    
+                    if isSuccess {
+                        // Check if any actions were added to the action array
+                        let hasActions = !PreyModule.sharedInstance.actionArray.isEmpty
+                        PreyLogger("📣 PN REMOTE: Found \(PreyModule.sharedInstance.actionArray.count) actions from remote check")
+                        
+                        if hasActions {
+                            // Run the actions that were retrieved
+                            PreyModule.sharedInstance.runAction()
+                        }
+                        
+                        completion(hasActions)
+                    } else {
+                        PreyLogger("📣 PN REMOTE: Failed to retrieve remote actions")
+                        completion(false)
+                    }
+                }
+            )
+        )
     }
 }

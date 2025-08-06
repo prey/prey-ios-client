@@ -137,9 +137,6 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
             }
         }
         
-        // Stop location aware
-        GeofencingManager.sharedInstance.stopLocationAwareManager()
-        
         userApiKey       = nil
         userEmail        = nil
         deviceKey        = nil

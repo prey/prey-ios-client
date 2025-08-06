@@ -3,6 +3,7 @@
 //  Prey
 //
 //  Created by Javier Cala Uribe on 13/6/17.
+//  Modified by Patricio Jofré on 04/08/2025.
 //  Copyright © 2017 Prey, Inc. All rights reserved.
 //
 
@@ -20,7 +21,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     
     // Start service
   func startService(authToken: String, urlServer: String, accountId: Int) {
-        
+        PreyLogger("📣 PREY CONFIG: Starting service")
         let defaultSessionConfiguration = URLSessionConfiguration.default
         let defaultSession = URLSession(configuration: defaultSessionConfiguration)
 
@@ -104,7 +105,12 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
                 startTime = NSDate()
                 serverState = .Ready
                 registerForNotifications()
-                UIApplication.shared.openURL(url)
+                UIApplication.shared.open(url, options: [:]) { success in
+                    PreyLogger("Open URL result: \(success)")
+                    if !success {
+                        PreyLogger("Failed to open URL: \(url)")
+                    }
+                }
             } catch let error as NSError {
                 PreyLogger("error: \(error.localizedDescription)")
                 self.stop()
