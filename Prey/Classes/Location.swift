@@ -82,8 +82,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     func sendLastLocation() {
 
         if lastLocation != nil {
-            // Send location to web panel
-            locationReceived(lastLocation)
+            // Send location to web panel - force update to ensure response even if duplicate
+            locationReceived(lastLocation, forceUpdate: true)
         }
     }
     
@@ -149,7 +149,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
                     
                     PreyLogger("Using cached location from shared container")
                     self.lastLocation = location
-                    self.locationReceived(location)
+                    self.locationReceived(location, forceUpdate: true)
                 } else {
                     PreyLogger("Cached location is too old: \(abs(date.timeIntervalSinceNow)) seconds")
                 }
@@ -290,18 +290,20 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     }
     
     // Location received
-    func locationReceived(_ location:CLLocation) {
+    func locationReceived(_ location:CLLocation, forceUpdate: Bool = false) {
         PreyLogger("Processing location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         
-        // Check for duplicate location processing
+        // Check for duplicate location processing, but allow forced updates (web requests)
         let now = Date()
-        if let lastLocation = Location.lastProcessedLocation,
+        
+        if !forceUpdate,
+           let lastLocation = Location.lastProcessedLocation,
            let lastTime = Location.lastProcessedLocationTime {
             
             let timeDifference = now.timeIntervalSince(lastTime)
             let distance = location.distance(from: lastLocation)
             
-            // Skip if same location processed recently
+            // Skip duplicates only for automatic location updates
             if timeDifference < Location.locationDeduplicationThreshold && 
                distance < Location.locationDistanceThreshold {
                 PreyLogger("Skipping duplicate location processing - distance: \(distance)m, time: \(timeDifference)s")
