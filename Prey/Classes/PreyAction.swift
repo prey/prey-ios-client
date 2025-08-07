@@ -63,9 +63,6 @@ class PreyAction : Operation, @unchecked Sendable {
         case kAction.camouflage:
             actionItem = Camouflage(withTarget: kAction.camouflage, withCommand: cmd, withOptions: opt)
             
-        case kAction.ping:
-            actionItem = Ping(withTarget: kAction.ping, withCommand: cmd, withOptions: opt)
-            
         case kAction.tree:
             actionItem = FileRetrieval(withTarget: kAction.tree, withCommand: cmd, withOptions: opt)
 

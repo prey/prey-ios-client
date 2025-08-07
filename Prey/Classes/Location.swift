@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import UIKit
 
-class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
+class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unchecked Sendable {
     
     // MARK: Properties
     
@@ -87,7 +87,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
             PreyLogger("Daily location check needed - last check: \(String(describing: lastCheckTime))")
             
             // Check if we have valid API key (following DeviceAuth pattern)
-            guard let username = PreyConfig.sharedInstance.userApiKey else {
+            guard let _ = PreyConfig.sharedInstance.userApiKey else {
                 PreyLogger("Cannot perform daily location check - no API key")
                 return
             }
@@ -366,9 +366,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     // Location received
     func locationReceived(_ location:CLLocation) {
         PreyLogger("Processing location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
-        
-        let now = Date()
-        
         
         // Create a background task to ensure we have time to send the location
         var bgTask = UIBackgroundTaskIdentifier.invalid

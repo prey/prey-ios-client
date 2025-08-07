@@ -64,7 +64,6 @@
 		3B8629A01EF03CB400BE92D4 /* String+Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298D1EF03CB400BE92D4 /* String+Misc.swift */; };
 		3B8629A11EF03CB400BE92D4 /* String+SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298E1EF03CB400BE92D4 /* String+SHA1.swift */; };
 		3B8629A21EF03CB400BE92D4 /* WebSockets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298F1EF03CB400BE92D4 /* WebSockets.swift */; };
-		3B88FC501DA2961F007E62A6 /* Ping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B88FC4F1DA2961F007E62A6 /* Ping.swift */; };
 		3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D21A2E7B530027179E /* AppDelegate.swift */; };
 		3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D41A2E7B530027179E /* HomeVC.swift */; };
 		3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */; };
@@ -225,7 +224,6 @@
 		3B86298D1EF03CB400BE92D4 /* String+Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Misc.swift"; sourceTree = "<group>"; };
 		3B86298E1EF03CB400BE92D4 /* String+SHA1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+SHA1.swift"; sourceTree = "<group>"; };
 		3B86298F1EF03CB400BE92D4 /* WebSockets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSockets.swift; sourceTree = "<group>"; };
-		3B88FC4F1DA2961F007E62A6 /* Ping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ping.swift; path = Classes/Ping.swift; sourceTree = "<group>"; };
 		3B8E57D21A2E7B530027179E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Classes/AppDelegate.swift; sourceTree = "<group>"; };
 		3B8E57D41A2E7B530027179E /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeVC.swift; path = Classes/HomeVC.swift; sourceTree = "<group>"; };
 		3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPClient.swift; path = Classes/PreyHTTPClient.swift; sourceTree = "<group>"; };
@@ -500,7 +498,6 @@
 				3B4F679E1CEA061E00F58FAD /* Alarm.swift */,
 				3B2445F81D2466CD005DF09C /* Alert.swift */,
 				3B2445F61D245478005DF09C /* Camouflage.swift */,
-				3B88FC4F1DA2961F007E62A6 /* Ping.swift */,
 				3BC4774A23A1355900109844 /* UserActivated.swift */,
 				3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */,
 				3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */,
@@ -811,7 +808,6 @@
 				3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */,
 				3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */,
 				3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */,
-				3B88FC501DA2961F007E62A6 /* Ping.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
 				3BAB25D423A923C300BDA263 /* Triggers+Properties.swift in Sources */,
 				3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */,

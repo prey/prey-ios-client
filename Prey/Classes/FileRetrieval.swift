@@ -14,7 +14,7 @@ enum kTree: String {
     case name, path, mimetype, size, isFile, hidden
 }
 
-class FileRetrieval : PreyAction {
+class FileRetrieval : PreyAction, @unchecked Sendable {
     
     // MARK: Properties
 

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import UserNotifications
 
-class Alert: PreyAction {
+class Alert: PreyAction, @unchecked Sendable {
     
     
     // MARK: Functions

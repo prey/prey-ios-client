@@ -80,10 +80,6 @@ class PreyDevice {
     }
     
     class func renameDevice(_ newName: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
-        
-        let language:String = Locale.preferredLanguages[0] as String
-        let languageES  = (language as NSString).substring(to: 2)
-        
         let paramsInfo : [String:String] = [
             "new_name"                  : newName]
         

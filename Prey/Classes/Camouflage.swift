@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class Camouflage: PreyAction {
+class Camouflage: PreyAction, @unchecked Sendable {
     
     
     // MARK: Functions

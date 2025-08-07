@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Detach: PreyAction, UIActionSheetDelegate {
+class Detach: PreyAction, UIActionSheetDelegate, @unchecked Sendable {
     
     
     // MARK: Functions

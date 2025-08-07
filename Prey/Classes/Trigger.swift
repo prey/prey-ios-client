@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import UIKit
 
-class Trigger : PreyAction {
+class Trigger : PreyAction, @unchecked Sendable {
     
     // MARK: Properties
     
