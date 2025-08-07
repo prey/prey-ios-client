@@ -87,18 +87,15 @@ class AlertVC: UIViewController {
             StoryboardIdVC.home.rawValue :
             StoryboardIdVC.homeWeb.rawValue
             
-            if let resultController = mainStoryboard.instantiateViewController(withIdentifier: homeControllerID) as? UIViewController {
-                let rootVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
-                rootVC.setViewControllers([resultController], animated: false)
-                
-                // Set the new root view controller - use optional chaining with unwrapped value
-                appWindow?.rootViewController = rootVC
-                appWindow?.makeKeyAndVisible()
-                
-                PreyLogger("Set new root view controller")
-            } else {
-                PreyLogger("Failed to instantiate home controller")
-            }
+            let resultController = mainStoryboard.instantiateViewController(withIdentifier: homeControllerID)
+            let rootVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
+            rootVC.setViewControllers([resultController], animated: false)
+            
+            // Set the new root view controller - use optional chaining with unwrapped value
+            appWindow?.rootViewController = rootVC
+            appWindow?.makeKeyAndVisible()
+            
+            PreyLogger("Set new root view controller")
         }
         
     }

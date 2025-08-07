@@ -483,10 +483,6 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last, manager == DeviceAuth.backgroundLocationManager else { return }
         
-        // Remove throttling restriction - always process location updates
-        let now = Date()
-        PreyLogger("Location update processing - no throttling restrictions")
-        
         PreyLogger("Background location manager received location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         
         // Notify any registered location delegates

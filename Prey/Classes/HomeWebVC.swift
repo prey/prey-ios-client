@@ -154,7 +154,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
     // Open URL from Safari
     func openBrowserWith(_ url:URL?) {
         if let urlRequest = url {
-            UIApplication.shared.openURL(urlRequest)
+            UIApplication.shared.open(urlRequest, options: [:], completionHandler: nil)
         }
     }
 
