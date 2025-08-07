@@ -17,8 +17,6 @@
 		3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445FA1D24717B005DF09C /* AlertVC.swift */; };
 		3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */; };
 		3B33A76420F69D0B00F3B64E /* Battery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B33A76320F69D0B00F3B64E /* Battery.swift */; };
-		3B3611701EE75470006BA074 /* Icon2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B36116E1EE75470006BA074 /* Icon2@2x.png */; };
-		3B3611711EE75470006BA074 /* Icon2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B36116F1EE75470006BA074 /* Icon2@3x.png */; };
 		3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742161CF791D900E52B6C /* ReportPhoto.swift */; };
 		3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742181CF792CA00E52B6C /* ReportWifi.swift */; };
 		3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38BA8E1D22C03D00B6799B /* WebVC.swift */; };
@@ -177,8 +175,6 @@
 		3B2A76BB205AB5EA008912BC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyStoreProduct.swift; path = Classes/PreyStoreProduct.swift; sourceTree = "<group>"; };
 		3B33A76320F69D0B00F3B64E /* Battery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Battery.swift; path = Classes/Battery.swift; sourceTree = "<group>"; };
-		3B36116E1EE75470006BA074 /* Icon2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon2@2x.png"; sourceTree = "<group>"; };
-		3B36116F1EE75470006BA074 /* Icon2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon2@3x.png"; sourceTree = "<group>"; };
 		3B3742161CF791D900E52B6C /* ReportPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportPhoto.swift; path = Classes/ReportPhoto.swift; sourceTree = "<group>"; };
 		3B3742181CF792CA00E52B6C /* ReportWifi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportWifi.swift; path = Classes/ReportWifi.swift; sourceTree = "<group>"; };
 		3B38BA8E1D22C03D00B6799B /* WebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebVC.swift; path = Classes/WebVC.swift; sourceTree = "<group>"; };
@@ -313,15 +309,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3B36116D1EE75470006BA074 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				3B36116E1EE75470006BA074 /* Icon2@2x.png */,
-				3B36116F1EE75470006BA074 /* Icon2@3x.png */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		3B41BDAF1D05FFA7003DF0CE /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -425,7 +412,6 @@
 				3B8283F9199198E6000E4545 /* Images.xcassets */,
 				3B3AA5C222835F560035C63C /* ReactViews */,
 				3B4F67A01CEA085200F58FAD /* Sounds */,
-				3B36116D1EE75470006BA074 /* Resources */,
 				3BB7EABE1A1E78DB003FC312 /* Fonts */,
 				3B8283F0199198E6000E4545 /* Supporting Files */,
 			);
@@ -731,10 +717,8 @@
 			files = (
 				3BE3DC541D0B044D00581327 /* TitilliumWeb-Regular.ttf in Resources */,
 				3B4F67A41CEA085200F58FAD /* siren.mp3 in Resources */,
-				3B3611711EE75470006BA074 /* Icon2@3x.png in Resources */,
 				3B8283F8199198E6000E4545 /* PreyStoryBoard.storyboard in Resources */,
 				3BE3DC531D0B044D00581327 /* TitilliumWeb-Bold.ttf in Resources */,
-				3B3611701EE75470006BA074 /* Icon2@2x.png in Resources */,
 				3B7D73B5238450A20013AC9F /* Colors.xcassets in Resources */,
 				3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */,
 				3B42A2671D2581EF002848C0 /* large9.ttf in Resources */,
