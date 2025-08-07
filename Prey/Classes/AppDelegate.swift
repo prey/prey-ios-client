@@ -760,9 +760,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         notificationBgTask = UIApplication.shared.beginBackgroundTask { [weak self] in // Capture self weakly
             PreyLogger("⚠️ Remote notification background task expiring")
+            // End the background task immediately when expiring
+            if notificationBgTask != .invalid {
+                UIApplication.shared.endBackgroundTask(notificationBgTask)
+                notificationBgTask = .invalid
+            }
             // Call completion handler with .failed if task expires
             completionHandler(.failed)
-            self?.stopBackgroundTask(notificationBgTask) // Stop this specific task
         }
         
         PreyLogger("Started remote notification background task: \(notificationBgTask.rawValue) with remaining time: \(UIApplication.shared.backgroundTimeRemaining)")
@@ -831,7 +835,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         dispatchGroup.notify(queue: .main) { [weak self] in // Use weak self
             guard let self = self else {
                 completionHandler(.failed) // If AppDelegate is gone, fail the task
-                self?.stopBackgroundTask(notificationBgTask) // Ensure cleanup
+                if notificationBgTask != .invalid {
+                    UIApplication.shared.endBackgroundTask(notificationBgTask)
+                    notificationBgTask = .invalid
+                }
                 return
             }
             
@@ -848,7 +855,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 completionHandler(result)
                 
                 // End the background task associated with this notification.
-                self.stopBackgroundTask(notificationBgTask)
+                if notificationBgTask != .invalid {
+                    UIApplication.shared.endBackgroundTask(notificationBgTask)
+                    notificationBgTask = .invalid
+                }
             }
         }
     }
