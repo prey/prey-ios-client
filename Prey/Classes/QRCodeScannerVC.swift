@@ -147,7 +147,8 @@ class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate 
     }
     
     func isCameraAvailable() -> Bool {
-        return AVCaptureDevice.devices(for: AVMediaType.video).count > 0 ? true : false
+        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified)
+        return !discoverySession.devices.isEmpty
     }
     
     @objc func cancel() {
