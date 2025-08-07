@@ -125,9 +125,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("📱 PUSH INIT: Badge Setting: \(self.settingStatusString(settings.badgeSetting))")
             PreyLogger("📱 PUSH INIT: Sound Setting: \(self.settingStatusString(settings.soundSetting))")
             
-            if #available(iOS 15.0, *) {
-                PreyLogger("📱 PUSH INIT: Critical Alert Setting: \(self.settingStatusString(settings.criticalAlertSetting))")
-            }
+            PreyLogger("📱 PUSH INIT: Critical Alert Setting: \(self.settingStatusString(settings.criticalAlertSetting))")
             
             // Request notification permissions if not already authorized
             if settings.authorizationStatus != .authorized {
@@ -325,7 +323,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
         
-        if #available(iOS 13.0, *), window?.rootViewController?.view.superview != nil {
+        if window?.rootViewController?.view.superview != nil {
             return
         }
         
@@ -718,7 +716,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         PreyLogger("Will present notification in foreground: \(notification.request.identifier)")
-        let userInfo = notification.request.content.userInfo
         
         if notification.request.content.categoryIdentifier == categoryNotifPreyAlert {
             completionHandler([]) // Don't show notification banners/alerts if our custom AlertVC is shown
@@ -738,11 +735,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         } else {
             // For other notifications, show them normally
-            if #available(iOS 14.0, *) {
-                completionHandler([.banner, .sound, .badge, .list])
-            } else {
-                completionHandler([.alert, .sound, .badge])
-            }
+            completionHandler([.banner, .sound, .badge, .list])
         }
     }
     
