@@ -36,9 +36,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     // Background task manager for better task handling
     private var backgroundTasks: [String: UIBackgroundTaskIdentifier] = [:]
     
-    // Location deduplication to prevent processing same location multiple times
-    private static var lastProcessedLocation: CLLocation?
-    private static var lastProcessedLocationTime: Date?
+    // Location deduplication constants (not currently used but kept for potential future use)
     private static let locationDeduplicationThreshold: TimeInterval = 5.0 // 5 seconds
     private static let locationDistanceThreshold: CLLocationDistance = 10.0 // 10 meters
     
@@ -59,6 +57,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
     // Daily location check constants
     private static let dailyLocationInterval: TimeInterval = 24 * 60 * 60 // 24 hours - parametrizable
     private static let dailyLocationCheckKey = "PreyLastDailyLocationCheck"
+    
+    
     
     // Offline location queue for failed transmissions
     private var offlineLocationQueue: [LocationData] = []
@@ -180,8 +180,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
             // Try to initialize anyway in case user enables later
         }
         
-        // Check authorization status
-        let authStatus = CLLocationManager.authorizationStatus()
+        // Check authorization status using instance method to avoid main thread blocking
+        let authStatus = locManager.authorizationStatus
         if authStatus != .authorizedAlways {
             PreyLogger("⚠️ Location authorization status is not .authorizedAlways: \(authStatus)")
             // Request authorization just in case
@@ -369,9 +369,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         
         let now = Date()
         
-        // Update last processed location tracking for reference
-        Location.lastProcessedLocation = location
-        Location.lastProcessedLocationTime = now
         
         // Create a background task to ensure we have time to send the location
         var bgTask = UIBackgroundTaskIdentifier.invalid
@@ -438,14 +435,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
             index = index + 1
         }
         
-        // Send device name
-        let paramName:[String: Any] = [ "name" : UIDevice.current.name]
-        
-        dispatchGroup.enter()
-        self.sendDataWithCallback(paramName, toEndpoint: dataDeviceEndpoint) { success in
-            PreyLogger("Device name request completed with success: \(success)")
-            dispatchGroup.leave()
-        }
+        // Device name is handled separately via device_renamed events - no need to send with location
         
         // Device info is now handled by scheduled sync tasks to avoid excessive calls
         // No need to call infoDevice on every location update
@@ -581,7 +571,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         // Send first location
         if lastLocation == nil {
             PreyLogger("Sending first location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
-            locationReceived(currentLocation)
+            locationReceived(currentLocation) // Automatic update
             lastLocation = currentLocation
             return
         }
@@ -590,7 +580,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
         let distance = currentLocation.distance(from: lastLocation)
         if currentLocation.horizontalAccuracy < lastLocation.horizontalAccuracy || distance > Location.significantMovementDistance {
             PreyLogger("Sending updated location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude), distance: \(distance)m")
-            locationReceived(currentLocation)
+            locationReceived(currentLocation) // Automatic update
         }
 
         // Save last location

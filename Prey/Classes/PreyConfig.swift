@@ -37,7 +37,6 @@ enum PreyConfigDevice: String {
     case IsSystemDarkMode
     case UpdatedSettings
     case ReportOptions
-    case NeedChangeIcon
     case IsTouchIDEnabled
     case ValidationUserEmail
     case ExistBackup
@@ -69,7 +68,6 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isDarkMode          = defaultConfig.bool(forKey: PreyConfigDevice.IsDarkMode.rawValue)
         isSystemDarkMode    = defaultConfig.bool(forKey: PreyConfigDevice.IsSystemDarkMode.rawValue)
         updatedSettings     = defaultConfig.bool(forKey: PreyConfigDevice.UpdatedSettings.rawValue)
-        needChangeIcon      = defaultConfig.bool(forKey: PreyConfigDevice.NeedChangeIcon.rawValue)
         isTouchIDEnabled    = defaultConfig.bool(forKey: PreyConfigDevice.IsTouchIDEnabled.rawValue)
         reportOptions       = defaultConfig.object(forKey: PreyConfigDevice.ReportOptions.rawValue) as? NSDictionary
         validationUserEmail = defaultConfig.string(forKey: PreyConfigDevice.ValidationUserEmail.rawValue)
@@ -92,7 +90,6 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
     var isDarkMode          : Bool
     var isSystemDarkMode    : Bool
     var updatedSettings     : Bool
-    var needChangeIcon      : Bool
     var isTouchIDEnabled    : Bool
     var reportOptions       : NSDictionary?
     var validationUserEmail : String?
@@ -118,7 +115,6 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         defaultConfig.set(isDarkMode, forKey:PreyConfigDevice.IsDarkMode.rawValue)
         defaultConfig.set(isSystemDarkMode, forKey:PreyConfigDevice.IsSystemDarkMode.rawValue)
         defaultConfig.set(updatedSettings, forKey:PreyConfigDevice.UpdatedSettings.rawValue)
-        defaultConfig.set(needChangeIcon, forKey:PreyConfigDevice.NeedChangeIcon.rawValue)
         defaultConfig.set(isTouchIDEnabled, forKey:PreyConfigDevice.IsTouchIDEnabled.rawValue)
         defaultConfig.set(reportOptions, forKey:PreyConfigDevice.ReportOptions.rawValue)
         defaultConfig.set(validationUserEmail, forKey:PreyConfigDevice.ValidationUserEmail.rawValue)
@@ -145,7 +141,6 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         isPro            = false
         isMissing        = false
         isCamouflageMode = false
-        needChangeIcon   = false
         isTouchIDEnabled = true
         reportOptions    = nil
         nameDevice       = nil
