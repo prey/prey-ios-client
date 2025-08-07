@@ -167,7 +167,7 @@ class FileRetrieval : PreyAction, @unchecked Sendable {
                     // Upload image
                     let option = PHImageRequestOptions()
                     option.isSynchronous = true
-                    manager.requestImageData(for: allPhotos.object(at: index), options: option, resultHandler:{(imageData, string, imageOrientation, info) in
+                    manager.requestImageDataAndOrientation(for: allPhotos.object(at: index), options: option, resultHandler:{(imageData, string, imageOrientation, info) in
                         // Check imageData
                         guard let data = imageData else {
                             // Send stop action
