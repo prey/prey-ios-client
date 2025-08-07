@@ -247,10 +247,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Hide keyboard (UI-related, safe here)
         window?.endEditing(true)
         
-        // End any pending short-lived background task from launch (if it's still running)
-        // This task is mostly a fallback or for very short, immediate needs.
-        // For sustained background work, rely on BGTaskScheduler.
+        // AGGRESSIVE CLEANUP: End any pending background tasks immediately
         stopBackgroundTask(self.bgTask) // Explicitly end the launch-related task
+        
+        // Force cleanup of any orphaned background tasks
+        PreyLogger("⚠️ Performing aggressive background task cleanup on entering background")
+        
+        // Give modules a chance to clean up their background tasks
+        PreyModule.sharedInstance.forceBackgroundTaskCleanup()
+        
+        // Monitor background time and warn if getting close to limits
+        let remainingTime = UIApplication.shared.backgroundTimeRemaining
+        PreyLogger("📊 Background time remaining: \(remainingTime)s")
+        if remainingTime < 25.0 {
+            PreyLogger("⚠️ LIMITED BACKGROUND TIME: \(remainingTime)s - forcing immediate cleanup")
+            // Force additional cleanup if time is running out
+            BGTaskScheduler.shared.cancelAllTaskRequests()
+        }
         
         // Schedule new background tasks. This is CRITICAL.
         scheduleBackgroundTasks() // Calls BGTaskScheduler methods
@@ -371,25 +384,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("Background tasks scheduled with identifiers: \(AppDelegate.appRefreshTaskIdentifier), \(AppDelegate.processingTaskIdentifier)")
         } catch {
             PreyLogger("Could not schedule background tasks: \(error.localizedDescription)")
-            // Fallback to old `beginBackgroundTask` is a good safety net, but should be rare if BGTaskScheduler is configured correctly.
-            // The fallback task should also be very short, typically under 30 seconds.
+            // Fallback: perform minimal immediate operations without extended background task
+            PreyLogger("BGTaskScheduler failed, performing immediate fallback operations")
+            
+            // Perform quick operations immediately without background task
+            PreyModule.sharedInstance.checkActionArrayStatus()
+            
+            // Only create a short background task if absolutely necessary
             self.bgTask = UIApplication.shared.beginBackgroundTask { [weak self] in
-                PreyLogger("⚠️ Fallback background task expiring")
+                PreyLogger("⚠️ Short fallback background task expiring")
                 self?.stopBackgroundTask()
             }
             
-            if self.bgTask != nil { // Check for nil not invalid
-                PreyLogger("Started regular background task as fallback: \(self.bgTask!.rawValue)") // Use ! safely here
+            if let bgTask = self.bgTask, bgTask != .invalid {
+                PreyLogger("Started short fallback background task: \(bgTask.rawValue)")
                 
-                // Schedule a timer to perform minimal updates.
-                // This timer should be very short-lived (e.g., 15-20s) to ensure it finishes before the 30s limit.
-                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 15) { [weak self] in
+                // End the task quickly (within 5 seconds) to avoid timeout
+                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 5) { [weak self] in
                     guard let self = self else { return }
-                    PreyLogger("Fallback background task logic executing (after 15s)")
-                    // Process any pending actions (quick operations)
-                    PreyModule.sharedInstance.checkActionArrayStatus()
-                    // Process any cached requests (quick operations)
-                            // End the background task
+                    PreyLogger("Ending short fallback background task")
                     self.stopBackgroundTask(self.bgTask)
                 }
             }

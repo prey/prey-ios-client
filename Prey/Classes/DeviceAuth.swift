@@ -450,8 +450,8 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
                     PreyModule.sharedInstance.runSingleAction(locationAction)
                 }
                 
-                // Keep background task running for a moment to register properly
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                // End background task immediately after location service registration
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     if bgTask != UIBackgroundTaskIdentifier.invalid {
                         UIApplication.shared.endBackgroundTask(bgTask)
                         bgTask = UIBackgroundTaskIdentifier.invalid
@@ -541,7 +541,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         // Check if daily location update is needed during background processing
         Location.checkDailyLocationUpdate()
         
-        // Add a timeout to ensure background task always gets ended
+        // Add a timeout with standard 25-second limit
         let timeoutWorkItem = DispatchWorkItem {
             if bgTask != UIBackgroundTaskIdentifier.invalid {
                 PreyLogger("⚠️ Background location processing task timed out after 25 seconds")
@@ -551,17 +551,15 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 25.0, execute: timeoutWorkItem)
         
-        // When all operations complete, end the background task
+        // When all operations complete, end the background task immediately
         operationGroup.notify(queue: .main) {
             timeoutWorkItem.cancel() // Cancel timeout if we complete normally
             
-            // Give a short delay to ensure all processing completes
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                if bgTask != UIBackgroundTaskIdentifier.invalid {
-                    UIApplication.shared.endBackgroundTask(bgTask)
-                    bgTask = UIBackgroundTaskIdentifier.invalid
-                    PreyLogger("Background location processing task completed")
-                }
+            // End task immediately without additional delay
+            if bgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(bgTask)
+                bgTask = UIBackgroundTaskIdentifier.invalid
+                PreyLogger("Background location processing task completed")
             }
         }
     }

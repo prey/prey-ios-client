@@ -33,8 +33,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     private let maxRetryCount = 3
     private var lastValidationTime: Date?
     
-    // Background task manager for better task handling
-    private var backgroundTasks: [String: UIBackgroundTaskIdentifier] = [:]
+    // Single background task management - removed dictionary to prevent multiple concurrent tasks
     
     // Location deduplication constants (not currently used but kept for potential future use)
     private static let locationDeduplicationThreshold: TimeInterval = 5.0 // 5 seconds
@@ -42,8 +41,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     // MARK: Constants
     private static let cachedLocationMaxAge: TimeInterval = 300 // 5 minutes
-    private static let locationTimeoutDuration: TimeInterval = 30.0 // seconds
-    private static let backgroundTaskExtraTime: TimeInterval = 2.0 // seconds
+    private static let locationTimeoutDuration: TimeInterval = 25.0 // seconds - standardized timeout  
+    private static let backgroundTaskExtraTime: TimeInterval = 0.0 // seconds - removed extra delay
     private static let offlineQueueRetryDelay: TimeInterval = 1.0 // seconds
     private static let offlineQueueMaxSize: Int = 50
     private static let maxLocationAccuracy: CLLocationAccuracy = 200.0 // meters
@@ -288,26 +287,21 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             
             PreyLogger("Location background task expiring - ID: \(self.locationBgTaskId.rawValue)")
             
-            // Try to create a new background task before the current one expires
-            let newBgTask = UIApplication.shared.beginBackgroundTask { [weak self] in
-                guard let self = self else { return }
-                if self.locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
-                    UIApplication.shared.endBackgroundTask(self.locationBgTaskId)
-                    self.locationBgTaskId = UIBackgroundTaskIdentifier.invalid
-                    PreyLogger("Location background task finally ended")
-                }
-            }
+            // Stop location updates to conserve battery
+            self.locManager.stopUpdatingLocation()
+            self.locManager.stopMonitoringSignificantLocationChanges()
             
-            if newBgTask != UIBackgroundTaskIdentifier.invalid {
-                // End the old task and keep the new one
-                UIApplication.shared.endBackgroundTask(self.locationBgTaskId)
-                self.locationBgTaskId = newBgTask
-                PreyLogger("Location background task renewed with ID: \(newBgTask.rawValue)")
-            } else {
-                // Just end the old task if we couldn't create a new one
+            // End the background task properly
+            if self.locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
                 UIApplication.shared.endBackgroundTask(self.locationBgTaskId)
                 self.locationBgTaskId = UIBackgroundTaskIdentifier.invalid
-                PreyLogger("Location background task ended - couldn't renew")
+                PreyLogger("Location background task ended properly")
+            }
+            
+            // If we still need location, rely on significant location changes only
+            if self.isActive {
+                self.locManager.startMonitoringSignificantLocationChanges()
+                PreyLogger("Switched to significant location changes only")
             }
         }
         
@@ -347,14 +341,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             locationBgTaskId = UIBackgroundTaskIdentifier.invalid
         }
         
-        // End all managed background tasks
-        for (name, taskId) in backgroundTasks {
-            if taskId != UIBackgroundTaskIdentifier.invalid {
-                UIApplication.shared.endBackgroundTask(taskId)
-                PreyLogger("Ended background task: \(name)")
-            }
-        }
-        backgroundTasks.removeAll()
+        // Background task already ended above - no additional cleanup needed
         
         // Set delegate to nil to prevent callbacks
         locManager.delegate = nil
@@ -367,17 +354,11 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     func locationReceived(_ location:CLLocation) {
         PreyLogger("Processing location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         
-        // Create a background task to ensure we have time to send the location
-        var bgTask = UIBackgroundTaskIdentifier.invalid
-        bgTask = UIApplication.shared.beginBackgroundTask {
-            if bgTask != UIBackgroundTaskIdentifier.invalid {
-                UIApplication.shared.endBackgroundTask(bgTask)
-                bgTask = UIBackgroundTaskIdentifier.invalid
-                PreyLogger("Location sending background task expired")
-            }
+        // Use the existing background task instead of creating a new one for each location
+        // This prevents multiple concurrent background tasks
+        if locationBgTaskId == .invalid {
+            PreyLogger("Warning: locationReceived called but no active background task")
         }
-        
-        PreyLogger("Started location sending background task: \(bgTask.rawValue)")
  
         // Create location params - always send fresh location data
         let params:[String: Any] = [
@@ -437,22 +418,17 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         // Device info is now handled by scheduled sync tasks to avoid excessive calls
         // No need to call infoDevice on every location update
         
-        // When all requests complete, end the background task
+        // When all requests complete, the main background task continues running
+        // Individual location sends don't need separate background tasks
         dispatchGroup.notify(queue: .main) {
-            // Give a little extra time for any pending network operations
-            DispatchQueue.main.asyncAfter(deadline: .now() + Location.backgroundTaskExtraTime) {
-                if bgTask != UIBackgroundTaskIdentifier.invalid {
-                    UIApplication.shared.endBackgroundTask(bgTask)
-                    bgTask = UIBackgroundTaskIdentifier.invalid
-                    PreyLogger("Location sending background task completed - all requests finished")
-                }
-                
-                // Reset retry count on successful transmission
-                self.retryCount = 0
-                
-                // Process any queued offline locations
-                // self.processOfflineLocationQueue()
-            }
+            PreyLogger("Location data sent successfully - main background task continues")
+            // No need to end background task here - it's managed by the main location service
+            
+            // Reset retry count on successful transmission
+            self.retryCount = 0
+            
+            // Process any queued offline locations
+            // self.processOfflineLocationQueue()
         }
     }
     
@@ -813,26 +789,13 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         locManager.startUpdatingLocation()
     }
     
-    // Enhanced background task management
-    private func beginBackgroundTask(name: String, expirationHandler: @escaping () -> Void) {
-        let taskId = UIApplication.shared.beginBackgroundTask(withName: name) {
-            PreyLogger("Background task '\(name)' expired")
-            self.endBackgroundTask(name: name)
-            expirationHandler()
+    // Simplified background task management - use only the main locationBgTaskId
+    private func cleanupBackgroundTask() {
+        if locationBgTaskId != .invalid {
+            UIApplication.shared.endBackgroundTask(locationBgTaskId)
+            locationBgTaskId = .invalid
+            PreyLogger("Location background task ended")
         }
-        
-        if taskId != .invalid {
-            backgroundTasks[name] = taskId
-            PreyLogger("Started background task '\(name)' with ID: \(taskId.rawValue)")
-        }
-    }
-    
-    private func endBackgroundTask(name: String) {
-        guard let taskId = backgroundTasks[name], taskId != .invalid else { return }
-        
-        UIApplication.shared.endBackgroundTask(taskId)
-        backgroundTasks[name] = nil
-        PreyLogger("Ended background task '\(name)' with ID: \(taskId.rawValue)")
     }
     
     // Enable emergency mode for critical situations
