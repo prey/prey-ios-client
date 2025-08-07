@@ -1057,7 +1057,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
@@ -1093,7 +1093,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1202,7 +1202,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PreyNotify/Info.plist;
@@ -1243,7 +1243,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PreyNotify/Info.plist;
