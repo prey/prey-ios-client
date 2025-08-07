@@ -73,6 +73,8 @@ public let biometricAuth : String = {
             textID = "Touch ID"
         case .faceID:
             textID = "Face ID"
+        case .opticID:
+            textID = ""
         @unknown default:
             textID = ""
         }

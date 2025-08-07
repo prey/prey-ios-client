@@ -48,7 +48,7 @@ enum PreyUserEmailValidation: String {
     case inactive, pending, active
 }
 
-class PreyConfig: NSObject, UIActionSheetDelegate {
+class PreyConfig: NSObject {
     
     // MARK: Singleton
     
@@ -273,148 +273,11 @@ class PreyConfig: NSObject, UIActionSheetDelegate {
         return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 40/255, green: 54/255, blue: 74/255, alpha: 1.0) : UIColor.white
     }
     
-    // MARK: Message check for update on App Store
-    
-    // Check last version on Store
-    func checkLastVersionOnStore() {
-
-        // Check if devices is missing
-        if isMissing {
-            return
-        }
-        // Check timer
-        guard shouldAskForUpdateApp() else {
-            return
-        }
-        // Get app information
-        guard let appInfo = Bundle.main.infoDictionary else {
-            return
-        }
-        // Define bundleId
-        guard let appId   = appInfo["CFBundleIdentifier"] as? String else {
-            return
-        }
-        // Define app store url
-        guard let url     = URL(string:String(format:"http://itunes.apple.com/lookup?bundleId=%@",appId)) else {
-            return
-        }
-        // Get data from store url
-        URLSession.shared.dataTask(with: url, completionHandler: {(data, response, error) in
-            // Check error
-            guard error == nil else{
-                return
-            }
-            // Check data info
-            guard let data = data else {
-                return
-            }            
-            // Parse info from url
-            do {
-                // Json to String:any
-                guard let lookup = try JSONSerialization.jsonObject(with: data, options:.mutableContainers) as? [String : Any] else {
-                    return
-                }
-                // Convert to Int value
-                guard let resultCount = lookup["resultCount"] as? Int else {
-                    return
-                }
-                // Check result count
-                guard resultCount == 1 else {
-                    return
-                }
-                // Get array from results
-                guard let resultStore = lookup["results"] as? NSArray else {
-                    return
-                }
-                // Get first element from array
-                guard let resultData = resultStore[0] as? [String:Any] else {
-                    return
-                }
-                // Get Store version
-                guard let appStoreVersion = resultData["version"] as? NSString else {
-                    return
-                }
-                // Get local version
-                guard let currentVersion  = appInfo["CFBundleShortVersionString"] as? String else {
-                    return
-                }
-                // Compare versions
-                if (appStoreVersion.compare(currentVersion, options:.numeric) == .orderedDescending) {
-                    DispatchQueue.main.async {
-                        self.showMessageForUpdateVersion()
-                    }
-                }
-                
-            } catch let error as NSError{
-                PreyLogger("params error: \(error.localizedDescription)")
-            }
-            
-        }).resume()
-    }
-    
-    // MARK: AlertView Message
-    
-    // Show alertView
-    func showMessageForUpdateVersion() {
-        let actionSheet = UIActionSheet(title:"There is a new version available. Do you want to update?".localized,
-                                        delegate:self,
-                                        cancelButtonTitle:"Remind me later".localized,
-                                        destructiveButtonTitle:"Download".localized)
-        if IS_IPAD {
-            actionSheet.addButton(withTitle: "Remind me later".localized)
-        }
-        
-        let appWindow = UIApplication.shared.delegate?.window!
-        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-
-        actionSheet.show(in: navigationController.view)
-    }
-    
-    // ActionSheetDelegate
-    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
-
-        switch buttonIndex {
-            
-        case 0: // Download
-            let linkStore = "https://itunes.apple.com/us/app/apple-store/id456755037?mt=8"
-            UIApplication.shared.openURL(URL(string:linkStore)!)
-
-        case 1: // Remind me later
-            let defaults = UserDefaults.standard
-            let nextTime = CFAbsoluteTimeGetCurrent() + 60*60*23*1
-            defaults.set(nextTime, forKey: PreyMessageAsk.UpdateApp.rawValue)
-
-        default: break
-        }
-    }
-    
-    // Should ask for update app
-    func shouldAskForUpdateApp() -> Bool {
-        
-        let defaults    = UserDefaults.standard
-        let currentTime = CFAbsoluteTimeGetCurrent()
-
-        if (defaults.object(forKey: PreyMessageAsk.UpdateApp.rawValue) == nil) {
-            let nextTime = currentTime + 60*60*23*1
-            defaults.set(nextTime, forKey:PreyMessageAsk.UpdateApp.rawValue)
-            return false
-        }
-
-        var nextTime    = defaults.double(forKey: PreyMessageAsk.UpdateApp.rawValue)
-        if (currentTime < nextTime) {
-            return false
-        }
-        
-        // Ask again in 24 hours
-        nextTime = currentTime + 60*60*23*1
-        defaults.set(nextTime, forKey:PreyMessageAsk.UpdateApp.rawValue)
-        
-        return true
-    }
     
     // Report Error
     func reportError(_ error: Error?) {
         if let err = error {
+            // TODO: enable
 //            Crashlytics.sharedInstance().recordError(err)
         }
     }

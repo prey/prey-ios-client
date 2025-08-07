@@ -53,6 +53,8 @@ class ListPermissions : PreyAction, @unchecked Sendable {
                     photos=false;
                 case PHAuthorizationStatus.restricted:
                     photos=false;
+                @unknown default:
+                    fatalError()
                 }
                 
                 //send listPermissions

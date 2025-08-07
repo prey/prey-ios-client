@@ -35,7 +35,7 @@ enum SectionAbout : Int {
     case version=0, help, termService, privacyPolice, numberSectionAbout
 }
 
-class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource, WKUIDelegate, WKNavigationDelegate {
+class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, WKUIDelegate, WKNavigationDelegate {
 
     
     // MARK: Properties
@@ -461,25 +461,13 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
         var request             = URLRequest(url:urlString)
         request.timeoutInterval = timeoutIntervalRequest
 
-        if #available(iOS 10.0, *) {
-            let webConfiguration            = WKWebViewConfiguration()
-            let webKitView                  = WKWebView(frame:CGRect.zero, configuration:webConfiguration)
-            webKitView.uiDelegate           = self
-            webKitView.navigationDelegate   = self
-            webKitView.load(request)
-            
-            controller.view                 = webKitView
-        } else {
-            // For iOS 7, 8 and 9
-            DispatchQueue.main.async {
-                let webView             = UIWebView(frame:CGRect.zero)
-                webView.scalesPageToFit = true
-                webView.delegate        = self
-                webView.loadRequest(request)
-                
-                controller.view         = webView
-            }
-        }
+        let webConfiguration            = WKWebViewConfiguration()
+        let webKitView                  = WKWebView(frame:CGRect.zero, configuration:webConfiguration)
+        webKitView.uiDelegate           = self
+        webKitView.navigationDelegate   = self
+        webKitView.load(request)
+        
+        controller.view                 = webKitView
 
         controller.title = title
         
@@ -665,41 +653,4 @@ class SettingsVC: UIViewController, UIWebViewDelegate, UITableViewDelegate, UITa
                           titleMessage:"We have a situation!".localized)
     }
 
-    
-    // MARK: UIWebViewDelegate
-    
-    func webViewDidStartLoad(_ webView: UIWebView) {
-        PreyLogger("Start load web")
-        
-        DispatchQueue.main.async {
-            // Show ActivityIndicator
-            if self.actInd == nil {
-                self.actInd          = UIActivityIndicatorView(initInView: webView, withText:"Please wait".localized)
-                webView.addSubview(self.actInd)
-                self.actInd.startAnimating()
-            }
-        }
-    }
-    
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-        PreyLogger("Should load request")
-        return true
-    }
-    
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        PreyLogger("Finish load web")
-        
-        // Hide ActivityIndicator
-        DispatchQueue.main.async { self.actInd.stopAnimating() }
-    }
-    
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        PreyLogger("Error loading web")
-        
-        // Hide ActivityIndicator
-        DispatchQueue.main.async { self.actInd.stopAnimating() }
-        
-        displayErrorAlert("Error loading web, please try again.".localized,
-                          titleMessage:"We have a situation!".localized)
-    }
 }

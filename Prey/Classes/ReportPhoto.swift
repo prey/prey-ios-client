@@ -27,8 +27,8 @@ class ReportPhoto: NSObject {
     
     // Check camera number
     var isTwoCameraAvailable : Bool {
-        let videoDevices = AVCaptureDevice.devices(for: AVMediaType.video)
-        return (videoDevices.count > 1) ? true : false
+        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTrueDepthCamera], mediaType: .video, position: .unspecified)
+        return (discoverySession.devices.count > 1) ? true : false
     }
     
     // Photo array
@@ -94,20 +94,11 @@ class ReportPhoto: NSObject {
         AudioServicesPlaySystemSound(soundID)
     }
     
-    // Set Flash Off
+    // Set Flash Off - Note: Flash mode is now handled via AVCapturePhotoSettings
     func setFlashModeOff(_ device:AVCaptureDevice) {
-        
-        if (device.hasFlash && device.isFlashModeSupported(AVCaptureDevice.FlashMode.off)) {
-            // Set AVCaptureFlashMode
-            do {
-                try device.lockForConfiguration()
-                device.flashMode = AVCaptureDevice.FlashMode.off
-                device.unlockForConfiguration()
-                
-            } catch let error {
-                PreyLogger("AVCaptureFlashMode error: \(error.localizedDescription)")
-            }
-        }
+        // Flash mode is now configured per photo capture via AVCapturePhotoSettings
+        // This method is kept for compatibility but flash is handled in photoOutput settings
+        PreyLogger("Flash mode will be set via AVCapturePhotoSettings during capture")
     }
     
     // Observer Key
@@ -123,16 +114,9 @@ class ReportPhoto: NSObject {
     
     // Return AVCaptureDevice
     class func deviceWithPosition(_ position:AVCaptureDevice.Position) -> AVCaptureDevice? {
-        // Get devices array
-        let devicesArray = AVCaptureDevice.devices(for: AVMediaType.video)
-        
-        // Search for device
-        for device in devicesArray {
-            if device.position == position {
-                return device
-            }
-        }
-        return nil
+        // Get devices using modern discovery session
+        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTrueDepthCamera], mediaType: .video, position: position)
+        return discoverySession.devices.first
     }
 }
 
@@ -375,12 +359,9 @@ class ReportPhotoiOS10: ReportPhoto, AVCapturePhotoCaptureDelegate {
             self.delegate?.photoReceived(self.photoArray)
             return
         }
-        guard let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: nil) else {
-            PreyLogger("Error CMSampleBuffer to NSData")
-            self.delegate?.photoReceived(self.photoArray)
-            return
-        }
-        self.saveImagePhotoArray(imageData: imageData)
+        // This method is now handled by AVCapturePhotoCaptureDelegate
+        PreyLogger("Legacy method - using modern delegate pattern")
+        self.delegate?.photoReceived(self.photoArray)
     }
     
     // Save image to Photo Array with memory optimization
@@ -443,12 +424,12 @@ class ReportPhotoiOS10: ReportPhoto, AVCapturePhotoCaptureDelegate {
 // ====
 // MARK: ReportPhotoiOS8
 // ====
-class ReportPhotoiOS8: ReportPhoto {
+class ReportPhotoiOS8: ReportPhoto, AVCapturePhotoCaptureDelegate {
     
     // MARK: Properties
     
-    // Image Output
-    @objc dynamic var stillImageOutput = AVCaptureStillImageOutput()
+    // Photo Output
+    @objc dynamic var photoOutput = AVCapturePhotoOutput()
     
     // MARK: Init
     
@@ -474,8 +455,8 @@ class ReportPhotoiOS8: ReportPhoto {
             }
             
             // Remove session output
-            if !self.sessionDevice.canAddOutput(self.stillImageOutput) {
-                self.sessionDevice.removeOutput(self.stillImageOutput)
+            if !self.sessionDevice.canAddOutput(self.photoOutput) {
+                self.sessionDevice.removeOutput(self.photoOutput)
             }
             
             // Set session to PresetLow
@@ -528,13 +509,14 @@ class ReportPhotoiOS8: ReportPhoto {
         }
         
         // Add session output
-        guard self.sessionDevice.canAddOutput(self.stillImageOutput) else {
+        guard self.sessionDevice.canAddOutput(self.photoOutput) else {
             PreyLogger("Error add session output")
             self.delegate?.photoReceived(self.photoArray)
             return
         }
-        self.stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
-        self.sessionDevice.addOutput(self.stillImageOutput)
+        // AVCapturePhotoOutput doesn't use outputSettings like AVCaptureStillImageOutput
+        // Settings are configured per capture via AVCapturePhotoSettings
+        self.sessionDevice.addOutput(self.photoOutput)
         
         // Start session
         self.sessionDevice.startRunning()
@@ -616,29 +598,28 @@ class ReportPhotoiOS8: ReportPhoto {
         }
         
         // Capture a still image
-        guard let videoConnection = self.stillImageOutput.connection(with: AVMediaType.video) else {
+        guard let photoConnection = self.photoOutput.connection(with: AVMediaType.video) else {
             // Error: return to delegate
             self.delegate?.photoReceived(self.photoArray)
             return
         }
-        guard videoConnection.isEnabled else {
+        guard photoConnection.isEnabled else {
             // Error: return to delegate
             self.delegate?.photoReceived(self.photoArray)
             return
         }
-        guard videoConnection.isActive else {
+        guard photoConnection.isActive else {
             // Error: return to delegate
             self.delegate?.photoReceived(self.photoArray)
             return
         }
         // Check current state
-        guard self.stillImageOutput.isCapturingStillImage == false else {
-            // Error: return to delegate
-            self.delegate?.photoReceived(self.photoArray)
-            return
-        }
+        // Modern AVCapturePhotoOutput doesn't have isCapturingStillImage property
+        // We'll proceed with capture
         // Capture image
-        self.stillImageOutput.captureStillImageAsynchronously(from: videoConnection, completionHandler:self.checkPhotoCapture(isFirstPhoto))
+        let photoSettings = AVCapturePhotoSettings()
+        photoSettings.flashMode = .off // Set flash mode per capture
+        self.photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
     
     // Downsamples an image from data to a specified size - much more memory efficient
@@ -680,11 +661,10 @@ class ReportPhotoiOS8: ReportPhoto {
             }
             
             // Change SampleBuffer to NSData
-            guard let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer!) else {
-                PreyLogger("Error CMSampleBuffer to NSData")
-                self.delegate?.photoReceived(self.photoArray)
-                return
-            }
+            // This legacy method is no longer used with AVCapturePhotoOutput
+            PreyLogger("Legacy stillImageOutput method called - should use AVCapturePhotoCaptureDelegate")
+            self.delegate?.photoReceived(self.photoArray)
+            return
             
             // Use the same downsampling method as in iOS 10+
             guard let image = self.downsampleImage(imageData, to: CGSize(width: 1024, height: 768)) else {
@@ -712,5 +692,45 @@ class ReportPhotoiOS8: ReportPhoto {
         }
         
         return actionPhotoCapture
+    }
+    
+    // MARK: AVCapturePhotoCaptureDelegate
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard error == nil else {
+            PreyLogger("Error capturing photo: \(error!.localizedDescription)")
+            self.delegate?.photoReceived(self.photoArray)
+            return
+        }
+        
+        guard let imageData = photo.fileDataRepresentation() else {
+            PreyLogger("Error getting photo data")
+            self.delegate?.photoReceived(self.photoArray)
+            return
+        }
+        
+        // Use the same downsampling method as before
+        guard let image = self.downsampleImage(imageData, to: CGSize(width: 1024, height: 768)) else {
+            PreyLogger("Error creating downsampled image")
+            self.delegate?.photoReceived(self.photoArray)
+            return
+        }
+        
+        // Save image to photoArray
+        if self.isFirstPhoto {
+            self.photoArray.removeAllObjects()
+            self.photoArray.setObject(image, forKey: "picture" as NSCopying)
+        } else {
+            self.photoArray.setObject(image, forKey: "screenshot" as NSCopying)
+        }
+        
+        // Check if need take second photo
+        if self.isFirstPhoto && self.isTwoCameraAvailable {
+            self.isFirstPhoto = false
+            self.getSecondPhoto()
+        } else {
+            // Send photoArray to ReportModule
+            self.delegate?.photoReceived(self.photoArray)
+        }
     }
 }

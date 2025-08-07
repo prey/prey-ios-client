@@ -129,7 +129,7 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     // Open URL from Safari
     func openBrowserWith(_ url:URL?) {
         if let urlRequest = url {
-            UIApplication.shared.openURL(urlRequest)
+            UIApplication.shared.open(urlRequest, options: [:], completionHandler: nil)
         }
     }
     
@@ -151,14 +151,6 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         if let host = mainRequest.url?.host {
             
             switch host {
-         
-                // Worldpay
-            case BlockHost.WORLDPAY.rawValue:
-                displayErrorAlert("This service is not available from here. Please go to 'Manage Prey Settings' from the main menu in the app.".localized,
-                                  titleMessage:"Information".localized)
-                decisionHandler(.cancel)
-                return
-                
                 // Help Prey
             case BlockHost.HELPPREY.rawValue:
                 openBrowserWith(URL(string:URLHelpPrey))

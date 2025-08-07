@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import UIKit
 
-class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, PhotoServiceDelegate {
+class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, PhotoServiceDelegate, @unchecked Sendable {
  
     // MARK: Properties
     

@@ -12,7 +12,6 @@ import WebKit
 
 // Block host for Apple
 enum BlockHost: String {
-    case WORLDPAY   = "secure.worldpay.com"
     case HELPPREY   = "help.preyproject.com"
     case PANELPREY  = "panel.preyproject.com"
     case S3AMAZON   = "s3.amazonaws.com"
@@ -119,14 +118,6 @@ class WebVC: UIViewController, WKNavigationDelegate {
         if let host = request.url?.host {
             
             switch host {
-         
-                // Worldpay
-            case BlockHost.WORLDPAY.rawValue:
-                displayErrorAlert("This service is not available from here. Please go to 'Manage Prey Settings' from the main menu in the app.".localized,
-                                  titleMessage:"Information".localized)
-                decisionHandler(.cancel)
-                return
-                
                 // Help Prey
             case BlockHost.HELPPREY.rawValue:
                 openBrowserWith(URL(string:URLHelpPrey))
