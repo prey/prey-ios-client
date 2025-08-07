@@ -179,7 +179,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if PreyConfig.sharedInstance.isRegistered {
             PreyNotification.sharedInstance.registerForRemoteNotifications() // Might be redundant with previous call, but safe
             TriggerManager.sharedInstance.checkTriggers()
-            RequestCacheManager.sharedInstance.sendRequest()
             
             // Handle notification if app was launched from a notification
             if let notification = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? [AnyHashable: Any] {
@@ -390,8 +389,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     // Process any pending actions (quick operations)
                     PreyModule.sharedInstance.checkActionArrayStatus()
                     // Process any cached requests (quick operations)
-                    RequestCacheManager.sharedInstance.sendRequest()
-                    // End the background task
+                            // End the background task
                     self.stopBackgroundTask(self.bgTask)
                 }
             }
@@ -438,7 +436,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Process any cached requests (e.g., failed uploads from previous attempts)
         dispatchGroup.enter()
         PreyLogger("Processing cached requests in background refresh")
-        RequestCacheManager.sharedInstance.sendRequest()
         dispatchGroup.leave()
         
         // Ensure location services are properly configured (lightweight check)
@@ -503,7 +500,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Process any cached requests that might need more time or network connectivity
         dispatchGroup.enter()
         PreyLogger("Processing cached requests in background processing")
-        RequestCacheManager.sharedInstance.sendRequest()
         dispatchGroup.leave()
         
         // Check device status from server - moved from applicationDidEnterBackground
@@ -787,7 +783,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         PreyNotification.sharedInstance.didReceiveRemoteNotifications(userInfo) { result in
             PreyLogger("PreyNotification didReceiveRemoteNotifications result: \(result)")
             // Process any cached requests (assuming this is efficient)
-            RequestCacheManager.sharedInstance.sendRequest()
             
             if result == .newData {
                 wasDataReceived = true
