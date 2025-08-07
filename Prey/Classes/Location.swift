@@ -151,13 +151,31 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         return existAction ? nil : Location(withTarget:target, withCommand:cmd, withOptions:opt)
     }
     
-    // Send lastLocation 
+    // Send lastLocation - improved to get fresh location if cached is too old
     func sendLastLocation() {
-
-        if lastLocation != nil {
-            // Send location to web panel
-            locationReceived(lastLocation)
+        PreyLogger("sendLastLocation() called")
+        
+        // Check if we have a cached location and if it's still fresh
+        if let cachedLocation = lastLocation {
+            let locationAge = Date().timeIntervalSince(cachedLocation.timestamp)
+            PreyLogger("Cached location age: \(locationAge) seconds (max allowed: \(Location.cachedLocationMaxAge))")
+            
+            if locationAge <= Location.cachedLocationMaxAge {
+                PreyLogger("Using cached location (fresh enough)")
+                // Send cached location to web panel
+                locationReceived(cachedLocation)
+                return
+            } else {
+                PreyLogger("Cached location is too old (\(locationAge)s), requesting fresh location")
+            }
+        } else {
+            PreyLogger("No cached location available, requesting fresh location")
         }
+        
+        // Cached location is too old or doesn't exist - get fresh location
+        // This will trigger the same flow as a regular location request
+        PreyLogger("Calling get() to obtain fresh location for web request")
+        get()
     }
     
     // Prey command
