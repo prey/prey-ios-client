@@ -29,6 +29,17 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     // Array for onCompletion request : (session : onCompletion)
     var requestCompletionHandler = [URLSession : ((Data?, URLResponse?, Error?) -> Void)]()
     
+    // Background session for critical requests (location, data)
+    private lazy var backgroundSession: URLSession = {
+        let config = URLSessionConfiguration.background(withIdentifier: "prey.critical.requests")
+        config.isDiscretionary = false
+        config.sessionSendsLaunchEvents = true
+        config.timeoutIntervalForRequest = 30.0
+        config.timeoutIntervalForResource = 120.0
+        return URLSession(configuration: config, delegate: self, delegateQueue: nil)
+    }()
+    
+    
     // Encoding Character
     struct EncodingCharacters {
         static let CRLF = "\r\n"
@@ -293,8 +304,9 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             if reqUrl.absoluteString == (URLControlPanel+locationAwareEndpoint) ||  reqUrl.absoluteString == (URLControlPanel+dataDeviceEndpoint) {
 
                 DispatchQueue.main.async {
-                    // Save request
-                    RequestCacheManager.sharedInstance.saveRequest(session.configuration, req, err)
+                    // Use background session for critical request retry
+                    PreyLogger("Retrying critical request via background session: \(reqUrl.absoluteString)")
+                    self.backgroundSession.dataTask(with: req).resume()
                     // Delete value for sessionKey
                     self.requestData.removeValue(forKey:session)
                     self.requestCompletionHandler.removeValue(forKey:session)
@@ -328,12 +340,12 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     }
     
     // URLSessionDataDelegate : dataTask didReceive Response
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping @Sendable (URLSession.ResponseDisposition) -> Void) {
         completionHandler(.allow)
     }
     
     // URLSessionDelegate didReceive challenge
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping @Sendable (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let serverTrust = challenge.protectionSpace.serverTrust else {return}
         completionHandler(
             .useCredential,

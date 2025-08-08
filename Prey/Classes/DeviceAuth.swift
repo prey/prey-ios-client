@@ -157,7 +157,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     func requestAuthLocation() {
         authLocation.delegate = self
         if (CLLocationManager.locationServicesEnabled() &&
-            CLLocationManager.authorizationStatus() == .notDetermined) {
+            authLocation.authorizationStatus == .notDetermined) {
             authLocation.requestAlwaysAuthorization()
         } else {
             callNextRequestAuth("btnLocation")
@@ -181,7 +181,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     func checkLocationBackground() -> Bool {
         var locationAuth = false
         if (CLLocationManager.locationServicesEnabled() &&
-            CLLocationManager.authorizationStatus() == .authorizedAlways) {
+            authLocation.authorizationStatus == .authorizedAlways) {
             locationAuth = true
         }
         return locationAuth
@@ -263,6 +263,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:statusDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.statusDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request check status") }))
         }
+        
+        // Check if daily location update is needed
+        Location.checkDailyLocationUpdate()
     }
 
     // MARK: CLLocationManagerDelegate
@@ -277,9 +280,12 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     private static var isBackgroundLocationConfigured = false
     private static var lastConfigTime: Date?
     
-    // Track timestamps for throttling operations
-    private static var lastLocationSentTime: Date?
-    private static var lastActionCheckTime: Date?
+    
+    // Independent action check scheduler
+    private static var actionsCheckTimer: Timer?
+    private static var deviceStatusTimer: Timer?
+    private static let actionsCheckInterval: TimeInterval = 5 * 60 // 5 minutes
+    private static let deviceStatusCheckInterval: TimeInterval = 10 * 60 // 10 minutes
     
     // Location delegates for consolidated location management
     private var locationDelegates: [LocationDelegate] = []
@@ -309,6 +315,69 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         }
     }
     
+    // Start independent schedulers for actions and device status checks
+    func startIndependentSchedulers() {
+        // Start actions check timer if not already running
+        if DeviceAuth.actionsCheckTimer == nil {
+            DeviceAuth.actionsCheckTimer = Timer.scheduledTimer(withTimeInterval: DeviceAuth.actionsCheckInterval, repeats: true) { _ in
+                self.performActionsCheck()
+            }
+            PreyLogger("Started independent actions check scheduler (\(DeviceAuth.actionsCheckInterval/60) minute intervals)")
+        }
+        
+        // Start device status check timer if not already running
+        if DeviceAuth.deviceStatusTimer == nil {
+            DeviceAuth.deviceStatusTimer = Timer.scheduledTimer(withTimeInterval: DeviceAuth.deviceStatusCheckInterval, repeats: true) { _ in
+                self.performDeviceStatusCheck()
+            }
+            PreyLogger("Started independent device status check scheduler (\(DeviceAuth.deviceStatusCheckInterval/60) minute intervals)")
+        }
+    }
+    
+    // Stop independent schedulers
+    func stopIndependentSchedulers() {
+        DeviceAuth.actionsCheckTimer?.invalidate()
+        DeviceAuth.actionsCheckTimer = nil
+        
+        DeviceAuth.deviceStatusTimer?.invalidate()
+        DeviceAuth.deviceStatusTimer = nil
+        
+        PreyLogger("Stopped independent schedulers")
+    }
+    
+    // Perform actions check independently
+    private func performActionsCheck() {
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
+            PreyLogger("Cannot perform actions check - no API key")
+            return
+        }
+        
+        PreyLogger("Performing scheduled actions check")
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            username,
+            password: "x",
+            params: nil,
+            messageId: nil,
+            httpMethod: Method.GET.rawValue,
+            endPoint: actionsDeviceEndpoint,
+            onCompletion: PreyHTTPResponse.checkResponse(
+                RequestType.actionDevice,
+                preyAction: nil,
+                onCompletion: { isSuccess in
+                    PreyLogger("Scheduled actions check complete: \(isSuccess)")
+                }
+            )
+        )
+    }
+    
+    // Perform device status check independently
+    private func performDeviceStatusCheck() {
+        PreyLogger("Performing scheduled device status check")
+        PreyModule.sharedInstance.requestStatusDevice(context: "DeviceAuth-scheduledCheck") { isSuccess in
+            PreyLogger("Scheduled device status check complete: \(isSuccess)")
+        }
+    }
+    
     // Add a method to ensure background location is properly configured
     func ensureBackgroundLocationIsConfigured() {
         // Don't reconfigure if we've done it recently (within 60 seconds)
@@ -321,9 +390,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             return
         }
         
-        PreyLogger("Ensuring background location is configured - Auth status: \(CLLocationManager.authorizationStatus().rawValue)")
+        PreyLogger("Ensuring background location is configured - Auth status: \(authLocation.authorizationStatus.rawValue)")
         
-        if CLLocationManager.authorizationStatus() == .authorizedAlways {
+        if authLocation.authorizationStatus == .authorizedAlways {
             // Use persistent static location manager that won't be deallocated
             if DeviceAuth.backgroundLocationManager == nil {
                 DeviceAuth.backgroundLocationManager = CLLocationManager()
@@ -381,8 +450,8 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
                     PreyModule.sharedInstance.runSingleAction(locationAction)
                 }
                 
-                // Keep background task running for a moment to register properly
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                // End background task immediately after location service registration
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     if bgTask != UIBackgroundTaskIdentifier.invalid {
                         UIApplication.shared.endBackgroundTask(bgTask)
                         bgTask = UIBackgroundTaskIdentifier.invalid
@@ -394,6 +463,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             // Mark as configured and update timestamp
             DeviceAuth.isBackgroundLocationConfigured = true
             DeviceAuth.lastConfigTime = Date()
+            
+            // Start independent schedulers for actions and device status checks
+            startIndependentSchedulers()
             
         } else {
             PreyLogger("Cannot configure background location - no always authorization")
@@ -410,29 +482,6 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     // Handle location updates from background manager
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last, manager == DeviceAuth.backgroundLocationManager else { return }
-        
-        // Throttle location updates to once per 2 hours (7200 seconds) for normal devices
-        // This will prevent excessive location sending while still allowing the device to wake up
-        let minTimeBetweenLocationUpdates: TimeInterval = 7200 // 2 hours
-        
-        let now = Date()
-        
-        // If the device is missing, use a shorter throttle time (30 minutes)
-        let minTimeBetweenUpdates = PreyConfig.sharedInstance.isMissing ? 1800.0 : minTimeBetweenLocationUpdates
-        
-        let shouldSendLocation = DeviceAuth.lastLocationSentTime == nil || 
-                               now.timeIntervalSince(DeviceAuth.lastLocationSentTime!) > minTimeBetweenUpdates
-        
-        // Log which throttling time is being used
-        if PreyConfig.sharedInstance.isMissing {
-            PreyLogger("Device is missing - using shorter location throttle time (30 minutes)")
-        }
-        
-        // Skip location sending if throttled but still check for actions
-        if !shouldSendLocation  {
-            PreyLogger("Skipping location processing - throttled")
-            // Don't return, still proceed with checking actions
-        }
         
         PreyLogger("Background location manager received location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         
@@ -470,77 +519,47 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         // Use a dispatch group to track completion of all operations
         let operationGroup = DispatchGroup()
         
-        // Only trigger location action if not throttled
-        if shouldSendLocation {
-            // Trigger location action if available
-            var locationActionFound = false
-            for action in PreyModule.sharedInstance.actionArray {
-                if let locationAction = action as? Location {
-                    locationActionFound = true
-                    locationAction.locationReceived(location)
-                    PreyLogger("Using existing location action")
-                    break
-                }
-            }
-            
-            // If no location action exists, create one
-            if !locationActionFound {
-                let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
-                PreyModule.sharedInstance.actionArray.append(locationAction)
+        // Always trigger location action - no throttling
+        var locationActionFound = false
+        for action in PreyModule.sharedInstance.actionArray {
+            if let locationAction = action as? Location {
+                locationActionFound = true
                 locationAction.locationReceived(location)
-                PreyLogger("Created and executed new location action for background location")
+                PreyLogger("Using existing location action")
+                break
             }
-            
-            // Update timestamp
-            DeviceAuth.lastLocationSentTime = now
-        } else {
-            PreyLogger("Skipping location sending - throttled to once per hour (last sent: \(String(describing: DeviceAuth.lastLocationSentTime)))")
         }
         
-        // Fetch actions from server with throttling
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            operationGroup.enter()
-            PreyLogger("Fetching actions from server in background location update")
-            
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                username,
-                password: "x",
-                params: nil,
-                messageId: nil,
-                httpMethod: Method.GET.rawValue,
-                endPoint: actionsDeviceEndpoint,
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.actionDevice,
-                    preyAction: nil,
-                    onCompletion: { isSuccess in
-                        PreyLogger("Background fetch actions complete: \(isSuccess)")
-                        // Update the action check timestamp
-                        DeviceAuth.lastActionCheckTime = Date()
-                        operationGroup.leave()
-                    }
-                )
-            )
-            
-            // Only check device status when we check actions
-            operationGroup.enter()
-            PreyModule.sharedInstance.requestStatusDevice(context: "DeviceAuth-backgroundLocation") { isSuccess in
-                PreyLogger("Background check status complete: \(isSuccess)")
-                operationGroup.leave()
-            }
-        } else {
-            operationGroup.enter()
-            operationGroup.leave()
+        // If no location action exists, create one
+        if !locationActionFound {
+            let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+            PreyModule.sharedInstance.actionArray.append(locationAction)
+            locationAction.locationReceived(location)
+            PreyLogger("Created and executed new location action for background location")
         }
         
-        // When all operations complete, end the background task
+        // Check if daily location update is needed during background processing
+        Location.checkDailyLocationUpdate()
+        
+        // Add a timeout with standard 25-second limit
+        let timeoutWorkItem = DispatchWorkItem {
+            if bgTask != UIBackgroundTaskIdentifier.invalid {
+                PreyLogger("⚠️ Background location processing task timed out after 25 seconds")
+                UIApplication.shared.endBackgroundTask(bgTask)
+                bgTask = UIBackgroundTaskIdentifier.invalid
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 25.0, execute: timeoutWorkItem)
+        
+        // When all operations complete, end the background task immediately
         operationGroup.notify(queue: .main) {
-            // Give a short delay to ensure all processing completes
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                if bgTask != UIBackgroundTaskIdentifier.invalid {
-                    UIApplication.shared.endBackgroundTask(bgTask)
-                    bgTask = UIBackgroundTaskIdentifier.invalid
-                    PreyLogger("Background location processing task completed")
-                }
+            timeoutWorkItem.cancel() // Cancel timeout if we complete normally
+            
+            // End task immediately without additional delay
+            if bgTask != UIBackgroundTaskIdentifier.invalid {
+                UIApplication.shared.endBackgroundTask(bgTask)
+                bgTask = UIBackgroundTaskIdentifier.invalid
+                PreyLogger("Background location processing task completed")
             }
         }
     }

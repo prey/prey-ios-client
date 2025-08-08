@@ -19,7 +19,8 @@ extension String {
 // Extension for Alarm action
 extension MPVolumeView {
     var volumeSlider:UISlider {
-        self.showsRouteButton = false
+        // Use KVC to avoid deprecation warning while maintaining functionality
+        self.setValue(false, forKey: "showsRouteButton")
         self.showsVolumeSlider = false
         self.isHidden = true
         var slider = UISlider()
@@ -41,7 +42,7 @@ extension UIActivityIndicatorView {
     convenience init(initInView view: UIView, withText text:String) {
         
         // Config ActivityIndicator
-        self.init(style:.white)
+        self.init(style:.medium)
         self.hidesWhenStopped       = true
         self.transform              = CGAffineTransform(scaleX: 2, y: 2)
         self.center                 = CGPoint(x: view.center.x, y: view.center.y - self.frame.width)

@@ -674,7 +674,7 @@ class PreyHTTPResponse {
             guard let dataResponse = data else {
                 return true
             }
-            let str = String(decoding: dataResponse, as: UTF8.self)
+            
             let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
                         
             if let nameDevice = jsonObject.object(forKey: "name") as? String {

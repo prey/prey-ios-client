@@ -147,26 +147,20 @@ class TriggerManager : NSObject {
                     [kOptions.IDLOCAL.rawValue      : message,
                      kOptions.trigger_id.rawValue   : triggerId]
                 
-                if #available(iOS 10.0, *) {
-                    let content = UNMutableNotificationContent()
-                    content.userInfo = userInfoLocalNotification
-                    content.categoryIdentifier = categoryNotifPreyAlert
-                    content.body = message
-                    let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: dateNotif!)
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,repeats: false)
-                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-                    
-                    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-                } else {
-                    // Legacy local notification
-                    let localNotif:UILocalNotification = UILocalNotification()
-                    localNotif.userInfo     = userInfoLocalNotification
-                    localNotif.alertBody    = message
-                    localNotif.hasAction    = false
-                    localNotif.fireDate     = dateNotif;
-                    localNotif.timeZone     = NSTimeZone.default;
-                    
-                    UIApplication.shared.scheduleLocalNotification(localNotif)
+                let content = UNMutableNotificationContent()
+                content.userInfo = userInfoLocalNotification
+                content.categoryIdentifier = categoryNotifPreyAlert
+                content.body = message
+                content.title = "Prey Alert"
+                content.sound = .default
+                let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second,], from: dateNotif!)
+                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate,repeats: false)
+                let request = UNNotificationRequest(identifier: "exact_\(triggerId)_\(UUID().uuidString)", content: content, trigger: trigger)
+                
+                UNUserNotificationCenter.current().add(request) { error in
+                    if let error = error {
+                        PreyLogger("Error scheduling exact time notification: \(error.localizedDescription)")
+                    }
                 }
                 PreyLogger("DONE exact")
             }
@@ -240,19 +234,25 @@ class TriggerManager : NSObject {
                     fireDate.minute = Int(minute)
                     fireDate.second = Int(second)
                     // Schedule localNotification
-                    let localNotif:UILocalNotification = UILocalNotification()
                     let userInfoLocalNotification:[String: String] =
                         [kOptions.IDLOCAL.rawValue      : message,
                          kOptions.trigger_id.rawValue   : triggerId]
-                    localNotif.userInfo         = userInfoLocalNotification
-                    localNotif.alertBody        = message
-                    localNotif.hasAction        = false
-                    localNotif.fireDate         = NSCalendar.current.date(from: fireDate)
-                    localNotif.repeatCalendar   = Calendar.current
-                    localNotif.repeatInterval   = NSCalendar.Unit.weekOfYear
-                    localNotif.timeZone         = NSTimeZone.default
                     
-                    UIApplication.shared.scheduleLocalNotification(localNotif)
+                    let content = UNMutableNotificationContent()
+                    content.userInfo = userInfoLocalNotification
+                    content.categoryIdentifier = categoryNotifPreyAlert
+                    content.body = message
+                    content.title = "Prey Alert"
+                    content.sound = .default
+                    
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: fireDate, repeats: true)
+                    let request = UNNotificationRequest(identifier: "repeat_\(triggerId)_\(day)", content: content, trigger: trigger)
+                    
+                    UNUserNotificationCenter.current().add(request) { error in
+                        if let error = error {
+                            PreyLogger("Error scheduling repeat time notification: \(error.localizedDescription)")
+                        }
+                    }
                     PreyLogger("DONE repeat")
                 }
             }

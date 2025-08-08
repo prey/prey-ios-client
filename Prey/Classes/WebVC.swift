@@ -8,21 +8,21 @@
 
 import Foundation
 import UIKit
+import WebKit
 
 // Block host for Apple
 enum BlockHost: String {
-    case WORLDPAY   = "secure.worldpay.com"
     case HELPPREY   = "help.preyproject.com"
     case PANELPREY  = "panel.preyproject.com"
     case S3AMAZON   = "s3.amazonaws.com"
     case SRCGOOGLE  = "www.google.com"
 }
 
-class WebVC: UIViewController, UIWebViewDelegate {
+class WebVC: UIViewController, WKNavigationDelegate {
 
     // MARK: Properties
 
-    var webView     = UIWebView()
+    var webView     = WKWebView()
 
     var actInd      = UIActivityIndicatorView()
     
@@ -42,11 +42,10 @@ class WebVC: UIViewController, UIWebViewDelegate {
         let rectView                    = UIScreen.main.bounds
         
         // Config webView
-        webView                         = UIWebView(frame:rectView)
+        webView                         = WKWebView(frame:rectView)
         webView.backgroundColor         = UIColor.black
-        webView.delegate                = self
-        webView.isMultipleTouchEnabled    = true
-        webView.scalesPageToFit         = true
+        webView.navigationDelegate      = self
+        webView.isMultipleTouchEnabled  = true
         
         let request                     = NSMutableURLRequest(url:url)
         request.timeoutInterval         = timeoutIntervalRequest
@@ -59,7 +58,7 @@ class WebVC: UIViewController, UIWebViewDelegate {
         
         // Load request
         DispatchQueue.main.async {
-            self.webView.loadRequest(request as URLRequest)
+            self.webView.load(request as URLRequest)
         }
         
         // Add webView to View
@@ -99,76 +98,74 @@ class WebVC: UIViewController, UIWebViewDelegate {
     // Open URL from Safari
     func openBrowserWith(_ url:URL?) {
         if let urlRequest = url {
-            UIApplication.shared.openURL(urlRequest)
+            UIApplication.shared.open(urlRequest, options: [:], completionHandler: nil)
         }
     }
     
-    // MARK: UIWebViewDelegate
+    // MARK: WKNavigationDelegate
     
-    func webViewDidStartLoad(_ webView: UIWebView) {
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         PreyLogger("Start load web")
         
         // Show ActivityIndicator
         DispatchQueue.main.async { self.actInd.startAnimating() }
     }
     
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        let request = navigationAction.request
         PreyLogger("Should load request")
         
         if let host = request.url?.host {
             
             switch host {
-         
-                // Worldpay
-            case BlockHost.WORLDPAY.rawValue:
-                displayErrorAlert("This service is not available from here. Please go to 'Manage Prey Settings' from the main menu in the app.".localized,
-                                  titleMessage:"Information".localized)
-                return false
-                
                 // Help Prey
             case BlockHost.HELPPREY.rawValue:
                 openBrowserWith(URL(string:URLHelpPrey))
-                return false
+                decisionHandler(.cancel)
+                return
             
                 // Panel Prey
             case BlockHost.PANELPREY.rawValue:
-                webView.stringByEvaluatingJavaScript(from: "var printBtn = document.getElementById('print'); printBtn.style.display='none';")
-                return true
+                webView.evaluateJavaScript("var printBtn = document.getElementById('print'); printBtn.style.display='none';", completionHandler: nil)
+                decisionHandler(.allow)
+                return
 
                 // Google Maps and image reports
             case BlockHost.S3AMAZON.rawValue:
                 openBrowserWith(request.url)
-                return false
+                decisionHandler(.cancel)
+                return
                 
-                // Default true
+                // Default allow
             default:
-                return true
+                decisionHandler(.allow)
+                return
             }
         }
         
-        return true
+        decisionHandler(.allow)
     }
     
-    func webViewDidFinishLoad(_ webView: UIWebView) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         PreyLogger("Finish load web")
         
         // Hide ActivityIndicator
         DispatchQueue.main.async { self.actInd.stopAnimating() }
         
         // Hide ViewMap class
-        webView.stringByEvaluatingJavaScript(from: "var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border')[1]; viewMapBtn.style.display='none';")
+        webView.evaluateJavaScript("var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border')[1]; viewMapBtn.style.display='none';", completionHandler: nil)
         
         // Hide addDeviceBtn
-        webView.stringByEvaluatingJavaScript(from: "var addDeviceBtn = document.getElementsByClassName('btn btn-success pull-right')[0]; addDeviceBtn.style.display='none';")
+        webView.evaluateJavaScript("var addDeviceBtn = document.getElementsByClassName('btn btn-success pull-right')[0]; addDeviceBtn.style.display='none';", completionHandler: nil)
         
         // Hide accountPlans
-        webView.stringByEvaluatingJavaScript(from: "var accountPlans = document.getElementById('account-plans'); accountPlans.style.display='none';")
+        webView.evaluateJavaScript("var accountPlans = document.getElementById('account-plans'); accountPlans.style.display='none';", completionHandler: nil)
         
         // Hide print option
-        webView.stringByEvaluatingJavaScript(from: "var printBtn = document.getElementById('print'); printBtn.style.display='none';")
+        webView.evaluateJavaScript("var printBtn = document.getElementById('print'); printBtn.style.display='none';", completionHandler: nil)
     }
     
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         PreyLogger("Error loading web")
         
         // Hide ActivityIndicator

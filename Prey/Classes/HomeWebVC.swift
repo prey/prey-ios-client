@@ -71,9 +71,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         if (PreyConfig.sharedInstance.isRegistered) {
             // Check for Rate us
             PreyRateUs.sharedInstance.askForReview()
-            
-            // Check new version on App Store
-            PreyConfig.sharedInstance.checkLastVersionOnStore()
         }
     }
     
@@ -157,7 +154,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
     // Open URL from Safari
     func openBrowserWith(_ url:URL?) {
         if let urlRequest = url {
-            UIApplication.shared.openURL(urlRequest)
+            UIApplication.shared.open(urlRequest, options: [:], completionHandler: nil)
         }
     }
 
@@ -545,13 +542,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         
         if let host = requestUrl.host {
             switch host {
-                
-            // Worldpay
-            case BlockHost.WORLDPAY.rawValue:
-                displayErrorAlert("This service is not available from here. Please go to 'Manage Prey Settings' from the main menu in the app.".localized,
-                                  titleMessage:"Information".localized)
-                return decisionHandler(.cancel)
-                
             // Help Prey
             case BlockHost.HELPPREY.rawValue:
                 openBrowserWith(URL(string:URLHelpPrey))
@@ -657,7 +647,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             let pwd2 = queryItems?.filter({$0.name == "pwd2Signup"}).first
             guard let term = queryItems?.filter({$0.name == "termsSignup"}).first else {return}
             guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
-            let offers  = queryItems?.filter({$0.name == "offers"}).first
             self.checkSignUpFields(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue())
             
         case ReactViews.SIGNUP.rawValue:

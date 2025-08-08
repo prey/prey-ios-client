@@ -21,13 +21,7 @@ class ReportExample: NSObject, WKUIDelegate, WKNavigationDelegate, PhotoServiceD
 
     var reportData      = NSMutableDictionary()
     var reportLocation  = ReportLocation()
-    var reportPhoto : ReportPhoto = {
-        if #available(iOS 10.0, *) {
-            return ReportPhotoiOS10()
-        } else {
-            return ReportPhotoiOS8()
-        }
-    }()
+    var reportPhoto = ReportPhoto()
 
     // MARK: Functions
     
