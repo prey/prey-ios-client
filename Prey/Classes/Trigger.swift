@@ -9,8 +9,10 @@
 import Foundation
 import CoreData
 import UIKit
+import UserNotifications
+import CoreLocation
 
-class Trigger : PreyAction {
+class Trigger : PreyAction, @unchecked Sendable {
     
     // MARK: Properties
     
@@ -79,7 +81,7 @@ class Trigger : PreyAction {
     
     // Delete all triggers on device
     func deleteAllTriggersOnDevice() {
-        UIApplication.shared.cancelAllLocalNotifications()        
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
     
     // Delete all triggersOnCoreData

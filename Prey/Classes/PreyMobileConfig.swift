@@ -209,15 +209,32 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     
     private func startBackgroundTask() {
         let application = UIApplication.shared
-        backgroundTask = application.beginBackgroundTask(expirationHandler: {
+        backgroundTask = application.beginBackgroundTask(expirationHandler: { [weak self] in
+            PreyLogger("⚠️ PreyMobileConfig background task expiring")
             DispatchQueue.main.async {
-                self.stopBackgroundTask()
+                self?.stopBackgroundTask()
+                // Stop the HTTP server if background task expires
+                self?.stop()
             }
         })
+        
+        if backgroundTask != .invalid {
+            PreyLogger("Started PreyMobileConfig background task: \(backgroundTask.rawValue)")
+            
+            // Add 25-second timeout for safety
+            DispatchQueue.main.asyncAfter(deadline: .now() + 25.0) { [weak self] in
+                if let self = self, self.backgroundTask != .invalid {
+                    PreyLogger("PreyMobileConfig background task timeout (25s)")
+                    self.stopBackgroundTask()
+                    self.stop() // Stop the HTTP server
+                }
+            }
+        }
     }
     
     private func stopBackgroundTask() {
         if backgroundTask != UIBackgroundTaskIdentifier.invalid {
+            PreyLogger("Stopping PreyMobileConfig background task: \(backgroundTask.rawValue)")
             UIApplication.shared.endBackgroundTask(self.backgroundTask)
             backgroundTask = UIBackgroundTaskIdentifier.invalid
         }

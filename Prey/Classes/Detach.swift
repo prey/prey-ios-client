@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Detach: PreyAction, UIActionSheetDelegate {
+class Detach: PreyAction, @unchecked Sendable {
     
     
     // MARK: Functions
@@ -96,22 +96,49 @@ class Detach: PreyAction, UIActionSheetDelegate {
     // MARK: AlerView Message
     
     func showDetachDeviceAction(_ view:UIView) {
-        let actionSheet = UIActionSheet(title:"You're about to delete this device from the Control Panel.\n Are you sure?".localized,
-                                        delegate:self,
-                                        cancelButtonTitle:"No, don't delete".localized,
-                                        destructiveButtonTitle:"Yes, remove from my account".localized)
+        guard let viewController = view.findViewController() else { return }
         
-        if IS_IPAD {
-            actionSheet.addButton(withTitle: "No, don't delete".localized)
+        let alertController = UIAlertController(
+            title: "You're about to delete this device from the Control Panel.\n Are you sure?".localized,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
+        let deleteAction = UIAlertAction(
+            title: "Yes, remove from my account".localized,
+            style: .destructive
+        ) { _ in
+            self.sendDetachDeviceToPanel()
         }
         
-        actionSheet.show(in: view)
+        let cancelAction = UIAlertAction(
+            title: "No, don't delete".localized,
+            style: .cancel,
+            handler: nil
+        )
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        // Configure for iPad
+        if let popover = alertController.popoverPresentationController {
+            popover.sourceView = view
+            popover.sourceRect = view.bounds
+        }
+        
+        viewController.present(alertController, animated: true)
     }
-    
-    // ActionSheetDelegate
-    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
-        if buttonIndex == 0 {
-            sendDetachDeviceToPanel()
+}
+
+// MARK: - UIView Extension for finding parent view controller
+extension UIView {
+    func findViewController() -> UIViewController? {
+        if let nextResponder = self.next as? UIViewController {
+            return nextResponder
+        } else if let nextResponder = self.next as? UIView {
+            return nextResponder.findViewController()
+        } else {
+            return nil
         }
     }
 }

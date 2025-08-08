@@ -20,11 +20,14 @@ import Foundation
             }
             var writeCounter = 0
             while writeCounter < readResult {
-                #if os(Linux)
-                    let writeResult = send(target, &buffer + writeCounter, readResult - writeCounter, Int32(MSG_NOSIGNAL))
-                #else
-                    let writeResult = write(target, (&buffer + writeCounter) as UnsafeRawPointer, readResult - writeCounter)
-                #endif
+                let writeResult = buffer.withUnsafeBufferPointer { bufferPointer in
+                    let offsetPointer = bufferPointer.baseAddress! + writeCounter
+                    #if os(Linux)
+                        return send(target, offsetPointer, readResult - writeCounter, Int32(MSG_NOSIGNAL))
+                    #else
+                        return write(target, offsetPointer, readResult - writeCounter)
+                    #endif
+                }
                 guard writeResult > 0 else {
                     return Int32(writeResult)
                 }
