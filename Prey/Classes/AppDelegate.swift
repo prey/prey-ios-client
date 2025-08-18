@@ -298,6 +298,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // When app becomes active (from launch or foreground)
     func applicationDidBecomeActive(_ application: UIApplication) {
         PreyLogger("applicationDidBecomeActive")
+        // Sync auth keys to the app group so the Location Push extension can upload directly
+        syncCredentialsToAppGroup()
         
         // Show mainView (UI-related, on main thread)
         if let backgroundImg = window?.viewWithTag(1985) {
@@ -341,6 +343,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         window?.endEditing(true)
         displayScreen() // This is now explicitly on the main thread
+    }
+
+    private func syncCredentialsToAppGroup() {
+        guard PreyConfig.sharedInstance.isRegistered,
+              let apiKey = PreyConfig.sharedInstance.userApiKey else { return }
+        let deviceKey = PreyConfig.sharedInstance.getDeviceKey()
+        if let shared = UserDefaults(suiteName: "group.com.prey.ios") {
+            shared.set(apiKey, forKey: "PreyUserApiKey")
+            shared.set(deviceKey, forKey: "PreyDeviceKey")
+            if shared.object(forKey: "PreyExtensionDirectUploadEnabled") == nil {
+                shared.set(true, forKey: "PreyExtensionDirectUploadEnabled")
+            }
+            shared.synchronize()
+            PreyLogger("Synced API and device key to app group for extension uploads")
+        }
     }
     
     // This method is called when the application is about to be terminated.
@@ -451,7 +468,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
            let lastLocation = userDefaults.dictionary(forKey: "lastLocation") {
             PreyLogger("Found shared location data: \(lastLocation)")
-            // Process location data if needed, but ensure it's quick.
+            // If fresh (<= 5 minutes), upload immediately to avoid waiting for next action
+            if let ts = lastLocation["timestamp"] as? TimeInterval {
+                let age = Date().timeIntervalSince(Date(timeIntervalSince1970: ts))
+                if age <= 300,
+                   let lat = lastLocation["lat"] as? Double,
+                   let lng = lastLocation["lng"] as? Double,
+                   let alt = lastLocation["alt"] as? Double,
+                   let acc = lastLocation["accuracy"] as? Double,
+                   let username = PreyConfig.sharedInstance.userApiKey {
+                    let params: [String: Any] = [
+                        kAction.location.rawValue: [
+                            kLocation.lat.rawValue: lat,
+                            kLocation.lng.rawValue: lng,
+                            kLocation.alt.rawValue: alt,
+                            kLocation.accuracy.rawValue: acc,
+                            kLocation.method.rawValue: "location-push"
+                        ],
+                        kDataLocation.skip_toast.rawValue: true
+                    ]
+                    dispatchGroup.enter()
+                    PreyLogger("Uploading fresh shared location (age: \(age)s)")
+                    PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                        username,
+                        password: "x",
+                        params: params,
+                        messageId: nil,
+                        httpMethod: Method.POST.rawValue,
+                        endPoint: dataDeviceEndpoint,
+                        onCompletion: PreyHTTPResponse.checkResponse(
+                            RequestType.dataSend,
+                            preyAction: nil,
+                            onCompletion: { _ in
+                                PreyLogger("Shared location upload complete")
+                                dispatchGroup.leave()
+                            }
+                        )
+                    )
+                }
+            }
         }
         
         // Process any pending actions (these should be quick or trigger separate async processes)

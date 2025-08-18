@@ -78,13 +78,25 @@ class LocationPushService: NSObject, CLLocationPushServiceExtension, CLLocationM
                 userDefaults.synchronize()
             }
 
-            didFinish = true
-            timeoutWorkItem?.cancel()
-            manager.stopUpdatingLocation()
-            manager.delegate = nil
-            self.manager = nil
-            completion?()
-            completion = nil
+            // Decide whether to upload directly from the extension
+            let shouldUpload = UserDefaults(suiteName: "group.com.prey.ios")?.bool(forKey: "PreyExtensionDirectUploadEnabled") ?? false
+
+            let finish: () -> Void = { [weak self] in
+                guard let self = self else { return }
+                self.didFinish = true
+                self.timeoutWorkItem?.cancel()
+                manager.stopUpdatingLocation()
+                manager.delegate = nil
+                self.manager = nil
+                self.completion?()
+                self.completion = nil
+            }
+
+            if shouldUpload, let req = self.buildUploadRequest(for: loc) {
+                self.performDirectUpload(request: req, completion: finish)
+            } else {
+                finish()
+            }
         }
     }
     
@@ -97,5 +109,56 @@ class LocationPushService: NSObject, CLLocationPushServiceExtension, CLLocationM
         self.manager = nil
         completion?()
         completion = nil
+    }
+}
+
+// MARK: - Direct Upload Helpers
+
+extension LocationPushService {
+    private func buildUploadRequest(for loc: CLLocation) -> URLRequest? {
+        guard let shared = UserDefaults(suiteName: "group.com.prey.ios") else { return nil }
+        guard let apiKey = shared.string(forKey: "PreyUserApiKey"),
+              let deviceKey = shared.string(forKey: "PreyDeviceKey") else { return nil }
+
+        let base = shared.string(forKey: "PreyControlPanelBaseURL") ?? "https://panel.preyproject.com"
+        let urlStr = "\(base)/devices/\(deviceKey)/location.json"
+        guard let url = URL(string: urlStr) else { return nil }
+
+        var req = URLRequest(url: url)
+        req.httpMethod = "POST"
+        let body: [String: Any] = [
+            "location": [
+                "lat": loc.coordinate.latitude,
+                "lng": loc.coordinate.longitude,
+                "alt": loc.altitude,
+                "accuracy": loc.horizontalAccuracy,
+                "method": "location-push"
+            ]
+        ]
+        req.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        // Prey API accepts Basic auth with username=apiKey, password="x"
+        let authString = "\(apiKey):x"
+        if let authData = authString.data(using: .utf8) {
+            let header = authData.base64EncodedString()
+            req.setValue("Basic \(header)", forHTTPHeaderField: "Authorization")
+        }
+        return req
+    }
+
+    private func performDirectUpload(request: URLRequest, completion: @escaping () -> Void) {
+        let config = URLSessionConfiguration.ephemeral
+        config.timeoutIntervalForRequest = 10
+        config.timeoutIntervalForResource = 15
+        config.waitsForConnectivity = false
+        config.allowsConstrainedNetworkAccess = true
+        config.allowsExpensiveNetworkAccess = true
+        let session = URLSession(configuration: config)
+
+        let task = session.dataTask(with: request) { _, _, _ in
+            completion()
+        }
+        task.resume()
     }
 }

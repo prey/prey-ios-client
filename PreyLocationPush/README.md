@@ -23,7 +23,11 @@ Server requirements (summary)
 
 Main app integration
 - AppDelegate already reads `UserDefaults(suiteName: "group.com.prey.ios").lastLocation` and can post it to the server.
-- Optionally, you can also post directly from the extension (see `uploadLocation` stub).
+- Optional direct upload from the extension:
+  - Set `PreyExtensionDirectUploadEnabled = true` in the app group defaults.
+  - Also store `PreyUserApiKey` and `PreyDeviceKey` in the app group defaults (the main app can sync these).
+  - Optionally set `PreyControlPanelBaseURL` (defaults to https://panel.preyproject.com).
+  - The extension uses Basic auth with `apiKey:x` and posts to `/devices/{deviceKey}/location.json`.
 
 Notes
 - The extension stops location immediately after the first acceptable fix or a 20s timeout to conserve battery.
