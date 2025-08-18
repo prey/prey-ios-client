@@ -137,6 +137,16 @@ extension LocationPushService {
         ]
         req.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // Match main app's User-Agent if available
+        if let ua = shared.string(forKey: "PreyUserAgent") {
+            req.setValue(ua, forHTTPHeaderField: "User-Agent")
+        } else {
+            // Fallback to extension bundle version
+            let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
+            let systemVersion = ProcessInfo.processInfo.operatingSystemVersionString
+            let ua = "Prey/\(appVersion) (iOS \(systemVersion))"
+            req.setValue(ua, forHTTPHeaderField: "User-Agent")
+        }
 
         // Prey API accepts Basic auth with username=apiKey, password="x"
         let authString = "\(apiKey):x"

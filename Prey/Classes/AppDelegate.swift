@@ -355,6 +355,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if shared.object(forKey: "PreyExtensionDirectUploadEnabled") == nil {
                 shared.set(true, forKey: "PreyExtensionDirectUploadEnabled")
             }
+            // Mirror the main app's User-Agent so the extension can match it
+            if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+                let systemVersion = UIDevice.current.systemVersion
+                let ua = "Prey/\(appVersion) (iOS \(systemVersion))"
+                shared.set(ua, forKey: "PreyUserAgent")
+            }
             shared.synchronize()
             PreyLogger("Synced API and device key to app group for extension uploads")
         }
