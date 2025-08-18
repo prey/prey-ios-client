@@ -18,6 +18,8 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
     // MARK: Properties
 
     var waitForRequest = false
+    // If true, use a short high-accuracy burst (for missing reports)
+    var highAccuracyBurst = false
     
     let locManager = CLLocationManager()
 
@@ -28,12 +30,28 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
     // Start Location
     func startLocation() {
         locManager.delegate = self
-        locManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locManager.startUpdatingLocation()
-        locManager.pausesLocationUpdatesAutomatically = false
+        // Configure based on mode
+        if highAccuracyBurst {
+            locManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            locManager.distanceFilter = kCLDistanceFilterNone
+            locManager.pausesLocationUpdatesAutomatically = false
+        } else {
+            // One-shot, battery-friendly configuration
+            locManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locManager.pausesLocationUpdatesAutomatically = true
+        }
         
         if #available(iOS 9.0, *) {
+            // Allow background one-shot updates when app is in background
             locManager.allowsBackgroundLocationUpdates = true
+        }
+
+        // Prefer a one-shot request; iOS will manage powering the GPS briefly
+        if #available(iOS 9.0, *) {
+            locManager.requestLocation()
+        } else {
+            // Fallback for very old iOS: start updates but we'll stop immediately after first fix
+            locManager.startUpdatingLocation()
         }
     }
     
@@ -67,8 +85,12 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
             return
         }
         
-        if locate.horizontalAccuracy <= 500 {
+        let accuracyThreshold: CLLocationAccuracy = highAccuracyBurst ? 50 : 500
+        if locate.horizontalAccuracy <= accuracyThreshold {
             self.delegate!.locationReceived(locations)
+            // Stop updates immediately after delivering the fix
+            stopLocation()
+            waitForRequest = false
         }
     }
     
@@ -76,5 +98,8 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         PreyLogger("Error getting location: \(error.localizedDescription)")
         self.delegate!.locationReceived([CLLocation]())
+        // Ensure manager is stopped on failure to save battery
+        stopLocation()
+        waitForRequest = false
     }
 }

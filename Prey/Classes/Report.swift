@@ -63,6 +63,11 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     
     // Run report
     @objc func runReport(_ timer:Timer) {
+        runReportCycle()
+    }
+
+    // Run report once (extracted core logic)
+    func runReportCycle() {
         
         guard PreyConfig.sharedInstance.isMissing else {
             stopReport()
@@ -79,6 +84,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         // Get Location
         if !excLocation {
             reportLocation.waitForRequest = true
+            reportLocation.highAccuracyBurst = true // missing reports prefer high accuracy burst
             reportLocation.delegate = self
             reportLocation.startLocation()
         }
@@ -157,6 +163,14 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
         
         if !reportPhoto.waitForRequest && !reportLocation.waitForRequest {
             self.sendDataReport(reportData, images: reportImages, toEndpoint: reportDataDeviceEndpoint)
+            // After sending, schedule next report using BGTaskScheduler if possible
+            if PreyConfig.sharedInstance.isMissing {
+                let nextSeconds = interval
+                MissingReportScheduler.scheduleNext(after: nextSeconds)
+                // Record last sent time
+                UserDefaults.standard.set(Date(), forKey: "PreyLastMissingReportAt")
+                UserDefaults.standard.synchronize()
+            }
         }
     }
     

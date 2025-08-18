@@ -6,3 +6,5 @@ GoogleService-Info.plist
 *.xcscheme
 .aider.*
 .aider*
+DerivedData
+Prey.xcworkspace/xcuserdata/*

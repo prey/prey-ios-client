@@ -285,18 +285,29 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         locManager.requestAlwaysAuthorization()
         locManager.delegate = self
         
-        // Apply battery-aware configuration
-        configureBatteryOptimizedSettings()
+        // Apply configuration depending on mode
+        if isLocationAwareActive {
+            // Location Aware: tighter accuracy while moving, with pausing + deferral
+            locManager.activityType = .fitness
+            locManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locManager.distanceFilter = 50
+            locManager.pausesLocationUpdatesAutomatically = true
+            locManager.allowsBackgroundLocationUpdates = true
+            if CLLocationManager.deferredLocationUpdatesAvailable() {
+                locManager.allowDeferredLocationUpdates(untilTraveled: 300, timeout: 120)
+            }
+        } else {
+            // Non-aware default: conservative settings
+            configureBatteryOptimizedSettings()
+            // For one-off/get flows rely on pausing and SLC; don't force indicator
+            locManager.allowsBackgroundLocationUpdates = true
+        }
         
-        // Configure for background operation
-        locManager.allowsBackgroundLocationUpdates = true
-        locManager.showsBackgroundLocationIndicator = true // Shows the blue bar when app uses location in background
-        
-        // Always enable significant location changes to support wake-ups for action checks
+        // Keep significant changes running to wake the app when needed
         locManager.startMonitoringSignificantLocationChanges()
         PreyLogger("Started monitoring significant location changes")
         
-        // Start regular location updates
+        // Start regular location updates only when we need active tracking
         locManager.startUpdatingLocation()
         
         // Begin background task to ensure we have time to get location
@@ -346,11 +357,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         
         locManager.stopUpdatingLocation()
         
-        // Only stop significant location changes if we're not in location aware mode
-        if !isLocationAwareActive {
-            locManager.stopMonitoringSignificantLocationChanges()
-            PreyLogger("Stopped monitoring significant location changes")
-        }
+        // Keep significant-change monitoring; it's inexpensive and used for wake-ups
         
         // End background task if active
         if locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
@@ -447,6 +454,9 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             
             // Process any queued offline locations
             // self.processOfflineLocationQueue()
+            
+            // If running in location aware mode with no movement for a while, iOS may pause automatically.
+            // We rely on pauses to save battery and SLC/visits to wake us back up.
         }
     }
     
@@ -616,8 +626,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             // Normal battery: security-optimized settings
             locManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locManager.distanceFilter = 50
-            locManager.pausesLocationUpdatesAutomatically = false
-            PreyLogger("Normal battery: using security-optimized settings")
+            locManager.pausesLocationUpdatesAutomatically = true
+            PreyLogger("Normal battery: using balanced settings with pausing")
         }
         
         // Store original settings for restoration

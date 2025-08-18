@@ -369,8 +369,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Schedule refresh task (short, frequent updates, for general data updates)
         let refreshRequest = BGAppRefreshTaskRequest(identifier: AppDelegate.appRefreshTaskIdentifier)
-        // Minimum 15 minutes is good. iOS determines actual frequency.
-        refreshRequest.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
+        // If device is missing and server provided interval, honor it for next run; otherwise default to 15 minutes.
+        var refreshDelay: TimeInterval = 15 * 60
+        if PreyConfig.sharedInstance.isMissing, let opts = PreyConfig.sharedInstance.reportOptions,
+           let reportIntervalMin = opts.object(forKey: kOptions.interval.rawValue) as? NSNumber {
+            let seconds = reportIntervalMin.doubleValue * 60.0
+            if seconds > 0 { refreshDelay = seconds }
+        }
+        refreshRequest.earliestBeginDate = Date(timeIntervalSinceNow: refreshDelay)
         
         // Schedule processing task (longer, more resource-intensive operations)
         let processingRequest = BGProcessingTaskRequest(identifier: AppDelegate.processingTaskIdentifier)
@@ -432,6 +438,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         // --- Operations to perform during background refresh ---
+        
+        // If missing mode is active, run a single missing report if the interval has elapsed
+        if PreyConfig.sharedInstance.isMissing, let opts = PreyConfig.sharedInstance.reportOptions,
+           let reportIntervalMin = opts.object(forKey: kOptions.interval.rawValue) as? NSNumber {
+            let intervalSeconds = reportIntervalMin.doubleValue * 60.0
+            let lastRun = UserDefaults.standard.object(forKey: "PreyLastMissingReportAt") as? Date
+            MissingReportScheduler.maybeRunIfDue(interval: intervalSeconds, lastRun: lastRun)
+        }
         
         // Check for shared location data from extension (read-only, efficient)
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),

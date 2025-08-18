@@ -404,14 +404,18 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             manager.delegate = self
             manager.pausesLocationUpdatesAutomatically = true // Allow system to pause updates
             manager.allowsBackgroundLocationUpdates = true
-            manager.desiredAccuracy = kCLLocationAccuracyHundredMeters // Reduce power usage
-            manager.distanceFilter = 100 // Only update when device moves more than 100 meters
+            manager.desiredAccuracy = kCLLocationAccuracyKilometer // Keep light when idle
+            manager.distanceFilter = 500 // Large filter to minimize wake-ups
             
             // Always start significant location changes to allow wake-ups for actions
             // But only if not already monitoring
             if !DeviceAuth.isBackgroundLocationConfigured {
                 manager.startMonitoringSignificantLocationChanges()
                 PreyLogger("Started monitoring significant location changes for background wake-ups")
+                if #available(iOS 8.0, *) {
+                    manager.startMonitoringVisits()
+                    PreyLogger("Started monitoring visits for low-power dwell detection")
+                }
             }
             
             // Create a background task to ensure we have time to register, but only if not already configured
@@ -425,9 +429,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
                     }
                 }
                 
-                // Start regular updates too if not already started
-                manager.startUpdatingLocation()
-                
+                // Do NOT start continuous updates here; rely on SLC/visits to wake the app.
                 PreyLogger("Background location configuration started with task ID: \(bgTask.rawValue)")
                 
                 // Add a location action to the module to ensure we're tracking location
@@ -446,8 +448,6 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
                 if !hasLocationAction {
                     PreyLogger("Adding location action from background location config")
                     PreyModule.sharedInstance.actionArray.append(locationAction)
-                    // Run only the location action, not all actions
-                    PreyModule.sharedInstance.runSingleAction(locationAction)
                 }
                 
                 // End background task immediately after location service registration
