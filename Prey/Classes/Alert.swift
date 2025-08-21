@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import UserNotifications
 
-class Alert: PreyAction {
+class Alert: PreyAction, @unchecked Sendable {
     
     
     // MARK: Functions
@@ -28,6 +28,10 @@ class Alert: PreyAction {
         }
         
         PreyLogger("Alert message: \(message)")
+        
+        // Send start action immediately to avoid duplicates
+        let params = getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
+        self.sendData(params, toEndpoint: responseDeviceEndpoint)
         
         // Only show a notification in background, otherwise show the alert view
         // Fix: Check app state on main thread to avoid Main Thread Checker warning
@@ -83,10 +87,6 @@ class Alert: PreyAction {
             // In foreground, just show the alert view
             showAlertVC(message)
         }
-        
-        // Send start action
-        let params = getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
-        self.sendData(params, toEndpoint: responseDeviceEndpoint)
         
         // Use a background queue with a delay instead of sleeping on the main thread
         // Use weak self to prevent retain cycles and memory leaks

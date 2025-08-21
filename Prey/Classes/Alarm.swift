@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 import MediaPlayer
 
-class Alarm : PreyAction, AVAudioPlayerDelegate {
+class Alarm : PreyAction, AVAudioPlayerDelegate, @unchecked Sendable {
  
     // MARK: Properties
     var audioPlayer: AVAudioPlayer!

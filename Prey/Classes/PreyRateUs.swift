@@ -8,12 +8,13 @@
 
 import Foundation
 import StoreKit
+import UIKit
 
 enum PreyMessageAsk: String {
     case UpdateApp, RateUs, ReviewedVersion
 }
 
-class PreyRateUs: NSObject, UIAlertViewDelegate {
+class PreyRateUs: NSObject {
 
     // MARK: Singleton
     
@@ -63,40 +64,68 @@ class PreyRateUs: NSObject, UIAlertViewDelegate {
             return
         }
         
-        if #available(iOS 10.3, *) {
-            SKStoreReviewController.requestReview()
+        // Use modern StoreKit review API
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            SKStoreReviewController.requestReview(in: windowScene)
             return
         }
         
-        let messageAlert = UIAlertView(title:"Rate us".localized,
-                                       message:"Give us ★★★★★ on the App Store if you like Prey.".localized,
-                                       delegate:self,
-                                       cancelButtonTitle:"Remind me later".localized,
-                                       otherButtonTitles:"Yes, rate Prey!".localized)
-        messageAlert.show()
+        // Fallback to alert controller for older iOS versions or if scene is not available
+        showRateUsAlert()
     }
     
-    // MARK: UIAlertViewDelegate
+    // Show rate us alert using UIAlertController
+    private func showRateUsAlert() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first,
+              let viewController = window.rootViewController else {
+            return
+        }
+        
+        let alertController = UIAlertController(
+            title: "Rate us".localized,
+            message: "Give us ★★★★★ on the App Store if you like Prey.".localized,
+            preferredStyle: .alert
+        )
+        
+        let remindLaterAction = UIAlertAction(
+            title: "Remind me later".localized,
+            style: .cancel
+        ) { _ in
+            self.handleRemindLater()
+        }
+        
+        let rateAction = UIAlertAction(
+            title: "Yes, rate Prey!".localized,
+            style: .default
+        ) { _ in
+            self.handleRateNow()
+        }
+        
+        alertController.addAction(remindLaterAction)
+        alertController.addAction(rateAction)
+        
+        viewController.present(alertController, animated: true, completion: nil)
+    }
     
-    // AlertViewDismiss
-    func alertView(_ alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+    // MARK: Alert Actions
+    
+    // Handle remind me later
+    private func handleRemindLater() {
+        let defaults = UserDefaults.standard
+        let nextTime = CFAbsoluteTimeGetCurrent() + 60*60*23*15
+        defaults.set(nextTime, forKey: PreyMessageAsk.RateUs.rawValue)
+    }
+    
+    // Handle rate now
+    private func handleRateNow() {
+        let defaults = UserDefaults.standard
+        let version = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
+        defaults.setValue(version, forKey: PreyMessageAsk.ReviewedVersion.rawValue)
         
-        let defaults        = UserDefaults.standard
-        
-        switch buttonIndex {
-            
-        case 0: // Remind me later
-            let nextTime    = CFAbsoluteTimeGetCurrent() + 60*60*23*15
-            defaults.set(nextTime, forKey:PreyMessageAsk.RateUs.rawValue)
-            
-        case 1: // Rate it now
-            let version     = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
-            defaults.setValue(version, forKey:PreyMessageAsk.ReviewedVersion.rawValue)
-            
-            let iOSAppStoreURLFormat = "itms-apps://itunes.apple.com/app/id456755037?action=write-review"
-            UIApplication.shared.openURL(URL(string:iOSAppStoreURLFormat)!)
-            
-        default: break
+        let iOSAppStoreURLFormat = "itms-apps://itunes.apple.com/app/id456755037?action=write-review"
+        if let url = URL(string: iOSAppStoreURLFormat) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
 }

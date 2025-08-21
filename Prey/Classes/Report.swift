@@ -9,8 +9,9 @@
 import Foundation
 import CoreLocation
 import UIKit
+import AVFoundation
 
-class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, PhotoServiceDelegate {
+class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, PhotoServiceDelegate, @unchecked Sendable {
  
     // MARK: Properties
     
@@ -28,13 +29,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     
     var reportLocation  = ReportLocation()
     
-    var reportPhoto : ReportPhoto = {
-        if #available(iOS 10.0, *) {
-        return ReportPhotoiOS10()
-        } else {
-        return ReportPhotoiOS8()
-        }
-    }()
+    var reportPhoto = ReportPhoto()
     
     // MARK: Functions
     
@@ -88,21 +83,40 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
             reportLocation.startLocation()
         }
         
-        // Get Photo
-        // Fix: Check app state on main thread to avoid Main Thread Checker warning
-        var isAppInBackground = false
-        if Thread.isMainThread {
-            isAppInBackground = UIApplication.shared.applicationState == .background
-        } else {
-            DispatchQueue.main.sync {
+        // Get Photo - Smart background/foreground detection
+        if !excPicture {
+            // Check app state on main thread to avoid Main Thread Checker warning
+            var isAppInBackground = false
+            if Thread.isMainThread {
                 isAppInBackground = UIApplication.shared.applicationState == .background
+            } else {
+                DispatchQueue.main.sync {
+                    isAppInBackground = UIApplication.shared.applicationState == .background
+                }
             }
-        }
-        
-        if !excPicture, !isAppInBackground {
-            reportPhoto.waitForRequest = true
-            reportPhoto.delegate = self
-            reportPhoto.startSession()
+            
+            if !isAppInBackground && reportPhoto.isDeviceAuthorized {
+                // Only capture photos when app is in foreground AND has permissions
+                reportPhoto.waitForRequest = true
+                reportPhoto.delegate = self
+                reportPhoto.startSession()
+                PreyLogger("Started photo capture for missing report (foreground)")
+            } else {
+                let reason = isAppInBackground ? "app in background" : "no camera permission"
+                PreyLogger("Skipping photo capture - \(reason)")
+                
+                // Request camera authorization for future use if needed
+                if !reportPhoto.isDeviceAuthorized {
+                    AVCaptureDevice.requestAccess(for: .video) { granted in
+                        PreyLogger("Camera access granted: \(granted)")
+                    }
+                }
+                
+                // Send report without photo if location is also excluded
+                if excLocation {
+                    sendReport()
+                }
+            }
         }
         
         // Get Wifi Info

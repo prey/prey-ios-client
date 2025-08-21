@@ -405,35 +405,24 @@ class PreyModule {
         
         // When all actions have been initiated
         actionGroup.notify(queue: .main) {
-            // End the background task after a delay to ensure actions have time to start
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                if bgTask != UIBackgroundTaskIdentifier.invalid {
-                    UIApplication.shared.endBackgroundTask(bgTask)
-                    bgTask = UIBackgroundTaskIdentifier.invalid
-                    PreyLogger("PreyModule: Background task for actions completed normally")
-                }
-                
-                // Reset flag after a delay to prevent rapid consecutive calls
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    PreyModule.isRunningActions = false
-                }
-            }
-        }
-    }
-    
-    // Run only a specific action
-    func runSingleAction(_ action: PreyAction) {
-        // Create a background task to ensure we have time to process the action
-        var bgTask = UIBackgroundTaskIdentifier.invalid
-        bgTask = UIApplication.shared.beginBackgroundTask {
+            // End the background task immediately - actions manage their own lifecycle
             if bgTask != UIBackgroundTaskIdentifier.invalid {
                 UIApplication.shared.endBackgroundTask(bgTask)
                 bgTask = UIBackgroundTaskIdentifier.invalid
-                PreyLogger("Background task for single action ended due to expiration")
+                PreyLogger("PreyModule: Background task for actions completed normally")
             }
+            
+            // Reset flag immediately
+            PreyModule.isRunningActions = false
         }
-        
-        PreyLogger("Started background task for single action: \(bgTask.rawValue)")
+    }
+    
+    // Run only a specific action - reuse existing background task if available
+    func runSingleAction(_ action: PreyAction) {
+        // Don't create a new background task if actions are already running
+        if PreyModule.isRunningActions {
+            PreyLogger("Using existing background task for single action")
+        }
         
         // Check selector
         if (action.responds(to: NSSelectorFromString(action.command.rawValue)) && !action.isActive) {
@@ -445,14 +434,27 @@ class PreyModule {
             PreyLogger("Single action doesn't respond to selector: \(action.command.rawValue)")
         }
         
-        // End the background task after a delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            if bgTask != UIBackgroundTaskIdentifier.invalid {
-                UIApplication.shared.endBackgroundTask(bgTask)
-                bgTask = UIBackgroundTaskIdentifier.invalid
-                PreyLogger("Background task for single action completed normally")
+        // No separate background task management - single actions should be quick
+        PreyLogger("Single action completed: \(action.target.rawValue)")
+    }
+    
+    // Force cleanup of any background tasks (called from AppDelegate on background entry)
+    func forceBackgroundTaskCleanup() {
+        PreyLogger("🧹 PreyModule: Forcing cleanup of any active background tasks")
+        
+        // Reset running actions flag
+        PreyModule.isRunningActions = false
+        
+        // Ask all active actions to clean up their resources
+        for action in actionArray {
+            if action.isActive {
+                PreyLogger("Stopping active action: \(action.target.rawValue)")
+                action.stop()
             }
         }
+        
+        // Log remaining background time
+        PreyLogger("Background time remaining after cleanup: \(UIApplication.shared.backgroundTimeRemaining)s")
     }
     
     // Check action status

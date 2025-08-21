@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class Camouflage: PreyAction {
+class Camouflage: PreyAction, @unchecked Sendable {
     
     
     // MARK: Functions
@@ -36,20 +36,6 @@ class Camouflage: PreyAction {
         
         if !isAppInBackground {
             showHomeView(identifier: StoryboardIdVC.home.rawValue)
-        }
-        
-        // Change icon image
-        if #available(iOS 10.3, *) {
-            if UIApplication.shared.supportsAlternateIcons {
-                UIApplication.shared.setAlternateIconName(alternativeIcon, completionHandler:{(error) in
-                    if (error != nil) {
-                        PreyConfig.sharedInstance.needChangeIcon = true
-                    } else {
-                        PreyConfig.sharedInstance.needChangeIcon = false
-                    }
-                    PreyConfig.sharedInstance.saveValues()
-                })
-            }
         }
         
         // Send start action
@@ -78,13 +64,6 @@ class Camouflage: PreyAction {
         
         if !isAppInBackground {
             showHomeView(identifier: StoryboardIdVC.homeWeb.rawValue)
-        }
-        
-        // Change icon image
-        if #available(iOS 10.3, *) {
-            if UIApplication.shared.supportsAlternateIcons {
-                UIApplication.shared.setAlternateIconName(nil, completionHandler:nil)
-            }
         }
         
         // Send stop action

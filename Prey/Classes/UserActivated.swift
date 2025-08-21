@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class UserActivated: PreyAction {
+class UserActivated: PreyAction, @unchecked Sendable {
     
     // MARK: Properties
     
