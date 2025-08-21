@@ -43,14 +43,11 @@ class RequestCacheManager:NSObject {
 
         requestCache.setValue(requestTimestamp , forKey: "timestamp")
         
-        // Pending check requestCompletionHandler.count when > 2 and 1 fail 1 sucess ??
-        if PreyHTTPClient.sharedInstance.requestCompletionHandler.count == 1 {
-            // Save CoreData
-            do {
-                try PreyCoreData.sharedInstance.managedObjectContext.save()
-            } catch {
-                PreyLogger("Couldn't save: \(error)")
-            }
+        // Save CoreData
+        do {
+            try PreyCoreData.sharedInstance.managedObjectContext.save()
+        } catch {
+            PreyLogger("Couldn't save: \(error)")
         }
     }
     
@@ -78,14 +75,9 @@ class RequestCacheManager:NSObject {
             }
             
             // Resend requests
-            let session = URLSession(configuration:decodedSession, delegate:PreyHTTPClient.sharedInstance, delegateQueue:nil)
-            
-            // Add onCompletion to array
+            // Reintentar usando la sesión compartida del HTTPClient
             let onCompletion = PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request dataSend")})
-            PreyHTTPClient.sharedInstance.requestCompletionHandler.updateValue(onCompletion, forKey: session)
-            
-            // Prepare request
-            PreyHTTPClient.sharedInstance.sendRequest(session, request: decodedRequest)
+            PreyHTTPClient.sharedInstance.performRequest(decodedRequest, onCompletion: onCompletion)
             
             context.delete(req)
         }

@@ -918,3 +918,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
 }
+    // Bridge background URLSession completion handler to HTTP client
+    func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+        PreyLogger("handleEventsForBackgroundURLSession: \(identifier)")
+        PreyHTTPClient.sharedInstance.registerBackgroundCompletionHandler(completionHandler)
+    }
