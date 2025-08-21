@@ -29,6 +29,9 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     // Array for onCompletion request : (session : onCompletion)
     var requestCompletionHandler = [URLSession : ((Data?, URLResponse?, Error?) -> Void)]()
     
+    // Track retry attempts per session to avoid infinite loops and battery drain
+    private var requestRetryCount = [URLSession: Int]()
+    
     // Encoding Character
     struct EncodingCharacters {
         static let CRLF = "\r\n"
@@ -51,6 +54,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         sessionConfig.allowsCellularAccess = true 
         sessionConfig.timeoutIntervalForRequest = 30.0
         sessionConfig.timeoutIntervalForResource = 45.0
+        sessionConfig.httpMaximumConnectionsPerHost = 2
         
         // Set appropriate background policy based on app state
         // Fix: Check app state on main thread to avoid Main Thread Checker warning
@@ -68,6 +72,10 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         } else {
             sessionConfig.networkServiceType = .default
         }
+        
+        // Run actions even without Wi-Fi connection
+        sessionConfig.allowsExpensiveNetworkAccess = true
+        sessionConfig.allowsConstrainedNetworkAccess = true
         
         var additionalHeader :[AnyHashable: Any] = ["User-Agent" : userAgent, "Content-Type" : "application/json", "Authorization" : authString]
         
@@ -140,8 +148,8 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             bodyRequest.appendString(EncodingCharacters.CRLF)
         }
         
-        // Set type to images
-        let mimetype = "image/png"
+        // Set type to images (use JPEG to reduce payload size)
+        let mimetype = "image/jpeg"
         
         // Set images on request
         for (key, value) in images {
@@ -150,7 +158,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
                 return
             }
             
-            if let imgData = img.pngData() {
+            if let imgData = img.jpegData(compressionQuality: 0.7) {
                 bodyRequest.appendString("--\(boundary)\(EncodingCharacters.CRLF)")
                 bodyRequest.appendString("Content-Disposition:form-data; name=\"\(key)\"; filename=\"\(key).jpg\"\(EncodingCharacters.CRLF)")
                 bodyRequest.appendString("Content-Type: \(mimetype)\(EncodingCharacters.CRLF)\(EncodingCharacters.CRLF)")
@@ -167,6 +175,8 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         
         // Add onCompletion to array
         requestCompletionHandler.updateValue(onCompletion, forKey: session)
+        // Initialize retry counter for this session
+        requestRetryCount[session] = 0
         
         // Prepare request
         sendRequest(session, request: request)
@@ -204,6 +214,8 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         
         // Add onCompletion to array
         requestCompletionHandler.updateValue(onCompletion, forKey: session)
+        // Initialize retry counter for this session
+        requestRetryCount[session] = 0
         
         // Prepare request
         sendRequest(session, request: request)
@@ -233,6 +245,8 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         
         // Add onCompletion to array
         requestCompletionHandler.updateValue(onCompletion, forKey: session)
+        // Initialize retry counter for this session
+        requestRetryCount[session] = 0
         
         // Prepare request
         sendRequest(session, request: request)
@@ -266,25 +280,39 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     // URLSessionTaskDelegate : didCompleteWithError
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
 
-        // Retry for statusCode == 503
+        // Retry for statusCode == 503 with capped exponential backoff
         if let httpURLResponse = task.response as? HTTPURLResponse {
-            if (httpURLResponse.statusCode == 503) && (task.taskIdentifier < retryRequest) {
-                guard let request = task.originalRequest else {
-                    return
+            if (httpURLResponse.statusCode == 503) {
+                guard let request = task.originalRequest else { return }
+                let attempt = (requestRetryCount[session] ?? 0) + 1
+                if attempt <= retryRequest {
+                    requestRetryCount[session] = attempt
+                    let backoff = min(pow(2.0, Double(attempt)) * 1.0, 60.0) // seconds
+                    let jitter = Double.random(in: 0...0.5)
+                    let delaySeconds = backoff + jitter
+                    PreyLogger("Retrying request (HTTP 503), attempt #\(attempt) in \(String(format: "%.1f", delaySeconds))s")
+                    delay(delaySeconds) { self.sendRequest(session, request: request) }
+                } else {
+                    PreyLogger("Max retry attempts reached for session; will not retry (HTTP 503)")
                 }
-                delay(delayRequest) { self.sendRequest(session, request: request) }
                 return
             }
         }
-        // Retry for error cases
-        if let err = error {
-            if checkToRetryRequest(err: err) && (task.taskIdentifier < retryRequest) {
-                guard let request = task.originalRequest else {
-                    return
-                }
-                delay(delayRequest) { self.sendRequest(session, request: request) }
-                return
+        // Retry for transient error cases with capped exponential backoff
+        if let err = error, checkToRetryRequest(err: err) {
+            guard let request = task.originalRequest else { return }
+            let attempt = (requestRetryCount[session] ?? 0) + 1
+            if attempt <= retryRequest {
+                requestRetryCount[session] = attempt
+                let backoff = min(pow(2.0, Double(attempt)) * 1.0, 60.0)
+                let jitter = Double.random(in: 0...0.5)
+                let delaySeconds = backoff + jitter
+                PreyLogger("Retrying request (error: \(err.localizedDescription)), attempt #\(attempt) in \(String(format: "%.1f", delaySeconds))s")
+                delay(delaySeconds) { self.sendRequest(session, request: request) }
+            } else {
+                PreyLogger("Max retry attempts reached for session; will not retry (error)")
             }
+            return
         }
         
         // Save on CoreData requests failed
@@ -298,7 +326,8 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
                     // Delete value for sessionKey
                     self.requestData.removeValue(forKey:session)
                     self.requestCompletionHandler.removeValue(forKey:session)
-                    // Cancel session
+                    // Clear retry counter and cancel session
+                    self.requestRetryCount.removeValue(forKey: session)
                     session.invalidateAndCancel()
                 }
                 return
@@ -313,9 +342,19 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             // Delete value for sessionKey
             self.requestData.removeValue(forKey:session)
             self.requestCompletionHandler.removeValue(forKey:session)
-            
-            // Cancel session
+            // Clear retry counter and cancel session
+            self.requestRetryCount.removeValue(forKey: session)
             session.invalidateAndCancel()
+        }
+    }
+
+    // URLSessionTaskDelegate: collect basic metrics to help identify heavy endpoints
+    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        guard let transaction = metrics.transactionMetrics.last else { return }
+        if let url = transaction.request.url?.absoluteString {
+            let bytesSent = task.countOfBytesSent
+            let bytesReceived = task.countOfBytesReceived
+            PreyLogger("Network metrics -> URL: \(url), sent: \(bytesSent)B, recv: \(bytesReceived)B, protocol: \(transaction.networkProtocolName ?? "unknown")")
         }
     }
     

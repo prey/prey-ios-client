@@ -182,6 +182,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyNotification.sharedInstance.registerForRemoteNotifications() // Might be redundant with previous call, but safe
             TriggerManager.sharedInstance.checkTriggers()
             RequestCacheManager.sharedInstance.sendRequest()
+            // Sync device name if it changed
+            PreyModule.sharedInstance.syncDeviceNameIfChanged()
             
             // Handle notification if app was launched from a notification
             if let notification = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? [AnyHashable: Any] {
@@ -299,6 +301,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if PreyConfig.sharedInstance.isRegistered {
             // Perform immediate sync with server
             syncWithServer() // This will also setup the foreground timer
+            // Sync device name if it changed
+            PreyModule.sharedInstance.syncDeviceNameIfChanged()
         }
         
         // Various UI state checks and re-display logic. Fine as is.

@@ -376,14 +376,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate {
             index = index + 1
         }
         
-        // Send device name
-        let paramName:[String: Any] = [ "name" : UIDevice.current.name]
-        
-        dispatchGroup.enter()
-        self.sendDataWithCallback(paramName, toEndpoint: dataDeviceEndpoint) { success in
-            PreyLogger("Device name request completed with success: \(success)")
-            dispatchGroup.leave()
-        }
+        // Device name is synced elsewhere when it changes; avoid coupling to location
         
         // Device info is now handled by scheduled sync tasks to avoid excessive calls
         // No need to call infoDevice on every location update
