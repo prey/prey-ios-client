@@ -717,9 +717,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             return
         }
         
-        // Forward handling to PreyNotification
-        PreyNotification.sharedInstance.handleNotificationResponse(response)
-        
+        // Ignore dismiss actions to avoid triggering 'action started' on swipe-to-clear
+        let actionId = response.actionIdentifier
+        if actionId == UNNotificationDismissActionIdentifier || actionId == "DISMISS_ACTION" {
+            PreyLogger("Notification dismissed by user; no action will be triggered")
+            completionHandler()
+            return
+        }
+
+        // Only handle default tap or explicit view action
+        if actionId == UNNotificationDefaultActionIdentifier || actionId == "VIEW_ACTION" {
+            PreyNotification.sharedInstance.handleNotificationResponse(response)
+        } else {
+            PreyLogger("Unhandled notification action: \(actionId); ignoring")
+        }
+
         completionHandler() // Call completion handler promptly
     }
     
