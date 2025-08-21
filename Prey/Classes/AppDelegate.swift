@@ -179,6 +179,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if PreyConfig.sharedInstance.isRegistered {
             PreyNotification.sharedInstance.registerForRemoteNotifications() // Might be redundant with previous call, but safe
             TriggerManager.sharedInstance.checkTriggers()
+            // Sync device name if it changed
+            PreyModule.sharedInstance.syncDeviceNameIfChanged()
             
             // Handle notification if app was launched from a notification
             if let notification = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] as? [AnyHashable: Any] {
@@ -309,6 +311,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if PreyConfig.sharedInstance.isRegistered {
             // Perform immediate sync with server
             syncWithServer() // This will also setup the foreground timer
+            // Sync device name if it changed
+            PreyModule.sharedInstance.syncDeviceNameIfChanged()
         }
         
         // Various UI state checks and re-display logic. Fine as is.
@@ -931,3 +935,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
 }
+    // Bridge background URLSession completion handler to HTTP client (for report uploads etc.)
+    func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+        PreyLogger("handleEventsForBackgroundURLSession: \(identifier)")
+        PreyHTTPClient.sharedInstance.registerBackgroundCompletionHandler(completionHandler)
+    }

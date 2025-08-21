@@ -265,6 +265,11 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
             
             // Send report to panel
             sendReport()
+        } else {
+            // Location unavailable (no permission, timeout, or error). Do not block the report.
+            PreyLogger("Report: no location available, proceeding without location")
+            reportLocation.waitForRequest = false
+            sendReport()
         }
     }
 }
