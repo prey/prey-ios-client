@@ -23,21 +23,45 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     // Define retry request for statusCode 503
     let retryRequest = 10
     
-    // Array for receive data : (session : Data)
-    var requestData              = [URLSession : Data]()
-
-    // Array for onCompletion request : (session : onCompletion)
-    var requestCompletionHandler = [URLSession : ((Data?, URLResponse?, Error?) -> Void)]()
-    
-    // Background session for critical requests (location, data)
-    private lazy var backgroundSession: URLSession = {
-        let config = URLSessionConfiguration.background(withIdentifier: "prey.critical.requests")
-        config.isDiscretionary = false
-        config.sessionSendsLaunchEvents = true
-        config.timeoutIntervalForRequest = 30.0
-        config.timeoutIntervalForResource = 120.0
-        return URLSession(configuration: config, delegate: self, delegateQueue: nil)
+    // Shared default session (HTTP/2/3, keep‑alive)
+    private lazy var sharedSession: URLSession = {
+        let cfg = URLSessionConfiguration.default
+        cfg.waitsForConnectivity = true
+        cfg.allowsCellularAccess = true
+        cfg.timeoutIntervalForRequest = 30.0
+        cfg.timeoutIntervalForResource = 45.0
+        cfg.httpMaximumConnectionsPerHost = 2
+        cfg.allowsExpensiveNetworkAccess = true
+        cfg.allowsConstrainedNetworkAccess = true
+        return URLSession(configuration: cfg, delegate: self, delegateQueue: nil)
     }()
+
+    // Background session for uploads (reports)
+    private lazy var backgroundSession: URLSession = {
+        let identifier = (Bundle.main.bundleIdentifier ?? "com.prey.ios") + ".uploads"
+        let cfg = URLSessionConfiguration.background(withIdentifier: identifier)
+        cfg.waitsForConnectivity = true
+        cfg.isDiscretionary = false
+        cfg.sessionSendsLaunchEvents = true
+        cfg.allowsCellularAccess = true
+        cfg.allowsExpensiveNetworkAccess = true
+        cfg.allowsConstrainedNetworkAccess = true
+        cfg.httpMaximumConnectionsPerHost = 2
+        cfg.timeoutIntervalForRequest = 60.0
+        cfg.timeoutIntervalForResource = 300.0
+        return URLSession(configuration: cfg, delegate: self, delegateQueue: nil)
+    }()
+
+    // Per-task state
+    private let stateQueue = DispatchQueue(label: "prey.httpclient.state")
+    private var dataByTask = [ObjectIdentifier: NSMutableData]()
+    private var completionByTask = [ObjectIdentifier: (Data?, URLResponse?, Error?) -> Void]()
+    private var retryByTask = [ObjectIdentifier: Int]()
+    private var fileByTask = [ObjectIdentifier: URL]()
+
+    // Background completion handler bridged from AppDelegate
+    private var backgroundCompletionHandler: (() -> Void)?
+    func registerBackgroundCompletionHandler(_ handler: @escaping () -> Void) { backgroundCompletionHandler = handler }
     
     
     // Encoding Character
@@ -52,56 +76,28 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         return "Prey/\(appVersion) (iOS \(systemVersion))"
     }
 
-    // Define URLSessionConfiguration
-    func getSessionConfig(_ authString: String, messageId: String?, endPoint: String) -> URLSessionConfiguration {
-        
-        let sessionConfig = URLSessionConfiguration.default
-        
-        // Configure for better background performance
-        sessionConfig.waitsForConnectivity = true
-        sessionConfig.allowsCellularAccess = true 
-        sessionConfig.timeoutIntervalForRequest = 30.0
-        sessionConfig.timeoutIntervalForResource = 45.0
-        
-        // Set appropriate background policy based on app state
-        // Fix: Check app state on main thread to avoid Main Thread Checker warning
-        var isAppInBackground = false
-        if Thread.isMainThread {
-            isAppInBackground = UIApplication.shared.applicationState == .background
-        } else {
-            DispatchQueue.main.sync {
-                isAppInBackground = UIApplication.shared.applicationState == .background
+    // Apply per-request headers (move dynamic headers from session to request)
+    private func applyHeaders(_ request: inout URLRequest, authString: String, messageId: String?, endPoint: String, contentType: String?) {
+        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+        request.setValue(contentType ?? "application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(authString, forHTTPHeaderField: "Authorization")
+        if let msg = messageId {
+            request.setValue("PROCESSED", forHTTPHeaderField: "X-Prey-State")
+            request.setValue(PreyConfig.sharedInstance.deviceKey, forHTTPHeaderField: "X-Prey-Device-Id")
+            request.setValue(msg, forHTTPHeaderField: "X-Prey-Correlation-Id")
+        } else if let deviceKey = PreyConfig.sharedInstance.deviceKey {
+            request.setValue(deviceKey, forHTTPHeaderField: "X-Prey-Device-Id")
+        }
+        if endPoint == eventsDeviceEndpoint {
+            let status = Battery.sharedInstance.getHeaderPreyStatus()
+            if let d = try? JSONSerialization.data(withJSONObject: status, options: []), let s = String(data: d, encoding: .utf8) {
+                request.setValue(s, forHTTPHeaderField: "X-Prey-Status")
             }
         }
-        
-        if isAppInBackground {
-            sessionConfig.networkServiceType = .background
-        } else {
-            sessionConfig.networkServiceType = .default
-        }
-        
-        var additionalHeader :[AnyHashable: Any] = ["User-Agent" : userAgent, "Content-Type" : "application/json", "Authorization" : authString]
-        
-        // Check if exist MessageId for action group
-        if let msg = messageId {
-            additionalHeader["X-Prey-State"]            = "PROCESSED"
-            additionalHeader["X-Prey-Device-Id"]        = PreyConfig.sharedInstance.deviceKey
-            additionalHeader["X-Prey-Correlation-Id"]   = msg
-        }
-        
-        // Always include device identifier in headers
-        if let deviceKey = PreyConfig.sharedInstance.deviceKey {
-            additionalHeader["X-Prey-Device-Id"] = deviceKey
-        }
-        
-        // Check if endpoint is event
-        if endPoint == eventsDeviceEndpoint {
-            additionalHeader["X-Prey-Status"] = Battery.sharedInstance.getHeaderPreyStatus()
-        }
-        
-        sessionConfig.httpAdditionalHeaders = additionalHeader
-        
-        return sessionConfig
+        var isBG = false
+        if Thread.isMainThread { isBG = UIApplication.shared.applicationState == .background }
+        else { DispatchQueue.main.sync { isBG = UIApplication.shared.applicationState == .background } }
+        request.networkServiceType = isBG ? .background : .default
     }
 
     // Encode Authorization for HTTP Header
@@ -122,10 +118,6 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
         
-        // Set session Config
-        let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId, endPoint:endPoint)
-        let session         = URLSession(configuration:sessionConfig, delegate:self, delegateQueue:nil)
-        
         // Set Endpoint
         guard let requestURL = URL(string:URLControlPanel + endPoint) else {
             return
@@ -136,8 +128,9 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         // HTTP Header boundary
         let boundary = String(format: "prey.boundary-%08x%08x", arc4random(), arc4random())
         
-        // Define the multipart request type
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        // Define the multipart request type and headers
+        let multipartType = "multipart/form-data; boundary=\(boundary)"
+        applyHeaders(&request, authString: userAuthorization, messageId: msgId, endPoint: endPoint, contentType: multipartType)
         
         // Set bodyRequest for HTTPBody
         let bodyRequest = NSMutableData()
@@ -151,8 +144,8 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             bodyRequest.appendString(EncodingCharacters.CRLF)
         }
         
-        // Set type to images
-        let mimetype = "image/png"
+        // Set type to images (use JPEG to reduce payload size)
+        let mimetype = "image/jpeg"
         
         // Set images on request
         for (key, value) in images {
@@ -161,7 +154,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
                 return
             }
             
-            if let imgData = img.pngData() {
+            if let imgData = img.jpegData(compressionQuality: 0.7) {
                 bodyRequest.appendString("--\(boundary)\(EncodingCharacters.CRLF)")
                 bodyRequest.appendString("Content-Disposition:form-data; name=\"\(key)\"; filename=\"\(key).jpg\"\(EncodingCharacters.CRLF)")
                 bodyRequest.appendString("Content-Type: \(mimetype)\(EncodingCharacters.CRLF)\(EncodingCharacters.CRLF)")
@@ -173,14 +166,13 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         // End HTTPBody
         bodyRequest.appendString("--\(boundary)--\(EncodingCharacters.CRLF)")
         
-        request.httpBody    = bodyRequest as Data
         request.httpMethod  = httpMethod
-        
-        // Add onCompletion to array
-        requestCompletionHandler.updateValue(onCompletion, forKey: session)
-        
-        // Prepare request
-        sendRequest(session, request: request)
+        // Persist multipart to file and upload via background session
+        let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("prey-report-\(UUID().uuidString).tmp")
+        do { try (bodyRequest as Data).write(to: tmp, options: .atomic) } catch {
+            onCompletion(nil, nil, error); return
+        }
+        startUploadTask(request, fromFile: tmp, completion: onCompletion)
     }
     
     // SignUp/LogIn User to Control Panel
@@ -189,10 +181,6 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
         
-        // Set session Config
-        let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId, endPoint:endPoint)
-        let session         = URLSession(configuration:sessionConfig, delegate:self, delegateQueue:nil)
-        
         // Set Endpoint
         guard let requestURL = URL(string: URLControlPanel + endPoint) else {
             return
@@ -200,6 +188,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
 
         var request = URLRequest(url:requestURL)
         request.timeoutInterval = timeoutIntervalRequest
+        applyHeaders(&request, authString: userAuthorization, messageId: msgId, endPoint: endPoint, contentType: nil)
         
         // Set params
         if let parameters = params {
@@ -213,11 +202,8 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
 
         request.httpMethod  = httpMethod
         
-        // Add onCompletion to array
-        requestCompletionHandler.updateValue(onCompletion, forKey: session)
-        
-        // Prepare request
-        sendRequest(session, request: request)
+        // Start on shared session
+        startTask(request, completion: onCompletion)
     }
 
     // Uploads files
@@ -226,34 +212,47 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
         
-        // Set session Config
-        let sessionConfig   = getSessionConfig(userAuthorization, messageId:msgId, endPoint:endPoint)
-        let session         = URLSession(configuration:sessionConfig, delegate:self, delegateQueue:nil)
-        
         // Set Endpoint
         guard let requestURL = URL(string:endPoint) else {
             return
         }
-        
+       
         var request = URLRequest(url:requestURL)
         request.timeoutInterval = timeoutIntervalRequest
-        
-        request.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
+        applyHeaders(&request, authString: userAuthorization, messageId: msgId, endPoint: endPoint, contentType: "application/octet-stream")
         request.httpBodyStream = InputStream(data: file)
         request.httpMethod  = httpMethod
-        
-        // Add onCompletion to array
-        requestCompletionHandler.updateValue(onCompletion, forKey: session)
-        
-        // Prepare request
-        sendRequest(session, request: request)
+        startTask(request, completion: onCompletion)
     }
     
-    // Prepare URLSessionDataTask
-    func sendRequest(_ session: URLSession, request: URLRequest) {
-        let task = session.dataTask(with: request)
-        // Send Request
+    // Start URLSessionDataTask with per-task state
+    private func startTask(_ request: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        let task = sharedSession.dataTask(with: request)
+        let key = ObjectIdentifier(task)
+        stateQueue.async {
+            self.dataByTask[key] = NSMutableData()
+            self.completionByTask[key] = completion
+            self.retryByTask[key] = 0
+        }
         task.resume()
+    }
+
+    // Start background upload task
+    private func startUploadTask(_ request: URLRequest, fromFile fileURL: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        let task = backgroundSession.uploadTask(with: request, fromFile: fileURL)
+        let key = ObjectIdentifier(task)
+        stateQueue.async {
+            self.dataByTask[key] = NSMutableData()
+            self.completionByTask[key] = completion
+            self.retryByTask[key] = 0
+            self.fileByTask[key] = fileURL
+        }
+        task.resume()
+    }
+
+    // Public wrapper for arbitrary URLRequest
+    func performRequest(_ request: URLRequest, onCompletion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        startTask(request, completion: onCompletion)
     }
     
     // Delay dispatch function
@@ -276,66 +275,58 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     
     // URLSessionTaskDelegate : didCompleteWithError
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-
-        // Retry for statusCode == 503
-        if let httpURLResponse = task.response as? HTTPURLResponse {
-            if (httpURLResponse.statusCode == 503) && (task.taskIdentifier < retryRequest) {
-                guard let request = task.originalRequest else {
-                    return
-                }
-                delay(delayRequest) { self.sendRequest(session, request: request) }
-                return
+        // Retry 503 with backoff per task
+        if let httpURLResponse = task.response as? HTTPURLResponse, httpURLResponse.statusCode == 503, let request = task.originalRequest {
+            let key = ObjectIdentifier(task)
+            var attempt = 0
+            stateQueue.sync { attempt = (self.retryByTask[key] ?? 0) + 1 }
+            if attempt <= retryRequest {
+                stateQueue.async { self.retryByTask[key] = attempt }
+                let backoff = min(pow(2.0, Double(attempt)), 60.0)
+                let jitter = Double.random(in: 0...0.5)
+                delay(backoff + jitter) { self.retryTask(task, with: request) }
             }
+            return
         }
-        // Retry for error cases
-        if let err = error {
-            if checkToRetryRequest(err: err) && (task.taskIdentifier < retryRequest) {
-                guard let request = task.originalRequest else {
-                    return
-                }
-                delay(delayRequest) { self.sendRequest(session, request: request) }
-                return
+        // Retry transient errors with backoff per task
+        if let err = error, checkToRetryRequest(err: err), let request = task.originalRequest {
+            let key = ObjectIdentifier(task)
+            var attempt = 0
+            stateQueue.sync { attempt = (self.retryByTask[key] ?? 0) + 1 }
+            if attempt <= retryRequest {
+                stateQueue.async { self.retryByTask[key] = attempt }
+                let backoff = min(pow(2.0, Double(attempt)), 60.0)
+                let jitter = Double.random(in: 0...0.5)
+                delay(backoff + jitter) { self.retryTask(task, with: request) }
             }
+            return
         }
-        
-        // Save on CoreData requests failed
-        if let err = error, (err as NSError).domain == NSURLErrorDomain, let req = task.originalRequest, let reqUrl = req.url {
-            // check endpoints
-            if reqUrl.absoluteString == (URLControlPanel+locationAwareEndpoint) ||  reqUrl.absoluteString == (URLControlPanel+dataDeviceEndpoint) {
-
-                DispatchQueue.main.async {
-                    // Use background session for critical request retry
-                    PreyLogger("Retrying critical request via background session: \(reqUrl.absoluteString)")
-                    self.backgroundSession.dataTask(with: req).resume()
-                    // Delete value for sessionKey
-                    self.requestData.removeValue(forKey:session)
-                    self.requestCompletionHandler.removeValue(forKey:session)
-                    // Cancel session
-                    session.invalidateAndCancel()
-                }
-                return
-            }
+        // Normal completion: call completion and cleanup
+        let key = ObjectIdentifier(task)
+        var completion: ((Data?, URLResponse?, Error?) -> Void)?
+        var dataOut: Data?
+        stateQueue.sync {
+            completion = self.completionByTask[key]
+            dataOut = self.dataByTask[key] as Data?
         }
-
         DispatchQueue.main.async {
-            // Go to completionHandler
-            if let onCompletion = self.requestCompletionHandler[session] {
-                onCompletion(self.requestData[session], task.response, error)
+            completion?(dataOut, task.response, error)
+            self.stateQueue.async {
+                self.dataByTask.removeValue(forKey: key)
+                self.completionByTask.removeValue(forKey: key)
+                self.retryByTask.removeValue(forKey: key)
+                if let fileURL = self.fileByTask.removeValue(forKey: key) { try? FileManager.default.removeItem(at: fileURL) }
             }
-            // Delete value for sessionKey
-            self.requestData.removeValue(forKey:session)
-            self.requestCompletionHandler.removeValue(forKey:session)
-            
-            // Cancel session
-            session.invalidateAndCancel()
         }
     }
     
     // URLSessionDataDelegate : dataTask didReceive Data
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        // Save Data on array
-        DispatchQueue.main.async {
-            self.requestData.updateValue(data, forKey: session)
+        let key = ObjectIdentifier(dataTask)
+        stateQueue.async {
+            let buf = self.dataByTask[key] ?? NSMutableData()
+            buf.append(data)
+            self.dataByTask[key] = buf
         }
     }
     
@@ -351,5 +342,39 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             .useCredential,
             URLCredential(trust: serverTrust)
         )
+    }
+
+    // Metrics (protocol h2/h3, bytes)
+    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        if let t = metrics.transactionMetrics.last, let url = t.request.url?.absoluteString {
+            PreyLogger("Network metrics -> URL: \(url), sent: \(task.countOfBytesSent)B, recv: \(task.countOfBytesReceived)B, protocol: \(t.networkProtocolName ?? "unknown")")
+        }
+    }
+
+    // Background events done
+    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+        DispatchQueue.main.async { self.backgroundCompletionHandler?(); self.backgroundCompletionHandler = nil }
+    }
+
+    // Retry helper: new task preserving completion and attempt count
+    private func retryTask(_ oldTask: URLSessionTask, with request: URLRequest) {
+        let oldKey = ObjectIdentifier(oldTask)
+        var completion: ((Data?, URLResponse?, Error?) -> Void)?
+        var attempt = 0
+        stateQueue.sync {
+            completion = self.completionByTask[oldKey]
+            attempt = self.retryByTask[oldKey] ?? 0
+        }
+        let newTask = sharedSession.dataTask(with: request)
+        let newKey = ObjectIdentifier(newTask)
+        stateQueue.async {
+            self.dataByTask[newKey] = NSMutableData()
+            if let c = completion { self.completionByTask[newKey] = c }
+            self.retryByTask[newKey] = attempt
+            self.dataByTask.removeValue(forKey: oldKey)
+            self.completionByTask.removeValue(forKey: oldKey)
+            self.retryByTask.removeValue(forKey: oldKey)
+        }
+        newTask.resume()
     }
 }
