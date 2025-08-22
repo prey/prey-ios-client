@@ -29,9 +29,37 @@ class Alert: PreyAction, @unchecked Sendable {
         
         PreyLogger("Alert message: \(message)")
         
-        // Send start action immediately to avoid duplicates
+        // Send start action and, upon completion, send stopped to close lifecycle in order
         let params = getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
-        self.sendData(params, toEndpoint: responseDeviceEndpoint)
+        if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
+            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                username,
+                password: "x",
+                params: params,
+                messageId: self.messageId,
+                httpMethod: Method.POST.rawValue,
+                endPoint: responseDeviceEndpoint,
+                onCompletion: PreyHTTPResponse.checkResponse(
+                    RequestType.dataSend,
+                    preyAction: self,
+                    onCompletion: { [weak self] (_: Bool) in
+                        guard let self = self else { return }
+                        let stopParams = self.getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
+                        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                            username,
+                            password: "x",
+                            params: stopParams,
+                            messageId: self.messageId,
+                            httpMethod: Method.POST.rawValue,
+                            endPoint: responseDeviceEndpoint,
+                            onCompletion: PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction: self, onCompletion: { _ in PreyLogger("Alert start->stop cycle sent") })
+                        )
+                    }
+                )
+            )
+        } else {
+            PreyLogger("Alert: cannot send start/stop - missing API key or not registered")
+        }
         
         // Only show a notification in background, otherwise show the alert view
         // Fix: Check app state on main thread to avoid Main Thread Checker warning
@@ -73,12 +101,6 @@ class Alert: PreyAction, @unchecked Sendable {
             UNUserNotificationCenter.current().add(request) { [weak self] error in
                 if let error = error {
                     PreyLogger("Error displaying notification: \(error.localizedDescription)")
-                    
-                    // Send stopped status if there was an error
-                    if let self = self {
-                        let errorParams = self.getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
-                        self.sendData(errorParams, toEndpoint: responseDeviceEndpoint)
-                    }
                 } else {
                     PreyLogger("Alert notification scheduled successfully")
                 }
@@ -86,15 +108,6 @@ class Alert: PreyAction, @unchecked Sendable {
         } else {
             // In foreground, just show the alert view
             showAlertVC(message)
-        }
-        
-        // Use a background queue with a delay instead of sleeping on the main thread
-        // Use weak self to prevent retain cycles and memory leaks
-        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 4.0) { [weak self] in
-            guard let self = self else { return }
-            let paramsStopped = self.getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
-            self.sendData(paramsStopped, toEndpoint: responseDeviceEndpoint)
-            PreyLogger("Alert action completed")
         }
     }
     

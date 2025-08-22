@@ -102,6 +102,38 @@ class PreyModule {
         )
     }
 
+    // Sync device name only when it changes
+    func syncDeviceNameIfChanged() {
+        guard PreyConfig.sharedInstance.isRegistered, let username = PreyConfig.sharedInstance.userApiKey else { return }
+        let currentName = UIDevice.current.name
+        let defaults = UserDefaults.standard
+        let lastSentName = defaults.string(forKey: "device_name_last_sent")
+        guard lastSentName != currentName else { return }
+        
+        let params: [String: Any] = ["name": currentName]
+        PreyLogger("Syncing device name change: \(currentName)")
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            username,
+            password: "x",
+            params: params,
+            messageId: nil,
+            httpMethod: Method.POST.rawValue,
+            endPoint: dataDeviceEndpoint,
+            onCompletion: PreyHTTPResponse.checkResponse(
+                RequestType.dataSend,
+                preyAction: nil,
+                onCompletion: { success in
+                    if success {
+                        defaults.set(currentName, forKey: "device_name_last_sent")
+                        PreyLogger("Device name synced successfully")
+                    } else {
+                        PreyLogger("Failed to sync device name; will retry on next lifecycle event if still changed")
+                    }
+                }
+            )
+        )
+    }
+
     // Check actionArrayStatus
     func checkActionArrayStatus() {
         // Fix: Check app state on main thread to avoid Main Thread Checker warning
