@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     private var foregroundPollingTimer: Timer? // Consider DispatchSourceTimer for more precise control if needed
     private var serverSyncInProgress = false
     private var lastSyncTimestamp: Date?
+    private var locationPushManager: CLLocationManager?
+    private var hasStartedLocationPushMonitoring = false
     
     override init() {
         super.init()
@@ -89,6 +91,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if locationManager.authorizationStatus == .notDetermined {
             locationManager.requestAlwaysAuthorization()
         }
+        // Start monitoring Location Pushes (iOS 15+ required by app)
+        startMonitoringLocationPushes()
         
         // Register for background tasks (BGTaskScheduler)
         // Ensure all identifiers are unique and defined once.
@@ -566,6 +570,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         PreyNotification.sharedInstance.didRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
+        // Also log token explicitly for Location Push testing
+        let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
+        PreyLogger("📣 APNS TOKEN (hex): \(tokenAsString)")
+        
+        // Ensure monitoring is active (deduped)
+        startMonitoringLocationPushes()
         
         // Schedule background tasks when we get a new token - ensures system knows we're active
         scheduleBackgroundTasks()
@@ -575,6 +585,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Check if daily location update is needed when app becomes active
         Location.checkDailyLocationUpdate()
+    }
+
+    // MARK: Location Push Monitoring
+    private func startMonitoringLocationPushes(reRegister: Bool = false) {
+        if locationPushManager == nil { locationPushManager = CLLocationManager() }
+        guard let lm = locationPushManager else { return }
+        
+        // Avoid duplicate/overlapping registrations
+        if hasStartedLocationPushMonitoring {
+            PreyLogger("LocationPush monitoring already started; skipping duplicate call")
+            return
+        }
+        
+        // Require Always authorization per Apple docs
+        if lm.authorizationStatus != .authorizedAlways {
+            PreyLogger("⚠️ LocationPush requires Always authorization; current=\(lm.authorizationStatus.rawValue)")
+            lm.requestAlwaysAuthorization()
+            return
+        }
+        lm.startMonitoringLocationPushes { registration, error in
+            if let error = error {
+                PreyLogger("⚠️ LocationPush monitoring failed: \(error.localizedDescription)")
+                return
+            }
+            if let registration = registration {
+                let tokenHex = registration.map { String(format: "%02x", $0) }.joined()
+                PreyLogger("✅ LocationPush monitoring started (registration token: \(tokenHex))")
+            } else {
+                PreyLogger("✅ LocationPush monitoring started for topic .location-query")
+            }
+            self.hasStartedLocationPushMonitoring = true
+        }
     }
     
     // MARK: Foreground API sync
