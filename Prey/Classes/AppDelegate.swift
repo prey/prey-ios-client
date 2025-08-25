@@ -30,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     private var lastSyncTimestamp: Date?
     private var locationPushManager: CLLocationManager?
     private var hasStartedLocationPushMonitoring = false
+    private var locationPushRetryCount = 0
     
     override init() {
         super.init()
@@ -599,14 +600,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         // Require Always authorization per Apple docs
-        if lm.authorizationStatus != .authorizedAlways {
-            PreyLogger("⚠️ LocationPush requires Always authorization; current=\(lm.authorizationStatus.rawValue)")
+        let auth = lm.authorizationStatus
+        PreyLogger("LocationPush auth status: \(auth.rawValue)")
+        if auth != .authorizedAlways {
+            PreyLogger("⚠️ LocationPush requires Always authorization; requesting...")
             lm.requestAlwaysAuthorization()
             return
         }
         lm.startMonitoringLocationPushes { registration, error in
             if let error = error {
-                PreyLogger("⚠️ LocationPush monitoring failed: \(error.localizedDescription)")
+                let nsErr = error as NSError
+                PreyLogger("⚠️ LocationPush monitoring failed: domain=\(nsErr.domain) code=\(nsErr.code) desc=\(nsErr.description)")
+                // Retry a few times with backoff in case it is transient
+                if self.locationPushRetryCount < 3 {
+                    let delay = Double((self.locationPushRetryCount + 1) * 5)
+                    self.locationPushRetryCount += 1
+                    PreyLogger("Scheduling LocationPush retry #\(self.locationPushRetryCount) in \(delay)s")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                        self.startMonitoringLocationPushes()
+                    }
+                }
                 return
             }
             if let registration = registration {
