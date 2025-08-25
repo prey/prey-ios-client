@@ -13,7 +13,7 @@ import CoreLocation
 import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, CLLocationManagerDelegate {
     
     // MARK: Properties
     
@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     private var locationPushManager: CLLocationManager?
     private var hasStartedLocationPushMonitoring = false
     private var locationPushRetryCount = 0
+    private var apnsRegistered = false
     
     override init() {
         super.init()
@@ -85,15 +86,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         PreyLogger("didFinishLaunchingWithOptions - App launch started at \(Date())")
-        
+
         // Request Always authorization for location early, but only if not already determined
         // Important: Actual location manager instance should be lazy and its delegate set to handle updates
         let locationManager = CLLocationManager()
         if locationManager.authorizationStatus == .notDetermined {
             locationManager.requestAlwaysAuthorization()
         }
-        // Start monitoring Location Pushes (iOS 15+ required by app)
-        startMonitoringLocationPushes()
         
         // Register for background tasks (BGTaskScheduler)
         // Ensure all identifiers are unique and defined once.
@@ -560,6 +559,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // Did register notifications
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         PreyLogger("didRegisterForRemoteNotificationsWithDeviceToken")
+        apnsRegistered = true
       
         UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in // Added weak self
             guard let self = self else { return }
@@ -592,13 +592,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     private func startMonitoringLocationPushes(reRegister: Bool = false) {
         if locationPushManager == nil { locationPushManager = CLLocationManager() }
         guard let lm = locationPushManager else { return }
-        
+        lm.delegate = self
+
         // Avoid duplicate/overlapping registrations
         if hasStartedLocationPushMonitoring {
             PreyLogger("LocationPush monitoring already started; skipping duplicate call")
             return
         }
-        
+
+        if !apnsRegistered {
+            PreyLogger("LocationPush: APNs no registrado aún; difiriendo startMonitoring")
+
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+            // Will retry in didRegisterForRemoteNotifications
+            return
+        }
+
         // Require Always authorization per Apple docs
         let auth = lm.authorizationStatus
         PreyLogger("LocationPush auth status: \(auth.rawValue)")
@@ -610,7 +621,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         lm.startMonitoringLocationPushes { registration, error in
             if let error = error {
                 let nsErr = error as NSError
-                PreyLogger("⚠️ LocationPush monitoring failed: domain=\(nsErr.domain) code=\(nsErr.code) desc=\(nsErr.description)")
+                var hint = ""
+                if nsErr.domain == "CLLocationPushServiceErrorDomain" {
+                    switch nsErr.code {
+                    case 1:
+                        hint = "(posible: no soportado en este dispositivo/simulador, o falta de entitlement en App ID/perfil)"
+                    case 2:
+                        hint = "(posible: restricciones de sistema o denegado)"
+                    default:
+                        break
+                    }
+                }
+                PreyLogger("⚠️ LocationPush monitoring failed: domain=\(nsErr.domain) code=\(nsErr.code) desc=\(nsErr.localizedDescription) \(hint)")
                 // Retry a few times with backoff in case it is transient
                 if self.locationPushRetryCount < 3 {
                     let delay = Double((self.locationPushRetryCount + 1) * 5)
@@ -629,6 +651,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 PreyLogger("✅ LocationPush monitoring started for topic .location-query")
             }
             self.hasStartedLocationPushMonitoring = true
+        }
+    }
+    
+    // Retries when authorization changes to Always
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        guard manager === self.locationPushManager else { return }
+        let status = manager.authorizationStatus
+        PreyLogger("LocationPush auth changed: \(status.rawValue)")
+        if status == .authorizedAlways {
+            startMonitoringLocationPushes()
         }
     }
     
