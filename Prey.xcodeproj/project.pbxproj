@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0537E01C2E5C89D4008D460F /* LocationPushService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0537E0152E5C89D4008D460F /* LocationPushService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
@@ -113,6 +114,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0537E01A2E5C89D4008D460F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3B8283E5199198E6000E4545 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0537E0142E5C89D4008D460F;
+			remoteInfo = LocationPushService;
+		};
 		3B828400199198E6000E4545 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3B8283E5199198E6000E4545 /* Project object */;
@@ -151,6 +159,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				3BCE972523021AB500AF1AD4 /* PreyNotify.appex in Embed Foundation Extensions */,
+				0537E01C2E5C89D4008D460F /* LocationPushService.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 1;
@@ -158,6 +167,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0537E0152E5C89D4008D460F /* LocationPushService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LocationPushService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TriggerManager.swift; path = Classes/TriggerManager.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
@@ -269,7 +279,28 @@
 		747FA51D2BAB1683003242C7 /* ListPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListPermissions.swift; path = Classes/ListPermissions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0537E01D2E5C89D4008D460F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0537E0142E5C89D4008D460F /* LocationPushService */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0537E0162E5C89D4008D460F /* LocationPushService */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (0537E01D2E5C89D4008D460F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = LocationPushService; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		0537E0122E5C89D4008D460F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B8283EA199198E6000E4545 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -367,6 +398,7 @@
 				3BAE5811214ACD9F00DB4BAB /* InfoPlist.strings */,
 				3B828402199198E6000E4545 /* PreyTests */,
 				3BCE971C23021AB500AF1AD4 /* PreyNotify */,
+				0537E0162E5C89D4008D460F /* LocationPushService */,
 				3BB6E2211D47CBD800074E97 /* Frameworks */,
 				3B8283EE199198E6000E4545 /* Products */,
 			);
@@ -378,6 +410,7 @@
 				3B8283ED199198E6000E4545 /* Prey.app */,
 				3B8283FF199198E6000E4545 /* PreyTests.xctest */,
 				3BCE971923021AB500AF1AD4 /* PreyNotify.appex */,
+				0537E0152E5C89D4008D460F /* LocationPushService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -570,6 +603,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0537E0142E5C89D4008D460F /* LocationPushService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0537E01E2E5C89D4008D460F /* Build configuration list for PBXNativeTarget "LocationPushService" */;
+			buildPhases = (
+				0537E0112E5C89D4008D460F /* Sources */,
+				0537E0122E5C89D4008D460F /* Frameworks */,
+				0537E0132E5C89D4008D460F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				0537E0162E5C89D4008D460F /* LocationPushService */,
+			);
+			name = LocationPushService;
+			packageProductDependencies = (
+			);
+			productName = LocationPushService;
+			productReference = 0537E0152E5C89D4008D460F /* LocationPushService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		3B8283EC199198E6000E4545 /* Prey */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3B828409199198E6000E4545 /* Build configuration list for PBXNativeTarget "Prey" */;
@@ -585,6 +640,7 @@
 			);
 			dependencies = (
 				3BCE972423021AB500AF1AD4 /* PBXTargetDependency */,
+				0537E01B2E5C89D4008D460F /* PBXTargetDependency */,
 			);
 			name = Prey;
 			productName = Prey;
@@ -636,10 +692,13 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftMigration = 0720;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				ORGANIZATIONNAME = "Prey, Inc.";
 				TargetAttributes = {
+					0537E0142E5C89D4008D460F = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					3B8283EC199198E6000E4545 = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 1020;
@@ -691,11 +750,19 @@
 				3B8283EC199198E6000E4545 /* Prey */,
 				3B8283FE199198E6000E4545 /* PreyTests */,
 				3BCE971823021AB500AF1AD4 /* PreyNotify */,
+				0537E0142E5C89D4008D460F /* LocationPushService */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0537E0132E5C89D4008D460F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B8283EB199198E6000E4545 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -774,6 +841,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0537E0112E5C89D4008D460F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B8283E9199198E6000E4545 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -874,6 +948,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0537E01B2E5C89D4008D460F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0537E0142E5C89D4008D460F /* LocationPushService */;
+			targetProxy = 0537E01A2E5C89D4008D460F /* PBXContainerItemProxy */;
+		};
 		3B828401199198E6000E4545 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3B8283EC199198E6000E4545 /* Prey */;
@@ -934,6 +1013,87 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0537E01F2E5C89D4008D460F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = LocationPushService/LocationPushService.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LocationPushService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LocationPushService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Prey, Inc. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prey.LocationPushService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0537E0202E5C89D4008D460F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = LocationPushService/LocationPushService.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LocationPushService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LocationPushService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Prey, Inc. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prey.LocationPushService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		3B828407199198E6000E4545 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1202,7 +1362,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PreyNotify/Info.plist;
@@ -1243,7 +1403,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PreyNotify/Info.plist;
@@ -1271,6 +1431,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0537E01E2E5C89D4008D460F /* Build configuration list for PBXNativeTarget "LocationPushService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0537E01F2E5C89D4008D460F /* Debug */,
+				0537E0202E5C89D4008D460F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3B8283E8199198E6000E4545 /* Build configuration list for PBXProject "Prey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
