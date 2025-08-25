@@ -6,3 +6,4 @@ GoogleService-Info.plist
 *.xcscheme
 .aider.*
 .aider*
+scripts/apns/.apns.env
