@@ -750,7 +750,6 @@
 				3B8283FE199198E6000E4545 /* PreyTests */,
 				3BCE971823021AB500AF1AD4 /* PreyNotify */,
 				0537E0142E5C89D4008D460F /* LocationPushService */,
-				05APNSTGT2E6AAA000001 /* APNsPush */,
 			);
 		};
 /* End PBXProject section */
@@ -838,20 +837,6 @@
 			shellScript = "
 ";
 		};
-        05APNSPHASE2E6AAA000001 /* APNs Push Script */ = {
-            isa = PBXShellScriptBuildPhase;
-            buildActionMask = 2147483647;
-            files = (
-            );
-            inputPaths = (
-            );
-            name = "APNs Push Script";
-            outputPaths = (
-            );
-            runOnlyForDeploymentPostprocessing = 0;
-            shellPath = /bin/sh;
-            shellScript = "SCRIPT=\"${SRCROOT}/scripts/apns/apns_location_push.sh\"\\nif [ ! -x \"$SCRIPT\" ]; then\\n  echo \"APNs script not found or not executable: $SCRIPT\"; exit 1;\\nfi\\nENV_FILE=\"${SRCROOT}/scripts/apns/.apns.env\"\\nif [ -f \"$ENV_FILE\" ]; then\\n  . \"$ENV_FILE\"\\nfi\\n: \"${APNS_ENV:=sandbox}\"\\n: \"${APNS_PUSH_TYPE:=location}\"\\n: \"${APNS_PRIORITY:=high}\"\\nif [ -z \"$TEAM_ID\" ] || [ -z \"$KEY_ID\" ] || [ -z \"$P8_KEY_PATH\" ] || [ -z \"$BUNDLE_ID\" ] || [ -z \"$DEVICE_TOKEN\" ]; then\\n  echo \"Missing required vars. Create scripts/apns/.apns.env (see .apns.env.example).\"; exit 1;\\nfi\\n\"$SCRIPT\" \\n  --team-id \"$TEAM_ID\" \\n  --key-id \"$KEY_ID\" \\n  --p8 \"$P8_KEY_PATH\" \\n  --bundle-id \"$BUNDLE_ID\" \\n  --device-token \"$DEVICE_TOKEN\" \\n  --env \"$APNS_ENV\" \\n  --push-type \"$APNS_PUSH_TYPE\" \\n  --priority \"$APNS_PRIORITY\"\\n";
-        };
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1027,22 +1012,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-        05APNSDEB2E6AAA000001 /* Debug */ = {
-            isa = XCBuildConfiguration;
-            buildSettings = {
-                PRODUCT_NAME = APNsPush;
-                SDKROOT = iphoneos;
-            };
-            name = Debug;
-        };
-        05APNSREL2E6AAA000001 /* Release */ = {
-            isa = XCBuildConfiguration;
-            buildSettings = {
-                PRODUCT_NAME = APNsPush;
-                SDKROOT = iphoneos;
-            };
-            name = Release;
-        };
 		0537E01F2E5C89D4008D460F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1161,7 +1130,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Prey/Plist/Prey.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = M2J57RQ35B;
@@ -1222,7 +1191,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Prey/Plist/Prey.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = M2J57RQ35B;
@@ -1472,15 +1441,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-        05APNSCFG2E6AAA000001 /* Build configuration list for PBXAggregateTarget "APNsPush" */ = {
-            isa = XCConfigurationList;
-            buildConfigurations = (
-                05APNSDEB2E6AAA000001 /* Debug */,
-                05APNSREL2E6AAA000001 /* Release */,
-            );
-            defaultConfigurationIsVisible = 0;
-            defaultConfigurationName = Release;
-        };
 		0537E01E2E5C89D4008D460F /* Build configuration list for PBXNativeTarget "LocationPushService" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1527,20 +1487,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin PBXAggregateTarget section */
-        05APNSTGT2E6AAA000001 /* APNsPush */ = {
-            isa = PBXAggregateTarget;
-            buildConfigurationList = 05APNSCFG2E6AAA000001 /* Build configuration list for PBXAggregateTarget "APNsPush" */;
-            buildPhases = (
-                05APNSPHASE2E6AAA000001 /* APNs Push Script */,
-            );
-            dependencies = (
-            );
-            name = APNsPush;
-            productName = APNsPush;
-        };
-/* End PBXAggregateTarget section */
 
 /* Begin XCVersionGroup section */
 		3B849AE61D0710E9002DB6CC /* PreyData.xcdatamodeld */ = {
