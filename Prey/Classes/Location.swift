@@ -38,6 +38,12 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     // Location deduplication constants (not currently used but kept for potential future use)
     private static let locationDeduplicationThreshold: TimeInterval = 5.0 // 5 seconds
     private static let locationDistanceThreshold: CLLocationDistance = 10.0 // 10 meters
+
+    // Track if we reported any location during the current request session
+    private var hasReportedThisSession = false
+    
+    // One-shot timer to request a single location near timeout
+    private var oneShotRequestTimer: Timer?
     
     // MARK: Constants
     private static let cachedLocationMaxAge: TimeInterval = 300 // 5 minutes
@@ -210,7 +216,19 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         
         // Schedule get location with timeout
         Timer.scheduledTimer(timeInterval: Location.locationTimeoutDuration, target:self, selector:#selector(stopLocationTimer(_:)), userInfo:nil, repeats:false)
-        
+
+        // Schedule a one-shot location request a few seconds before timeout if no report yet
+        let oneShotLead: TimeInterval = 3.0
+        if Location.locationTimeoutDuration > oneShotLead {
+            oneShotRequestTimer = Timer.scheduledTimer(withTimeInterval: Location.locationTimeoutDuration - oneShotLead, repeats: false) { [weak self] _ in
+                guard let self = self else { return }
+                if !self.hasReportedThisSession {
+                    PreyLogger("Attempting one-shot requestLocation() before timeout")
+                    self.locManager.requestLocation()
+                }
+            }
+        }
+
         
         // Check for cached location in shared container
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
@@ -260,6 +278,51 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     // Stop Location Timer
     @objc func stopLocationTimer(_ timer:Timer)  {
         timer.invalidate()
+
+        // Invalidate pending one-shot timer
+        oneShotRequestTimer?.invalidate()
+        oneShotRequestTimer = nil
+
+        // If no location was reported during this session, try to send a fallback location
+        if !hasReportedThisSession {
+            var fallbackLocation: CLLocation?
+
+            // Prefer the last in-memory fix
+            fallbackLocation = lastLocation
+
+            // If not available, use the manager's last known fix
+            if fallbackLocation == nil {
+                fallbackLocation = locManager.location
+            }
+
+            // If still nil, read from shared container cache (as last resort)
+            if fallbackLocation == nil,
+               let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
+               let cached = userDefaults.dictionary(forKey: "lastLocation"),
+               let lat = cached["lat"] as? Double,
+               let lng = cached["lng"] as? Double,
+               let accuracy = cached["accuracy"] as? Double,
+               let altitude = cached["alt"] as? Double,
+               let timestamp = cached["timestamp"] as? TimeInterval {
+                let coord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+                let date = Date(timeIntervalSince1970: timestamp)
+                fallbackLocation = CLLocation(
+                    coordinate: coord,
+                    altitude: altitude,
+                    horizontalAccuracy: accuracy,
+                    verticalAccuracy: 0,
+                    timestamp: date
+                )
+            }
+
+            if let fallback = fallbackLocation {
+                PreyLogger("Timeout without fresh fix; sending fallback (age: \(abs(fallback.timestamp.timeIntervalSinceNow))s, acc: \(fallback.horizontalAccuracy)m)")
+                locationReceived(fallback)
+            } else {
+                PreyLogger("Timeout reached and no fallback location available")
+            }
+        }
+
         stopLocationManager()
     }
     
@@ -281,6 +344,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             locationBgTaskId = UIBackgroundTaskIdentifier.invalid
         }
         
+        // Reset session state and configure manager
+        hasReportedThisSession = false
         // Configure location manager with adaptive settings
         locManager.requestAlwaysAuthorization()
         locManager.delegate = self
@@ -345,12 +410,9 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         }
         
         locManager.stopUpdatingLocation()
-        
-        // Only stop significant location changes if we're not in location aware mode
-        if !isLocationAwareActive {
-            locManager.stopMonitoringSignificantLocationChanges()
-            PreyLogger("Stopped monitoring significant location changes")
-        }
+        // Keep significant location changes active to preserve background wake-ups
+        // This helps tracking while stationary with minimal battery impact
+        PreyLogger("Keeping significant location changes monitoring active for background wake-ups")
         
         // End background task if active
         if locationBgTaskId != UIBackgroundTaskIdentifier.invalid {
@@ -371,6 +433,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     // Location received
     func locationReceived(_ location:CLLocation) {
         PreyLogger("Processing location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+        hasReportedThisSession = true
         
         // Use the existing background task instead of creating a new one for each location
         // This prevents multiple concurrent background tasks
@@ -589,35 +652,48 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     // Configure battery-optimized location settings
     private func configureBatteryOptimizedSettings() {
+        // Ensure battery monitoring is enabled to get a valid level
+        if !UIDevice.current.isBatteryMonitoringEnabled {
+            UIDevice.current.isBatteryMonitoringEnabled = true
+        }
         let batteryLevel = UIDevice.current.batteryLevel
         let isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
         
+        // Detect app state and missing/emergency status to pick a dynamic profile
+        var isAppActive = false
+        if Thread.isMainThread {
+            isAppActive = UIApplication.shared.applicationState == .active
+        } else {
+            DispatchQueue.main.sync {
+                isAppActive = UIApplication.shared.applicationState == .active
+            }
+        }
+        let isMissing = PreyConfig.sharedInstance.isMissing
+        
         PreyLogger("Configuring location for battery level: \(batteryLevel), low power mode: \(isLowPowerMode)")
         
-        if isEmergencyMode {
-            // Emergency mode: highest accuracy regardless of battery
-            locManager.desiredAccuracy = kCLLocationAccuracyBest
-            locManager.distanceFilter = 10
-            locManager.pausesLocationUpdatesAutomatically = false
-            PreyLogger("Emergency mode: using highest accuracy settings")
-        } else if isLowPowerMode || batteryLevel < 0.2 {
-            // Low power mode: reduce accuracy to preserve battery
-            locManager.desiredAccuracy = kCLLocationAccuracyKilometer
-            locManager.distanceFilter = 500
-            locManager.pausesLocationUpdatesAutomatically = true
-            PreyLogger("Low power mode: using battery-saving settings")
-        } else if batteryLevel < 0.5 {
-            // Medium battery: balanced settings
-            locManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-            locManager.distanceFilter = 200
-            locManager.pausesLocationUpdatesAutomatically = true
-            PreyLogger("Medium battery: using balanced settings")
-        } else {
-            // Normal battery: security-optimized settings
+        // Set an appropriate activity type for our use case (security/tracking)
+        locManager.activityType = .other
+        
+        // Dynamic profiles
+        if isEmergencyMode || isMissing || isAppActive {
+            // High-accuracy burst (action window, missing, or foreground)
             locManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locManager.distanceFilter = 50
             locManager.pausesLocationUpdatesAutomatically = false
-            PreyLogger("Normal battery: using security-optimized settings")
+            PreyLogger("Dynamic profile: HIGH accuracy (window/missing/foreground)")
+        } else if isLowPowerMode || batteryLevel >= 0 && batteryLevel < 0.2 {
+            // Battery saver when idle in background
+            locManager.desiredAccuracy = kCLLocationAccuracyKilometer
+            locManager.distanceFilter = 500
+            locManager.pausesLocationUpdatesAutomatically = true
+            PreyLogger("Dynamic profile: BATTERY SAVER (background + LPM/low battery)")
+        } else {
+            // Balanced background tracking
+            locManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            locManager.distanceFilter = 200
+            locManager.pausesLocationUpdatesAutomatically = true
+            PreyLogger("Dynamic profile: BALANCED (background)")
         }
         
         // Store original settings for restoration
@@ -627,27 +703,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     // Enhanced location quality validation
     private func validateLocationQuality(_ location: CLLocation) -> Bool {
-        // Check basic validity
-        guard location.horizontalAccuracy > 0 && location.horizontalAccuracy < Location.maxLocationAccuracy else {
-            PreyLogger("Location accuracy out of bounds: \(location.horizontalAccuracy)")
-            return false
-        }
-        
-        // Check for null island coordinates (0,0) and invalid coordinate ranges
-        guard CLLocationCoordinate2DIsValid(location.coordinate) else {
-            PreyLogger("Invalid coordinates detected")
-            return false
-        }
-        
-        // Check for null island coordinates (0,0) - both coordinates must be exactly zero to be invalid
-        if location.coordinate.longitude == 0 && location.coordinate.latitude == 0 {
-            PreyLogger("Invalid null island coordinates (0,0) detected")
-            return false
-        }
-        
-        // Check location age with different thresholds based on app state
-        let locationTime = abs(location.timestamp.timeIntervalSinceNow)
-        
         // Fix: Get app state on main thread to avoid Main Thread Checker warning
         var isAppActive = false
         if Thread.isMainThread {
@@ -657,14 +712,39 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
                 isAppActive = UIApplication.shared.applicationState == .active
             }
         }
-        
-        let maxAge: TimeInterval = isEmergencyMode ? 10.0 : (isAppActive ? 5.0 : 30.0)
-        
-        guard locationTime < maxAge else {
-            PreyLogger("Location too old: \(locationTime) seconds, max allowed: \(maxAge)")
+
+        // Dynamic accuracy threshold: stricter en foreground
+        let maxAllowedAccuracy: CLLocationAccuracy = isAppActive ? Location.maxLocationAccuracy : 500.0
+
+        // Check basic validity
+        guard location.horizontalAccuracy > 0 && location.horizontalAccuracy <= maxAllowedAccuracy else {
+            PreyLogger("Location accuracy out of bounds (active=\(isAppActive)): \(location.horizontalAccuracy)m > \(maxAllowedAccuracy)m")
             return false
         }
-        
+
+        // Check for null island coordinates (0,0) and invalid coordinate ranges
+        guard CLLocationCoordinate2DIsValid(location.coordinate) else {
+            PreyLogger("Invalid coordinates detected")
+            return false
+        }
+
+        if location.coordinate.longitude == 0 && location.coordinate.latitude == 0 {
+            PreyLogger("Invalid null island coordinates (0,0) detected")
+            return false
+        }
+
+        // Check location age with different thresholds based on app state
+        let locationTime = abs(location.timestamp.timeIntervalSinceNow)
+
+        // Accept older cached fixes in background to avoid dropping reports when the device is stationary
+        // Foreground: 10s, Background: 300s (5 min), Emergency: 10s
+        let maxAge: TimeInterval = isEmergencyMode ? 10.0 : (isAppActive ? 10.0 : Location.cachedLocationMaxAge)
+
+        guard locationTime <= maxAge else {
+            PreyLogger("Location too old: \(locationTime)s > \(maxAge)s (active=\(isAppActive))")
+            return false
+        }
+
         return true
     }
     

@@ -50,13 +50,13 @@ public let fontTitilliumRegular =  "TitilliumWeb-Regular"
 
 // PreyLogger
 public func PreyLogger(_ message: String, file: String = #file) {
-    #if DEBUG
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         let timestamp = dateFormatter.string(from: Date())
         let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
         print("[\(timestamp)] [\(fileName)] \(message)")
-    #endif
+
     
 }
 
