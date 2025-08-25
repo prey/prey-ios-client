@@ -44,6 +44,10 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     // One-shot timer to request a single location near timeout
     private var oneShotRequestTimer: Timer?
+
+    // Mark when this action was created specifically for the daily location check
+    // Used to stamp the last-successful daily send only on success
+    var isDailyUpdateRun = false
     
     // MARK: Constants
     private static let cachedLocationMaxAge: TimeInterval = 300 // 5 minutes
@@ -97,12 +101,9 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
                 return
             }
             
-            // Update last check time immediately to prevent duplicate checks
-            UserDefaults.standard.set(now, forKey: Location.dailyLocationCheckKey)
-            UserDefaults.standard.synchronize()
-            
             // Create a location action to ensure location is sent
             let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+            locationAction.isDailyUpdateRun = true
             
             // Check if there's already a location action in the array
             var hasLocationAction = false
@@ -478,6 +479,11 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             dispatchGroup.enter()
             self.sendDataWithCallback(locParam, toEndpoint: locationAwareEndpoint) { success in
                 PreyLogger("Location aware endpoint request completed with success: \(success)")
+                if success && self.isDailyUpdateRun {
+                    UserDefaults.standard.set(Date(), forKey: Location.dailyLocationCheckKey)
+                    UserDefaults.standard.synchronize()
+                    PreyLogger("Stamped daily location check timestamp (aware)")
+                }
                 dispatchGroup.leave()
             }
             
@@ -488,6 +494,11 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             dispatchGroup.enter()
             self.sendDataWithCallback(locParam, toEndpoint: dataDeviceEndpoint) { success in
                 PreyLogger("Data device endpoint location request completed with success: \(success)")
+                if success && self.isDailyUpdateRun {
+                    UserDefaults.standard.set(Date(), forKey: Location.dailyLocationCheckKey)
+                    UserDefaults.standard.synchronize()
+                    PreyLogger("Stamped daily location check timestamp")
+                }
                 dispatchGroup.leave()
             }
             
