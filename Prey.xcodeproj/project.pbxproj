@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0537E01C2E5C89D4008D460F /* LocationPushService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0537E0152E5C89D4008D460F /* LocationPushService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0537E0152E5C89D4008D460F /* LocationPushService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
@@ -80,7 +80,6 @@
 		3BAB25D323A923C300BDA263 /* TriggersEvents+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CD23A923C200BDA263 /* TriggersEvents+Properties.swift */; };
 		3BAB25D423A923C300BDA263 /* Triggers+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CE23A923C300BDA263 /* Triggers+Properties.swift */; };
 		3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BAE5812214ACD9F00DB4BAB /* InfoPlist.strings */; };
-		3BB2C450230352C00030C2B5 /* SwiftExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D70A21CD7E3D400DEB461 /* SwiftExt.swift */; };
 		3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342FF22710B360088F3D3 /* MimeTypes.swift */; };
 		3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21C1D47CAC500074E97 /* StoreKit.framework */; };
 		3BB6E21F1D47CACD00074E97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21E1D47CACD00074E97 /* MapKit.framework */; };
@@ -91,16 +90,8 @@
 		3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */; };
 		3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */; };
 		3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BCD4C8C1C98942900CDEE1C /* Localizable.strings */; };
-		3BCE971A23021AB500AF1AD4 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BCE96EF2302191B00AF1AD4 /* UserNotifications.framework */; };
-		3BCE971B23021AB500AF1AD4 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BCE96F12302191B00AF1AD4 /* UserNotificationsUI.framework */; };
-		3BCE971E23021AB500AF1AD4 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCE971D23021AB500AF1AD4 /* NotificationViewController.swift */; };
-		3BCE972123021AB500AF1AD4 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE971F23021AB500AF1AD4 /* MainInterface.storyboard */; };
-		3BCE972523021AB500AF1AD4 /* PreyNotify.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3BCE971923021AB500AF1AD4 /* PreyNotify.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3BCE972B23021B1600AF1AD4 /* regular-book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972923021B1600AF1AD4 /* regular-book.otf */; };
 		3BCE972C23021B1600AF1AD4 /* regular-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972A23021B1600AF1AD4 /* regular-bold.otf */; };
-		3BCE972D2302292C00AF1AD4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F9199198E6000E4545 /* Images.xcassets */; };
-		3BCE972E23022A7E00AF1AD4 /* regular-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972A23021B1600AF1AD4 /* regular-bold.otf */; };
-		3BCE972F23022A8100AF1AD4 /* regular-book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972923021B1600AF1AD4 /* regular-book.otf */; };
 		3BDA80D921120DE4003B028C /* FileRetrieval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDA80D821120DE4003B028C /* FileRetrieval.swift */; };
 		3BDF988120338AC70023D4AA /* HomeWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF988020338AC70023D4AA /* HomeWebVC.swift */; };
 		3BE3DC511D0B044D00581327 /* magdacleanmono-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */; };
@@ -142,13 +133,6 @@
 			remoteGlobalIDString = 3B8283EC199198E6000E4545;
 			remoteInfo = Prey;
 		};
-		3BCE972323021AB500AF1AD4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3B8283E5199198E6000E4545 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3BCE971823021AB500AF1AD4;
-			remoteInfo = PreyNotify;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -158,8 +142,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				3BCE972523021AB500AF1AD4 /* PreyNotify.appex in Embed Foundation Extensions */,
-				0537E01C2E5C89D4008D460F /* LocationPushService.appex in Embed Foundation Extensions */,
+				05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 1;
@@ -260,10 +243,6 @@
 		3BCD4C8E1C98942900CDEE1C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3BCE96EF2302191B00AF1AD4 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		3BCE96F12302191B00AF1AD4 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
-		3BCE971923021AB500AF1AD4 /* PreyNotify.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PreyNotify.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		3BCE971D23021AB500AF1AD4 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
-		3BCE972023021AB500AF1AD4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		3BCE972223021AB500AF1AD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3BCE972923021B1600AF1AD4 /* regular-book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "regular-book.otf"; sourceTree = "<group>"; };
 		3BCE972A23021B1600AF1AD4 /* regular-bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "regular-bold.otf"; sourceTree = "<group>"; };
 		3BDA80D821120DE4003B028C /* FileRetrieval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileRetrieval.swift; path = Classes/FileRetrieval.swift; sourceTree = "<group>"; };
@@ -284,6 +263,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				"README-LocationExtension.md",
 			);
 			target = 0537E0142E5C89D4008D460F /* LocationPushService */;
 		};
@@ -315,15 +295,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3BCE971623021AB500AF1AD4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3BCE971B23021AB500AF1AD4 /* UserNotificationsUI.framework in Frameworks */,
-				3BCE971A23021AB500AF1AD4 /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,7 +368,6 @@
 				3BCD4C8B1C98942900CDEE1C /* Localizable.strings */,
 				3BAE5811214ACD9F00DB4BAB /* InfoPlist.strings */,
 				3B828402199198E6000E4545 /* PreyTests */,
-				3BCE971C23021AB500AF1AD4 /* PreyNotify */,
 				0537E0162E5C89D4008D460F /* LocationPushService */,
 				3BB6E2211D47CBD800074E97 /* Frameworks */,
 				3B8283EE199198E6000E4545 /* Products */,
@@ -409,7 +379,6 @@
 			children = (
 				3B8283ED199198E6000E4545 /* Prey.app */,
 				3B8283FF199198E6000E4545 /* PreyTests.xctest */,
-				3BCE971923021AB500AF1AD4 /* PreyNotify.appex */,
 				0537E0152E5C89D4008D460F /* LocationPushService.appex */,
 			);
 			name = Products;
@@ -582,16 +551,6 @@
 			path = Prey/Localizable.strings;
 			sourceTree = "<group>";
 		};
-		3BCE971C23021AB500AF1AD4 /* PreyNotify */ = {
-			isa = PBXGroup;
-			children = (
-				3BCE971D23021AB500AF1AD4 /* NotificationViewController.swift */,
-				3BCE971F23021AB500AF1AD4 /* MainInterface.storyboard */,
-				3BCE972223021AB500AF1AD4 /* Info.plist */,
-			);
-			path = PreyNotify;
-			sourceTree = "<group>";
-		};
 		3BEFEB621DBD2391003143E8 /* External */ = {
 			isa = PBXGroup;
 			children = (
@@ -639,7 +598,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				3BCE972423021AB500AF1AD4 /* PBXTargetDependency */,
 				0537E01B2E5C89D4008D460F /* PBXTargetDependency */,
 			);
 			name = Prey;
@@ -666,23 +624,6 @@
 			productName = PreyTests;
 			productReference = 3B8283FF199198E6000E4545 /* PreyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		3BCE971823021AB500AF1AD4 /* PreyNotify */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3BCE972623021AB500AF1AD4 /* Build configuration list for PBXNativeTarget "PreyNotify" */;
-			buildPhases = (
-				3BCE971523021AB500AF1AD4 /* Sources */,
-				3BCE971623021AB500AF1AD4 /* Frameworks */,
-				3BCE971723021AB500AF1AD4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = PreyNotify;
-			productName = PreyNotify;
-			productReference = 3BCE971923021AB500AF1AD4 /* PreyNotify.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -726,10 +667,6 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 3B8283EC199198E6000E4545;
 					};
-					3BCE971823021AB500AF1AD4 = {
-						CreatedOnToolsVersion = 10.2.1;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = 3B8283E8199198E6000E4545 /* Build configuration list for PBXProject "Prey" */;
@@ -748,7 +685,6 @@
 			targets = (
 				3B8283EC199198E6000E4545 /* Prey */,
 				3B8283FE199198E6000E4545 /* PreyTests */,
-				3BCE971823021AB500AF1AD4 /* PreyNotify */,
 				0537E0142E5C89D4008D460F /* LocationPushService */,
 			);
 		};
@@ -790,17 +726,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3BCE971723021AB500AF1AD4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3BCE972123021AB500AF1AD4 /* MainInterface.storyboard in Resources */,
-				3BCE972F23022A8100AF1AD4 /* regular-book.otf in Resources */,
-				3BCE972E23022A7E00AF1AD4 /* regular-bold.otf in Resources */,
-				3BCE972D2302292C00AF1AD4 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -935,15 +860,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3BCE971523021AB500AF1AD4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3BCE971E23021AB500AF1AD4 /* NotificationViewController.swift in Sources */,
-				3BB2C450230352C00030C2B5 /* SwiftExt.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -966,11 +882,6 @@
 			isa = PBXTargetDependency;
 			target = 3B8283EC199198E6000E4545 /* Prey */;
 			targetProxy = 3B82841119919ABC000E4545 /* PBXContainerItemProxy */;
-		};
-		3BCE972423021AB500AF1AD4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3BCE971823021AB500AF1AD4 /* PreyNotify */;
-			targetProxy = 3BCE972323021AB500AF1AD4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -999,14 +910,6 @@
 				3BCD4C8E1C98942900CDEE1C /* es */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		3BCE971F23021AB500AF1AD4 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3BCE972023021AB500AF1AD4 /* Base */,
-			);
-			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1357,85 +1260,6 @@
 			};
 			name = Release;
 		};
-		3BCE972723021AB500AF1AD4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = PreyNotify/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 2.2.5;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.prey.NotifyPrey;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		3BCE972823021AB500AF1AD4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = PreyNotify/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 2.2.5;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.prey.NotifyPrey;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1471,15 +1295,6 @@
 			buildConfigurations = (
 				3B82840D199198E6000E4545 /* Debug */,
 				3B82840E199198E6000E4545 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3BCE972623021AB500AF1AD4 /* Build configuration list for PBXNativeTarget "PreyNotify" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3BCE972723021AB500AF1AD4 /* Debug */,
-				3BCE972823021AB500AF1AD4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
