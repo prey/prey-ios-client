@@ -577,18 +577,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         lm.startMonitoringLocationPushes { registration, error in
             if let error = error {
                 let nsErr = error as NSError
-                var hint = ""
-                if nsErr.domain == "CLLocationPushServiceErrorDomain" {
-                    switch nsErr.code {
-                    case 1:
-                        hint = "(posible: no soportado en este dispositivo/simulador, o falta de entitlement en App ID/perfil)"
-                    case 2:
-                        hint = "(posible: restricciones de sistema o denegado)"
-                    default:
-                        break
-                    }
-                }
-                PreyLogger("⚠️ LocationPush monitoring failed: domain=\(nsErr.domain) code=\(nsErr.code) desc=\(nsErr.localizedDescription) \(hint)")
+                PreyLogger("⚠️ LocationPush monitoring failed: domain=\(nsErr.domain) code=\(nsErr.code) desc=\(nsErr.localizedDescription)")
                 // Retry a few times with backoff in case it is transient
                 if self.locationPushRetryCount < 3 {
                     let delay = Double((self.locationPushRetryCount + 1) * 5)
