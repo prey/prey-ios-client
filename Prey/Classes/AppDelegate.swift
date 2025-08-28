@@ -139,7 +139,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("📱 PUSH INIT: Alert Setting: \(self.settingStatusString(settings.alertSetting))")
             PreyLogger("📱 PUSH INIT: Badge Setting: \(self.settingStatusString(settings.badgeSetting))")
             PreyLogger("📱 PUSH INIT: Sound Setting: \(self.settingStatusString(settings.soundSetting))")
-            
             PreyLogger("📱 PUSH INIT: Critical Alert Setting: \(self.settingStatusString(settings.criticalAlertSetting))")
             
             // Request notification permissions if not already authorized
@@ -592,11 +591,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if let registration = registration {
                 let tokenHex = registration.map { String(format: "%02x", $0) }.joined()
                 PreyLogger("✅ LocationPush monitoring started (registration token: \(tokenHex))")
+                // Send Location Push token to server as part of device data
+                self.registerLocationPushToken(tokenHex)
             } else {
                 PreyLogger("✅ LocationPush monitoring started for topic .location-query")
             }
             self.hasStartedLocationPushMonitoring = true
         }
+    }
+
+    // Send the Location Push registration token to Prey backend
+    private func registerLocationPushToken(_ tokenHex: String) {
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
+            PreyLogger("📣 LOCATION TOKEN REGISTER: ❌ Cannot register location token - no API key available")
+            return
+        }
+
+        // Compose payload similar to APNs token registration
+        let params: [String: Any] = [
+            "notification_id_extra": tokenHex
+        ]
+
+        PreyLogger("📣 LOCATION TOKEN REGISTER: Sending location token to Prey server using API key: \(username.prefix(6))…")
+        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            username,
+            password: "x",
+            params: params,
+            messageId: nil,
+            httpMethod: Method.POST.rawValue,
+            endPoint: dataDeviceEndpoint,
+            onCompletion: PreyHTTPResponse.checkResponse(
+                RequestType.dataSend,
+                preyAction: nil,
+                onCompletion: { (isSuccess: Bool) in
+                    if isSuccess {
+                        PreyLogger("📣 LOCATION TOKEN REGISTER: ✅ Successfully registered location push token")
+                    } else {
+                        PreyLogger("📣 LOCATION TOKEN REGISTER: ❌ Failed to register location push token")
+                    }
+                }
+            )
+        )
     }
     
     // Retries when authorization changes to Always
