@@ -47,8 +47,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     private static let dailyLocationInterval: TimeInterval = 24 * 60 * 60 // 24 hours - parametrizable
     private static let dailyLocationCheckKey = "PreyLastDailyLocationCheck"
     
-    
-    // Offline queue removed: we no longer queue locations while offline
+
     
     // MARK: Functions
     
@@ -112,54 +111,79 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         return dailyLocationInterval
     }
     
-    // Return init if location action don't exist
+    // Factory: allow creating actions for classic on-demand (.get) and aware mode
     class func initLocationAction(withTarget target:kAction, withCommand cmd:kCommand, withOptions opt:NSDictionary?) -> Location? {
-        // Only support starting location-aware mode via actions
-        if cmd == kCommand.start_location_aware {
-            return Location(withTarget:target, withCommand:cmd, withOptions:opt)
+        if cmd == kCommand.start_location_aware || cmd == kCommand.get {
+            return Location(withTarget: target, withCommand: cmd, withOptions: opt)
         }
-        // Disable creating actions for on-demand get
         return nil
     }
     
-    // Send lastLocation - improved to get fresh location if cached is too old
+    // Send last known location (always sends something): live, cached, or fallback
     func sendLastLocation() {
-        // Deprecated: on-demand location removed in favor of Location Push extension
-        PreyLogger("sendLastLocation() is deprecated; ignoring request")
+        // 1) Try to use manager's location if available (regardless of age)
+        if let live = locManager.location {
+            PreyLogger("On-demand: using manager's location (without validating age)")
+            locationReceived(live)
+            return
+        }
+        // 2) Try shared cache (App Group), no age limit
+        if let cached = buildLocationFromSharedCache() {
+            PreyLogger("On-demand: using cached App Group location (no age limit)")
+            self.lastLocation = cached
+            locationReceived(cached)
+            return
+        }
+        // 3) Hard fallback: send payload with default values to respond to panel
+        PreyLogger("On-demand: no location available; sending fallback")
+        let params: [String: Any] = [
+            kLocation.lng.rawValue: 0.0,
+            kLocation.lat.rawValue: 0.0,
+            kLocation.alt.rawValue: 0.0,
+            kLocation.accuracy.rawValue: -1.0,
+            kLocation.method.rawValue: "unknown"
+        ]
+        let locParam: [String: Any] = [
+            kAction.location.rawValue: params,
+            kDataLocation.skip_toast.rawValue: (index > 0),
+            // informational reason for backend/debug
+            kData.reason.rawValue: "no_last_known_location"
+        ]
+        self.sendDataWithCallback(locParam, toEndpoint: dataDeviceEndpoint) { _ in }
+        index = index + 1
     }
     
     // Prey command
     override func get() {
-        // On-demand location flow removed; start monitoring and attempt to send last known
-        PreyLogger("Location.get(): on-demand disabled; starting location-aware and sending last known if available")
+        // Classic on-demand: ALWAYS respond with the best available location
+        PreyLogger("Location.get(): classic on-demand enabled; always responding with last known")
+        // Kick off a quick capture in background for future requests
         startLocationManager()
-        if let current = locManager.location, validateLocationQuality(current) {
-            locationReceived(current)
-            return
+        // Immediately send the best we have right now
+        sendLastLocation()
+    }
+
+    // Build CLLocation from shared cache (without validating age)
+    private func buildLocationFromSharedCache() -> CLLocation? {
+        guard let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
+              let cached = userDefaults.dictionary(forKey: "lastLocation"),
+              let lat = cached["lat"] as? Double,
+              let lng = cached["lng"] as? Double,
+              let accuracy = cached["accuracy"] as? Double,
+              let altitude = cached["alt"] as? Double,
+              let timestamp = cached["timestamp"] as? TimeInterval
+        else {
+            return nil
         }
-        if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
-           let cached = userDefaults.dictionary(forKey: "lastLocation"),
-           let lat = cached["lat"] as? Double,
-           let lng = cached["lng"] as? Double,
-           let accuracy = cached["accuracy"] as? Double,
-           let altitude = cached["alt"] as? Double,
-           let timestamp = cached["timestamp"] as? TimeInterval {
-            let coord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-            let date = Date(timeIntervalSince1970: timestamp)
-            if abs(date.timeIntervalSinceNow) < Location.cachedLocationMaxAge {
-                let location = CLLocation(
-                    coordinate: coord,
-                    altitude: altitude,
-                    horizontalAccuracy: accuracy,
-                    verticalAccuracy: 0,
-                    timestamp: date
-                )
-                self.lastLocation = location
-                locationReceived(location)
-            } else {
-                PreyLogger("No fresh cached location available for on-demand")
-            }
-        }
+        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+        let date = Date(timeIntervalSince1970: timestamp)
+        return CLLocation(
+            coordinate: coord,
+            altitude: altitude,
+            horizontalAccuracy: accuracy,
+            verticalAccuracy: 0,
+            timestamp: date
+        )
     }
     
     // Start location aware
@@ -264,10 +288,9 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             }
             index = index + 1
         }
-        // Device info/name sync handled elsewhere
     }
     
-    // Send data to server with simple callback (no offline queue)
+    // Send data to server with simple callback
     private func sendDataWithCallback(_ data: [String: Any], toEndpoint endpoint: String, completion: @escaping (Bool) -> Void) {
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             PreyLogger("Cannot send data - no API key")

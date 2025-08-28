@@ -561,7 +561,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // Avoid duplicate/overlapping registrations
         if hasStartedLocationPushMonitoring {
-            PreyLogger("LocationPush monitoring already started; skipping duplicate call")
+            PreyLogger("LOCATION-PUSH monitoring already started; skipping duplicate call")
             return
         }
 
@@ -569,14 +569,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let auth = lm.authorizationStatus
         PreyLogger("LocationPush auth status: \(auth.rawValue)")
         if auth != .authorizedAlways {
-            PreyLogger("⚠️ LocationPush requires Always authorization; requesting...")
+            PreyLogger("⚠️ LOCATION-PUSH requires Always authorization; requesting...")
             lm.requestAlwaysAuthorization()
             return
         }
         lm.startMonitoringLocationPushes { registration, error in
             if let error = error {
                 let nsErr = error as NSError
-                PreyLogger("⚠️ LocationPush monitoring failed: domain=\(nsErr.domain) code=\(nsErr.code) desc=\(nsErr.localizedDescription)")
+                PreyLogger("⚠️ LOCATION-PUSH monitoring failed: domain=\(nsErr.domain) code=\(nsErr.code) desc=\(nsErr.localizedDescription)")
                 // Retry a few times with backoff in case it is transient
                 if self.locationPushRetryCount < 3 {
                     let delay = Double((self.locationPushRetryCount + 1) * 5)
@@ -590,11 +590,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             if let registration = registration {
                 let tokenHex = registration.map { String(format: "%02x", $0) }.joined()
-                PreyLogger("✅ LocationPush monitoring started (registration token: \(tokenHex))")
+                PreyLogger("✅ LOCATION-PUSH monitoring started (registration token: \(tokenHex))")
                 // Send Location Push token to server as part of device data
                 self.registerLocationPushToken(tokenHex)
             } else {
-                PreyLogger("✅ LocationPush monitoring started for topic .location-query")
+                PreyLogger("✅ LOCATION-PUSH monitoring started for topic .location-query")
             }
             self.hasStartedLocationPushMonitoring = true
         }
@@ -603,7 +603,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // Send the Location Push registration token to Prey backend
     private func registerLocationPushToken(_ tokenHex: String) {
         guard let username = PreyConfig.sharedInstance.userApiKey else {
-            PreyLogger("📣 LOCATION TOKEN REGISTER: ❌ Cannot register location token - no API key available")
+            PreyLogger("📣 LOCATION-PUSH REGISTER: ❌ Cannot register location token - no API key available")
             return
         }
 
