@@ -52,13 +52,13 @@ class PreyUser {
             "referer_user_id"           : "",
             "lang"                      : languageES]
         
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(userName, password:userPassword, params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.signUp, preyAction:nil, onCompletion:onCompletion))
+        PreyHTTPClient.sharedInstance.sendDataToPrey(userName, password:userPassword, params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.signUp, preyAction:nil, onCompletion:onCompletion))
     }
     
     // Request Token to Panel Prey
     class func getTokenFromPanel(_ userEmail: String, userPassword: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
         
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:tokenEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.getToken, preyAction:nil, onCompletion:onCompletion))
+        PreyHTTPClient.sharedInstance.sendDataToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:tokenEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.getToken, preyAction:nil, onCompletion:onCompletion))
     }
     
     // LogIn to Panel Prey
@@ -68,7 +68,7 @@ class PreyUser {
         let languageES  = (language as NSString).substring(to: 2)
         let langEndpoint = logInEndpoint + "?lang=" + languageES
         
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:langEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.logIn, preyAction:nil, onCompletion:onCompletion))
+        PreyHTTPClient.sharedInstance.sendDataToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:langEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.logIn, preyAction:nil, onCompletion:onCompletion))
     }
     
     // Resend email validation to Panel Prey
@@ -82,7 +82,7 @@ class PreyUser {
             "lang"  : languageES]
         
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.PUT.rawValue, endPoint:resendEmailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.resendEmailValidation, preyAction:nil, onCompletion:onCompletion))
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.PUT.rawValue, endPoint:resendEmailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.resendEmailValidation, preyAction:nil, onCompletion:onCompletion))
         } else {
             let titleMsg = "Couldn't add your device".localized
             let alertMsg = "Error user ID".localized

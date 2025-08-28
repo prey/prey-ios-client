@@ -176,7 +176,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     }
     
     // SignUp/LogIn User to Control Panel
-    func userRegisterToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
+    func sendDataToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
         
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)

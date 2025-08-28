@@ -67,7 +67,7 @@ class PreyModule {
         }
         
         PreyLogger("StatusDevice - Making request (\(context))")
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
             username, 
             password: "x", 
             params: nil, 
@@ -112,7 +112,7 @@ class PreyModule {
         
         let params: [String: Any] = ["name": currentName]
         PreyLogger("Syncing device name change: \(currentName)")
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
             username,
             password: "x",
             params: params,
