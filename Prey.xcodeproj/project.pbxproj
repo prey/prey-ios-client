@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0537E0152E5C89D4008D460F /* LocationPushService.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0592E4452E609B65000EE115 /* Registrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4442E609B5E000EE115 /* Registrar.swift */; };
 		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
@@ -151,6 +152,7 @@
 
 /* Begin PBXFileReference section */
 		0537E0152E5C89D4008D460F /* LocationPushService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LocationPushService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0592E4442E609B5E000EE115 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registrar.swift; sourceTree = "<group>"; };
 		3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TriggerManager.swift; path = Classes/TriggerManager.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 		3B51FFB01D3EB66C00CFE4E8 /* Prey Utils */ = {
 			isa = PBXGroup;
 			children = (
+				0592E4442E609B5E000EE115 /* Registrar.swift */,
 				3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */,
 				3B86297A1EF039E800BE92D4 /* PreyMobileConfig.swift */,
 				3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */,
@@ -783,6 +786,7 @@
 				3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */,
 				3BDA80D921120DE4003B028C /* FileRetrieval.swift in Sources */,
 				3B38BA931D231B1C00B6799B /* Detach.swift in Sources */,
+				0592E4452E609B65000EE115 /* Registrar.swift in Sources */,
 				3B8629991EF03CB400BE92D4 /* Process.swift in Sources */,
 				3B86299D1EF03CB400BE92D4 /* Socket.swift in Sources */,
 				3B8629941EF03CB400BE92D4 /* HttpRequest.swift in Sources */,
