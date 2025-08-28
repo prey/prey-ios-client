@@ -378,3 +378,80 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         newTask.resume()
     }
 }
+
+
+// Centralized helper to send requests with exponential backoff and rich error logging.
+class PreyNetworkRetry {
+    static func sendDataWithBackoff(
+        username: String,
+        password: String = "x",
+        params: [String: Any]?,
+        messageId: String? = nil,
+        httpMethod: String,
+        endPoint: String,
+        tag: String = "NETWORK",
+        maxAttempts: Int = 5,
+        nonRetryStatusCodes: Set<Int> = [401],
+        onCompletion: @escaping (Bool) -> Void
+    ) {
+        func delayForAttempt(_ attempt: Int) -> TimeInterval {
+            let base = pow(2.0, Double(min(attempt - 1, 5)))
+            let jitter = Double.random(in: 0...1)
+            return min(60.0, base + jitter)
+        }
+
+        func bodySnippet(_ data: Data?) -> String {
+            guard let data = data, !data.isEmpty else { return "" }
+            let str = String(data: data, encoding: .utf8) ?? "<non-utf8>"
+            return str.count > 500 ? String(str.prefix(500)) + "…" : str
+        }
+
+        func attemptSend(_ attempt: Int) {
+            PreyHTTPClient.sharedInstance.sendDataToPrey(
+                username,
+                password: password,
+                params: params,
+                messageId: messageId,
+                httpMethod: httpMethod,
+                endPoint: endPoint,
+                onCompletion: { data, response, error in
+                    if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
+                        PreyLogger("📣 \(tag): ✅ Success (HTTP \(http.statusCode))")
+                        onCompletion(true)
+                        return
+                    }
+
+                    if let error = error as NSError? {
+                        PreyLogger("📣 \(tag): ❌ Error (attempt \(attempt)/\(maxAttempts)): domain=\(error.domain) code=\(error.code) desc=\(error.localizedDescription)")
+                    }
+                    if let http = response as? HTTPURLResponse {
+                        if !(200...299).contains(http.statusCode) {
+                            let localized = HTTPURLResponse.localizedString(forStatusCode: http.statusCode)
+                            PreyLogger("📣 \(tag): ❌ HTTP \(http.statusCode) \(localized) (attempt \(attempt)/\(maxAttempts)). Body: \(bodySnippet(data))")
+                            if nonRetryStatusCodes.contains(http.statusCode) {
+                                PreyLogger("📣 \(tag): 🚫 Not retrying due to non-retryable status \(http.statusCode)")
+                                onCompletion(false)
+                                return
+                            }
+                        }
+                    } else {
+                        PreyLogger("📣 \(tag): ❌ Unknown response state (attempt \(attempt)/\(maxAttempts))")
+                    }
+
+                    if attempt < maxAttempts {
+                        let delay = delayForAttempt(attempt + 1)
+                        PreyLogger("📣 \(tag): 🔁 Retrying in \(String(format: "%.1f", delay))s (attempt \(attempt + 1)/\(maxAttempts))")
+                        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + delay) {
+                            attemptSend(attempt + 1)
+                        }
+                    } else {
+                        PreyLogger("📣 \(tag): ❌ Exhausted retries; giving up")
+                        onCompletion(false)
+                    }
+                }
+            )
+        }
+
+        attemptSend(1)
+    }
+}
