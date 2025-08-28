@@ -12,6 +12,8 @@ import UIKit
 class NotificationTokenRegistrar {
     private static let suiteName = "group.com.prey.ios"
     private static let tokenKey = "APNSTokenHex"
+    private static let lastSentKey = "APNSTokenLastSent"
+    private static let lastValueKey = "APNSTokenLastValue"
 
     // Persist APNs token early
     static func store(tokenHex: String) {
@@ -30,6 +32,16 @@ class NotificationTokenRegistrar {
         }
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             return
+        }
+
+        // Avoid re-sending if the same token was successfully sent < 5 minutes ago
+        if let lastToken = suite.string(forKey: lastValueKey),
+           let lastSent = suite.object(forKey: lastSentKey) as? Date {
+            let elapsed = Date().timeIntervalSince(lastSent)
+            if lastToken == tokenHex && elapsed < 5 * 60 {
+                PreyLogger("📣 TOKEN REGISTER: Skipping send (last success \(Int(elapsed))s ago)")
+                return
+            }
         }
 
         // Rebuild device info payload similar to original registration
@@ -66,6 +78,10 @@ class NotificationTokenRegistrar {
         ) { success in
             if success {
                 PreyLogger("📣 TOKEN REGISTER: ✅ Successfully registered APNs token (deferred)")
+                // Record last successful send
+                suite.set(Date(), forKey: lastSentKey)
+                suite.set(tokenHex, forKey: lastValueKey)
+                suite.synchronize()
             } else {
                 PreyLogger("📣 TOKEN REGISTER: ❌ Failed to register APNs token (final)")
             }
@@ -77,6 +93,8 @@ class NotificationTokenRegistrar {
 class LocationPushRegistrar {
     private static let suiteName = "group.com.prey.ios"
     private static let tokenKey = "LocationPushToken"
+    private static let lastSentKey = "LocationPushTokenLastSent"
+    private static let lastValueKey = "LocationPushTokenLastValue"
 
     // Persist token early; available to app and extension
     static func store(tokenHex: String) {
@@ -96,6 +114,16 @@ class LocationPushRegistrar {
         guard let apiKey = PreyConfig.sharedInstance.userApiKey else {
             return
         }
+
+        // Avoid re-sending if the same token was successfully sent < 5 minutes ago
+        if let lastToken = suite.string(forKey: lastValueKey),
+           let lastSent = suite.object(forKey: lastSentKey) as? Date {
+            let elapsed = Date().timeIntervalSince(lastSent)
+            if lastToken == tokenHex && elapsed < 5 * 60 {
+                PreyLogger("📣 LOCATION-PUSH REGISTER: Skipping send (last success \(Int(elapsed))s ago)")
+                return
+            }
+        }
         let params: [String: Any] = [
             "notification_id_extra": tokenHex
         ]
@@ -112,10 +140,13 @@ class LocationPushRegistrar {
         ) { success in
             if success {
                 PreyLogger("📣 LOCATION-PUSH REGISTER: ✅ Token registered after auth")
+                // Record last successful send
+                suite.set(Date(), forKey: lastSentKey)
+                suite.set(tokenHex, forKey: lastValueKey)
+                suite.synchronize()
             } else {
                 PreyLogger("📣 LOCATION-PUSH REGISTER: ❌ Failed to register token after auth")
             }
         }
     }
 }
-
