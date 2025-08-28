@@ -222,7 +222,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Check email validation
         if PreyConfig.sharedInstance.validationUserEmail == PreyUserEmailValidation.pending.rawValue, let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
         }
         
         // Setup foreground timer and schedule background tasks
@@ -300,7 +300,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         PreyLogger("applicationWillEnterForeground")
         // Check email validation (fine here, quick UI update possible)
         if PreyConfig.sharedInstance.validationUserEmail == PreyUserEmailValidation.pending.rawValue, let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
         }
         
         // Ensure any remaining short-lived background tasks are ended
@@ -613,7 +613,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         ]
 
         PreyLogger("📣 LOCATION TOKEN REGISTER: Sending location token to Prey server using API key: \(username.prefix(6))…")
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
             username,
             password: "x",
             params: params,
@@ -737,7 +737,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Check for actions from server
         apiSyncGroup.enter()
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
             username,
             password: "x",
             params: nil,
@@ -891,7 +891,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Always check for pending actions (assuming this is efficient)
         dispatchGroup.enter()
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            PreyHTTPClient.sharedInstance.sendDataToPrey(
                 username,
                 password: "x",
                 params: nil,

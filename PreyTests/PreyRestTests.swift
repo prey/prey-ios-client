@@ -134,7 +134,7 @@ class PreyRestTests: XCTestCase {
 
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password: "x", params: nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint , onCompletion:response)
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password: "x", params: nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint , onCompletion:response)
         } else {
             // Check if apiKey is nil
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
@@ -164,7 +164,7 @@ class PreyRestTests: XCTestCase {
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:dataDeviceEndpoint, onCompletion:response)
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:dataDeviceEndpoint, onCompletion:response)
         } else {
             // Check if apiKey is nil
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
@@ -196,7 +196,7 @@ class PreyRestTests: XCTestCase {
         }
         
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:subscriptionEndpoint, onCompletion:response)
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:subscriptionEndpoint, onCompletion:response)
         } else {
             // Check if apiKey is nil
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
@@ -230,7 +230,7 @@ class PreyRestTests: XCTestCase {
         
         // Send info to panel
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:responseDeviceEndpoint, onCompletion:response)
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:responseDeviceEndpoint, onCompletion:response)
         } else {
             // Check if apiKey is nil
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
@@ -291,7 +291,7 @@ class PreyRestTests: XCTestCase {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.deleteDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.deleteDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
                 
                 // Check if add device is success
                 XCTAssertTrue(isSuccess)

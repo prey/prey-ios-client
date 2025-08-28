@@ -142,7 +142,7 @@ class PreyNotification {
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyLogger("📣 TOKEN REGISTER: Sending token to Prey server using API key: \(username.prefix(6))...")
             
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            PreyHTTPClient.sharedInstance.sendDataToPrey(
                 username, 
                 password: "x", 
                 params: params, 
@@ -287,7 +287,7 @@ class PreyNotification {
         }
         
         // Use PreyHTTPResponse.checkResponse for actionsDevice endpoint
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
             username,
             password: "x",
             params: nil,

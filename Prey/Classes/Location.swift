@@ -275,7 +275,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             return
         }
         
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
             username,
             password: "x",
             params: data,
