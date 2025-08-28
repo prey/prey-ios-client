@@ -612,26 +612,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             "notification_id_extra": tokenHex
         ]
 
-        PreyLogger("📣 LOCATION TOKEN REGISTER: Sending location token to Prey server using API key: \(username.prefix(6))…")
-        PreyHTTPClient.sharedInstance.sendDataToPrey(
-            username,
+        PreyNetworkRetry.sendDataWithBackoff(
+            username: username,
             password: "x",
             params: params,
             messageId: nil,
             httpMethod: Method.POST.rawValue,
             endPoint: dataDeviceEndpoint,
-            onCompletion: PreyHTTPResponse.checkResponse(
-                RequestType.dataSend,
-                preyAction: nil,
-                onCompletion: { (isSuccess: Bool) in
-                    if isSuccess {
-                        PreyLogger("📣 LOCATION TOKEN REGISTER: ✅ Successfully registered location push token")
-                    } else {
-                        PreyLogger("📣 LOCATION TOKEN REGISTER: ❌ Failed to register location push token")
-                    }
-                }
-            )
-        )
+            tag: "LOCATION-PUSH REGISTER",
+            maxAttempts: 5,
+            nonRetryStatusCodes: [401]
+        ) { success in
+            if success {
+                PreyLogger("📣 LOCATION-PUSH REGISTER: ✅ Token saved and registered")
+            } else {
+                PreyLogger("📣 LOCATION-PUSH REGISTER: ❌ Failed to register token (final)")
+            }
+        }
     }
     
     // Retries when authorization changes to Always
