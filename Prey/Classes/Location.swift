@@ -212,7 +212,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         locManager.delegate = self
         configureBatteryOptimizedSettings()
         locManager.allowsBackgroundLocationUpdates = true
-        locManager.showsBackgroundLocationIndicator = true
         locManager.startMonitoringSignificantLocationChanges()
         PreyLogger("Started monitoring significant location changes")
         locManager.startUpdatingLocation()
