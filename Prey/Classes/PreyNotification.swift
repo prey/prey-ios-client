@@ -141,26 +141,25 @@ class PreyNotification {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyLogger("📣 TOKEN REGISTER: Sending token to Prey server using API key: \(username.prefix(6))...")
-            
-            PreyHTTPClient.sharedInstance.sendDataToPrey(
-                username, 
-                password: "x", 
-                params: params, 
-                messageId: nil, 
-                httpMethod: Method.POST.rawValue, 
-                endPoint: dataDeviceEndpoint, 
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.dataSend, 
-                    preyAction: nil, 
-                    onCompletion: { (isSuccess: Bool) in 
-                        if isSuccess {
-                            PreyLogger("📣 TOKEN REGISTER: ✅ Successfully registered token with Prey server")
-                        } else {
-                            PreyLogger("📣 TOKEN REGISTER: ❌ Failed to register token with Prey server")
-                        }
-                    }
-                )
-            )
+
+            // Use centralized retry helper, skip retries on 401
+            PreyNetworkRetry.sendDataWithBackoff(
+                username: username,
+                password: "x",
+                params: params,
+                messageId: nil,
+                httpMethod: Method.POST.rawValue,
+                endPoint: dataDeviceEndpoint,
+                tag: "APNS TOKEN REGISTER",
+                maxAttempts: 5,
+                nonRetryStatusCodes: [401]
+            ) { success in
+                if success {
+                    PreyLogger("📣 TOKEN REGISTER: ✅ Successfully registered token with Prey server")
+                } else {
+                    PreyLogger("📣 TOKEN REGISTER: ❌ Failed to register token with Prey server (final)")
+                }
+            }
         } else {
             PreyLogger("📣 TOKEN REGISTER: ❌ Cannot register token with server - no API key available")
         }
@@ -273,8 +272,6 @@ class PreyNotification {
     func handlePushError(_ error: String) {
         PreyLogger("📣 PN ERROR: 🚨 \(error)")
     }
-    
-   
     
     // Check for remote actions when receiving silent push notification
     private func checkRemoteActionsFromSilentPush(completion: @escaping (Bool) -> Void) {
