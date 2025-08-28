@@ -114,55 +114,9 @@ class PreyNotification {
     func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
         PreyLogger("📣 TOKEN REGISTER: Got device token from APNS: \(tokenAsString)")
-        
-        // Create device info for the server
-        let preyDevice = PreyDevice()
-        let firmwareInfo : [String:String] = [
-            "model_name":  preyDevice.model!,
-            "vendor_name": preyDevice.vendor!,
-        ]
-        let processorInfo : [String:String] = [
-            "speed": preyDevice.cpuSpeed!,
-            "cores": preyDevice.cpuCores!,
-            "model":  preyDevice.cpuModel!,
-        ]
-        let specs : [String: Any] = [
-            "processor_info": processorInfo,
-            "firmware_info": firmwareInfo,
-        ]
-        let params:[String: Any] = [
-            "notification_id" : tokenAsString,
-            "specs": specs,
-            "device_name": UIDevice.current.name
-        ]
-        
-        PreyLogger("📣 TOKEN REGISTER: Preparing to send token to Prey server with params: \(params)")
-        
-        // Check userApiKey isn't empty
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyLogger("📣 TOKEN REGISTER: Sending token to Prey server using API key: \(username.prefix(6))...")
-
-            // Use centralized retry helper, skip retries on 401
-            PreyNetworkRetry.sendDataWithBackoff(
-                username: username,
-                password: "x",
-                params: params,
-                messageId: nil,
-                httpMethod: Method.POST.rawValue,
-                endPoint: dataDeviceEndpoint,
-                tag: "APNS TOKEN REGISTER",
-                maxAttempts: 5,
-                nonRetryStatusCodes: [401]
-            ) { success in
-                if success {
-                    PreyLogger("📣 TOKEN REGISTER: ✅ Successfully registered token with Prey server")
-                } else {
-                    PreyLogger("📣 TOKEN REGISTER: ❌ Failed to register token with Prey server (final)")
-                }
-            }
-        } else {
-            PreyLogger("📣 TOKEN REGISTER: ❌ Cannot register token with server - no API key available")
-        }
+        // Defer registration until API key is available; try now if already present
+        NotificationTokenRegistrar.store(tokenHex: tokenAsString)
+        NotificationTokenRegistrar.sendIfPossible()
     }
     
     // Did Receive Remote Notifications with improved completion handling

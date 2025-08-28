@@ -148,6 +148,10 @@ class PreyHTTPResponse {
             PreyConfig.sharedInstance.isPro         = userIsProStr.boolValue
             PreyConfig.sharedInstance.isMsp         = mspAccount.boolValue
             PreyConfig.sharedInstance.saveValues()
+            // After API key is saved, attempt to register any pending Location Push token
+            LocationPushRegistrar.sendIfPossible()
+            // Also attempt APNs token registration (classic push)
+            NotificationTokenRegistrar.sendIfPossible()
             
         } catch let error {
             PreyConfig.sharedInstance.reportError(error)
@@ -233,6 +237,10 @@ class PreyHTTPResponse {
             if let userApiKeyStr = jsonObject.object(forKey: "key") as? String {
                 PreyConfig.sharedInstance.userApiKey = userApiKeyStr
                 PreyConfig.sharedInstance.saveValues()
+                // After API key is saved, attempt to register any pending Location Push token
+                LocationPushRegistrar.sendIfPossible()
+                // Also attempt APNs token registration (classic push)
+                NotificationTokenRegistrar.sendIfPossible()
             }
             
         } catch let error {
@@ -688,4 +696,3 @@ class PreyHTTPResponse {
         }
     }
 }
-

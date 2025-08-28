@@ -591,8 +591,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if let registration = registration {
                 let tokenHex = registration.map { String(format: "%02x", $0) }.joined()
                 PreyLogger("✅ LOCATION-PUSH monitoring started (registration token: \(tokenHex))")
-                // Send Location Push token to server as part of device data
-                self.registerLocationPushToken(tokenHex)
+                // Persist token; we will send it after API key is available (post-auth)
+                LocationPushRegistrar.store(tokenHex: tokenHex)
             } else {
                 PreyLogger("✅ LOCATION-PUSH monitoring started for topic .location-query")
             }
