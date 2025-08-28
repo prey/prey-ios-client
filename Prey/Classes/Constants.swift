@@ -10,6 +10,7 @@
 import Foundation
 import UIKit
 import LocalAuthentication
+import OSLog
 
 // Storyboard controllerId
 enum StoryboardIdVC: String {
@@ -48,16 +49,99 @@ public let GAICode  = "UA-8743344-7"
 public let fontTitilliumBold    =  "TitilliumWeb-Bold"
 public let fontTitilliumRegular =  "TitilliumWeb-Regular"
 
-// PreyLogger
+// MARK: - Logging
+
+public enum PreyLogLevel {
+    case debug
+    case info
+    case notice
+    case warning
+    case error
+    case critical
+}
+
+/// Centralized logger: uses print in DEBUG; uses os.Logger in Release
+/// falling back to NSLog on older OS versions. Defaults to debug level and
+/// auto-classifies some common prefixes/emojis to reduce noise in Release.
 public func PreyLogger(_ message: String, file: String = #file) {
+    let fileName: String = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
+
+    // Heuristic level classification to keep release logs meaningful
+    let level: PreyLogLevel
+    if message.contains("❌") || message.range(of: "\\b(Error|Failed)\\b", options: [.regularExpression, .caseInsensitive]) != nil {
+        level = .error
+    } else if message.contains("🛑") || message.range(of: "\\b(Critical)\\b", options: [.regularExpression, .caseInsensitive]) != nil {
+        level = .critical
+    } else if message.range(of: "\\b(Notice)\\b", options: [.regularExpression, .caseInsensitive]) != nil {
+        level = .notice
+    } else if message.contains("⚠️") {
+        level = .warning
+    } else if message.contains("✅") {
+        level = .info
+    } else {
+        level = .debug
+    }
+
+    PreyLog(message, level: level, category: fileName)
+}
+
+/// Explicit logging API with level and category
+public func PreyLog(_ message: String, level: PreyLogLevel = .debug, category: String? = nil) {
     #if DEBUG
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         let timestamp = dateFormatter.string(from: Date())
-        let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
-        print("[\(timestamp)] [\(fileName)] \(message)")
+        print("[\(timestamp)] [\(level)] \(message)")
+        return
+    #else
+        let logger = Logger(subsystem: "com.prey", category: "General")
+        switch level {
+        case .debug:
+            // Drop debug in Release to reduce verbosity
+            return
+        case .info:
+            logger.info("\(message, privacy: .public)")
+        case .notice:
+            logger.notice("\(message, privacy: .public)")
+        case .warning:
+            logger.warning("\(message, privacy: .public)")
+        case .error:
+            logger.error("\(message, privacy: .public)")
+        case .critical:
+            logger.critical("\(message, privacy: .public)")
+        }
     #endif
-    
+}
+
+// Convenience explicit level helpers for future use
+public func PreyLoggerInfo(_ message: String, file: String = #file) {
+    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
+    PreyLog(message, level: .info, category: fileName)
+}
+
+public func PreyLoggerWarn(_ message: String, file: String = #file) {
+    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
+    PreyLog(message, level: .warning, category: fileName)
+}
+
+public func PreyLoggerError(_ message: String, file: String = #file) {
+    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
+    PreyLog(message, level: .error, category: fileName)
+}
+
+public func PreyLoggerDebug(_ message: String, file: String = #file) {
+    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
+    PreyLog(message, level: .debug, category: fileName)
+}
+
+public func PreyLoggerNotice(_ message: String, file: String = #file) {
+    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
+    PreyLog(message, level: .notice, category: fileName)
+}
+
+public func PreyLoggerCritical(_ message: String, file: String = #file) {
+    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
+    PreyLog(message, level: .critical, category: fileName)
 }
 
 // Biometric authentication
@@ -86,7 +170,6 @@ public let biometricAuth : String = {
 
 // Category notification
 public let categoryNotifPreyAlert = "PreyAlert"
-
 
 // Validate email expression
 public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
