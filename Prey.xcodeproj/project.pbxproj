@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0537E0152E5C89D4008D460F /* LocationPushService.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0592E4452E609B65000EE115 /* Registrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4442E609B5E000EE115 /* Registrar.swift */; };
+		0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4452E60A0A5000EE115 /* LocationService.swift */; };
 		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
@@ -74,7 +75,6 @@
 		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
 		3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC971CDB9CD70052A21D /* Location.swift */; };
 		3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC991CDBBF030052A21D /* PreyModule.swift */; };
-		0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4452E60A0A5000EE115 /* LocationService.swift */; };
 		3BAB25CF23A923C300BDA263 /* Triggers+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25C923A923C200BDA263 /* Triggers+Class.swift */; };
 		3BAB25D023A923C300BDA263 /* TriggersEvents+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CA23A923C200BDA263 /* TriggersEvents+Class.swift */; };
 		3BAB25D123A923C300BDA263 /* TriggersActions+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CB23A923C200BDA263 /* TriggersActions+Class.swift */; };
@@ -154,6 +154,7 @@
 /* Begin PBXFileReference section */
 		0537E0152E5C89D4008D460F /* LocationPushService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LocationPushService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0592E4442E609B5E000EE115 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registrar.swift; sourceTree = "<group>"; };
+		0592E4452E60A0A5000EE115 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Classes/LocationService.swift; sourceTree = "<group>"; };
 		3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TriggerManager.swift; path = Classes/TriggerManager.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
@@ -259,7 +260,6 @@
 		3BFF00821D3E8A2400BEF7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plist/Info.plist; sourceTree = "<group>"; };
 		3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ManagedAppConfig.plist; path = Plist/ManagedAppConfig.plist; sourceTree = "<group>"; };
 		747FA51D2BAB1683003242C7 /* ListPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListPermissions.swift; path = Classes/ListPermissions.swift; sourceTree = "<group>"; };
-		0592E4452E60A0A5000EE115 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Classes/LocationService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -1138,7 +1138,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M2J57RQ35B;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1175,7 +1175,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M2J57RQ35B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
