@@ -20,7 +20,11 @@ class NotificationTokenRegistrar {
         if let suite = UserDefaults(suiteName: suiteName) {
             suite.set(tokenHex, forKey: tokenKey)
             suite.synchronize()
-            PreyLogger("📣 TOKEN REGISTER: stored APNs token for later registration")
+            PreyLoggerInfo("📣 TOKEN REGISTER: stored APNs token for later registration")
+            // If API key already exists (upgrade path), attempt immediate send
+            if PreyConfig.sharedInstance.userApiKey != nil {
+                sendIfPossible()
+            }
         }
     }
 
@@ -39,7 +43,7 @@ class NotificationTokenRegistrar {
            let lastSent = suite.object(forKey: lastSentKey) as? Date {
             let elapsed = Date().timeIntervalSince(lastSent)
             if lastToken == tokenHex && elapsed < 5 * 60 {
-                PreyLogger("📣 TOKEN REGISTER: Skipping send (last success \(Int(elapsed))s ago)")
+                PreyLoggerInfo("📣 TOKEN REGISTER: Skipping send (last success \(Int(elapsed))s ago)")
                 return
             }
         }
@@ -77,13 +81,13 @@ class NotificationTokenRegistrar {
             nonRetryStatusCodes: [401]
         ) { success in
             if success {
-                PreyLogger("📣 TOKEN REGISTER: ✅ Successfully registered APNs token (deferred)")
+                PreyLoggerInfo("📣 TOKEN REGISTER: ✅ Successfully registered APNs token (deferred)")
                 // Record last successful send
                 suite.set(Date(), forKey: lastSentKey)
                 suite.set(tokenHex, forKey: lastValueKey)
                 suite.synchronize()
             } else {
-                PreyLogger("📣 TOKEN REGISTER: ❌ Failed to register APNs token (final)")
+                PreyLoggerError("📣 TOKEN REGISTER: ❌ Failed to register APNs token (final)")
             }
         }
     }
@@ -102,6 +106,10 @@ class LocationPushRegistrar {
             suite.set(tokenHex, forKey: tokenKey)
             suite.synchronize()
             PreyLogger("📣 LOCATION-PUSH: stored token for later registration")
+            // If API key already exists (upgrade path), attempt immediate send
+            if PreyConfig.sharedInstance.userApiKey != nil {
+                sendIfPossible()
+            }
         }
     }
 
@@ -120,7 +128,7 @@ class LocationPushRegistrar {
            let lastSent = suite.object(forKey: lastSentKey) as? Date {
             let elapsed = Date().timeIntervalSince(lastSent)
             if lastToken == tokenHex && elapsed < 5 * 60 {
-                PreyLogger("📣 LOCATION-PUSH REGISTER: Skipping send (last success \(Int(elapsed))s ago)")
+                PreyLoggerInfo("📣 LOCATION-PUSH REGISTER: Skipping send (last success \(Int(elapsed))s ago)")
                 return
             }
         }
@@ -139,13 +147,13 @@ class LocationPushRegistrar {
             nonRetryStatusCodes: [401]
         ) { success in
             if success {
-                PreyLogger("📣 LOCATION-PUSH REGISTER: ✅ Token registered after auth")
+                PreyLoggerInfo("📣 LOCATION-PUSH REGISTER: ✅ Token registered after auth")
                 // Record last successful send
                 suite.set(Date(), forKey: lastSentKey)
                 suite.set(tokenHex, forKey: lastValueKey)
                 suite.synchronize()
             } else {
-                PreyLogger("📣 LOCATION-PUSH REGISTER: ❌ Failed to register token after auth")
+                PreyLoggerError("📣 LOCATION-PUSH REGISTER: ❌ Failed to register token after auth")
             }
         }
     }
