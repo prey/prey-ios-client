@@ -401,7 +401,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         } else if isLowPowerMode || batteryLevel >= 0 && batteryLevel < 0.2 {
             // Battery saver when idle in background
             locManager.desiredAccuracy = kCLLocationAccuracyKilometer
-            locManager.distanceFilter = 500
+            locManager.distanceFilter = 300
             locManager.pausesLocationUpdatesAutomatically = true
             PreyLogger("Dynamic profile: BATTERY SAVER (background + LPM/low battery)", level: .info)
         } else {
