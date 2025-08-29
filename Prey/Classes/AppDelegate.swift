@@ -170,6 +170,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         PreyLogger("Set UNUserNotificationCenter delegate to AppDelegate and registered categories")
+
+        // Start centralized LocationService early; DeviceAuth will bridge updates
+        LocationService.shared.addDelegate(DeviceAuth.sharedInstance)
+        LocationService.shared.startBackgroundTracking()
         
         // Check settings info
         checkSettingsToBackup()
