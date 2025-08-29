@@ -45,6 +45,49 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         }
     }
     
+    // Adapt background manager parameters to walking vs automotive
+    private func adaptBackgroundManagerParameters(using current: CLLocation) {
+        guard let manager = DeviceAuth.backgroundLocationManager else { return }
+        let speed = inferredBackgroundSpeed(from: current)
+
+        if speed >= bgDriveSpeedMin {
+            // Driving: slightly lower accuracy, larger step, automotive activity
+            if manager.activityType != .automotiveNavigation { manager.activityType = .automotiveNavigation }
+            if manager.desiredAccuracy != kCLLocationAccuracyNearestTenMeters {
+                manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            }
+            if manager.distanceFilter != 50 { manager.distanceFilter = 50 }
+            PreyLogger("BG adaptive: driving speed=\(String(format: "%.1f", speed)) m/s, acc=10m, filter=50m")
+        } else if speed < bgWalkSpeedMax {
+            // Walking: best accuracy, small step, fitness activity
+            if manager.activityType != .fitness { manager.activityType = .fitness }
+            if manager.desiredAccuracy != kCLLocationAccuracyBest {
+                manager.desiredAccuracy = kCLLocationAccuracyBest
+            }
+            if manager.distanceFilter != 10 { manager.distanceFilter = 10 }
+            PreyLogger("BG adaptive: walking speed=\(String(format: "%.1f", speed)) m/s, acc=best, filter=10m")
+        } else {
+            // Intermediate (running/biking): best accuracy, moderate step
+            if manager.activityType != .other { manager.activityType = .other }
+            if manager.desiredAccuracy != kCLLocationAccuracyBest {
+                manager.desiredAccuracy = kCLLocationAccuracyBest
+            }
+            if manager.distanceFilter != 20 { manager.distanceFilter = 20 }
+            PreyLogger("BG adaptive: medium speed=\(String(format: "%.1f", speed)) m/s, acc=best, filter=20m")
+        }
+
+        lastBackgroundLocation = current
+    }
+
+    // Use location.speed if available, else compute from last background location
+    private func inferredBackgroundSpeed(from current: CLLocation) -> Double {
+        if current.speed >= 0 { return current.speed }
+        guard let last = lastBackgroundLocation else { return 0 }
+        let dt = current.timestamp.timeIntervalSince(last.timestamp)
+        guard dt > 0 else { return 0 }
+        return current.distance(from: last) / dt
+    }
+
     // Check notification
     func checkNotify(completionHandler:@escaping (_ granted: Bool) -> Void) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
@@ -289,6 +332,13 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
     
     // Location delegates for consolidated location management
     private var locationDelegates: [LocationDelegate] = []
+
+    // Track last background location to infer speed when needed
+    private var lastBackgroundLocation: CLLocation?
+
+    // Adaptive thresholds for background manager
+    private let bgWalkSpeedMax: Double = 2.0   // m/s (~7.2 km/h)
+    private let bgDriveSpeedMin: Double = 10.0 // m/s (~36 km/h)
     
     // MARK: Location Delegate Management
     
@@ -402,10 +452,11 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
             // Configure the location manager
             let manager = DeviceAuth.backgroundLocationManager!
             manager.delegate = self
-            manager.pausesLocationUpdatesAutomatically = true // Allow system to pause updates
+            manager.pausesLocationUpdatesAutomatically = false // Keep updates running; do not auto‑pause
             manager.allowsBackgroundLocationUpdates = true
-            manager.desiredAccuracy = kCLLocationAccuracyHundredMeters // Reduce power usage
-            manager.distanceFilter = 100 // Only update when device moves more than 100 meters
+            manager.activityType = .fitness // Favor frequent updates when walking; good general default
+            manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters // Higher precision for denser routes
+            manager.distanceFilter = 10 // Report roughly each 10 meters
             
             // Always start significant location changes to allow wake-ups for actions
             // But only if not already monitoring
@@ -484,6 +535,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate {
         guard let location = locations.last, manager == DeviceAuth.backgroundLocationManager else { return }
         
         PreyLogger("Background location manager received location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+
+        // Adapt background manager parameters based on inferred speed
+        adaptBackgroundManagerParameters(using: location)
         
         // Notify any registered location delegates
         notifyLocationDelegates(location)
