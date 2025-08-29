@@ -282,7 +282,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
     // Independent action check scheduler
     private static var actionsCheckTimer: Timer?
     private static var deviceStatusTimer: Timer?
-    private static let actionsCheckInterval: TimeInterval = 30 * 60 // 30 minutes
+    private static let actionsCheckInterval: TimeInterval = 5 * 60 // 30 minutes
     private static let deviceStatusCheckInterval: TimeInterval = 30 * 60 // 30 minutes
     
     // Location delegates for consolidated location management

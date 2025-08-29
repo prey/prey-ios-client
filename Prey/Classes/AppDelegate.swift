@@ -372,7 +372,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         BGTaskScheduler.shared.cancelAllTaskRequests()
         
         let refreshRequest = BGAppRefreshTaskRequest(identifier: AppDelegate.appRefreshTaskIdentifier)
-        refreshRequest.earliestBeginDate = Date(timeIntervalSinceNow: 30 * 60)
+        refreshRequest.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
         
         let processingRequest = BGProcessingTaskRequest(identifier: AppDelegate.processingTaskIdentifier)
         processingRequest.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 60)
@@ -646,12 +646,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: Foreground API sync
     
     // Renamed foregroundTimer to foregroundPollingTimer for clarity
-    // timeInterval set to 900s (15 min) to reduce network/battery usage
+    // timeInterval set to 180s (3 min)
     func setupForegroundTimer() {
         foregroundPollingTimer?.invalidate()
         
         foregroundPollingTimer = Timer.scheduledTimer(
-            timeInterval: 900, // 15 minutes
+            timeInterval: 180, // 3 minutes
             target: self,
             selector: #selector(foregroundTimerFired),
             userInfo: nil,
@@ -660,9 +660,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         RunLoop.current.add(foregroundPollingTimer!, forMode: .common)
         
-        foregroundPollingTimer?.tolerance = 10.0 // Good practice
+        foregroundPollingTimer?.tolerance = 10.0 // 10 seconds
         
-        PreyLogger("Foreground timer set up to sync with server every 15 minutes")
+        PreyLogger("Foreground timer set up to sync with server every 3 minutes")
     }
     
     @objc private func applicationWillResignActiveNotification() {
