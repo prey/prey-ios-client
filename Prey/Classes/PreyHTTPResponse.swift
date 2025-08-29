@@ -89,9 +89,6 @@ class PreyHTTPResponse {
             return
         }
         
-        
-        
-
         onCompletion(isResponseSuccess)
     }
     
