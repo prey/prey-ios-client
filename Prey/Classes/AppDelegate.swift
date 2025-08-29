@@ -602,37 +602,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             self.hasStartedLocationPushMonitoring = true
         }
     }
-
-    // Send the Location Push registration token to Prey backend
-    private func registerLocationPushToken(_ tokenHex: String) {
-        guard let username = PreyConfig.sharedInstance.userApiKey else {
-            PreyLogger("📣 LOCATION-PUSH REGISTER: ❌ Cannot register location token - no API key available")
-            return
-        }
-
-        // Compose payload similar to APNs token registration
-        let params: [String: Any] = [
-            "notification_id_extra": tokenHex
-        ]
-
-        PreyNetworkRetry.sendDataWithBackoff(
-            username: username,
-            password: "x",
-            params: params,
-            messageId: nil,
-            httpMethod: Method.POST.rawValue,
-            endPoint: dataDeviceEndpoint,
-            tag: "LOCATION-PUSH REGISTER",
-            maxAttempts: 5,
-            nonRetryStatusCodes: [401]
-        ) { success in
-            if success {
-                PreyLogger("📣 LOCATION-PUSH REGISTER: ✅ Token saved and registered")
-            } else {
-                PreyLogger("📣 LOCATION-PUSH REGISTER: ❌ Failed to register token (final)")
-            }
-        }
-    }
     
     // Retries when authorization changes to Always
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {

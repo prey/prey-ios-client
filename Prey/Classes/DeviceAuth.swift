@@ -278,13 +278,6 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
     private static var isBackgroundLocationConfigured = false
     private static var lastConfigTime: Date?
     
-    
-    // Independent action check scheduler
-    private static var actionsCheckTimer: Timer?
-    private static var deviceStatusTimer: Timer?
-    private static let actionsCheckInterval: TimeInterval = 5 * 60 // 30 minutes
-    private static let deviceStatusCheckInterval: TimeInterval = 30 * 60 // 30 minutes
-    
     // Location delegates for consolidated location management
     private var locationDelegates: [LocationDelegate] = []
 
@@ -317,70 +310,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
     func didReceiveLocationUpdate(_ location: CLLocation) {
         notifyLocationDelegates(location)
     }
-    
-    // Start independent schedulers for actions and device status checks
-    func startIndependentSchedulers() {
-        // Start actions check timer if not already running
-        if DeviceAuth.actionsCheckTimer == nil {
-            DeviceAuth.actionsCheckTimer = Timer.scheduledTimer(withTimeInterval: DeviceAuth.actionsCheckInterval, repeats: true) { _ in
-                self.performActionsCheck()
-            }
-            PreyLogger("Started independent actions check scheduler (\(DeviceAuth.actionsCheckInterval/60) minute intervals)")
-        }
-        
-        // Start device status check timer if not already running
-        if DeviceAuth.deviceStatusTimer == nil {
-            DeviceAuth.deviceStatusTimer = Timer.scheduledTimer(withTimeInterval: DeviceAuth.deviceStatusCheckInterval, repeats: true) { _ in
-                self.performDeviceStatusCheck()
-            }
-            PreyLogger("Started independent device status check scheduler (\(DeviceAuth.deviceStatusCheckInterval/60) minute intervals)")
-        }
-    }
-    
-    // Stop independent schedulers
-    func stopIndependentSchedulers() {
-        DeviceAuth.actionsCheckTimer?.invalidate()
-        DeviceAuth.actionsCheckTimer = nil
-        
-        DeviceAuth.deviceStatusTimer?.invalidate()
-        DeviceAuth.deviceStatusTimer = nil
-        
-        PreyLogger("Stopped independent schedulers")
-    }
-    
-    // Perform actions check independently
-    private func performActionsCheck() {
-        guard let username = PreyConfig.sharedInstance.userApiKey else {
-            PreyLogger("Cannot perform actions check - no API key")
-            return
-        }
-        
-        PreyLogger("Performing scheduled actions check")
-        PreyHTTPClient.sharedInstance.sendDataToPrey(
-            username,
-            password: "x",
-            params: nil,
-            messageId: nil,
-            httpMethod: Method.GET.rawValue,
-            endPoint: actionsDeviceEndpoint,
-            onCompletion: PreyHTTPResponse.checkResponse(
-                RequestType.actionDevice,
-                preyAction: nil,
-                onCompletion: { isSuccess in
-                    PreyLogger("Scheduled actions check complete: \(isSuccess)")
-                }
-            )
-        )
-    }
-    
-    // Perform device status check independently
-    private func performDeviceStatusCheck() {
-        PreyLogger("Performing scheduled device status check")
-        PreyModule.sharedInstance.requestStatusDevice(context: "DeviceAuth-scheduledCheck") { isSuccess in
-            PreyLogger("Scheduled device status check complete: \(isSuccess)")
-        }
-    }
-    
+
     // Add a method to ensure background location is properly configured
     func ensureBackgroundLocationIsConfigured() {
         // Don't reconfigure if we've done it recently (within 60 seconds)
@@ -401,7 +331,6 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
             LocationService.shared.startBackgroundTracking()
             DeviceAuth.isBackgroundLocationConfigured = true
             DeviceAuth.lastConfigTime = Date()
-            startIndependentSchedulers()
         } else {
             PreyLogger("Cannot configure background location - no always authorization")
             
