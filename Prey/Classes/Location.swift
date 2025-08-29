@@ -60,9 +60,43 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     // MARK: LocationDelegate Implementation
     func didReceiveLocationUpdate(_ location: CLLocation) {
-        PreyLogger("Received location update from DeviceAuth: \(location.coordinate.latitude), \(location.coordinate.longitude)", level: .info)
-        // Process the location using our existing logic
-        locationReceived(location)
+        PreyLogger("Received location update from service: \(location.coordinate.latitude), \(location.coordinate.longitude)", level: .info)
+        // Reuse the same pipeline as didUpdateLocations (quality/security and adaptive sending)
+        // Quality and security validations
+        guard validateLocationQuality(location) else {
+            PreyLogger("Location failed quality validation - discarding", level: .error)
+            return
+        }
+        guard validateLocationSecurity(location) else {
+            PreyLogger("Location failed security validation - potential GPS spoofing detected", level: .error)
+            return
+        }
+
+        if lastLocation == nil {
+            PreyLogger("Sending first location: \(location.coordinate.latitude), \(location.coordinate.longitude)", level: .info)
+            locationReceived(location)
+            lastLocation = location
+            return
+        }
+
+        var shouldSend = false
+        var distance: CLLocationDistance = 0
+        if let last = lastLocation {
+            distance = location.distance(from: last)
+        }
+        // Since LocationService adapts distanceFilter internally, use conservative thresholds here
+        let currentFilter: CLLocationDistance = 10 // default to 10m unless service imposes larger
+        if distance >= currentFilter {
+            shouldSend = true
+        } else if let last = lastLocation, location.horizontalAccuracy < last.horizontalAccuracy {
+            shouldSend = true
+        }
+
+        if shouldSend {
+            PreyLogger("Adaptive update: sending location (Δ=\(Int(distance))m)", level: .info)
+            locationReceived(location)
+        }
+        lastLocation = location
     }
     
     // MARK: Daily Location Check Implementation
@@ -128,8 +162,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     // Send last known location (always sends something): live, cached, or fallback
     func sendLastLocation() {
-        // 1) Try to use manager's location if available (regardless of age)
-        if let live = locManager.location {
+        // 1) Try to use LocationService's last location if available (regardless of age)
+        if let live = LocationService.shared.getLastLocation() {
             PreyLogger("On-demand: using manager's location (without validating age)", level: .info)
             locationReceived(live)
             return
@@ -204,34 +238,16 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     // Start Location Manager with enhanced configuration
     func startLocationManager()  {
-        PreyLogger("Starting location manager for location-aware updates", level: .info)
-        
-        // If DeviceAuth has a background manager, use it
-        if DeviceAuth.sharedInstance.isBackgroundLocationManagerActive() {
-            PreyLogger("Using existing background location manager from DeviceAuth (adding as delegate and also starting local manager)", level: .info)
-            DeviceAuth.sharedInstance.addLocationDelegate(self)
-            // Continue without returning: also start our own manager for higher frequency
-        }
-        
-        // Configure manager
+        PreyLogger("Starting location via LocationService (centralized)", level: .info)
         hasReportedThisSession = false
-        if Thread.isMainThread {
-            locManager.requestAlwaysAuthorization()
-        } else {
-            DispatchQueue.main.async { [weak self] in
-                self?.locManager.requestAlwaysAuthorization()
-            }
-        }
-        locManager.delegate = self
-        configureBatteryOptimizedSettings()
-        locManager.allowsBackgroundLocationUpdates = true
-        locManager.startMonitoringSignificantLocationChanges()
-        PreyLogger("Started monitoring significant location changes", level: .info)
-        locManager.startUpdatingLocation()
-        
+        // Subscribe to centralized service and request a foreground high-accuracy burst
+        DeviceAuth.sharedInstance.addLocationDelegate(self)
+        LocationService.shared.addDelegate(self)
+        LocationService.shared.startForegroundHighAccuracyBurst()
+
         isActive = true
         index = 0
-        PreyLogger("Location manager started", level: .info)
+        PreyLogger("Location service burst started", level: .info)
     }
     
     // Stop Location Manager
