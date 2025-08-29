@@ -240,8 +240,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     func startLocationManager()  {
         PreyLogger("Starting location via LocationService (centralized)", level: .info)
         hasReportedThisSession = false
-        // Subscribe to centralized service and request a foreground high-accuracy burst
-        DeviceAuth.sharedInstance.addLocationDelegate(self)
+        // Use only centralized LocationService, remove duplicate delegate registration
         LocationService.shared.addDelegate(self)
         LocationService.shared.startForegroundHighAccuracyBurst()
 
@@ -253,13 +252,11 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     // Stop Location Manager
     func stopLocationManager()  {
         PreyLogger("Stop location")
-        DeviceAuth.sharedInstance.removeLocationDelegate(self)
+        // Remove from centralized service only
+        LocationService.shared.removeDelegate(self)
         guard isActive else { return }
-        locManager.stopUpdatingLocation()
-        // Keep significant changes monitoring running only if desired; otherwise stop
-        // For simplicity, keep it running for background wake-ups
-        PreyLogger("Significant location changes monitoring remains active", level: .info)
-        locManager.delegate = nil
+        // Let LocationService manage the actual CLLocationManager
+        PreyLogger("Removed from LocationService delegates", level: .info)
         isActive = false
         PreyModule.sharedInstance.checkStatus(self)
     }
@@ -365,34 +362,26 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         // Send first location
         if lastLocation == nil {
             PreyLogger("Sending first location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)", level: .info)
-            locationReceived(currentLocation) // Automatic update
+            locationReceived(currentLocation)
             lastLocation = currentLocation
-            updateTrackingParameters(for: currentLocation)
             return
         }
         
-        // Adaptive routing: send if distance exceeds dynamic threshold or accuracy improved
+        // Simple distance-based sending (LocationService handles filtering)
         var shouldSend = false
-        var distance: CLLocationDistance = 0
-        if let last = lastLocation {
-            distance = currentLocation.distance(from: last)
-        }
-        // Update manager parameters based on current speed
-        updateTrackingParameters(for: currentLocation)
-
-        // Determine current threshold from manager's distanceFilter
-        let threshold = max(locManager.distanceFilter, 0)
-        if distance >= threshold {
+        let distance = currentLocation.distance(from: lastLocation!)
+        
+        // Use a simple 10m threshold or accuracy improvement
+        if distance >= 10 {
             shouldSend = true
-        } else if let last = lastLocation, currentLocation.horizontalAccuracy < last.horizontalAccuracy {
+        } else if currentLocation.horizontalAccuracy < lastLocation!.horizontalAccuracy {
             shouldSend = true
         }
 
         if shouldSend {
-            PreyLogger("Adaptive update: sending location (Δ=\(Int(distance))m ≥ \(Int(threshold))m)", level: .info)
+            PreyLogger("Location update: sending (Δ=\(Int(distance))m)", level: .info)
             locationReceived(currentLocation)
         }
-        // Save last location
         lastLocation = currentLocation
     }
     
@@ -403,68 +392,9 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     // MARK: Enhanced Methods for Security App
     
-    // Configure battery-optimized location settings
-    private func configureBatteryOptimizedSettings() {
-        // Ensure battery monitoring is enabled to get a valid level
-        if !UIDevice.current.isBatteryMonitoringEnabled {
-            UIDevice.current.isBatteryMonitoringEnabled = true
-        }
-        let batteryLevel = UIDevice.current.batteryLevel
-        let isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
-        
-        // Detect app state and missing/emergency status to pick a dynamic profile
-        var isAppActive = false
-        if Thread.isMainThread {
-            isAppActive = UIApplication.shared.applicationState == .active
-        } else {
-            DispatchQueue.main.sync {
-                isAppActive = UIApplication.shared.applicationState == .active
-            }
-        }
-        
-        PreyLogger("Configuring location for battery level: \(batteryLevel), low power mode: \(isLowPowerMode)", level: .info)
-        
-        // Default profile; refined dynamically per speed/mode
-        locManager.activityType = .other
-        locManager.desiredAccuracy = kCLLocationAccuracyBest
-        locManager.distanceFilter = 10
-        locManager.pausesLocationUpdatesAutomatically = false
-        PreyLogger("Default profile: BEST accuracy, distanceFilter=10m", level: .info)
-    }
+    // Removed: using centralized LocationService configuration
 
-    // Dynamically adapt accuracy and distance filter based on inferred speed
-    private func updateTrackingParameters(for currentLocation: CLLocation) {
-        let speed = inferredSpeed(from: currentLocation)
-        let desiredAcc: CLLocationAccuracy
-        let distFilter: CLLocationDistance
-        if speed < Location.walkSpeedMax { // walking
-            desiredAcc = kCLLocationAccuracyBest
-            distFilter = Location.walkDistanceThreshold
-        } else if speed < Location.runSpeedMax { // running
-            desiredAcc = kCLLocationAccuracyBest
-            distFilter = Location.runDistanceThreshold
-        } else { // driving or faster
-            desiredAcc = kCLLocationAccuracyNearestTenMeters
-            distFilter = Location.driveDistanceThreshold
-        }
-
-        if locManager.desiredAccuracy != desiredAcc {
-            locManager.desiredAccuracy = desiredAcc
-        }
-        if locManager.distanceFilter != distFilter {
-            locManager.distanceFilter = distFilter
-        }
-        PreyLogger("Adaptive profile: speed=\(String(format: "%.1f", speed)) m/s, acc=\(desiredAcc)m, filter=\(Int(distFilter))m", level: .info)
-    }
-
-    // Use location.speed if valid; otherwise infer from lastLocation timestamps
-    private func inferredSpeed(from current: CLLocation) -> Double {
-        if current.speed >= 0 { return current.speed }
-        guard let last = lastLocation else { return 0 }
-        let dt = current.timestamp.timeIntervalSince(last.timestamp)
-        guard dt > 0 else { return 0 }
-        return current.distance(from: last) / dt
-    }
+    // Removed: using centralized LocationService without adaptive parameters
     
     // Enhanced location quality validation
     private func validateLocationQuality(_ location: CLLocation) -> Bool {
@@ -554,8 +484,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             PreyLogger("Location authorized when in use - requesting 'always' for security app", level: .info)
             manager.requestAlwaysAuthorization()
         case .authorizedAlways:
-            PreyLogger("✅ Location authorization optimal - configuring for background operation", level: .info)
-            configureBatteryOptimizedSettings()
+            PreyLogger("✅ Location authorization optimal - using centralized LocationService", level: .info)
         @unknown default:
             PreyLogger("Unknown authorization status: \(status)", level: .error)
         }
