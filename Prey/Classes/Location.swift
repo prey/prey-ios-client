@@ -37,11 +37,18 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     private static let cachedLocationMaxAge: TimeInterval = 300 // 5 minutes
     private static let locationTimeoutDuration: TimeInterval = 25.0 // seconds - standardized timeout  
     private static let backgroundTaskExtraTime: TimeInterval = 0.0 // seconds - removed extra delay
-    private static let maxLocationAccuracy: CLLocationAccuracy = 200.0 // meters
-    private static let significantMovementDistance: CLLocationDistance = 100.0 // meters
     private static let maxReasonableSpeedMps: Double = 100.0 // m/s (360 km/h)
     private static let teleportationDistanceThreshold: CLLocationDistance = 1000.0 // meters
     private static let teleportationTimeThreshold: TimeInterval = 60.0 // seconds
+    
+    // Adaptive routing thresholds by speed
+    private static let walkSpeedMax: Double = 2.0     // m/s  (~7.2 km/h)
+    private static let runSpeedMax: Double = 5.0      // m/s  (~18 km/h)
+    private static let driveSpeedMin: Double = 10.0   // m/s  (~36 km/h)
+    
+    private static let walkDistanceThreshold: CLLocationDistance = 5.0   // meters (very precise)
+    private static let runDistanceThreshold: CLLocationDistance = 10.0   // meters
+    private static let driveDistanceThreshold: CLLocationDistance = 50.0 // meters (vehículo ~60 km/h)
     
     // Daily location check constants
     private static let dailyLocationInterval: TimeInterval = 24 * 60 * 60 // 24 hours - parametrizable
@@ -201,9 +208,9 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         
         // If DeviceAuth has a background manager, use it
         if DeviceAuth.sharedInstance.isBackgroundLocationManagerActive() {
-            PreyLogger("Using existing background location manager from DeviceAuth", level: .info)
+            PreyLogger("Using existing background location manager from DeviceAuth (adding as delegate and also starting local manager)", level: .info)
             DeviceAuth.sharedInstance.addLocationDelegate(self)
-            return
+            // Continue without returning: also start our own manager for higher frequency
         }
         
         // Configure manager
@@ -344,16 +351,30 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             PreyLogger("Sending first location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)", level: .info)
             locationReceived(currentLocation) // Automatic update
             lastLocation = currentLocation
+            updateTrackingParameters(for: currentLocation)
             return
         }
         
-        // Compare accuracy or check if significant movement occurred
+        // Adaptive routing: send if distance exceeds dynamic threshold or accuracy improved
+        var shouldSend = false
+        var distance: CLLocationDistance = 0
         if let last = lastLocation {
-            let distance = currentLocation.distance(from: last)
-            if currentLocation.horizontalAccuracy < last.horizontalAccuracy || distance > Location.significantMovementDistance {
-                PreyLogger("Sending updated location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude), distance: \(distance)m", level: .info)
-                locationReceived(currentLocation) // Automatic update
-            }
+            distance = currentLocation.distance(from: last)
+        }
+        // Update manager parameters based on current speed
+        updateTrackingParameters(for: currentLocation)
+
+        // Determine current threshold from manager's distanceFilter
+        let threshold = max(locManager.distanceFilter, 0)
+        if distance >= threshold {
+            shouldSend = true
+        } else if let last = lastLocation, currentLocation.horizontalAccuracy < last.horizontalAccuracy {
+            shouldSend = true
+        }
+
+        if shouldSend {
+            PreyLogger("Adaptive update: sending location (Δ=\(Int(distance))m ≥ \(Int(threshold))m)", level: .info)
+            locationReceived(currentLocation)
         }
         // Save last location
         lastLocation = currentLocation
@@ -388,31 +409,46 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         
         PreyLogger("Configuring location for battery level: \(batteryLevel), low power mode: \(isLowPowerMode)", level: .info)
         
-        // Set an appropriate activity type for our use case (security/tracking)
+        // Default profile; refined dynamically per speed/mode
         locManager.activityType = .other
-        
-        // Dynamic profiles
-        if isMissing || isAppActive {
-            // High-accuracy burst (action window, missing, or foreground)
-            locManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locManager.distanceFilter = 50
-            locManager.pausesLocationUpdatesAutomatically = false
-            PreyLogger("Dynamic profile: HIGH accuracy (window/missing/foreground)", level: .info)
-        } else if isLowPowerMode || batteryLevel >= 0 && batteryLevel < 0.2 {
-            // Battery saver when idle in background
-            locManager.desiredAccuracy = kCLLocationAccuracyKilometer
-            locManager.distanceFilter = 300
-            locManager.pausesLocationUpdatesAutomatically = true
-            PreyLogger("Dynamic profile: BATTERY SAVER (background + LPM/low battery)", level: .info)
-        } else {
-            // Balanced background tracking
-            locManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-            locManager.distanceFilter = 100
-            locManager.pausesLocationUpdatesAutomatically = true
-            PreyLogger("Dynamic profile: BALANCED (background)", level: .info)
+        locManager.desiredAccuracy = kCLLocationAccuracyBest
+        locManager.distanceFilter = 10
+        locManager.pausesLocationUpdatesAutomatically = false
+        PreyLogger("Default profile: BEST accuracy, distanceFilter=10m", level: .info)
+    }
+
+    // Dynamically adapt accuracy and distance filter based on inferred speed
+    private func updateTrackingParameters(for currentLocation: CLLocation) {
+        let speed = inferredSpeed(from: currentLocation)
+        let desiredAcc: CLLocationAccuracy
+        let distFilter: CLLocationDistance
+        if speed < Location.walkSpeedMax { // walking
+            desiredAcc = kCLLocationAccuracyBest
+            distFilter = Location.walkDistanceThreshold
+        } else if speed < Location.runSpeedMax { // running
+            desiredAcc = kCLLocationAccuracyBest
+            distFilter = Location.runDistanceThreshold
+        } else { // driving or faster
+            desiredAcc = kCLLocationAccuracyNearestTenMeters
+            distFilter = Location.driveDistanceThreshold
         }
-        
-        // No-op: original settings tracking removed
+
+        if locManager.desiredAccuracy != desiredAcc {
+            locManager.desiredAccuracy = desiredAcc
+        }
+        if locManager.distanceFilter != distFilter {
+            locManager.distanceFilter = distFilter
+        }
+        PreyLogger("Adaptive profile: speed=\(String(format: "%.1f", speed)) m/s, acc=\(desiredAcc)m, filter=\(Int(distFilter))m", level: .info)
+    }
+
+    // Use location.speed if valid; otherwise infer from lastLocation timestamps
+    private func inferredSpeed(from current: CLLocation) -> Double {
+        if current.speed >= 0 { return current.speed }
+        guard let last = lastLocation else { return 0 }
+        let dt = current.timestamp.timeIntervalSince(last.timestamp)
+        guard dt > 0 else { return 0 }
+        return current.distance(from: last) / dt
     }
     
     // Enhanced location quality validation
@@ -425,15 +461,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             DispatchQueue.main.sync {
                 isAppActive = UIApplication.shared.applicationState == .active
             }
-        }
-
-        // Dynamic accuracy threshold: stricter en foreground
-        let maxAllowedAccuracy: CLLocationAccuracy = isAppActive ? Location.maxLocationAccuracy : 500.0
-
-        // Check basic validity
-        guard location.horizontalAccuracy > 0 && location.horizontalAccuracy <= maxAllowedAccuracy else {
-            PreyLogger("Location accuracy out of bounds (active=\(isAppActive)): \(location.horizontalAccuracy)m > \(maxAllowedAccuracy)m", level: .error)
-            return false
         }
 
         // Check for null island coordinates (0,0) and invalid coordinate ranges
