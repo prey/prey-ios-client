@@ -105,119 +105,29 @@ class PreyDevice {
     private static let infoDeviceThrottleInterval: TimeInterval = 60 // 1 minute
     
     class func infoDevice(_ onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
-        let now = Date()
-        
-        // Check if we should throttle this call
-        if let lastCallTime = lastInfoDeviceCallTime,
-           now.timeIntervalSince(lastCallTime) < infoDeviceThrottleInterval {
-            
-            // If there's already a request in progress, queue this callback
-            if isInfoDeviceInProgress {
-                PreyLogger("infoDevice - Throttled: adding callback to pending queue")
-                pendingInfoDeviceCallbacks.append(onCompletion)
-                return
-            }
-            
-            // If not in progress but within throttle time, use last result
-            PreyLogger("infoDevice - Throttled: using cached result from recent call")
-            onCompletion(true) // Assume success for throttled calls
-            return
-        }
-        
-        // If there's already a request in progress, queue this callback
-        if isInfoDeviceInProgress {
-            PreyLogger("infoDevice - Request in progress: adding callback to pending queue")
-            pendingInfoDeviceCallbacks.append(onCompletion)
-            return
-        }
-        
-        // Mark as in progress and update timestamps
-        isInfoDeviceInProgress = true
-        lastInfoDeviceCallTime = now
-        
-        // Generate a unique request ID for tracking retries
-        let requestId = UUID().uuidString
-        
-        // Initialize retry count for this request ID
-        infoDeviceRetryCount[requestId] = 0
-        
-        // Call the actual implementation with retry tracking
-        infoDeviceWithRetry(requestId: requestId) { isSuccess in
-            // Mark as no longer in progress
-            isInfoDeviceInProgress = false
-            
-            // Call the original completion handler
-            onCompletion(isSuccess)
-            
-            // Call all pending callbacks
-            let callbacks = pendingInfoDeviceCallbacks
-            pendingInfoDeviceCallbacks.removeAll()
-            
-            for callback in callbacks {
-                callback(isSuccess)
-            }
-            
-            if !callbacks.isEmpty {
-                PreyLogger("infoDevice - Completed with \(callbacks.count) pending callbacks")
-            }
-        }
-    }
-    
-    private class func infoDeviceWithRetry(requestId: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
+
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             PreyLogger("Error infoDevice - No API key available")
             onCompletion(false)
             return
         }
-        
-        // Get current retry count
-        let currentRetryCount = infoDeviceRetryCount[requestId] ?? 0
-        
-        // Check if we've exceeded max retries
-        if currentRetryCount >= maxRetryAttempts {
-            PreyLogger("infoDevice - Max retry attempts (\(maxRetryAttempts)) reached for request \(requestId)")
-            // Clean up the retry counter
-            infoDeviceRetryCount.removeValue(forKey: requestId)
-            onCompletion(false)
-            return
+
+        PreyNetworkRetry.sendDataWithBackoff(
+            username: username,
+            password: "x",
+            params: nil,
+            messageId: nil,
+            httpMethod: Method.GET.rawValue,
+            endPoint: infoEndpoint,
+            tag: "infoDevice",
+            maxAttempts: 5,
+            nonRetryStatusCodes: [401]
+        ) { success in
+            if success {
+                onCompletion(true)
+            } else {
+                onCompletion(false)
+            }
         }
-        
-        // Increment retry count
-        infoDeviceRetryCount[requestId] = currentRetryCount + 1
-        
-        PreyLogger("infoDevice - Starting request (attempt \(currentRetryCount + 1)/\(maxRetryAttempts + 1)) with ID: \(requestId)")
-        
-        PreyHTTPClient.sharedInstance.sendDataToPrey(
-            username, 
-            password: "x", 
-            params: nil, 
-            messageId: nil, 
-            httpMethod: Method.GET.rawValue, 
-            endPoint: infoEndpoint, 
-            onCompletion: PreyHTTPResponse.checkResponse(
-                RequestType.infoDevice, 
-                preyAction: nil,  
-                onCompletion: { (isSuccess: Bool) in
-                    PreyLogger("infoDevice - Request \(requestId) completed with success: \(isSuccess)")
-                    
-                    if isSuccess {
-                        // Clean up the retry counter on success
-                        infoDeviceRetryCount.removeValue(forKey: requestId)
-                        onCompletion(true)
-                    } else if currentRetryCount < maxRetryAttempts {
-                        // If not successful and under retry limit, retry after a delay
-                        PreyLogger("infoDevice - Will retry request \(requestId) after delay")
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                            infoDeviceWithRetry(requestId: requestId, onCompletion: onCompletion)
-                        }
-                    } else {
-                        // If we've reached the retry limit, give up
-                        PreyLogger("infoDevice - Failed after \(currentRetryCount + 1) attempts for request \(requestId)")
-                        infoDeviceRetryCount.removeValue(forKey: requestId)
-                        onCompletion(false)
-                    }
-                }
-            )
-        )
     }
 }

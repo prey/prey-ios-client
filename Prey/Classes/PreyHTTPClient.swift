@@ -23,6 +23,11 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     // Define retry request for statusCode 503
     let retryRequest = 10
     
+    // HTTP Request throttling
+    private let throttleInterval: TimeInterval = 15.0 // 15 seconds
+    private var lastRequestTimes: [String: Date] = [:]
+    private let throttleQueue = DispatchQueue(label: "http.throttler", qos: .utility)
+    
     // Shared default session (HTTP/2/3, keep‑alive)
     private lazy var sharedSession: URLSession = {
         let cfg = URLSessionConfiguration.default
@@ -175,8 +180,40 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         startUploadTask(request, fromFile: tmp, completion: onCompletion)
     }
     
-    // SignUp/LogIn User to Control Panel
+    // MARK: Request Throttling
+    
+    // Check if request should be throttled and update last request time
+    private func shouldThrottleRequest(for endpoint: String) -> Bool {
+        let now = Date()
+        let key = endpoint
+        
+        return throttleQueue.sync {
+            if let lastRequestTime = lastRequestTimes[key] {
+                let timeSinceLastRequest = now.timeIntervalSince(lastRequestTime)
+                if timeSinceLastRequest < throttleInterval {
+                    let remainingTime = throttleInterval - timeSinceLastRequest
+                    PreyLogger("🚦 HTTP THROTTLE: Blocking request to \(endpoint) - \(String(format: "%.1f", remainingTime))s remaining")
+                    return true
+                }
+            }
+            
+            // Update last request time
+            lastRequestTimes[key] = now
+            return false
+        }
+    }
+    
+    // send data to Control Panel
     func sendDataToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
+        
+        // Apply throttling to prevent excessive requests
+        if shouldThrottleRequest(for: endPoint) {
+            let error = NSError(domain: "PreyHTTPClientThrottle", code: 429, userInfo: [
+                NSLocalizedDescriptionKey: "Request throttled - too many requests to \(endPoint)"
+            ])
+            onCompletion(nil, nil, error)
+            return
+        }
         
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)

@@ -540,9 +540,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         PreyNotification.sharedInstance.didRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
-        // Also log token explicitly for Location Push testing
-        let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
-        PreyLogger("📣 APNS TOKEN (hex): \(tokenAsString)")
         
         // Ensure monitoring is active (deduped)
         startMonitoringLocationPushes()
