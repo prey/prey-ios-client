@@ -113,8 +113,6 @@ class PreyNotification {
     // Did Register Remote Notifications
     func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
-        PreyLogger("📣 TOKEN REGISTER: Got device token from APNS: \(tokenAsString)")
-        // Defer registration until API key is available; try now if already present
         NotificationTokenRegistrar.store(tokenHex: tokenAsString)
         NotificationTokenRegistrar.sendIfPossible()
     }
