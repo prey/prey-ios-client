@@ -12,14 +12,8 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     private var delegates: [LocationDelegate] = []
     private(set) var lastLocation: CLLocation?
 
-    // Adaptive thresholds
-    private let walkSpeedMax: Double = 2.0     // m/s (~7.2 km/h)
-    private let runSpeedMax: Double = 5.0      // m/s (~18 km/h)
-    private let driveSpeedMin: Double = 10.0   // m/s (~36 km/h)
-
-    private let walkDistanceThreshold: CLLocationDistance = 5.0
-    private let runDistanceThreshold: CLLocationDistance = 10.0
-    private let driveDistanceThreshold: CLLocationDistance = 50.0
+    // Optimized configuration for security/tracking app
+    private let optimalDistanceFilter: CLLocationDistance = 10.0 // Más preciso para tracking de seguridad
 
     private var isStarted = false
     func isRunning() -> Bool { isStarted }
@@ -37,6 +31,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
 
     func startBackgroundTracking() {
         configureIfNeeded()
+        configureBatteryOptimizedSettings()
         manager.allowsBackgroundLocationUpdates = true
         manager.startMonitoringSignificantLocationChanges()
         manager.startUpdatingLocation()
@@ -45,16 +40,21 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     // Temporary high-accuracy foreground burst
     func startForegroundHighAccuracyBurst() {
         configureIfNeeded()
+        configureBatteryOptimizedSettings()
         manager.allowsBackgroundLocationUpdates = true
-        // Boost settings immediately; adaptive will refine on updates
-        manager.activityType = .fitness
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.distanceFilter = 5
+        // Use single optimized configuration
         manager.startUpdatingLocation()
     }
 
     func requestOneShot(_ completion: @escaping (CLLocation?) -> Void) {
         configureIfNeeded()
+        
+        // Verificar permisos antes de proceder
+        if !ensurePermissions() {
+            completion(nil)
+            return
+        }
+        
         // Use existing last if very recent
         if let last = lastLocation, abs(last.timestamp.timeIntervalSinceNow) < 10 {
             completion(last); return
@@ -74,41 +74,44 @@ class LocationService: NSObject, CLLocationManagerDelegate {
             self.manager.requestAlwaysAuthorization()
         }
         manager.delegate = self
-        manager.activityType = .other
-        manager.pausesLocationUpdatesAutomatically = false
-        // Default; adaptive will refine
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.distanceFilter = 10
-    }
-
-    private func updateAdaptiveParameters(for current: CLLocation) {
-        let speed = inferredSpeed(from: current)
-        let desiredAcc: CLLocationAccuracy
-        let dist: CLLocationDistance
-        if speed < walkSpeedMax {
-            desiredAcc = kCLLocationAccuracyBest
-            dist = walkDistanceThreshold
-            manager.activityType = .fitness
-        } else if speed < runSpeedMax {
-            desiredAcc = kCLLocationAccuracyBest
-            dist = runDistanceThreshold
-            manager.activityType = .other
-        } else {
-            desiredAcc = kCLLocationAccuracyNearestTenMeters
-            dist = driveDistanceThreshold
-            manager.activityType = .automotiveNavigation
+        // Configuración optimizada para app de seguridad/tracking
+        manager.activityType = .other // Más versátil que otherNavigation
+        manager.pausesLocationUpdatesAutomatically = false // Nunca pausar para seguridad
+        manager.desiredAccuracy = kCLLocationAccuracyBest // Máxima precisión disponible
+        manager.distanceFilter = optimalDistanceFilter // 10m para balance precisión/batería
+        
+        // Asegurar significant changes esté siempre activo como respaldo
+        if CLLocationManager.significantLocationChangeMonitoringAvailable() {
+            manager.startMonitoringSignificantLocationChanges()
         }
-        if manager.desiredAccuracy != desiredAcc { manager.desiredAccuracy = desiredAcc }
-        if manager.distanceFilter != dist { manager.distanceFilter = dist }
-        PreyLogger("LocationService adaptive: speed=\(String(format: "%.1f", speed)) m/s, acc=\(desiredAcc)m, filter=\(Int(dist))m", level: .info)
     }
 
-    private func inferredSpeed(from current: CLLocation) -> Double {
-        if current.speed >= 0 { return current.speed }
-        guard let last = lastLocation else { return 0 }
-        let dt = current.timestamp.timeIntervalSince(last.timestamp)
-        guard dt > 0 else { return 0 }
-        return current.distance(from: last) / dt
+    // Removed adaptive parameters - using single optimized configuration
+
+    private func configureBatteryOptimizedSettings() {
+        UIDevice.current.isBatteryMonitoringEnabled = true
+        let batteryLevel = UIDevice.current.batteryLevel
+        let isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
+        
+        if batteryLevel < 0.10 || isLowPowerMode { // Solo con batería críticamente baja
+            // Para app de seguridad, mantener funcionalidad incluso con batería baja
+            manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            manager.distanceFilter = 20 // Aumentar threshold para ahorrar batería
+            PreyLogger("LocationService: Critical battery mode - reduced accuracy to preserve tracking", level: .info)
+        } else {
+            // Configuración normal con máxima precisión
+            manager.desiredAccuracy = kCLLocationAccuracyBest
+            manager.distanceFilter = optimalDistanceFilter
+        }
+    }
+    
+    private func ensurePermissions() -> Bool {
+        let status = manager.authorizationStatus
+        if status != .authorizedAlways && status != .authorizedWhenInUse {
+            PreyLogger("Location permission lost: \(status.rawValue)", level: .error)
+            return false
+        }
+        return true
     }
 
     private func persistToAppGroup(_ location: CLLocation) {
@@ -130,9 +133,16 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         guard let loc = locations.last else { oneShotCompletion?(nil); oneShotCompletion = nil; return }
         // Basic validation
         guard CLLocationCoordinate2DIsValid(loc.coordinate),
-              !(loc.coordinate.latitude == 0 && loc.coordinate.longitude == 0) else { return }
+              !(loc.coordinate.latitude == 0 && loc.coordinate.longitude == 0) else { 
+            PreyLogger("LocationService: Invalid coordinates received", level: .error)
+            return 
+        }
+        
+        UIDevice.current.isBatteryMonitoringEnabled = true
+        let batteryLevel = UIDevice.current.batteryLevel
+        PreyLogger("LocationService: lat=\(loc.coordinate.latitude) lon=\(loc.coordinate.longitude) speed=\(loc.speed) acc=\(loc.horizontalAccuracy) battery=\(batteryLevel)", level: .info)
+        
         lastLocation = loc
-        updateAdaptiveParameters(for: loc)
         persistToAppGroup(loc)
         // Deliver to observers
         for d in delegates { d.didReceiveLocationUpdate(loc) }
@@ -141,7 +151,20 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        PreyLogger("LocationService error: \(error.localizedDescription)", level: .error)
+        let nsError = error as NSError
+        PreyLogger("LocationService error: \(error.localizedDescription) domain=\(nsError.domain) code=\(nsError.code)", level: .error)
+        
+        // Reintentar en casos específicos
+        if nsError.code == kCLErrorLocationUnknown {
+            // Continuar intentando
+            PreyLogger("LocationService: Location unknown, continuing to try...", level: .info)
+            return
+        } else if nsError.code == kCLErrorDenied {
+            // Problema de permisos - notificar con ubicación vacía
+            PreyLogger("LocationService: Permission denied, notifying delegates", level: .error)
+            for d in delegates { d.didReceiveLocationUpdate(CLLocation()) }
+        }
+        
         if let c = oneShotCompletion { oneShotCompletion = nil; c(nil) }
     }
 }
