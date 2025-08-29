@@ -403,7 +403,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         } else {
             // Balanced background tracking
             locManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-            locManager.distanceFilter = 200
+            locManager.distanceFilter = 100
             locManager.pausesLocationUpdatesAutomatically = true
             PreyLogger("Dynamic profile: BALANCED (background)", level: .info)
         }
