@@ -16,7 +16,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     let locManager   = CLLocationManager()
     
-    var lastLocation : CLLocation!
+    var lastLocation: CLLocation?
     
     var isLocationAwareActive = false
     
@@ -208,7 +208,13 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         
         // Configure manager
         hasReportedThisSession = false
-        locManager.requestAlwaysAuthorization()
+        if Thread.isMainThread {
+            locManager.requestAlwaysAuthorization()
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.locManager.requestAlwaysAuthorization()
+            }
+        }
         locManager.delegate = self
         configureBatteryOptimizedSettings()
         locManager.allowsBackgroundLocationUpdates = true
@@ -261,7 +267,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             ]
             
             userDefaults.set(locationDict, forKey: "lastLocation")
-            userDefaults.synchronize()
             PreyLogger("Saved location to shared container")
         }
         
@@ -273,7 +278,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             self.sendDataWithCallback(locParam, toEndpoint: locationAwareEndpoint) { success in
                 if success && self.isDailyUpdateRun {
                     UserDefaults.standard.set(Date(), forKey: Location.dailyLocationCheckKey)
-                    UserDefaults.standard.synchronize()
                 }
             }
             stopLocationManager()
@@ -282,7 +286,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             self.sendDataWithCallback(locParam, toEndpoint: dataDeviceEndpoint) { success in
                 if success && self.isDailyUpdateRun {
                     UserDefaults.standard.set(Date(), forKey: Location.dailyLocationCheckKey)
-                    UserDefaults.standard.synchronize()
                 }
             }
             index = index + 1
@@ -345,12 +348,13 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         }
         
         // Compare accuracy or check if significant movement occurred
-        let distance = currentLocation.distance(from: lastLocation)
-        if currentLocation.horizontalAccuracy < lastLocation.horizontalAccuracy || distance > Location.significantMovementDistance {
-            PreyLogger("Sending updated location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude), distance: \(distance)m", level: .info)
-            locationReceived(currentLocation) // Automatic update
+        if let last = lastLocation {
+            let distance = currentLocation.distance(from: last)
+            if currentLocation.horizontalAccuracy < last.horizontalAccuracy || distance > Location.significantMovementDistance {
+                PreyLogger("Sending updated location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude), distance: \(distance)m", level: .info)
+                locationReceived(currentLocation) // Automatic update
+            }
         }
-
         // Save last location
         lastLocation = currentLocation
     }
