@@ -421,7 +421,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
                 isAppActive = UIApplication.shared.applicationState == .active
             }
         }
-        let isMissing = PreyConfig.sharedInstance.isMissing
         
         PreyLogger("Configuring location for battery level: \(batteryLevel), low power mode: \(isLowPowerMode)", level: .info)
         

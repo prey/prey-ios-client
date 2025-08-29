@@ -74,6 +74,7 @@
 		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
 		3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC971CDB9CD70052A21D /* Location.swift */; };
 		3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC991CDBBF030052A21D /* PreyModule.swift */; };
+		0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4452E60A0A5000EE115 /* LocationService.swift */; };
 		3BAB25CF23A923C300BDA263 /* Triggers+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25C923A923C200BDA263 /* Triggers+Class.swift */; };
 		3BAB25D023A923C300BDA263 /* TriggersEvents+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CA23A923C200BDA263 /* TriggersEvents+Class.swift */; };
 		3BAB25D123A923C300BDA263 /* TriggersActions+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CB23A923C200BDA263 /* TriggersActions+Class.swift */; };
@@ -258,6 +259,7 @@
 		3BFF00821D3E8A2400BEF7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plist/Info.plist; sourceTree = "<group>"; };
 		3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ManagedAppConfig.plist; path = Plist/ManagedAppConfig.plist; sourceTree = "<group>"; };
 		747FA51D2BAB1683003242C7 /* ListPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListPermissions.swift; path = Classes/ListPermissions.swift; sourceTree = "<group>"; };
+		0592E4452E60A0A5000EE115 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Classes/LocationService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -330,6 +332,7 @@
 		3B51FFB01D3EB66C00CFE4E8 /* Prey Utils */ = {
 			isa = PBXGroup;
 			children = (
+				0592E4452E60A0A5000EE115 /* LocationService.swift */,
 				0592E4442E609B5E000EE115 /* Registrar.swift */,
 				3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */,
 				3B86297A1EF039E800BE92D4 /* PreyMobileConfig.swift */,
@@ -779,6 +782,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */,
 				3B8629961EF03CB400BE92D4 /* HttpRouter.swift in Sources */,
 				3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */,
 				3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */,
