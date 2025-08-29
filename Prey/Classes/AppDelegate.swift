@@ -570,14 +570,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let auth = lm.authorizationStatus
         PreyLogger("LocationPush auth status: \(auth.rawValue)")
         if auth != .authorizedAlways {
-            PreyLogger("⚠️ LOCATION-PUSH requires Always authorization; requesting...")
+            PreyLogger("LOCATION-PUSH requires Always authorization; requesting...")
             lm.requestAlwaysAuthorization()
             return
         }
+        // Set flag before starting to prevent race conditions
+        hasStartedLocationPushMonitoring = true
+        
         lm.startMonitoringLocationPushes { registration, error in
             if let error = error {
                 let nsErr = error as NSError
-                PreyLogger("⚠️ LOCATION-PUSH monitoring failed: domain=\(nsErr.domain) code=\(nsErr.code) desc=\(nsErr.localizedDescription)")
+                PreyLogger("LOCATION-PUSH monitoring failed: domain=\(nsErr.domain) code=\(nsErr.code) desc=\(nsErr.localizedDescription)")
+                // Reset flag on failure to allow retry
+                self.hasStartedLocationPushMonitoring = false
                 // Retry a few times with backoff in case it is transient
                 if self.locationPushRetryCount < 3 {
                     let delay = Double((self.locationPushRetryCount + 1) * 5)
@@ -591,15 +596,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             if let registration = registration {
                 let tokenHex = registration.map { String(format: "%02x", $0) }.joined()
-                PreyLogger("✅ LOCATION-PUSH monitoring started (registration token: \(tokenHex))")
+                PreyLogger("LOCATION-PUSH monitoring started (registration token: \(tokenHex))")
                 // Persist token; we will send it after API key is available (post-auth)
                 LocationPushRegistrar.store(tokenHex: tokenHex)
                 // If API key already available (upgrade path), send immediately
                 LocationPushRegistrar.sendIfPossible()
             } else {
-                PreyLogger("✅ LOCATION-PUSH monitoring started for topic .location-query")
+                PreyLogger("LOCATION-PUSH monitoring started for topic .location-query")
             }
-            self.hasStartedLocationPushMonitoring = true
+            // Flag already set before the call, so no need to set it again here
         }
     }
     

@@ -68,7 +68,7 @@ class NotificationTokenRegistrar {
         if let suite = UserDefaults(suiteName: suiteName) {
             suite.set(tokenHex, forKey: tokenKey)
             suite.synchronize()
-            PreyLoggerInfo("📣 TOKEN REGISTER: stored APNs token \(String(tokenHex))")
+            PreyLoggerInfo("TOKEN REGISTER: stored APNs token \(String(tokenHex))")
             // If API key already exists (upgrade path), attempt immediate send
             if PreyConfig.sharedInstance.userApiKey != nil {
                 sendIfPossible()
@@ -92,7 +92,7 @@ class NotificationTokenRegistrar {
             suite: suite,
             lastValueKey: lastValueKey,
             lastSentKey: lastSentKey,
-            logPrefix: "📣 TOKEN REGISTER"
+            logPrefix: "TOKEN REGISTER"
         ) else {
             return
         }
@@ -130,7 +130,7 @@ class NotificationTokenRegistrar {
             nonRetryStatusCodes: [401]
         ) { success in
             if success {
-                PreyLoggerInfo("📣 TOKEN REGISTER: ✅ Successfully registered APNs token (deferred)")
+                PreyLoggerInfo("TOKEN REGISTER: ✅ Successfully registered APNs token (deferred)")
                 TokenRegistrationValidator.recordSuccessfulSend(
                     tokenHex: tokenHex,
                     suite: suite,
@@ -138,7 +138,7 @@ class NotificationTokenRegistrar {
                     lastSentKey: lastSentKey
                 )
             } else {
-                PreyLoggerError("📣 TOKEN REGISTER: ❌ Failed to register APNs token (final)")
+                PreyLoggerError("TOKEN REGISTER: ❌ Failed to register APNs token (final)")
             }
         }
     }
@@ -156,7 +156,7 @@ class LocationPushRegistrar {
         if let suite = UserDefaults(suiteName: suiteName) {
             suite.set(tokenHex, forKey: tokenKey)
             suite.synchronize()
-            PreyLogger("📣 LOCATION-PUSH: stored token \(String(tokenHex))")
+            PreyLogger("LOCATION-PUSH: stored token \(String(tokenHex))")
             // If API key already exists (upgrade path), attempt immediate send
             if PreyConfig.sharedInstance.userApiKey != nil {
                 sendIfPossible()
@@ -180,7 +180,7 @@ class LocationPushRegistrar {
             suite: suite,
             lastValueKey: lastValueKey,
             lastSentKey: lastSentKey,
-            logPrefix: "📣 LOCATION-PUSH REGISTER"
+            logPrefix: "LOCATION-PUSH REGISTER"
         ) else {
             return
         }
@@ -200,7 +200,7 @@ class LocationPushRegistrar {
             nonRetryStatusCodes: [401]
         ) { success in
             if success {
-                PreyLoggerInfo("📣 LOCATION-PUSH REGISTER: ✅ Token registered after auth")
+                PreyLoggerInfo("LOCATION-PUSH REGISTER: ✅ Token registered after auth")
                 TokenRegistrationValidator.recordSuccessfulSend(
                     tokenHex: tokenHex,
                     suite: suite,
@@ -208,7 +208,7 @@ class LocationPushRegistrar {
                     lastSentKey: lastSentKey
                 )
             } else {
-                PreyLoggerError("📣 LOCATION-PUSH REGISTER: ❌ Failed to register token after auth")
+                PreyLoggerError("LOCATION-PUSH REGISTER: ❌ Failed to register token after auth")
             }
         }
     }

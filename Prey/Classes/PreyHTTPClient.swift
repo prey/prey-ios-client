@@ -453,20 +453,20 @@ class PreyNetworkRetry {
                 endPoint: endPoint,
                 onCompletion: { data, response, error in
                     if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
-                        PreyLogger("📣 \(tag): ✅ Success (HTTP \(http.statusCode))")
+                        PreyLogger("\(tag): ✅ Success (HTTP \(http.statusCode))")
                         onCompletion(true)
                         return
                     }
 
                     if let error = error as NSError? {
-                        PreyLogger("📣 \(tag): ❌ Error (attempt \(attempt)/\(maxAttempts)): domain=\(error.domain) code=\(error.code) desc=\(error.localizedDescription)")
+                        PreyLogger("\(tag): ❌ Error (attempt \(attempt)/\(maxAttempts)): domain=\(error.domain) code=\(error.code) desc=\(error.localizedDescription)")
                     }
                     if let http = response as? HTTPURLResponse {
                         if !(200...299).contains(http.statusCode) {
                             let localized = HTTPURLResponse.localizedString(forStatusCode: http.statusCode)
-                            PreyLogger("📣 \(tag): ❌ HTTP \(http.statusCode) \(localized) (attempt \(attempt)/\(maxAttempts)). Body: \(bodySnippet(data))")
+                            PreyLogger("\(tag): ❌ HTTP \(http.statusCode) \(localized) (attempt \(attempt)/\(maxAttempts)). Body: \(bodySnippet(data))")
                             if nonRetryStatusCodes.contains(http.statusCode) {
-                                PreyLogger("📣 \(tag): 🚫 Not retrying due to non-retryable status \(http.statusCode)")
+                                PreyLogger("\(tag): 🚫 Not retrying due to non-retryable status \(http.statusCode)")
                                 onCompletion(false)
                                 return
                             }
@@ -477,12 +477,12 @@ class PreyNetworkRetry {
 
                     if attempt < maxAttempts {
                         let delay = delayForAttempt(attempt + 1)
-                        PreyLogger("📣 \(tag): 🔁 Retrying in \(String(format: "%.1f", delay))s (attempt \(attempt + 1)/\(maxAttempts))")
+                        PreyLogger("\(tag): 🔁 Retrying in \(String(format: "%.1f", delay))s (attempt \(attempt + 1)/\(maxAttempts))")
                         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + delay) {
                             attemptSend(attempt + 1)
                         }
                     } else {
-                        PreyLogger("📣 \(tag): ❌ Exhausted retries; giving up")
+                        PreyLogger("\(tag): ❌ Exhausted retries; giving up")
                         onCompletion(false)
                     }
                 }
