@@ -85,6 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         PreyLogger("didFinishLaunchingWithOptions - App launch started at \(Date())")
+        PreyLogger("File logging initialized - log file at: \(getPreyLogFilePath())", level: .info)
         #if DEBUG
         // Diagnostics: environment only (simulator unsupported for Location Push)
         #if targetEnvironment(simulator)
