@@ -86,6 +86,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         PreyLogger("didFinishLaunchingWithOptions - App launch started at \(Date())")
         PreyLogger("File logging initialized - log file at: \(getPreyLogFilePath())", level: .info)
+        
+        // Verificar que el archivo se creó correctamente
+        let logPath = getPreyLogFilePath()
+        if FileManager.default.fileExists(atPath: logPath) {
+            PreyLogger("Log file confirmed exists at: \(logPath)", level: .info)
+        } else {
+            PreyLogger("ERROR: Log file not found at: \(logPath)", level: .error)
+        }
+        
+        // Generar algunos logs de prueba
+        PreyLogger("TEST LOG: App delegate finished launching", level: .info)
+        PreyLogger("TEST LOG: This is a warning message", level: .warning)
+        PreyLogger("TEST LOG: This is an error message", level: .error)
         #if DEBUG
         // Diagnostics: environment only (simulator unsupported for Location Push)
         #if targetEnvironment(simulator)
