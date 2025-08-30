@@ -18,6 +18,18 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     private var isStarted = false
     func isRunning() -> Bool { isStarted }
 
+    // Watchdog anti-inactividad (solo background)
+    private var watchdogTimer: DispatchSourceTimer?
+    private var lastNudgeAt: Date?
+    private var lastRestartAt: Date?
+    private var restartWindowStart: Date?
+    private var restartsInWindow: Int = 0
+    private let inactivityThreshold: TimeInterval = 180 // 3 min sin updates
+    private let postNudgeWait: TimeInterval = 120       // 2 min tras nudge antes de reiniciar
+    private let restartCooldown: TimeInterval = 600     // 10 min entre reinicios
+    private let restartWindow: TimeInterval = 3600      // ventana 1 hora
+    private let maxRestartsPerHour: Int = 3
+
     // MARK: Public API
     func addDelegate(_ delegate: LocationDelegate) {
         if !delegates.contains(where: { $0 === delegate }) { delegates.append(delegate) }
@@ -35,6 +47,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         manager.allowsBackgroundLocationUpdates = true
         manager.startMonitoringSignificantLocationChanges()
         manager.startUpdatingLocation()
+        startWatchdogIfNeeded()
     }
 
     // Temporary high-accuracy foreground burst
@@ -44,6 +57,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         manager.allowsBackgroundLocationUpdates = true
         // Use single optimized configuration
         manager.startUpdatingLocation()
+        // Foreground no necesita watchdog; se activará al volver a background
     }
 
     func requestOneShot(_ completion: @escaping (CLLocation?) -> Void) {
@@ -112,6 +126,73 @@ class LocationService: NSObject, CLLocationManagerDelegate {
             return false
         }
         return true
+    }
+
+    // MARK: Watchdog anti-inactividad
+    private func startWatchdogIfNeeded() {
+        if watchdogTimer != nil { return }
+        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global(qos: .utility))
+        timer.schedule(deadline: .now() + 60, repeating: 60, leeway: .seconds(10))
+        timer.setEventHandler { [weak self] in
+            self?.watchdogTick()
+        }
+        watchdogTimer = timer
+        timer.resume()
+    }
+
+    private func watchdogTick() {
+        // Solo en background
+        var isBG = false
+        DispatchQueue.main.sync { isBG = UIApplication.shared.applicationState == .background }
+        if !isBG { return }
+
+        // Condiciones de batería/ahorro
+        UIDevice.current.isBatteryMonitoringEnabled = true
+        let batteryLevel = UIDevice.current.batteryLevel
+        let lowPower = ProcessInfo.processInfo.isLowPowerModeEnabled
+        if batteryLevel >= 0 && batteryLevel < 0.20 { return }
+        if lowPower { return }
+
+        // Si hay update reciente, nada que hacer
+        let now = Date()
+        if let last = lastLocation, now.timeIntervalSince(last.timestamp) < inactivityThreshold { return }
+
+        // Intento 1: nudge con requestLocation si no se ha hecho recientemente
+        if let nudgeAt = lastNudgeAt {
+            // Esperar ventana post-nudge antes de reiniciar si sigue sin datos
+            if now.timeIntervalSince(nudgeAt) < postNudgeWait { return }
+        } else {
+            // Enviar nudge
+            DispatchQueue.main.async { [weak self] in
+                self?.manager.requestLocation()
+            }
+            lastNudgeAt = now
+            PreyLogger("LocationService: Watchdog nudge (requestLocation)", level: .info)
+            return
+        }
+
+        // Intento 2: reinicio controlado del manager con cooldown y límite por hora
+        if let lastR = lastRestartAt, now.timeIntervalSince(lastR) < restartCooldown { return }
+        if let windowStart = restartWindowStart {
+            if now.timeIntervalSince(windowStart) >= restartWindow {
+                restartWindowStart = now; restartsInWindow = 0
+            }
+        } else { restartWindowStart = now }
+        guard restartsInWindow < maxRestartsPerHour else { return }
+
+        restartsInWindow += 1
+        lastRestartAt = now
+        lastNudgeAt = nil // reset ciclo
+        PreyLogger("LocationService: Watchdog restart (\(restartsInWindow)/\(maxRestartsPerHour) in window)", level: .info)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.manager.stopUpdatingLocation()
+            // breve pausa y restart
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.configureBatteryOptimizedSettings()
+                self.manager.startUpdatingLocation()
+            }
+        }
     }
 
     private func persistToAppGroup(_ location: CLLocation) {
