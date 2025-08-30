@@ -60,8 +60,93 @@ public enum PreyLogLevel {
     case critical
 }
 
+// MARK: - File Logging
+private class PreyFileLogger {
+    static let shared = PreyFileLogger()
+    private let logQueue = DispatchQueue(label: "com.prey.filelogger", qos: .utility)
+    private let maxLogFileSize: Int = 5 * 1024 * 1024 // 5MB
+    private let maxLogFiles: Int = 3
+    
+    private var logFileURL: URL {
+        // Usar Documents directory - se elimina al desinstalar la app
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return documentsPath.appendingPathComponent("prey_app.log")
+    }
+    
+    private init() {
+        createLogFileIfNeeded()
+    }
+    
+    private func createLogFileIfNeeded() {
+        if !FileManager.default.fileExists(atPath: logFileURL.path) {
+            FileManager.default.createFile(atPath: logFileURL.path, contents: nil, attributes: nil)
+        }
+    }
+    
+    func writeLog(_ message: String, level: PreyLogLevel) {
+        logQueue.async { [weak self] in
+            guard let self = self else { return }
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+            let timestamp = dateFormatter.string(from: Date())
+            let logEntry = "[\(timestamp)] [\(level)] \(message)\n"
+            
+            // Rotar logs si es necesario
+            self.rotateLogsIfNeeded()
+            
+            // Escribir al archivo
+            if let data = logEntry.data(using: .utf8) {
+                if let fileHandle = FileHandle(forWritingAtPath: self.logFileURL.path) {
+                    fileHandle.seekToEndOfFile()
+                    fileHandle.write(data)
+                    fileHandle.closeFile()
+                } else {
+                    // Si falla FileHandle, intentar escribir directamente
+                    try? data.write(to: self.logFileURL, options: .atomic)
+                }
+            }
+        }
+    }
+    
+    private func rotateLogsIfNeeded() {
+        guard let attributes = try? FileManager.default.attributesOfItem(atPath: logFileURL.path),
+              let fileSize = attributes[.size] as? Int,
+              fileSize > maxLogFileSize else { return }
+        
+        // Rotar archivos: prey_app.log -> prey_app.log.1 -> prey_app.log.2 -> eliminado
+        let baseURL = logFileURL.deletingPathExtension()
+        let ext = logFileURL.pathExtension
+        
+        // Eliminar el archivo más antiguo
+        let oldestFile = baseURL.appendingPathExtension("\(ext).\(maxLogFiles - 1)")
+        try? FileManager.default.removeItem(at: oldestFile)
+        
+        // Rotar archivos existentes
+        for i in stride(from: maxLogFiles - 2, through: 1, by: -1) {
+            let oldFile = baseURL.appendingPathExtension("\(ext).\(i)")
+            let newFile = baseURL.appendingPathExtension("\(ext).\(i + 1)")
+            try? FileManager.default.moveItem(at: oldFile, to: newFile)
+        }
+        
+        // Mover archivo actual
+        let newFile = baseURL.appendingPathExtension("\(ext).1")
+        try? FileManager.default.moveItem(at: logFileURL, to: newFile)
+        
+        // Crear nuevo archivo
+        createLogFileIfNeeded()
+    }
+    
+    func getLogFileURL() -> URL {
+        return logFileURL
+    }
+}
+
 /// Explicit logging API with level and category
 public func PreyLogger(_ message: String, level: PreyLogLevel = .debug) {
+    // Siempre escribir al archivo de log
+    PreyFileLogger.shared.writeLog(message, level: level)
+    
     #if DEBUG
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
@@ -117,6 +202,15 @@ public func PreyLoggerNotice(_ message: String, file: String = #file) {
 public func PreyLoggerCritical(_ message: String, file: String = #file) {
     let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
     PreyLogger(message, level: .critical)
+}
+
+// MARK: - Log File Access
+public func getPreyLogFileURL() -> URL {
+    return PreyFileLogger.shared.getLogFileURL()
+}
+
+public func getPreyLogFilePath() -> String {
+    return PreyFileLogger.shared.getLogFileURL().path
 }
 
 // Biometric authentication
