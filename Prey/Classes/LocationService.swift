@@ -155,11 +155,11 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         PreyLogger("LocationService error: \(error.localizedDescription) domain=\(nsError.domain) code=\(nsError.code)", level: .error)
         
         // Reintentar en casos específicos
-        if nsError.code == kCLErrorLocationUnknown {
+        if nsError.code == CLError.locationUnknown.rawValue {
             // Continuar intentando
             PreyLogger("LocationService: Location unknown, continuing to try...", level: .info)
             return
-        } else if nsError.code == kCLErrorDenied {
+        } else if nsError.code == CLError.denied.rawValue {
             // Problema de permisos - notificar con ubicación vacía
             PreyLogger("LocationService: Permission denied, notifying delegates", level: .error)
             for d in delegates { d.didReceiveLocationUpdate(CLLocation()) }

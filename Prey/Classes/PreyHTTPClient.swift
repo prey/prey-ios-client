@@ -183,7 +183,12 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     // MARK: Request Throttling
     
     // Check if request should be throttled and update last request time
-    private func shouldThrottleRequest(for endpoint: String) -> Bool {
+    // Idempotent GET requests are whitelisted and never throttled.
+    private func shouldThrottleRequest(for endpoint: String, method: String) -> Bool {
+        // Whitelist idempotent requests
+        if method.uppercased() == "GET" {
+            return false
+        }
         let now = Date()
         let key = endpoint
         
@@ -206,8 +211,8 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     // send data to Control Panel
     func sendDataToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
         
-        // Apply throttling to prevent excessive requests
-        if shouldThrottleRequest(for: endPoint) {
+        // Apply throttling to prevent excessive requests (mutating only)
+        if shouldThrottleRequest(for: endPoint, method: httpMethod) {
             let error = NSError(domain: "PreyHTTPClientThrottle", code: 429, userInfo: [
                 NSLocalizedDescriptionKey: "Request throttled - too many requests to \(endPoint)"
             ])

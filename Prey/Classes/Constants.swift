@@ -79,7 +79,10 @@ private class PreyFileLogger {
     
     private func createLogFileIfNeeded() {
         if !FileManager.default.fileExists(atPath: logFileURL.path) {
-            FileManager.default.createFile(atPath: logFileURL.path, contents: nil, attributes: nil)
+            let success = FileManager.default.createFile(atPath: logFileURL.path, contents: nil, attributes: nil)
+            print("[PreyLogger] Creating log file at: \(logFileURL.path) - Success: \(success)")
+        } else {
+            print("[PreyLogger] Log file already exists at: \(logFileURL.path)")
         }
     }
     
