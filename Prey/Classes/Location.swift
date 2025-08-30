@@ -79,20 +79,13 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             return
         }
 
-        var shouldSend = false
         var distance: CLLocationDistance = 0
         if let last = lastLocation {
             distance = location.distance(from: last)
         }
-        // Since LocationService adapts distanceFilter internally, use conservative thresholds here
-        let currentFilter: CLLocationDistance = 10 // default to 10m unless service imposes larger
+        // Enviar solo si hubo movimiento real (>= 10 m). No enviar por sola mejora de precisión.
+        let currentFilter: CLLocationDistance = 10 // 10m
         if distance >= currentFilter {
-            shouldSend = true
-        } else if let last = lastLocation, location.horizontalAccuracy < last.horizontalAccuracy {
-            shouldSend = true
-        }
-
-        if shouldSend {
             PreyLogger("Adaptive update: sending location (Δ=\(Int(distance))m)", level: .info)
             locationReceived(location)
         }
@@ -371,14 +364,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         var shouldSend = false
         let distance = currentLocation.distance(from: lastLocation!)
         
-        // Use a simple 10m threshold or accuracy improvement
-        if distance >= 10 {
-            shouldSend = true
-        } else if currentLocation.horizontalAccuracy < lastLocation!.horizontalAccuracy {
-            shouldSend = true
-        }
-
-        if shouldSend {
+        // Enviar solo si hubo movimiento real (>= 25 m). No enviar por sola mejora de precisión.
+        if distance >= 25 {
             PreyLogger("Location update: sending (Δ=\(Int(distance))m)", level: .info)
             locationReceived(currentLocation)
         }
