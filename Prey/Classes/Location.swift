@@ -19,6 +19,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     var lastLocation: CLLocation?
     
     var isLocationAwareActive = false
+    private var awareLastSentAt: Date?
+    private let awareMinInterval: TimeInterval = 60 // seconds between aware sends
     
     var index = 0
     
@@ -286,14 +288,21 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         let locParam:[String: Any] = [kAction.location.rawValue : params, kDataLocation.skip_toast.rawValue : (index > 0)]
         
         if self.isLocationAwareActive {
-            PreyLogger("Location aware is active, sending to location aware endpoint", level: .info)
-            self.isLocationAwareActive = false
-            self.sendDataWithCallback(locParam, toEndpoint: locationAwareEndpoint) { success in
-                if success && self.isDailyUpdateRun {
-                    UserDefaults.standard.set(Date(), forKey: Location.dailyLocationCheckKey)
+            // Throttle aware sends to avoid spamming
+            let now = Date()
+            if let last = awareLastSentAt, now.timeIntervalSince(last) < awareMinInterval {
+                PreyLogger("Location aware active, but throttled (next in \(Int(awareMinInterval - now.timeIntervalSince(last)))s)", level: .info)
+            } else {
+                PreyLogger("Location aware is active, sending to location aware endpoint", level: .info)
+                awareLastSentAt = now
+                self.sendDataWithCallback(locParam, toEndpoint: locationAwareEndpoint) { success in
+                    if success && self.isDailyUpdateRun {
+                        UserDefaults.standard.set(Date(), forKey: Location.dailyLocationCheckKey)
+                    }
                 }
             }
-            stopLocationManager()
+            // Keep manager running for continuous aware updates; do not stop here
+            // stopLocationManager()
         } else {
             PreyLogger("Sending location to data device endpoint", level: .info)
             self.sendDataWithCallback(locParam, toEndpoint: dataDeviceEndpoint) { success in
