@@ -15,7 +15,7 @@ enum kInstruction: String {
 
 // Prey actions definitions
 enum kAction: String {
-    case location, report, alarm, alert, detach, camouflage, tree, fileretrieval, triggers, user_activated, list_permissions
+    case location, report, alarm, alert, detach, camouflage, tree, fileretrieval, triggers, user_activated, list_permissions, logretrieval
 }
 
 // Prey options definitions
@@ -162,4 +162,3 @@ public var infoEndpoint : String {return String(format:"/devices/%@/info.json",(
 public enum Method: String {
     case GET, POST, PUT, DELETE
 }
-
