@@ -161,13 +161,13 @@ class LocationPushRegistrar {
             PreyLogger("LOCATION-PUSH: stored token \(String(tokenHex))")
             // If API key already exists (upgrade path), attempt immediate send
             if PreyConfig.sharedInstance.userApiKey != nil {
-                sendIfPossible()
+                sendIfPossible(source: "store")
             }
         }
     }
 
     // Send token if both token and API key are available
-    static func sendIfPossible() {
+    static func sendIfPossible(source: String = "unspecified") {
         guard let suite = UserDefaults(suiteName: suiteName),
               let tokenHex = suite.string(forKey: tokenKey) else {
             return
@@ -175,6 +175,8 @@ class LocationPushRegistrar {
         guard let apiKey = PreyConfig.sharedInstance.userApiKey else {
             return
         }
+
+        PreyLogger("LOCATION-PUSH REGISTER: invoked (source=\(source))")
 
         // Use shared validator to avoid re-sending if the same token was successfully sent recently
         guard TokenRegistrationValidator.shouldSendToken(
@@ -197,7 +199,7 @@ class LocationPushRegistrar {
             messageId: nil,
             httpMethod: Method.POST.rawValue,
             endPoint: dataDeviceEndpoint,
-            tag: "LOCATION-PUSH REGISTER",
+            tag: "LOCATION-PUSH REGISTER(\(source))",
             maxAttempts: 5,
             nonRetryStatusCodes: [401]
         ) { success in
