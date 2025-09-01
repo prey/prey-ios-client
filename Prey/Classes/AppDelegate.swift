@@ -94,19 +94,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } else {
             PreyLogger("ERROR: Log file not found at: \(logPath)", level: .error)
         }
-        
-        // Generar algunos logs de prueba
-        PreyLogger("TEST LOG: App delegate finished launching", level: .info)
-        PreyLogger("TEST LOG: This is a warning message", level: .warning)
-        PreyLogger("TEST LOG: This is an error message", level: .error)
-        #if DEBUG
-        // Diagnostics: environment only (simulator unsupported for Location Push)
-        #if targetEnvironment(simulator)
-        PreyLogger("Environment: iOS Simulator (Location Push is NOT supported)")
-        #else
-        PreyLogger("Environment: Device iOS \(UIDevice.current.systemVersion)")
-        #endif
-        #endif
 
         // Prepare Location Push manager early and request Always authorization if needed
         if locationPushManager == nil { locationPushManager = CLLocationManager() }

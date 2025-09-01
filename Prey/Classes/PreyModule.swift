@@ -167,8 +167,6 @@ class PreyModule {
             // Make sure actions are running
             runAction()
         } else {
-            PreyLogger("Device is not missing, checking for location actions only")
-            
             // Even if not missing, check for location actions
             var hasLocationAction = false
             for action in actionArray {
