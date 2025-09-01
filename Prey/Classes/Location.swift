@@ -89,6 +89,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         let currentFilter: CLLocationDistance = 10 // 10m
         if distance >= currentFilter {
             PreyLogger("Adaptive update: sending location (Δ=\(Int(distance))m)", level: .info)
+            PreyDebugNotify("Location: adaptive send Δ=\(Int(distance))m")
             locationReceived(location)
         }
         lastLocation = location
@@ -227,6 +228,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         startLocationManager()
         isLocationAwareActive = true
         PreyLogger("Start location aware", level: .info)
+        PreyDebugNotify("LocationAware: started")
     }
     
     // Removed on-demand timer/timeout; Location Push extension handles request-driven fixes
@@ -292,9 +294,11 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             let now = Date()
             if let last = awareLastSentAt, now.timeIntervalSince(last) < awareMinInterval {
                 PreyLogger("Location aware active, but throttled (next in \(Int(awareMinInterval - now.timeIntervalSince(last)))s)", level: .info)
+                PreyDebugNotify("LocationAware: throttled, next in \(Int(awareMinInterval - now.timeIntervalSince(last)))s")
             } else {
                 PreyLogger("Location aware is active, sending to location aware endpoint", level: .info)
                 awareLastSentAt = now
+                PreyDebugNotify(String(format: "LocationAware: sending lat=%.5f lon=%.5f acc=%.1f", location.coordinate.latitude, location.coordinate.longitude, location.horizontalAccuracy))
                 self.sendDataWithCallback(locParam, toEndpoint: locationAwareEndpoint) { success in
                     if success && self.isDailyUpdateRun {
                         UserDefaults.standard.set(Date(), forKey: Location.dailyLocationCheckKey)
@@ -305,6 +309,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             // stopLocationManager()
         } else {
             PreyLogger("Sending location to data device endpoint", level: .info)
+            PreyDebugNotify(String(format: "Location: sending lat=%.5f lon=%.5f acc=%.1f", location.coordinate.latitude, location.coordinate.longitude, location.horizontalAccuracy))
             self.sendDataWithCallback(locParam, toEndpoint: dataDeviceEndpoint) { success in
                 if success && self.isDailyUpdateRun {
                     UserDefaults.standard.set(Date(), forKey: Location.dailyLocationCheckKey)

@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import UserNotifications
 import UIKit
 import LocalAuthentication
 import OSLog
@@ -214,6 +215,22 @@ public func getPreyLogFileURL() -> URL {
 
 public func getPreyLogFilePath() -> String {
     return PreyFileLogger.shared.getLogFileURL().path
+}
+
+// MARK: - Debug Local Notifications (DEBUG only)
+public func PreyDebugNotify(_ message: String) {
+    #if DEBUG
+    let content = UNMutableNotificationContent()
+    content.title = "DEBUG"
+    content.body = message.count > 180 ? String(message.prefix(180)) + "…" : message
+    content.sound = .default
+    let request = UNNotificationRequest(
+        identifier: "prey.debug." + UUID().uuidString,
+        content: content,
+        trigger: nil
+    )
+    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    #endif
 }
 
 // Biometric authentication
