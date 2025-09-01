@@ -75,8 +75,6 @@
 		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
 		3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC971CDB9CD70052A21D /* Location.swift */; };
 		3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC991CDBBF030052A21D /* PreyModule.swift */; };
-		9A1B2C3D4E5F000100020003 /* SyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */; };
-		9A1B2C3D4E5F000100020013 /* LogRetrieval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B2C3D4E5F000100020012 /* LogRetrieval.swift */; };
 		3BAB25CF23A923C300BDA263 /* Triggers+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25C923A923C200BDA263 /* Triggers+Class.swift */; };
 		3BAB25D023A923C300BDA263 /* TriggersEvents+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CA23A923C200BDA263 /* TriggersEvents+Class.swift */; };
 		3BAB25D123A923C300BDA263 /* TriggersActions+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CB23A923C200BDA263 /* TriggersActions+Class.swift */; };
@@ -106,6 +104,8 @@
 		3BFF00841D3E8A2400BEF7E0 /* AppFeedback.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00811D3E8A2400BEF7E0 /* AppFeedback.plist */; };
 		3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */; };
 		747FA51E2BAB1683003242C7 /* ListPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747FA51D2BAB1683003242C7 /* ListPermissions.swift */; };
+		9A1B2C3D4E5F000100020003 /* SyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */; };
+		9A1B2C3D4E5F000100020013 /* LogRetrieval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B2C3D4E5F000100020012 /* LogRetrieval.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -227,8 +227,6 @@
 		3B9DDC951CDB891C0052A21D /* PreyAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyAction.swift; path = Classes/PreyAction.swift; sourceTree = "<group>"; };
 		3B9DDC971CDB9CD70052A21D /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Classes/Location.swift; sourceTree = "<group>"; };
 		3B9DDC991CDBBF030052A21D /* PreyModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyModule.swift; path = Classes/PreyModule.swift; sourceTree = "<group>"; };
-		9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncCoordinator.swift; path = Classes/SyncCoordinator.swift; sourceTree = "<group>"; };
-		9A1B2C3D4E5F000100020012 /* LogRetrieval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LogRetrieval.swift; path = Classes/LogRetrieval.swift; sourceTree = "<group>"; };
 		3BAB25C923A923C200BDA263 /* Triggers+Class.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Triggers+Class.swift"; path = "Classes/Triggers+Class.swift"; sourceTree = "<group>"; };
 		3BAB25CA23A923C200BDA263 /* TriggersEvents+Class.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TriggersEvents+Class.swift"; path = "Classes/TriggersEvents+Class.swift"; sourceTree = "<group>"; };
 		3BAB25CB23A923C200BDA263 /* TriggersActions+Class.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TriggersActions+Class.swift"; path = "Classes/TriggersActions+Class.swift"; sourceTree = "<group>"; };
@@ -264,6 +262,8 @@
 		3BFF00821D3E8A2400BEF7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plist/Info.plist; sourceTree = "<group>"; };
 		3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ManagedAppConfig.plist; path = Plist/ManagedAppConfig.plist; sourceTree = "<group>"; };
 		747FA51D2BAB1683003242C7 /* ListPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListPermissions.swift; path = Classes/ListPermissions.swift; sourceTree = "<group>"; };
+		9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncCoordinator.swift; path = Classes/SyncCoordinator.swift; sourceTree = "<group>"; };
+		9A1B2C3D4E5F000100020012 /* LogRetrieval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LogRetrieval.swift; path = Classes/LogRetrieval.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -1146,7 +1146,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M2J57RQ35B;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1183,7 +1183,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M2J57RQ35B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
