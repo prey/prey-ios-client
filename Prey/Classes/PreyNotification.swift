@@ -114,7 +114,7 @@ class PreyNotification {
     func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
         NotificationTokenRegistrar.store(tokenHex: tokenAsString)
-        NotificationTokenRegistrar.sendIfPossible()
+        NotificationTokenRegistrar.sendIfPossible(source: "didRegisterForRemoteNotifications")
     }
     
     // Did Receive Remote Notifications with improved completion handling

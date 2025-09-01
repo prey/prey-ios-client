@@ -182,22 +182,41 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     
     // MARK: Request Throttling
     
+    // Simple FNV-1a 64-bit fingerprint for payloads
+    private func fingerprint64(of string: String) -> String {
+        let data = Data(string.utf8)
+        var hash: UInt64 = 0xcbf29ce484222325
+        for b in data { hash ^= UInt64(b); hash = hash &* 0x100000001b3 }
+        return String(format: "%016llx", hash)
+    }
+
+    private func throttleKey(endpoint: String, method: String, bodyPreview: String?) -> String {
+        if method.uppercased() == "GET" { return "GET \(endpoint)" }
+        if let body = bodyPreview, !body.isEmpty {
+            let fp = fingerprint64(of: body)
+            return "\(method.uppercased()) \(endpoint)#\(fp)"
+        } else {
+            return "\(method.uppercased()) \(endpoint)"
+        }
+    }
+
     // Check if request should be throttled and update last request time
     // Idempotent GET requests are whitelisted and never throttled.
-    private func shouldThrottleRequest(for endpoint: String, method: String) -> Bool {
+    private func shouldThrottleRequest(for endpoint: String, method: String, bodyPreview: String?) -> Bool {
         // Whitelist idempotent requests
         if method.uppercased() == "GET" {
             return false
         }
         let now = Date()
-        let key = endpoint
+        let key = throttleKey(endpoint: endpoint, method: method, bodyPreview: bodyPreview)
         
         return throttleQueue.sync {
             if let lastRequestTime = lastRequestTimes[key] {
                 let timeSinceLastRequest = now.timeIntervalSince(lastRequestTime)
                 if timeSinceLastRequest < throttleInterval {
                     let remainingTime = throttleInterval - timeSinceLastRequest
-                    PreyLogger("🚦 HTTP THROTTLE: Blocking request to \(endpoint) - \(String(format: "%.1f", remainingTime))s remaining")
+                    let bodyInfo = bodyPreview != nil ? " body=\(bodyPreview!)" : ""
+                    PreyLogger("🚦 HTTP THROTTLE: Blocking request to \(endpoint) - \(String(format: "%.1f", remainingTime))s remaining\(bodyInfo)")
                     return true
                 }
             }
@@ -207,12 +226,42 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             return false
         }
     }
+
+    // Peek remaining throttle time for (endpoint + payload) without mutating state.
+    // Returns remaining seconds if throttled, or nil if allowed now.
+    func throttleRemaining(for endpoint: String, method: String, params: [String: Any]?) -> TimeInterval? {
+        if method.uppercased() == "GET" { return nil }
+        // Build preview deterministically (minified JSON)
+        var preview: String? = nil
+        if let p = params, let d = try? JSONSerialization.data(withJSONObject: p, options: []),
+           let s = String(data: d, encoding: .utf8) {
+            preview = s
+        }
+        let key = throttleKey(endpoint: endpoint, method: method, bodyPreview: preview)
+        let now = Date()
+        return throttleQueue.sync {
+            if let last = lastRequestTimes[key] {
+                let elapsed = now.timeIntervalSince(last)
+                if elapsed < throttleInterval { return throttleInterval - elapsed }
+            }
+            return nil
+        }
+    }
     
     // send data to Control Panel
     func sendDataToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
         
+        // Build a compact preview of the body to enrich throttle logs
+        var bodyPreview: String? = nil
+        if let parameters = params,
+           let d = try? JSONSerialization.data(withJSONObject: parameters, options: []),
+           var s = String(data: d, encoding: .utf8) {
+            if s.count > 500 { s = String(s.prefix(500)) + "…" }
+            bodyPreview = s
+        }
+
         // Apply throttling to prevent excessive requests (mutating only)
-        if shouldThrottleRequest(for: endPoint, method: httpMethod) {
+        if shouldThrottleRequest(for: endPoint, method: httpMethod, bodyPreview: bodyPreview) {
             let error = NSError(domain: "PreyHTTPClientThrottle", code: 429, userInfo: [
                 NSLocalizedDescriptionKey: "Request throttled - too many requests to \(endPoint)"
             ])
@@ -442,6 +491,12 @@ class PreyNetworkRetry {
             return min(60.0, base + jitter)
         }
 
+        func paramsPreview(_ params: [String: Any]?) -> String? {
+            guard let p = params, let d = try? JSONSerialization.data(withJSONObject: p, options: []), var s = String(data: d, encoding: .utf8) else { return nil }
+            if s.count > 500 { s = String(s.prefix(500)) + "…" }
+            return s
+        }
+
         func bodySnippet(_ data: Data?) -> String {
             guard let data = data, !data.isEmpty else { return "" }
             let str = String(data: data, encoding: .utf8) ?? "<non-utf8>"
@@ -449,6 +504,17 @@ class PreyNetworkRetry {
         }
 
         func attemptSend(_ attempt: Int) {
+            // Respect client-level throttling to avoid immediate 429-style errors
+            if let remaining = PreyHTTPClient.sharedInstance.throttleRemaining(for: endPoint, method: httpMethod, params: params) {
+                let preview = paramsPreview(params)
+                let bodyInfo = preview != nil ? " body=\(preview!)" : ""
+                PreyLogger("🚦 HTTP THROTTLE: Delaying request to \(endPoint) by \(String(format: "%.1f", remaining))s\(bodyInfo)")
+                DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + remaining) {
+                    attemptSend(attempt)
+                }
+                return
+            }
+
             PreyHTTPClient.sharedInstance.sendDataToPrey(
                 username,
                 password: password,

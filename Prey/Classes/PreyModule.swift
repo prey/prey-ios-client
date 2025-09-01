@@ -67,39 +67,37 @@ class PreyModule {
         }
         
         PreyLogger("StatusDevice - Making request (\(context))")
-        PreyHTTPClient.sharedInstance.sendDataToPrey(
-            username, 
-            password: "x", 
-            params: nil, 
-            messageId: nil, 
-            httpMethod: Method.GET.rawValue, 
-            endPoint: statusDeviceEndpoint, 
-            onCompletion: PreyHTTPResponse.checkResponse(
-                RequestType.statusDevice, 
-                preyAction: nil, 
-                onCompletion: { (isSuccess: Bool) in 
-                    // Mark as no longer in progress
-                    PreyModule.isStatusDeviceInProgress = false
-                    
-                    PreyLogger("StatusDevice - Completed (\(context)): \(isSuccess)")
-                    
-                    // Call the original completion handler
-                    onCompletion(isSuccess)
-                    
-                    // Call all pending callbacks
-                    let callbacks = PreyModule.pendingStatusDeviceCallbacks
-                    PreyModule.pendingStatusDeviceCallbacks.removeAll()
-                    
-                    for callback in callbacks {
-                        callback(isSuccess)
-                    }
-                    
-                    if !callbacks.isEmpty {
-                        PreyLogger("StatusDevice - Completed with \(callbacks.count) pending callbacks")
-                    }
-                }
-            )
-        )
+        PreyNetworkRetry.sendDataWithBackoff(
+            username: username,
+            password: "x",
+            params: nil,
+            messageId: nil,
+            httpMethod: Method.GET.rawValue,
+            endPoint: statusDeviceEndpoint,
+            tag: "StatusDevice",
+            maxAttempts: 5,
+            nonRetryStatusCodes: [401]
+        ) { isSuccess in
+            // Mark as no longer in progress
+            PreyModule.isStatusDeviceInProgress = false
+
+            PreyLogger("StatusDevice - Completed (\(context)): \(isSuccess)")
+
+            // Call the original completion handler
+            onCompletion(isSuccess)
+
+            // Call all pending callbacks
+            let callbacks = PreyModule.pendingStatusDeviceCallbacks
+            PreyModule.pendingStatusDeviceCallbacks.removeAll()
+
+            for callback in callbacks {
+                callback(isSuccess)
+            }
+
+            if !callbacks.isEmpty {
+                PreyLogger("StatusDevice - Completed with \(callbacks.count) pending callbacks")
+            }
+        }
     }
 
     // Sync device name only when it changes
@@ -322,10 +320,18 @@ class PreyModule {
     
     // Run action
     func runAction() {
-        // Prevent multiple simultaneous calls
+        // Prevent multiple simultaneous calls; verify it's not a stale global flag
         if PreyModule.isRunningActions {
-            PreyLogger("PreyModule: Already running actions, ignoring duplicate call")
-            return
+            let active = actionArray.filter { $0.isActive }
+            if active.isEmpty {
+                // Stale guard detected: no actions reported active. Reset and continue.
+                PreyLogger("PreyModule: isRunningActions was set but no active actions found — resetting guard")
+                PreyModule.isRunningActions = false
+            } else {
+                let names = active.map { "\($0.target.rawValue):\($0.command.rawValue)" }.joined(separator: ", ")
+                PreyLogger("PreyModule: Already running actions (\(names)), ignoring duplicate call")
+                return
+            }
         }
         
         // Set flag to prevent multiple simultaneous calls

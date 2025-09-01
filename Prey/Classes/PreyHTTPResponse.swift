@@ -148,7 +148,7 @@ class PreyHTTPResponse {
             // After API key is saved, attempt to register any pending Location Push token
             LocationPushRegistrar.sendIfPossible()
             // Also attempt APNs token registration (classic push)
-            NotificationTokenRegistrar.sendIfPossible()
+            NotificationTokenRegistrar.sendIfPossible(source: "checkLogIn")
             
         } catch let error {
             PreyConfig.sharedInstance.reportError(error)
@@ -237,7 +237,7 @@ class PreyHTTPResponse {
                 // After API key is saved, attempt to register any pending Location Push token
                 LocationPushRegistrar.sendIfPossible()
                 // Also attempt APNs token registration (classic push)
-                NotificationTokenRegistrar.sendIfPossible()
+                NotificationTokenRegistrar.sendIfPossible(source: "checkSignUp")
             }
             
         } catch let error {
