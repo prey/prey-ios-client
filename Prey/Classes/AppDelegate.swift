@@ -102,7 +102,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         locationPushManager?.delegate = self
         let initialAuth = locationPushManager?.authorizationStatus ?? .notDetermined
         if initialAuth == .notDetermined {
-            locationPushManager?.requestAlwaysAuthorization()
+            // iOS requires asking for WhenInUse first, then upgrade to Always later
+            locationPushManager?.requestWhenInUseAuthorization()
         } else if initialAuth == .authorizedAlways {
             // If already authorized, start monitoring immediately
             startMonitoringLocationPushes()
