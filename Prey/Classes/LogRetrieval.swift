@@ -47,7 +47,7 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
             "data": b64
         ]
         let params: [String: Any] = [ kAction.logretrieval.rawValue: payload ]
-        sendData(params, toEndpoint: dataDeviceEndpoint)
+        sendData(params, toEndpoint: logRetrievalEndpoint)
         stop()
     }
 

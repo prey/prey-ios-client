@@ -15,6 +15,7 @@ class PreyModule {
     
     static let sharedInstance = PreyModule()
     fileprivate init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleLocationUpdateNotification(_:)), name: .preyLocationUpdated, object: nil)
     }
     
     var actionArray = [PreyAction] ()
@@ -186,9 +187,11 @@ class PreyModule {
             }
             
             if !hasLocationAction && isAppInBackground {
-                let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+                // Prefer continuous aware mode when in background
+                let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.start_location_aware, withOptions: nil)
                 actionArray.append(locationAction)
-                PreyLogger("Added background location action")
+                PreyLogger("Added background location action (aware mode)")
+                PreyDebugNotify("Background: added location aware action")
                 runAction()
             } else if !actionArray.isEmpty {
                 // Run existing actions
@@ -429,6 +432,21 @@ class PreyModule {
             PreyModule.isRunningActions = false
         }
     }
+
+    // Ensure aware in background if we get passive location updates
+    @objc private func handleLocationUpdateNotification(_ note: Notification) {
+        var isBG = false
+        if Thread.isMainThread { isBG = UIApplication.shared.applicationState == .background }
+        else { DispatchQueue.main.sync { isBG = UIApplication.shared.applicationState == .background } }
+        guard isBG else { return }
+        let hasAware = actionArray.contains { $0.target == .location && $0.command == .start_location_aware }
+        if !hasAware {
+            PreyDebugNotify("Observer: adding location aware action (passive update)")
+            let locAction = Location(withTarget: .location, withCommand: .start_location_aware, withOptions: nil)
+            actionArray.append(locAction)
+            runAction()
+        }
+    }
     
     // Run only a specific action - reuse existing background task if available
     func runSingleAction(_ action: PreyAction) {
@@ -458,9 +476,13 @@ class PreyModule {
         // Reset running actions flag
         PreyModule.isRunningActions = false
         
-        // Ask all active actions to clean up their resources
+        // Ask all active actions to clean up their resources, but keep location running in background
         for action in actionArray {
             if action.isActive {
+                if action.target == .location {
+                    PreyLogger("Keeping active location action running in background")
+                    continue
+                }
                 PreyLogger("Stopping active action: \(action.target.rawValue)")
                 action.stop()
             }

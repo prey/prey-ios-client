@@ -288,6 +288,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // Heavy lifting for background processing should use BGTaskScheduler or specific background modes (e.g., location).
     func applicationDidEnterBackground(_ application: UIApplication) {
         PreyLogger("applicationDidEnterBackground")
+        PreyDebugNotify("App did enter background")
         
         // Hide keyboard (UI-related, safe here)
         window?.endEditing(true)
