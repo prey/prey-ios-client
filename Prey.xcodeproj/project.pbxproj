@@ -75,6 +75,7 @@
 		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
 		3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC971CDB9CD70052A21D /* Location.swift */; };
 		3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC991CDBBF030052A21D /* PreyModule.swift */; };
+		9A1B2C3D4E5F000100020003 /* SyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */; };
 		3BAB25CF23A923C300BDA263 /* Triggers+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25C923A923C200BDA263 /* Triggers+Class.swift */; };
 		3BAB25D023A923C300BDA263 /* TriggersEvents+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CA23A923C200BDA263 /* TriggersEvents+Class.swift */; };
 		3BAB25D123A923C300BDA263 /* TriggersActions+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CB23A923C200BDA263 /* TriggersActions+Class.swift */; };
@@ -225,6 +226,7 @@
 		3B9DDC951CDB891C0052A21D /* PreyAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyAction.swift; path = Classes/PreyAction.swift; sourceTree = "<group>"; };
 		3B9DDC971CDB9CD70052A21D /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Classes/Location.swift; sourceTree = "<group>"; };
 		3B9DDC991CDBBF030052A21D /* PreyModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyModule.swift; path = Classes/PreyModule.swift; sourceTree = "<group>"; };
+		9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncCoordinator.swift; path = Classes/SyncCoordinator.swift; sourceTree = "<group>"; };
 		3BAB25C923A923C200BDA263 /* Triggers+Class.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Triggers+Class.swift"; path = "Classes/Triggers+Class.swift"; sourceTree = "<group>"; };
 		3BAB25CA23A923C200BDA263 /* TriggersEvents+Class.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TriggersEvents+Class.swift"; path = "Classes/TriggersEvents+Class.swift"; sourceTree = "<group>"; };
 		3BAB25CB23A923C200BDA263 /* TriggersActions+Class.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TriggersActions+Class.swift"; path = "Classes/TriggersActions+Class.swift"; sourceTree = "<group>"; };
@@ -490,6 +492,7 @@
 				3B9DDC991CDBBF030052A21D /* PreyModule.swift */,
 				3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */,
 				3B9DDC951CDB891C0052A21D /* PreyAction.swift */,
+				9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */,
 				3B9DDC971CDB9CD70052A21D /* Location.swift */,
 				3B4F679E1CEA061E00F58FAD /* Alarm.swift */,
 				3B2445F81D2466CD005DF09C /* Alert.swift */,
@@ -782,6 +785,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A1B2C3D4E5F000100020003 /* SyncCoordinator.swift in Sources */,
 				0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */,
 				3B8629961EF03CB400BE92D4 /* HttpRouter.swift in Sources */,
 				3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */,

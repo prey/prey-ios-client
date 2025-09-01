@@ -70,7 +70,7 @@ private class PreyFileLogger {
     private var logFileURL: URL {
         // Usar Documents directory - se elimina al desinstalar la app
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        return documentsPath.appendingPathComponent("prey_app.log")
+        return documentsPath.appendingPathComponent("prey.log")
     }
     
     private init() {
@@ -117,7 +117,7 @@ private class PreyFileLogger {
               let fileSize = attributes[.size] as? Int,
               fileSize > maxLogFileSize else { return }
         
-        // Rotar archivos: prey_app.log -> prey_app.log.1 -> prey_app.log.2 -> eliminado
+        // Rotar archivos: prey.log -> prey.log.1 -> prey.log.2 -> eliminado
         let baseURL = logFileURL.deletingPathExtension()
         let ext = logFileURL.pathExtension
         
