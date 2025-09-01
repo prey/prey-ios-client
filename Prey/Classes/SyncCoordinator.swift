@@ -23,6 +23,8 @@ class SyncCoordinator {
         PreyDevice.infoDevice { isSuccess in
             PreyLogger("SyncCoordinator(\(reason.rawValue)) - infoDevice: \(isSuccess)")
         }
+
+        // 4) Prompt user to upgrade to Always location if only WhenInUse
+        DeviceAuth.sharedInstance.promptUpgradeToAlwaysIfNeeded()
     }
 }
-

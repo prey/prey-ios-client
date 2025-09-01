@@ -70,7 +70,8 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
             let status = authLocation.authorizationStatus
             
             if status == .notDetermined {
-                authLocation.requestAlwaysAuthorization()
+                // Request WhenInUse first per iOS policy, upgrade later
+                authLocation.requestWhenInUseAuthorization()
             }
             
             if status == .authorizedAlways || status == .authorizedWhenInUse {
@@ -158,9 +159,57 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
         authLocation.delegate = self
         if (CLLocationManager.locationServicesEnabled() &&
             authLocation.authorizationStatus == .notDetermined) {
-            authLocation.requestAlwaysAuthorization()
+            // Request WhenInUse first during setup
+            authLocation.requestWhenInUseAuthorization()
         } else {
             callNextRequestAuth("btnLocation")
+        }
+    }
+
+    // Prompt user to upgrade from WhenInUse -> Always after setup
+    func promptUpgradeToAlwaysIfNeeded() {
+        let status = authLocation.authorizationStatus
+        guard CLLocationManager.locationServicesEnabled() else { return }
+        switch status {
+        case .authorizedAlways:
+            return
+        case .authorizedWhenInUse:
+            // Show rationale dialog before asking for Always
+            let alert = UIAlertController(
+                title: "Enable Background Location".localized,
+                message: "Prey needs 'Always' location to locate your device even when the app isn't open.".localized,
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "Not now".localized, style: .cancel))
+            alert.addAction(UIAlertAction(title: "Enable".localized, style: .default, handler: { _ in
+                self.authLocation.requestAlwaysAuthorization()
+                // Fallback to Settings if it doesn't upgrade shortly
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                    let s = self.authLocation.authorizationStatus
+                    if s != .authorizedAlways {
+                        self.displayMessage(
+                            "Please set Location to 'Always' for Prey in Settings > Privacy > Location Services.".localized,
+                            titleMessage: "Background Location Required".localized,
+                            cancelBtn: "Later".localized
+                        )
+                    }
+                }
+            }))
+            // Present
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let root = scene.windows.first?.rootViewController {
+                root.present(alert, animated: true)
+            }
+        case .denied, .restricted:
+            // Direct user to Settings
+            displayMessage(
+                "Location permission is denied. Please enable 'Always' in Settings for full protection.".localized,
+                titleMessage: "Location Permission Needed".localized,
+                cancelBtn: "Later".localized
+            )
+        default:
+            // Not determined: ask WhenInUse first
+            authLocation.requestWhenInUseAuthorization()
         }
     }
 
