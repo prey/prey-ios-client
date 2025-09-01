@@ -601,7 +601,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 // Persist token; we will send it after API key is available (post-auth)
                 LocationPushRegistrar.store(tokenHex: tokenHex)
                 // If API key already available (upgrade path), send immediately
-                LocationPushRegistrar.sendIfPossible()
+                LocationPushRegistrar.sendIfPossible(source: "startMonitoringLocationPushes")
             } else {
                 PreyLogger("LOCATION-PUSH monitoring started for topic .location-query")
             }

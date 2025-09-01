@@ -146,7 +146,7 @@ class PreyHTTPResponse {
             PreyConfig.sharedInstance.isMsp         = mspAccount.boolValue
             PreyConfig.sharedInstance.saveValues()
             // After API key is saved, attempt to register any pending Location Push token
-            LocationPushRegistrar.sendIfPossible()
+            LocationPushRegistrar.sendIfPossible(source: "checkLogIn")
             // Also attempt APNs token registration (classic push)
             NotificationTokenRegistrar.sendIfPossible(source: "checkLogIn")
             
@@ -235,7 +235,7 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.userApiKey = userApiKeyStr
                 PreyConfig.sharedInstance.saveValues()
                 // After API key is saved, attempt to register any pending Location Push token
-                LocationPushRegistrar.sendIfPossible()
+                LocationPushRegistrar.sendIfPossible(source: "checkSignUp")
                 // Also attempt APNs token registration (classic push)
                 NotificationTokenRegistrar.sendIfPossible(source: "checkSignUp")
             }
