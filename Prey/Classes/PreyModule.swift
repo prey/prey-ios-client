@@ -320,12 +320,21 @@ class PreyModule {
     
     // Run action
     func runAction() {
-        // Prevent multiple simultaneous calls; verify it's not a stale global flag
+        // Prevent multiple simultaneous calls; avoid race by using a time-based stale check
         if PreyModule.isRunningActions {
+            let now = Date()
+            let elapsed = now.timeIntervalSince(PreyModule.lastActionRunTime ?? now)
             let active = actionArray.filter { $0.isActive }
-            if active.isEmpty {
-                // Stale guard detected: no actions reported active. Reset and continue.
-                PreyLogger("PreyModule: isRunningActions was set but no active actions found — resetting guard")
+            // If recently triggered (<5s), consider the pipeline starting; ignore duplicates
+            if elapsed < 5 {
+                let listingBase = active.isEmpty ? actionArray : active
+                let names = listingBase.map { "\($0.target.rawValue):\($0.command.rawValue)" }.joined(separator: ", ")
+                PreyLogger("PreyModule: Actions already running/starting (\(names)), ignoring duplicate call")
+                return
+            }
+            // If it's been a while (>30s) and no action reports active, reset the guard as stale
+            if active.isEmpty && elapsed > 30 {
+                PreyLogger("PreyModule: isRunningActions appears stale (elapsed=\(Int(elapsed))s); resetting guard")
                 PreyModule.isRunningActions = false
             } else {
                 let names = active.map { "\($0.target.rawValue):\($0.command.rawValue)" }.joined(separator: ", ")
