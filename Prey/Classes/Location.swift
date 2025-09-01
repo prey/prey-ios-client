@@ -67,10 +67,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         // Quality and security validations
         guard validateLocationQuality(location) else {
             PreyLogger("Location failed quality validation - discarding", level: .error)
-            return
-        }
-        guard validateLocationSecurity(location) else {
-            PreyLogger("Location failed security validation - potential GPS spoofing detected", level: .error)
+            PreyDebugNotify("Location quality validation failed")
             return
         }
 
@@ -360,12 +357,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             return
         }
         
-        // Additional security validation for anti-theft app
-        guard validateLocationSecurity(currentLocation) else {
-            PreyLogger("Location failed security validation - potential GPS spoofing detected", level: .error)
-            return
-        }
-        
         // Send first location
         if lastLocation == nil {
             PreyLogger("Sending first location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)", level: .info)
@@ -374,8 +365,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             return
         }
         
-        // Simple distance-based sending (LocationService handles filtering)
-        var shouldSend = false
         let distance = currentLocation.distance(from: lastLocation!)
         
         // Enviar solo si hubo movimiento real (>= 25 m). No enviar por sola mejora de precisión.
@@ -424,47 +413,17 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         let locationTime = abs(location.timestamp.timeIntervalSinceNow)
 
         // Accept older cached fixes in background to avoid dropping reports when the device is stationary
-        // Foreground: 10s, Background: 300s (5 min), Emergency: 10s
-        let maxAge: TimeInterval = isAppActive ? 10.0 : Location.cachedLocationMaxAge
+        // Foreground: 10s, Background: 300s (5 min) por defecto.
+        // Si está en aware y en background, sé más permisivo (hasta 15 min)
+        var maxAge: TimeInterval = isAppActive ? 10.0 : Location.cachedLocationMaxAge
+        if !isAppActive && isLocationAwareActive { maxAge = max(maxAge, 900.0) }
 
         guard locationTime <= maxAge else {
             PreyLogger("Location too old: \(locationTime)s > \(maxAge)s (active=\(isAppActive))", level: .error)
+            PreyDebugNotify("Location too old: \(Int(locationTime))s > \(Int(maxAge))s")
             return false
         }
 
-        return true
-    }
-    
-    // Anti-spoofing security validation for security app
-    private func validateLocationSecurity(_ location: CLLocation) -> Bool {
-        guard let lastLoc = lastLocation else {
-            // First location, accept it
-            return true
-        }
-        
-        // Calculate movement speed to detect impossible movements (GPS spoofing)
-        let distance = location.distance(from: lastLoc)
-        let timeInterval = location.timestamp.timeIntervalSince(lastLoc.timestamp)
-        
-        guard timeInterval > 0 else {
-            PreyLogger("Invalid time interval between locations", level: .error)
-            return false
-        }
-        
-        let speed = distance / timeInterval // meters per second
-        
-        if speed > Location.maxReasonableSpeedMps {
-            PreyLogger("⚠️ SECURITY ALERT: Impossible speed detected: \(speed) m/s (\(speed * 3.6) km/h) - potential GPS spoofing", level: .error)
-            // For security app, we still want to log this but maybe with lower confidence
-            return false
-        }
-        
-        // Additional validation: check for teleportation (large distance, short time)
-        if distance > Location.teleportationDistanceThreshold && timeInterval < Location.teleportationTimeThreshold {
-            PreyLogger("⚠️ SECURITY ALERT: Potential teleportation detected: \(distance)m in \(timeInterval)s", level: .error)
-            return false
-        }
-        
         return true
     }
     

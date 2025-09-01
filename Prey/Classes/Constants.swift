@@ -9,6 +9,7 @@
 
 import Foundation
 import UserNotifications
+import CoreLocation
 import UIKit
 import LocalAuthentication
 import OSLog
@@ -231,6 +232,11 @@ public func PreyDebugNotify(_ message: String) {
     )
     UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     #endif
+}
+
+// MARK: - App-wide Notifications
+extension Notification.Name {
+    static let preyLocationUpdated = Notification.Name("prey.location.updated")
 }
 
 // Biometric authentication

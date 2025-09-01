@@ -226,7 +226,20 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         lastLocation = loc
         persistToAppGroup(loc)
         // Deliver to observers
+        PreyDebugNotify("LocationService: delivering to \(delegates.count) delegate(s)")
+
+        if delegates.isEmpty {
+            PreyLogger("LocationService: no delegates registered to consume updates", level: .info)
+        }
+        
         for d in delegates { d.didReceiveLocationUpdate(loc) }
+        // Broadcast to app-level observers (e.g., PreyModule)
+        NotificationCenter.default.post(name: .preyLocationUpdated, object: nil, userInfo: [
+            "lat": loc.coordinate.latitude,
+            "lon": loc.coordinate.longitude,
+            "acc": loc.horizontalAccuracy,
+            "ts": loc.timestamp.timeIntervalSince1970
+        ])
         // Fulfill one-shot if pending
         if let c = oneShotCompletion { oneShotCompletion = nil; c(loc) }
     }
