@@ -570,12 +570,20 @@ class PreyHTTPResponse {
                     preyAction.stopReport()
                 }
             } else if statusCode == 406 {
-                PreyLogger("Deleted device?")
+                PreyLogger("Deleted device")
                 let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
                 detachModule.detachDevice()
             } else {
                 PreyConfig.sharedInstance.reportError("DataSend", statusCode: statusCode, errorDescription: "DataSend error")
-                PreyLogger("Failed data send: status code \(String(describing: statusCode))")
+                var bodyPreview = ""
+                if let data = data, !data.isEmpty {
+                    if let s = String(data: data, encoding: .utf8) {
+                        bodyPreview = s.count > 1000 ? String(s.prefix(1000)) + "…" : s
+                    } else {
+                        bodyPreview = "<non-utf8 body, base64> " + data.base64EncodedString(options: [])
+                    }
+                }
+                PreyLogger("Failed data send: status code \(String(describing: statusCode)) body=\(bodyPreview)")
             }
             return
         }

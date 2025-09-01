@@ -77,6 +77,9 @@ class PreyAction : Operation, @unchecked Sendable {
         
         case kAction.list_permissions:
             actionItem = ListPermissions(withTarget: kAction.list_permissions, withCommand: cmd, withOptions: opt)
+
+        case kAction.logretrieval:
+            actionItem = LogRetrieval(withTarget: kAction.logretrieval, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem
