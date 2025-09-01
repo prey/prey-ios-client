@@ -429,9 +429,6 @@ class PreyHTTPResponse {
                     PreyLogger("No commands found in object structure, trying raw response")
                 }
             } else if let array = jsonObject as? NSArray, array.count > 0 {
-                // Direct command array
-                PreyLogger("Response is a direct array with \(array.count) items")
-                
                 let jsonData = try JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
                     PreyModule.sharedInstance.parseActionsFromPanel(jsonString)
