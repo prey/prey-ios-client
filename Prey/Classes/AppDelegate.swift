@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     private var locationPushManager: CLLocationManager?
     private var hasStartedLocationPushMonitoring = false
     private var locationPushRetryCount = 0
+    private let lastKnownVersionKey = "lastKnownAppVersion"
+    private let lastKnownBuildKey = "lastKnownAppBuild"
     
     override init() {
         super.init()
@@ -235,10 +237,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             setupForegroundTimer()
         }
         scheduleBackgroundTasks()
+
+        // Detect app upgrade and trigger a consolidated sync
+        detectUpgradeAndSync()
         
         return true
-    }
-    
+        }
+
         // UI transition (snapshotting for multitasking)
         func applicationWillResignActive(_ application: UIApplication) {
         PreyLogger("applicationWillResignActive")
@@ -256,6 +261,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Ensure foreground timer is stopped to save battery
         foregroundPollingTimer?.invalidate()
         foregroundPollingTimer = nil
+    }
+
+    private func detectUpgradeAndSync() {
+        let defaults = UserDefaults.standard
+        let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+        let currentBuild = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
+        let lastVersion = defaults.string(forKey: lastKnownVersionKey)
+        let lastBuild = defaults.string(forKey: lastKnownBuildKey)
+
+        let isFirstLaunch = (lastVersion == nil || lastBuild == nil)
+        let upgraded = (!isFirstLaunch) && (lastVersion != currentVersion || lastBuild != currentBuild)
+
+        // Persist current values
+        defaults.set(currentVersion, forKey: lastKnownVersionKey)
+        defaults.set(currentBuild, forKey: lastKnownBuildKey)
+
+        if upgraded {
+            PreyLogger("Detected app upgrade from v\(lastVersion ?? "?") (\(lastBuild ?? "?")) to v\(currentVersion) (\(currentBuild)) — triggering sync")
+            SyncCoordinator.performPostAuthOrUpgradeSync(reason: .appUpgrade)
+        }
     }
     
     // This is where app state changes from foreground to background.

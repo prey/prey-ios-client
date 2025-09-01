@@ -145,10 +145,8 @@ class PreyHTTPResponse {
             PreyConfig.sharedInstance.isPro         = userIsProStr.boolValue
             PreyConfig.sharedInstance.isMsp         = mspAccount.boolValue
             PreyConfig.sharedInstance.saveValues()
-            // After API key is saved, attempt to register any pending Location Push token
-            LocationPushRegistrar.sendIfPossible(source: "checkLogIn")
-            // Also attempt APNs token registration (classic push)
-            NotificationTokenRegistrar.sendIfPossible(source: "checkLogIn")
+            // After API key is saved, perform a consolidated sync (tokens + status + info)
+            SyncCoordinator.performPostAuthOrUpgradeSync(reason: .postLogin)
             
         } catch let error {
             PreyConfig.sharedInstance.reportError(error)
@@ -234,10 +232,8 @@ class PreyHTTPResponse {
             if let userApiKeyStr = jsonObject.object(forKey: "key") as? String {
                 PreyConfig.sharedInstance.userApiKey = userApiKeyStr
                 PreyConfig.sharedInstance.saveValues()
-                // After API key is saved, attempt to register any pending Location Push token
-                LocationPushRegistrar.sendIfPossible(source: "checkSignUp")
-                // Also attempt APNs token registration (classic push)
-                NotificationTokenRegistrar.sendIfPossible(source: "checkSignUp")
+                // After API key is saved, perform a consolidated sync (tokens + status + info)
+                SyncCoordinator.performPostAuthOrUpgradeSync(reason: .postSignup)
             }
             
         } catch let error {
