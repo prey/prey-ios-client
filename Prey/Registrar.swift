@@ -77,7 +77,7 @@ class NotificationTokenRegistrar {
     }
 
     // Send token if API key is available
-    static func sendIfPossible() {
+    static func sendIfPossible(source: String = "unspecified") {
         guard let suite = UserDefaults(suiteName: suiteName),
               let tokenHex = suite.string(forKey: tokenKey) else {
             return
@@ -85,6 +85,8 @@ class NotificationTokenRegistrar {
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             return
         }
+
+        PreyLogger("TOKEN REGISTER: invoked (source=\(source))")
 
         // Use shared validator to avoid re-sending if the same token was successfully sent recently
         guard TokenRegistrationValidator.shouldSendToken(
@@ -125,7 +127,7 @@ class NotificationTokenRegistrar {
             messageId: nil,
             httpMethod: Method.POST.rawValue,
             endPoint: dataDeviceEndpoint,
-            tag: "TOKEN REGISTER",
+            tag: "TOKEN REGISTER(\(source))",
             maxAttempts: 5,
             nonRetryStatusCodes: [401]
         ) { success in
