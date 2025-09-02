@@ -45,7 +45,11 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         configureIfNeeded()
         configureBatteryOptimizedSettings()
         manager.allowsBackgroundLocationUpdates = true
-        manager.startMonitoringSignificantLocationChanges()
+        if CLLocationManager.significantLocationChangeMonitoringAvailable() {
+            manager.startMonitoringSignificantLocationChanges()
+        }
+        // Add low-cost motion triggers to improve wake-ups for moderate moves (~100–300m)
+        manager.startMonitoringVisits()
         manager.startUpdatingLocation()
         startWatchdogIfNeeded()
     }
@@ -209,6 +213,34 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         }
     }
 
+    // MARK: - Dynamic Geofence (backstop)
+    private var monitoredRegion: CLCircularRegion?
+    private let geofenceRadius: CLLocationDistance = 200 // meters
+    private let geofenceRetargetDistance: CLLocationDistance = 150 // meters to retarget center
+
+    private func updateDynamicGeofence(around location: CLLocation) {
+        guard CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) else { return }
+
+        let newCenter = location.coordinate
+        if let region = monitoredRegion {
+            let currentCenter = region.center
+            let currentLoc = CLLocation(latitude: currentCenter.latitude, longitude: currentCenter.longitude)
+            if location.distance(from: currentLoc) < geofenceRetargetDistance { return }
+            // Retarget region when we have moved enough
+            manager.stopMonitoring(for: region)
+        }
+
+        let identifier = "com.prey.dynamic.geofence"
+        let region = CLCircularRegion(center: newCenter, radius: geofenceRadius, identifier: identifier)
+        region.notifyOnEntry = true
+        region.notifyOnExit = true
+        manager.startMonitoring(for: region)
+        monitoredRegion = region
+        PreyLogger("LocationService: Updated dynamic geofence center=(\(newCenter.latitude), \(newCenter.longitude)) r=\(Int(geofenceRadius))m", level: .info)
+        // Ask for current state to possibly trigger an immediate event
+        manager.requestState(for: region)
+    }
+
     // MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let loc = locations.last else { oneShotCompletion?(nil); oneShotCompletion = nil; return }
@@ -225,6 +257,8 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         
         lastLocation = loc
         persistToAppGroup(loc)
+        // Maintain a rolling geofence to catch moderate moves even when suspended
+        updateDynamicGeofence(around: loc)
         // Deliver to observers
         PreyDebugNotify("LocationService: delivering to \(delegates.count) delegate(s)")
 
@@ -260,5 +294,36 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         }
         
         if let c = oneShotCompletion { oneShotCompletion = nil; c(nil) }
+    }
+
+    // Visit monitoring callbacks (low-power motion signals)
+    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
+        PreyLogger("LocationService: didVisit at lat=\(visit.coordinate.latitude) lon=\(visit.coordinate.longitude)", level: .info)
+        // Nudge a fresh fix so pipeline can process/send
+        DispatchQueue.main.async { [weak self] in
+            self?.manager.requestLocation()
+        }
+    }
+
+    // Region monitoring callbacks
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        guard region.identifier == monitoredRegion?.identifier else { return }
+        PreyLogger("LocationService: didEnterRegion (dynamic geofence)", level: .info)
+        DispatchQueue.main.async { [weak self] in
+            self?.manager.requestLocation()
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        guard region.identifier == monitoredRegion?.identifier else { return }
+        PreyLogger("LocationService: didExitRegion (dynamic geofence)", level: .info)
+        DispatchQueue.main.async { [weak self] in
+            self?.manager.requestLocation()
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
+        guard region.identifier == monitoredRegion?.identifier else { return }
+        PreyLogger("LocationService: region state=\(state.rawValue) for dynamic geofence", level: .debug)
     }
 }
