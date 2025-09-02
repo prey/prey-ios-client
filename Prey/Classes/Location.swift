@@ -21,6 +21,10 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     var isLocationAwareActive = false
     private var awareLastSentAt: Date?
     private let awareMinInterval: TimeInterval = 60 // seconds between aware sends
+
+    // Simple burst limiter for general data endpoint (reduce 403 on resume)
+    private var lastGeneralSendAt: Date?
+    private let generalMinInterval: TimeInterval = 10 // seconds between general sends
     
     var index = 0
     
@@ -305,14 +309,22 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             // Keep manager running for continuous aware updates; do not stop here
             // stopLocationManager()
         } else {
-            PreyLogger("Sending location to data device endpoint", level: .info)
-            PreyDebugNotify(String(format: "Location: sending lat=%.5f lon=%.5f acc=%.1f", location.coordinate.latitude, location.coordinate.longitude, location.horizontalAccuracy))
-            self.sendDataWithCallback(locParam, toEndpoint: dataDeviceEndpoint) { success in
-                if success && self.isDailyUpdateRun {
-                    UserDefaults.standard.set(Date(), forKey: Location.dailyLocationCheckKey)
+            let now = Date()
+            if let last = lastGeneralSendAt, now.timeIntervalSince(last) < generalMinInterval {
+                let wait = Int(generalMinInterval - now.timeIntervalSince(last))
+                PreyLogger("General location send throttled (next in \(wait)s)", level: .info)
+                PreyDebugNotify("Location: throttled, next in \(wait)s")
+            } else {
+                PreyLogger("Sending location to data device endpoint", level: .info)
+                PreyDebugNotify(String(format: "Location: sending lat=%.5f lon=%.5f acc=%.1f", location.coordinate.latitude, location.coordinate.longitude, location.horizontalAccuracy))
+                lastGeneralSendAt = now
+                self.sendDataWithCallback(locParam, toEndpoint: dataDeviceEndpoint) { success in
+                    if success && self.isDailyUpdateRun {
+                        UserDefaults.standard.set(Date(), forKey: Location.dailyLocationCheckKey)
+                    }
                 }
+                index = index + 1
             }
-            index = index + 1
         }
     }
     
