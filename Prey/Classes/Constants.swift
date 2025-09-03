@@ -80,22 +80,27 @@ private class PreyFileLogger {
     }
     
     private func createLogFileIfNeeded() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        let timestamp = dateFormatter.string(from: Date())
+        let success = FileManager.default.createFile(atPath: logFileURL.path, contents: nil, attributes: nil)
+        
         if !FileManager.default.fileExists(atPath: logFileURL.path) {
-            let success = FileManager.default.createFile(atPath: logFileURL.path, contents: nil, attributes: nil)
-            print("[PreyLogger] Creating log file at: \(logFileURL.path) - Success: \(success)")
+            print("[\(timestamp)] [debug] [Constants.swift] Creating log file at: \(logFileURL.path) - Success: \(success)")
         } else {
-            print("[PreyLogger] Log file already exists at: \(logFileURL.path)")
+            print("[\(timestamp)] [debug] [Constants.swift] Log file already exists at \(logFileURL.path)")
         }
     }
     
-    func writeLog(_ message: String, level: PreyLogLevel) {
+    func writeLog(_ message: String, level: PreyLogLevel, file: String, line: Int) {
         logQueue.async { [weak self] in
             guard let self = self else { return }
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
             let timestamp = dateFormatter.string(from: Date())
-            let logEntry = "[\(timestamp)] [\(level)] \(message)\n"
+            let fileName = (file as NSString).lastPathComponent
+            let logEntry = "[\(timestamp)] [\(level)] [\(fileName):\(line)] \(message)\n"
             
             // Rotar logs si es necesario
             self.rotateLogsIfNeeded()
@@ -148,15 +153,15 @@ private class PreyFileLogger {
 }
 
 /// Explicit logging API with level and category
-public func PreyLogger(_ message: String, level: PreyLogLevel = .debug) {
-    // Siempre escribir al archivo de log
-    PreyFileLogger.shared.writeLog(message, level: level)
+public func PreyLogger(_ message: String, level: PreyLogLevel = .debug, file: String = #file, line: Int = #line) {
+    PreyFileLogger.shared.writeLog(message, level: level, file: file, line: line)
     
     #if DEBUG
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         let timestamp = dateFormatter.string(from: Date())
-        print("[\(timestamp)] [\(level)] \(message)")
+        let fileName = (file as NSString).lastPathComponent
+        print("[\(timestamp)] [\(level)] [\(fileName):\(line)] \(message)")
         return
     #else
         let logger = Logger(subsystem: "com.prey", category: "General")
@@ -179,32 +184,28 @@ public func PreyLogger(_ message: String, level: PreyLogLevel = .debug) {
 }
 
 // Convenience explicit level helpers for future use
-public func PreyLoggerInfo(_ message: String, file: String = #file) {
-    PreyLogger(message, level: .info)
+public func PreyLoggerInfo(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .info, file: file, line: line)
 }
 
-public func PreyLoggerWarn(_ message: String, file: String = #file) {
-    PreyLogger(message, level: .warning)
+public func PreyLoggerWarn(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .warning, file: file, line: line)
 }
 
-public func PreyLoggerError(_ message: String, file: String = #file) {
-    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
-    PreyLogger(message, level: .error)
+public func PreyLoggerError(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .error, file: file, line: line)
 }
 
-public func PreyLoggerDebug(_ message: String, file: String = #file) {
-    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
-    PreyLogger(message, level: .debug)
+public func PreyLoggerDebug(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .debug, file: file, line: line)
 }
 
-public func PreyLoggerNotice(_ message: String, file: String = #file) {
-    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
-    PreyLogger(message, level: .notice)
+public func PreyLoggerNotice(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .notice, file: file, line: line)
 }
 
-public func PreyLoggerCritical(_ message: String, file: String = #file) {
-    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
-    PreyLogger(message, level: .critical)
+public func PreyLoggerCritical(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .critical, file: file, line: line)
 }
 
 // MARK: - Log File Access
