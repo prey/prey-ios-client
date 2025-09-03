@@ -114,14 +114,22 @@ final class CrashHandler {
                 payload["backtrace"] = backtrace
                 let size = (try? FileManager.default.attributesOfItem(atPath: url.path)[.size] as? NSNumber)??.int64Value ?? Int64(data.count)
                 PreyLogger("uploading crash report \(url.lastPathComponent) (\(size) bytes)")
-                PreyNetworkRetry.sendJSONNoAuth(urlString: exceptionsUrl, payload: payload, httpMethod: "POST", tag: "EXCEPTIONS-JSON", maxAttempts: 5, nonRetryStatusCodes: Set(400...499)) { success in
+                PreyNetworkRetry.sendJSONNoAuth(
+                    urlString: exceptionsUrl,
+                    payload: payload,
+                    httpMethod: Method.POST.rawValue,
+                    tag: "EXCEPTIONS-JSON",
+                    maxAttempts: 5,
+                    nonRetryStatusCodes: Set(400...499)
+                ) { success in
                     if success {
                         try? FileManager.default.removeItem(at: url)
-                        PreyLogger("uploaded and removed \(url.lastPathComponent)")
+                        PreyLogger("uploaded and removed signals.log")
                     } else {
-                        PreyLogger("upload failed for \(url.lastPathComponent); will retry on next launch")
+                        PreyLogger("upload failed for signals.log; will retry on next launch")
                     }
                 }
+
             } catch {
                 // Keep file for next launch
                 continue
@@ -139,7 +147,15 @@ final class CrashHandler {
                 payload["backtrace"] = trimmed
                 let lineCount = trimmed.split(separator: "\n").count
                 PreyLogger("uploading signals log (\(lineCount) lines, \(trimmed.utf8.count) bytes)")
-                PreyNetworkRetry.sendJSONNoAuth(urlString: exceptionsUrl, payload: payload, httpMethod: "POST", tag: "EXCEPTIONS-SIGNAL", maxAttempts: 5, nonRetryStatusCodes: Set(400...499)) { success in
+
+                PreyNetworkRetry.sendJSONNoAuth(
+                    urlString: exceptionsUrl,
+                    payload: payload,
+                    httpMethod: Method.POST.rawValue,
+                    tag: "EXCEPTIONS-SIGNAL",
+                    maxAttempts: 5,
+                    nonRetryStatusCodes: Set(400...499)
+                ) { success in
                     if success {
                         try? FileManager.default.removeItem(atPath: sigPath)
                         PreyLogger("uploaded and removed signals.log")
