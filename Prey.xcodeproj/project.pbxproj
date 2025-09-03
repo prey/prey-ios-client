@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        A9C0CAFE2F00000100000002 /* CrashHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C0CAFE2F00000100000001 /* CrashHandler.swift */; };
 		05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0537E0152E5C89D4008D460F /* LocationPushService.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0592E4452E609B65000EE115 /* Registrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4442E609B5E000EE115 /* Registrar.swift */; };
 		0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4452E60A0A5000EE115 /* LocationService.swift */; };
@@ -154,6 +155,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+        A9C0CAFE2F00000100000001 /* CrashHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrashHandler.swift; path = Classes/CrashHandler.swift; sourceTree = "<group>"; };
 		0537E0152E5C89D4008D460F /* LocationPushService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LocationPushService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0592E4442E609B5E000EE115 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registrar.swift; sourceTree = "<group>"; };
 		0592E4452E60A0A5000EE115 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Classes/LocationService.swift; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 				3BB6E2241D47F42100074E97 /* PreyRateUs.swift */,
 				3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */,
 				3BC3C0971C9733BA00D08D62 /* Constants.swift */,
+				A9C0CAFE2F00000100000001 /* CrashHandler.swift */,
 			);
 			name = "Prey Utils";
 			sourceTree = "<group>";
@@ -751,9 +754,10 @@
 			);
 			inputPaths = (
 			);
-			name = "Run Script Tag Warnings";
-			outputPaths = (
-			);
+				name = "Run Script Tag Warnings";
+				outputPaths = (
+					"$(DERIVED_FILE_DIR)/run-script-tag-warnings.stamp",
+				);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
@@ -767,8 +771,9 @@
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
 				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
-			outputPaths = (
-			);
+				outputPaths = (
+					"$(DERIVED_FILE_DIR)/postbuild-script.stamp",
+				);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "
@@ -865,6 +870,7 @@
 				3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */,
 				3B2445F71D245478005DF09C /* Camouflage.swift in Sources */,
 				3BB6E2251D47F42100074E97 /* PreyRateUs.swift in Sources */,
+				A9C0CAFE2F00000100000002 /* CrashHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

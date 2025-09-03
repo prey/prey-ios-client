@@ -180,12 +180,10 @@ public func PreyLogger(_ message: String, level: PreyLogLevel = .debug) {
 
 // Convenience explicit level helpers for future use
 public func PreyLoggerInfo(_ message: String, file: String = #file) {
-    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
     PreyLogger(message, level: .info)
 }
 
 public func PreyLoggerWarn(_ message: String, file: String = #file) {
-    let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
     PreyLogger(message, level: .warning)
 }
 
