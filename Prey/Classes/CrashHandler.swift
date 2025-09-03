@@ -81,15 +81,21 @@ final class CrashHandler {
     }
 
     static func forceCrashForTesting() {
+        // Write a pre-crash marker to verify path and write permissions
+        let ts = Int(Date().timeIntervalSince1970)
+        appendSignalLogLine("test_force_crash ts=\(ts) pid=\(getpid())")
+        PreyLogger("wrote pre-crash marker to signals.log; raising SIGABRT in test mode")
         // Using raise triggers our signal handler path
         raise(SIGABRT)
     }
 
     // MARK: - Uploading pending reports to server
     static func uploadPendingReportsIfPossible() {
-        PreyLogger("CrashHandler: scanning pending crash reports for upload")
+        let dir = crashReportsDirectory()
+        PreyLogger("scanning pending crash reports for upload at \(dir.path)")
         // First, send JSON exception reports
         let crashFiles = pendingCrashReportURLs().sorted(by: { $0.lastPathComponent < $1.lastPathComponent })
+        PreyLogger("found \(crashFiles.count) crash json file(s)")
         for url in crashFiles {
             do {
                 let data = try Data(contentsOf: url)
@@ -107,13 +113,13 @@ final class CrashHandler {
                 payload["message"] = message
                 payload["backtrace"] = backtrace
                 let size = (try? FileManager.default.attributesOfItem(atPath: url.path)[.size] as? NSNumber)??.int64Value ?? Int64(data.count)
-                PreyLogger("CrashHandler: uploading crash report \(url.lastPathComponent) (\(size) bytes)")
+                PreyLogger("uploading crash report \(url.lastPathComponent) (\(size) bytes)")
                 PreyNetworkRetry.sendJSONNoAuth(urlString: exceptionsUrl, payload: payload, httpMethod: "POST", tag: "EXCEPTIONS-JSON", maxAttempts: 5, nonRetryStatusCodes: Set(400...499)) { success in
                     if success {
                         try? FileManager.default.removeItem(at: url)
-                        PreyLogger("CrashHandler: uploaded and removed \(url.lastPathComponent)")
+                        PreyLogger("uploaded and removed \(url.lastPathComponent)")
                     } else {
-                        PreyLogger("CrashHandler: upload failed for \(url.lastPathComponent); will retry on next launch")
+                        PreyLogger("upload failed for \(url.lastPathComponent); will retry on next launch")
                     }
                 }
             } catch {
@@ -132,16 +138,20 @@ final class CrashHandler {
                 payload["message"] = last
                 payload["backtrace"] = trimmed
                 let lineCount = trimmed.split(separator: "\n").count
-                PreyLogger("CrashHandler: uploading signals log (\(lineCount) lines, \(trimmed.utf8.count) bytes)")
+                PreyLogger("uploading signals log (\(lineCount) lines, \(trimmed.utf8.count) bytes)")
                 PreyNetworkRetry.sendJSONNoAuth(urlString: exceptionsUrl, payload: payload, httpMethod: "POST", tag: "EXCEPTIONS-SIGNAL", maxAttempts: 5, nonRetryStatusCodes: Set(400...499)) { success in
                     if success {
                         try? FileManager.default.removeItem(atPath: sigPath)
-                        PreyLogger("CrashHandler: uploaded and removed signals.log")
+                        PreyLogger("uploaded and removed signals.log")
                     } else {
-                        PreyLogger("CrashHandler: upload failed for signals.log; will retry on next launch")
+                        PreyLogger("upload failed for signals.log; will retry on next launch")
                     }
                 }
+            } else {
+                PreyLogger("signals.log exists but is empty; skipping upload")
             }
+        } else {
+            PreyLogger("no signals.log present")
         }
     }
 
@@ -167,7 +177,7 @@ final class CrashHandler {
         let payload: [String: Any] = [
             "deviceKey": deviceKey ?? NSNull(),
             "cwd": cwd,
-            "language": "ios-swift",
+            "language": "swift",
             "version": version,
             "framework": framework,
             "platform": platform,
@@ -181,6 +191,18 @@ final class CrashHandler {
             "memory": memory
         ]
         return payload
+    }
+
+    // MARK: - Low-level append helper (POSIX)
+    private static func appendSignalLogLine(_ text: String) {
+        let line = text + "\n"
+        line.withCString { cstr in
+            let fd = open(signalLogPath, O_WRONLY | O_CREAT | O_APPEND, 0o644)
+            if fd >= 0 {
+                _ = write(fd, cstr, strlen(cstr))
+                _ = close(fd)
+            }
+        }
     }
 
     private static func usernameFromUID(uid: uid_t) -> String? {

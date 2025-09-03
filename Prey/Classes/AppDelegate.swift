@@ -169,11 +169,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         PreyLogger("Set UNUserNotificationCenter delegate to AppDelegate and registered categories")
 
         #if DEBUG
-        // Integration test hook: set PREY_FORCE_CRASH=1 in scheme env vars to force a crash
+        // Integration test hooks (enable via Scheme Environment Variables)
         if ProcessInfo.processInfo.environment["PREY_FORCE_CRASH"] == "1" {
-            PreyLogger("[CrashTest] Forcing a crash in 2s to test CrashHandler")
+            PreyLogger("[CrashTest] Forcing a crash in 2s to test CrashHandler (SIGABRT)")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { CrashHandler.forceCrashForTesting() }
+        }
+        if ProcessInfo.processInfo.environment["PREY_FORCE_EXCEPTION"] == "1" {
+            PreyLogger("[CrashTest] Forcing an NSException in 2s to test CrashHandler (NSException)")
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                CrashHandler.forceCrashForTesting()
+                NSException(name: .invalidArgumentException, reason: "Forced test exception", userInfo: nil).raise()
             }
         }
         #endif
@@ -294,7 +298,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // Heavy lifting for background processing should use BGTaskScheduler or specific background modes (e.g., location).
     func applicationDidEnterBackground(_ application: UIApplication) {
         PreyLogger("applicationDidEnterBackground")
-        PreyDebugNotify("App did enter background")
         
         // Hide keyboard (UI-related, safe here)
         window?.endEditing(true)
