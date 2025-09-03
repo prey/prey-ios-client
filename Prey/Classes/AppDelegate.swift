@@ -85,17 +85,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK: UIApplicationDelegate
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Install crash/exception handlers as early as possible
+        CrashHandler.install()
         
         PreyLogger("didFinishLaunchingWithOptions - App launch started at \(Date())")
-        PreyLogger("File logging initialized - log file at: \(getPreyLogFilePath())", level: .info)
-        
-        // Verificar que el archivo se creó correctamente
-        let logPath = getPreyLogFilePath()
-        if FileManager.default.fileExists(atPath: logPath) {
-            PreyLogger("Log file confirmed exists at: \(logPath)", level: .info)
-        } else {
-            PreyLogger("ERROR: Log file not found at: \(logPath)", level: .error)
-        }
 
         // Prepare Location Push manager early and request Always authorization if needed
         if locationPushManager == nil { locationPushManager = CLLocationManager() }
@@ -175,6 +168,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         PreyLogger("Set UNUserNotificationCenter delegate to AppDelegate and registered categories")
 
+        #if DEBUG
+        // Integration test hook: set PREY_FORCE_CRASH=1 in scheme env vars to force a crash
+        if ProcessInfo.processInfo.environment["PREY_FORCE_CRASH"] == "1" {
+            PreyLogger("[CrashTest] Forcing a crash in 2s to test CrashHandler")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                CrashHandler.forceCrashForTesting()
+            }
+        }
+        #endif
+
         // Start centralized LocationService early; DeviceAuth will bridge updates
         LocationService.shared.addDelegate(DeviceAuth.sharedInstance)
         LocationService.shared.startBackgroundTracking()
@@ -241,6 +244,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // Detect app upgrade and trigger a consolidated sync
         detectUpgradeAndSync()
+
+        // Upload any pending crash/exception reports from previous runs (no auth required)
+        CrashHandler.uploadPendingReportsIfPossible()
         
         return true
         }
