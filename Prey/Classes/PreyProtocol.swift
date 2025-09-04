@@ -93,6 +93,7 @@ enum kInfoRepeatRangetTime: String {
     public let URLForgotPanel       : String = "https://panel.preyhq.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyhq.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://panel.preyhq.com/upload/upload"
+    public let logRetrievalEndpoint : String = "https://solid.preyhq.com/upload/log"
     public let URLCloseAccount      : String = "https://panel.preyhq.com/settings/account"
     public let exceptionsUrl        : String = "https://exceptions-stg.preyhq.com"
 #else
@@ -100,11 +101,11 @@ enum kInfoRepeatRangetTime: String {
     public let URLForgotPanel       : String = "https://panel.preyproject.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyproject.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://solid.preyproject.com/upload/upload"
+    public let logRetrievalEndpoint : String = "https://solid.preyproject.com/upload/log"
     public let URLCloseAccount      : String = "https://panel.preyproject.com/settings/account"
     public let exceptionsUrl        : String = "https://exceptions.preyproject.com"
 #endif
 
-public let logRetrievalEndpoint     : String = "https://solid.preyproject.com/upload/log"
 
 public let URLHelpPrey              : String = "http://help.preyproject.com"
 
