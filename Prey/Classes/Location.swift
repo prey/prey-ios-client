@@ -19,6 +19,17 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     var lastLocation: CLLocation?
     
     var isLocationAwareActive = false
+    // Ensure only one Location instance owns the location-aware delegate at a time
+    private static weak var activeAwareOwner: Location?
+
+    // Stop the global location-aware session if running
+    static func stopLocationAwareIfRunning() {
+        guard let owner = Location.activeAwareOwner else { return }
+        owner.isLocationAwareActive = false
+        owner.stopLocationManager()
+        Location.activeAwareOwner = nil
+        PreyLogger("LocationAware: stopped by server directive", level: .info)
+    }
     private var awareLastSentAt: Date?
     private let awareMinInterval: TimeInterval = 60 // seconds between aware sends
 
@@ -206,6 +217,13 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     // Start location aware
     @objc func start_location_aware() {
+        // Prevent multiple distinct Location instances from registering as delegates simultaneously
+        if let owner = Location.activeAwareOwner, owner !== self {
+            PreyLogger("LocationAware already running; ignoring duplicate request", level: .info)
+            isLocationAwareActive = true
+            return
+        }
+        Location.activeAwareOwner = self
         startLocationManager()
         isLocationAwareActive = true
         PreyLogger("Start location aware", level: .info)
@@ -236,6 +254,9 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         // Let LocationService manage the actual CLLocationManager
         PreyLogger("Removed from LocationService delegates", level: .info)
         isActive = false
+        if isLocationAwareActive && Location.activeAwareOwner === self {
+            Location.activeAwareOwner = nil
+        }
         PreyModule.sharedInstance.checkStatus(self)
     }
     
@@ -305,6 +326,12 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
                 }
                 index = index + 1
             }
+        }
+
+        // For on-demand captures (not aware mode), stop listening after the first handled fix
+        // to avoid multiple delegates lingering and causing duplicate sends/logs.
+        if !isLocationAwareActive {
+            stopLocationManager()
         }
     }
     

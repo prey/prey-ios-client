@@ -591,7 +591,14 @@ class PreyHTTPResponse {
         // Check response panel to stop location aware
         if statusCode == 201 {
             if action == nil || action is Location {
-                PreyLogger("TODO: remove location aware?")
+                PreyLogger("Stopping location aware due to server 201 response")
+                DispatchQueue.main.async {
+                    // Remove any pending location_aware actions from the queue
+                    let module = PreyModule.sharedInstance
+                    module.actionArray.removeAll { $0.target == .location && $0.command == .start_location_aware }
+                    // Stop active aware session if running
+                    Location.stopLocationAwareIfRunning()
+                }
             }
         }
         
