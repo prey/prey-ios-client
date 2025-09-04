@@ -369,7 +369,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         )
     }
 
-    // Metrics: log payload/body instead of byte counters/protocol
+    // Metrics: log payload/body
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         guard let req = task.originalRequest, let urlStr = req.url?.absoluteString else { return }
         let method = req.httpMethod ?? "GET"
@@ -430,6 +430,3 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         newTask.resume()
     }
 }
-
-
-// Centralized helper to send requests with exponential backoff and rich error logging.
