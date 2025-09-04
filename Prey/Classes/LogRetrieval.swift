@@ -45,6 +45,7 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
 
         // Send raw octet-stream buffer with Basic auth (username API key, pwd "x")
         if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyLogger("LogRetrieval: starting upload to \(uploadURL) (\(dataToSend.count) bytes)")
             PreyHTTPClient.sharedInstance.sendFileToPrey(
                 username,
                 password: "x",
@@ -53,10 +54,10 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
                 httpMethod: Method.POST.rawValue,
                 endPoint: uploadURL,
                 onCompletion: { data, response, error in
+                    let code = (response as? HTTPURLResponse)?.statusCode
                     if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
                         PreyLogger("LogRetrieval: ✅ uploaded prey.log tail (\(dataToSend.count) bytes)")
                     } else {
-                        let code = (response as? HTTPURLResponse)?.statusCode
                         PreyLogger("LogRetrieval: ❌ upload failed (HTTP=\(String(describing: code)) err=\(error?.localizedDescription ?? "nil"))")
                     }
                 }
@@ -74,5 +75,7 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
                                      status: kStatus.stopped.rawValue)
         sendData(stopParams, toEndpoint: responseDeviceEndpoint)
         isActive = false
+        // Ensure the action is cleaned up from the queue even if the network path differs
+        PreyModule.sharedInstance.checkStatus(self)
     }
 }
