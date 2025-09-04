@@ -94,17 +94,17 @@ enum kInfoRepeatRangetTime: String {
     public let URLSessionPanel      : String = "https://panel.preyhq.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://panel.preyhq.com/upload/upload"
     public let URLCloseAccount      : String = "https://panel.preyhq.com/settings/account"
+    public let exceptionsUrl        : String = "https://exceptions-stg.preyhq.com"
 #else
     public let URLControlPanel      : String = "https://solid.preyproject.com/api/v2"
     public let URLForgotPanel       : String = "https://panel.preyproject.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyproject.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://solid.preyproject.com/upload/upload"
     public let URLCloseAccount      : String = "https://panel.preyproject.com/settings/account"
+    public let exceptionsUrl        : String = "https://exceptions.preyproject.com"
 #endif
 
-// exceptions and logretrieval are not available on staging 
 public let logRetrievalEndpoint     : String = "https://solid.preyproject.com/upload/log"
-public let exceptionsUrl            : String = "https://exceptions.preyproject.com"
 
 public let URLHelpPrey              : String = "http://help.preyproject.com"
 
