@@ -456,6 +456,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             didComplete = true
             task.setTaskCompleted(success: success)
         }
+        var didLeaveInfoRefresh = false
         task.expirationHandler = {
             PreyLogger("⚠️ BGAppRefreshTask expired. Time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
             complete(false)
@@ -488,7 +489,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             // Check for actions again after device info is updated
             PreyLogger("Checking for actions again after device info update")
             PreyModule.sharedInstance.checkActionArrayStatus()
-            dispatchGroup.leave()
+            if !didLeaveInfoRefresh { didLeaveInfoRefresh = true; dispatchGroup.leave() }
         }
         
         // Final completion logic for the BGAppRefreshTask
@@ -529,6 +530,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             didComplete = true
             task.setTaskCompleted(success: success)
         }
+        var didLeaveStatusProc = false
+        var didLeaveInfoProc = false
         
         task.expirationHandler = {
             PreyLogger("⚠️ BGProcessingTask expired. Time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
@@ -547,7 +550,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         dispatchGroup.enter()
         PreyModule.sharedInstance.requestStatusDevice(context: "AppDelegate-backgroundProcessing") { isSuccess in
             PreyLogger("Background processing - status check: \(isSuccess)")
-            dispatchGroup.leave()
+            if !didLeaveStatusProc { didLeaveStatusProc = true; dispatchGroup.leave() }
         }
         
         // Check device info and triggers - this has longer to run than refresh
@@ -556,7 +559,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         PreyDevice.infoDevice { isSuccess in
             PreyLogger("Background processing - infoDevice: \(isSuccess)")
             PreyModule.sharedInstance.checkActionArrayStatus() // Check actions after device info updated
-            dispatchGroup.leave()
+            if !didLeaveInfoProc { didLeaveInfoProc = true; dispatchGroup.leave() }
         }
         
         // Final completion logic
@@ -734,19 +737,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Use a DispatchGroup to coordinate multiple asynchronous API calls
         let apiSyncGroup = DispatchGroup()
+        // Defensive leave-once guards for each async leg in this sync
+        var didLeaveInfoSync = false
+        var didLeaveLoginSync = false
+        var didLeaveTokenSync = false
+        var didLeaveActionsSync = false
         
         // First check device info
         apiSyncGroup.enter()
         PreyDevice.infoDevice { isSuccess in
             PreyLogger("Foreground sync - infoDevice: \(isSuccess)")
-            apiSyncGroup.leave()
+            if !didLeaveInfoSync { didLeaveInfoSync = true; apiSyncGroup.leave() }
         }
         
         // Then get user profile
         apiSyncGroup.enter()
         PreyUser.logInToPrey(username, userPassword: "x") { isLoginSuccess in
             PreyLogger("Foreground sync - profile: \(isLoginSuccess)")
-            apiSyncGroup.leave()
+            if !didLeaveLoginSync { didLeaveLoginSync = true; apiSyncGroup.leave() }
         }
         
         // Check if token needs refreshing (more than 1 hour old)
@@ -754,7 +762,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             apiSyncGroup.enter()
             PreyUser.getTokenFromPanel(username, userPassword: "x") { isTokenSuccess in
                 PreyLogger("Foreground sync - token refresh: \(isTokenSuccess)")
-                apiSyncGroup.leave()
+                if !didLeaveTokenSync { didLeaveTokenSync = true; apiSyncGroup.leave() }
             }
         }
         
@@ -775,7 +783,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     if isActionsSuccess {
                         PreyModule.sharedInstance.runAction() // This should be quick or trigger async operations
                     }
-                    apiSyncGroup.leave()
+                    if !didLeaveActionsSync { didLeaveActionsSync = true; apiSyncGroup.leave() }
                 }
             )
         )
