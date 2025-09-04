@@ -878,8 +878,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // Did receive remote notification (for background push)
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        PreyLogger("📱 PUSH PAYLOAD: \(userInfo)")
-       
         // Background fetch with limited time; call completionHandler promptly
         var notificationBgTask: UIBackgroundTaskIdentifier = .invalid // Use local var to avoid conflicts with AppDelegate's bgTask
         var didCompleteFetch = false
