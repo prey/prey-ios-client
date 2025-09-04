@@ -83,7 +83,7 @@ final class CrashHandler {
     static func forceCrashForTesting() {
         // Write a pre-crash marker to verify path and write permissions
         let ts = Int(Date().timeIntervalSince1970)
-        appendSignalLogLine("test_force_crash ts=\(ts) pid=\(getpid())")
+        appendSignalLogLine("ios error ts=\(ts) pid=\(getpid())")
         PreyLogger("wrote pre-crash marker to signals.log; raising SIGABRT in test mode")
         // Using raise triggers our signal handler path
         raise(SIGABRT)
@@ -114,14 +114,7 @@ final class CrashHandler {
                 payload["backtrace"] = backtrace
                 let size = (try? FileManager.default.attributesOfItem(atPath: url.path)[.size] as? NSNumber)??.int64Value ?? Int64(data.count)
                 PreyLogger("uploading crash report \(url.lastPathComponent) (\(size) bytes)")
-                PreyNetworkRetry.sendJSONNoAuth(
-                    urlString: exceptionsUrl,
-                    payload: payload,
-                    httpMethod: Method.POST.rawValue,
-                    tag: "EXCEPTIONS-JSON",
-                    maxAttempts: 5,
-                    nonRetryStatusCodes: Set(400...499)
-                ) { success in
+                CrashHandler.sendExceptionJSON(payload, tag: "EXCEPTIONS-JSON") { success in
                     if success {
                         try? FileManager.default.removeItem(at: url)
                         PreyLogger("uploaded and removed signals.log")
@@ -148,14 +141,7 @@ final class CrashHandler {
                 let lineCount = trimmed.split(separator: "\n").count
                 PreyLogger("uploading signals log (\(lineCount) lines, \(trimmed.utf8.count) bytes)")
 
-                PreyNetworkRetry.sendJSONNoAuth(
-                    urlString: exceptionsUrl,
-                    payload: payload,
-                    httpMethod: Method.POST.rawValue,
-                    tag: "EXCEPTIONS-SIGNAL",
-                    maxAttempts: 5,
-                    nonRetryStatusCodes: Set(400...499)
-                ) { success in
+                CrashHandler.sendExceptionJSON(payload, tag: "EXCEPTIONS-SIGNAL") { success in
                     if success {
                         try? FileManager.default.removeItem(atPath: sigPath)
                         PreyLogger("uploaded and removed signals.log")
@@ -168,6 +154,39 @@ final class CrashHandler {
             }
         } else {
             PreyLogger("no signals.log present")
+        }
+    }
+
+    // MARK: - Local JSON sender with slash-unescaped body
+    private static func sendExceptionJSON(_ payload: [String: Any], tag: String, completion: @escaping (Bool) -> Void) {
+        guard let url = URL(string: exceptionsUrl) else { completion(false); return }
+        var req = URLRequest(url: url)
+        req.httpMethod = Method.POST.rawValue
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.setValue(PreyHTTPClient.sharedInstance.userAgent, forHTTPHeaderField: "User-Agent")
+        do {
+            let data: Data
+            if #available(iOS 15.0, *) {
+                data = try JSONSerialization.data(withJSONObject: payload, options: [.withoutEscapingSlashes])
+            } else {
+                let raw = try JSONSerialization.data(withJSONObject: payload, options: [])
+                if var s = String(data: raw, encoding: .utf8) {
+                    s = s.replacingOccurrences(of: "\\/", with: "/")
+                    data = s.data(using: .utf8) ?? raw
+                } else {
+                    data = raw
+                }
+            }
+            req.httpBody = data
+        } catch {
+            completion(false); return
+        }
+        PreyHTTPClient.sharedInstance.performRequest(req) { data, response, error in
+            if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
+                completion(true)
+            } else {
+                completion(false)
+            }
         }
     }
 
