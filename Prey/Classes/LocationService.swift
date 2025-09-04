@@ -12,22 +12,22 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     private var delegates: [LocationDelegate] = []
     private(set) var lastLocation: CLLocation?
 
-    // Optimized configuration for security/tracking app
-    private let optimalDistanceFilter: CLLocationDistance = 10.0 // Más preciso para tracking de seguridad
+    // Optimized configuration for a security/tracking app
+    private let optimalDistanceFilter: CLLocationDistance = 10.0 // More precise for security tracking
 
     private var isStarted = false
     func isRunning() -> Bool { isStarted }
 
-    // Watchdog anti-inactividad (solo background)
+    // Anti-inactivity watchdog (background only)
     private var watchdogTimer: DispatchSourceTimer?
     private var lastNudgeAt: Date?
     private var lastRestartAt: Date?
     private var restartWindowStart: Date?
     private var restartsInWindow: Int = 0
-    private let inactivityThreshold: TimeInterval = 180 // 3 min sin updates
-    private let postNudgeWait: TimeInterval = 120       // 2 min tras nudge antes de reiniciar
-    private let restartCooldown: TimeInterval = 600     // 10 min entre reinicios
-    private let restartWindow: TimeInterval = 3600      // ventana 1 hora
+    private let inactivityThreshold: TimeInterval = 180 // 3 min without updates
+    private let postNudgeWait: TimeInterval = 120       // wait 2 min after nudge before restarting
+    private let restartCooldown: TimeInterval = 600     // 10 min between restarts
+    private let restartWindow: TimeInterval = 3600      // 1 hour window
     private let maxRestartsPerHour: Int = 3
 
     // MARK: Public API
@@ -61,13 +61,13 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         manager.allowsBackgroundLocationUpdates = true
         // Use single optimized configuration
         manager.startUpdatingLocation()
-        // Foreground no necesita watchdog; se activará al volver a background
+        // No watchdog needed in foreground; it will activate when returning to background
     }
 
     func requestOneShot(_ completion: @escaping (CLLocation?) -> Void) {
         configureIfNeeded()
         
-        // Verificar permisos antes de proceder
+        // Verify permissions before proceeding
         if !ensurePermissions() {
             completion(nil)
             return
@@ -92,13 +92,13 @@ class LocationService: NSObject, CLLocationManagerDelegate {
             self.manager.requestAlwaysAuthorization()
         }
         manager.delegate = self
-        // Configuración optimizada para app de seguridad/tracking
-        manager.activityType = .other // Más versátil que otherNavigation
-        manager.pausesLocationUpdatesAutomatically = false // Nunca pausar para seguridad
-        manager.desiredAccuracy = kCLLocationAccuracyBest // Máxima precisión disponible
-        manager.distanceFilter = optimalDistanceFilter // 10m para balance precisión/batería
+        // Optimized configuration for a security/tracking app
+        manager.activityType = .other // More versatile than otherNavigation
+        manager.pausesLocationUpdatesAutomatically = false // Never pause for security
+        manager.desiredAccuracy = kCLLocationAccuracyBest // Maximum available accuracy
+        manager.distanceFilter = optimalDistanceFilter // 10m to balance accuracy/battery
         
-        // Asegurar significant changes esté siempre activo como respaldo
+        // Ensure significant changes is always active as a fallback
         if CLLocationManager.significantLocationChangeMonitoringAvailable() {
             manager.startMonitoringSignificantLocationChanges()
         }
@@ -111,13 +111,13 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         let batteryLevel = UIDevice.current.batteryLevel
         let isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
         
-        if batteryLevel < 0.10 || isLowPowerMode { // Solo con batería críticamente baja
-            // Para app de seguridad, mantener funcionalidad incluso con batería baja
+        if batteryLevel < 0.10 || isLowPowerMode { // Only with critically low battery
+            // For a security app, keep functionality even with low battery
             manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            manager.distanceFilter = 20 // Aumentar threshold para ahorrar batería
+            manager.distanceFilter = 20 // Increase threshold to save battery
             PreyLogger("LocationService: Critical battery mode - reduced accuracy to preserve tracking", level: .info)
         } else {
-            // Configuración normal con máxima precisión
+            // Normal configuration with maximum accuracy
             manager.desiredAccuracy = kCLLocationAccuracyBest
             manager.distanceFilter = optimalDistanceFilter
         }
@@ -132,7 +132,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         return true
     }
 
-    // MARK: Watchdog anti-inactividad
+    // MARK: Anti-inactivity Watchdog
     private func startWatchdogIfNeeded() {
         if watchdogTimer != nil { return }
         let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global(qos: .utility))
@@ -145,28 +145,28 @@ class LocationService: NSObject, CLLocationManagerDelegate {
     }
 
     private func watchdogTick() {
-        // Solo en background
+        // Background only
         var isBG = false
         DispatchQueue.main.sync { isBG = UIApplication.shared.applicationState == .background }
         if !isBG { return }
 
-        // Condiciones de batería/ahorro
+        // Battery/power-saving conditions
         UIDevice.current.isBatteryMonitoringEnabled = true
         let batteryLevel = UIDevice.current.batteryLevel
         let lowPower = ProcessInfo.processInfo.isLowPowerModeEnabled
         if batteryLevel >= 0 && batteryLevel < 0.20 { return }
         if lowPower { return }
 
-        // Si hay update reciente, nada que hacer
+        // If there was a recent update, nothing to do
         let now = Date()
         if let last = lastLocation, now.timeIntervalSince(last.timestamp) < inactivityThreshold { return }
 
-        // Intento 1: nudge con requestLocation si no se ha hecho recientemente
+        // Attempt 1: nudge with requestLocation if not done recently
         if let nudgeAt = lastNudgeAt {
-            // Esperar ventana post-nudge antes de reiniciar si sigue sin datos
+            // Wait the post-nudge window before restarting if still no data
             if now.timeIntervalSince(nudgeAt) < postNudgeWait { return }
         } else {
-            // Enviar nudge
+            // Send nudge
             DispatchQueue.main.async { [weak self] in
                 self?.manager.requestLocation()
             }
@@ -175,7 +175,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
             return
         }
 
-        // Intento 2: reinicio controlado del manager con cooldown y límite por hora
+        // Attempt 2: controlled manager restart with cooldown and per-hour limit
         if let lastR = lastRestartAt, now.timeIntervalSince(lastR) < restartCooldown { return }
         if let windowStart = restartWindowStart {
             if now.timeIntervalSince(windowStart) >= restartWindow {
@@ -186,12 +186,12 @@ class LocationService: NSObject, CLLocationManagerDelegate {
 
         restartsInWindow += 1
         lastRestartAt = now
-        lastNudgeAt = nil // reset ciclo
+        lastNudgeAt = nil // reset cycle
         PreyLogger("LocationService: Watchdog restart (\(restartsInWindow)/\(maxRestartsPerHour) in window)", level: .info)
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.manager.stopUpdatingLocation()
-            // breve pausa y restart
+            // brief pause and restart
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.configureBatteryOptimizedSettings()
                 self.manager.startUpdatingLocation()
@@ -282,13 +282,13 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         let nsError = error as NSError
         PreyLogger("LocationService error: \(error.localizedDescription) domain=\(nsError.domain) code=\(nsError.code)", level: .error)
         
-        // Reintentar en casos específicos
+        // Retry in specific cases
         if nsError.code == CLError.locationUnknown.rawValue {
             // Continuar intentando
             PreyLogger("LocationService: Location unknown, continuing to try...", level: .info)
             return
         } else if nsError.code == CLError.denied.rawValue {
-            // Problema de permisos - notificar con ubicación vacía
+            // Permission problem - notify with empty location
             PreyLogger("LocationService: Permission denied, notifying delegates", level: .error)
             for d in delegates { d.didReceiveLocationUpdate(CLLocation()) }
         }
