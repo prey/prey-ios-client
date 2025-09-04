@@ -877,14 +877,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         PreyLogger("Started remote notification background task: \(notificationBgTask.rawValue) with remaining time: \(UIApplication.shared.backgroundTimeRemaining)")
         
         let dispatchGroup = DispatchGroup()
-        var wasDataReceived = false // Use `var` instead of `let` to allow modification
+        var wasDataReceived = false // mutated only on main via our completions
+        // Defensive guards to avoid dispatch_group_leave crashes if a completion fires twice
+        var didLeaveInfo = false
+        var didLeaveNotif = false
+        var didLeaveActions = false
+        var didLeaveStatus = false
         
         // Always try to sync device status when we receive a notification
         dispatchGroup.enter()
         PreyDevice.infoDevice { isSuccess in
             PreyLogger("Remote notification infoDevice: \(isSuccess)")
-            if isSuccess { wasDataReceived = true } // Update success status
-            dispatchGroup.leave()
+            if isSuccess { wasDataReceived = true }
+            if !didLeaveInfo { didLeaveInfo = true; dispatchGroup.leave() }
         }
         
         // Process the notification
@@ -896,7 +901,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if result == .newData {
                 wasDataReceived = true
             }
-            dispatchGroup.leave()
+            if !didLeaveNotif { didLeaveNotif = true; dispatchGroup.leave() }
         }
         
         // Always check for pending actions (assuming this is efficient)
@@ -918,12 +923,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                             wasDataReceived = true
                             PreyModule.sharedInstance.runAction() // This should be quick or trigger async operations
                         }
-                        dispatchGroup.leave()
+                        if !didLeaveActions { didLeaveActions = true; dispatchGroup.leave() }
                     }
                 )
             )
         } else {
-            dispatchGroup.leave()
+            if !didLeaveActions { didLeaveActions = true; dispatchGroup.leave() }
         }
         
         // Check device status using centralized throttled method
@@ -933,7 +938,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if isSuccess {
                 wasDataReceived = true
             }
-            dispatchGroup.leave()
+            if !didLeaveStatus { didLeaveStatus = true; dispatchGroup.leave() }
         }
         
         // When all operations complete, call the fetchCompletionHandler and end the background task
