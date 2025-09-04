@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */; };
         A9C0CAFE2F00000100000002 /* CrashHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C0CAFE2F00000100000001 /* CrashHandler.swift */; };
 		05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0537E0152E5C89D4008D460F /* LocationPushService.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0592E4452E609B65000EE115 /* Registrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4442E609B5E000EE115 /* Registrar.swift */; };
@@ -155,6 +156,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+        0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreyNetworkRetry.swift; path = Classes/PreyNetworkRetry.swift; sourceTree = "<group>"; };
         A9C0CAFE2F00000100000001 /* CrashHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrashHandler.swift; path = Classes/CrashHandler.swift; sourceTree = "<group>"; };
 		0537E0152E5C89D4008D460F /* LocationPushService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LocationPushService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0592E4442E609B5E000EE115 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registrar.swift; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 				3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */,
 				3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */,
 				3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */,
+                0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */,
 			);
 			name = "Prey Http";
 			sourceTree = "<group>";
@@ -793,7 +796,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A1B2C3D4E5F000100020003 /* SyncCoordinator.swift in Sources */,
+                0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */,
+					9A1B2C3D4E5F000100020003 /* SyncCoordinator.swift in Sources */,
 				9A1B2C3D4E5F000100020013 /* LogRetrieval.swift in Sources */,
 				0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */,
 				3B8629961EF03CB400BE92D4 /* HttpRouter.swift in Sources */,
