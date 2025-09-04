@@ -862,6 +862,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
        
         // Background fetch with limited time; call completionHandler promptly
         var notificationBgTask: UIBackgroundTaskIdentifier = .invalid // Use local var to avoid conflicts with AppDelegate's bgTask
+        var didCompleteFetch = false
+        func completeFetch(_ result: UIBackgroundFetchResult) {
+            // Ensure completionHandler and BG task end are called exactly once
+            if didCompleteFetch { return }
+            didCompleteFetch = true
+            completionHandler(result)
+            if notificationBgTask != .invalid {
+                UIApplication.shared.endBackgroundTask(notificationBgTask)
+                notificationBgTask = .invalid
+            }
+        }
         
         notificationBgTask = UIApplication.shared.beginBackgroundTask { [weak self] in // Capture self weakly
             PreyLogger("⚠️ Remote notification background task expiring")
@@ -871,7 +882,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 notificationBgTask = .invalid
             }
             // Call completion handler with .failed if task expires
-            completionHandler(.failed)
+            completeFetch(.failed)
         }
         
         PreyLogger("Started remote notification background task: \(notificationBgTask.rawValue) with remaining time: \(UIApplication.shared.backgroundTimeRemaining)")
@@ -943,14 +954,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // When all operations complete, call the fetchCompletionHandler and end the background task
         dispatchGroup.notify(queue: .main) { [weak self] in // Use weak self
-            guard let self = self else {
-                completionHandler(.failed) // If AppDelegate is gone, fail the task
-                if notificationBgTask != .invalid {
-                    UIApplication.shared.endBackgroundTask(notificationBgTask)
-                    notificationBgTask = .invalid
-                }
-                return
-            }
+            guard let self = self else { completeFetch(.failed); return }
             
             // Give a small delay to ensure everything completes properly (if absolutely necessary, but try to avoid delays)
             // A delay on the main queue can still block UI if the app is in foreground.
@@ -960,15 +964,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 // Complete the fetchCompletionHandler with appropriate result
                 let result: UIBackgroundFetchResult = wasDataReceived ? .newData : .noData
                 PreyLogger("Remote notification processing complete with result: \(result)")
-                
-                // Call original completion handler
-                completionHandler(result)
-                
-                // End the background task associated with this notification.
-                if notificationBgTask != .invalid {
-                    UIApplication.shared.endBackgroundTask(notificationBgTask)
-                    notificationBgTask = .invalid
-                }
+                completeFetch(result)
             }
         }
     }
