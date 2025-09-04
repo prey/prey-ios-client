@@ -70,7 +70,7 @@ private class PreyFileLogger {
     private let maxLogFiles: Int = 3
     
     private var logFileURL: URL {
-        // Usar Documents directory - se elimina al desinstalar la app
+        // Use Documents directory - removed on app uninstall
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return documentsPath.appendingPathComponent("prey.log")
     }
@@ -102,17 +102,17 @@ private class PreyFileLogger {
             let fileName = (file as NSString).lastPathComponent
             let logEntry = "[\(timestamp)] [\(level)] [\(fileName):\(line)] \(message)\n"
             
-            // Rotar logs si es necesario
+            // Rotate logs if needed
             self.rotateLogsIfNeeded()
             
-            // Escribir al archivo
+            // Write to file
             if let data = logEntry.data(using: .utf8) {
                 if let fileHandle = FileHandle(forWritingAtPath: self.logFileURL.path) {
                     fileHandle.seekToEndOfFile()
                     fileHandle.write(data)
                     fileHandle.closeFile()
                 } else {
-                    // Si falla FileHandle, intentar escribir directamente
+                    // If FileHandle fails, try writing directly
                     try? data.write(to: self.logFileURL, options: .atomic)
                 }
             }
@@ -124,26 +124,26 @@ private class PreyFileLogger {
               let fileSize = attributes[.size] as? Int,
               fileSize > maxLogFileSize else { return }
         
-        // Rotar archivos: prey.log -> prey.log.1 -> prey.log.2 -> eliminado
+        // Rotate files: prey.log -> prey.log.1 -> prey.log.2 -> deleted
         let baseURL = logFileURL.deletingPathExtension()
         let ext = logFileURL.pathExtension
         
-        // Eliminar el archivo más antiguo
+        // Delete the oldest file
         let oldestFile = baseURL.appendingPathExtension("\(ext).\(maxLogFiles - 1)")
         try? FileManager.default.removeItem(at: oldestFile)
         
-        // Rotar archivos existentes
+        // Rotate existing files
         for i in stride(from: maxLogFiles - 2, through: 1, by: -1) {
             let oldFile = baseURL.appendingPathExtension("\(ext).\(i)")
             let newFile = baseURL.appendingPathExtension("\(ext).\(i + 1)")
             try? FileManager.default.moveItem(at: oldFile, to: newFile)
         }
         
-        // Mover archivo actual
+        // Move current file
         let newFile = baseURL.appendingPathExtension("\(ext).1")
         try? FileManager.default.moveItem(at: logFileURL, to: newFile)
         
-        // Crear nuevo archivo
+        // Create new file
         createLogFileIfNeeded()
     }
     

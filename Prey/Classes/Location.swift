@@ -27,10 +27,6 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     private let generalMinInterval: TimeInterval = 10 // seconds between general sends
     
     var index = 0
-    
-    // Location deduplication constants (not currently used but kept for potential future use)
-    private static let locationDeduplicationThreshold: TimeInterval = 5.0 // 5 seconds
-    private static let locationDistanceThreshold: CLLocationDistance = 10.0 // 10 meters
 
     // Track if we reported any location during the current request session
     private var hasReportedThisSession = false
@@ -41,26 +37,10 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     // MARK: Constants
     private static let cachedLocationMaxAge: TimeInterval = 300 // 5 minutes
-    private static let locationTimeoutDuration: TimeInterval = 25.0 // seconds - standardized timeout  
-    private static let backgroundTaskExtraTime: TimeInterval = 0.0 // seconds - removed extra delay
-    private static let maxReasonableSpeedMps: Double = 100.0 // m/s (360 km/h)
-    private static let teleportationDistanceThreshold: CLLocationDistance = 1000.0 // meters
-    private static let teleportationTimeThreshold: TimeInterval = 60.0 // seconds
-    
-    // Adaptive routing thresholds by speed
-    private static let walkSpeedMax: Double = 2.0     // m/s  (~7.2 km/h)
-    private static let runSpeedMax: Double = 5.0      // m/s  (~18 km/h)
-    private static let driveSpeedMin: Double = 10.0   // m/s  (~36 km/h)
-    
-    private static let walkDistanceThreshold: CLLocationDistance = 5.0   // meters (very precise)
-    private static let runDistanceThreshold: CLLocationDistance = 10.0   // meters
-    private static let driveDistanceThreshold: CLLocationDistance = 50.0 // meters (vehículo ~60 km/h)
     
     // Daily location check constants
     private static let dailyLocationInterval: TimeInterval = 24 * 60 * 60 // 24 hours - parametrizable
     private static let dailyLocationCheckKey = "PreyLastDailyLocationCheck"
-    
-
     
     // MARK: Functions
     
@@ -86,7 +66,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         if let last = lastLocation {
             distance = location.distance(from: last)
         }
-        // Enviar solo si hubo movimiento real (>= 10 m). No enviar por sola mejora de precisión.
+        // Send only if there was real movement (>= 10 m). Do not send for mere accuracy improvements.
         let currentFilter: CLLocationDistance = 10 // 10m
         if distance >= currentFilter {
             PreyLogger("Adaptive update: sending location (Δ=\(Int(distance))m)", level: .info)
@@ -379,7 +359,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         
         let distance = currentLocation.distance(from: lastLocation!)
         
-        // Enviar solo si hubo movimiento real (>= 25 m). No enviar por sola mejora de precisión.
+        // Send only if there was real movement (>= 25 m). Do not send for mere accuracy improvements.
         if distance >= 25 {
             PreyLogger("Location update: sending (Δ=\(Int(distance))m)", level: .info)
             locationReceived(currentLocation)
@@ -425,8 +405,8 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         let locationTime = abs(location.timestamp.timeIntervalSinceNow)
 
         // Accept older cached fixes in background to avoid dropping reports when the device is stationary
-        // Foreground: 10s, Background: 300s (5 min) por defecto.
-        // Si está en aware y en background, sé más permisivo (hasta 15 min)
+        // Foreground: 10s, Background: 300s (5 min) by default.
+        // If in aware mode and in background, allow up to 15 minutes
         var maxAge: TimeInterval = isAppActive ? 10.0 : Location.cachedLocationMaxAge
         if !isAppActive && isLocationAwareActive { maxAge = max(maxAge, 900.0) }
 
