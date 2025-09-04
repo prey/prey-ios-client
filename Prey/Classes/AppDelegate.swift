@@ -450,9 +450,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         PreyLogger("Background refresh task started. Time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
         scheduleBackgroundTasks()
         let dispatchGroup = DispatchGroup()
+        var didComplete = false
+        func complete(_ success: Bool) {
+            if didComplete { return }
+            didComplete = true
+            task.setTaskCompleted(success: success)
+        }
         task.expirationHandler = {
             PreyLogger("⚠️ BGAppRefreshTask expired. Time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
-            task.setTaskCompleted(success: false)
+            complete(false)
         }
         // Check for shared location data from extension (read-only, efficient)
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
@@ -490,7 +496,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Use a timeout for the dispatchGroup in case an async operation never calls leave().
         let timeoutWorkItem = DispatchWorkItem {
             PreyLogger("⚠️ Background refresh group timed out. Completing task with failure.")
-            task.setTaskCompleted(success: false)
+            complete(false)
         }
         DispatchQueue.global().asyncAfter(deadline: .now() + 20.0, execute: timeoutWorkItem) // Reduced to 20s to avoid system termination
         
@@ -504,7 +510,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             Location.checkDailyLocationUpdate()
             
             PreyLogger("Completing background refresh task with success: true")
-            task.setTaskCompleted(success: true)
+            complete(true)
             // No `stopBackgroundTask()` here, as it's for UIBackgroundTaskIdentifier.
         }
     }
@@ -517,11 +523,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         scheduleBackgroundTasks()
         
         let dispatchGroup = DispatchGroup()
+        var didComplete = false
+        func complete(_ success: Bool) {
+            if didComplete { return }
+            didComplete = true
+            task.setTaskCompleted(success: success)
+        }
         
         task.expirationHandler = {
             PreyLogger("⚠️ BGProcessingTask expired. Time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
             // Cancel any ongoing operations.
-            task.setTaskCompleted(success: false)
+            complete(false)
         }
         
         // --- Operations to perform during background processing ---
@@ -550,14 +562,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Final completion logic
         let timeoutWorkItem = DispatchWorkItem {
             PreyLogger("⚠️ Background processing group timed out. Completing task with failure.")
-            task.setTaskCompleted(success: false)
+            complete(false)
         }
         DispatchQueue.global().asyncAfter(deadline: .now() + 58.0, execute: timeoutWorkItem) // Schedule slightly before typical 60s timeout for processing tasks
         
         dispatchGroup.notify(queue: .main) {
             timeoutWorkItem.cancel()
             PreyLogger("Completing background processing task with success: true")
-            task.setTaskCompleted(success: true)
+            complete(true)
         }
     }
 
