@@ -26,28 +26,45 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
                                       status: kStatus.started.rawValue)
         sendData(startParams, toEndpoint: responseDeviceEndpoint)
         
-        // Locate prey.log file and prepare inline payload (no uploadID)
+        // Locate prey.log file
         let logURL = getPreyLogFileURL()
         guard let fullData = try? Data(contentsOf: logURL) else {
             PreyLogger("logretrieval: unable to read prey.log at \(logURL.path)")
             stop()
             return
         }
-        let maxBytes = 512 * 1024 // 512KB tail to limit payload size
-        let isTruncated = fullData.count > maxBytes
-        let dataToSend = isTruncated ? fullData.suffix(maxBytes) : fullData
-        let b64 = dataToSend.base64EncodedString()
+        let maxBytes = 5 * 1024 * 1024 // 5MB tail to limit payload size
+        let dataToSend = fullData.count > maxBytes ? fullData.suffix(maxBytes) : fullData
 
-        let payload: [String: Any] = [
-            "name": "prey.log",
-            "mimetype": "text/plain",
-            "size": fullData.count,
-            "encoding": "base64",
-            "truncated": isTruncated,
-            "data": b64
-        ]
-        let params: [String: Any] = [ kAction.logretrieval.rawValue: payload ]
-        sendData(params, toEndpoint: logRetrievalEndpoint)
+        // Build absolute upload URL with deviceKey 
+        var uploadURL = logRetrievalEndpoint
+        if let deviceKey = PreyConfig.sharedInstance.getDeviceKey() as String? {
+            let sep = uploadURL.contains("?") ? "&" : "?"
+            uploadURL += "\(sep)deviceKey=\(deviceKey)"
+        }
+
+        // Send raw octet-stream buffer with Basic auth (username API key, pwd "x")
+        if let username = PreyConfig.sharedInstance.userApiKey {
+            PreyHTTPClient.sharedInstance.sendFileToPrey(
+                username,
+                password: "x",
+                file: Data(dataToSend),
+                messageId: nil,
+                httpMethod: Method.POST.rawValue,
+                endPoint: uploadURL,
+                onCompletion: { data, response, error in
+                    if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
+                        PreyLogger("LogRetrieval: ✅ uploaded prey.log tail (\(dataToSend.count) bytes)")
+                    } else {
+                        let code = (response as? HTTPURLResponse)?.statusCode
+                        PreyLogger("LogRetrieval: ❌ upload failed (HTTP=\(String(describing: code)) err=\(error?.localizedDescription ?? "nil"))")
+                    }
+                }
+            )
+        } else {
+            PreyLogger("LogRetrieval: missing API key; cannot upload log buffer")
+        }
+
         stop()
     }
 
@@ -58,7 +75,4 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
         sendData(stopParams, toEndpoint: responseDeviceEndpoint)
         isActive = false
     }
-
-    // MARK: Helpers
-    private func upload(data: Data, to endpoint: String) { /* not used in this action */ }
 }
