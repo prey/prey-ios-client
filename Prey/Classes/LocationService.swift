@@ -280,19 +280,21 @@ class LocationService: NSObject, CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         let nsError = error as NSError
-        PreyLogger("LocationService error: \(error.localizedDescription) domain=\(nsError.domain) code=\(nsError.code)", level: .error)
-        
-        // Retry in specific cases
-        if nsError.code == CLError.locationUnknown.rawValue {
-            // Continuar intentando
-            PreyLogger("LocationService: Location unknown, continuing to try...", level: .info)
+        // Handle transient "location unknown" quietly (expected while acquiring a fix)
+        if nsError.domain == kCLErrorDomain as String && nsError.code == CLError.locationUnknown.rawValue {
+            PreyLogger("LocationService: Location unknown (no fix yet); will keep trying", level: .debug)
+            if let c = oneShotCompletion { oneShotCompletion = nil; c(nil) }
             return
-        } else if nsError.code == CLError.denied.rawValue {
-            // Permission problem - notify with empty location
+        }
+        // Permission problem - notify with empty location
+        if nsError.domain == kCLErrorDomain as String && nsError.code == CLError.denied.rawValue {
             PreyLogger("LocationService: Permission denied, notifying delegates", level: .error)
             for d in delegates { d.didReceiveLocationUpdate(CLLocation()) }
+            if let c = oneShotCompletion { oneShotCompletion = nil; c(nil) }
+            return
         }
-        
+        // Other errors: log once and fulfill any pending one-shot
+        PreyLogger("LocationService error: \(error.localizedDescription) domain=\(nsError.domain) code=\(nsError.code)", level: .error)
         if let c = oneShotCompletion { oneShotCompletion = nil; c(nil) }
     }
 
