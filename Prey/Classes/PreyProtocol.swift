@@ -102,7 +102,7 @@ enum kInfoRepeatRangetTime: String {
     public let URLCloseAccount      : String = "https://panel.preyproject.com/settings/account"
 #endif
 
-
+// exceptions and logretrieval are not available on staging 
 public let logRetrievalEndpoint     : String = "https://solid.preyproject.com/upload/log"
 public let exceptionsUrl            : String = "https://exceptions.preyproject.com"
 
