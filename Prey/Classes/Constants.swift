@@ -8,8 +8,11 @@
 //
 
 import Foundation
+import UserNotifications
+import CoreLocation
 import UIKit
 import LocalAuthentication
+import OSLog
 
 // Storyboard controllerId
 enum StoryboardIdVC: String {
@@ -48,16 +51,191 @@ public let GAICode  = "UA-8743344-7"
 public let fontTitilliumBold    =  "TitilliumWeb-Bold"
 public let fontTitilliumRegular =  "TitilliumWeb-Regular"
 
-// PreyLogger
-public func PreyLogger(_ message: String, file: String = #file) {
+// MARK: - Logging
+
+public enum PreyLogLevel {
+    case debug
+    case info
+    case notice
+    case warning
+    case error
+    case critical
+}
+
+// MARK: - File Logging
+private class PreyFileLogger {
+    static let shared = PreyFileLogger()
+    private let logQueue = DispatchQueue(label: "com.prey.filelogger", qos: .utility)
+    private let maxLogFileSize: Int = 5 * 1024 * 1024 // 5MB
+    private let maxLogFiles: Int = 3
+    
+    private var logFileURL: URL {
+        // Use Documents directory - removed on app uninstall
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return documentsPath.appendingPathComponent("prey.log")
+    }
+    
+    private init() {
+        createLogFileIfNeeded()
+    }
+    
+    private func createLogFileIfNeeded() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        let timestamp = dateFormatter.string(from: Date())
+        let success = FileManager.default.createFile(atPath: logFileURL.path, contents: nil, attributes: nil)
+        
+        if !FileManager.default.fileExists(atPath: logFileURL.path) {
+            print("[\(timestamp)] [debug] [Constants.swift] Creating log file at: \(logFileURL.path) - Success: \(success)")
+        } else {
+            print("[\(timestamp)] [debug] [Constants.swift] Log file already exists at \(logFileURL.path)")
+        }
+    }
+    
+    func writeLog(_ message: String, level: PreyLogLevel, file: String, line: Int) {
+        logQueue.async { [weak self] in
+            guard let self = self else { return }
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+            let timestamp = dateFormatter.string(from: Date())
+            let fileName = (file as NSString).lastPathComponent
+            let logEntry = "[\(timestamp)] [\(level)] [\(fileName):\(line)] \(message)\n"
+            
+            // Rotate logs if needed
+            self.rotateLogsIfNeeded()
+            
+            // Write to file
+            if let data = logEntry.data(using: .utf8) {
+                if let fileHandle = FileHandle(forWritingAtPath: self.logFileURL.path) {
+                    fileHandle.seekToEndOfFile()
+                    fileHandle.write(data)
+                    fileHandle.closeFile()
+                } else {
+                    // If FileHandle fails, try writing directly
+                    try? data.write(to: self.logFileURL, options: .atomic)
+                }
+            }
+        }
+    }
+    
+    private func rotateLogsIfNeeded() {
+        guard let attributes = try? FileManager.default.attributesOfItem(atPath: logFileURL.path),
+              let fileSize = attributes[.size] as? Int,
+              fileSize > maxLogFileSize else { return }
+        
+        // Rotate files: prey.log -> prey.log.1 -> prey.log.2 -> deleted
+        let baseURL = logFileURL.deletingPathExtension()
+        let ext = logFileURL.pathExtension
+        
+        // Delete the oldest file
+        let oldestFile = baseURL.appendingPathExtension("\(ext).\(maxLogFiles - 1)")
+        try? FileManager.default.removeItem(at: oldestFile)
+        
+        // Rotate existing files
+        for i in stride(from: maxLogFiles - 2, through: 1, by: -1) {
+            let oldFile = baseURL.appendingPathExtension("\(ext).\(i)")
+            let newFile = baseURL.appendingPathExtension("\(ext).\(i + 1)")
+            try? FileManager.default.moveItem(at: oldFile, to: newFile)
+        }
+        
+        // Move current file
+        let newFile = baseURL.appendingPathExtension("\(ext).1")
+        try? FileManager.default.moveItem(at: logFileURL, to: newFile)
+        
+        // Create new file
+        createLogFileIfNeeded()
+    }
+    
+    func getLogFileURL() -> URL {
+        return logFileURL
+    }
+}
+
+/// Explicit logging API with level and category
+public func PreyLogger(_ message: String, level: PreyLogLevel = .debug, file: String = #file, line: Int = #line) {
+    PreyFileLogger.shared.writeLog(message, level: level, file: file, line: line)
+    
     #if DEBUG
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         let timestamp = dateFormatter.string(from: Date())
-        let fileName = (file as NSString).lastPathComponent.replacingOccurrences(of: ".swift", with: "")
-        print("[\(timestamp)] [\(fileName)] \(message)")
+        let fileName = (file as NSString).lastPathComponent
+        print("[\(timestamp)] [\(level)] [\(fileName):\(line)] \(message)")
+        return
+    #else
+        let logger = Logger(subsystem: "com.prey", category: "General")
+        switch level {
+        case .debug:
+            // Drop debug in Release to reduce verbosity
+            return
+        case .info:
+            logger.info("\(message, privacy: .public)")
+        case .notice:
+            logger.notice("\(message, privacy: .public)")
+        case .warning:
+            logger.warning("\(message, privacy: .public)")
+        case .error:
+            logger.error("\(message, privacy: .public)")
+        case .critical:
+            logger.critical("\(message, privacy: .public)")
+        }
     #endif
-    
+}
+
+// Convenience explicit level helpers for future use
+public func PreyLoggerInfo(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .info, file: file, line: line)
+}
+
+public func PreyLoggerWarn(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .warning, file: file, line: line)
+}
+
+public func PreyLoggerError(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .error, file: file, line: line)
+}
+
+public func PreyLoggerDebug(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .debug, file: file, line: line)
+}
+
+public func PreyLoggerNotice(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .notice, file: file, line: line)
+}
+
+public func PreyLoggerCritical(_ message: String, file: String = #file, line: Int = #line) {
+    PreyLogger(message, level: .critical, file: file, line: line)
+}
+
+// MARK: - Log File Access
+public func getPreyLogFileURL() -> URL {
+    return PreyFileLogger.shared.getLogFileURL()
+}
+
+public func getPreyLogFilePath() -> String {
+    return PreyFileLogger.shared.getLogFileURL().path
+}
+
+// MARK: - Debug Local Notifications (DEBUG only)
+public func PreyDebugNotify(_ message: String) {
+    #if DEBUG
+    let content = UNMutableNotificationContent()
+    content.title = "DEBUG"
+    content.body = message.count > 180 ? String(message.prefix(180)) + "…" : message
+    content.sound = .default
+    let request = UNNotificationRequest(
+        identifier: "prey.debug." + UUID().uuidString,
+        content: content,
+        trigger: nil
+    )
+    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    #endif
+}
+
+// MARK: - App-wide Notifications
+extension Notification.Name {
+    static let preyLocationUpdated = Notification.Name("prey.location.updated")
 }
 
 // Biometric authentication
@@ -86,7 +264,6 @@ public let biometricAuth : String = {
 
 // Category notification
 public let categoryNotifPreyAlert = "PreyAlert"
-
 
 // Validate email expression
 public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {

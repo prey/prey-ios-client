@@ -15,6 +15,7 @@ class PreyModule {
     
     static let sharedInstance = PreyModule()
     fileprivate init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleLocationUpdateNotification(_:)), name: .preyLocationUpdated, object: nil)
     }
     
     var actionArray = [PreyAction] ()
@@ -67,39 +68,37 @@ class PreyModule {
         }
         
         PreyLogger("StatusDevice - Making request (\(context))")
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(
-            username, 
-            password: "x", 
-            params: nil, 
-            messageId: nil, 
-            httpMethod: Method.GET.rawValue, 
-            endPoint: statusDeviceEndpoint, 
-            onCompletion: PreyHTTPResponse.checkResponse(
-                RequestType.statusDevice, 
-                preyAction: nil, 
-                onCompletion: { (isSuccess: Bool) in 
-                    // Mark as no longer in progress
-                    PreyModule.isStatusDeviceInProgress = false
-                    
-                    PreyLogger("StatusDevice - Completed (\(context)): \(isSuccess)")
-                    
-                    // Call the original completion handler
-                    onCompletion(isSuccess)
-                    
-                    // Call all pending callbacks
-                    let callbacks = PreyModule.pendingStatusDeviceCallbacks
-                    PreyModule.pendingStatusDeviceCallbacks.removeAll()
-                    
-                    for callback in callbacks {
-                        callback(isSuccess)
-                    }
-                    
-                    if !callbacks.isEmpty {
-                        PreyLogger("StatusDevice - Completed with \(callbacks.count) pending callbacks")
-                    }
-                }
-            )
-        )
+        PreyNetworkRetry.sendDataWithBackoff(
+            username: username,
+            password: "x",
+            params: nil,
+            messageId: nil,
+            httpMethod: Method.GET.rawValue,
+            endPoint: statusDeviceEndpoint,
+            tag: "StatusDevice",
+            maxAttempts: 5,
+            nonRetryStatusCodes: [401]
+        ) { isSuccess in
+            // Mark as no longer in progress
+            PreyModule.isStatusDeviceInProgress = false
+
+            PreyLogger("StatusDevice - Completed (\(context)): \(isSuccess)")
+
+            // Call the original completion handler
+            onCompletion(isSuccess)
+
+            // Call all pending callbacks
+            let callbacks = PreyModule.pendingStatusDeviceCallbacks
+            PreyModule.pendingStatusDeviceCallbacks.removeAll()
+
+            for callback in callbacks {
+                callback(isSuccess)
+            }
+
+            if !callbacks.isEmpty {
+                PreyLogger("StatusDevice - Completed with \(callbacks.count) pending callbacks")
+            }
+        }
     }
 
     // Sync device name only when it changes
@@ -112,7 +111,7 @@ class PreyModule {
         
         let params: [String: Any] = ["name": currentName]
         PreyLogger("Syncing device name change: \(currentName)")
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
             username,
             password: "x",
             params: params,
@@ -167,8 +166,6 @@ class PreyModule {
             // Make sure actions are running
             runAction()
         } else {
-            PreyLogger("Device is not missing, checking for location actions only")
-            
             // Even if not missing, check for location actions
             var hasLocationAction = false
             for action in actionArray {
@@ -190,9 +187,11 @@ class PreyModule {
             }
             
             if !hasLocationAction && isAppInBackground {
-                let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
+                // Prefer continuous aware mode when in background
+                let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.start_location_aware, withOptions: nil)
                 actionArray.append(locationAction)
-                PreyLogger("Added background location action")
+                PreyLogger("Added background location action (aware mode)")
+                PreyDebugNotify("Background: added location aware action")
                 runAction()
             } else if !actionArray.isEmpty {
                 // Run existing actions
@@ -324,10 +323,27 @@ class PreyModule {
     
     // Run action
     func runAction() {
-        // Prevent multiple simultaneous calls
+        // Prevent multiple simultaneous calls; avoid race by using a time-based stale check
         if PreyModule.isRunningActions {
-            PreyLogger("PreyModule: Already running actions, ignoring duplicate call")
-            return
+            let now = Date()
+            let elapsed = now.timeIntervalSince(PreyModule.lastActionRunTime ?? now)
+            let active = actionArray.filter { $0.isActive }
+            // If recently triggered (<5s), consider the pipeline starting; ignore duplicates
+            if elapsed < 5 {
+                let listingBase = active.isEmpty ? actionArray : active
+                let names = listingBase.map { "\($0.target.rawValue):\($0.command.rawValue)" }.joined(separator: ", ")
+                PreyLogger("PreyModule: Actions already running/starting (\(names)), ignoring duplicate call")
+                return
+            }
+            // If it's been a while (>30s) and no action reports active, reset the guard as stale
+            if active.isEmpty && elapsed > 30 {
+                PreyLogger("PreyModule: isRunningActions appears stale (elapsed=\(Int(elapsed))s); resetting guard")
+                PreyModule.isRunningActions = false
+            } else {
+                let names = active.map { "\($0.target.rawValue):\($0.command.rawValue)" }.joined(separator: ", ")
+                PreyLogger("PreyModule: Already running actions (\(names)), ignoring duplicate call")
+                return
+            }
         }
         
         // Set flag to prevent multiple simultaneous calls
@@ -416,6 +432,21 @@ class PreyModule {
             PreyModule.isRunningActions = false
         }
     }
+
+    // Ensure aware in background if we get passive location updates
+    @objc private func handleLocationUpdateNotification(_ note: Notification) {
+        var isBG = false
+        if Thread.isMainThread { isBG = UIApplication.shared.applicationState == .background }
+        else { DispatchQueue.main.sync { isBG = UIApplication.shared.applicationState == .background } }
+        guard isBG else { return }
+        let hasAware = actionArray.contains { $0.target == .location && $0.command == .start_location_aware }
+        if !hasAware {
+            PreyDebugNotify("Observer: adding location aware action (passive update)")
+            let locAction = Location(withTarget: .location, withCommand: .start_location_aware, withOptions: nil)
+            actionArray.append(locAction)
+            runAction()
+        }
+    }
     
     // Run only a specific action - reuse existing background task if available
     func runSingleAction(_ action: PreyAction) {
@@ -445,9 +476,13 @@ class PreyModule {
         // Reset running actions flag
         PreyModule.isRunningActions = false
         
-        // Ask all active actions to clean up their resources
+        // Ask all active actions to clean up their resources, but keep location running in background
         for action in actionArray {
             if action.isActive {
+                if action.target == .location {
+                    PreyLogger("Keeping active location action running in background")
+                    continue
+                }
                 PreyLogger("Stopping active action: \(action.target.rawValue)")
                 action.stop()
             }

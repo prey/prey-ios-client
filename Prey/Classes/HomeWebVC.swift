@@ -526,15 +526,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        
         PreyLogger("Should load request: WKWebView")
-        
-       
-        if PreyConfig.sharedInstance.isRegistered {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(PreyConfig.sharedInstance.userApiKey!, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:actionsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.actionDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in
-                PreyLogger("Request PreyAction \(actionsDeviceEndpoint)")
-                }))
-        }
         
         guard let requestUrl = navigationAction.request.url else {
             return decisionHandler(.allow)

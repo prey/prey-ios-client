@@ -15,7 +15,7 @@ enum kInstruction: String {
 
 // Prey actions definitions
 enum kAction: String {
-    case location, report, alarm, alert, detach, camouflage, tree, fileretrieval, triggers, user_activated, list_permissions
+    case location, report, alarm, alert, detach, camouflage, tree, fileretrieval, triggers, user_activated, list_permissions, logretrieval
 }
 
 // Prey options definitions
@@ -93,14 +93,19 @@ enum kInfoRepeatRangetTime: String {
     public let URLForgotPanel       : String = "https://panel.preyhq.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyhq.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://panel.preyhq.com/upload/upload"
+    public let logRetrievalEndpoint : String = "https://solid.preyhq.com/upload/log"
     public let URLCloseAccount      : String = "https://panel.preyhq.com/settings/account"
+    public let exceptionsUrl        : String = "https://exceptions-stg.preyhq.com"
 #else
     public let URLControlPanel      : String = "https://solid.preyproject.com/api/v2"
     public let URLForgotPanel       : String = "https://panel.preyproject.com/forgot?embeddable=true"
     public let URLSessionPanel      : String = "https://panel.preyproject.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://solid.preyproject.com/upload/upload"
+    public let logRetrievalEndpoint : String = "https://solid.preyproject.com/upload/log"
     public let URLCloseAccount      : String = "https://panel.preyproject.com/settings/account"
+    public let exceptionsUrl        : String = "https://exceptions.preyproject.com"
 #endif
+
 
 public let URLHelpPrey              : String = "http://help.preyproject.com"
 
@@ -162,4 +167,3 @@ public var infoEndpoint : String {return String(format:"/devices/%@/info.json",(
 public enum Method: String {
     case GET, POST, PUT, DELETE
 }
-

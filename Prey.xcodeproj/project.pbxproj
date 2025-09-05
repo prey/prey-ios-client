@@ -3,10 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+        0592E44D2E60A3B2000EE115 /* ZipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E44C2E60A3B2000EE115 /* ZipUtils.swift */; };
+        0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */; };
+        A9C0CAFE2F00000100000002 /* CrashHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C0CAFE2F00000100000001 /* CrashHandler.swift */; };
+		05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0537E0152E5C89D4008D460F /* LocationPushService.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0592E4452E609B65000EE115 /* Registrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4442E609B5E000EE115 /* Registrar.swift */; };
+		0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4452E60A0A5000EE115 /* LocationService.swift */; };
 		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
@@ -79,7 +85,6 @@
 		3BAB25D323A923C300BDA263 /* TriggersEvents+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CD23A923C200BDA263 /* TriggersEvents+Properties.swift */; };
 		3BAB25D423A923C300BDA263 /* Triggers+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CE23A923C300BDA263 /* Triggers+Properties.swift */; };
 		3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BAE5812214ACD9F00DB4BAB /* InfoPlist.strings */; };
-		3BB2C450230352C00030C2B5 /* SwiftExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D70A21CD7E3D400DEB461 /* SwiftExt.swift */; };
 		3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342FF22710B360088F3D3 /* MimeTypes.swift */; };
 		3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21C1D47CAC500074E97 /* StoreKit.framework */; };
 		3BB6E21F1D47CACD00074E97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21E1D47CACD00074E97 /* MapKit.framework */; };
@@ -90,16 +95,8 @@
 		3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */; };
 		3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */; };
 		3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BCD4C8C1C98942900CDEE1C /* Localizable.strings */; };
-		3BCE971A23021AB500AF1AD4 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BCE96EF2302191B00AF1AD4 /* UserNotifications.framework */; };
-		3BCE971B23021AB500AF1AD4 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BCE96F12302191B00AF1AD4 /* UserNotificationsUI.framework */; };
-		3BCE971E23021AB500AF1AD4 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCE971D23021AB500AF1AD4 /* NotificationViewController.swift */; };
-		3BCE972123021AB500AF1AD4 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE971F23021AB500AF1AD4 /* MainInterface.storyboard */; };
-		3BCE972523021AB500AF1AD4 /* PreyNotify.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3BCE971923021AB500AF1AD4 /* PreyNotify.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3BCE972B23021B1600AF1AD4 /* regular-book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972923021B1600AF1AD4 /* regular-book.otf */; };
 		3BCE972C23021B1600AF1AD4 /* regular-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972A23021B1600AF1AD4 /* regular-bold.otf */; };
-		3BCE972D2302292C00AF1AD4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B8283F9199198E6000E4545 /* Images.xcassets */; };
-		3BCE972E23022A7E00AF1AD4 /* regular-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972A23021B1600AF1AD4 /* regular-bold.otf */; };
-		3BCE972F23022A8100AF1AD4 /* regular-book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972923021B1600AF1AD4 /* regular-book.otf */; };
 		3BDA80D921120DE4003B028C /* FileRetrieval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDA80D821120DE4003B028C /* FileRetrieval.swift */; };
 		3BDF988120338AC70023D4AA /* HomeWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF988020338AC70023D4AA /* HomeWebVC.swift */; };
 		3BE3DC511D0B044D00581327 /* magdacleanmono-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */; };
@@ -110,9 +107,18 @@
 		3BFF00841D3E8A2400BEF7E0 /* AppFeedback.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00811D3E8A2400BEF7E0 /* AppFeedback.plist */; };
 		3BFF00861D3E8A2400BEF7E0 /* ManagedAppConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */; };
 		747FA51E2BAB1683003242C7 /* ListPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747FA51D2BAB1683003242C7 /* ListPermissions.swift */; };
+		9A1B2C3D4E5F000100020003 /* SyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */; };
+		9A1B2C3D4E5F000100020013 /* LogRetrieval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B2C3D4E5F000100020012 /* LogRetrieval.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0537E01A2E5C89D4008D460F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3B8283E5199198E6000E4545 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0537E0142E5C89D4008D460F;
+			remoteInfo = LocationPushService;
+		};
 		3B828400199198E6000E4545 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3B8283E5199198E6000E4545 /* Project object */;
@@ -134,30 +140,29 @@
 			remoteGlobalIDString = 3B8283EC199198E6000E4545;
 			remoteInfo = Prey;
 		};
-		3BCE972323021AB500AF1AD4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3B8283E5199198E6000E4545 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3BCE971823021AB500AF1AD4;
-			remoteInfo = PreyNotify;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		3BCE97002302191B00AF1AD4 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				3BCE972523021AB500AF1AD4 /* PreyNotify.appex in Embed Foundation Extensions */,
+				05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+        0592E44C2E60A3B2000EE115 /* ZipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZipUtils.swift; path = Classes/ZipUtils.swift; sourceTree = "<group>"; };
+        0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreyNetworkRetry.swift; path = Classes/PreyNetworkRetry.swift; sourceTree = "<group>"; };
+        A9C0CAFE2F00000100000001 /* CrashHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrashHandler.swift; path = Classes/CrashHandler.swift; sourceTree = "<group>"; };
+		0537E0152E5C89D4008D460F /* LocationPushService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LocationPushService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0592E4442E609B5E000EE115 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Registrar.swift; path = Classes/Registrar.swift; sourceTree = "<group>"; };
+		0592E4452E60A0A5000EE115 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Classes/LocationService.swift; sourceTree = "<group>"; };
 		3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TriggerManager.swift; path = Classes/TriggerManager.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
@@ -250,10 +255,6 @@
 		3BCD4C8E1C98942900CDEE1C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3BCE96EF2302191B00AF1AD4 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		3BCE96F12302191B00AF1AD4 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
-		3BCE971923021AB500AF1AD4 /* PreyNotify.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PreyNotify.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		3BCE971D23021AB500AF1AD4 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
-		3BCE972023021AB500AF1AD4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		3BCE972223021AB500AF1AD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3BCE972923021B1600AF1AD4 /* regular-book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "regular-book.otf"; sourceTree = "<group>"; };
 		3BCE972A23021B1600AF1AD4 /* regular-bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "regular-bold.otf"; sourceTree = "<group>"; };
 		3BDA80D821120DE4003B028C /* FileRetrieval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileRetrieval.swift; path = Classes/FileRetrieval.swift; sourceTree = "<group>"; };
@@ -267,9 +268,33 @@
 		3BFF00821D3E8A2400BEF7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Plist/Info.plist; sourceTree = "<group>"; };
 		3BFF00831D3E8A2400BEF7E0 /* ManagedAppConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ManagedAppConfig.plist; path = Plist/ManagedAppConfig.plist; sourceTree = "<group>"; };
 		747FA51D2BAB1683003242C7 /* ListPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListPermissions.swift; path = Classes/ListPermissions.swift; sourceTree = "<group>"; };
+		9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncCoordinator.swift; path = Classes/SyncCoordinator.swift; sourceTree = "<group>"; };
+		9A1B2C3D4E5F000100020012 /* LogRetrieval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LogRetrieval.swift; path = Classes/LogRetrieval.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0537E01D2E5C89D4008D460F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+				"README-LocationExtension.md",
+			);
+			target = 0537E0142E5C89D4008D460F /* LocationPushService */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0537E0162E5C89D4008D460F /* LocationPushService */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (0537E01D2E5C89D4008D460F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = LocationPushService; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		0537E0122E5C89D4008D460F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B8283EA199198E6000E4545 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -284,15 +309,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3BCE971623021AB500AF1AD4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3BCE971B23021AB500AF1AD4 /* UserNotificationsUI.framework in Frameworks */,
-				3BCE971A23021AB500AF1AD4 /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +342,9 @@
 		3B51FFB01D3EB66C00CFE4E8 /* Prey Utils */ = {
 			isa = PBXGroup;
 			children = (
+                0592E44C2E60A3B2000EE115 /* ZipUtils.swift */,
+				0592E4452E60A0A5000EE115 /* LocationService.swift */,
+				0592E4442E609B5E000EE115 /* Registrar.swift */,
 				3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */,
 				3B86297A1EF039E800BE92D4 /* PreyMobileConfig.swift */,
 				3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */,
@@ -335,6 +354,7 @@
 				3BB6E2241D47F42100074E97 /* PreyRateUs.swift */,
 				3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */,
 				3BC3C0971C9733BA00D08D62 /* Constants.swift */,
+				A9C0CAFE2F00000100000001 /* CrashHandler.swift */,
 			);
 			name = "Prey Utils";
 			sourceTree = "<group>";
@@ -355,6 +375,7 @@
 				3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */,
 				3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */,
 				3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */,
+                0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */,
 			);
 			name = "Prey Http";
 			sourceTree = "<group>";
@@ -366,7 +387,7 @@
 				3BCD4C8B1C98942900CDEE1C /* Localizable.strings */,
 				3BAE5811214ACD9F00DB4BAB /* InfoPlist.strings */,
 				3B828402199198E6000E4545 /* PreyTests */,
-				3BCE971C23021AB500AF1AD4 /* PreyNotify */,
+				0537E0162E5C89D4008D460F /* LocationPushService */,
 				3BB6E2211D47CBD800074E97 /* Frameworks */,
 				3B8283EE199198E6000E4545 /* Products */,
 			);
@@ -377,7 +398,7 @@
 			children = (
 				3B8283ED199198E6000E4545 /* Prey.app */,
 				3B8283FF199198E6000E4545 /* PreyTests.xctest */,
-				3BCE971923021AB500AF1AD4 /* PreyNotify.appex */,
+				0537E0152E5C89D4008D460F /* LocationPushService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -482,6 +503,8 @@
 				3B9DDC991CDBBF030052A21D /* PreyModule.swift */,
 				3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */,
 				3B9DDC951CDB891C0052A21D /* PreyAction.swift */,
+				9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */,
+				9A1B2C3D4E5F000100020012 /* LogRetrieval.swift */,
 				3B9DDC971CDB9CD70052A21D /* Location.swift */,
 				3B4F679E1CEA061E00F58FAD /* Alarm.swift */,
 				3B2445F81D2466CD005DF09C /* Alert.swift */,
@@ -549,16 +572,6 @@
 			path = Prey/Localizable.strings;
 			sourceTree = "<group>";
 		};
-		3BCE971C23021AB500AF1AD4 /* PreyNotify */ = {
-			isa = PBXGroup;
-			children = (
-				3BCE971D23021AB500AF1AD4 /* NotificationViewController.swift */,
-				3BCE971F23021AB500AF1AD4 /* MainInterface.storyboard */,
-				3BCE972223021AB500AF1AD4 /* Info.plist */,
-			);
-			path = PreyNotify;
-			sourceTree = "<group>";
-		};
 		3BEFEB621DBD2391003143E8 /* External */ = {
 			isa = PBXGroup;
 			children = (
@@ -570,6 +583,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0537E0142E5C89D4008D460F /* LocationPushService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0537E01E2E5C89D4008D460F /* Build configuration list for PBXNativeTarget "LocationPushService" */;
+			buildPhases = (
+				0537E0112E5C89D4008D460F /* Sources */,
+				0537E0122E5C89D4008D460F /* Frameworks */,
+				0537E0132E5C89D4008D460F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				0537E0162E5C89D4008D460F /* LocationPushService */,
+			);
+			name = LocationPushService;
+			packageProductDependencies = (
+			);
+			productName = LocationPushService;
+			productReference = 0537E0152E5C89D4008D460F /* LocationPushService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		3B8283EC199198E6000E4545 /* Prey */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3B828409199198E6000E4545 /* Build configuration list for PBXNativeTarget "Prey" */;
@@ -584,7 +619,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				3BCE972423021AB500AF1AD4 /* PBXTargetDependency */,
+				0537E01B2E5C89D4008D460F /* PBXTargetDependency */,
 			);
 			name = Prey;
 			productName = Prey;
@@ -611,23 +646,6 @@
 			productReference = 3B8283FF199198E6000E4545 /* PreyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		3BCE971823021AB500AF1AD4 /* PreyNotify */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3BCE972623021AB500AF1AD4 /* Build configuration list for PBXNativeTarget "PreyNotify" */;
-			buildPhases = (
-				3BCE971523021AB500AF1AD4 /* Sources */,
-				3BCE971623021AB500AF1AD4 /* Frameworks */,
-				3BCE971723021AB500AF1AD4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = PreyNotify;
-			productName = PreyNotify;
-			productReference = 3BCE971923021AB500AF1AD4 /* PreyNotify.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -636,14 +654,16 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftMigration = 0720;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				ORGANIZATIONNAME = "Prey, Inc.";
 				TargetAttributes = {
+					0537E0142E5C89D4008D460F = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					3B8283EC199198E6000E4545 = {
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 1020;
-						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 1;
@@ -668,10 +688,6 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 3B8283EC199198E6000E4545;
 					};
-					3BCE971823021AB500AF1AD4 = {
-						CreatedOnToolsVersion = 10.2.1;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = 3B8283E8199198E6000E4545 /* Build configuration list for PBXProject "Prey" */;
@@ -690,12 +706,19 @@
 			targets = (
 				3B8283EC199198E6000E4545 /* Prey */,
 				3B8283FE199198E6000E4545 /* PreyTests */,
-				3BCE971823021AB500AF1AD4 /* PreyNotify */,
+				0537E0142E5C89D4008D460F /* LocationPushService */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0537E0132E5C89D4008D460F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B8283EB199198E6000E4545 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -727,17 +750,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3BCE971723021AB500AF1AD4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3BCE972123021AB500AF1AD4 /* MainInterface.storyboard in Resources */,
-				3BCE972F23022A8100AF1AD4 /* regular-book.otf in Resources */,
-				3BCE972E23022A7E00AF1AD4 /* regular-bold.otf in Resources */,
-				3BCE972D2302292C00AF1AD4 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -748,9 +760,10 @@
 			);
 			inputPaths = (
 			);
-			name = "Run Script Tag Warnings";
-			outputPaths = (
-			);
+				name = "Run Script Tag Warnings";
+				outputPaths = (
+					"$(DERIVED_FILE_DIR)/run-script-tag-warnings.stamp",
+				);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
@@ -764,8 +777,9 @@
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
 				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
-			outputPaths = (
-			);
+				outputPaths = (
+					"$(DERIVED_FILE_DIR)/postbuild-script.stamp",
+				);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "
@@ -774,10 +788,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0537E0112E5C89D4008D460F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B8283E9199198E6000E4545 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+                0592E44D2E60A3B2000EE115 /* ZipUtils.swift in Sources */,
+                0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */,
+					9A1B2C3D4E5F000100020003 /* SyncCoordinator.swift in Sources */,
+				9A1B2C3D4E5F000100020013 /* LogRetrieval.swift in Sources */,
+				0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */,
 				3B8629961EF03CB400BE92D4 /* HttpRouter.swift in Sources */,
 				3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */,
 				3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */,
@@ -785,6 +811,7 @@
 				3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */,
 				3BDA80D921120DE4003B028C /* FileRetrieval.swift in Sources */,
 				3B38BA931D231B1C00B6799B /* Detach.swift in Sources */,
+				0592E4452E609B65000EE115 /* Registrar.swift in Sources */,
 				3B8629991EF03CB400BE92D4 /* Process.swift in Sources */,
 				3B86299D1EF03CB400BE92D4 /* Socket.swift in Sources */,
 				3B8629941EF03CB400BE92D4 /* HttpRequest.swift in Sources */,
@@ -851,6 +878,7 @@
 				3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */,
 				3B2445F71D245478005DF09C /* Camouflage.swift in Sources */,
 				3BB6E2251D47F42100074E97 /* PreyRateUs.swift in Sources */,
+				A9C0CAFE2F00000100000002 /* CrashHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -862,18 +890,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3BCE971523021AB500AF1AD4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3BCE971E23021AB500AF1AD4 /* NotificationViewController.swift in Sources */,
-				3BB2C450230352C00030C2B5 /* SwiftExt.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0537E01B2E5C89D4008D460F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0537E0142E5C89D4008D460F /* LocationPushService */;
+			targetProxy = 0537E01A2E5C89D4008D460F /* PBXContainerItemProxy */;
+		};
 		3B828401199198E6000E4545 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3B8283EC199198E6000E4545 /* Prey */;
@@ -888,11 +912,6 @@
 			isa = PBXTargetDependency;
 			target = 3B8283EC199198E6000E4545 /* Prey */;
 			targetProxy = 3B82841119919ABC000E4545 /* PBXContainerItemProxy */;
-		};
-		3BCE972423021AB500AF1AD4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3BCE971823021AB500AF1AD4 /* PreyNotify */;
-			targetProxy = 3BCE972323021AB500AF1AD4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -923,17 +942,100 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		3BCE971F23021AB500AF1AD4 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3BCE972023021AB500AF1AD4 /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0537E01F2E5C89D4008D460F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = LocationPushService/LocationPushService.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = M2J57RQ35B;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LocationPushService/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Prey, Inc. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prey.LocationPushService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0537E0202E5C89D4008D460F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = LocationPushService/LocationPushService.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = M2J57RQ35B;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LocationPushService/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Prey, Inc. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prey.LocationPushService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		3B828407199198E6000E4545 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -963,7 +1065,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Prey/Plist/Prey.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = M2J57RQ35B;
@@ -985,10 +1087,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				"SWIFT_ACTIVE_COMPILATION_CONDITIONS[arch=*]" = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1023,7 +1126,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Prey/Plist/Prey.entitlements;
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = M2J57RQ35B;
@@ -1038,7 +1141,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1057,8 +1160,9 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = M2J57RQ35B;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Prey;
@@ -1069,7 +1173,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.2.4;
+				MARKETING_VERSION = 2.2.5;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1093,8 +1197,9 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = M2J57RQ35B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Prey/Plist/Info.plist";
@@ -1106,7 +1211,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.2.4;
+				MARKETING_VERSION = 2.2.5;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1189,88 +1294,18 @@
 			};
 			name = Release;
 		};
-		3BCE972723021AB500AF1AD4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = PreyNotify/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 2.2.4;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.prey.NotifyPrey;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		3BCE972823021AB500AF1AD4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 8;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = PreyNotify/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 2.2.4;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.prey.NotifyPrey;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0537E01E2E5C89D4008D460F /* Build configuration list for PBXNativeTarget "LocationPushService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0537E01F2E5C89D4008D460F /* Debug */,
+				0537E0202E5C89D4008D460F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3B8283E8199198E6000E4545 /* Build configuration list for PBXProject "Prey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1294,15 +1329,6 @@
 			buildConfigurations = (
 				3B82840D199198E6000E4545 /* Debug */,
 				3B82840E199198E6000E4545 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3BCE972623021AB500AF1AD4 /* Build configuration list for PBXNativeTarget "PreyNotify" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3BCE972723021AB500AF1AD4 /* Debug */,
-				3BCE972823021AB500AF1AD4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

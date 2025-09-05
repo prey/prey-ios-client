@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:figueira.gpx">
+   </FileRef>
+   <FileRef
+      location = "group:figueira_ruta.gpx">
+   </FileRef>
+   <FileRef
       location = "group:Prey.xcodeproj">
    </FileRef>
 </Workspace>

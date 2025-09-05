@@ -121,6 +121,13 @@ class PreyConfig: NSObject {
         defaultConfig.set(existBackup, forKey: PreyConfigDevice.ExistBackup.rawValue)
         defaultConfig.set(nameDevice, forKey: PreyConfigDevice.NameDevice.rawValue)
         defaultConfig.set(isMsp, forKey:PreyConfigDevice.IsMsp.rawValue)
+
+        // Mirror a minimal subset to the App Group so extensions can read them
+        if let suite = UserDefaults(suiteName: "group.com.prey.ios") {
+            suite.set(userApiKey, forKey: "UserApiKey")
+            suite.set(deviceKey, forKey: "DeviceKey")
+            suite.synchronize()
+        }
     }
     
     // Reset values on NSUserDefaults

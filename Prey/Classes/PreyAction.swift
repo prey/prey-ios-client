@@ -77,6 +77,9 @@ class PreyAction : Operation, @unchecked Sendable {
         
         case kAction.list_permissions:
             actionItem = ListPermissions(withTarget: kAction.list_permissions, withCommand: cmd, withOptions: opt)
+
+        case kAction.logretrieval:
+            actionItem = LogRetrieval(withTarget: kAction.logretrieval, withCommand: cmd, withOptions: opt)
         }
         
         return actionItem
@@ -111,7 +114,7 @@ class PreyAction : Operation, @unchecked Sendable {
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:params, messageId:messageId, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:self, onCompletion:{(isSuccess: Bool) in PreyLogger("Request dataSend")}))
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:params, messageId:messageId, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:self, onCompletion:{(isSuccess: Bool) in PreyLogger("Request dataSend")}))
         } else {
             PreyLogger("Error send data auth")
         }
@@ -132,7 +135,7 @@ class PreyAction : Operation, @unchecked Sendable {
     func checkTriggers(_ action:Trigger) {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:triggerEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.trigger, preyAction:action, onCompletion:{(isSuccess: Bool) in PreyLogger("Request triggers on panel")}))
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:triggerEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.trigger, preyAction:action, onCompletion:{(isSuccess: Bool) in PreyLogger("Request triggers on panel")}))
         } else {
             PreyLogger("Error auth check Triggers")
         }
@@ -143,7 +146,7 @@ class PreyAction : Operation, @unchecked Sendable {
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.deleteDevice, preyAction:nil, onCompletion:onCompletion))
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.DELETE.rawValue, endPoint:deleteDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.deleteDevice, preyAction:nil, onCompletion:onCompletion))
         } else {
             let titleMsg = "Couldn't delete your device".localized
             let alertMsg = "Device not ready!".localized

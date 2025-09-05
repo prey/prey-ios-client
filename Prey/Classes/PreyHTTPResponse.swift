@@ -89,9 +89,6 @@ class PreyHTTPResponse {
             return
         }
         
-        
-        
-
         onCompletion(isResponseSuccess)
     }
     
@@ -148,6 +145,8 @@ class PreyHTTPResponse {
             PreyConfig.sharedInstance.isPro         = userIsProStr.boolValue
             PreyConfig.sharedInstance.isMsp         = mspAccount.boolValue
             PreyConfig.sharedInstance.saveValues()
+            // After API key is saved, perform a consolidated sync (tokens + status + info)
+            SyncCoordinator.performPostAuthOrUpgradeSync(reason: .postLogin)
             
         } catch let error {
             PreyConfig.sharedInstance.reportError(error)
@@ -233,6 +232,8 @@ class PreyHTTPResponse {
             if let userApiKeyStr = jsonObject.object(forKey: "key") as? String {
                 PreyConfig.sharedInstance.userApiKey = userApiKeyStr
                 PreyConfig.sharedInstance.saveValues()
+                // After API key is saved, perform a consolidated sync (tokens + status + info)
+                SyncCoordinator.performPostAuthOrUpgradeSync(reason: .postSignup)
             }
             
         } catch let error {
@@ -424,9 +425,6 @@ class PreyHTTPResponse {
                     PreyLogger("No commands found in object structure, trying raw response")
                 }
             } else if let array = jsonObject as? NSArray, array.count > 0 {
-                // Direct command array
-                PreyLogger("Response is a direct array with \(array.count) items")
-                
                 let jsonData = try JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
                     PreyModule.sharedInstance.parseActionsFromPanel(jsonString)
@@ -572,12 +570,20 @@ class PreyHTTPResponse {
                     preyAction.stopReport()
                 }
             } else if statusCode == 406 {
-                PreyLogger("Deleted device?")
+                PreyLogger("Deleted device")
                 let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
                 detachModule.detachDevice()
             } else {
                 PreyConfig.sharedInstance.reportError("DataSend", statusCode: statusCode, errorDescription: "DataSend error")
-                PreyLogger("Failed data send: status code \(String(describing: statusCode))")
+                var bodyPreview = ""
+                if let data = data, !data.isEmpty {
+                    if let s = String(data: data, encoding: .utf8) {
+                        bodyPreview = s.count > 1000 ? String(s.prefix(1000)) + "…" : s
+                    } else {
+                        bodyPreview = "<non-utf8 body, base64> " + data.base64EncodedString(options: [])
+                    }
+                }
+                PreyLogger("Failed data send: status code \(String(describing: statusCode)) body=\(bodyPreview)")
             }
             return
         }
@@ -585,7 +591,14 @@ class PreyHTTPResponse {
         // Check response panel to stop location aware
         if statusCode == 201 {
             if action == nil || action is Location {
-                PreyLogger("TODO: remove location aware?")
+                PreyLogger("Stopping location aware due to server 201 response")
+                DispatchQueue.main.async {
+                    // Remove any pending location_aware actions from the queue
+                    let module = PreyModule.sharedInstance
+                    module.actionArray.removeAll { $0.target == .location && $0.command == .start_location_aware }
+                    // Stop active aware session if running
+                    Location.stopLocationAwareIfRunning()
+                }
             }
         }
         
@@ -688,4 +701,3 @@ class PreyHTTPResponse {
         }
     }
 }
-
