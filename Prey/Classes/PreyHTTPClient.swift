@@ -23,6 +23,11 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     // Define retry request for statusCode 503
     let retryRequest = 10
     
+    // HTTP Request throttling
+    private let throttleInterval: TimeInterval = 5.0 // 5 seconds
+    private var lastRequestTimes: [String: Date] = [:]
+    private let throttleQueue = DispatchQueue(label: "http.throttler", qos: .utility)
+    
     // Shared default session (HTTP/2/3, keep‑alive)
     private lazy var sharedSession: URLSession = {
         let cfg = URLSessionConfiguration.default
@@ -175,8 +180,28 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         startUploadTask(request, fromFile: tmp, completion: onCompletion)
     }
     
-    // SignUp/LogIn User to Control Panel
-    func userRegisterToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
+    // MARK: Request Throttling
+    
+    // Simple FNV-1a 64-bit fingerprint for payloads
+    private func fingerprint64(of string: String) -> String {
+        let data = Data(string.utf8)
+        var hash: UInt64 = 0xcbf29ce484222325
+        for b in data { hash ^= UInt64(b); hash = hash &* 0x100000001b3 }
+        return String(format: "%016llx", hash)
+    }
+
+    private func throttleKey(endpoint: String, method: String, bodyPreview: String?) -> String {
+        if method.uppercased() == "GET" { return "GET \(endpoint)" }
+        if let body = bodyPreview, !body.isEmpty {
+            let fp = fingerprint64(of: body)
+            return "\(method.uppercased()) \(endpoint)#\(fp)"
+        } else {
+            return "\(method.uppercased()) \(endpoint)"
+        }
+    }
+    
+    // send data to Control Panel
+    func sendDataToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
         
         // Encode username and pwd
         let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
@@ -344,11 +369,38 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         )
     }
 
-    // Metrics (protocol h2/h3, bytes)
+    // Metrics: log payload/body
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
-        if let t = metrics.transactionMetrics.last, let url = t.request.url?.absoluteString {
-            PreyLogger("Network metrics -> URL: \(url), sent: \(task.countOfBytesSent)B, recv: \(task.countOfBytesReceived)B, protocol: \(t.networkProtocolName ?? "unknown")")
+        guard let req = task.originalRequest, let urlStr = req.url?.absoluteString else { return }
+        let method = req.httpMethod ?? "GET"
+
+        func truncate(_ s: String, limit: Int = 2000) -> String {
+            if s.count <= limit { return s }
+            let idx = s.index(s.startIndex, offsetBy: limit)
+            return String(s[..<idx]) + "…"
         }
+
+        var bodyDesc = ""
+        if let body = req.httpBody, !body.isEmpty {
+            if let s = String(data: body, encoding: .utf8) {
+                bodyDesc = truncate(s)
+            } else {
+                bodyDesc = "<non-utf8 body, base64> " + truncate(body.base64EncodedString(), limit: 512)
+            }
+        } else {
+            // Check if this was a background upload from a file
+            let key = ObjectIdentifier(task)
+            var fileURL: URL?
+            stateQueue.sync { fileURL = self.fileByTask[key] }
+            if let f = fileURL {
+                let size = (try? FileManager.default.attributesOfItem(atPath: f.path)[.size] as? NSNumber)??.int64Value ?? 0
+                bodyDesc = "<upload file> \(f.lastPathComponent) (\(size)B)"
+            } else {
+                bodyDesc = "(no body)"
+            }
+        }
+
+        PreyLogger("Network payload -> \(method) \(urlStr) body=\(bodyDesc)")
     }
 
     // Background events done

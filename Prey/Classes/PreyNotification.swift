@@ -113,57 +113,8 @@ class PreyNotification {
     // Did Register Remote Notifications
     func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
-        PreyLogger("📣 TOKEN REGISTER: Got device token from APNS: \(tokenAsString)")
-        
-        // Create device info for the server
-        let preyDevice = PreyDevice()
-        let firmwareInfo : [String:String] = [
-            "model_name":  preyDevice.model!,
-            "vendor_name": preyDevice.vendor!,
-        ]
-        let processorInfo : [String:String] = [
-            "speed": preyDevice.cpuSpeed!,
-            "cores": preyDevice.cpuCores!,
-            "model":  preyDevice.cpuModel!,
-        ]
-        let specs : [String: Any] = [
-            "processor_info": processorInfo,
-            "firmware_info": firmwareInfo,
-        ]
-        let params:[String: Any] = [
-            "notification_id" : tokenAsString,
-            "specs": specs,
-            "device_name": UIDevice.current.name
-        ]
-        
-        PreyLogger("📣 TOKEN REGISTER: Preparing to send token to Prey server with params: \(params)")
-        
-        // Check userApiKey isn't empty
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyLogger("📣 TOKEN REGISTER: Sending token to Prey server using API key: \(username.prefix(6))...")
-            
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
-                username, 
-                password: "x", 
-                params: params, 
-                messageId: nil, 
-                httpMethod: Method.POST.rawValue, 
-                endPoint: dataDeviceEndpoint, 
-                onCompletion: PreyHTTPResponse.checkResponse(
-                    RequestType.dataSend, 
-                    preyAction: nil, 
-                    onCompletion: { (isSuccess: Bool) in 
-                        if isSuccess {
-                            PreyLogger("📣 TOKEN REGISTER: ✅ Successfully registered token with Prey server")
-                        } else {
-                            PreyLogger("📣 TOKEN REGISTER: ❌ Failed to register token with Prey server")
-                        }
-                    }
-                )
-            )
-        } else {
-            PreyLogger("📣 TOKEN REGISTER: ❌ Cannot register token with server - no API key available")
-        }
+        NotificationTokenRegistrar.store(tokenHex: tokenAsString)
+        NotificationTokenRegistrar.sendIfPossible(source: "didRegisterForRemoteNotifications")
     }
     
     // Did Receive Remote Notifications with improved completion handling
@@ -274,8 +225,6 @@ class PreyNotification {
         PreyLogger("📣 PN ERROR: 🚨 \(error)")
     }
     
-   
-    
     // Check for remote actions when receiving silent push notification
     private func checkRemoteActionsFromSilentPush(completion: @escaping (Bool) -> Void) {
         PreyLogger("📣 PN REMOTE: Starting remote action check from silent push")
@@ -287,7 +236,7 @@ class PreyNotification {
         }
         
         // Use PreyHTTPResponse.checkResponse for actionsDevice endpoint
-        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
             username,
             password: "x",
             params: nil,

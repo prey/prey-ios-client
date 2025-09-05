@@ -48,33 +48,23 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
     // Did Update Locations
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         PreyLogger("New location received on ReportLocation")
-        
-        if !waitForRequest {
-            return
-        }
-        
-        // Check if location is cached
-        let locationTime = abs((locations.first?.timestamp.timeIntervalSinceNow)! as Double)
-        if locationTime > 5 {
-            return
-        }
-        
-        guard let locate = locations.first else {
-            return
-        }
-        
-        if locate.horizontalAccuracy < 0 {
-            return
-        }
-        
-        if locate.horizontalAccuracy <= 500 {
-            self.delegate!.locationReceived(locations)
+
+        guard waitForRequest else { return }
+
+        // Ensure we have a recent, valid location fix
+        guard let first = locations.first else { return }
+        let locationTime = abs(first.timestamp.timeIntervalSinceNow)
+        if locationTime > 5 { return }
+        if first.horizontalAccuracy < 0 { return }
+
+        if first.horizontalAccuracy <= 500 {
+            delegate?.locationReceived(locations)
         }
     }
     
     // Did fail with error
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         PreyLogger("Error getting location: \(error.localizedDescription)")
-        self.delegate!.locationReceived([CLLocation]())
+        delegate?.locationReceived([CLLocation]())
     }
 }

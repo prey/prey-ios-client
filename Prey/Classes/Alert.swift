@@ -32,7 +32,7 @@ class Alert: PreyAction, @unchecked Sendable {
         // Send start action and, upon completion, send stopped to close lifecycle in order
         let params = getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
         if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
-            PreyHTTPClient.sharedInstance.userRegisterToPrey(
+            PreyHTTPClient.sharedInstance.sendDataToPrey(
                 username,
                 password: "x",
                 params: params,
@@ -45,7 +45,7 @@ class Alert: PreyAction, @unchecked Sendable {
                     onCompletion: { [weak self] (_: Bool) in
                         guard let self = self else { return }
                         let stopParams = self.getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
-                        PreyHTTPClient.sharedInstance.userRegisterToPrey(
+                        PreyHTTPClient.sharedInstance.sendDataToPrey(
                             username,
                             password: "x",
                             params: stopParams,
