@@ -289,3 +289,17 @@
 "Close" = "Close";
 
 "We couldn't reach our servers due to a connection error. please ensure you have a stable connection" = "We couldn't reach our servers due to a connection error. please ensure you have a stable connection";
+
+"Please set Location to 'Always' for Prey in Settings > Privacy > Location Services." = "Please set Location to 'Always' for Prey in Settings > Privacy > Location Services.";
+
+"Prey needs 'Always' location to locate your device even when the app isn't open." = "Prey needs 'Always' location to locate your device even when the app isn't open.";
+
+"Background Location Required" = "Background Location Required";
+
+"Enable Background Location" = "Enable Background Location";
+
+"Location Permission Needed" = "Location Permission Needed";
+
+"Not now" = "Not now";
+
+"Enable" = "Enable";
