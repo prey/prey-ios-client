@@ -81,7 +81,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         // Set device name
         var nameDevice = PreyConfig.sharedInstance.nameDevice;
-        if nameDevice! == "" {
+        if (nameDevice ?? "").isEmpty {
             nameDevice = UIDevice.current.name;
         }
         self.title = nameDevice
