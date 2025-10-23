@@ -10,6 +10,8 @@
 		05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0537E0152E5C89D4008D460F /* LocationPushService.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0592B8B62EAAD97200DB9294 /* ListPermissionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8B52EAAD97200DB9294 /* ListPermissionsTests.swift */; };
 		0592B8B82EAADBFC00DB9294 /* PreyActionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8B72EAADBFC00DB9294 /* PreyActionsTests.swift */; };
+		0592B8BB2EAADECA00DB9294 /* ReportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8BA2EAADECA00DB9294 /* ReportTests.swift */; };
+		0592B8BC2EAADECA00DB9294 /* ReportBugFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8B92EAADECA00DB9294 /* ReportBugFixTests.swift */; };
 		0592E4452E609B65000EE115 /* Registrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4442E609B5E000EE115 /* Registrar.swift */; };
 		0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4452E60A0A5000EE115 /* LocationService.swift */; };
 		0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */; };
@@ -162,6 +164,8 @@
 		0537E0152E5C89D4008D460F /* LocationPushService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LocationPushService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0592B8B52EAAD97200DB9294 /* ListPermissionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPermissionsTests.swift; sourceTree = "<group>"; };
 		0592B8B72EAADBFC00DB9294 /* PreyActionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyActionsTests.swift; sourceTree = "<group>"; };
+		0592B8B92EAADECA00DB9294 /* ReportBugFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBugFixTests.swift; sourceTree = "<group>"; };
+		0592B8BA2EAADECA00DB9294 /* ReportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTests.swift; sourceTree = "<group>"; };
 		0592E4442E609B5E000EE115 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Registrar.swift; path = Classes/Registrar.swift; sourceTree = "<group>"; };
 		0592E4452E60A0A5000EE115 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Classes/LocationService.swift; sourceTree = "<group>"; };
 		0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreyNetworkRetry.swift; path = Classes/PreyNetworkRetry.swift; sourceTree = "<group>"; };
@@ -443,6 +447,8 @@
 		3B828402199198E6000E4545 /* PreyTests */ = {
 			isa = PBXGroup;
 			children = (
+				0592B8B92EAADECA00DB9294 /* ReportBugFixTests.swift */,
+				0592B8BA2EAADECA00DB9294 /* ReportTests.swift */,
 				0592B8B72EAADBFC00DB9294 /* PreyActionsTests.swift */,
 				0592B8B52EAAD97200DB9294 /* ListPermissionsTests.swift */,
 				3B828405199198E6000E4545 /* PreyRestTests.swift */,
@@ -893,6 +899,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0592B8B62EAAD97200DB9294 /* ListPermissionsTests.swift in Sources */,
+				0592B8BB2EAADECA00DB9294 /* ReportTests.swift in Sources */,
+				0592B8BC2EAADECA00DB9294 /* ReportBugFixTests.swift in Sources */,
 				3B828406199198E6000E4545 /* PreyRestTests.swift in Sources */,
 				0592B8B82EAADBFC00DB9294 /* PreyActionsTests.swift in Sources */,
 			);
