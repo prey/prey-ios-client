@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-        0592E44D2E60A3B2000EE115 /* ZipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E44C2E60A3B2000EE115 /* ZipUtils.swift */; };
-        0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */; };
-        A9C0CAFE2F00000100000002 /* CrashHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C0CAFE2F00000100000001 /* CrashHandler.swift */; };
 		05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0537E0152E5C89D4008D460F /* LocationPushService.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0592B8B62EAAD97200DB9294 /* ListPermissionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8B52EAAD97200DB9294 /* ListPermissionsTests.swift */; };
 		0592E4452E609B65000EE115 /* Registrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4442E609B5E000EE115 /* Registrar.swift */; };
 		0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4452E60A0A5000EE115 /* LocationService.swift */; };
+		0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */; };
+		0592E44D2E60A3B2000EE115 /* ZipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E44C2E60A3B2000EE115 /* ZipUtils.swift */; };
 		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
@@ -109,6 +109,7 @@
 		747FA51E2BAB1683003242C7 /* ListPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747FA51D2BAB1683003242C7 /* ListPermissions.swift */; };
 		9A1B2C3D4E5F000100020003 /* SyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */; };
 		9A1B2C3D4E5F000100020013 /* LogRetrieval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B2C3D4E5F000100020012 /* LogRetrieval.swift */; };
+		A9C0CAFE2F00000100000002 /* CrashHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C0CAFE2F00000100000001 /* CrashHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,12 +158,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-        0592E44C2E60A3B2000EE115 /* ZipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZipUtils.swift; path = Classes/ZipUtils.swift; sourceTree = "<group>"; };
-        0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreyNetworkRetry.swift; path = Classes/PreyNetworkRetry.swift; sourceTree = "<group>"; };
-        A9C0CAFE2F00000100000001 /* CrashHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrashHandler.swift; path = Classes/CrashHandler.swift; sourceTree = "<group>"; };
 		0537E0152E5C89D4008D460F /* LocationPushService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LocationPushService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0592B8B52EAAD97200DB9294 /* ListPermissionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPermissionsTests.swift; sourceTree = "<group>"; };
 		0592E4442E609B5E000EE115 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Registrar.swift; path = Classes/Registrar.swift; sourceTree = "<group>"; };
 		0592E4452E60A0A5000EE115 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Classes/LocationService.swift; sourceTree = "<group>"; };
+		0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreyNetworkRetry.swift; path = Classes/PreyNetworkRetry.swift; sourceTree = "<group>"; };
+		0592E44C2E60A3B2000EE115 /* ZipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZipUtils.swift; path = Classes/ZipUtils.swift; sourceTree = "<group>"; };
 		3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TriggerManager.swift; path = Classes/TriggerManager.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
 		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
@@ -270,6 +271,7 @@
 		747FA51D2BAB1683003242C7 /* ListPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ListPermissions.swift; path = Classes/ListPermissions.swift; sourceTree = "<group>"; };
 		9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SyncCoordinator.swift; path = Classes/SyncCoordinator.swift; sourceTree = "<group>"; };
 		9A1B2C3D4E5F000100020012 /* LogRetrieval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LogRetrieval.swift; path = Classes/LogRetrieval.swift; sourceTree = "<group>"; };
+		A9C0CAFE2F00000100000001 /* CrashHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrashHandler.swift; path = Classes/CrashHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -342,7 +344,7 @@
 		3B51FFB01D3EB66C00CFE4E8 /* Prey Utils */ = {
 			isa = PBXGroup;
 			children = (
-                0592E44C2E60A3B2000EE115 /* ZipUtils.swift */,
+				0592E44C2E60A3B2000EE115 /* ZipUtils.swift */,
 				0592E4452E60A0A5000EE115 /* LocationService.swift */,
 				0592E4442E609B5E000EE115 /* Registrar.swift */,
 				3B40A9041CD8FC8400BF98F6 /* PreyNotification.swift */,
@@ -375,7 +377,7 @@
 				3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */,
 				3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */,
 				3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */,
-                0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */,
+				0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */,
 			);
 			name = "Prey Http";
 			sourceTree = "<group>";
@@ -439,6 +441,7 @@
 		3B828402199198E6000E4545 /* PreyTests */ = {
 			isa = PBXGroup;
 			children = (
+				0592B8B52EAAD97200DB9294 /* ListPermissionsTests.swift */,
 				3B828405199198E6000E4545 /* PreyRestTests.swift */,
 				3B828403199198E6000E4545 /* Supporting Files */,
 			);
@@ -760,10 +763,10 @@
 			);
 			inputPaths = (
 			);
-				name = "Run Script Tag Warnings";
-				outputPaths = (
-					"$(DERIVED_FILE_DIR)/run-script-tag-warnings.stamp",
-				);
+			name = "Run Script Tag Warnings";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/run-script-tag-warnings.stamp",
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
@@ -777,9 +780,9 @@
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
 				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
-				outputPaths = (
-					"$(DERIVED_FILE_DIR)/postbuild-script.stamp",
-				);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/postbuild-script.stamp",
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "
@@ -799,9 +802,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-                0592E44D2E60A3B2000EE115 /* ZipUtils.swift in Sources */,
-                0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */,
-					9A1B2C3D4E5F000100020003 /* SyncCoordinator.swift in Sources */,
+				0592E44D2E60A3B2000EE115 /* ZipUtils.swift in Sources */,
+				0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */,
+				9A1B2C3D4E5F000100020003 /* SyncCoordinator.swift in Sources */,
 				9A1B2C3D4E5F000100020013 /* LogRetrieval.swift in Sources */,
 				0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */,
 				3B8629961EF03CB400BE92D4 /* HttpRouter.swift in Sources */,
@@ -886,6 +889,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0592B8B62EAAD97200DB9294 /* ListPermissionsTests.swift in Sources */,
 				3B828406199198E6000E4545 /* PreyRestTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
