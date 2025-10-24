@@ -71,13 +71,13 @@ class ListPermissions : PreyAction, @unchecked Sendable {
 
                     // Build permission parameters
                     let permissionParam: [String: Any] = [
-                        kPermission.location.rawValue: location,
-                        kPermission.location_background.rawValue: locationBackground,
+                        kPermission.location.rawValue: String(location),
+                        kPermission.location_background.rawValue: String(locationBackground),
                         "location_status": locationStatus,
-                        kPermission.camera.rawValue: camera,
-                        kPermission.background_app_refresh.rawValue: backgroundAppRefresh,
-                        kPermission.notification.rawValue: notification,
-                        kPermission.photos.rawValue: photos
+                        kPermission.camera.rawValue: String(camera),
+                        kPermission.background_app_refresh.rawValue: String(backgroundAppRefresh),
+                        kPermission.notification.rawValue: String(notification),
+                        kPermission.photos.rawValue: String(photos)
                     ]
 
                     completion(permissionParam)
