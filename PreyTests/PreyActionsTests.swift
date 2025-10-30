@@ -44,22 +44,7 @@ class PreyActionsTests: XCTestCase {
         print("\n========== TESTING LOCATION STATUS ==========")
 
         let authStatus = DeviceAuth.sharedInstance.authLocation.authorizationStatus
-        var locationStatus = ""
-
-        switch authStatus {
-        case .notDetermined:
-            locationStatus = "never"
-        case .restricted:
-            locationStatus = "restricted"
-        case .denied:
-            locationStatus = "denied"
-        case .authorizedAlways:
-            locationStatus = "always"
-        case .authorizedWhenInUse:
-            locationStatus = "when_in_use"
-        @unknown default:
-            locationStatus = "unknown"
-        }
+        var locationStatus = Location.getLocationStatusString(authStatus)
 
         print("Location Status: \(locationStatus)")
         XCTAssertFalse(locationStatus.isEmpty, "Location status should not be empty")

@@ -430,4 +430,32 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             PreyLogger("Unknown authorization status: \(status)", level: .error)
         }
     }
+    
+    // Get location status as string
+    public static func getLocationStatusString(_ authorizationStatus: CLAuthorizationStatus) -> String {
+        switch authorizationStatus {
+        case .notDetermined:
+            return LocationAccess.NEVER.rawValue
+        case .restricted:
+            return LocationAccess.RESTRICTED.rawValue
+        case .denied:
+            return LocationAccess.DENIED.rawValue
+        case .authorizedAlways:
+            return LocationAccess.ALWAYS.rawValue
+        case .authorizedWhenInUse:
+            return LocationAccess.WHEN_IN_USE.rawValue
+        @unknown default:
+            return LocationAccess.UNKNOWN.rawValue
+        }
+    }
+}
+
+// Prey LocationAccess definitions
+enum LocationAccess: String {
+    case NEVER       = "never"
+    case RESTRICTED  = "restricted"
+    case DENIED      = "denied"
+    case ALWAYS      = "always"
+    case WHEN_IN_USE = "when_in_use"
+    case UNKNOWN     = "unknown"
 }

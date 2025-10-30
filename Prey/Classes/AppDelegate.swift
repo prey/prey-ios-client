@@ -664,9 +664,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         guard manager === self.locationPushManager else { return }
         let status = manager.authorizationStatus
+        permissionLocationChanged(status)
         PreyLogger("LocationPush auth changed: \(status.rawValue)")
         if status == .authorizedAlways {
             startMonitoringLocationPushes()
+        }
+    }
+    
+    func permissionLocationChanged(_ authorizationStatus: CLAuthorizationStatus) {
+        var locationAccessOld=PreyConfig.sharedInstance.locationAccess
+        var locationAccessNew = Location.getLocationStatusString(status)
+        PreyConfig.sharedInstance.locationAccess=locationAccessNew
+        if (locationAccessOld==nil){
+            locationAccessOld = LocationAccess.UNKNOWN.rawValue
+        }
+        if(locationAccessNew != locationAccessOld!){
+            let paramsInfo : [String:String] = [
+                "permission_name"           : "location",
+                "new"                       : locationAccessNew,
+                "old"                       : locationAccessOld!
+            ]
+            let params:[String: Any] = [
+                "name"                      : "permission_changed",
+                "info"                      : paramsInfo]
+            if let username = PreyConfig.sharedInstance.userApiKey {
+                PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:eventsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:nil, onCompletion:{ success in
+                    if success {
+                        PreyLogger("permissionChanged successfully")
+                    } else {
+                        PreyLogger("Failed to permissionChanged")
+                    }
+                }))
+            }else{
+                PreyLogger("Error permissionChanged")
+            }
         }
     }
     

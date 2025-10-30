@@ -47,7 +47,8 @@ class ListPermissions : PreyAction, @unchecked Sendable {
     // Get all permissions asynchronously
     private func getPermissionsAsync(completion: @escaping ([String: Any]) -> Void) {
         // Get location status string
-        let locationStatus = getLocationStatusString()
+        let authStatus = DeviceAuth.sharedInstance.authLocation.authorizationStatus
+        let locationStatus = Location.getLocationStatusString(authStatus)
         let location = DeviceAuth.sharedInstance.checkLocation()
         let locationBackground = DeviceAuth.sharedInstance.checkLocationBackground()
         let backgroundAppRefresh = DeviceAuth.sharedInstance.checkBackgroundRefreshStatus()
@@ -86,25 +87,6 @@ class ListPermissions : PreyAction, @unchecked Sendable {
         }
     }
 
-    // Get location status as string
-    private func getLocationStatusString() -> String {
-        let authStatus = DeviceAuth.sharedInstance.authLocation.authorizationStatus
-
-        switch authStatus {
-        case .notDetermined:
-            return "never"
-        case .restricted:
-            return "restricted"
-        case .denied:
-            return "denied"
-        case .authorizedAlways:
-            return "always"
-        case .authorizedWhenInUse:
-            return "when_in_use"
-        @unknown default:
-            return "unknown"
-        }
-    }
 
     // Check camera permission without requesting
     private func checkCameraPermission(completion: @escaping (Bool) -> Void) {
