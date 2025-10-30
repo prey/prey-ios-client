@@ -673,7 +673,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func permissionLocationChanged(_ authorizationStatus: CLAuthorizationStatus) {
         var locationAccessOld=PreyConfig.sharedInstance.locationAccess
-        var locationAccessNew = Location.getLocationStatusString(status)
+        var locationAccessNew = Location.getLocationStatusString(authorizationStatus)
         PreyConfig.sharedInstance.locationAccess=locationAccessNew
         if (locationAccessOld==nil){
             locationAccessOld = LocationAccess.UNKNOWN.rawValue
