@@ -42,6 +42,7 @@ enum PreyConfigDevice: String {
     case ExistBackup
     case NameDevice
     case IsMsp
+    case LocationAccess
 }
 
 enum PreyUserEmailValidation: String {
@@ -74,6 +75,7 @@ class PreyConfig: NSObject {
         existBackup         = defaultConfig.bool(forKey: PreyConfigDevice.ExistBackup.rawValue)
         nameDevice          = defaultConfig.string(forKey: PreyConfigDevice.NameDevice.rawValue)
         isMsp               = defaultConfig.bool(forKey: PreyConfigDevice.IsMsp.rawValue)
+        locationAccess      = defaultConfig.string(forKey: PreyConfigDevice.LocationAccess.rawValue)
     }
 
     // MARK: Properties
@@ -96,6 +98,7 @@ class PreyConfig: NSObject {
     var existBackup         : Bool
     var nameDevice          : String?
     var isMsp               : Bool
+    var locationAccess      : String?
     
     // MARK: Functions
     
@@ -121,6 +124,7 @@ class PreyConfig: NSObject {
         defaultConfig.set(existBackup, forKey: PreyConfigDevice.ExistBackup.rawValue)
         defaultConfig.set(nameDevice, forKey: PreyConfigDevice.NameDevice.rawValue)
         defaultConfig.set(isMsp, forKey:PreyConfigDevice.IsMsp.rawValue)
+        defaultConfig.set(locationAccess, forKey:PreyConfigDevice.LocationAccess.rawValue)
 
         // Mirror a minimal subset to the App Group so extensions can read them
         if let suite = UserDefaults(suiteName: "group.com.prey.ios") {
@@ -154,6 +158,7 @@ class PreyConfig: NSObject {
         validationUserEmail = PreyUserEmailValidation.inactive.rawValue
         tokenWebTimestamp = 0
         isMsp            = false
+        locationAccess   = LocationAccess.UNKNOWN.rawValue
         
         saveValues()
     }

@@ -148,71 +148,33 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         return nil
     }
     
-    // Send last known location (always sends something): live, cached, or fallback
-    func sendLastLocation() {
-        // 1) Try to use LocationService's last location if available (regardless of age)
-        if let live = LocationService.shared.getLastLocation() {
-            PreyLogger("On-demand: using manager's location (without validating age)", level: .info)
-            locationReceived(live)
-            return
-        }
-        // 2) Try shared cache (App Group), no age limit
-        if let cached = buildLocationFromSharedCache() {
-            PreyLogger("On-demand: using cached App Group location (no age limit)", level: .info)
-            self.lastLocation = cached
-            locationReceived(cached)
-            return
-        }
-        // 3) Hard fallback: send payload with default values to respond to panel
-        PreyLogger("On-demand: no location available; sending fallback", level: .info)
-        let params: [String: Any] = [
-            kLocation.lng.rawValue: 0.0,
-            kLocation.lat.rawValue: 0.0,
-            kLocation.alt.rawValue: 0.0,
-            kLocation.accuracy.rawValue: -1.0,
-            kLocation.method.rawValue: "unknown"
-        ]
-        let locParam: [String: Any] = [
-            kAction.location.rawValue: params,
-            kDataLocation.skip_toast.rawValue: (index > 0),
-            // informational reason for backend/debug
-            kData.reason.rawValue: "no_last_known_location"
-        ]
-        self.sendDataWithCallback(locParam, toEndpoint: dataDeviceEndpoint) { _ in }
-        index = index + 1
-    }
-    
     // Prey command
     override func get() {
-        // Classic on-demand: ALWAYS respond with the best available location
-        PreyLogger("Location.get(): classic on-demand enabled; always responding with last known", level: .info)
-        // Kick off a quick capture in background for future requests
-        startLocationManager()
-        // Immediately send the best we have right now
-        sendLastLocation()
-    }
+        // Server sends this command only to devices without location push token
+        // Use requestOneShot for efficient one-time location request
+        PreyLogger("Location.get(): traditional location request (no push token)", level: .info)
 
-    // Build CLLocation from shared cache (without validating age)
-    private func buildLocationFromSharedCache() -> CLLocation? {
-        guard let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
-              let cached = userDefaults.dictionary(forKey: "lastLocation"),
-              let lat = cached["lat"] as? Double,
-              let lng = cached["lng"] as? Double,
-              let accuracy = cached["accuracy"] as? Double,
-              let altitude = cached["alt"] as? Double,
-              let timestamp = cached["timestamp"] as? TimeInterval
-        else {
-            return nil
+        // Check if we have a very recent location (< 30 seconds) - reuse it for fast response
+        if let lastLoc = LocationService.shared.getLastLocation(),
+           abs(lastLoc.timestamp.timeIntervalSinceNow) < 30 {
+            PreyLogger("Location.get(): reusing recent location (\(Int(abs(lastLoc.timestamp.timeIntervalSinceNow)))s old)", level: .info)
+            locationReceived(lastLoc)
+            return
         }
-        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-        let date = Date(timeIntervalSince1970: timestamp)
-        return CLLocation(
-            coordinate: coord,
-            altitude: altitude,
-            horizontalAccuracy: accuracy,
-            verticalAccuracy: 0,
-            timestamp: date
-        )
+
+        // No recent location - request fresh one-shot
+        LocationService.shared.requestOneShot { [weak self] location in
+            guard let self = self else { return }
+
+            if let location = location {
+                PreyLogger("Location.get(): one-shot succeeded, sending location", level: .info)
+                self.locationReceived(location)
+            } else {
+                PreyLogger("Location.get(): one-shot failed, no location available", level: .warning)
+                // Don't send invalid data - just finish gracefully
+                self.stopLocationManager()
+            }
+        }
     }
     
     // Start location aware
@@ -468,4 +430,32 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             PreyLogger("Unknown authorization status: \(status)", level: .error)
         }
     }
+    
+    // Get location status as string
+    public static func getLocationStatusString(_ authorizationStatus: CLAuthorizationStatus) -> String {
+        switch authorizationStatus {
+        case .notDetermined:
+            return LocationAccess.NEVER.rawValue
+        case .restricted:
+            return LocationAccess.RESTRICTED.rawValue
+        case .denied:
+            return LocationAccess.DENIED.rawValue
+        case .authorizedAlways:
+            return LocationAccess.ALWAYS.rawValue
+        case .authorizedWhenInUse:
+            return LocationAccess.WHEN_IN_USE.rawValue
+        @unknown default:
+            return LocationAccess.UNKNOWN.rawValue
+        }
+    }
+}
+
+// Prey LocationAccess definitions
+enum LocationAccess: String {
+    case NEVER       = "never"
+    case RESTRICTED  = "restricted"
+    case DENIED      = "denied"
+    case ALWAYS      = "always"
+    case WHEN_IN_USE = "when_in_use"
+    case UNKNOWN     = "unknown"
 }
