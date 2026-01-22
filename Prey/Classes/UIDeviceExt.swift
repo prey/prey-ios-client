@@ -94,11 +94,14 @@ extension UIDevice {
         case "iPad Mini 2024":
             modelName = "Apple A17"
             
-        case "iPhone 16", "iPhone 16 Pro", "iPhone 16 Pro Max", "iPhone 16 Plus":
+        case "iPhone 16", "iPhone 16 Pro", "iPhone 16 Pro Max", "iPhone 16 Plus", "iPhone 16 e":
             modelName = "Apple A18"
         
         case "iPhone 17", "iPhone 17 Pro", "iPhone 17 Pro Max":
             modelName = "Apple A19"
+            
+        case "iPhone Air":
+            modelName = "Apple A19 Pro"
 
         case "iPad Pro 5 12.9", "iPad Air 5":
             modelName = "Apple M1"
@@ -197,7 +200,7 @@ extension UIDevice {
         case "Apple A18":
             cpuSpeedMhz = "4040"
             
-        case "Apple A19":
+        case "Apple A19", "Apple A19 Pro":
             cpuSpeedMhz = "4260"
             
         case "Apple M2":
@@ -242,7 +245,7 @@ extension UIDevice {
         case "Apple A10":
             cores = "4"
 
-        case "Apple A10X","Apple A11","Apple A12","Apple A13", "Apple A14", "Apple A15", "Apple A16", "Apple A17", "Apple A18", "Apple A19":
+        case "Apple A10X","Apple A11","Apple A12","Apple A13", "Apple A14", "Apple A15", "Apple A16", "Apple A17", "Apple A18", "Apple A19", "Apple A19 Pro":
             cores = "6"
 
         case "Apple A12X","Apple A12Z", "Apple M1", "Apple M3":
@@ -439,9 +442,11 @@ extension UIDevice {
             "iPhone17,2" : .iPhone16ProMax,
             "iPhone17,3" : .iPhone16,
             "iPhone17,4" : .iPhone16Plus,
+            "iPhone17,5" : .iPhone16e,
             "iPhone18,1" : .iPhone17Pro,
             "iPhone18,2" : .iPhone17ProMax,
             "iPhone18,3" : .iPhone17,
+            "iPhone18,4" : .iPhoneAir,
 
             // Apple Watch
             "Watch1,1" : .AppleWatch1,
@@ -614,9 +619,11 @@ public enum Model : String {
     iPhone16Plus       = "iPhone 16 Plus",
     iPhone16Pro        = "iPhone 16 Pro",
     iPhone16ProMax     = "iPhone 16 Pro Max",
+    iPhone16e          = "iPhone 16 e",
     iPhone17           = "iPhone 17",
     iPhone17Pro        = "iPhone 17 Pro",
     iPhone17ProMax     = "iPhone 17 Pro Max",
+    iPhoneAir          = "iPhone Air",
 
     // Apple Watch
     AppleWatch1         = "Apple Watch 1gen",
@@ -680,11 +687,14 @@ public enum Model : String {
 
         case "iPad Pro 12.9", "iPad Pro 2 12.9", "iPad Pro 10.5", "iPhone XS Max", "iPhone XS", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPad Pro 11", "iPad Pro 3 12.9", "iPhone 12", "iPhone 12 Mini", "iPhone 11", "iPad Mini 6", "iPhone 13 Mini", "iPhone 13", "iPhone SE 3rd gen", "iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max", "iPad 10":
             deviceRamSize = "4096"
+            
+        case "iPhone Air":
+            deviceRamSize = "4250"
 
         case "iPhone 12 Pro", "iPhone 12 Pro Max", "iPad Pro 4 12.9", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone 15", "iPad 11":
             deviceRamSize = "6144"
         
-        case "iPad Pro 5 12.9", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max", "iPad Air 5", "iPhone 16", "iPhone 16 Pro", "iPhone 16 Pro Max", "iPhone 16 Plus", "iPad Air 11", "iPad Pro 11 2024", "iPad Pro 13 2024", "iPad Mini 2024", "iPad Air M3 11", "iPad Air M3 13" ,"iPhone 17":
+        case "iPad Pro 5 12.9", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max", "iPad Air 5", "iPhone 16", "iPhone 16 Pro", "iPhone 16 Pro Max", "iPhone 16 Plus", "iPhone 16 e", "iPad Air 11", "iPad Pro 11 2024", "iPad Pro 13 2024", "iPad Mini 2024", "iPad Air M3 11", "iPad Air M3 13" ,"iPhone 17":
             deviceRamSize = "8192"
 
         case "iPhone 17 Pro", "iPhone 17 Pro Max":
