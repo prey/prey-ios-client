@@ -66,6 +66,7 @@ class NotificationTokenRegistrar {
         let firmwareInfo: [String: String] = [
             "model_name": preyDevice.model ?? "",
             "vendor_name": preyDevice.vendor ?? "",
+            "machine_id": UIDevice.current.machineIdentifier,
         ]
         let processorInfo: [String: String] = [
             "speed": preyDevice.cpuSpeed ?? "",

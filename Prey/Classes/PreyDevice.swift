@@ -26,6 +26,7 @@ class PreyDevice {
     var cpuSpeed: String?
     var cpuCores: String?
     var ramSize: String?
+    var machineIdentifier: String?
     
     // MARK: Functions
 
@@ -35,7 +36,7 @@ class PreyDevice {
         type        = (IS_IPAD) ? "Tablet" : "Phone"
         os          = "iOS"
         vendor      = "Apple"
-        model       = UIDevice.current.deviceModel.rawValue
+        model       = UIDevice.current.modelName
         version     = UIDevice.current.systemVersion
         uuid        = UIDevice.current.identifierForVendor?.uuidString
         macAddress  = "02:00:00:00:00:00" // iOS default
@@ -43,6 +44,7 @@ class PreyDevice {
         cpuModel    = UIDevice.current.cpuModel
         cpuSpeed    = UIDevice.current.cpuSpeed
         cpuCores    = UIDevice.current.cpuCores
+        machineIdentifier = UIDevice.current.machineIdentifier
     }
     
     // Add new device to Panel Prey
@@ -56,7 +58,8 @@ class PreyDevice {
             "cpu_model"    : preyDevice.cpuModel!,
             "cpu_speed"    : preyDevice.cpuSpeed!,
             "cpu_cores"    : preyDevice.cpuCores!,
-            "ram_size"     : preyDevice.ramSize!]
+            "ram_size"     : preyDevice.ramSize!,
+            "machine_id"   : preyDevice.machineIdentifier!]
         
         let params:[String:Any] = [
             "name"                              : preyDevice.name!,

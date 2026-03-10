@@ -6,9 +6,7 @@
 
 Here you will find all the source code for the [current](https://apps.apple.com/us/app/prey-find-my-phone-security/id456755037) and in development releases of the Prey client for iOS devices.
 
-Prey is the most complete anti-theft application! It lets you track and locate your lost or stolen iPhone, iPad and Mac laptop. Locate and recover your device with geolocation and many more features.
-
-> Prey is a freemium web service for tracking and monitoring laptops, smartphones and other electronic devices, based on an open-source software agent that connects to a host computer, also referred to as the control panel. The host can signal the agent, prompting it to reply with information about its current location, and can trigger various other actions.
+Prey is a SaaS for tracking and monitoring laptops, smartphones and other electronic devices, based on an open-source software agent that connects to a host computer, also referred to as the control panel. The host can signal the agent, prompting it to reply with information about its current location, and can trigger various other actions.
 
 ## Features
 
@@ -27,7 +25,6 @@ Prey is the most complete anti-theft application! It lets you track and locate y
 ### Author
 
 - [Javier Cala Uribe](http://github.com/jcalau) ([@jcalau](https://twitter.com/jcalau))
-
 
 ### Collaborators
 
