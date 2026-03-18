@@ -20,6 +20,12 @@ jobs:
         with:
           xcode-version: "16.0"
 
+      - name: Ensure iOS platform installed
+        run: |
+          if ! xcodebuild -showsdks | grep -q iphoneos; then
+            xcodebuild -downloadPlatform iOS
+          fi
+
       - name: Build and test
         run: |
           set -o pipefail
