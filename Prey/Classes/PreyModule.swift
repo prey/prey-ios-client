@@ -17,7 +17,12 @@ class PreyModule {
     fileprivate init() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleLocationUpdateNotification(_:)), name: .preyLocationUpdated, object: nil)
     }
-    
+
+    #if DEBUG
+    // Test hook to avoid running actions during unit tests.
+    var skipRunActionForTests = false
+    #endif
+
     var actionArray = [PreyAction] ()
     
     // Status device request throttling
@@ -244,7 +249,15 @@ class PreyModule {
             if addedCriticalActions {
                 PreyLogger("Critical actions added, running immediately...")
             }
+            #if DEBUG
+            if !skipRunActionForTests {
+                runAction()
+            } else {
+                PreyLogger("PreyModule: skipRunActionForTests enabled; not running actions")
+            }
+            #else
             runAction()
+            #endif
             
             // Check ActionArray empty
             if actionArray.isEmpty {
@@ -305,7 +318,10 @@ class PreyModule {
 
             // Actions MessageId
             if let actionMessageId = actionOptions?.object(forKey: kOptions.messageID.rawValue) as? String {
-                action.messageId = actionMessageId
+                let trimmed = actionMessageId.trimmingCharacters(in: .whitespacesAndNewlines)
+                if !trimmed.isEmpty && trimmed.lowercased() != "undefined" {
+                    action.messageId = trimmed
+                }
             }
 
             // Actions deviceJobId

@@ -93,6 +93,12 @@ class PreyAction : Operation, @unchecked Sendable {
             kData.status.rawValue   : status,
             kData.target.rawValue   : target,
             kData.command.rawValue  : command]
+
+        if let msg = messageId?.trimmingCharacters(in: .whitespacesAndNewlines),
+           !msg.isEmpty,
+           msg.lowercased() != "undefined" {
+            params["reply_id"] = msg
+        }
         
         if let jobId = deviceJobId {
             let jobIdJson = [kOptions.device_job_id.rawValue : jobId]

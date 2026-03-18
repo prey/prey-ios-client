@@ -89,7 +89,7 @@ class ReportBugFixTests: XCTestCase {
             XCTAssertFalse(report1.reportPhoto.waitForRequest, "Photo should be false when excluded")
 
             report1.stopReport()
-
+ 
             // Test with nothing excluded
             let options2: [String: Any] = [
                 kOptions.interval.rawValue: 1,
