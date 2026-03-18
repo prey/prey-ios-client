@@ -240,7 +240,11 @@ class PreyRestTests: XCTestCase {
     }
     
     // Test Send Report
-    func testRest11SendReport() {
+    func testRest11SendReport() throws {
+        try XCTSkipIf(
+            ProcessInfo.processInfo.environment["CI"] == "true",
+            "Skipping network-dependent test in CI."
+        )
         
         let expectation     = self.expectation(description: "Expecta Test: Response Device")
         
