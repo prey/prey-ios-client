@@ -20,6 +20,20 @@ jobs:
         with:
           xcode-version: "16.0"
 
+      - name: Ensure iOS simulator runtime
+        run: |
+          python3 - <<'PY'
+          import json
+          import subprocess
+          data = subprocess.check_output(
+              ["xcrun", "simctl", "list", "runtimes", "-j"]
+          )
+          runtimes = json.loads(data).get("runtimes", [])
+          has_ios = any(r.get("platform") == "iOS" for r in runtimes)
+          if not has_ios:
+            subprocess.check_call(["xcodebuild", "-downloadPlatform", "iOS"])
+          PY
+
       - name: Resolve simulator destination
         run: |
           python3 - <<'PY'
@@ -49,7 +63,7 @@ jobs:
             sys.exit("No available iOS simulator devices found.")
           print(f"DESTINATION=platform=iOS Simulator,id={selected_udid}")
           with open(".github_env", "a") as f:
-            f.write(f"DESTINATION=platform=iOS Simulator,id={selected_udid}\\n")
+            f.write(f"DESTINATION=platform=iOS Simulator,id={selected_udid}\n")
           PY
           cat .github_env >> "$GITHUB_ENV"
 
