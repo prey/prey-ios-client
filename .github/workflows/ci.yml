@@ -62,7 +62,7 @@ jobs:
               > LocationPushService/Info.plist
           fi
 
-      - name: Build and test
+      - name: Build
         run: |
           set -o pipefail
           DEVICE_UDID=$(xcrun simctl list devices available | awk '
@@ -80,12 +80,46 @@ jobs:
             exit 1
           fi
           DESTINATION="platform=iOS Simulator,id=$DEVICE_UDID"
+          DERIVED_DATA="$RUNNER_TEMP/derived-data"
           xcodebuild \
             -workspace Prey.xcworkspace \
-            -scheme Prey \
+            -scheme Prey-CI \
             -sdk iphonesimulator \
             -destination "$DESTINATION" \
+            -derivedDataPath "$DERIVED_DATA" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_ENTITLEMENTS= \
-            test
+            build
+
+      - name: Remove LocationPushService extension (CI only)
+        run: |
+          DERIVED_DATA="$RUNNER_TEMP/derived-data"
+          rm -rf "$DERIVED_DATA/Build/Products/Debug-iphonesimulator/Prey.app/PlugIns/LocationPushService.appex"
+
+      - name: Test without building
+        run: |
+          set -o pipefail
+          DEVICE_UDID=$(xcrun simctl list devices available | awk '
+            /-- iOS [0-9]+/ { ios=1; next }
+            /--/ { ios=0 }
+            ios && /iPhone/ {
+              if (match($0, /[A-F0-9-]{36}/)) {
+                print substr($0, RSTART, RLENGTH);
+                exit
+              }
+            }
+          ')
+          if [ -z "$DEVICE_UDID" ]; then
+            echo "No available iOS simulator devices found."
+            exit 1
+          fi
+          DESTINATION="platform=iOS Simulator,id=$DEVICE_UDID"
+          DERIVED_DATA="$RUNNER_TEMP/derived-data"
+          xcodebuild \
+            -workspace Prey.xcworkspace \
+            -scheme Prey-CI \
+            -sdk iphonesimulator \
+            -destination "$DESTINATION" \
+            -derivedDataPath "$DERIVED_DATA" \
+            test-without-building
