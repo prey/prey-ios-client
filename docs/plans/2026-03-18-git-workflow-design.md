@@ -29,7 +29,7 @@ For `main`:
 ## CI requirements
 Minimum checks (blocking):
 - Build.
-- Tests (unit/integration if present).
+- Tests (unit/integration if present) must run and pass.
 - Lint/format (if configured).
 
 If CI is slow, keep the blocking checks minimal and move extended checks to nightly.
@@ -42,7 +42,7 @@ If CI is slow, keep the blocking checks minimal and move extended checks to nigh
 - No intentional breaking changes without a note.
 
 ## Implementation notes
-Recommended files:
+Recommended files (TODO):
 - `PULL_REQUEST_TEMPLATE.md` with the checklist above.
 - `CONTRIBUTING.md` summarizing the workflow in ~10 lines.
 
