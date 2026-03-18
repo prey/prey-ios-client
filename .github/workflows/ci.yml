@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, master]
+  push:
+    branches: [develop, master]
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "16.0"
+
+      - name: Ensure iOS platform installed
+        run: |
+          if ! xcodebuild -showsdks | grep -q iphoneos; then
+            xcodebuild -downloadPlatform iOS
+          fi
+
+      - name: Show SDKs
+        run: |
+          xcodebuild -showsdks
+
+      - name: Build and test
+        run: |
+          set -o pipefail
+          DEVICE_UDID=$(xcrun simctl list devices available | awk '
+            /-- iOS [0-9]+/ { ios=1; next }
+            /--/ { ios=0 }
+            ios && /iPhone/ {
+              if (match($0, /[A-F0-9-]{36}/)) {
+                print substr($0, RSTART, RLENGTH);
+                exit
+              }
+            }
+          ')
+          if [ -z "$DEVICE_UDID" ]; then
+            echo "No available iOS simulator devices found."
+            exit 1
+          fi
+          DESTINATION="platform=iOS Simulator,id=$DEVICE_UDID"
+          xcodebuild \
+            -workspace Prey.xcworkspace \
+            -scheme Prey \
+            -sdk iphonesimulator \
+            -destination "$DESTINATION" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_ENTITLEMENTS= \
+            test

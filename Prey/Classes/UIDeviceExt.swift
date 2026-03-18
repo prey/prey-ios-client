@@ -12,19 +12,29 @@ import UIKit
 // Extension for UIDevice
 // source: https://www.theiphonewiki.com/wiki/Models
 extension UIDevice {
-    /*
-    // Return Hardware Model
-    var hwModel: String {
-        return self.getSysInfoByName("hw.model")
+
+    // Return raw machine identifier (e.g. "iPhone18,1")
+    var machineIdentifier: String {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let identifier = withUnsafePointer(to: &systemInfo.machine) {
+            $0.withMemoryRebound(to: CChar.self, capacity: 1) {
+                ptr in String(cString: ptr)
+            }
+        }
+        // On simulator, return the simulated model identifier
+        if identifier == "i386" || identifier == "x86_64" || identifier == "arm64" {
+            if let simId = ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] {
+                return simId
+            }
+        }
+        return identifier
     }
-    */
+
     // Return CPU Model
     var cpuModel: String {
-        
-        var modelName: String
-        var systemInfo      = utsname()
-        uname(&systemInfo)
 
+        var modelName: String
 
         switch deviceModel.rawValue {
 
@@ -130,13 +140,6 @@ extension UIDevice {
 
         return modelName
     }
-    /*
-    // Return Cpu Speed
-    var cpuSpeed: String {
-        let results = self.getSysInfo(HW_CPU_FREQ)/1000000
-        return String(results)
-    }
-    */
     // Return Cpu Speed
     var cpuSpeed: String {
 
@@ -221,44 +224,9 @@ extension UIDevice {
 
         return cpuSpeedMhz
     }
-    /*
-    // Return Cpu Cores
+    // Return Cpu Cores (dynamic via ProcessInfo)
     var cpuCores: String {
-        return String(self.getSysInfo(HW_NCPU))
-    }
-    */
-    // Return Cpu Cores
-    var cpuCores: String {
-
-        var cores: String
-
-        switch cpuModel {
-        case "Apple A4":
-            cores = "1"
-
-        case "Apple A5","Apple A5X","Apple A6","Apple A6X","Apple A7","Apple A8","Apple A9","Apple A9X":
-            cores = "2"
-
-        case "Apple A8X":
-            cores = "3"
-
-        case "Apple A10":
-            cores = "4"
-
-        case "Apple A10X","Apple A11","Apple A12","Apple A13", "Apple A14", "Apple A15", "Apple A16", "Apple A17", "Apple A18", "Apple A19", "Apple A19 Pro":
-            cores = "6"
-
-        case "Apple A12X","Apple A12Z", "Apple M1", "Apple M3":
-            cores = "8"
-            
-        case "Apple M2", "Apple M4":
-            cores = "10"
-
-        default:
-            cores = "0"
-        }
-
-        return cores
+        return String(ProcessInfo.processInfo.processorCount)
     }
 
     var deviceModel: Model {
@@ -517,6 +485,15 @@ extension UIDevice {
         return Model.unrecognized
       }
 
+    // Return marketing name, falling back to machineIdentifier for unrecognized models
+    var modelName: String {
+        let model = deviceModel
+        if model == .unrecognized {
+            return machineIdentifier
+        }
+        return model.rawValue
+    }
+
 
 
 public enum Model : String {
@@ -654,81 +631,10 @@ public enum Model : String {
 
 
 
-    /*
-    // Return Ram Size
+    // Return Ram Size in MB (dynamic via ProcessInfo)
     var ramSize: String {
-        let results = self.getSysInfo(HW_PHYSMEM)/1024/1024
-        return String(results)
-    }
-    */
-
-    // Return Ram Size
-    var ramSize: String {
-
-        var deviceRamSize: String
-        var systemInfo      = utsname()
-        uname(&systemInfo)
-
-        // MB: 512, 1024, 2048, 3072, 4096, 6144, 8192, 16384
-
-        switch deviceModel.rawValue {
-
-        case "iPod 5", "iPad 2", "iPad Mini", "iPhone 4", "iPhone 4S":
-            deviceRamSize = "512"
-
-        case "iPod 6", "iPad 3", "iPad Air ", "iPad Mini 2", "iPad Mini 3", "iPhone 5", "iPhone 5C", "iPhone 5S", "iPhone 6", "iPhone 6 Plus":
-            deviceRamSize = "1024"
-
-        case "iPod 7", "iPad Air 2", "iPad Mini 4", "iPad Pro 9.7", "iPad 5", "iPhone 6S", "iPhone 6S Plus", "iPhone SE", "iPhone 7", "iPhone 8", "iPad 6" :
-            deviceRamSize = "2048"
-
-        case "iPad 7", "iPad Mini 5", "iPad Air 3", "iPhone 7 Plus", "iPhone 8 Plus", "iPhone X", "iPhone XR", "iPhone SE 2nd gen", "iPad 8", "iPad 9":
-            deviceRamSize = "3072"
-
-        case "iPad Pro 12.9", "iPad Pro 2 12.9", "iPad Pro 10.5", "iPhone XS Max", "iPhone XS", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPad Pro 11", "iPad Pro 3 12.9", "iPhone 12", "iPhone 12 Mini", "iPhone 11", "iPad Mini 6", "iPhone 13 Mini", "iPhone 13", "iPhone SE 3rd gen", "iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max", "iPad 10":
-            deviceRamSize = "4096"
-            
-        case "iPhone Air":
-            deviceRamSize = "4250"
-
-        case "iPhone 12 Pro", "iPhone 12 Pro Max", "iPad Pro 4 12.9", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone 15", "iPad 11":
-            deviceRamSize = "6144"
-        
-        case "iPad Pro 5 12.9", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max", "iPad Air 5", "iPhone 16", "iPhone 16 Pro", "iPhone 16 Pro Max", "iPhone 16 Plus", "iPhone 16 e", "iPad Air 11", "iPad Pro 11 2024", "iPad Pro 13 2024", "iPad Mini 2024", "iPad Air M3 11", "iPad Air M3 13" ,"iPhone 17":
-            deviceRamSize = "8192"
-
-        case "iPhone 17 Pro", "iPhone 17 Pro Max":
-            deviceRamSize = "12000"
-
-        default:
-            deviceRamSize = "0"
-        }
-
-        return deviceRamSize
-    }
-    
-    // MARK: sysctl utils
-
-    func getSysInfo(_ typeSpecifier: Int32) -> Int {
-        var size: size_t = MemoryLayout<Int>.size
-        var results: Int = 0
-
-        var mib: [Int32] = [CTL_HW, typeSpecifier]
-
-        sysctl(&mib, 2, &results, &size, nil,0)
-
-        return results
-    }
-
-    func getSysInfoByName(_ typeSpecifier: String) -> String {
-        var size: size_t = 0
-
-        sysctlbyname(typeSpecifier, nil, &size, nil, 0)
-
-        var machine = [CChar](repeating: 0, count: Int(size))
-        sysctlbyname(typeSpecifier, &machine, &size, nil, 0)
-
-        return String(cString: machine)
+        let ramMB = ProcessInfo.processInfo.physicalMemory / 1024 / 1024
+        return String(ramMB)
     }
 }
 

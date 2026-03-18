@@ -26,7 +26,6 @@ Prey is a SaaS platform for device tracking, monitoring, data protection, and de
 
 - [Javier Cala Uribe](http://github.com/jcalau) ([@jcalau](https://twitter.com/jcalau))
 
-
 ### Collaborators
 
 - [Jesús Luongo](https://github.com/jll90)
