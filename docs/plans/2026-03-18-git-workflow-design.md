@@ -1,17 +1,17 @@
 # Git Workflow: develop-trunk with GitHub protections
 
 ## Context and goal
-We need a simple workflow where all work merges into `develop`, and only `develop` is merged into `main`. Releases happen when something is ready, and CI must validate merges. The team is a single developer, so approvals are not required.
+We need a simple workflow where all work merges into `develop`, and only `develop` is merged into `master`. Releases happen when something is ready, and CI must validate merges. The team is a single developer, so approvals are not required.
 
 ## Proposed workflow (recommended)
 Trunk-based with `develop` as the trunk branch:
 - Create short-lived branches from `develop`: `feature/*`, `fix/*`, `chore/*`, `docs/*`.
 - Open PRs from those branches into `develop`.
-- No direct pushes to `develop` or `main`.
-- When ready to release, open a PR `develop` -> `main`.
-- Merge `develop` into `main`, then tag a release (`vX.Y.Z`).
+- No direct pushes to `develop` or `master`.
+- When ready to release, open a PR `develop` -> `master`.
+- Merge `develop` into `master`, then tag a release (`vX.Y.Z`).
 
-This keeps `main` as the latest released state and `develop` as the integration branch.
+This keeps `master` as the latest released state and `develop` as the integration branch.
 
 ## Branch protection rules (GitHub)
 For `develop`:
@@ -20,7 +20,7 @@ For `develop`:
 - Require branch to be up to date before merging.
 - Block force-push and deletion.
 
-For `main`:
+For `master`:
 - Require a pull request before merging.
 - Require status checks to pass (CI).
 - (Optional) Require a tag or GitHub Release on merge.
@@ -47,6 +47,6 @@ Recommended files (TODO):
 - `CONTRIBUTING.md` summarizing the workflow in ~10 lines.
 
 ## Success criteria
-- All merges to `develop` and `main` go through PRs.
+- All merges to `develop` and `master` go through PRs.
 - CI is required and blocks merges when failing.
-- Releases are created only from `main` via `develop`.
+- Releases are created only from `master` via `develop`.
