@@ -26,6 +26,10 @@ jobs:
             xcodebuild -downloadPlatform iOS
           fi
 
+      - name: Show SDKs
+        run: |
+          xcodebuild -showsdks
+
       - name: Build and test
         run: |
           set -o pipefail
