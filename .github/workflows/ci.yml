@@ -34,6 +34,15 @@ jobs:
             subprocess.check_call(["xcodebuild", "-downloadPlatform", "iOS"])
           PY
 
+      - name: Debug runtimes
+        run: |
+          xcrun simctl list runtimes
+          xcrun simctl list devices available
+
+      - name: Show destinations
+        run: |
+          xcodebuild -showdestinations -workspace Prey.xcworkspace -scheme Prey
+
       - name: Resolve simulator destination
         run: |
           python3 - <<'PY'
