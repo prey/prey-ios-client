@@ -6,7 +6,7 @@
 
 Here you will find all the source code for the [current](https://apps.apple.com/us/app/prey-find-my-phone-security/id456755037) and in development releases of the Prey client for iOS devices.
 
-Prey is a SaaS for tracking and monitoring laptops, smartphones and other electronic devices, based on an open-source software agent that connects to a host computer, also referred to as the control panel. The host can signal the agent, prompting it to reply with information about its current location, and can trigger various other actions.
+Prey is a SaaS platform for device tracking, monitoring, data protection, and device management. Its open-source agent runs on endpoints and connects to a centralized control panel, enabling organizations to locate devices, enforce security policies, protect sensitive data, and manage their entire fleet remotely.
 
 ## Features
 
@@ -26,15 +26,16 @@ Prey is a SaaS for tracking and monitoring laptops, smartphones and other electr
 
 - [Javier Cala Uribe](http://github.com/jcalau) ([@jcalau](https://twitter.com/jcalau))
 
+
 ### Collaborators
 
 - [Jesús Luongo](https://github.com/jll90)
 - [Patricio Jofré](https://github.com/patriciojofre)
-- [Orlando Aliaga](http://github.com/oaliaga) ([@oraliaga](https://twitter.com/oraliaga))
+- [Orlando Aliaga](http://github.com/oaliaga) 
 - [Alejandro Ferreira](https://github.com/xhidnoda)
 
 ## Legal
 
-Copyright © 2025 Prey, Inc. All rights reserved.
+Copyright © 2026 Prey, Inc. All rights reserved.
 Released under the GPLv3 license.
 For full details see the LICENSE file included in this distribution.

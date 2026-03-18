@@ -179,17 +179,25 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     
     // Start location aware
     @objc func start_location_aware() {
+        // Check location aware action on device status
+     if let username = PreyConfig.sharedInstance.userApiKey {
+       PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:statusDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.settings, preyAction:nil, onCompletion:{(isSuccess: Bool) in
+      //location_aware is true
+      if(PreyConfig.sharedInstance.isActiveAware){
         // Prevent multiple distinct Location instances from registering as delegates simultaneously
         if let owner = Location.activeAwareOwner, owner !== self {
             PreyLogger("LocationAware already running; ignoring duplicate request", level: .info)
-            isLocationAwareActive = true
+            self.isLocationAwareActive = true
             return
         }
         Location.activeAwareOwner = self
-        startLocationManager()
-        isLocationAwareActive = true
+        self.startLocationManager()
+        self.isLocationAwareActive = true
         PreyLogger("Start location aware", level: .info)
         PreyDebugNotify("LocationAware: started")
+      } //if isActiveAware
+      })) //sendDataToPrey
+     } //if userApiKey
     }
     
     // Removed on-demand timer/timeout; Location Push extension handles request-driven fixes
