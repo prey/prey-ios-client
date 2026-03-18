@@ -7,3 +7,4 @@ GoogleService-Info.plist
 .aider.*
 .aider*
 scripts/apns/.apns.env
+/docs
