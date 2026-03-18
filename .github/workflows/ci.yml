@@ -27,9 +27,10 @@ jobs:
             /-- iOS [0-9]+/ { ios=1; next }
             /--/ { ios=0 }
             ios && /iPhone/ {
-              gsub(/[()]/,"");
-              print $NF;
-              exit
+              if (match($0, /[A-F0-9-]{36}/)) {
+                print substr($0, RSTART, RLENGTH);
+                exit
+              }
             }
           ')
           if [ -z "$DEVICE_UDID" ]; then
