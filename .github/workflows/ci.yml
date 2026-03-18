@@ -19,7 +19,7 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild \
-            -project Prey.xcodeproj \
+            -workspace Prey.xcworkspace \
             -scheme Prey \
             -sdk iphonesimulator \
             -destination 'platform=iOS Simulator,OS=latest,name=iPhone 15' \
