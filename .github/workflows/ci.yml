@@ -62,7 +62,7 @@ jobs:
               > LocationPushService/Info.plist
           fi
 
-      - name: Build
+      - name: Build for testing
         run: |
           set -o pipefail
           DEVICE_UDID=$(xcrun simctl list devices available | awk '
@@ -90,7 +90,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_ENTITLEMENTS= \
-            build
+            build-for-testing
 
       - name: Remove LocationPushService extension (CI only)
         run: |
