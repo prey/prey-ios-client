@@ -58,8 +58,7 @@ class PreyDevice {
             "cpu_model"    : preyDevice.cpuModel!,
             "cpu_speed"    : preyDevice.cpuSpeed!,
             "cpu_cores"    : preyDevice.cpuCores!,
-            "ram_size"     : preyDevice.ramSize!,
-            "machine_id"   : preyDevice.machineIdentifier!]
+            "ram_size"     : preyDevice.ramSize!]
         
         let params:[String:Any] = [
             "name"                              : preyDevice.name!,
@@ -67,6 +66,7 @@ class PreyDevice {
             "os_version"                        : preyDevice.version!,
             "model_name"                        : preyDevice.model!,
             "vendor_name"                       : preyDevice.vendor!,
+            "machine_id"                        : preyDevice.machineIdentifier!
             "os"                                : preyDevice.os!,
             "physical_address"                  : preyDevice.macAddress!,
             "hardware_attributes"               : hardwareInfo]
