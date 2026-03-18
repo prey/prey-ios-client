@@ -20,62 +20,6 @@ jobs:
         with:
           xcode-version: "16.0"
 
-      - name: Ensure iOS simulator runtime
-        run: |
-          python3 - <<'PY'
-          import json
-          import subprocess
-          data = subprocess.check_output(
-              ["xcrun", "simctl", "list", "runtimes", "-j"]
-          )
-          runtimes = json.loads(data).get("runtimes", [])
-          has_ios = any(r.get("platform") == "iOS" for r in runtimes)
-          if not has_ios:
-            subprocess.check_call(["xcodebuild", "-downloadPlatform", "iOS"])
-          PY
-
-      - name: Debug runtimes
-        run: |
-          xcrun simctl list runtimes
-          xcrun simctl list devices available
-
-      - name: Show destinations
-        run: |
-          xcodebuild -showdestinations -workspace Prey.xcworkspace -scheme Prey
-
-      - name: Resolve simulator destination
-        run: |
-          python3 - <<'PY'
-          import json
-          import subprocess
-          import sys
-          data = subprocess.check_output(
-              ["xcrun", "simctl", "list", "devices", "available", "-j"]
-          )
-          devices = json.loads(data).get("devices", {})
-          runtimes = [k for k in devices.keys() if "SimRuntime.iOS" in k]
-          if not runtimes:
-            sys.exit("No iOS simulator runtimes available on this runner.")
-          def runtime_version(key):
-            suffix = key.split("iOS-")[-1]
-            return tuple(int(x) for x in suffix.replace("-", ".").split("."))
-          runtimes.sort(key=runtime_version, reverse=True)
-          selected_udid = None
-          for runtime in runtimes:
-            for dev in devices.get(runtime, []):
-              if dev.get("isAvailable"):
-                selected_udid = dev.get("udid")
-                break
-            if selected_udid:
-              break
-          if not selected_udid:
-            sys.exit("No available iOS simulator devices found.")
-          print(f"DESTINATION=platform=iOS Simulator,id={selected_udid}")
-          with open(".github_env", "a") as f:
-            f.write(f"DESTINATION=platform=iOS Simulator,id={selected_udid}\n")
-          PY
-          cat .github_env >> "$GITHUB_ENV"
-
       - name: Build and test
         run: |
           set -o pipefail
@@ -83,5 +27,5 @@ jobs:
             -workspace Prey.xcworkspace \
             -scheme Prey \
             -sdk iphonesimulator \
-            -destination "$DESTINATION" \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.6' \
             test
