@@ -27,9 +27,12 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     private let throttleInterval: TimeInterval = 5.0 // 5 seconds
     private var lastRequestTimes: [String: Date] = [:]
     private let throttleQueue = DispatchQueue(label: "http.throttler", qos: .utility)
-    
-    // Shared default session (HTTP/2/3, keep‑alive)
-    private lazy var sharedSession: URLSession = {
+
+    private var isCI: Bool {
+        return ProcessInfo.processInfo.environment["CI"] == "true"
+    }
+
+    private func defaultSessionConfiguration() -> URLSessionConfiguration {
         let cfg = URLSessionConfiguration.default
         cfg.waitsForConnectivity = true
         cfg.allowsCellularAccess = true
@@ -38,12 +41,10 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         cfg.httpMaximumConnectionsPerHost = 2
         cfg.allowsExpensiveNetworkAccess = true
         cfg.allowsConstrainedNetworkAccess = true
-        return URLSession(configuration: cfg, delegate: self, delegateQueue: nil)
-    }()
+        return cfg
+    }
 
-    // Background session for uploads (reports)
-    private lazy var backgroundSession: URLSession = {
-        let identifier = (Bundle.main.bundleIdentifier ?? "com.prey.ios") + ".uploads"
+    private func backgroundSessionConfiguration(identifier: String) -> URLSessionConfiguration {
         let cfg = URLSessionConfiguration.background(withIdentifier: identifier)
         cfg.waitsForConnectivity = true
         cfg.isDiscretionary = false
@@ -54,8 +55,32 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         cfg.httpMaximumConnectionsPerHost = 2
         cfg.timeoutIntervalForRequest = 60.0
         cfg.timeoutIntervalForResource = 300.0
-        return URLSession(configuration: cfg, delegate: self, delegateQueue: nil)
+        return cfg
+    }
+
+    private func makeSession(configuration: URLSessionConfiguration) -> URLSession {
+        if isCI {
+            configuration.protocolClasses = [PreyMockURLProtocol.self]
+        }
+        return URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+    }
+    
+    // Shared default session (HTTP/2/3, keep‑alive)
+    private lazy var sharedSession: URLSession = {
+        return makeSession(configuration: defaultSessionConfiguration())
     }()
+
+    // Background session for uploads (reports)
+    private lazy var backgroundSession: URLSession = {
+        let identifier = (Bundle.main.bundleIdentifier ?? "com.prey.ios") + ".uploads"
+        return makeSession(configuration: backgroundSessionConfiguration(identifier: identifier))
+    }()
+
+#if DEBUG
+    func debugSessionForTests() -> URLSession {
+        return makeSession(configuration: defaultSessionConfiguration())
+    }
+#endif
 
     // Per-task state
     private let stateQueue = DispatchQueue(label: "prey.httpclient.state")
