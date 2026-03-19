@@ -10,6 +10,8 @@ jobs:
   build-and-test:
     runs-on: macos-15
     timeout-minutes: 45
+    env:
+      CI: "true"
 
     steps:
       - name: Checkout
