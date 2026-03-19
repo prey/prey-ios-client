@@ -30,4 +30,13 @@ final class MockNetworkTests: XCTestCase {
 
         waitForExpectations(timeout: 5)
     }
+
+    func testHTTPClientUsesMockSessionInCI() {
+        setenv("CI", "true", 1)
+
+        let session = PreyHTTPClient.sharedInstance.debugSessionForTests()
+        let classes = session.configuration.protocolClasses ?? []
+
+        XCTAssertTrue(classes.contains { $0 == PreyMockURLProtocol.self })
+    }
 }
