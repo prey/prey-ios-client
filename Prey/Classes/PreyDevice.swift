@@ -66,7 +66,7 @@ class PreyDevice {
             "os_version"                        : preyDevice.version!,
             "model_name"                        : preyDevice.model!,
             "vendor_name"                       : preyDevice.vendor!,
-            "machine_id"                        : preyDevice.machineIdentifier!
+            "machine_id"                        : preyDevice.machineIdentifier!,
             "os"                                : preyDevice.os!,
             "physical_address"                  : preyDevice.macAddress!,
             "hardware_attributes"               : hardwareInfo]
