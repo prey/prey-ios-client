@@ -161,8 +161,6 @@ class ReportExample: NSObject, WKUIDelegate, WKNavigationDelegate, PhotoServiceD
             }
         }
         
-        evaluateJS(webView, code:"document.getElementById('model').innerHTML='\(UIDevice.current.deviceModel)'")
-        
         if let latData = reportData[kReportLocation.LATITUDE.rawValue] as? NSNumber, let lngData = reportData[kReportLocation.LONGITURE.rawValue] as? NSNumber {
             evaluateJS(webView, code:"document.getElementById('lat').innerHTML='\(latData)'")
             evaluateJS(webView, code:"document.getElementById('lng').innerHTML='\(lngData)'")
