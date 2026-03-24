@@ -52,6 +52,27 @@ class PreyDevice {
         screenScale = PreyDevice.getScreenScale()
         thermalState = PreyDevice.getThermalState()
         activeProcessorCount = String(ProcessInfo.processInfo.activeProcessorCount)
+
+        // logDeviceInfo()
+    }
+
+    func logDeviceInfo() {
+        PreyLogger("──── PreyDevice Info ────")
+        PreyLogger("  name:              \(name ?? "nil")")
+        PreyLogger("  type:              \(type ?? "nil")")
+        PreyLogger("  os:                \(os ?? "nil") \(version ?? "")")
+        PreyLogger("  vendor:            \(vendor ?? "nil")")
+        PreyLogger("  machineIdentifier: \(machineIdentifier ?? "nil")")
+        PreyLogger("  uuid:              \(uuid ?? "nil")")
+        PreyLogger("  macAddress:        \(macAddress ?? "nil")")
+        PreyLogger("  cpuCores:          \(cpuCores ?? "nil")")
+        PreyLogger("  ramSize:           \(ramSize ?? "nil") MB")
+        PreyLogger("  storageCapacity:   \(storageCapacity ?? "nil") GB")
+        PreyLogger("  screenSize:        \(screenSize ?? "nil")")
+        PreyLogger("  screenScale:       \(screenScale ?? "nil")")
+        PreyLogger("  thermalState:      \(thermalState ?? "nil")")
+        PreyLogger("  activeProcessors:  \(activeProcessorCount ?? "nil")")
+        PreyLogger("─────────────────────────")
     }
 
     // MARK: Dynamic hardware helpers
