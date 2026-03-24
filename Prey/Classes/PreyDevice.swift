@@ -28,11 +28,6 @@ class PreyDevice {
     // Dynamic hardware info (obtained at runtime, no hardcoded lists)
     var cpuCores: String?
     var ramSize: String?
-    var storageCapacity: String?
-    var screenSize: String?
-    var screenScale: String?
-    var thermalState: String?
-    var activeProcessorCount: String?
 
     // MARK: Init
 
@@ -50,11 +45,6 @@ class PreyDevice {
         // Dynamic hardware info
         cpuCores             = UIDevice.current.cpuCores
         ramSize              = UIDevice.current.ramSize
-        storageCapacity      = PreyDevice.getTotalStorageGB()
-        screenSize           = PreyDevice.getScreenSize()
-        screenScale          = PreyDevice.getScreenScale()
-        thermalState         = PreyDevice.getThermalState()
-        activeProcessorCount = String(ProcessInfo.processInfo.activeProcessorCount)
 
         // logDeviceInfo()
     }
@@ -72,11 +62,6 @@ class PreyDevice {
         PreyLogger("  macAddress:        \(macAddress ?? "nil")")
         PreyLogger("  cpuCores:          \(cpuCores ?? "nil")")
         PreyLogger("  ramSize:           \(ramSize ?? "nil") MB")
-        PreyLogger("  storageCapacity:   \(storageCapacity ?? "nil") GB")
-        PreyLogger("  screenSize:        \(screenSize ?? "nil")")
-        PreyLogger("  screenScale:       \(screenScale ?? "nil")")
-        PreyLogger("  thermalState:      \(thermalState ?? "nil")")
-        PreyLogger("  activeProcessors:  \(activeProcessorCount ?? "nil")")
         PreyLogger("─────────────────────────")
     }
 
@@ -101,11 +86,6 @@ class PreyDevice {
             "os"                  : device.os!,
             "physical_address"    : device.macAddress!,
             "hardware_attributes" : hardwareInfo]
-            // TODO: Send when backend is ready
-            // "storage_capacity"      : device.storageCapacity!,
-            // "screen_size"           : device.screenSize!,
-            // "screen_scale"          : device.screenScale!,
-            // "active_processor_count": device.activeProcessorCount!,
 
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             displayErrorAlert("Error user ID".localized, titleMessage: "Couldn't add your device".localized)
@@ -150,36 +130,6 @@ class PreyDevice {
             tag: "infoDevice", maxAttempts: 5, nonRetryStatusCodes: [401]
         ) { success in
             onCompletion(success)
-        }
-    }
-
-    // MARK: Hardware helpers (private)
-
-    private static func getTotalStorageGB() -> String {
-        let url = URL(fileURLWithPath: NSHomeDirectory())
-        if let values = try? url.resourceValues(forKeys: [.volumeTotalCapacityKey]),
-           let totalBytes = values.volumeTotalCapacity {
-            return String(totalBytes / 1_073_741_824)
-        }
-        return "0"
-    }
-
-    private static func getScreenSize() -> String {
-        let bounds = UIScreen.main.bounds
-        return "\(Int(bounds.width))x\(Int(bounds.height))"
-    }
-
-    private static func getScreenScale() -> String {
-        return String(format: "%.1f", UIScreen.main.scale)
-    }
-
-    private static func getThermalState() -> String {
-        switch ProcessInfo.processInfo.thermalState {
-        case .nominal:  return "nominal"
-        case .fair:     return "fair"
-        case .serious:  return "serious"
-        case .critical: return "critical"
-        @unknown default: return "unknown"
         }
     }
 }

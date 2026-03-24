@@ -137,36 +137,4 @@ class PreyDeviceTests: XCTestCase {
 
         PreyConfig.sharedInstance.userApiKey = originalKey
     }
-
-    // MARK: - Dynamic hardware info
-
-    func testInitSetsStorageCapacity() {
-        XCTAssertNotNil(sut.storageCapacity, "storageCapacity should not be nil")
-        let gb = Int(sut.storageCapacity!) ?? 0
-        XCTAssertGreaterThan(gb, 0, "storageCapacity should be > 0")
-    }
-
-    func testInitSetsScreenSize() {
-        XCTAssertNotNil(sut.screenSize, "screenSize should not be nil")
-        XCTAssertTrue(sut.screenSize!.contains("x"), "screenSize should be in WxH format")
-    }
-
-    func testInitSetsScreenScale() {
-        XCTAssertNotNil(sut.screenScale, "screenScale should not be nil")
-        let scale = Double(sut.screenScale!) ?? 0
-        XCTAssertGreaterThan(scale, 0, "screenScale should be > 0")
-    }
-
-    func testInitSetsThermalState() {
-        XCTAssertNotNil(sut.thermalState, "thermalState should not be nil")
-        let validStates = ["nominal", "fair", "serious", "critical", "unknown"]
-        XCTAssertTrue(validStates.contains(sut.thermalState!),
-                       "thermalState should be a valid state, got '\(sut.thermalState!)'")
-    }
-
-    func testInitSetsActiveProcessorCount() {
-        XCTAssertNotNil(sut.activeProcessorCount, "activeProcessorCount should not be nil")
-        let count = Int(sut.activeProcessorCount!) ?? 0
-        XCTAssertGreaterThan(count, 0, "activeProcessorCount should be > 0")
-    }
 }
