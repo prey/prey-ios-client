@@ -47,20 +47,6 @@ class DeviceHardwareTests: XCTestCase {
         XCTAssertEqual(ramInt, expectedMB, "ramSize should match ProcessInfo.physicalMemory converted to MB")
     }
 
-    // MARK: - modelName fallback
-
-    func testDeviceModelFallback() {
-        // When deviceModel is .unrecognized, modelName should return machineIdentifier
-        let model = UIDevice.current.deviceModel
-        let name = UIDevice.current.modelName
-        if model == .unrecognized {
-            XCTAssertEqual(name, UIDevice.current.machineIdentifier, "For unrecognized models, modelName should return machineIdentifier")
-            XCTAssertNotEqual(name, "?unrecognized?", "modelName should never return '?unrecognized?'")
-        } else {
-            XCTAssertEqual(name, model.rawValue, "For recognized models, modelName should return the marketing name")
-        }
-    }
-
     // MARK: - PreyDevice includes machineIdentifier
 
     func testPreyDeviceIncludesMachineId() {

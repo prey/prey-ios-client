@@ -16,18 +16,21 @@ class PreyDevice {
     var deviceKey: String?
     var name: String?
     var type: String?
-    var model: String?
     var vendor: String?
     var os: String?
     var version: String?
     var macAddress: String?
     var uuid: String?
-    var cpuModel: String?
-    var cpuSpeed: String?
     var cpuCores: String?
     var ramSize: String?
     var machineIdentifier: String?
-    
+    // Dynamic hardware info (no hardcoded lists needed)
+    var storageCapacity: String?     // Total storage in GB
+    var screenSize: String?          // Screen size in points (WxH)
+    var screenScale: String?         // Screen scale factor
+    var thermalState: String?        // Current thermal state
+    var activeProcessorCount: String? // Active processor count
+
     // MARK: Functions
 
     // Init function
@@ -36,15 +39,50 @@ class PreyDevice {
         type        = (IS_IPAD) ? "Tablet" : "Phone"
         os          = "iOS"
         vendor      = "Apple"
-        model       = UIDevice.current.modelName
         version     = UIDevice.current.systemVersion
         uuid        = UIDevice.current.identifierForVendor?.uuidString
         macAddress  = "02:00:00:00:00:00" // iOS default
         ramSize     = UIDevice.current.ramSize
-        cpuModel    = UIDevice.current.cpuModel
-        cpuSpeed    = UIDevice.current.cpuSpeed
         cpuCores    = UIDevice.current.cpuCores
         machineIdentifier = UIDevice.current.machineIdentifier
+
+        // Dynamic hardware info
+        storageCapacity = PreyDevice.getTotalStorageGB()
+        screenSize = PreyDevice.getScreenSize()
+        screenScale = PreyDevice.getScreenScale()
+        thermalState = PreyDevice.getThermalState()
+        activeProcessorCount = String(ProcessInfo.processInfo.activeProcessorCount)
+    }
+
+    // MARK: Dynamic hardware helpers
+
+    private static func getTotalStorageGB() -> String {
+        let url = URL(fileURLWithPath: NSHomeDirectory())
+        if let values = try? url.resourceValues(forKeys: [.volumeTotalCapacityKey]),
+           let totalBytes = values.volumeTotalCapacity {
+            let gb = totalBytes / 1_073_741_824
+            return String(gb)
+        }
+        return "0"
+    }
+
+    private static func getScreenSize() -> String {
+        let bounds = UIScreen.main.bounds
+        return "\(Int(bounds.width))x\(Int(bounds.height))"
+    }
+
+    private static func getScreenScale() -> String {
+        return String(format: "%.1f", UIScreen.main.scale)
+    }
+
+    private static func getThermalState() -> String {
+        switch ProcessInfo.processInfo.thermalState {
+        case .nominal:  return "nominal"
+        case .fair:     return "fair"
+        case .serious:  return "serious"
+        case .critical: return "critical"
+        @unknown default: return "unknown"
+        }
     }
     
     // Add new device to Panel Prey
@@ -55,21 +93,23 @@ class PreyDevice {
         let hardwareInfo : [String:String] = [
             "uuid"         : preyDevice.uuid!,
             "serial_number": preyDevice.uuid!,
-            "cpu_model"    : preyDevice.cpuModel!,
-            "cpu_speed"    : preyDevice.cpuSpeed!,
             "cpu_cores"    : preyDevice.cpuCores!,
             "ram_size"     : preyDevice.ramSize!]
-        
+
         let params:[String:Any] = [
             "name"                              : preyDevice.name!,
             "device_type"                       : preyDevice.type!,
             "os_version"                        : preyDevice.version!,
-            "model_name"                        : preyDevice.model!,
             "vendor_name"                       : preyDevice.vendor!,
             "machine_id"                        : preyDevice.machineIdentifier!,
             "os"                                : preyDevice.os!,
             "physical_address"                  : preyDevice.macAddress!,
             "hardware_attributes"               : hardwareInfo]
+            // TODO: Send dynamic hardware info when backend is ready
+            // "storage_capacity"               : preyDevice.storageCapacity!,
+            // "screen_size"                    : preyDevice.screenSize!,
+            // "screen_scale"                   : preyDevice.screenScale!,
+            // "active_processor_count"         : preyDevice.activeProcessorCount!,
         
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
