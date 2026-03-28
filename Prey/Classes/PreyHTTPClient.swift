@@ -86,7 +86,9 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         request.setValue(contentType ?? "application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(authString, forHTTPHeaderField: "Authorization")
-        if let msg = messageId {
+        if let msg = messageId?.trimmingCharacters(in: .whitespacesAndNewlines),
+           !msg.isEmpty,
+           msg.lowercased() != "undefined" {
             request.setValue("PROCESSED", forHTTPHeaderField: "X-Prey-State")
             request.setValue(PreyConfig.sharedInstance.deviceKey, forHTTPHeaderField: "X-Prey-Device-Id")
             request.setValue(msg, forHTTPHeaderField: "X-Prey-Correlation-Id")
