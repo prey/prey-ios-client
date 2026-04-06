@@ -111,6 +111,13 @@
 		9A1B2C3D4E5F000100020013 /* LogRetrieval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1B2C3D4E5F000100020012 /* LogRetrieval.swift */; };
 		05BB00022E6F000000000002 /* LocationPushService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB00062E6F000000000006 /* LocationPushService.swift */; };
 		05BB00012E6F000000000001 /* LocationPushServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB00042E6F000000000004 /* LocationPushServiceTests.swift */; };
+		05BB00072E6F000000000007 /* LocationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB00092E6F000000000009 /* LocationStore.swift */; };
+		05BB00082E6F000000000108 /* LocationAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB000A2E6F00000000000A /* LocationAPIClient.swift */; };
+		05BB000B2E6F00000000000B /* GeoIPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB000C2E6F00000000000C /* GeoIPService.swift */; };
+		05BB00D12E6F000000000D01 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB00D22E6F000000000D02 /* MockURLProtocol.swift */; };
+		05BB00D32E6F000000000D03 /* LocationAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB00D42E6F000000000D04 /* LocationAPIClientTests.swift */; };
+		05BB00D52E6F000000000D05 /* GeoIPServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB00D62E6F000000000D06 /* GeoIPServiceTests.swift */; };
+		05BB00D72E6F000000000D07 /* LocationStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB00D82E6F000000000D08 /* LocationStoreTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -282,6 +289,13 @@
 		05BB00042E6F000000000004 /* LocationPushServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPushServiceTests.swift; sourceTree = "<group>"; };
 		05BB00052E6F000000000005 /* LocationPushServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocationPushServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		05BB00062E6F000000000006 /* LocationPushService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationPushService.swift; path = LocationPushService/LocationPushService.swift; sourceTree = "<group>"; };
+		05BB00092E6F000000000009 /* LocationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationStore.swift; path = LocationPushService/LocationStore.swift; sourceTree = "<group>"; };
+		05BB000A2E6F00000000000A /* LocationAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationAPIClient.swift; path = LocationPushService/LocationAPIClient.swift; sourceTree = "<group>"; };
+		05BB000C2E6F00000000000C /* GeoIPService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GeoIPService.swift; path = LocationPushService/GeoIPService.swift; sourceTree = "<group>"; };
+		05BB00D22E6F000000000D02 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		05BB00D42E6F000000000D04 /* LocationAPIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAPIClientTests.swift; sourceTree = "<group>"; };
+		05BB00D62E6F000000000D06 /* GeoIPServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoIPServiceTests.swift; sourceTree = "<group>"; };
+		05BB00D82E6F000000000D08 /* LocationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationStoreTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -470,6 +484,10 @@
 			isa = PBXGroup;
 			children = (
 				05BB00042E6F000000000004 /* LocationPushServiceTests.swift */,
+				05BB00D22E6F000000000D02 /* MockURLProtocol.swift */,
+				05BB00D42E6F000000000D04 /* LocationAPIClientTests.swift */,
+				05BB00D62E6F000000000D06 /* GeoIPServiceTests.swift */,
+				05BB00D82E6F000000000D08 /* LocationStoreTests.swift */,
 			);
 			path = LocationPushServiceTests;
 			sourceTree = "<group>";
@@ -957,6 +975,13 @@
 			files = (
 				05BB00012E6F000000000001 /* LocationPushServiceTests.swift in Sources */,
 				05BB00022E6F000000000002 /* LocationPushService.swift in Sources */,
+				05BB00072E6F000000000007 /* LocationStore.swift in Sources */,
+				05BB00082E6F000000000108 /* LocationAPIClient.swift in Sources */,
+				05BB000B2E6F00000000000B /* GeoIPService.swift in Sources */,
+				05BB00D12E6F000000000D01 /* MockURLProtocol.swift in Sources */,
+				05BB00D32E6F000000000D03 /* LocationAPIClientTests.swift in Sources */,
+				05BB00D52E6F000000000D05 /* GeoIPServiceTests.swift in Sources */,
+				05BB00D72E6F000000000D07 /* LocationStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
