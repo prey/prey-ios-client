@@ -12,7 +12,7 @@ import UIKit
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, renameDevice, addDevice, deleteDevice, subscriptionReceipt, actionDevice, dataSend, statusDevice, trigger, emailValidation, infoDevice
+    case getToken, logIn, renameDevice, addDevice, deleteDevice, subscriptionReceipt, actionDevice, dataSend, statusDevice, trigger, emailValidation, infoDevice, settings
 }
 
 class PreyHTTPResponse {
