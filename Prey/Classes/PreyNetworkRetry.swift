@@ -131,6 +131,14 @@ class PreyNetworkRetry {
                         if !(200...299).contains(http.statusCode) {
                             let localized = HTTPURLResponse.localizedString(forStatusCode: http.statusCode)
                             PreyLogger("\(tag): ❌ HTTP \(http.statusCode) \(localized) (attempt \(attempt)/\(maxAttempts)). Body: \(bodySnippet(data))")
+                            // Detect device deleted from backend
+                            if http.statusCode == 406 {
+                                PreyLogger("\(tag): Device deleted from panel, triggering detach")
+                                let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
+                                detachModule.start()
+                                onCompletion(false)
+                                return
+                            }
                             if nonRetryStatusCodes.contains(http.statusCode) {
                                 PreyLogger("\(tag): 🚫 Not retrying due to non-retryable status \(http.statusCode)")
                                 onCompletion(false)

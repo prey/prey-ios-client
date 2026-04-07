@@ -124,12 +124,9 @@ class PreyDevice {
             return
         }
 
-        PreyNetworkRetry.sendDataWithBackoff(
-            username: username, password: "x", params: nil, messageId: nil,
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
+            username, password: "x", params: nil, messageId: nil,
             httpMethod: Method.GET.rawValue, endPoint: infoEndpoint,
-            tag: "infoDevice", maxAttempts: 5, nonRetryStatusCodes: [401]
-        ) { success in
-            onCompletion(success)
-        }
+            onCompletion: PreyHTTPResponse.checkResponse(RequestType.infoDevice, preyAction: nil, onCompletion: onCompletion))
     }
 }

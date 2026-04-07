@@ -248,17 +248,7 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
                 PreyConfig.sharedInstance.isRegistered  = true
                 PreyConfig.sharedInstance.isTouchIDEnabled = true
-                if PreyConfig.sharedInstance.nameDevice == nil {
-                    PreyConfig.sharedInstance.nameDevice = UIDevice.current.name
-                }
                 PreyConfig.sharedInstance.saveValues()
-            }
-            
-            DispatchQueue.main.async {
-                sleep(2)
-                PreyDevice.infoDevice({(isSuccess: Bool) in
-                    PreyLogger("infoDevice isSuccess:\(isSuccess)")
-                })
             }
             
         } catch let error {
@@ -322,9 +312,9 @@ class PreyHTTPResponse {
             }
 
             if statusCode == 406 {
-                PreyLogger("Deleted device?")
+                PreyLogger("Deleted device, triggering detach")
                 let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
-                detachModule.detachDevice()
+                detachModule.start()
             } else {
                 PreyConfig.sharedInstance.reportError("ActionDevice", statusCode: statusCode, errorDescription: "ActionDevice error")
                 PreyLogger("Failed to check action from panel")
@@ -435,9 +425,9 @@ class PreyHTTPResponse {
                 return
             }
             if statusCode == 406 {
-                PreyLogger("Deleted device")
+                PreyLogger("Deleted device, triggering detach")
                 let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
-                detachModule.detachDevice()
+                detachModule.start()
             } else {
                 PreyConfig.sharedInstance.reportError("DataSend", statusCode: statusCode, errorDescription: "DataSend error")
                 var bodyPreview = ""
@@ -516,7 +506,7 @@ class PreyHTTPResponse {
 
     // Check Status Devices response
     class func checkStatusDevice(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
-        
+
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
@@ -524,8 +514,14 @@ class PreyHTTPResponse {
                 PreyLogger("Error: \(String(describing: error))")
                 return
             }
-            PreyConfig.sharedInstance.reportError("StatusDevice", statusCode: statusCode, errorDescription: "StatusDevice error")
-            PreyLogger("Failed check status device")
+            if statusCode == 406 {
+                PreyLogger("Deleted device on status check, triggering detach")
+                let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
+                detachModule.start()
+            } else {
+                PreyConfig.sharedInstance.reportError("StatusDevice", statusCode: statusCode, errorDescription: "StatusDevice error")
+                PreyLogger("Failed check status device")
+            }
             return
         }
         

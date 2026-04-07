@@ -273,18 +273,23 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
             
             // Add Device to Panel Prey
             PreyDevice.addDeviceWith({(isSuccess: Bool) in
-                
-                DispatchQueue.main.async {
-                    // Hide ActivityIndicator
-                    actInd.stopAnimating()
 
-                    // AddDevice isn't success
-                    guard isSuccess else {
-                        return
+                // AddDevice isn't success
+                guard isSuccess else {
+                    DispatchQueue.main.async {
+                        actInd.stopAnimating()
                     }
-                    
-                    self.loadViewOnWebView("index")
+                    return
                 }
+
+                // Fetch device info to get the name assigned by the backend
+                PreyDevice.infoDevice({(infoSuccess: Bool) in
+                    PreyLogger("infoDevice after addDevice isSuccess:\(infoSuccess)")
+                    DispatchQueue.main.async {
+                        actInd.stopAnimating()
+                        self.loadViewOnWebView("activation")
+                    }
+                })
             })
         })
     }

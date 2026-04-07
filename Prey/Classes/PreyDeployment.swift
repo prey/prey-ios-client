@@ -135,27 +135,30 @@ class PreyDeployment {
         
         // Add Device to Panel Prey
         PreyDevice.addDeviceWith({(isSuccess: Bool) in
-            
-            DispatchQueue.main.async {
 
-                // Hide ActivityIndicator
-                if fromQRCode {
-                    actInd.stopAnimating()
+            // AddDevice isn't success
+            guard isSuccess else {
+                DispatchQueue.main.async {
+                    if fromQRCode { actInd.stopAnimating() }
                 }
-
-                // AddDevice isn't success
-                guard isSuccess else {
-                    return
-                }
-                
-                PreyConfig.sharedInstance.isPro = true
-                PreyConfig.sharedInstance.saveValues()
-                
-                // Show CongratVC
-                self.showCongratsVC()
-                PreyUser.logInToPrey(apiKey, userPassword: "x" , onCompletion: {(isSuccess: Bool) in
-                })
+                return
             }
+
+            // Fetch device info to get the name assigned by the backend
+            PreyDevice.infoDevice({(infoSuccess: Bool) in
+                PreyLogger("infoDevice after addDevice (QR) isSuccess:\(infoSuccess)")
+                DispatchQueue.main.async {
+                    if fromQRCode { actInd.stopAnimating() }
+
+                    PreyConfig.sharedInstance.isPro = true
+                    PreyConfig.sharedInstance.saveValues()
+
+                    // Show CongratVC
+                    self.showCongratsVC()
+                    PreyUser.logInToPrey(apiKey, userPassword: "x" , onCompletion: {(isSuccess: Bool) in
+                    })
+                }
+            })
         })
 
     }
