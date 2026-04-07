@@ -44,7 +44,7 @@ class Alert: PreyAction, @unchecked Sendable {
                     preyAction: self,
                     onCompletion: { [weak self] (_: Bool) in
                         guard let self = self else { return }
-                        let stopParams = self.getParamsTo(kAction.alert.rawValue, command: kCommand.start.rawValue, status: kStatus.stopped.rawValue)
+                        let stopParams = self.getParamsTo(kAction.alert.rawValue, command: kCommand.stop.rawValue, status: kStatus.stopped.rawValue)
                         PreyHTTPClient.sharedInstance.sendDataToPrey(
                             username,
                             password: "x",
@@ -132,10 +132,9 @@ class Alert: PreyAction, @unchecked Sendable {
         let mainStoryboard: UIStoryboard = UIStoryboard(name:StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         
         if let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.alert.rawValue) as? AlertVC {
-            
+
             resultController.messageToShow = msg
-            resultController.messageToShow = msg
-                        let rootVC: UINavigationController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController   
+            let rootVC: UINavigationController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController   
             rootVC.setViewControllers([resultController], animated: false)
             appWindow?.rootViewController = rootVC
             appWindow?.makeKeyAndVisible()

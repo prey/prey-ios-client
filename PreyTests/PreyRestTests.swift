@@ -57,7 +57,7 @@ class PreyRestTests: XCTestCase {
         let newMail         = String(format:"test%f@prey.io", CFAbsoluteTimeGetCurrent())
         
         // SignUp to Panel Prey
-        PreyUser.signUpToPrey("TestUser", userEmail:newMail, userPassword:userPassword, onCompletion: {(isSuccess: Bool) in
+        PreyUser.signUpToPrey("TestUser", userEmail:newMail, userPassword:userPassword, offers: false, onCompletion: {(isSuccess: Bool) in
             
             // Check if login is success
             XCTAssertTrue(isSuccess)
@@ -240,7 +240,11 @@ class PreyRestTests: XCTestCase {
     }
     
     // Test Send Report
-    func testRest11SendReport() {
+    func testRest11SendReport() throws {
+        try XCTSkipIf(
+            ProcessInfo.processInfo.environment["CI"] == "true",
+            "Skipping network-dependent test in CI."
+        )
         
         let expectation     = self.expectation(description: "Expecta Test: Response Device")
         

@@ -1,0 +1,3 @@
+[submodule "LocationPushService"]
+	path = LocationPushService
+	url = git@github.com:prey/prey-ios-client-private.git
