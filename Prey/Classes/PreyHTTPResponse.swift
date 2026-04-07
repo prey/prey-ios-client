@@ -8,10 +8,11 @@
 //
 
 import Foundation
+import UIKit
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, dataSend, statusDevice, emailValidation, resendEmailValidation, infoDevice, settings
+    case getToken, logIn, renameDevice, addDevice, deleteDevice, subscriptionReceipt, actionDevice, dataSend, statusDevice, trigger, emailValidation, infoDevice, settings
 }
 
 class PreyHTTPResponse {
@@ -53,8 +54,8 @@ class PreyHTTPResponse {
         case .logIn:
             checkLogIn(isResponseSuccess, withData:data, withError:error, statusCode:code)
             
-        case .signUp:
-            checkSignUp(isResponseSuccess, withData:data, withError:error, statusCode:code)
+        case .renameDevice:
+            checkRenameDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
             
         case .addDevice:
             checkAddDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
@@ -71,9 +72,6 @@ class PreyHTTPResponse {
 
         case .emailValidation:
             checkEmailValidation(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
-
-        case .resendEmailValidation:
-            checkResendEmailValidation(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
 
         case .dataSend:
             checkDataSend(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
@@ -203,44 +201,19 @@ class PreyHTTPResponse {
         displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
     }
     
-    // Check signUp response
-    class func checkSignUp(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
-        
+    // Check rename device response
+    class func checkRenameDevice(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
         guard isSuccess else {
-            // Check error with URLSession request
             guard error == nil else {
                 PreyConfig.sharedInstance.reportError(error)
-                let alertMessage = error?.localizedDescription
-                displayErrorAlert(alertMessage!.localized, titleMessage:"User couldn't be created".localized)
+                PreyLogger("Error renaming device: \(String(describing: error))")
                 return
             }
-            let alertMessage = (statusCode == 422) ? getErrorFromData(data:data) : "Error".localized
-            //let alertMessage = (statusCode == 422) ? "Did you already register?".localized : "Error".localized
-            displayErrorAlert(alertMessage.localized, titleMessage:"User couldn't be created".localized)
-            
-            if statusCode != 422 {
-                PreyConfig.sharedInstance.reportError("SignUp", statusCode: statusCode, errorDescription: "SignUp error")
-            }
+            PreyConfig.sharedInstance.reportError("RenameDevice", statusCode: statusCode, errorDescription: "Rename device error")
+            PreyLogger("Failed to rename device")
             return
         }
-        
-        do {
-            guard let dataResponse = data else {
-                return
-            }
-            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-            
-            if let userApiKeyStr = jsonObject.object(forKey: "key") as? String {
-                PreyConfig.sharedInstance.userApiKey = userApiKeyStr
-                PreyConfig.sharedInstance.saveValues()
-                // After API key is saved, perform a consolidated sync (tokens + status + info)
-                SyncCoordinator.performPostAuthOrUpgradeSync(reason: .postSignup)
-            }
-            
-        } catch let error {
-            PreyConfig.sharedInstance.reportError(error)
-            PreyLogger("json error: \(error.localizedDescription)")
-        }
+        PreyLogger("Rename device: OK")
     }
     
     // Check add device response
@@ -279,6 +252,9 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.isRegistered  = true
                 PreyConfig.sharedInstance.validationUserEmail = PreyUserEmailValidation.active.rawValue
                 PreyConfig.sharedInstance.isTouchIDEnabled = true
+                if PreyConfig.sharedInstance.nameDevice == nil {
+                    PreyConfig.sharedInstance.nameDevice = UIDevice.current.name
+                }
                 PreyConfig.sharedInstance.saveValues()
             }
             
@@ -476,26 +452,6 @@ class PreyHTTPResponse {
     
     
     // Check Resend Email Validation response
-    class func checkResendEmailValidation(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
-        
-        guard isSuccess else {
-            // Check error with URLSession request
-            guard error == nil else {
-                PreyConfig.sharedInstance.reportError(error)
-                PreyLogger("Error: \(String(describing: error))")
-                return
-            }
-            let alertMessage = (statusCode == 409) ? "Did you already register?".localized : "Error".localized
-            displayErrorAlert(alertMessage.localized, titleMessage:"User couldn't be created".localized)
-
-            if (statusCode != 409) {
-                PreyConfig.sharedInstance.reportError("ResendEmailValidation", statusCode: statusCode, errorDescription: "ResendEmailValidation error")
-            }
-            PreyLogger("Failed ResendEmailValidation")
-            return
-        }
-        PreyLogger("Resend Email validation: OK")
-    }
     
     // Check Data Send response
     class func checkDataSend(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {

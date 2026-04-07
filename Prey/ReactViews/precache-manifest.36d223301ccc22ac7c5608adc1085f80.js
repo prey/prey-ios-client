@@ -1,0 +1,110 @@
+self.__precacheManifest = [
+  {
+    "revision": "c4c1922fd5de1dac0fc0",
+    "url": "./static/css/main.f3053157.chunk.css"
+  },
+  {
+    "revision": "c4c1922fd5de1dac0fc0",
+    "url": "./static/js/main.c4c1922f.chunk.js"
+  },
+  {
+    "revision": "8c97409f0ee389fe75da",
+    "url": "./static/js/runtime~main.8c97409f.js"
+  },
+  {
+    "revision": "3ddca556f4a9ac481ff5",
+    "url": "./static/js/2.3ddca556.chunk.js"
+  },
+  {
+    "revision": "c3679e2d8686db6f8013ffe2ad603c2c",
+    "url": "./static/media/prey-logo-monotono-alt.c3679e2d.svg"
+  },
+  {
+    "revision": "6e26bdc9c9316e31084263223a3aa74e",
+    "url": "./static/media/missing-report.6e26bdc9.png"
+  },
+  {
+    "revision": "0169ebee5333ac5afdc9518e25975bfb",
+    "url": "./static/media/icons.0169ebee.eot"
+  },
+  {
+    "revision": "e8c057a41f24f68dd7d32b72a942e65f",
+    "url": "./static/media/fondo1.e8c057a4.png"
+  },
+  {
+    "revision": "ada00d714f242a35966355f737998bb6",
+    "url": "./static/media/fondo2.ada00d71.png"
+  },
+  {
+    "revision": "6dd5ae67bb0dc9ae0c9886ef62c28dca",
+    "url": "./static/media/04-Evidencev.6dd5ae67.png"
+  },
+  {
+    "revision": "1e7c00aa635c595972522296b2ac0bdf",
+    "url": "./static/media/prey-logo-short-loading.1e7c00aa.gif"
+  },
+  {
+    "revision": "22dd050a390a73b90089db9e174826a9",
+    "url": "./static/media/icons.22dd050a.woff"
+  },
+  {
+    "revision": "1f78a8d8506d8ead141475f292862fcc",
+    "url": "./static/media/icons.1f78a8d8.ttf"
+  },
+  {
+    "revision": "2f54fbbdcc5379a2bed9d6e2225bb646",
+    "url": "./static/media/icons.2f54fbbd.svg"
+  },
+  {
+    "revision": "def820f56f913fec31fcf511e6cd24f0",
+    "url": "./static/media/05-Location.def820f5.png"
+  },
+  {
+    "revision": "315c1325ddb63beaea9982de8bd147c9",
+    "url": "./static/media/onboarding_01.315c1325.png"
+  },
+  {
+    "revision": "a9334e25cf841ce0cf9f4a25addf6cde",
+    "url": "./static/media/onboarding_02.a9334e25.png"
+  },
+  {
+    "revision": "dc52ab1e0aa3908c15a02635f545673a",
+    "url": "./static/media/onboarding_03.dc52ab1e.png"
+  },
+  {
+    "revision": "3c02d35628d2e57786ab3035fc9fcb75",
+    "url": "./static/media/onboarding_04.3c02d356.png"
+  },
+  {
+    "revision": "ce31486d2c6e0b6d55bbf5dbf26992f0",
+    "url": "./static/media/prey-iso-monotono-alt.ce31486d.svg"
+  },
+  {
+    "revision": "f591a42505f4c6ebabf2843079cb667d",
+    "url": "./static/media/permissions-01.f591a425.png"
+  },
+  {
+    "revision": "1c31f384aaccc80dcccb87cff4e99f0c",
+    "url": "./static/media/1_security-hub-01.1c31f384.png"
+  },
+  {
+    "revision": "5f6af8702255b7b5e13e73c1e64dd6f5",
+    "url": "./static/media/1_security-hub-05.5f6af870.png"
+  },
+  {
+    "revision": "65fc5e65aaed9b863dd5ba1457b098d0",
+    "url": "./static/media/1_security-hub-06.65fc5e65.png"
+  },
+  {
+    "revision": "ed00c2987ccbf70de401bf06c5d6114e",
+    "url": "./static/media/02-Track-Find.ed00c298.png"
+  },
+  {
+    "revision": "abee7ee7c7ab784151b46ae64d7e4218",
+    "url": "./static/media/03-React-Protect.abee7ee7.png"
+  },
+  {
+    "revision": "3b076a27bf906c718a69bdccd49c539a",
+    "url": "./index.html"
+  }
+];

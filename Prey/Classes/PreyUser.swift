@@ -22,39 +22,6 @@ class PreyUser {
     
     // MARK: Functions
 
-    // Get country name from NSLocale
-    class func getCountryName() -> String {
-        let locale = Locale.current
-        guard let countryCode = (locale as NSLocale).object(forKey: NSLocale.Key.countryCode) as? String else {
-            return ""
-        }
-        guard let countryName = (locale as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value:countryCode) else {
-            return ""
-        }        
-        return countryName
-    }
-
-    // SignUp to Panel Prey
-    class func signUpToPrey(_ userName: String, userEmail: String, userPassword: String, offers: Bool, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
-        
-        let language:String = Locale.preferredLanguages[0] as String
-        let languageES  = (language as NSString).substring(to: 2)
-        
-        let params:[String: Any] = [
-            "name"                      : userName,
-            "email"                     : userEmail,
-            "country_name"              : getCountryName(),
-            "password"                  : userPassword,
-            "password_confirmation"     : userPassword,
-            "policy_rule_age"           : true,
-            "policy_rule_privacy_terms" : true,
-            "mkt_newsletter"            : offers,
-            "referer_user_id"           : "",
-            "lang"                      : languageES]
-        
-        PreyHTTPClient.sharedInstance.sendDataToPrey(userName, password:userPassword, params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:signUpEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.signUp, preyAction:nil, onCompletion:onCompletion))
-    }
-    
     // Request Token to Panel Prey
     class func getTokenFromPanel(_ userEmail: String, userPassword: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
         
@@ -71,24 +38,5 @@ class PreyUser {
         PreyHTTPClient.sharedInstance.sendDataToPrey(userEmail, password:userPassword, params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:langEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.logIn, preyAction:nil, onCompletion:onCompletion))
     }
     
-    // Resend email validation to Panel Prey
-    class func resendEmailValidation(_ userEmail: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
-        
-        let language:String = Locale.preferredLanguages[0] as String
-        let languageES  = (language as NSString).substring(to: 2)
-        
-        let params:[String: Any] = [
-            "email" : userEmail,
-            "lang"  : languageES]
-        
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.PUT.rawValue, endPoint:resendEmailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.resendEmailValidation, preyAction:nil, onCompletion:onCompletion))
-        } else {
-            let titleMsg = "Couldn't add your device".localized
-            let alertMsg = "Error user ID".localized
-            displayErrorAlert(alertMsg, titleMessage:titleMsg)
-            onCompletion(false)
-        }
-    }
 
 }
