@@ -478,8 +478,13 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
               let action = body["action"] as? String else {
             return
         }
-        PreyLogger("postMessage action: \(action)")
-        let params = body["params"] as? [String: String] ?? [:]
+        PreyLogger("postMessage action: \(action) body: \(body)")
+        let rawParams = body["params"] as? [String: Any] ?? [:]
+        var params = [String: String]()
+        for (key, value) in rawParams {
+            let str = "\(value)"
+            params[key] = str.removingPercentEncoding ?? str
+        }
 
         DispatchQueue.main.async {
             switch action {
