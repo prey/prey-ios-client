@@ -290,3 +290,17 @@
 "Close" = "Cerrar";
 
 "We couldn't reach our servers due to a connection error. please ensure you have a stable connection" = "No pudimos comunicarnos con nuestros servidores debido a un error de conexión. por favor asegúrate de tener una conexión estable";
+
+"Please set Location to 'Always' for Prey in Settings > Privacy > Location Services." = "Establezca la ubicación en 'Siempre' para Prey en Configuración > Privacidad y Seguridad > Localización";
+
+"Prey needs 'Always' location to locate your device even when the app isn't open." = "Prey necesita la ubicación 'Siempre' para localizar tu dispositivo incluso cuando la aplicación no está abierta.";
+
+"Background Location Required" = "Se requiere ubicación en segundo plano";
+
+"Enable Background Location" = "Habilitar ubicación en segundo plano";
+
+"Location Permission Needed" = "Se necesita permiso de ubicación";
+
+"Not now" = "Ahora no";
+
+"Enable" = "Permitir";

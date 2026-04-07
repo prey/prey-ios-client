@@ -10,101 +10,113 @@ import Foundation
 import UIKit
 
 class PreyDevice {
-    
+
     // MARK: Properties
-    
+
     var deviceKey: String?
+
+    // Device identity
     var name: String?
     var type: String?
-    var model: String?
     var vendor: String?
     var os: String?
     var version: String?
     var macAddress: String?
     var uuid: String?
-    var cpuModel: String?
-    var cpuSpeed: String?
+    var machineIdentifier: String?
+
+    // Dynamic hardware info (obtained at runtime, no hardcoded lists)
     var cpuCores: String?
     var ramSize: String?
-    
-    // MARK: Functions
 
-    // Init function
+    // MARK: Init
+
     init() {
-        name        = UIDevice.current.name
-        type        = (IS_IPAD) ? "Tablet" : "Phone"
-        os          = "iOS"
-        vendor      = "Apple"
-        model       = UIDevice.current.deviceModel.rawValue
-        version     = UIDevice.current.systemVersion
-        uuid        = UIDevice.current.identifierForVendor?.uuidString
-        macAddress  = "02:00:00:00:00:00" // iOS default
-        ramSize     = UIDevice.current.ramSize
-        cpuModel    = UIDevice.current.cpuModel
-        cpuSpeed    = UIDevice.current.cpuSpeed
-        cpuCores    = UIDevice.current.cpuCores
+        // Device identity
+        name              = UIDevice.current.name
+        type              = IS_IPAD ? "Tablet" : "Phone"
+        os                = "iOS"
+        vendor            = "Apple"
+        version           = UIDevice.current.systemVersion
+        uuid              = UIDevice.current.identifierForVendor?.uuidString
+        macAddress        = "02:00:00:00:00:00"
+        machineIdentifier = UIDevice.current.machineIdentifier
+
+        // Dynamic hardware info
+        cpuCores             = UIDevice.current.cpuCores
+        ramSize              = UIDevice.current.ramSize
+
+        // logDeviceInfo()
     }
-    
-    // Add new device to Panel Prey
-    class func addDeviceWith(_ onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
-        
-        let preyDevice = PreyDevice()
-        
-        let hardwareInfo : [String:String] = [
-            "uuid"         : preyDevice.uuid!,
-            "serial_number": preyDevice.uuid!,
-            "cpu_model"    : preyDevice.cpuModel!,
-            "cpu_speed"    : preyDevice.cpuSpeed!,
-            "cpu_cores"    : preyDevice.cpuCores!,
-            "ram_size"     : preyDevice.ramSize!]
-        
-        let params:[String:Any] = [
-            "name"                              : preyDevice.name!,
-            "device_type"                       : preyDevice.type!,
-            "os_version"                        : preyDevice.version!,
-            "model_name"                        : preyDevice.model!,
-            "vendor_name"                       : preyDevice.vendor!,
-            "os"                                : preyDevice.os!,
-            "physical_address"                  : preyDevice.macAddress!,
-            "hardware_attributes"               : hardwareInfo]
-        
-        // Check userApiKey isn't empty
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:devicesEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.addDevice, preyAction:nil, onCompletion:onCompletion))
-        } else {
-            let titleMsg = "Couldn't add your device".localized
-            let alertMsg = "Error user ID".localized
-            displayErrorAlert(alertMsg, titleMessage:titleMsg)
+
+    // MARK: Debug
+
+    func logDeviceInfo() {
+        PreyLogger("──── PreyDevice Info ────")
+        PreyLogger("  name:              \(name ?? "nil")")
+        PreyLogger("  type:              \(type ?? "nil")")
+        PreyLogger("  os:                \(os ?? "nil") \(version ?? "")")
+        PreyLogger("  vendor:            \(vendor ?? "nil")")
+        PreyLogger("  machineIdentifier: \(machineIdentifier ?? "nil")")
+        PreyLogger("  uuid:              \(uuid ?? "nil")")
+        PreyLogger("  macAddress:        \(macAddress ?? "nil")")
+        PreyLogger("  cpuCores:          \(cpuCores ?? "nil")")
+        PreyLogger("  ramSize:           \(ramSize ?? "nil") MB")
+        PreyLogger("─────────────────────────")
+    }
+
+    // MARK: API
+
+    class func addDeviceWith(_ onCompletion: @escaping (_ isSuccess: Bool) -> Void) {
+
+        let device = PreyDevice()
+
+        let hardwareInfo: [String: String] = [
+            "uuid"         : device.uuid!,
+            "serial_number": device.uuid!,
+            "cpu_cores"    : device.cpuCores!,
+            "ram_size"     : device.ramSize!]
+
+        let params: [String: Any] = [
+            "name"                : device.name!,
+            "device_type"         : device.type!,
+            "os_version"          : device.version!,
+            "vendor_name"         : device.vendor!,
+            "machine_id"          : device.machineIdentifier!,
+            "os"                  : device.os!,
+            "physical_address"    : device.macAddress!,
+            "hardware_attributes" : hardwareInfo]
+
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
+            displayErrorAlert("Error user ID".localized, titleMessage: "Couldn't add your device".localized)
             onCompletion(false)
+            return
         }
+
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
+            username, password: "x", params: params, messageId: nil,
+            httpMethod: Method.POST.rawValue, endPoint: devicesEndpoint,
+            onCompletion: PreyHTTPResponse.checkResponse(RequestType.addDevice, preyAction: nil, onCompletion: onCompletion))
     }
-    
-    class func renameDevice(_ newName: String, onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
-        let paramsInfo : [String:String] = [
-            "new_name"                  : newName]
-        
-        let params:[String: Any] = [
-            "name"                      : "device_renamed",
-            "info"                      : paramsInfo]
-        
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:eventsDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.renameDevice, preyAction:nil, onCompletion:onCompletion))
-        }else{
+
+    class func renameDevice(_ newName: String, onCompletion: @escaping (_ isSuccess: Bool) -> Void) {
+
+        let params: [String: Any] = [
+            "name" : "device_renamed",
+            "info" : ["new_name": newName]]
+
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
             PreyLogger("Error renameDevice")
+            return
         }
+
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
+            username, password: "x", params: params, messageId: nil,
+            httpMethod: Method.POST.rawValue, endPoint: eventsDeviceEndpoint,
+            onCompletion: PreyHTTPResponse.checkResponse(RequestType.signUp, preyAction: nil, onCompletion: onCompletion))
     }
-    
-    // Track retry attempts to avoid infinite recursion
-    private static var infoDeviceRetryCount = [String: Int]()
-    private static let maxRetryAttempts = 2
-    
-    // Throttling mechanism to prevent excessive infoDevice calls
-    private static var lastInfoDeviceCallTime: Date?
-    private static var pendingInfoDeviceCallbacks: [(_ isSuccess: Bool) -> Void] = []
-    private static var isInfoDeviceInProgress = false
-    private static let infoDeviceThrottleInterval: TimeInterval = 60 // 1 minute
-    
-    class func infoDevice(_ onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
+
+    class func infoDevice(_ onCompletion: @escaping (_ isSuccess: Bool) -> Void) {
 
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             PreyLogger("Error infoDevice - No API key available")
@@ -113,21 +125,11 @@ class PreyDevice {
         }
 
         PreyNetworkRetry.sendDataWithBackoff(
-            username: username,
-            password: "x",
-            params: nil,
-            messageId: nil,
-            httpMethod: Method.GET.rawValue,
-            endPoint: infoEndpoint,
-            tag: "infoDevice",
-            maxAttempts: 5,
-            nonRetryStatusCodes: [401]
+            username: username, password: "x", params: nil, messageId: nil,
+            httpMethod: Method.GET.rawValue, endPoint: infoEndpoint,
+            tag: "infoDevice", maxAttempts: 5, nonRetryStatusCodes: [401]
         ) { success in
-            if success {
-                onCompletion(true)
-            } else {
-                onCompletion(false)
-            }
+            onCompletion(success)
         }
     }
 }

@@ -80,6 +80,9 @@ class PreyHTTPResponse {
 
         case .statusDevice:
             checkStatusDevice(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
+        
+        case .settings:
+            settings(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
 
         case .infoDevice:
             let out=checkInfoDevice(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
@@ -565,6 +568,46 @@ class PreyHTTPResponse {
         }
     }
     
+    //Retrieves configuration data
+    class func settings(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
+        guard isSuccess else {
+            // Check error with URLSession request
+            guard error == nil else {
+                PreyConfig.sharedInstance.reportError(error)
+                PreyLogger("Error: \(String(describing: error))")
+                return
+            }
+            PreyConfig.sharedInstance.reportError("StatusDevice", statusCode: statusCode, errorDescription: "StatusDevice error")
+            PreyLogger("Failed check status device")
+            return
+        }
+        
+        do {
+            guard let dataResponse = data else {
+                PreyLogger("No data in status device response")
+                return
+            }
+            
+            // Log the response for debugging
+            let responseStr = String(decoding: dataResponse, as: UTF8.self)
+            PreyLogger("Status device response: \(responseStr)")
+            
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+            
+            // Also check for settings/location_aware
+            if let dict = jsonObject as? [String: Any],
+               let settings = dict["settings"] as? [String: Any],
+               let localSettings = settings["local"] as? [String: Any],
+               let isActiveLocationAware = localSettings["location_aware"] as? Bool {
+                PreyLogger("Location aware setting found isActiveLocationAware: \(isActiveLocationAware)")
+                PreyConfig.sharedInstance.isActiveAware = isActiveLocationAware
+            }
+        } catch let error {
+            PreyConfig.sharedInstance.reportError(error)
+            PreyLogger("JSON error in settings device: \(error.localizedDescription)")
+        }
+    }
+
     // Check Status Devices response
     class func checkStatusDevice(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
         

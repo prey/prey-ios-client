@@ -18,27 +18,40 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
     // MARK: Properties
 
     var waitForRequest = false
-    
+
     let locManager = CLLocationManager()
 
     var delegate: LocationServiceDelegate?
-    
+
+    private var locationTimer: Timer?
+    private let locationTimeout: TimeInterval = 30.0 // 30 seconds timeout
+
     // MARK: Functions
-    
+
     // Start Location
     func startLocation() {
         locManager.delegate = self
         locManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locManager.startUpdatingLocation()
         locManager.pausesLocationUpdatesAutomatically = false
-        
+
         if #available(iOS 9.0, *) {
             locManager.allowsBackgroundLocationUpdates = true
         }
+
+        // Start timeout timer to prevent infinite waiting
+        locationTimer?.invalidate()
+        locationTimer = Timer.scheduledTimer(withTimeInterval: locationTimeout, repeats: false) { [weak self] _ in
+            guard let self = self, self.waitForRequest else { return }
+            PreyLogger("ReportLocation: Timeout reached (\(self.locationTimeout)s), proceeding without location")
+            self.delegate?.locationReceived([CLLocation]())
+        }
     }
-    
+
     // Stop Location
     func stopLocation() {
+        locationTimer?.invalidate()
+        locationTimer = nil
         locManager.stopUpdatingLocation()
         locManager.delegate = nil
     }
@@ -58,6 +71,11 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
         if first.horizontalAccuracy < 0 { return }
 
         if first.horizontalAccuracy <= 500 {
+            // Cancel timeout timer since we got a valid location
+            locationTimer?.invalidate()
+            locationTimer = nil
+
+            PreyLogger("ReportLocation: Got valid location with accuracy \(first.horizontalAccuracy)m")
             delegate?.locationReceived(locations)
         }
     }
@@ -65,6 +83,11 @@ class ReportLocation: NSObject, CLLocationManagerDelegate {
     // Did fail with error
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         PreyLogger("Error getting location: \(error.localizedDescription)")
+
+        // Cancel timeout timer since we're handling the error
+        locationTimer?.invalidate()
+        locationTimer = nil
+
         delegate?.locationReceived([CLLocation]())
     }
 }

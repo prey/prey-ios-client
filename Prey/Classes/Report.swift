@@ -12,24 +12,27 @@ import UIKit
 import AVFoundation
 
 class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, PhotoServiceDelegate, @unchecked Sendable {
- 
+
     // MARK: Properties
-    
+
     var runReportTimer: Timer?
-    
-    var interval:Double = 10*60
-    
+
+    var interval:Double = 2*60
+
     var excLocation = false
 
     var excPicture  = false
-    
+
     var reportData      = NSMutableDictionary()
-    
+
     var reportImages    = NSMutableDictionary()
-    
+
     var reportLocation  = ReportLocation()
-    
+
     var reportPhoto = ReportPhoto()
+
+    // Flag to prevent duplicate reports in the same cycle
+    private var hasReportBeenSent = false
     
     // MARK: Functions
     
@@ -63,16 +66,17 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     
     // Run report
     @objc func runReport(_ timer:Timer) {
-        
+
         guard PreyConfig.sharedInstance.isMissing else {
             stopReport()
             return
         }
-        
-        // Reset report info
+
+        // Reset report info and flags for new cycle
+        hasReportBeenSent = false
         reportImages.removeAllObjects()
         reportData.removeAllObjects()
-        
+
         // Stop location
         reportLocation.stopLocation()
         
@@ -81,8 +85,11 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
             reportLocation.waitForRequest = true
             reportLocation.delegate = self
             reportLocation.startLocation()
+        } else {
+            // Location excluded, mark as not waiting
+            reportLocation.waitForRequest = false
         }
-        
+
         // Get Photo - Smart background/foreground detection
         if !excPicture {
             // Check app state on main thread to avoid Main Thread Checker warning
@@ -94,7 +101,7 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
                     isAppInBackground = UIApplication.shared.applicationState == .background
                 }
             }
-            
+
             if !isAppInBackground && reportPhoto.isDeviceAuthorized {
                 // Only capture photos when app is in foreground AND has permissions
                 reportPhoto.waitForRequest = true
@@ -104,28 +111,27 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
             } else {
                 let reason = isAppInBackground ? "app in background" : "no camera permission"
                 PreyLogger("Skipping photo capture - \(reason)")
-                
+
+                // Mark as not waiting since we won't capture photo
+                reportPhoto.waitForRequest = false
+
                 // Request camera authorization for future use if needed
                 if !reportPhoto.isDeviceAuthorized {
                     AVCaptureDevice.requestAccess(for: .video) { granted in
                         PreyLogger("Camera access granted: \(granted)")
                     }
                 }
-                
-                // Send report without photo if location is also excluded
-                if excLocation {
-                    sendReport()
-                }
             }
+        } else {
+            // Photos excluded, mark as not waiting
+            reportPhoto.waitForRequest = false
         }
-        
+
         // Get Wifi Info
         addWifiInfo()
-        
-        // Check exclude option
-        if excPicture, excLocation {
-            sendReport()
-        }
+
+        // Try to send report (will only send if both photo and location are ready)
+        sendReport()
     }
     
     // Stop action report
@@ -154,9 +160,20 @@ class Report: PreyAction, CLLocationManagerDelegate, LocationServiceDelegate, Ph
     
     // Send report
     func sendReport() {
-        
+
+        // Prevent duplicate sends in the same cycle
+        guard !hasReportBeenSent else {
+            PreyLogger("Report already sent this cycle, skipping duplicate")
+            return
+        }
+
+        // Only send if we're not waiting for photo or location
         if !reportPhoto.waitForRequest && !reportLocation.waitForRequest {
+            PreyLogger("Sending report (photo waiting: \(reportPhoto.waitForRequest), location waiting: \(reportLocation.waitForRequest))")
+            hasReportBeenSent = true
             self.sendDataReport(reportData, images: reportImages, toEndpoint: reportDataDeviceEndpoint)
+        } else {
+            PreyLogger("Not sending report yet (photo waiting: \(reportPhoto.waitForRequest), location waiting: \(reportLocation.waitForRequest))")
         }
     }
     

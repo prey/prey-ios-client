@@ -64,13 +64,11 @@ class NotificationTokenRegistrar {
         ) else { return }
         let preyDevice = PreyDevice()
         let firmwareInfo: [String: String] = [
-            "model_name": preyDevice.model ?? "",
             "vendor_name": preyDevice.vendor ?? "",
+            "machine_id": UIDevice.current.machineIdentifier,
         ]
         let processorInfo: [String: String] = [
-            "speed": preyDevice.cpuSpeed ?? "",
             "cores": preyDevice.cpuCores ?? "",
-            "model": preyDevice.cpuModel ?? "",
         ]
         let specs: [String: Any] = [
             "processor_info": processorInfo,

@@ -79,7 +79,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         //self.screenName = "Preferences"
         
         // Set device name
-        let nameDevice = PreyConfig.sharedInstance.nameDevice ?? UIDevice.current.name ?? "iPhone"
+        var nameDevice = PreyConfig.sharedInstance.nameDevice;
+        if (nameDevice ?? "").isEmpty {
+            nameDevice = UIDevice.current.name;
+        }
         self.title = nameDevice
         
         // Set iPadView
