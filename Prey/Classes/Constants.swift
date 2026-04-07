@@ -316,16 +316,24 @@ enum ReactViews: String {
     case CHECKID     = "ioschecktouchid"
     case QRCODE      = "iosqrcode"
     case LOGIN       = "ioslogin"
+    // TODO: delete
     case EMAILRESEND = "iosemailresend"
+    // TODO: delete
     case CHECKSIGNUP = "ioschecksignup"
+    // TODO: delete
     case SIGNUP      = "iossignup"
     case TERMS       = "iosterms"
     case PRIVACY     = "iosprivacy"
     case FORGOT      = "iosforgot"
+    case CREATEACCOUNT      = "ioscreateaccount"
     case AUTHLOC     = "iosauthlocation"
+    // TODO: delete
     case AUTHPHOTO   = "iosauthphotos"
+    // TODO: delete
     case AUTHCAMERA  = "iosauthcamera"
+    // TODO: delete
     case AUTHNOTIF   = "iosauthnotification"
+    // TODO: delete
     case REPORTEXAMP = "iosreportexample"
     case GOTOSETTING = "iossettingspwd"
     case GOTOPANEL   = "iospanelpwd"
