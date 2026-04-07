@@ -93,13 +93,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Prepare Location Push manager early and request Always authorization if needed
         if locationPushManager == nil { locationPushManager = CLLocationManager() }
         locationPushManager?.delegate = self
-        let initialAuth = locationPushManager?.authorizationStatus ?? .notDetermined
-        if initialAuth == .notDetermined {
-            // iOS requires asking for WhenInUse first, then upgrade to Always later
-            locationPushManager?.requestWhenInUseAuthorization()
-        } else if initialAuth == .authorizedAlways {
-            // If already authorized, start monitoring immediately
-            startMonitoringLocationPushes()
+        if PreyConfig.sharedInstance.isRegistered {
+            let initialAuth = locationPushManager?.authorizationStatus ?? .notDetermined
+            if initialAuth == .authorizedAlways {
+                startMonitoringLocationPushes()
+            }
         }
         
         // Register for background tasks (BGTaskScheduler)
@@ -129,42 +127,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Register the notification categories
         UNUserNotificationCenter.current().setNotificationCategories([alertCategory])
         
-        // Check existing notification status and register for remote notifications
-        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
-            guard let self = self else { return }
-            PreyLogger("📱 PUSH INIT: Current notification authorization status: \(self.authStatusString(settings.authorizationStatus))")
-            PreyLogger("📱 PUSH INIT: Alert Setting: \(self.settingStatusString(settings.alertSetting))")
-            PreyLogger("📱 PUSH INIT: Badge Setting: \(self.settingStatusString(settings.badgeSetting))")
-            PreyLogger("📱 PUSH INIT: Sound Setting: \(self.settingStatusString(settings.soundSetting))")
-            PreyLogger("📱 PUSH INIT: Critical Alert Setting: \(self.settingStatusString(settings.criticalAlertSetting))")
-            
-            // Request notification permissions if not already authorized
-            if settings.authorizationStatus != .authorized {
-                PreyLogger("📱 PUSH INIT: Requesting notification permissions...")
-                
-                // Request with multiple options
-                let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound, .criticalAlert, .provisional]
-                UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
-                    if let error = error {
-                        PreyLogger("📱 PUSH INIT ERROR: ⚠️ Failed to request notification authorization: \(error.localizedDescription)")
-                    } else {
-                        PreyLogger("📱 PUSH INIT: ✓ Notification authorization request result: \(granted)")
-                        
-                        // Register for remote notifications on successful authorization
-                        DispatchQueue.main.async {
-                            UIApplication.shared.registerForRemoteNotifications()
-                            PreyLogger("📱 PUSH INIT: Registered for remote notifications after authorization")
-                        }
-                    }
-                }
-            } else {
-                // Already authorized, register directly
-                DispatchQueue.main.async {
-                    PreyLogger("📱 PUSH INIT: Already authorized, registering for remote notifications")
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
-            }
-        }
+        // Register for remote notifications (silent pushes don't require user permission)
+        UIApplication.shared.registerForRemoteNotifications()
+        PreyLogger("📱 PUSH INIT: Registered for remote notifications (silent push)")
         
         PreyLogger("Set UNUserNotificationCenter delegate to AppDelegate and registered categories")
 
@@ -182,9 +147,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         #endif
 
-        // Start centralized LocationService early; DeviceAuth will bridge updates
-        LocationService.shared.addDelegate(DeviceAuth.sharedInstance)
-        LocationService.shared.startBackgroundTracking()
+        // Start centralized LocationService only if device is registered
+        if PreyConfig.sharedInstance.isRegistered {
+            LocationService.shared.addDelegate(DeviceAuth.sharedInstance)
+            LocationService.shared.startBackgroundTracking()
+        }
         
         // Check settings info
         checkSettingsToBackup()
@@ -608,6 +575,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // MARK: Location Push Monitoring
     private func startMonitoringLocationPushes() {
+        guard PreyConfig.sharedInstance.isRegistered else { return }
         if locationPushManager == nil { locationPushManager = CLLocationManager() }
         guard let lm = locationPushManager else { return }
         lm.delegate = self
@@ -660,20 +628,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    // Retries when authorization changes to Always
+    // Retries when authorization changes
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         guard manager === self.locationPushManager else { return }
         let status = manager.authorizationStatus
         permissionLocationChanged(status)
         PreyLogger("LocationPush auth changed: \(status.rawValue)")
-        if status == .authorizedAlways {
+        // Notify React about the permission result
+        let granted = status == .authorizedAlways || status == .authorizedWhenInUse
+        DeviceAuth.sharedInstance.notifyPermissionResult("location", granted: granted)
+        switch status {
+        case .authorizedAlways:
             startMonitoringLocationPushes()
+        case .authorizedWhenInUse:
+            // Upgrade to Always for background location & LocationPush
+            manager.requestAlwaysAuthorization()
+        default:
+            break
         }
     }
     
     func permissionLocationChanged(_ authorizationStatus: CLAuthorizationStatus) {
         var locationAccessOld=PreyConfig.sharedInstance.locationAccess
-        var locationAccessNew = Location.getLocationStatusString(authorizationStatus)
+        let locationAccessNew = Location.getLocationStatusString(authorizationStatus)
         PreyConfig.sharedInstance.locationAccess=locationAccessNew
         if (locationAccessOld==nil){
             locationAccessOld = LocationAccess.UNKNOWN.rawValue
@@ -1003,7 +980,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // When all operations complete, call the fetchCompletionHandler and end the background task
         dispatchGroup.notify(queue: .main) { [weak self] in // Use weak self
-            guard let self = self else { completeFetch(.failed); return }
+            guard self != nil else { completeFetch(.failed); return }
             
             // Give a small delay to ensure everything completes properly (if absolutely necessary, but try to avoid delays)
             // A delay on the main queue can still block UI if the app is in foreground.

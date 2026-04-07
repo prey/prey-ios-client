@@ -162,15 +162,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-        0592E44C2E60A3B2000EE115 /* ZipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZipUtils.swift; path = Classes/ZipUtils.swift; sourceTree = "<group>"; };
-        0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreyNetworkRetry.swift; path = Classes/PreyNetworkRetry.swift; sourceTree = "<group>"; };
-        A9C0CAFE2F00000100000001 /* CrashHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrashHandler.swift; path = Classes/CrashHandler.swift; sourceTree = "<group>"; };
 		0537E0152E5C89D4008D460F /* LocationPushService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LocationPushService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0592B8B52EAAD97200DB9294 /* ListPermissionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPermissionsTests.swift; sourceTree = "<group>"; };
 		0592B8B72EAADBFC00DB9294 /* PreyActionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyActionsTests.swift; sourceTree = "<group>"; };
 		0592B8B92EAADECA00DB9294 /* ReportBugFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBugFixTests.swift; sourceTree = "<group>"; };
-		0592B8BD2EAADECA00DB9294 /* DeviceHardwareTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceHardwareTests.swift; sourceTree = "<group>"; };
 		0592B8BA2EAADECA00DB9294 /* ReportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTests.swift; sourceTree = "<group>"; };
+		0592B8BD2EAADECA00DB9294 /* DeviceHardwareTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceHardwareTests.swift; sourceTree = "<group>"; };
 		0592E4442E609B5E000EE115 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Registrar.swift; path = Classes/Registrar.swift; sourceTree = "<group>"; };
 		0592E4452E60A0A5000EE115 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Classes/LocationService.swift; sourceTree = "<group>"; };
 		0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreyNetworkRetry.swift; path = Classes/PreyNetworkRetry.swift; sourceTree = "<group>"; };
@@ -328,6 +325,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05BB00082E6F000000000008 /* LocationPushServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LocationPushServiceTests;
+			sourceTree = "<group>";
+		};
 		3B41BDAF1D05FFA7003DF0CE /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -401,6 +405,7 @@
 				3BAE5811214ACD9F00DB4BAB /* InfoPlist.strings */,
 				3B828402199198E6000E4545 /* PreyTests */,
 				0537E0162E5C89D4008D460F /* LocationPushService */,
+				05BB00082E6F000000000008 /* LocationPushServiceTests */,
 				3BB6E2211D47CBD800074E97 /* Frameworks */,
 				3B8283EE199198E6000E4545 /* Products */,
 			);
@@ -996,7 +1001,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 2.2.8;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey.LocationPushService;
@@ -1043,7 +1048,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 2.2.8;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey.LocationPushService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1196,7 +1201,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.2.7;
+				MARKETING_VERSION = 2.2.8;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1234,7 +1239,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.2.7;
+				MARKETING_VERSION = 2.2.8;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prey;
 				PRODUCT_NAME = "$(TARGET_NAME)";

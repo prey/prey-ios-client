@@ -57,9 +57,8 @@ class ListPermissions : PreyAction, @unchecked Sendable {
         PreyLogger("locationAuthBackground: \(locationBackground)")
         PreyLogger("locationStatus: \(locationStatus)")
         PreyLogger("backgroundAppRefresh: \(backgroundAppRefresh)")
-
-        // Check notification permission
-        DeviceAuth.sharedInstance.checkNotify { notification in
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            let notification = settings.authorizationStatus == .authorized
             PreyLogger("notification: \(notification)")
 
             // Check camera permission

@@ -113,7 +113,7 @@ class PreyDevice {
         PreyHTTPClient.sharedInstance.sendDataToPrey(
             username, password: "x", params: params, messageId: nil,
             httpMethod: Method.POST.rawValue, endPoint: eventsDeviceEndpoint,
-            onCompletion: PreyHTTPResponse.checkResponse(RequestType.signUp, preyAction: nil, onCompletion: onCompletion))
+            onCompletion: PreyHTTPResponse.checkResponse(RequestType.renameDevice, preyAction: nil, onCompletion: onCompletion))
     }
 
     class func infoDevice(_ onCompletion: @escaping (_ isSuccess: Bool) -> Void) {

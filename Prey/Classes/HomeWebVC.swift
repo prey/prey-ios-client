@@ -11,7 +11,7 @@ import UIKit
 import WebKit
 import LocalAuthentication
 
-class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
+class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler  {
 
     // MARK: Properties
     
@@ -52,6 +52,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         
         // Config webView
         let webConfiguration            = WKWebViewConfiguration()
+        webConfiguration.userContentController.add(self, name: "prey")
         webView                         = WKWebView(frame:rectView, configuration:webConfiguration)
         webView.backgroundColor         = UIColor.black
         webView.uiDelegate              = self
@@ -85,57 +86,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         super.viewWillAppear(animated)
     }
 
-    // Check TouchID/FaceID
-    func checkTouchID(_ openPanelWeb: String?) {
-        
-        guard PreyConfig.sharedInstance.isTouchIDEnabled == true, PreyConfig.sharedInstance.tokenPanel != nil else {
-            return
-        }
-
-        // Check Panel token expired time < 1h
-        guard (PreyConfig.sharedInstance.tokenWebTimestamp + 60*60) > CFAbsoluteTimeGetCurrent() else {
-            return
-        }
-        
-        let myContext = LAContext()
-        let myLocalizedReasonString = "Would you like to use \(biometricAuth) to access the Prey settings?".localized
-        var authError: NSError?
-        
-        guard myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) else {
-            PreyLogger("error with biometric policy")
-            return
-        }
-        myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
-            
-            DispatchQueue.main.async {
-                guard success else {
-                    PreyLogger("error with auth on touchID")
-                    self.showPanel = false
-                    return
-                }
-                
-                // Show webView
-                if openPanelWeb == "panel" {
-                    sleep(2)
-                    self.goToControlPanel()
-                } else {
-                    if openPanelWeb == "setting" {
-                        self.goToLocalSettings()
-                    } else {
-                        if openPanelWeb == "close" {
-                            self.goToCloseAccount()
-                        } else {
-                            self.goToRename()
-                        }
-                    }
-                }
-                
-                // Hide credentials webView
-                self.evaluateJS(self.webView, code: "var btn = document.getElementById('cancelBtn'); btn.click();")
-            }
-        }
- 
-    }
     
     // Check device auth
     func checkDeviceAuth(webView: WKWebView) {
@@ -158,9 +108,63 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         }
     }
 
+    // Navigate to destination after successful auth
+    func navigateAfterAuth(_ back: String) {
+        self.evaluateJS(self.webView, code: "var btn = document.getElementById('cancelBtn'); if(btn) btn.click();")
+        switch back {
+        case "panel":
+            self.goToControlPanel()
+        case "setting", "settings":
+            self.goToLocalSettings()
+        case "close":
+            self.goToCloseAccount()
+        default:
+            self.goToRename()
+        }
+    }
+
+    // Authenticate with biometrics, fallback to password
+    func authenticateWithBiometrics(back: String) {
+        PreyLogger("authenticateWithBiometrics back: \(back)")
+
+        guard PreyConfig.sharedInstance.isTouchIDEnabled else {
+            PreyLogger("Biometric auth disabled by user")
+            notifyAuthFallback(back)
+            return
+        }
+
+        let context = LAContext()
+        var authError: NSError?
+
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) else {
+            PreyLogger("Biometrics not available: \(String(describing: authError))")
+            notifyAuthFallback(back)
+            return
+        }
+
+        let reason = "Authenticate to access Prey settings".localized
+        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+            DispatchQueue.main.async {
+                guard success else {
+                    PreyLogger("Biometric auth failed: \(String(describing: error))")
+                    return
+                }
+                PreyLogger("Biometric auth success, navigating to: \(back)")
+                self.sendEventGAnalytics()
+                self.navigateAfterAuth(back)
+            }
+        }
+    }
+
+    // Notify React to show password fallback
+    func notifyAuthFallback(_ back: String) {
+        let js = "window.dispatchEvent(new CustomEvent('preyAuthFallback', {detail: {back: '\(back)'}}));"
+        evaluateJS(webView, code: js)
+    }
+
     // Check password
     func checkPassword(_ pwd: String?, view: UIView, back: String) {
-        
+
         // Check password length
         guard let pwdInput = pwd else {
             displayErrorAlert("Password must be at least 6 characters".localized,
@@ -172,54 +176,38 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
                               titleMessage:"We have a situation!".localized)
             return
         }
-        
+
         // Hide keyboard
         self.view.endEditing(true)
-        
+
         // Show ActivityIndicator
         let actInd          = UIActivityIndicatorView(initInView: self.view, withText:"Please wait".localized)
         self.view.addSubview(actInd)
         actInd.startAnimating()
-        
+
         // Check userApiKey length
         guard let userApiKey = PreyConfig.sharedInstance.userApiKey else {
             displayErrorAlert("Wrong password. Try again.".localized,
                               titleMessage:"We have a situation!".localized)
             return
         }
-        
+
         // Get Token for Control Panel
         PreyUser.getTokenFromPanel(userApiKey, userPassword:pwdInput, onCompletion:{(isSuccess: Bool) in
-            
+
             // Hide ActivityIndicator
             DispatchQueue.main.async {
                 actInd.stopAnimating()
-                
+
                 // Check sucess request
                 guard isSuccess else {
                     return
                 }
-                
+
                 // Show Settings View
                 self.sendEventGAnalytics()
 
-                // Show webView
-                if back == "panel" {
-                    self.goToControlPanel()
-                } else {
-                    if back == "setting" {
-                        self.goToLocalSettings()
-                    } else {
-                        if back == "close" {
-                            self.goToCloseAccount()
-                        } else {
-                            self.goToRename()
-                        }
-                    }
-                }
-                
-                // Hide credentials webView
-                self.evaluateJS(self.webView, code: "var btn = document.getElementById('cancelBtn'); btn.click();")
+                self.navigateAfterAuth(back)
             }
         })
     }
@@ -248,7 +236,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         
         // Check valid email
         if isInvalidEmail(email!, withPattern:emailRegExp) {
-            displayErrorAlert("Enter a valid e-mail address".localized,
+            displayErrorAlert("Enter a valid email address".localized,
                               titleMessage:"We have a situation!".localized)
             return
         }
@@ -295,7 +283,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
                         return
                     }
                     
-                    self.loadViewOnWebView("permissions")
+                    self.loadViewOnWebView("index")
                 }
             })
         })
@@ -312,125 +300,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         })
     }
 
-    // Check signUp fields
-    func checkSignUpFields(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool) {
-        // Check terms and conditions
-        if (!age || !term) {
-            displayErrorAlert("You must accept the Terms & Conditions".localized,
-                              titleMessage:"We have a situation!".localized)
-            return
-        }
-        
-        guard let nm = name else {
-            displayErrorAlert("Name can't be blank".localized,
-                              titleMessage:"We have a situation!".localized)
-            return
-        }
-        
-        guard let pwd1 = password1 else {
-            displayErrorAlert("Password must be at least 6 characters".localized,
-                              titleMessage:"We have a situation!".localized)
-            return
-        }
-
-        guard let pwd2 = password2 else {
-            displayErrorAlert("Password must be at least 6 characters".localized,
-                              titleMessage:"We have a situation!".localized)
-            return
-        }
-
-        if pwd1 != pwd2 {
-            displayErrorAlert("Passwords do not match".localized,
-                              titleMessage:"We have a situation!".localized)
-            return
-        }
-        
-        // Check name length
-        if nm.count < 1 {
-            displayErrorAlert("Name can't be blank".localized,
-                              titleMessage:"We have a situation!".localized)
-            return
-        }
-
-        // Check valid email
-        if isInvalidEmail(email!, withPattern:emailRegExp) {
-            displayErrorAlert("Enter a valid e-mail address".localized,
-                              titleMessage:"We have a situation!".localized)
-            return
-        }
-
-        // Check password length
-        if pwd1.count < 6 {
-            displayErrorAlert("Password must be at least 6 characters".localized,
-                              titleMessage:"We have a situation!".localized)
-            return
-        }
-        
-        // Hide keyboard
-        self.view.endEditing(true)
-        
-        // Show popUp to emailValidation
-        self.evaluateJS(self.webView, code: "var btn = document.getElementById('btnEmailValidation'); btn.click();")
-    }
-    
-    // Add device action
-    func addDeviceWithSignUp(_ name: String?, email: String?, password1: String?, password2: String?, term: Bool, age: Bool, offers: Bool?) {
-
-        guard let nm = name else {
-            displayErrorAlert("Name can't be blank".localized,
-                              titleMessage:"We have a situation!".localized)
-            return
-        }
-        
-        guard let pwd1 = password1 else {
-            displayErrorAlert("Password must be at least 6 characters".localized,
-                              titleMessage:"We have a situation!".localized)
-            return
-        }
-                
-        // Show ActivityIndicator
-        let actInd          = UIActivityIndicatorView(initInView: self.view, withText: "Creating account...".localized)
-        self.view.addSubview(actInd)
-        actInd.startAnimating()
-        
-        // SignUp to Panel Prey
-        PreyUser.signUpToPrey(nm, userEmail:email!, userPassword:pwd1, offers:offers!, onCompletion: {(isSuccess: Bool) in
-            
-            // LogIn isn't Success
-            guard isSuccess else {
-                // Hide ActivityIndicator
-                DispatchQueue.main.async {
-                    actInd.stopAnimating()
-                }
-                return
-            }
-            
-            // Get Token for Control Panel
-            //PreyUser.getTokenFromPanel(email!, userPassword:pwd1, onCompletion: {_ in })
-            
-            // Add Device to Panel Prey
-            PreyDevice.addDeviceWith({(isSuccess: Bool) in
-                DispatchQueue.main.async {
-                    // Hide ActivityIndicator
-                    actInd.stopAnimating()
-                    // Add Device Success
-                    guard isSuccess else {
-                        return
-                    }
-                    //self.loadViewOnWebView("permissions")
-                    DeviceAuth.sharedInstance.requestAuthNotification(false)
-                    PreyConfig.sharedInstance.userEmail = email
-                    PreyConfig.sharedInstance.validationUserEmail = PreyUserEmailValidation.pending.rawValue
-                    PreyConfig.sharedInstance.isRegistered  = false
-                    PreyConfig.sharedInstance.saveValues()
-                    self.loadViewOnWebView("emailsent")
-                    self.webView.reload()
-                }
-            })
-        })
-    }
-
-    
     // Show webView on modal
     func showWebViewModal(_ urlString: String, pageTitle: String) {
         let controller : UIViewController
@@ -556,13 +425,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
             }
         }
         
-        // Evaluate scheme
-        if let urlScheme = requestUrl.scheme {
-            DispatchQueue.main.async {
-                self.evaluateURLScheme(webView, scheme: urlScheme, reqUrl: requestUrl)
-            }
-        }
-
         return decisionHandler(.allow)
     }
     
@@ -608,136 +470,69 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         }
     }
     
-    func evaluateURLScheme(_ webView: WKWebView, scheme: String, reqUrl: URL) {
+    // MARK: WKScriptMessageHandler
 
-        switch scheme {
-            
-        case ReactViews.CHECKID.rawValue:
-            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            let openPanelWeb = queryItems?.filter({$0.name == "openPanelWeb"}).first
-            self.checkTouchID(openPanelWeb?.value)
-            
-        case ReactViews.QRCODE.rawValue:
-            self.addDeviceWithQRCode()
-            
-        case ReactViews.LOGIN.rawValue:
-            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            let email = queryItems?.filter({$0.name == "preyEmailLogin"}).first
-            let pwd = queryItems?.filter({$0.name == "preyPassLogin"}).first
-            self.addDeviceWithLogin(email?.value, password: pwd?.value)
-            
-        case ReactViews.RENAME.rawValue:
-            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            let newName = queryItems?.filter({$0.name == "newName"}).first
-            self.renameDevice(newName?.value)
-            
-        case ReactViews.CHECKSIGNUP.rawValue:
-            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            let name = queryItems?.filter({$0.name == "nameSignup"}).first
-            let email = queryItems?.filter({$0.name == "emailSignup"}).first
-            let pwd1 = queryItems?.filter({$0.name == "pwd1Signup"}).first
-            let pwd2 = queryItems?.filter({$0.name == "pwd2Signup"}).first
-            guard let term = queryItems?.filter({$0.name == "termsSignup"}).first else {return}
-            guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
-            self.checkSignUpFields(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue())
-            
-        case ReactViews.SIGNUP.rawValue:
-            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            let name = queryItems?.filter({$0.name == "nameSignup"}).first
-            let email = queryItems?.filter({$0.name == "emailSignup"}).first
-            let pwd1 = queryItems?.filter({$0.name == "pwd1Signup"}).first
-            let pwd2 = queryItems?.filter({$0.name == "pwd2Signup"}).first
-            guard let term = queryItems?.filter({$0.name == "termsSignup"}).first else {return}
-            guard let age  = queryItems?.filter({$0.name == "ageSignup"}).first else {return}
-            let offers  = queryItems?.filter({$0.name == "offers"}).first
-            self.addDeviceWithSignUp(name?.value, email: email?.value, password1: pwd1?.value, password2: pwd2?.value, term: term.value!.boolValue(), age: age.value!.boolValue(), offers: offers?.value?.boolValue() )
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard message.name == "prey",
+              let body = message.body as? [String: Any],
+              let action = body["action"] as? String else {
+            return
+        }
+        PreyLogger("postMessage action: \(action) body: \(body)")
+        let rawParams = body["params"] as? [String: Any] ?? [:]
+        var params = [String: String]()
+        for (key, value) in rawParams {
+            let str = "\(value)"
+            params[key] = str.removingPercentEncoding ?? str
+        }
 
-        case ReactViews.EMAILRESEND.rawValue:
-            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            let email = queryItems?.filter({$0.name == "emailSignup"}).first
-
-            if isInvalidEmail((email?.value)!, withPattern:emailRegExp) {
-                displayErrorAlert("Enter a valid e-mail address".localized,
-                                  titleMessage:"We have a situation!".localized)
-            } else {
-                PreyUser.resendEmailValidation((email?.value)!, onCompletion: {(isSuccess: Bool) in
-                    DispatchQueue.main.async {
-                        // Resend email success
-                        guard isSuccess else {
-                            return
-                        }
-                        self.evaluateJS(self.webView, code: "var btn = document.getElementById('btnIDEmailValidation'); btn.click();")
-                    }
-                })
+        DispatchQueue.main.async {
+            switch action {
+            case ReactViews.AUTHLOC.rawValue:
+                DeviceAuth.sharedInstance.requestAuthLocation()
+            case ReactViews.LOGIN.rawValue:
+                self.addDeviceWithLogin(params["preyEmailLogin"], password: params["preyPassLogin"])
+            case ReactViews.QRCODE.rawValue:
+                self.addDeviceWithQRCode()
+            case ReactViews.CHECKID.rawValue:
+                let back = params["openPanelWeb"] ?? "setting"
+                self.authenticateWithBiometrics(back: back)
+            case ReactViews.RENAME.rawValue:
+                self.renameDevice(params["newName"])
+            case ReactViews.TERMS.rawValue:
+                self.showWebViewModal(URLTermsPrey, pageTitle: "Terms of Service".localized)
+            case ReactViews.PRIVACY.rawValue:
+                self.showWebViewModal(URLPrivacyPrey, pageTitle: "Privacy Policy".localized)
+            case ReactViews.CREATEACCOUNT.rawValue:
+                self.showWebViewModal(URLCreateAccountPanel, pageTitle: "Create Account Web")
+            case ReactViews.FORGOT.rawValue:
+                self.showWebViewModal(URLForgotPanel, pageTitle: "Forgot Password Web")
+            case ReactViews.BIOAUTH.rawValue:
+                let back = params["back"] ?? "setting"
+                self.authenticateWithBiometrics(back: back)
+            case ReactViews.GOTOSETTING.rawValue:
+                self.checkPassword(params["pwdLogin"], view: self.view, back: "setting")
+            case ReactViews.GOTOPANEL.rawValue:
+                self.checkPassword(params["pwdLogin"], view: self.view, back: "panel")
+            case ReactViews.GOTORENAME.rawValue:
+                self.checkPassword(params["pwdLogin"], view: self.view, back: "rename")
+            case ReactViews.GOTOCLOSE.rawValue:
+                self.checkPassword(params["pwdLogin"], view: self.view, back: "close")
+            case ReactViews.NAMEDEVICE.rawValue:
+                let nameDevice = PreyConfig.sharedInstance.nameDevice ?? UIDevice.current.name
+                self.evaluateJS(self.webView, code: "document.getElementById('currentName').value = '\(nameDevice)';")
+                self.evaluateJS(self.webView, code: "document.getElementById('name_device_1').innerText = '\(nameDevice)';")
+                if PreyConfig.sharedInstance.isMsp {
+                    self.evaluateJS(self.webView, code: "document.getElementById('name_device_0').innerText = '\(nameDevice)';")
+                    self.evaluateJS(self.webView, code: "var div2 = document.getElementById('ctas'); div2.remove();")
+                }
+            case ReactViews.INDEX.rawValue:
+                self.loadViewOnWebView("index")
+                self.webView.reload()
+            default:
+                PreyLogger("Unknown postMessage action: \(action)")
             }
-            PreyLogger("Resend email validation")
-            
-        case ReactViews.TERMS.rawValue:
-            self.showWebViewModal(URLTermsPrey, pageTitle: "Terms of Service".localized)
-            
-        case ReactViews.PRIVACY.rawValue:
-            self.showWebViewModal(URLPrivacyPrey, pageTitle: "Privacy Policy".localized)
-            
-        case ReactViews.FORGOT.rawValue:
-            self.showWebViewModal(URLForgotPanel, pageTitle: "Forgot Password Web")
-            
-        case ReactViews.AUTHLOC.rawValue:
-            DeviceAuth.sharedInstance.requestAuthLocation()
-            
-        case ReactViews.AUTHPHOTO.rawValue:
-            DeviceAuth.sharedInstance.requestAuthPhotos()
-            
-        case ReactViews.AUTHCAMERA.rawValue:
-            DeviceAuth.sharedInstance.requestAuthCamera()
-            
-        case ReactViews.AUTHNOTIF.rawValue:
-            DeviceAuth.sharedInstance.requestAuthNotification(true)
-            
-        case ReactViews.REPORTEXAMP.rawValue:
-            self.actInd.startAnimating()
-            ReportExample.sharedInstance.runReportExample(webView)
-
-        case ReactViews.GOTOSETTING.rawValue:
-            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
-            self.checkPassword(pwd?.value, view: self.view, back: "setting")
-            
-        case ReactViews.GOTOPANEL.rawValue:
-            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
-            self.checkPassword(pwd?.value, view: self.view, back: "panel")
-            
-        case ReactViews.GOTORENAME.rawValue:
-            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
-            self.checkPassword(pwd?.value, view: self.view, back: "rename")
-            
-        case ReactViews.GOTOCLOSE.rawValue:
-            let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
-            let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first
-            self.checkPassword(pwd?.value, view: self.view, back: "close")
-            
-        case ReactViews.NAMEDEVICE.rawValue:
-            var nameDevice = PreyConfig.sharedInstance.nameDevice
-            if nameDevice == nil {
-                nameDevice=UIDevice.current.name;
-            }
-            if nameDevice == nil {
-                nameDevice="iPhone";
-            }
-            self.evaluateJS(self.webView, code: "document.getElementById('currentName').value = '\(nameDevice!)';")
-            self.evaluateJS(self.webView, code: "document.getElementById('name_device_1').innerText = '\(nameDevice!)';")
-            if PreyConfig.sharedInstance.isMsp {
-                self.evaluateJS(self.webView, code: "document.getElementById('name_device_0').innerText = '\(nameDevice!)';")
-                self.evaluateJS(self.webView, code: "var div2 = document.getElementById('ctas'); div2.remove();")
-            }
-            
-        case ReactViews.INDEX.rawValue:
-            self.loadViewOnWebView("index")
-            self.webView.reload()
-            
-        default:
-            PreyLogger("Ok")
         }
     }
+
 }
