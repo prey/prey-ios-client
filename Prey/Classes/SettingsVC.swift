@@ -539,7 +539,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font:fontItem!,NSAttributedString.Key.foregroundColor:colorItem],for:.normal)
         
         navBar.barTintColor           = PreyConfig.sharedInstance.getNavBarTintColor()
-        navBar.tintColor              = colorItem
+        navBar.tintColor              = UIColor.black
     }
     
     // MARK: Dark Mode colors

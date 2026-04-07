@@ -126,6 +126,13 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
     // Authenticate with biometrics, fallback to password
     func authenticateWithBiometrics(back: String) {
         PreyLogger("authenticateWithBiometrics back: \(back)")
+
+        guard PreyConfig.sharedInstance.isTouchIDEnabled else {
+            PreyLogger("Biometric auth disabled by user")
+            notifyAuthFallback(back)
+            return
+        }
+
         let context = LAContext()
         var authError: NSError?
 
