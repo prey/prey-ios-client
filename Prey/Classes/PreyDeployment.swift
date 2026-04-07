@@ -50,7 +50,7 @@ class PreyDeployment {
                 }
             }
 
-            if preyFiles.isEmpty {
+            if preyFiles.count == 0 {
                 return
             }
 

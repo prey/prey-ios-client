@@ -851,7 +851,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
 
-        notificationBgTask = UIApplication.shared.beginBackgroundTask { [weak self] in // Capture self weakly
+        notificationBgTask = UIApplication.shared.beginBackgroundTask {
             PreyLogger("⚠️ Remote notification background task expiring")
             // End the background task immediately when expiring
             if notificationBgTask != .invalid {

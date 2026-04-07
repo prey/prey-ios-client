@@ -211,7 +211,7 @@ class PreyModule {
             // Add Actions in ActionArray
             for dict in jsonObjects {
                 guard let actionDict = dict as? NSDictionary,
-                      let targetName = actionDict.object(forKey: kInstruction.target.rawValue) as? String
+                      let _ = actionDict.object(forKey: kInstruction.target.rawValue) as? String
                 else {
                     continue
                 }

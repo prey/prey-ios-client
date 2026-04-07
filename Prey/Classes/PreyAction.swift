@@ -53,10 +53,6 @@ class PreyAction: Operation, @unchecked Sendable {
 
         case kAction.logretrieval:
             actionItem = LogRetrieval(withTarget: kAction.logretrieval, withCommand: cmd, withOptions: opt)
-
-        default:
-            PreyLogger("Unknown action: \(target.rawValue)")
-            actionItem = nil
         }
 
         return actionItem
