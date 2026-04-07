@@ -11,7 +11,7 @@ import Foundation
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, dataSend, statusDevice, trigger, emailValidation, resendEmailValidation, infoDevice, settings
+    case getToken, logIn, signUp, addDevice, deleteDevice, subscriptionReceipt, actionDevice, dataSend, statusDevice, emailValidation, resendEmailValidation, infoDevice, settings
 }
 
 class PreyHTTPResponse {
@@ -68,8 +68,6 @@ class PreyHTTPResponse {
         case .actionDevice:
             checkActionDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
 
-        case .trigger:
-            checkTrigger(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
 
         case .emailValidation:
             checkEmailValidation(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
@@ -454,65 +452,16 @@ class PreyHTTPResponse {
         // No need to call any verification method here as the action was successful
     }
     
-    // Check trigger response
-    class func checkTrigger(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
-        
-        guard isSuccess else {
-            // Check error with URLSession request
-            guard error == nil else {
-                PreyConfig.sharedInstance.reportError(error)
-                PreyLogger("Triggers error")
-                return
-            }
-            PreyConfig.sharedInstance.reportError("Triggers", statusCode: statusCode, errorDescription: "Trigger error")
-            PreyLogger("Failed get data")
-            return
-        }
-        
-        // === Success
-        guard let dataResponse = data else {
-            PreyConfig.sharedInstance.reportError("TriggerRequest", statusCode: statusCode, errorDescription: "TriggerRequest error")
-            PreyLogger("Errod reading request trigger data")
-            return
-        }
-        guard let jsonObject: String = String(data:dataResponse, encoding:String.Encoding.utf8) else {
-            PreyConfig.sharedInstance.reportError("TriggerJson", statusCode: statusCode, errorDescription: "TriggerJson error")
-            PreyLogger("Error reading json trigger data")
-            return
-        }
-        // Convert actionsArray from String to NSData
-        guard let jsonData: Data = jsonObject.data(using: String.Encoding.utf8) else {
-            PreyConfig.sharedInstance.reportError("TriggerObject", statusCode: statusCode, errorDescription: "TriggerObject error")
-            PreyLogger("Error jsonObject trigger to NSData")
-            return
-        }
-        // Convert NSData to NSArray
-        do {
-            let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
-            if let triggerAction = action as? Trigger {
-                triggerAction.updateTriggers(jsonArray)
-            }
-        } catch let error {
-            PreyConfig.sharedInstance.reportError(error)
-            PreyLogger("json error: \(error.localizedDescription)")
-        }
-    }
-    
     // Check Email Validation response
     class func checkEmailValidation(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
-        
+
         guard isSuccess else {
-            // Check error with URLSession request
             guard error == nil else {
                 PreyConfig.sharedInstance.reportError(error)
                 PreyLogger("Error: \(String(describing: error))")
                 return
             }
-            // === Check status code
             if statusCode == 401 {
-                let userActivatedAction:UserActivated = UserActivated(withTarget:kAction.user_activated, withCommand:kCommand.stop, withOptions:nil)
-                PreyModule.sharedInstance.actionArray.append(userActivatedAction)
-                PreyModule.sharedInstance.runAction()
                 PreyLogger("Unauthorized: email expired")
             } else if statusCode == 422 {
                 PreyLogger("User pending")
@@ -522,14 +471,6 @@ class PreyHTTPResponse {
             }
             return
         }
-        
-        // Check response panel to email validation
-        if statusCode == 200 {
-            let userActivatedAction:UserActivated = UserActivated(withTarget:kAction.user_activated, withCommand:kCommand.start, withOptions:nil)
-            PreyModule.sharedInstance.actionArray.append(userActivatedAction)
-            PreyModule.sharedInstance.runAction()
-        }
-        
         PreyLogger("Email validation: OK")
     }
     
@@ -566,13 +507,7 @@ class PreyHTTPResponse {
                 PreyLogger("Error: \(String(describing: error))")
                 return
             }
-            // === Stop report
-            if statusCode == 409 {
-                PreyLogger("Stop report")
-                if let preyAction:Report = action as? Report {
-                    preyAction.stopReport()
-                }
-            } else if statusCode == 406 {
+            if statusCode == 406 {
                 PreyLogger("Deleted device")
                 let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
                 detachModule.detachDevice()

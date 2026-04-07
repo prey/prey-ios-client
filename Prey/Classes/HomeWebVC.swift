@@ -693,10 +693,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate  {
         case ReactViews.AUTHNOTIF.rawValue:
             DeviceAuth.sharedInstance.requestAuthNotification(true)
             
-        case ReactViews.REPORTEXAMP.rawValue:
-            self.actInd.startAnimating()
-            ReportExample.sharedInstance.runReportExample(webView)
-
         case ReactViews.GOTOSETTING.rawValue:
             let queryItems = URLComponents(string: reqUrl.absoluteString)?.queryItems
             let pwd = queryItems?.filter({$0.name == "pwdLogin"}).first

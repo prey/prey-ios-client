@@ -48,38 +48,18 @@ class PreyAction : Operation, @unchecked Sendable {
         case kAction.location:
             actionItem = Location.initLocationAction(withTarget: kAction.location, withCommand: cmd, withOptions: opt)
 
-        case kAction.alarm:
-            actionItem = Alarm(withTarget: kAction.alarm, withCommand: cmd, withOptions: opt)
-
-        case kAction.alert:
-            actionItem = Alert(withTarget: kAction.alert, withCommand: cmd, withOptions: opt)
-            
-        case kAction.report:
-            actionItem = Report(withTarget: kAction.report, withCommand: cmd, withOptions: opt)
-
         case kAction.detach:
             actionItem = Detach(withTarget: kAction.detach, withCommand: cmd, withOptions: opt)
 
-        case kAction.camouflage:
-            actionItem = Camouflage(withTarget: kAction.camouflage, withCommand: cmd, withOptions: opt)
-            
-        case kAction.tree:
-            actionItem = FileRetrieval(withTarget: kAction.tree, withCommand: cmd, withOptions: opt)
-
-        case kAction.fileretrieval:
-            actionItem = FileRetrieval(withTarget: kAction.fileretrieval, withCommand: cmd, withOptions: opt)
-
-        case kAction.triggers:
-            actionItem = Trigger(withTarget: kAction.triggers, withCommand: cmd, withOptions: opt)
-            
-        case kAction.user_activated:
-            actionItem = UserActivated(withTarget: kAction.user_activated, withCommand: cmd, withOptions: opt)
-        
         case kAction.list_permissions:
             actionItem = ListPermissions(withTarget: kAction.list_permissions, withCommand: cmd, withOptions: opt)
 
         case kAction.logretrieval:
             actionItem = LogRetrieval(withTarget: kAction.logretrieval, withCommand: cmd, withOptions: opt)
+
+        default:
+            PreyLogger("Unknown action: \(target.rawValue)")
+            actionItem = nil
         }
         
         return actionItem

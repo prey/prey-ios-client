@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyModule.sharedInstance.checkActionArrayStatus()
             
             // Relaunch viewController
-            let homeIdentifier = (PreyConfig.sharedInstance.isCamouflageMode) ? StoryboardIdVC.home.rawValue : StoryboardIdVC.homeWeb.rawValue
+            let homeIdentifier = StoryboardIdVC.homeWeb.rawValue
             self.window = UIWindow(frame: UIScreen.main.bounds)
             let mainStoryboard: UIStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
             let rootVC: UINavigationController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
@@ -206,7 +206,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Initial sync/setup logic
         if PreyConfig.sharedInstance.isRegistered {
-            TriggerManager.sharedInstance.checkTriggers()
             // Sync device name if it changed
             PreyModule.sharedInstance.syncDeviceNameIfChanged()
             
@@ -368,13 +367,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyModule.sharedInstance.syncDeviceNameIfChanged()
         }
         
-        // UI state checks and re-display logic
-        if PreyConfig.sharedInstance.isCamouflageMode, let rootVC = window?.rootViewController as? UINavigationController, let controller = rootVC.topViewController, controller is HomeWebVC {
-            window?.endEditing(true)
-            displayScreen()
-            return
-        }
-        
         if window?.rootViewController?.view.superview == window {
             return
         }
@@ -485,7 +477,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         PreyLogger("Checking device info in background refresh")
         PreyDevice.infoDevice { isSuccess in
             PreyLogger("Background refresh - infoDevice: \(isSuccess), time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
-            TriggerManager.sharedInstance.checkTriggers()
             // Check for actions again after device info is updated
             PreyLogger("Checking for actions again after device info update")
             PreyModule.sharedInstance.checkActionArrayStatus()

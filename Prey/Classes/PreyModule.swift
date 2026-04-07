@@ -153,15 +153,7 @@ class PreyModule {
         
         // If device is missing, add report action
         if PreyConfig.sharedInstance.isMissing {
-            // Check actionArray
-            if actionArray.isEmpty {
-                // Add report action
-                let reportAction = Report(withTarget: kAction.report, withCommand: kCommand.get, withOptions: PreyConfig.sharedInstance.reportOptions)
-                actionArray.append(reportAction)
-                PreyLogger("Added report action to action array")
-            } else {
-                PreyLogger("Action array already has \(actionArray.count) actions")
-            }
+            PreyLogger("Device is missing, checking actions")
             
             // Make sure actions are running
             runAction()

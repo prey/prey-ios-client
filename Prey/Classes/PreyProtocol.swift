@@ -15,19 +15,14 @@ enum kInstruction: String {
 
 // Prey actions definitions
 enum kAction: String {
-    case location, report, alarm, alert, detach, camouflage, tree, fileretrieval, triggers, user_activated, list_permissions, logretrieval
+    case location, detach, list_permissions, logretrieval
 }
 
 // Prey options definitions
 enum kOptions: String {
-    case exclude, interval, messageID, device_job_id, path, user, name, size, file_id, port, trigger_id
-    case MESSAGE    = "alert_message" // Alert options
-    case IDLOCAL    = "url"           // Alert options
-}
-
-// Prey options exclude definitions
-enum kExclude: String {
-    case picture, screenshot, access_points_list, location
+    case messageID, device_job_id, trigger_id
+    case MESSAGE    = "alert_message"
+    case IDLOCAL    = "url"
 }
 
 // Prey status definitions
@@ -58,14 +53,6 @@ enum kDataLocation: String {
     case skip_toast
 }
 
-// Prey location params
-enum kReportLocation: String {
-    case LONGITURE  = "location[lng]"
-    case LATITUDE   = "location[lat]"
-    case ALTITUDE   = "location[alt]"
-    case ACCURACY   = "location[accuracy]"
-    case METHOD     = "location[method]"
-}
 
 // Prey /Data Endpoint struct
 enum kData: String {
