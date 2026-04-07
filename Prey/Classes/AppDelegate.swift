@@ -650,7 +650,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func permissionLocationChanged(_ authorizationStatus: CLAuthorizationStatus) {
         var locationAccessOld=PreyConfig.sharedInstance.locationAccess
-        var locationAccessNew = Location.getLocationStatusString(authorizationStatus)
+        let locationAccessNew = Location.getLocationStatusString(authorizationStatus)
         PreyConfig.sharedInstance.locationAccess=locationAccessNew
         if (locationAccessOld==nil){
             locationAccessOld = LocationAccess.UNKNOWN.rawValue
@@ -980,7 +980,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // When all operations complete, call the fetchCompletionHandler and end the background task
         dispatchGroup.notify(queue: .main) { [weak self] in // Use weak self
-            guard let self = self else { completeFetch(.failed); return }
+            guard self != nil else { completeFetch(.failed); return }
             
             // Give a small delay to ensure everything completes properly (if absolutely necessary, but try to avoid delays)
             // A delay on the main queue can still block UI if the app is in foreground.

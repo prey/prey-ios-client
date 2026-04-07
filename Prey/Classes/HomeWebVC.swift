@@ -519,7 +519,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
             case ReactViews.GOTOCLOSE.rawValue:
                 self.checkPassword(params["pwdLogin"], view: self.view, back: "close")
             case ReactViews.NAMEDEVICE.rawValue:
-                var nameDevice = PreyConfig.sharedInstance.nameDevice ?? UIDevice.current.name ?? "iPhone"
+                let nameDevice = PreyConfig.sharedInstance.nameDevice ?? UIDevice.current.name
                 self.evaluateJS(self.webView, code: "document.getElementById('currentName').value = '\(nameDevice)';")
                 self.evaluateJS(self.webView, code: "document.getElementById('name_device_1').innerText = '\(nameDevice)';")
                 if PreyConfig.sharedInstance.isMsp {
