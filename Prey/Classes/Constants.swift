@@ -313,33 +313,20 @@ public func displayErrorAlert(_ alertMessage: String, titleMessage:String) {
 
 // ReactViews actions
 enum ReactViews: String {
-    case CHECKID     = "ioschecktouchid"
-    case QRCODE      = "iosqrcode"
-    case LOGIN       = "ioslogin"
-    // TODO: delete
-    case EMAILRESEND = "iosemailresend"
-    // TODO: delete
-    case CHECKSIGNUP = "ioschecksignup"
-    // TODO: delete
-    case SIGNUP      = "iossignup"
-    case TERMS       = "iosterms"
-    case PRIVACY     = "iosprivacy"
-    case FORGOT      = "iosforgot"
-    case CREATEACCOUNT      = "ioscreateaccount"
-    case AUTHLOC     = "iosauthlocation"
-    // TODO: delete
-    case AUTHPHOTO   = "iosauthphotos"
-    // TODO: delete
-    case AUTHCAMERA  = "iosauthcamera"
-    // TODO: delete
-    case AUTHNOTIF   = "iosauthnotification"
-    // TODO: delete
-    case REPORTEXAMP = "iosreportexample"
-    case GOTOSETTING = "iossettingspwd"
-    case GOTOPANEL   = "iospanelpwd"
-    case GOTORENAME  = "iosrenamepwd"
-    case GOTOCLOSE   = "iosclosepwd"
-    case RENAME      = "iosrename"
-    case NAMEDEVICE  = "iosnamedevice"
-    case INDEX       = "iosindex"
+    case CHECKID       = "checktouchid"
+    case QRCODE        = "qrcode"
+    case LOGIN         = "login"
+    case TERMS         = "terms"
+    case PRIVACY       = "privacy"
+    case FORGOT        = "forgot"
+    case CREATEACCOUNT = "createaccount"
+    case AUTHLOC       = "authlocation"
+    case BIOAUTH       = "biometricauth"
+    case GOTOSETTING   = "settingspwd"
+    case GOTOPANEL     = "panelpwd"
+    case GOTORENAME    = "renamepwd"
+    case GOTOCLOSE     = "closepwd"
+    case RENAME        = "rename"
+    case NAMEDEVICE    = "namedevice"
+    case INDEX         = "index"
 }

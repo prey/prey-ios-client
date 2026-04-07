@@ -121,17 +121,11 @@ public let tokenEndpoint            : String = "/get_token.json"
 // Endpoint for LogIn
 public let logInEndpoint            : String = "/profile.json"
 
-// Endpoint for SignUp
-public let signUpEndpoint           : String = "/signup.json"
-
 // Endpoint for Add Devices
 public let devicesEndpoint          : String = "/devices.json"
 
 // Endpoint for Email Validation
 public let emailValidationEndpoint  : String = "/users/verify.json"
-
-// Endpoint for Resend Email Validation
-public let resendEmailValidationEndpoint : String = "/users/verify_email.json"
 
 // Endpoint for Subscriptions Receipt
 public let subscriptionEndpoint     : String = "/subscriptions/receipt"

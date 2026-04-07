@@ -33,31 +33,9 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
     
     // Check all device auth
     func checkAllDeviceAuthorization(completionHandler:@escaping (_ granted: Bool) -> Void){
-        // Check UNUserNotificationCenter async
-        checkNotify { granted in
-            DispatchQueue.main.async {
-                if granted && self.checkLocation() && self.checkCamera() {
-                    completionHandler(true)
-                } else {
-                    completionHandler(false)
-                }
-            }
-        }
-    }
-
-    // Check notification
-    func checkNotify(completionHandler:@escaping (_ granted: Bool) -> Void) {
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
-            // Check notification settings
-            if settings.authorizationStatus == .authorized {
-                completionHandler(true)
-            } else {
-                DispatchQueue.main.async {
-                    self.displayMessage("You need to grant Prey access to show alert notifications in order to remotely mark it as missing.".localized,
-                                   titleMessage:"Alert notification disabled".localized)
-                    completionHandler(false)
-                }
-            }
+        DispatchQueue.main.async {
+            let granted = self.checkLocation() && self.checkCamera()
+            completionHandler(granted)
         }
     }
     
@@ -140,29 +118,39 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
         }
     }
 
-    // Call next request auth item
-    func callNextRequestAuth(_ idBtn: String) {
+    // Notify React that a native permission request completed
+    func notifyPermissionResult(_ permission: String, granted: Bool) {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first else {
             PreyLogger("error with sharedApplication")
             return
         }
-        
+
         let navigationController = window.rootViewController as! UINavigationController
         if let homeWebVC = navigationController.topViewController as? HomeWebVC {
-            homeWebVC.evaluateJS(homeWebVC.webView, code: "var btn = document.getElementById('\(idBtn)'); btn.click();")
+            let js = "window.dispatchEvent(new CustomEvent('preyPermissionResult', {detail: {permission: '\(permission)', granted: \(granted)}}));"
+            homeWebVC.evaluateJS(homeWebVC.webView, code: js)
         }
     }
     
     // Request auth location
     func requestAuthLocation() {
         authLocation.delegate = self
-        if (CLLocationManager.locationServicesEnabled() &&
-            authLocation.authorizationStatus == .notDetermined) {
-            // Request WhenInUse first during setup
+        let status = authLocation.authorizationStatus
+        PreyLogger("requestAuthLocation status: \(status.rawValue)")
+
+        switch status {
+        case .notDetermined:
             authLocation.requestWhenInUseAuthorization()
-        } else {
-            callNextRequestAuth("btnLocation")
+        case .denied, .restricted:
+            displayMessage(
+                "Location permission was denied. Please enable it in Settings to protect your device.".localized,
+                titleMessage: "Location Permission Needed".localized,
+                cancelBtn: "Later".localized
+            )
+            notifyPermissionResult("location", granted: false)
+        default:
+            notifyPermissionResult("location", granted: true)
         }
     }
 
@@ -213,19 +201,6 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
         }
     }
 
-    // Request auth photos
-    func requestAuthPhotos() {
-        PHPhotoLibrary.requestAuthorization({ authorization -> Void in
-            DispatchQueue.main.async {self.callNextRequestAuth("btnPhotos")}
-        })
-    }
-
-    // Request auth camera
-    func requestAuthCamera() {
-        AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler:{(granted: Bool) in
-            DispatchQueue.main.async {self.callNextRequestAuth("btnCamera")}
-        })
-    }
     
     func checkLocationBackground() -> Bool {
         var locationAuth = false
@@ -240,86 +215,11 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
         return UIApplication.shared.backgroundRefreshStatus == .available
     }
 
-    // Request auth notification
-    func requestAuthNotification(_ callNextView: Bool) {
-        // Create notification actions for better user interaction
-        let viewAction = UNNotificationAction(
-            identifier: "VIEW_ACTION", 
-            title: "View Details", 
-            options: [.foreground]
-        )
-        
-        let dismissAction = UNNotificationAction(
-            identifier: "DISMISS_ACTION", 
-            title: "Dismiss", 
-            options: [.destructive]
-        )
-        
-        // Create the category with the actions
-        let alertCategory = UNNotificationCategory(
-            identifier: categoryNotifPreyAlert, 
-            actions: [viewAction, dismissAction], 
-            intentIdentifiers: [], 
-            options: [.customDismissAction]
-        )
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .providesAppNotificationSettings, .criticalAlert]) { (granted, error) in
-            DispatchQueue.main.async {
-                // Set notification categories with appropriate actions
-                UNUserNotificationCenter.current().setNotificationCategories(Set([alertCategory]))
-                
-                if callNextView { 
-                    self.callNextReactView() 
-                }
-                
-                // Check permission granted
-                guard granted else { 
-                    PreyLogger("Notification permission not granted")
-                    return 
-                }
-                
-                UNUserNotificationCenter.current().getNotificationSettings { settings in
-                    // Check notification settings
-                    PreyLogger("Current notification settings: \(settings.authorizationStatus.rawValue)")
-                    
-                    guard settings.authorizationStatus == .authorized else { 
-                        PreyLogger("Notification authorization not available")
-                        return 
-                    }
-                    
-                    DispatchQueue.main.async {
-                        UIApplication.shared.registerForRemoteNotifications()
-                        PreyLogger("Registered for remote notifications")
-                    }
-                }
-            }
-        }
-    }
-    
-    // Call next ReactView
-    func callNextReactView() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else {
-            PreyLogger("error with sharedApplication")
-            return
-        }
-        
-        let navigationController = window.rootViewController as! UINavigationController
-        if let homeWebVC = navigationController.topViewController as? HomeWebVC {
-            homeWebVC.loadViewOnWebView("activation")
-        }
-        // Check location aware action on device status
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:statusDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.statusDevice, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request check status") }))
-        }
-        
-        // Check if daily location update is needed
-        Location.checkDailyLocationUpdate()
-    }
 
     // MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        callNextRequestAuth("btnLocation")
+        let granted = status == .authorizedAlways || status == .authorizedWhenInUse
+        notifyPermissionResult("location", granted: granted)
     }
     
     

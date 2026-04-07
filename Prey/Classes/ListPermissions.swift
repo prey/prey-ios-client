@@ -37,8 +37,8 @@ class ListPermissions : PreyAction, @unchecked Sendable {
         PreyLogger("cameraAuth: \(camera)")
         let backgroundAppRefresh = DeviceAuth.sharedInstance.checkBackgroundRefreshStatus();
         PreyLogger("backgroundAppRefresh: \(backgroundAppRefresh)")
-        DeviceAuth.sharedInstance.checkNotify{ granted in
-            let notification=granted
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            let notification = settings.authorizationStatus == .authorized
             PreyLogger("notification: \(notification)")
             PHPhotoLibrary.requestAuthorization({ authorization -> Void in
                 var photos=false;

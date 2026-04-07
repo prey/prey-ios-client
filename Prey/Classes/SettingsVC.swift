@@ -22,7 +22,7 @@ enum SectionInformation : Int {
 
 // SectionSettings Items
 enum SectionSettings : Int {
-    case detachDevice=0, camouflageMode, touchIdEnabled, numberSectionSettings
+    case detachDevice=0, touchIdEnabled, numberSectionSettings
 }
 
 // SectionDarkMode Items
@@ -40,7 +40,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     // MARK: Properties
 
-    var currentCamouflageMode       = PreyConfig.sharedInstance.isCamouflageMode
     var viewSection                 = [String:Int]()
     
     let kTagDarkMode    = 123
@@ -80,19 +79,13 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         //self.screenName = "Preferences"
         
         // Set device name
-        var nameDevice = PreyConfig.sharedInstance.nameDevice;
-        if nameDevice! == "" {
-            nameDevice = UIDevice.current.name;
-        }
+        let nameDevice = PreyConfig.sharedInstance.nameDevice ?? UIDevice.current.name ?? "iPhone"
         self.title = nameDevice
         
         // Set iPadView
         if IS_IPAD {
             showViewControllerWithId(StoryboardIdVC.currentLocation.rawValue)
         }
-        
-        // Set camouflageModeState
-        currentCamouflageMode       = PreyConfig.sharedInstance.isCamouflageMode
         
         // Init PreyStoreManager
         if !PreyConfig.sharedInstance.isPro {
@@ -260,13 +253,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             cell.accessoryView      = nil
             cell.textLabel?.text    = "Detach device".localized
             
-        case SectionSettings.camouflageMode.rawValue :
-            let camouflageMode      = UISwitch()
-            camouflageMode.addTarget(self, action:#selector(camouflageModeState), for:UIControl.Event.valueChanged)
-            camouflageMode.setOn(PreyConfig.sharedInstance.isCamouflageMode, animated:false)
-            cell.accessoryView      = camouflageMode
-            cell.textLabel?.text    = "Camouflage mode".localized
-
         case SectionSettings.touchIdEnabled.rawValue :
             let touchIDEnabled      = UISwitch()
             touchIDEnabled.addTarget(self, action:#selector(touchIDEnabledState), for:UIControl.Event.valueChanged)
@@ -478,29 +464,13 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
-    // CamouflageMode State
-    @objc func camouflageModeState(_ object:UISwitch) {
-        PreyConfig.sharedInstance.isCamouflageMode = object.isOn
-        PreyConfig.sharedInstance.saveValues()
-    }
-
     // TouchID State
     @objc func touchIDEnabledState(_ object:UISwitch) {
         PreyConfig.sharedInstance.isTouchIDEnabled = object.isOn
         PreyConfig.sharedInstance.saveValues()
     }
     
-    // Check changes on camouflageMode
     override func didMove(toParent parent: UIViewController?) {
-
-        if (parent == nil) && (currentCamouflageMode != PreyConfig.sharedInstance.isCamouflageMode) {
-            // Add camouflage action
-            let command:kCommand = PreyConfig.sharedInstance.isCamouflageMode ? .start : .stop
-            let alertAction:Camouflage = Camouflage(withTarget:kAction.camouflage, withCommand:command, withOptions:nil)
-            PreyModule.sharedInstance.actionArray.append(alertAction)
-            PreyModule.sharedInstance.runAction()
-        }
-        
         if (parent == nil), PreyConfig.sharedInstance.isRegistered {
             guard let appWindow = UIApplication.shared.delegate?.window else {
                 PreyLogger("error with sharedApplication")
