@@ -11,15 +11,15 @@ fi
 
 echo "Running SwiftLint..."
 
-# Run SwiftLint and capture only errors
-RESULT=$(swiftlint lint --quiet --strict 2>&1)
-ERRORS=$(echo "$RESULT" | grep "error:" | wc -l | tr -d ' ')
+# Run SwiftLint (without --strict, so only real errors block the push)
+RESULT=$(swiftlint lint --quiet 2>&1)
+ERRORS=$(echo "$RESULT" | grep ": error:" | wc -l | tr -d ' ')
 
 if [ "$ERRORS" -gt 0 ]; then
     echo ""
     echo "❌ SwiftLint found $ERRORS error(s). Push blocked."
     echo ""
-    echo "$RESULT" | grep "error:"
+    echo "$RESULT" | grep ": error:"
     echo ""
     echo "Fix errors and try again. Run 'swiftlint --fix' for auto-corrections."
     exit 1

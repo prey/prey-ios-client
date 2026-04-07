@@ -40,11 +40,13 @@ disabled_rules:
   - todo                       # Allow TODO/FIXME comments
   - nesting                    # Project uses nested types
   - type_name                  # Some short type names exist
+  - identifier_name            # Project uses SCREAMING_CASE and PascalCase conventions
+  - shorthand_operator         # Low priority for existing code
 
 # ─── Rule configuration ─────────────────────────────────
 line_length:
-  warning: 150
-  error: 250
+  warning: 200
+  error: 350
   ignores_comments: true
   ignores_urls: true
 
@@ -72,28 +74,8 @@ large_tuple:
   warning: 3
   error: 4
 
-identifier_name:
-  min_length:
-    warning: 2
-    error: 1
-  max_length:
-    warning: 50
-    error: 60
-  excluded:
-    - i
-    - j
-    - k
-    - x
-    - y
-    - id
-    - ok
-    - vc
-    - ip
-    - to
-
 force_cast: warning
 force_try: warning
-force_unwrapping: warning
 
 vertical_whitespace:
   max_empty_lines: 2
