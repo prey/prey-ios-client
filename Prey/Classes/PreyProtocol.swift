@@ -59,30 +59,15 @@ enum kData: String {
     case status, target, command, reason
 }
 
-// Prey trigger type:repeat_time
-enum kInfoRepeatTime: String {
-    case days_of_week, hour, minute, second, until
-}
-
-// Prey trigger type:range_time
-enum kInfoRangetTime: String {
-    case from, until
-}
-
-// Prey trigger type:repeat_range_time
-enum kInfoRepeatRangetTime: String {
-    case days_of_week, hour_from, hour_until, until
-}
-
 // Definition of URLs
 #if DEBUG
-    public let URLControlPanel      : String = "https://panel.preyhq.com/api/v2"
-    public let URLForgotPanel       : String = "https://panel.preyhq.com/forgot?embeddable=true"
+    public let URLControlPanel      : String = "https://solid.preyproject.com/api/v2"
+    public let URLForgotPanel       : String = "https://panel.preyproject.com/forgot?embeddable=true"
     public let URLCreateAccountPanel       : String = "https://panel.preyproject.com/checkout/starter"
-    public let URLSessionPanel      : String = "https://panel.preyhq.com/login_mobile"
-    public let fileRetrievalEndpoint: String = "https://panel.preyhq.com/upload/upload"
-    public let logRetrievalEndpoint : String = "https://solid.preyhq.com/upload/log"
-    public let URLCloseAccount      : String = "https://panel.preyhq.com/settings/account"
+    public let URLSessionPanel      : String = "https://panel.preyproject.com/login_mobile"
+    public let fileRetrievalEndpoint: String = "https://solid.preyproject.com/upload/upload"
+    public let logRetrievalEndpoint : String = "https://solid.preyproject.com/upload/log"
+    public let URLCloseAccount      : String = "https://panel.preyproject.com/settings/account"
     public let exceptionsUrl        : String = "https://exceptions-stg.preyhq.com"
 #else
     public let URLControlPanel      : String = "https://solid.preyproject.com/api/v2"
@@ -111,9 +96,6 @@ public let logInEndpoint            : String = "/profile.json"
 // Endpoint for Add Devices
 public let devicesEndpoint          : String = "/devices.json"
 
-// Endpoint for Email Validation
-public let emailValidationEndpoint  : String = "/users/verify.json"
-
 // Endpoint for Subscriptions Receipt
 public let subscriptionEndpoint     : String = "/subscriptions/receipt"
 
@@ -126,17 +108,11 @@ public var locationAwareEndpoint : String {return String(format:"/devices/%@/loc
 // Endpoint for Device Data
 public var dataDeviceEndpoint : String {return String(format:"/devices/%@/data",(PreyConfig.sharedInstance.getDeviceKey()))}
 
-// Endpoint for Report Data
-public var reportDataDeviceEndpoint : String {return String(format:"/devices/%@/reports.json",(PreyConfig.sharedInstance.getDeviceKey()))}
-
 // Endpoint for Response Data
 public var responseDeviceEndpoint : String {return String(format:"/devices/%@/response",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Events Data
 public var eventsDeviceEndpoint : String {return String(format:"/devices/%@/events",(PreyConfig.sharedInstance.getDeviceKey()))}
-
-// Endpoint for Trigger
-public var triggerEndpoint : String {return String(format:"/devices/%@/triggers.json",(PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Device Actions
 public var actionsDeviceEndpoint : String {return String(format:"/devices/%@.json",(PreyConfig.sharedInstance.getDeviceKey()))}

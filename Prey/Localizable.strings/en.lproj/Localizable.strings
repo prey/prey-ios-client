@@ -98,8 +98,6 @@
 
 "Attaching device..." = "Attaching device...";
 
-"Camouflage mode" = "Camouflage mode";
-
 "Checking your password..." = "Checking your password...";
 
 "Choose a password of at least 6 characters" = "Choose a password of at least 6 characters";
@@ -232,10 +230,6 @@
 
 "Canceled transaction, please try again." = "Canceled transaction, please try again.";
 
-"Alert notification disabled" = "Alert notification disabled";
-
-"You need to grant Prey access to show alert notifications in order to remotely mark it as missing." = "You need to grant Prey access to show alert notifications in order to remotely mark it as missing.";
-
 "The internet connection appears to be offline" = "The internet connection appears to be offline";
 
 "Authenticate for login?" = "Authenticate for login?";
@@ -275,8 +269,6 @@
 "protected" = "protected";
 
 "unprotected" = "unprotected";
-
-"IMPORTANT ALERT" = "IMPORTANT ALERT";
 
 "Use device settings" = "Use device settings";
 

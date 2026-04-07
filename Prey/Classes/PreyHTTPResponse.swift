@@ -12,7 +12,7 @@ import UIKit
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, renameDevice, addDevice, deleteDevice, subscriptionReceipt, actionDevice, dataSend, statusDevice, trigger, emailValidation, infoDevice, settings
+    case getToken, logIn, renameDevice, addDevice, deleteDevice, subscriptionReceipt, actionDevice, dataSend, statusDevice, infoDevice, settings
 }
 
 class PreyHTTPResponse {
@@ -69,9 +69,6 @@ class PreyHTTPResponse {
         case .actionDevice:
             checkActionDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
 
-
-        case .emailValidation:
-            checkEmailValidation(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
 
         case .dataSend:
             checkDataSend(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
@@ -250,7 +247,6 @@ class PreyHTTPResponse {
             if let deviceKeyStr = jsonObject.object(forKey: "key") as? String {
                 PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
                 PreyConfig.sharedInstance.isRegistered  = true
-                PreyConfig.sharedInstance.validationUserEmail = PreyUserEmailValidation.active.rawValue
                 PreyConfig.sharedInstance.isTouchIDEnabled = true
                 if PreyConfig.sharedInstance.nameDevice == nil {
                     PreyConfig.sharedInstance.nameDevice = UIDevice.current.name
@@ -427,31 +423,6 @@ class PreyHTTPResponse {
         // Mark verification as succeeded
         // No need to call any verification method here as the action was successful
     }
-    
-    // Check Email Validation response
-    class func checkEmailValidation(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
-
-        guard isSuccess else {
-            guard error == nil else {
-                PreyConfig.sharedInstance.reportError(error)
-                PreyLogger("Error: \(String(describing: error))")
-                return
-            }
-            if statusCode == 401 {
-                PreyLogger("Unauthorized: email expired")
-            } else if statusCode == 422 {
-                PreyLogger("User pending")
-            } else {
-                PreyConfig.sharedInstance.reportError("EmailValidation", statusCode: statusCode, errorDescription: "EmailValidation error")
-                PreyLogger("Failed EmailValidation")
-            }
-            return
-        }
-        PreyLogger("Email validation: OK")
-    }
-    
-    
-    // Check Resend Email Validation response
     
     // Check Data Send response
     class func checkDataSend(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {

@@ -10,24 +10,15 @@
 		05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0537E0152E5C89D4008D460F /* LocationPushService.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0592B8B62EAAD97200DB9294 /* ListPermissionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8B52EAAD97200DB9294 /* ListPermissionsTests.swift */; };
 		0592B8B82EAADBFC00DB9294 /* PreyActionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8B72EAADBFC00DB9294 /* PreyActionsTests.swift */; };
-		0592B8BB2EAADECA00DB9294 /* ReportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8BA2EAADECA00DB9294 /* ReportTests.swift */; };
-		0592B8BC2EAADECA00DB9294 /* ReportBugFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8B92EAADECA00DB9294 /* ReportBugFixTests.swift */; };
 		0592B8BE2EAADECA00DB9294 /* DeviceHardwareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8BD2EAADECA00DB9294 /* DeviceHardwareTests.swift */; };
 		0592E4452E609B65000EE115 /* Registrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4442E609B5E000EE115 /* Registrar.swift */; };
 		0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4452E60A0A5000EE115 /* LocationService.swift */; };
 		0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */; };
 		0592E44D2E60A3B2000EE115 /* ZipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E44C2E60A3B2000EE115 /* ZipUtils.swift */; };
-		3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
-		3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18EEC322C27B4E007A0F45 /* ReportExample.swift */; };
-		3B1ACE3F22CE872B0057ECE5 /* Trigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */; };
-		3B2445F71D245478005DF09C /* Camouflage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F61D245478005DF09C /* Camouflage.swift */; };
-		3B2445F91D2466CD005DF09C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445F81D2466CD005DF09C /* Alert.swift */; };
 		3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445FA1D24717B005DF09C /* AlertVC.swift */; };
 		3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */; };
 		3B33A76420F69D0B00F3B64E /* Battery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B33A76320F69D0B00F3B64E /* Battery.swift */; };
-		3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742161CF791D900E52B6C /* ReportPhoto.swift */; };
-		3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3742181CF792CA00E52B6C /* ReportWifi.swift */; };
 		3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38BA8E1D22C03D00B6799B /* WebVC.swift */; };
 		3B38BA931D231B1C00B6799B /* Detach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38BA921D231B1C00B6799B /* Detach.swift */; };
 		3B3AA5C322835F560035C63C /* ReactViews in Resources */ = {isa = PBXBuildFile; fileRef = 3B3AA5C222835F560035C63C /* ReactViews */; };
@@ -38,9 +29,7 @@
 		3B41BDB11D05FFF0003DF0CE /* PreyCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */; };
 		3B42A2671D2581EF002848C0 /* large9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B42A2661D2581EF002848C0 /* large9.ttf */; };
 		3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */; };
-		3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42B3FC1CECC38B009D07B2 /* Report.swift */; };
 		3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4E40611D3D3E2D00A45FBD /* GrettingsProVC.swift */; };
-		3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4F679E1CEA061E00F58FAD /* Alarm.swift */; };
 		3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A11CEA085200F58FAD /* shutter.aiff */; };
 		3B4F67A41CEA085200F58FAD /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A21CEA085200F58FAD /* siren.mp3 */; };
 		3B51FFB21D3EB77C00CFE4E8 /* QRCodeScannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B51FFB11D3EB77C00CFE4E8 /* QRCodeScannerVC.swift */; };
@@ -78,7 +67,6 @@
 		3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */; };
 		3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D71A2E7B530027179E /* PurchasesVC.swift */; };
 		3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D81A2E7B530027179E /* SettingsVC.swift */; };
-		3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */; };
 		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
 		3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC971CDB9CD70052A21D /* Location.swift */; };
 		3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC991CDBBF030052A21D /* PreyModule.swift */; };
@@ -94,14 +82,12 @@
 		3BB6E21F1D47CACD00074E97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21E1D47CACD00074E97 /* MapKit.framework */; };
 		3BB6E2251D47F42100074E97 /* PreyRateUs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB6E2241D47F42100074E97 /* PreyRateUs.swift */; };
 		3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3C0971C9733BA00D08D62 /* Constants.swift */; };
-		3BC4774B23A1355900109844 /* UserActivated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC4774A23A1355900109844 /* UserActivated.swift */; };
 		3BC4FC1F1D3699F800C58878 /* CurrentLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */; };
 		3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */; };
 		3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */; };
 		3BCD4C8F1C98942900CDEE1C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BCD4C8C1C98942900CDEE1C /* Localizable.strings */; };
 		3BCE972B23021B1600AF1AD4 /* regular-book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972923021B1600AF1AD4 /* regular-book.otf */; };
 		3BCE972C23021B1600AF1AD4 /* regular-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BCE972A23021B1600AF1AD4 /* regular-bold.otf */; };
-		3BDA80D921120DE4003B028C /* FileRetrieval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDA80D821120DE4003B028C /* FileRetrieval.swift */; };
 		3BDF988120338AC70023D4AA /* HomeWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF988020338AC70023D4AA /* HomeWebVC.swift */; };
 		3BE3DC511D0B044D00581327 /* magdacleanmono-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */; };
 		3BE3DC521D0B044D00581327 /* magdacleanmono-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */; };
@@ -165,26 +151,17 @@
 		0537E0152E5C89D4008D460F /* LocationPushService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LocationPushService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0592B8B52EAAD97200DB9294 /* ListPermissionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPermissionsTests.swift; sourceTree = "<group>"; };
 		0592B8B72EAADBFC00DB9294 /* PreyActionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyActionsTests.swift; sourceTree = "<group>"; };
-		0592B8B92EAADECA00DB9294 /* ReportBugFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBugFixTests.swift; sourceTree = "<group>"; };
-		0592B8BA2EAADECA00DB9294 /* ReportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTests.swift; sourceTree = "<group>"; };
 		0592B8BD2EAADECA00DB9294 /* DeviceHardwareTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceHardwareTests.swift; sourceTree = "<group>"; };
 		0592E4442E609B5E000EE115 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Registrar.swift; path = Classes/Registrar.swift; sourceTree = "<group>"; };
 		0592E4452E60A0A5000EE115 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Classes/LocationService.swift; sourceTree = "<group>"; };
 		0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreyNetworkRetry.swift; path = Classes/PreyNetworkRetry.swift; sourceTree = "<group>"; };
 		0592E44C2E60A3B2000EE115 /* ZipUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZipUtils.swift; path = Classes/ZipUtils.swift; sourceTree = "<group>"; };
-		3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TriggerManager.swift; path = Classes/TriggerManager.swift; sourceTree = "<group>"; };
 		3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPResponse.swift; path = Classes/PreyHTTPResponse.swift; sourceTree = "<group>"; };
-		3B18EEC322C27B4E007A0F45 /* ReportExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportExample.swift; path = Classes/ReportExample.swift; sourceTree = "<group>"; };
-		3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Trigger.swift; path = Classes/Trigger.swift; sourceTree = "<group>"; };
-		3B2445F61D245478005DF09C /* Camouflage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Camouflage.swift; path = Classes/Camouflage.swift; sourceTree = "<group>"; };
-		3B2445F81D2466CD005DF09C /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alert.swift; path = Classes/Alert.swift; sourceTree = "<group>"; };
 		3B2445FA1D24717B005DF09C /* AlertVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertVC.swift; path = Classes/AlertVC.swift; sourceTree = "<group>"; };
 		3B2A76BA205AB5EA008912BC /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		3B2A76BB205AB5EA008912BC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyStoreProduct.swift; path = Classes/PreyStoreProduct.swift; sourceTree = "<group>"; };
 		3B33A76320F69D0B00F3B64E /* Battery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Battery.swift; path = Classes/Battery.swift; sourceTree = "<group>"; };
-		3B3742161CF791D900E52B6C /* ReportPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportPhoto.swift; path = Classes/ReportPhoto.swift; sourceTree = "<group>"; };
-		3B3742181CF792CA00E52B6C /* ReportWifi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportWifi.swift; path = Classes/ReportWifi.swift; sourceTree = "<group>"; };
 		3B38BA8E1D22C03D00B6799B /* WebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebVC.swift; path = Classes/WebVC.swift; sourceTree = "<group>"; };
 		3B38BA921D231B1C00B6799B /* Detach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Detach.swift; path = Classes/Detach.swift; sourceTree = "<group>"; };
 		3B3AA5C222835F560035C63C /* ReactViews */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ReactViews; sourceTree = "<group>"; };
@@ -195,9 +172,7 @@
 		3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyCoreData.swift; path = Classes/PreyCoreData.swift; sourceTree = "<group>"; };
 		3B42A2661D2581EF002848C0 /* large9.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = large9.ttf; sourceTree = "<group>"; };
 		3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyProtocol.swift; path = Classes/PreyProtocol.swift; sourceTree = "<group>"; };
-		3B42B3FC1CECC38B009D07B2 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Report.swift; path = Classes/Report.swift; sourceTree = "<group>"; };
 		3B4E40611D3D3E2D00A45FBD /* GrettingsProVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrettingsProVC.swift; path = Classes/GrettingsProVC.swift; sourceTree = "<group>"; };
-		3B4F679E1CEA061E00F58FAD /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alarm.swift; path = Classes/Alarm.swift; sourceTree = "<group>"; };
 		3B4F67A11CEA085200F58FAD /* shutter.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = shutter.aiff; sourceTree = "<group>"; };
 		3B4F67A21CEA085200F58FAD /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siren.mp3; sourceTree = "<group>"; };
 		3B51FFB11D3EB77C00CFE4E8 /* QRCodeScannerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QRCodeScannerVC.swift; path = Classes/QRCodeScannerVC.swift; sourceTree = "<group>"; };
@@ -238,7 +213,6 @@
 		3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPClient.swift; path = Classes/PreyHTTPClient.swift; sourceTree = "<group>"; };
 		3B8E57D71A2E7B530027179E /* PurchasesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchasesVC.swift; path = Classes/PurchasesVC.swift; sourceTree = "<group>"; };
 		3B8E57D81A2E7B530027179E /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsVC.swift; path = Classes/SettingsVC.swift; sourceTree = "<group>"; };
-		3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReportLocation.swift; path = Classes/ReportLocation.swift; sourceTree = "<group>"; };
 		3B9DDC951CDB891C0052A21D /* PreyAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyAction.swift; path = Classes/PreyAction.swift; sourceTree = "<group>"; };
 		3B9DDC971CDB9CD70052A21D /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Classes/Location.swift; sourceTree = "<group>"; };
 		3B9DDC991CDBBF030052A21D /* PreyModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyModule.swift; path = Classes/PreyModule.swift; sourceTree = "<group>"; };
@@ -256,7 +230,6 @@
 		3BB6E2221D47CC3C00074E97 /* Prey.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Prey.entitlements; path = Plist/Prey.entitlements; sourceTree = "<group>"; };
 		3BB6E2241D47F42100074E97 /* PreyRateUs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyRateUs.swift; path = Classes/PreyRateUs.swift; sourceTree = "<group>"; };
 		3BC3C0971C9733BA00D08D62 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Classes/Constants.swift; sourceTree = "<group>"; };
-		3BC4774A23A1355900109844 /* UserActivated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserActivated.swift; path = Classes/UserActivated.swift; sourceTree = "<group>"; };
 		3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CurrentLocationVC.swift; path = Classes/CurrentLocationVC.swift; sourceTree = "<group>"; };
 		3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyConfig.swift; path = Classes/PreyConfig.swift; sourceTree = "<group>"; };
 		3BCD4C891C9867E200CDEE1C /* PreyDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyDevice.swift; path = Classes/PreyDevice.swift; sourceTree = "<group>"; };
@@ -266,7 +239,6 @@
 		3BCE96F12302191B00AF1AD4 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		3BCE972923021B1600AF1AD4 /* regular-book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "regular-book.otf"; sourceTree = "<group>"; };
 		3BCE972A23021B1600AF1AD4 /* regular-bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "regular-bold.otf"; sourceTree = "<group>"; };
-		3BDA80D821120DE4003B028C /* FileRetrieval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileRetrieval.swift; path = Classes/FileRetrieval.swift; sourceTree = "<group>"; };
 		3BDF988020338AC70023D4AA /* HomeWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeWebVC.swift; path = Classes/HomeWebVC.swift; sourceTree = "<group>"; };
 		3BE3DC4D1D0B044D00581327 /* magdacleanmono-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "magdacleanmono-bold.ttf"; sourceTree = "<group>"; };
 		3BE3DC4E1D0B044D00581327 /* magdacleanmono-regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "magdacleanmono-regular.otf"; sourceTree = "<group>"; };
@@ -457,8 +429,6 @@
 		3B828402199198E6000E4545 /* PreyTests */ = {
 			isa = PBXGroup;
 			children = (
-				0592B8B92EAADECA00DB9294 /* ReportBugFixTests.swift */,
-				0592B8BA2EAADECA00DB9294 /* ReportTests.swift */,
 				0592B8B72EAADBFC00DB9294 /* PreyActionsTests.swift */,
 				0592B8B52EAAD97200DB9294 /* ListPermissionsTests.swift */,
 				0592B8BD2EAADECA00DB9294 /* DeviceHardwareTests.swift */,
@@ -529,20 +499,8 @@
 				9A1B2C3D4E5F000100020002 /* SyncCoordinator.swift */,
 				9A1B2C3D4E5F000100020012 /* LogRetrieval.swift */,
 				3B9DDC971CDB9CD70052A21D /* Location.swift */,
-				3B4F679E1CEA061E00F58FAD /* Alarm.swift */,
-				3B2445F81D2466CD005DF09C /* Alert.swift */,
-				3B2445F61D245478005DF09C /* Camouflage.swift */,
-				3BC4774A23A1355900109844 /* UserActivated.swift */,
-				3B1ACE3E22CE872B0057ECE5 /* Trigger.swift */,
-				3B07E9A322D4F74B00B72E35 /* TriggerManager.swift */,
-				3B42B3FC1CECC38B009D07B2 /* Report.swift */,
-				3B18EEC322C27B4E007A0F45 /* ReportExample.swift */,
-				3B99CF9C1CEDFDFD0028ABD4 /* ReportLocation.swift */,
-				3B3742161CF791D900E52B6C /* ReportPhoto.swift */,
-				3B3742181CF792CA00E52B6C /* ReportWifi.swift */,
 				3B38BA921D231B1C00B6799B /* Detach.swift */,
 				3B33A76320F69D0B00F3B64E /* Battery.swift */,
-				3BDA80D821120DE4003B028C /* FileRetrieval.swift */,
 				747FA51D2BAB1683003242C7 /* ListPermissions.swift */,
 			);
 			name = "Prey Modules";
@@ -829,10 +787,8 @@
 				0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */,
 				3B8629961EF03CB400BE92D4 /* HttpRouter.swift in Sources */,
 				3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */,
-				3B99CF9D1CEDFDFD0028ABD4 /* ReportLocation.swift in Sources */,
 				3BAB25CF23A923C300BDA263 /* Triggers+Class.swift in Sources */,
 				3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */,
-				3BDA80D921120DE4003B028C /* FileRetrieval.swift in Sources */,
 				3B38BA931D231B1C00B6799B /* Detach.swift in Sources */,
 				0592E4452E609B65000EE115 /* Registrar.swift in Sources */,
 				3B8629991EF03CB400BE92D4 /* Process.swift in Sources */,
@@ -843,31 +799,22 @@
 				3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */,
 				3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */,
 				3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */,
-				3B18EEC422C27B4E007A0F45 /* ReportExample.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
 				3BAB25D423A923C300BDA263 /* Triggers+Properties.swift in Sources */,
 				3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */,
 				3B86297B1EF039E800BE92D4 /* PreyMobileConfig.swift in Sources */,
 				3B8629A11EF03CB400BE92D4 /* String+SHA1.swift in Sources */,
-				3B4F679F1CEA061E00F58FAD /* Alarm.swift in Sources */,
 				3B77804E1A600CCE0050C747 /* PreyUser.swift in Sources */,
 				3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */,
 				3BAB25D023A923C300BDA263 /* TriggersEvents+Class.swift in Sources */,
-				3B3742171CF791D900E52B6C /* ReportPhoto.swift in Sources */,
 				3B86299F1EF03CB400BE92D4 /* String+File.swift in Sources */,
 				3BAB25D123A923C300BDA263 /* TriggersActions+Class.swift in Sources */,
 				3B33A76420F69D0B00F3B64E /* Battery.swift in Sources */,
-				3BC4774B23A1355900109844 /* UserActivated.swift in Sources */,
-				3B1ACE3F22CE872B0057ECE5 /* Trigger.swift in Sources */,
 				3B86299E1EF03CB400BE92D4 /* String+BASE64.swift in Sources */,
 				3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */,
 				3B40A9051CD8FC8400BF98F6 /* PreyNotification.swift in Sources */,
 				3B41BDB11D05FFF0003DF0CE /* PreyCoreData.swift in Sources */,
 				3B51FFB21D3EB77C00CFE4E8 /* QRCodeScannerVC.swift in Sources */,
-				3B42B3FD1CECC38B009D07B2 /* Report.swift in Sources */,
-				3B3742191CF792CA00E52B6C /* ReportWifi.swift in Sources */,
-				3B07E9A422D4F74B00B72E35 /* TriggerManager.swift in Sources */,
-				3B2445F91D2466CD005DF09C /* Alert.swift in Sources */,
 				3BC4FC1F1D3699F800C58878 /* CurrentLocationVC.swift in Sources */,
 				3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */,
 				3B8629901EF03CB400BE92D4 /* DemoServer.swift in Sources */,
@@ -899,7 +846,6 @@
 				3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */,
 				3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */,
 				3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */,
-				3B2445F71D245478005DF09C /* Camouflage.swift in Sources */,
 				3BB6E2251D47F42100074E97 /* PreyRateUs.swift in Sources */,
 				A9C0CAFE2F00000100000002 /* CrashHandler.swift in Sources */,
 			);
@@ -910,8 +856,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0592B8B62EAAD97200DB9294 /* ListPermissionsTests.swift in Sources */,
-				0592B8BB2EAADECA00DB9294 /* ReportTests.swift in Sources */,
-				0592B8BC2EAADECA00DB9294 /* ReportBugFixTests.swift in Sources */,
 				3B828406199198E6000E4545 /* PreyRestTests.swift in Sources */,
 				0592B8B82EAADBFC00DB9294 /* PreyActionsTests.swift in Sources */,
 				0592B8BE2EAADECA00DB9294 /* DeviceHardwareTests.swift in Sources */,

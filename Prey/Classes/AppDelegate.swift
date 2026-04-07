@@ -159,12 +159,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Update current localUserSettings with preview versions
         PreyConfig.sharedInstance.updateUserSettings()
         
-        // Check user email validation state
-        if PreyConfig.sharedInstance.validationUserEmail == nil {
-            PreyConfig.sharedInstance.validationUserEmail = PreyUserEmailValidation.inactive.rawValue
-            PreyConfig.sharedInstance.saveValues()
-        }
-        
         // Config init UIViewController
         displayScreen()
         
@@ -200,11 +194,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyDeployment.sharedInstance.runPreyDeployment()
         }
     
-        
-        // Check email validation
-        if PreyConfig.sharedInstance.validationUserEmail == PreyUserEmailValidation.pending.rawValue, let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
-        }
         
         // Setup foreground timer and schedule background tasks
         if PreyConfig.sharedInstance.isRegistered {
@@ -305,11 +294,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Foreground entry
         func applicationWillEnterForeground(_ application: UIApplication) {
         PreyLogger("applicationWillEnterForeground")
-        // Check email validation (fine here, quick UI update possible)
-        if PreyConfig.sharedInstance.validationUserEmail == PreyUserEmailValidation.pending.rawValue, let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:emailValidationEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.emailValidation, preyAction:nil, onCompletion:{(isSuccess: Bool) in PreyLogger("Request email validation")}))
-        }
-        
         // Ensure any remaining short-lived background tasks are ended
         stopBackgroundTask(self.bgTask)
         // Also cancel any scheduled BGTasks to avoid immediate re-triggering if not desired on foreground
@@ -839,26 +823,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         PreyLogger("Will present notification in foreground: \(notification.request.identifier)")
         
-        if notification.request.content.categoryIdentifier == categoryNotifPreyAlert {
-            completionHandler([]) // Don't show notification banners/alerts if our custom AlertVC is shown
-            
-            if let userInfo = notification.request.content.userInfo as? [String: Any],
-               let message = userInfo[kOptions.IDLOCAL.rawValue] as? String {
-                
-                let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
-                let alertAction = Alert(withTarget: kAction.alert, withCommand: kCommand.start, withOptions: alertOptions)
-                
-                if let triggerId = userInfo[kOptions.trigger_id.rawValue] as? String {
-                    alertAction.triggerId = triggerId
-                }
-                
-                PreyModule.sharedInstance.actionArray.append(alertAction)
-                alertAction.showAlertVC(message)
-            }
-        } else {
-            // For other notifications, show them normally
-            completionHandler([.banner, .sound, .badge, .list])
-        }
+        // Show notifications normally
+        completionHandler([.banner, .sound, .badge, .list])
     }
     
     // Fail register notifications (no changes, good)
@@ -1041,8 +1007,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
 }
-    // Bridge background URLSession completion handler to HTTP client (for report uploads etc.)
-    func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
-        PreyLogger("handleEventsForBackgroundURLSession: \(identifier)")
-        PreyHTTPClient.sharedInstance.registerBackgroundCompletionHandler(completionHandler)
-    }

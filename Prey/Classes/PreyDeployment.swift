@@ -111,7 +111,6 @@ class PreyDeployment {
         PreyConfig.sharedInstance.userApiKey    = apiKey
         PreyConfig.sharedInstance.deviceKey     = deviceKey
         PreyConfig.sharedInstance.isRegistered  = true
-        PreyConfig.sharedInstance.validationUserEmail = PreyUserEmailValidation.active.rawValue
         PreyConfig.sharedInstance.isTouchIDEnabled = true
         PreyConfig.sharedInstance.saveValues()
         // Show CongratVC
@@ -172,7 +171,7 @@ class PreyDeployment {
         
         let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
         if let homeWebVC:HomeWebVC = navigationController.topViewController as? HomeWebVC {
-            homeWebVC.loadViewOnWebView("permissions")
+            homeWebVC.loadViewOnWebView("activation")
         }
     }
     

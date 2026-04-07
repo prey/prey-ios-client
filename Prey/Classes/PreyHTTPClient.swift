@@ -41,32 +41,11 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         return URLSession(configuration: cfg, delegate: self, delegateQueue: nil)
     }()
 
-    // Background session for uploads (reports)
-    private lazy var backgroundSession: URLSession = {
-        let identifier = (Bundle.main.bundleIdentifier ?? "com.prey.ios") + ".uploads"
-        let cfg = URLSessionConfiguration.background(withIdentifier: identifier)
-        cfg.waitsForConnectivity = true
-        cfg.isDiscretionary = false
-        cfg.sessionSendsLaunchEvents = true
-        cfg.allowsCellularAccess = true
-        cfg.allowsExpensiveNetworkAccess = true
-        cfg.allowsConstrainedNetworkAccess = true
-        cfg.httpMaximumConnectionsPerHost = 2
-        cfg.timeoutIntervalForRequest = 60.0
-        cfg.timeoutIntervalForResource = 300.0
-        return URLSession(configuration: cfg, delegate: self, delegateQueue: nil)
-    }()
-
     // Per-task state
     private let stateQueue = DispatchQueue(label: "prey.httpclient.state")
     private var dataByTask = [ObjectIdentifier: NSMutableData]()
     private var completionByTask = [ObjectIdentifier: (Data?, URLResponse?, Error?) -> Void]()
     private var retryByTask = [ObjectIdentifier: Int]()
-    private var fileByTask = [ObjectIdentifier: URL]()
-
-    // Background completion handler bridged from AppDelegate
-    private var backgroundCompletionHandler: (() -> Void)?
-    func registerBackgroundCompletionHandler(_ handler: @escaping () -> Void) { backgroundCompletionHandler = handler }
     
     
     // Encoding Character
@@ -116,70 +95,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     
     
     // MARK: Requests to Prey API
-    
-    // Send Report Data to Control Panel
-    func sendDataReportToPrey(_ username: String, password: String, params:NSMutableDictionary, images:NSMutableDictionary, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
-        
-        // Encode username and pwd
-        let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
-        
-        // Set Endpoint
-        guard let requestURL = URL(string:URLControlPanel + endPoint) else {
-            return
-        }
-        var request  = URLRequest(url:requestURL)
-        request.timeoutInterval = timeoutIntervalRequest
 
-        // HTTP Header boundary
-        let boundary = String(format: "prey.boundary-%08x%08x", arc4random(), arc4random())
-        
-        // Define the multipart request type and headers
-        let multipartType = "multipart/form-data; boundary=\(boundary)"
-        applyHeaders(&request, authString: userAuthorization, messageId: msgId, endPoint: endPoint, contentType: multipartType)
-        
-        // Set bodyRequest for HTTPBody
-        let bodyRequest = NSMutableData()
-        
-        // Set params on request
-        for (key, value) in params {
-            
-            bodyRequest.appendString("--\(boundary)\(EncodingCharacters.CRLF)")
-            bodyRequest.appendString("Content-Disposition:form-data; name=\"\(key)\"\(EncodingCharacters.CRLF)\(EncodingCharacters.CRLF)")
-            bodyRequest.appendString("\(value)")
-            bodyRequest.appendString(EncodingCharacters.CRLF)
-        }
-        
-        // Set type to images (use JPEG to reduce payload size)
-        let mimetype = "image/jpeg"
-        
-        // Set images on request
-        for (key, value) in images {
-            
-            guard let img = value as? UIImage else {
-                return
-            }
-            
-            if let imgData = img.jpegData(compressionQuality: 0.7) {
-                bodyRequest.appendString("--\(boundary)\(EncodingCharacters.CRLF)")
-                bodyRequest.appendString("Content-Disposition:form-data; name=\"\(key)\"; filename=\"\(key).jpg\"\(EncodingCharacters.CRLF)")
-                bodyRequest.appendString("Content-Type: \(mimetype)\(EncodingCharacters.CRLF)\(EncodingCharacters.CRLF)")
-                bodyRequest.append(imgData)
-                bodyRequest.appendString(EncodingCharacters.CRLF)
-            }
-        }
-        
-        // End HTTPBody
-        bodyRequest.appendString("--\(boundary)--\(EncodingCharacters.CRLF)")
-        
-        request.httpMethod  = httpMethod
-        // Persist multipart to file and upload via background session
-        let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("prey-report-\(UUID().uuidString).tmp")
-        do { try (bodyRequest as Data).write(to: tmp, options: .atomic) } catch {
-            onCompletion(nil, nil, error); return
-        }
-        startUploadTask(request, fromFile: tmp, completion: onCompletion)
-    }
-    
     // MARK: Request Throttling
     
     // Simple FNV-1a 64-bit fingerprint for payloads
@@ -262,19 +178,6 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         task.resume()
     }
 
-    // Start background upload task
-    private func startUploadTask(_ request: URLRequest, fromFile fileURL: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        let task = backgroundSession.uploadTask(with: request, fromFile: fileURL)
-        let key = ObjectIdentifier(task)
-        stateQueue.async {
-            self.dataByTask[key] = NSMutableData()
-            self.completionByTask[key] = completion
-            self.retryByTask[key] = 0
-            self.fileByTask[key] = fileURL
-        }
-        task.resume()
-    }
-
     // Public wrapper for arbitrary URLRequest
     func performRequest(_ request: URLRequest, onCompletion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         startTask(request, completion: onCompletion)
@@ -340,7 +243,6 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
                 self.dataByTask.removeValue(forKey: key)
                 self.completionByTask.removeValue(forKey: key)
                 self.retryByTask.removeValue(forKey: key)
-                if let fileURL = self.fileByTask.removeValue(forKey: key) { try? FileManager.default.removeItem(at: fileURL) }
             }
         }
     }
@@ -388,24 +290,10 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
                 bodyDesc = "<non-utf8 body, base64> " + truncate(body.base64EncodedString(), limit: 512)
             }
         } else {
-            // Check if this was a background upload from a file
-            let key = ObjectIdentifier(task)
-            var fileURL: URL?
-            stateQueue.sync { fileURL = self.fileByTask[key] }
-            if let f = fileURL {
-                let size = (try? FileManager.default.attributesOfItem(atPath: f.path)[.size] as? NSNumber)??.int64Value ?? 0
-                bodyDesc = "<upload file> \(f.lastPathComponent) (\(size)B)"
-            } else {
-                bodyDesc = "(no body)"
-            }
+            bodyDesc = "(no body)"
         }
 
         PreyLogger("Network payload -> \(method) \(urlStr) body=\(bodyDesc)")
-    }
-
-    // Background events done
-    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
-        DispatchQueue.main.async { self.backgroundCompletionHandler?(); self.backgroundCompletionHandler = nil }
     }
 
     // Retry helper: new task preserving completion and attempt count

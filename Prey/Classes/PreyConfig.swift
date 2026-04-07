@@ -34,18 +34,12 @@ enum PreyConfigDevice: String {
     case IsDarkMode
     case IsSystemDarkMode
     case UpdatedSettings
-    case ReportOptions
     case IsTouchIDEnabled
-    case ValidationUserEmail
     case ExistBackup
     case NameDevice
     case IsMsp
     case LocationAccess
     case isActiveAware
-}
-
-enum PreyUserEmailValidation: String {
-    case inactive, pending, active
 }
 
 class PreyConfig: NSObject {
@@ -68,8 +62,6 @@ class PreyConfig: NSObject {
         isSystemDarkMode    = defaultConfig.bool(forKey: PreyConfigDevice.IsSystemDarkMode.rawValue)
         updatedSettings     = defaultConfig.bool(forKey: PreyConfigDevice.UpdatedSettings.rawValue)
         isTouchIDEnabled    = defaultConfig.bool(forKey: PreyConfigDevice.IsTouchIDEnabled.rawValue)
-        reportOptions       = defaultConfig.object(forKey: PreyConfigDevice.ReportOptions.rawValue) as? NSDictionary
-        validationUserEmail = defaultConfig.string(forKey: PreyConfigDevice.ValidationUserEmail.rawValue)
         existBackup         = defaultConfig.bool(forKey: PreyConfigDevice.ExistBackup.rawValue)
         nameDevice          = defaultConfig.string(forKey: PreyConfigDevice.NameDevice.rawValue)
         isMsp               = defaultConfig.bool(forKey: PreyConfigDevice.IsMsp.rawValue)
@@ -91,8 +83,6 @@ class PreyConfig: NSObject {
     var isSystemDarkMode    : Bool
     var updatedSettings     : Bool
     var isTouchIDEnabled    : Bool
-    var reportOptions       : NSDictionary?
-    var validationUserEmail : String?
     var existBackup         : Bool
     var nameDevice          : String?
     var isMsp               : Bool
@@ -117,8 +107,6 @@ class PreyConfig: NSObject {
         defaultConfig.set(isSystemDarkMode, forKey:PreyConfigDevice.IsSystemDarkMode.rawValue)
         defaultConfig.set(updatedSettings, forKey:PreyConfigDevice.UpdatedSettings.rawValue)
         defaultConfig.set(isTouchIDEnabled, forKey:PreyConfigDevice.IsTouchIDEnabled.rawValue)
-        defaultConfig.set(reportOptions, forKey:PreyConfigDevice.ReportOptions.rawValue)
-        defaultConfig.set(validationUserEmail, forKey:PreyConfigDevice.ValidationUserEmail.rawValue)
         defaultConfig.set(existBackup, forKey: PreyConfigDevice.ExistBackup.rawValue)
         defaultConfig.set(nameDevice, forKey: PreyConfigDevice.NameDevice.rawValue)
         defaultConfig.set(isMsp, forKey:PreyConfigDevice.IsMsp.rawValue)
@@ -145,9 +133,7 @@ class PreyConfig: NSObject {
         isPro            = false
         isMissing        = false
         isTouchIDEnabled = true
-        reportOptions    = nil
         nameDevice       = nil
-        validationUserEmail = PreyUserEmailValidation.inactive.rawValue
         tokenWebTimestamp = 0
         isMsp            = false
         locationAccess   = LocationAccess.UNKNOWN.rawValue
