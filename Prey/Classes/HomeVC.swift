@@ -51,8 +51,6 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
         // Config texts
         configureTexts()
                 
-        // Hide camouflage image
-        configCamouflageMode(PreyConfig.sharedInstance.isCamouflageMode)
         
        
     }
@@ -123,16 +121,6 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
         }
     }
     
-    // Set camouflageMode
-    func configCamouflageMode(_ isCamouflage:Bool) {
-
-        subtitleLbl.isHidden      = isCamouflage
-        titleLbl.isHidden         = isCamouflage
-        shieldImg.isHidden        = isCamouflage
-        forgotBtn.isHidden        = isCamouflage
-        camouflageImg.isHidden    = !isCamouflage
-    }
-        
     // MARK: Keyboard Event Notifications
     
     @objc func handleKeyboardWillShowNotification(_ notification: Notification) {

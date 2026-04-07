@@ -16,26 +16,6 @@ extension String {
     }
 }
 
-// Extension for Alarm action
-extension MPVolumeView {
-    var volumeSlider:UISlider {
-        // Use KVC to avoid deprecation warning while maintaining functionality
-        self.setValue(false, forKey: "showsRouteButton")
-        self.showsVolumeSlider = false
-        self.isHidden = true
-        var slider = UISlider()
-        for subview in self.subviews {
-            if subview.isKind(of: UISlider.self){
-                slider = subview as! UISlider
-                slider.isContinuous = false
-                slider.value = AVAudioSession.sharedInstance().outputVolume
-                return slider
-            }
-        }
-        return slider
-    }
-}
-
 // Extension for UIActivityIndicatorView
 extension UIActivityIndicatorView {
     

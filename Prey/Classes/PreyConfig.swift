@@ -17,7 +17,6 @@ enum PreyConfigLegacy: String {
     case api_key                // UserApiKey
     case device_key             // DeviceKey
     case email                  // UserEmail
-    case camouflage_mode        // IsCamouflageMode
     case pro_account            // IsPro
     case is_missing             // IsMissing
     case token_panel            // TokenDevice
@@ -32,7 +31,6 @@ enum PreyConfigDevice: String {
     case IsRegistered
     case IsPro
     case IsMissing
-    case IsCamouflageMode
     case IsDarkMode
     case IsSystemDarkMode
     case UpdatedSettings
@@ -66,7 +64,6 @@ class PreyConfig: NSObject {
         isRegistered        = defaultConfig.bool(forKey: PreyConfigDevice.IsRegistered.rawValue)
         isPro               = defaultConfig.bool(forKey: PreyConfigDevice.IsPro.rawValue)
         isMissing           = defaultConfig.bool(forKey: PreyConfigDevice.IsMissing.rawValue)
-        isCamouflageMode    = defaultConfig.bool(forKey: PreyConfigDevice.IsCamouflageMode.rawValue)
         isDarkMode          = defaultConfig.bool(forKey: PreyConfigDevice.IsDarkMode.rawValue)
         isSystemDarkMode    = defaultConfig.bool(forKey: PreyConfigDevice.IsSystemDarkMode.rawValue)
         updatedSettings     = defaultConfig.bool(forKey: PreyConfigDevice.UpdatedSettings.rawValue)
@@ -90,7 +87,6 @@ class PreyConfig: NSObject {
     var isRegistered        : Bool
     var isPro               : Bool
     var isMissing           : Bool
-    var isCamouflageMode    : Bool
     var isDarkMode          : Bool
     var isSystemDarkMode    : Bool
     var updatedSettings     : Bool
@@ -117,7 +113,6 @@ class PreyConfig: NSObject {
         defaultConfig.set(isRegistered, forKey:PreyConfigDevice.IsRegistered.rawValue)
         defaultConfig.set(isPro, forKey:PreyConfigDevice.IsPro.rawValue)
         defaultConfig.set(isMissing, forKey:PreyConfigDevice.IsMissing.rawValue)
-        defaultConfig.set(isCamouflageMode, forKey:PreyConfigDevice.IsCamouflageMode.rawValue)
         defaultConfig.set(isDarkMode, forKey:PreyConfigDevice.IsDarkMode.rawValue)
         defaultConfig.set(isSystemDarkMode, forKey:PreyConfigDevice.IsSystemDarkMode.rawValue)
         defaultConfig.set(updatedSettings, forKey:PreyConfigDevice.UpdatedSettings.rawValue)
@@ -141,12 +136,6 @@ class PreyConfig: NSObject {
     // Reset values on NSUserDefaults
     func resetValues() {
 
-        // Stop reports
-        for item in PreyModule.sharedInstance.actionArray {
-            if ( item.target == kAction.report ) {
-                (item as? Report)!.stopReport()
-            }
-        }
         
         userApiKey       = nil
         userEmail        = nil
@@ -155,7 +144,6 @@ class PreyConfig: NSObject {
         isRegistered     = false
         isPro            = false
         isMissing        = false
-        isCamouflageMode = false
         isTouchIDEnabled = true
         reportOptions    = nil
         nameDevice       = nil
@@ -234,7 +222,6 @@ class PreyConfig: NSObject {
         tokenPanel          = defaultConfig.string(forKey: PreyConfigLegacy.token_panel.rawValue)
         isPro               = defaultConfig.bool(forKey: PreyConfigLegacy.pro_account.rawValue)
         isMissing           = defaultConfig.bool(forKey: PreyConfigLegacy.is_missing.rawValue)
-        isCamouflageMode    = defaultConfig.bool(forKey: PreyConfigLegacy.camouflage_mode.rawValue)
 
         saveValues()
     }

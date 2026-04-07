@@ -69,12 +69,7 @@ class AlertVC: UIViewController {
             // Set up homeWeb screen
             let mainStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
             
-            // Check if camouflage mode is active, and use appropriate controller
-            let homeControllerID = PreyConfig.sharedInstance.isCamouflageMode ?
-            StoryboardIdVC.home.rawValue :
-            StoryboardIdVC.homeWeb.rawValue
-            
-            let resultController = mainStoryboard.instantiateViewController(withIdentifier: homeControllerID)
+            let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.homeWeb.rawValue)
             let rootVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
             rootVC.setViewControllers([resultController], animated: false)
             
