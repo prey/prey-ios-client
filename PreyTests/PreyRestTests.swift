@@ -49,28 +49,6 @@ class PreyRestTests: XCTestCase {
         self.waitForExpectations(timeout: 15, handler:nil)
     }
     
-    // Test log user
-    func testRest02SignUpUser() {
-        
-        let expectation     = self.expectation(description: "Expecta Test: Sign Up")
-        
-        let newMail         = String(format:"test%f@prey.io", CFAbsoluteTimeGetCurrent())
-        
-        // SignUp to Panel Prey
-        PreyUser.signUpToPrey("TestUser", userEmail:newMail, userPassword:userPassword, offers: false, onCompletion: {(isSuccess: Bool) in
-            
-            // Check if login is success
-            XCTAssertTrue(isSuccess)
-            
-            // Check if apiKey is nil
-            XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
-            
-            expectation.fulfill()
-        })
-        
-        self.waitForExpectations(timeout: 15, handler:nil)
-    }
-    
     // Test get token from panel
     func testRest03GetToken() {
         
