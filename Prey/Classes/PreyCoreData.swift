@@ -6,19 +6,17 @@
 //  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 class PreyCoreData {
-
     // MARK: Properties
 
-    // Object context
+    /// Object context
     var managedObjectContext: NSManagedObjectContext!
 
     static let sharedInstance = PreyCoreData()
     fileprivate init() {
-
         // This resource is the same name as your xcdatamodeld contained in your project.
         guard let modelURL = Bundle.main.url(forResource: "PreyData", withExtension: "momd") else {
             PreyLogger("Error loading model from bundle")
@@ -36,7 +34,7 @@ class PreyCoreData {
         managedObjectContext.persistentStoreCoordinator = psc
 
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let docURL = urls[urls.endIndex-1]
+        let docURL = urls[urls.endIndex - 1]
 
         // The directory the application uses to store the Core Data store file.
         // This code uses a file named "PreyData.sqlite" in the application's documents directory.
@@ -52,10 +50,9 @@ class PreyCoreData {
 
     // MARK: Functions
 
-    // Get current triggers
+    /// Get current triggers
     func getCurrentTriggers() -> [Triggers] {
-
-        var fetchedObjects  = [Triggers]()
+        var fetchedObjects = [Triggers]()
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest()
 
         guard let entity = NSEntityDescription.entity(forEntityName: "Triggers", in: managedObjectContext) else {
@@ -74,5 +71,4 @@ class PreyCoreData {
 
         return fetchedObjects
     }
-
 }

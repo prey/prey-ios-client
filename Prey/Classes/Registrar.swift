@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 // MARK: - Shared Token Registration Validator
+
 class TokenRegistrationValidator {
     private static let cacheDuration: TimeInterval = 3600.0 // 1 hour
     static func shouldSendToken(
@@ -17,15 +18,17 @@ class TokenRegistrationValidator {
         suite: UserDefaults,
         lastValueKey: String,
         lastSentKey: String,
-        logPrefix: String
+        logPrefix _: String
     ) -> Bool {
         if let lastToken = suite.string(forKey: lastValueKey),
-           let lastSent = suite.object(forKey: lastSentKey) as? Date {
+           let lastSent = suite.object(forKey: lastSentKey) as? Date
+        {
             let elapsed = Date().timeIntervalSince(lastSent)
             if lastToken == tokenHex && elapsed < cacheDuration { return false }
         }
         return true
     }
+
     static func recordSuccessfulSend(
         tokenHex: String,
         suite: UserDefaults,
@@ -51,6 +54,7 @@ class NotificationTokenRegistrar {
             if PreyConfig.sharedInstance.userApiKey != nil { sendIfPossible() }
         }
     }
+
     static func sendIfPossible(source: String = "unspecified") {
         guard let suite = UserDefaults(suiteName: suiteName), let tokenHex = suite.string(forKey: tokenKey) else { return }
         guard let username = PreyConfig.sharedInstance.userApiKey else { return }
@@ -65,19 +69,19 @@ class NotificationTokenRegistrar {
         let preyDevice = PreyDevice()
         let firmwareInfo: [String: String] = [
             "vendor_name": preyDevice.vendor ?? "",
-            "machine_id": UIDevice.current.machineIdentifier
+            "machine_id": UIDevice.current.machineIdentifier,
         ]
         let processorInfo: [String: String] = [
-            "cores": preyDevice.cpuCores ?? ""
+            "cores": preyDevice.cpuCores ?? "",
         ]
         let specs: [String: Any] = [
             "processor_info": processorInfo,
-            "firmware_info": firmwareInfo
+            "firmware_info": firmwareInfo,
         ]
         let params: [String: Any] = [
             "notification_id": tokenHex,
             "specs": specs,
-            "device_name": UIDevice.current.name
+            "device_name": UIDevice.current.name,
         ]
         PreyNetworkRetry.sendDataWithBackoff(
             username: username,
@@ -118,6 +122,7 @@ class LocationPushRegistrar {
             if PreyConfig.sharedInstance.userApiKey != nil { sendIfPossible(source: "store") }
         }
     }
+
     static func sendIfPossible(source: String = "unspecified") {
         guard let suite = UserDefaults(suiteName: suiteName), let tokenHex = suite.string(forKey: tokenKey) else { return }
         guard let apiKey = PreyConfig.sharedInstance.userApiKey else { return }
@@ -130,7 +135,7 @@ class LocationPushRegistrar {
             logPrefix: "LOCATION-PUSH REGISTER"
         ) else { return }
         let params: [String: Any] = [
-            "notification_id_extra": tokenHex
+            "notification_id_extra": tokenHex,
         ]
         PreyNetworkRetry.sendDataWithBackoff(
             username: apiKey,

@@ -21,7 +21,6 @@ public protocol HttpResponseBodyWriter {
 }
 
 public enum HttpResponseBody {
-
     case json(AnyObject)
     case html(String)
     case text(String)
@@ -31,7 +30,7 @@ public enum HttpResponseBody {
     func content() -> (Int, ((HttpResponseBodyWriter) throws -> Void)?) {
         do {
             switch self {
-            case .json(let object):
+            case let .json(object):
                 #if os(Linux)
                     let data = [UInt8]("Not ready for Linux.".utf8)
                     return (data.count, {
@@ -46,22 +45,22 @@ public enum HttpResponseBody {
                         try $0.write(data)
                     })
                 #endif
-            case .text(let body):
+            case let .text(body):
                 let data = [UInt8](body.utf8)
                 return (data.count, {
                     try $0.write(data)
                 })
-            case .html(let body):
+            case let .html(body):
                 let serialised = "<html><meta charset=\"UTF-8\"><body>\(body)</body></html>"
                 let data = [UInt8](serialised.utf8)
                 return (data.count, {
                     try $0.write(data)
                 })
-            case .data(let data):
+            case let .data(data):
                 return (data.count, {
                     try $0.write(data)
                 })
-            case .custom(let object, let closure):
+            case let .custom(object, closure):
                 let serialised = try closure(object)
                 let data = [UInt8](serialised.utf8)
                 return (data.count, {
@@ -79,14 +78,13 @@ public enum HttpResponseBody {
 
 // swiftlint:disable cyclomatic_complexity
 public enum HttpResponse {
-
     case switchProtocols([String: String], (Socket) -> Void)
     case ok(HttpResponseBody), created, accepted
     case movedPermanently(String)
     case movedTemporarily(String)
     case badRequest(HttpResponseBody?), unauthorized, forbidden, notFound
     case internalServerError
-    case raw(Int, String, [String: String]?, ((HttpResponseBodyWriter) throws -> Void)? )
+    case raw(Int, String, [String: String]?, ((HttpResponseBodyWriter) throws -> Void)?)
 
     func statusCode() -> Int {
         switch self {
@@ -101,7 +99,7 @@ public enum HttpResponse {
         case .forbidden: return 403
         case .notFound: return 404
         case .internalServerError: return 500
-        case .raw(let code, _, _, _): return code
+        case let .raw(code, _, _, _): return code
         }
     }
 
@@ -118,28 +116,28 @@ public enum HttpResponse {
         case .forbidden: return "Forbidden"
         case .notFound: return "Not Found"
         case .internalServerError: return "Internal Server Error"
-        case .raw(_, let phrase, _, _): return phrase
+        case let .raw(_, phrase, _, _): return phrase
         }
     }
 
     func headers() -> [String: String] {
         var headers = ["Server": "Swifter \(HttpServer.VERSION)"]
         switch self {
-        case .switchProtocols(let switchHeaders, _):
+        case let .switchProtocols(switchHeaders, _):
             for (key, value) in switchHeaders {
                 headers[key] = value
             }
-        case .ok(let body):
+        case let .ok(body):
             switch body {
             case .json: headers["Content-Type"] = "application/json"
             case .html: headers["Content-Type"] = "text/html"
             default: break
             }
-        case .movedPermanently(let location):
+        case let .movedPermanently(location):
             headers["Location"] = location
-        case .movedTemporarily(let location):
+        case let .movedTemporarily(location):
             headers["Location"] = location
-        case .raw(_, _, let rawHeaders, _):
+        case let .raw(_, _, rawHeaders, _):
             if let rawHeaders = rawHeaders {
                 for (key, value) in rawHeaders {
                     headers.updateValue(value, forKey: key)
@@ -152,31 +150,31 @@ public enum HttpResponse {
 
     func content() -> (length: Int, write: ((HttpResponseBodyWriter) throws -> Void)?) {
         switch self {
-        case .ok(let body): return body.content()
-        case .badRequest(let body): return body?.content() ?? (-1, nil)
-        case .raw(_, _, _, let writer): return (-1, writer)
+        case let .ok(body): return body.content()
+        case let .badRequest(body): return body?.content() ?? (-1, nil)
+        case let .raw(_, _, _, writer): return (-1, writer)
         default: return (-1, nil)
         }
     }
 
     func socketSession() -> ((Socket) -> Void)? {
         switch self {
-        case .switchProtocols(_, let handler): return handler
+        case let .switchProtocols(_, handler): return handler
         default: return nil
         }
     }
 }
 
-/**
-    Makes it possible to compare handler responses with '==', but
-	ignores any associated values. This should generally be what
-	you want. E.g.:
-	
-    let resp = handler(updatedRequest)
-        if resp == .NotFound {
-        print("Client requested not found: \(request.url)")
-    }
-*/
+/* 
+ Makes it possible to compare handler responses with '==', but
+ ignores any associated values. This should generally be what
+ you want. E.g.:
+
+ let resp = handler(updatedRequest)
+ if resp == .NotFound {
+ print("Client requested not found: \(request.url)")
+ }
+ */
 
 func == (inLeft: HttpResponse, inRight: HttpResponse) -> Bool {
     return inLeft.statusCode() == inRight.statusCode()

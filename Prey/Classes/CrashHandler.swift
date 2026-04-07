@@ -1,9 +1,8 @@
-import Foundation
 import Darwin
+import Foundation
 import UIKit
 
-final class CrashHandler {
-
+enum CrashHandler {
     private static var signalLogPath: String = {
         // Precompute a safe path for signal logs (created at install time)
         let dir = CrashHandler.crashReportsDirectory()
@@ -34,16 +33,15 @@ final class CrashHandler {
     }
 
     private static func crashReportsDirectory() -> URL {
-        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
             .appendingPathComponent("CrashReports", isDirectory: true)
-        return url
     }
 
     private static func handle(exception: NSException) {
         // Persist minimal info; full payload is built on next launch
         let info: [String: Any] = [
             "message": (exception.reason?.isEmpty == false ? exception.reason! : exception.name.rawValue),
-            "backtrace": exception.callStackSymbols.joined(separator: "\n")
+            "backtrace": exception.callStackSymbols.joined(separator: "\n"),
         ]
         do {
             let data = try JSONSerialization.data(withJSONObject: info, options: [])
@@ -55,6 +53,7 @@ final class CrashHandler {
     }
 
     // MARK: - Async-signal-safe logging for fatal signals
+
     fileprivate static func handleSignal(_ signo: Int32) {
         // Compose a small line and append using low-level POSIX calls only
         let line = "signal=\(signo) time=\(time(nil)) pid=\(getpid())\n"
@@ -89,6 +88,7 @@ final class CrashHandler {
     }
 
     // MARK: - Uploading pending reports to server
+
     static func uploadPendingReportsIfPossible() {
         let dir = crashReportsDirectory()
         PreyLogger("scanning pending crash reports for upload at \(dir.path)")
@@ -157,7 +157,8 @@ final class CrashHandler {
     }
 
     // MARK: - Local JSON sender with slash-unescaped body
-    private static func sendExceptionJSON(_ payload: [String: Any], tag: String, completion: @escaping (Bool) -> Void) {
+
+    private static func sendExceptionJSON(_ payload: [String: Any], tag _: String, completion: @escaping (Bool) -> Void) {
         guard let url = URL(string: exceptionsUrl) else { completion(false); return }
         var req = URLRequest(url: url)
         req.httpMethod = Method.POST.rawValue
@@ -181,7 +182,7 @@ final class CrashHandler {
             completion(false); return
         }
         PreyHTTPClient.sharedInstance.performRequest(req) { _, response, _ in
-            if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
+            if let http = response as? HTTPURLResponse, (200 ... 299).contains(http.statusCode) {
                 completion(true)
             } else {
                 completion(false)
@@ -190,6 +191,7 @@ final class CrashHandler {
     }
 
     // MARK: - Payload builders matching exceptions.js
+
     private static func buildBasePayload() -> [String: Any] {
         let appInfo = Bundle.main.infoDictionary ?? [:]
         let appVersion = (appInfo["CFBundleShortVersionString"] as? String) ?? "0"
@@ -208,7 +210,7 @@ final class CrashHandler {
         let user = usernameFromUID(uid: uid)
         let memory = memoryUsage()
 
-        let payload: [String: Any] = [
+        return [
             "deviceKey": deviceKey ?? NSNull(),
             "cwd": cwd,
             "language": "swift",
@@ -222,12 +224,12 @@ final class CrashHandler {
             "gid": gid,
             "uid": uid,
             "pid": pid,
-            "memory": memory
+            "memory": memory,
         ]
-        return payload
     }
 
     // MARK: - Low-level append helper (POSIX)
+
     private static func appendSignalLogLine(_ text: String) {
         let line = text + "\n"
         line.withCString { cstr in
@@ -248,12 +250,11 @@ final class CrashHandler {
     private static func osRelease() -> String {
         var uts = utsname()
         uname(&uts)
-        let rel = withUnsafePointer(to: &uts.release) {
+        return withUnsafePointer(to: &uts.release) {
             $0.withMemoryRebound(to: CChar.self, capacity: Int(_SYS_NAMELEN)) {
-                return String(cString: $0)
+                String(cString: $0)
             }
         }
-        return rel
     }
 
     private static func memoryUsage() -> [String: Any] {
@@ -267,7 +268,7 @@ final class CrashHandler {
         if kerr == KERN_SUCCESS {
             return [
                 "resident_size": NSNumber(value: info.resident_size),
-                "virtual_size": NSNumber(value: info.virtual_size)
+                "virtual_size": NSNumber(value: info.virtual_size),
             ]
         } else {
             return ["error": Int(kerr)]
@@ -275,7 +276,7 @@ final class CrashHandler {
     }
 }
 
-// Top-level C function pointer shim for signal() API
+/// Top-level C function pointer shim for signal() API
 private func crashHandlerSignalShim(_ signo: Int32) {
     CrashHandler.handleSignal(signo)
 }

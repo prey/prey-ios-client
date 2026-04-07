@@ -1,5 +1,5 @@
 //
-//  TriggersActions+CoreDataProperties.swift
+//  TriggersActions+Properties.swift
 //  Prey
 //
 //  Created by Javier Cala Uribe on 17/7/19.
@@ -7,17 +7,15 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
-extension TriggersActions {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<TriggersActions> {
+public extension TriggersActions {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<TriggersActions> {
         return NSFetchRequest<TriggersActions>(entityName: "TriggersActions")
     }
 
-    @NSManaged public var action: String?
-    @NSManaged public var delay: NSNumber?
-    @NSManaged public var trigger: Triggers?
-
+    @NSManaged var action: String?
+    @NSManaged var delay: NSNumber?
+    @NSManaged var trigger: Triggers?
 }

@@ -8,22 +8,20 @@
 
 import UIKit
 
-// Prey battery definitions
+/// Prey battery definitions
 enum kBattery: String {
-    case STATUS      = "battery_status"
-    case STATE       = "state"
-    case LEVEL       = "percentage_remaining"
-    case LOW         = "low_battery"
+    case STATUS = "battery_status"
+    case STATE = "state"
+    case LEVEL = "percentage_remaining"
+    case LOW = "low_battery"
 }
 
 class Battery: NSObject {
-
     // MARK: Properties
 
     static let sharedInstance = Battery()
 
     override fileprivate init() {
-
         // Init object
         super.init()
 
@@ -31,19 +29,18 @@ class Battery: NSObject {
         UIDevice.current.isBatteryMonitoringEnabled = true
     }
 
-    // Send battery status to panel
+    /// Send battery status to panel
     func sendStatusToPanel() -> Bool {
-
         // Event low_battery send one per hour
-        let defaults        = UserDefaults.standard
-        let currentTime     = CFAbsoluteTimeGetCurrent()
+        let defaults = UserDefaults.standard
+        let currentTime = CFAbsoluteTimeGetCurrent()
 
         if defaults.object(forKey: kBattery.STATUS.rawValue) == nil {
             defaults.set(currentTime, forKey: kBattery.STATUS.rawValue)
         }
 
-        let nextTime: CFAbsoluteTime = defaults.double(forKey: kBattery.STATUS.rawValue) + 60*60*1
-        guard currentTime > nextTime  else {
+        let nextTime: CFAbsoluteTime = defaults.double(forKey: kBattery.STATUS.rawValue) + 60 * 60 * 1
+        guard currentTime > nextTime else {
             return false
         }
         defaults.set(currentTime, forKey: kBattery.STATUS.rawValue)
@@ -55,11 +52,12 @@ class Battery: NSObject {
 
         let params: [String: Any] = [
             kEvent.info.rawValue: "",
-            kEvent.name.rawValue: kBattery.LOW.rawValue]
+            kEvent.name.rawValue: kBattery.LOW.rawValue,
+        ]
 
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
-            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password: "x", params: params, messageId: nil, httpMethod: Method.POST.rawValue, endPoint: eventsDeviceEndpoint, onCompletion: PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction: nil, onCompletion: {(_: Bool) in PreyLogger("Request dataSend battery")}))
+            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password: "x", params: params, messageId: nil, httpMethod: Method.POST.rawValue, endPoint: eventsDeviceEndpoint, onCompletion: PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction: nil, onCompletion: { (_: Bool) in PreyLogger("Request dataSend battery") }))
         } else {
             PreyLogger("Error send data battery")
         }
@@ -67,11 +65,12 @@ class Battery: NSObject {
         return true
     }
 
-    // Return header X-Prey-Status
+    /// Return header X-Prey-Status
     func getHeaderPreyStatus() -> [String: Any] {
         let info: [String: Any] = [
-            kBattery.STATE.rawValue: (UIDevice.current.batteryState == .unplugged ) ? "discharging" : "charging",
-            kBattery.LEVEL.rawValue: (UIDevice.current.batteryLevel >= 0) ? String(describing: UIDevice.current.batteryLevel*100.0) : "0.0"]
+            kBattery.STATE.rawValue: (UIDevice.current.batteryState == .unplugged) ? "discharging" : "charging",
+            kBattery.LEVEL.rawValue: (UIDevice.current.batteryLevel >= 0) ? String(describing: UIDevice.current.batteryLevel * 100.0) : "0.0",
+        ]
 
         return [kBattery.STATUS.rawValue: info]
     }

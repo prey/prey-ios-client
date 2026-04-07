@@ -9,7 +9,6 @@ import Foundation
 
 // swiftlint:disable function_body_length
 public func demoServer(_ publicDir: String) -> HttpServer {
-
     print(publicDir)
 
     let server = HttpServer()
@@ -125,7 +124,6 @@ public func demoServer(_ publicDir: String) -> HttpServer {
                             }
                         }
                     }
-
                 }
                 javascript {
                     src = "http://cdn.staticfile.org/twitter-bootstrap/3.3.0/js/bootstrap.min.js"
@@ -136,7 +134,7 @@ public func demoServer(_ publicDir: String) -> HttpServer {
 
     server.POST["/login"] = { request in
         let formFields = request.parseUrlencodedForm()
-        return HttpResponse.ok(.html(formFields.map({ "\($0.0) = \($0.1)" }).joined(separator: "<br>")))
+        return HttpResponse.ok(.html(formFields.map { "\($0.0) = \($0.1)" }.joined(separator: "<br>")))
     }
 
     server["/demo"] = scopes {
@@ -151,40 +149,42 @@ public func demoServer(_ publicDir: String) -> HttpServer {
     }
 
     server["/raw"] = { _ in
-        return HttpResponse.raw(200, "OK", ["XXX-Custom-Header": "value"], { try $0.write([UInt8]("test".utf8)) })
+        HttpResponse.raw(200, "OK", ["XXX-Custom-Header": "value"]) { try $0.write([UInt8]("test".utf8)) }
     }
 
     server["/redirect/permanently"] = { _ in
-        return .movedPermanently("http://www.google.com")
+        .movedPermanently("http://www.google.com")
     }
 
     server["/redirect/temporarily"] = { _ in
-        return .movedTemporarily("http://www.google.com")
+        .movedTemporarily("http://www.google.com")
     }
 
     server["/long"] = { _ in
         var longResponse = ""
-        for index in 0..<1000 { longResponse += "(\(index)),->" }
+        for index in 0 ..< 1000 {
+            longResponse += "(\(index)),->"
+        }
         return .ok(.html(longResponse))
     }
 
     server["/wildcard/*/test/*/:param"] = { request in
-        return .ok(.html(request.path))
+        .ok(.html(request.path))
     }
 
     server["/stream"] = { _ in
-        return HttpResponse.raw(200, "OK", nil, { writer in
-            for index in 0...100 {
+        HttpResponse.raw(200, "OK", nil) { writer in
+            for index in 0 ... 100 {
                 try writer.write([UInt8]("[chunk \(index)]".utf8))
             }
-        })
+        }
     }
 
-    server["/websocket-echo"] = websocket(text: { (session, text) in
+    server["/websocket-echo"] = websocket(text: { session, text in
         session.writeText(text)
-    }, binary: { (session, binary) in
+    }, binary: { session, binary in
         session.writeBinary(binary)
-    }, pong: { (_, _) in
+    }, pong: { _, _ in
         // Got a pong frame
     }, connected: { _ in
         // New client connected
@@ -193,7 +193,7 @@ public func demoServer(_ publicDir: String) -> HttpServer {
     })
 
     server.notFoundHandler = { _ in
-        return .movedPermanently("https://github.com/404")
+        .movedPermanently("https://github.com/404")
     }
 
     server.middleware.append { request in
@@ -203,4 +203,3 @@ public func demoServer(_ publicDir: String) -> HttpServer {
 
     return server
 }
-

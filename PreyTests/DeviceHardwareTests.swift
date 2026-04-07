@@ -6,13 +6,11 @@
 //  Copyright © 2026 Prey, Inc. All rights reserved.
 //
 
+@testable import Prey
 import UIKit
 import XCTest
 
-@testable import Prey
-
 class DeviceHardwareTests: XCTestCase {
-
     // MARK: - machineIdentifier
 
     func testMachineIdentifierNotEmpty() {
@@ -41,10 +39,10 @@ class DeviceHardwareTests: XCTestCase {
 
     // MARK: - PreyDevice includes machineIdentifier
 
-    func testPreyDeviceIncludesMachineId() {
+    func testPreyDeviceIncludesMachineId() throws {
         let device = PreyDevice()
         XCTAssertNotNil(device.machineIdentifier, "PreyDevice should have a machineIdentifier")
-        XCTAssertFalse(device.machineIdentifier!.isEmpty, "PreyDevice machineIdentifier should not be empty")
+        XCTAssertFalse(try XCTUnwrap(device.machineIdentifier?.isEmpty), "PreyDevice machineIdentifier should not be empty")
         XCTAssertEqual(device.machineIdentifier, UIDevice.current.machineIdentifier, "PreyDevice machineIdentifier should match UIDevice")
     }
 }

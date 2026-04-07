@@ -6,17 +6,16 @@
 //  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
-import Foundation
 import AVFoundation
+import Foundation
 import UIKit
 
 class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-
     // MARK: Properties
 
-    let device: AVCaptureDevice!          = AVCaptureDevice.default(for: AVMediaType.video)
-    let session: AVCaptureSession          = AVCaptureSession()
-    let output: AVCaptureMetadataOutput   = AVCaptureMetadataOutput()
+    let device: AVCaptureDevice! = AVCaptureDevice.default(for: AVMediaType.video)
+    let session: AVCaptureSession = .init()
+    let output: AVCaptureMetadataOutput = .init()
 
     var preview: AVCaptureVideoPreviewLayer!
 
@@ -26,20 +25,20 @@ class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate 
         super.viewDidLoad()
 
         // View title for GAnalytics
-        // self.screenName = "QRCodeScanner"        
+        // self.screenName = "QRCodeScanner"
 
         // Set background color
-        self.view.backgroundColor   = UIColor.black
+        view.backgroundColor = UIColor.black
 
         // Config navigationBar
-        let widthScreen             = UIScreen.main.bounds.size.width
-        let navBar                  = UINavigationBar(frame: CGRect(x: 0, y: 0, width: widthScreen, height: 44))
-        navBar.autoresizingMask     = [.flexibleWidth, .flexibleBottomMargin]
-        self.view.addSubview(navBar)
+        let widthScreen = UIScreen.main.bounds.size.width
+        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: widthScreen, height: 44))
+        navBar.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
+        view.addSubview(navBar)
 
         // Config navItem
-        let navItem                 = UINavigationItem(title: "Prey Control Panel".localized)
-        navItem.leftBarButtonItem   = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+        let navItem = UINavigationItem(title: "Prey Control Panel".localized)
+        navItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
         navBar.pushItem(navItem, animated: false)
 
         // Check camera available
@@ -66,66 +65,63 @@ class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate 
 
     // MARK: Methods
 
-    // Setup scanner
+    /// Setup scanner
     func setupScanner(_ input: AVCaptureDeviceInput) {
-
         // Config session
         session.addOutput(output)
         session.addInput(input)
 
         // Config output
         output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-        output.metadataObjectTypes  = [AVMetadataObject.ObjectType.qr]
+        output.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
 
         // Config preview
-        preview                     = AVCaptureVideoPreviewLayer(session: session)
-        preview.videoGravity        = AVLayerVideoGravity.resizeAspectFill
-        preview.frame               = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        preview = AVCaptureVideoPreviewLayer(session: session)
+        preview.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        preview.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
         preview.connection?.videoOrientation = .portrait
-        self.view.layer.insertSublayer(preview, at: 0)
+        view.layer.insertSublayer(preview, at: 0)
 
         // Config label
-        let screen                  = UIScreen.main.bounds.size
-        let widthLbl                = screen.width
-        let fontSize: CGFloat        = IS_IPAD ? 16.0 : 12.0
-        let message                 = IS_IPAD ? "Visit panel.preyproject.com/qr on your computer and scan the QR code".localized :
-                                                "Visit panel.preyproject.com/qr \non your computer and scan the QR code".localized
+        let screen = UIScreen.main.bounds.size
+        let widthLbl = screen.width
+        let fontSize: CGFloat = IS_IPAD ? 16.0 : 12.0
+        let message = IS_IPAD ? "Visit panel.preyproject.com/qr on your computer and scan the QR code".localized :
+            "Visit panel.preyproject.com/qr \non your computer and scan the QR code".localized
 
-        let infoQR                  = UILabel(frame: CGRect(x: 0, y: screen.height-50, width: widthLbl, height: 50))
-        infoQR.textColor            = UIColor(red: 0.3019, green: 0.3411, blue: 0.4, alpha: 0.7)
-        infoQR.backgroundColor      = UIColor.white
-        infoQR.textAlignment        = .center
-        infoQR.font                 = UIFont(name: fontTitilliumRegular, size: fontSize)
-        infoQR.text                 = message
-        infoQR.numberOfLines        = 2
+        let infoQR = UILabel(frame: CGRect(x: 0, y: screen.height - 50, width: widthLbl, height: 50))
+        infoQR.textColor = UIColor(red: 0.3019, green: 0.3411, blue: 0.4, alpha: 0.7)
+        infoQR.backgroundColor = UIColor.white
+        infoQR.textAlignment = .center
+        infoQR.font = UIFont(name: fontTitilliumRegular, size: fontSize)
+        infoQR.text = message
+        infoQR.numberOfLines = 2
         infoQR.adjustsFontSizeToFitWidth = true
-        self.view.addSubview(infoQR)
+        view.addSubview(infoQR)
 
         // Config QrZone image
-        let qrZoneSize              = IS_IPAD ? screen.width*0.6 : screen.width*0.78
-        let qrZonePosY              = (screen.height - qrZoneSize)/2
-        let qrZonePosX              = (screen.width  - qrZoneSize)/2
-        let qrZoneImg               = UIImageView(image: UIImage(named: "QrZone"))
-        qrZoneImg.frame             = CGRect(x: qrZonePosX, y: qrZonePosY, width: qrZoneSize, height: qrZoneSize)
-        self.view.addSubview(qrZoneImg)
+        let qrZoneSize = IS_IPAD ? screen.width * 0.6 : screen.width * 0.78
+        let qrZonePosY = (screen.height - qrZoneSize) / 2
+        let qrZonePosX = (screen.width - qrZoneSize) / 2
+        let qrZoneImg = UIImageView(image: UIImage(named: "QrZone"))
+        qrZoneImg.frame = CGRect(x: qrZonePosX, y: qrZonePosY, width: qrZoneSize, height: qrZoneSize)
+        view.addSubview(qrZoneImg)
     }
 
-    // Success scan
+    /// Success scan
     func successfullyScan(_ scannedValue: NSString) {
-
-        let validQr           = "prey?api_key=" as NSString
-        let checkQr: NSString  = (scannedValue.length > validQr.length) ? scannedValue.substring(to: validQr.length) as NSString  : "" as NSString
+        let validQr = "prey?api_key=" as NSString
+        let checkQr: NSString = (scannedValue.length > validQr.length) ? scannedValue.substring(to: validQr.length) as NSString : "" as NSString
         let apikeyQr: NSString = (scannedValue.length > validQr.length) ? scannedValue.substring(from: validQr.length) as NSString : "" as NSString
 
         stopScanning()
 
-        self.dismiss(animated: true, completion: {() in
-
+        dismiss(animated: true, completion: { () in
             if checkQr.isEqual(to: validQr as String) {
                 PreyDeployment.sharedInstance.addDeviceWith(apikeyQr as String, fromQRCode: true)
             } else {
                 displayErrorAlert("The scanned QR code is invalid".localized,
-                    titleMessage: "Couldn't add your device".localized)
+                                  titleMessage: "Couldn't add your device".localized)
             }
         })
     }
@@ -137,7 +133,7 @@ class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate 
     }
 
     func stopScanning() {
-        self.session.stopRunning()
+        session.stopRunning()
     }
 
     func isCameraAvailable() -> Bool {
@@ -146,14 +142,13 @@ class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate 
     }
 
     @objc func cancel() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
     // MARK: AVCaptureMetadataOutputObjectsDelegate
 
-    // CaptureOutput
-    func metadataOutput(_ captureOutput: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-
+    /// CaptureOutput
+    func metadataOutput(_: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from _: AVCaptureConnection) {
         for current in metadataObjects {
             if current is AVMetadataMachineReadableCodeObject {
                 if let scannedValue = (current as! AVMetadataMachineReadableCodeObject).stringValue {

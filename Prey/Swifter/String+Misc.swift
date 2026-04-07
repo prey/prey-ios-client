@@ -7,10 +7,9 @@
 
 import Foundation
 
-extension String {
-
-    public func unquote() -> String {
-        var scalars = self.unicodeScalars
+public extension String {
+    func unquote() -> String {
+        var scalars = unicodeScalars
         if scalars.first == "\"" && scalars.last == "\"" && scalars.count >= 2 {
             scalars.removeFirst()
             scalars.removeLast()
@@ -20,14 +19,13 @@ extension String {
     }
 }
 
-extension UnicodeScalar {
-
-    public func asWhitespace() -> UInt8? {
-        if self.value >= 9 && self.value <= 13 {
-            return UInt8(self.value)
+public extension UnicodeScalar {
+    func asWhitespace() -> UInt8? {
+        if value >= 9, value <= 13 {
+            return UInt8(value)
         }
-        if self.value == 32 {
-            return UInt8(self.value)
+        if value == 32 {
+            return UInt8(value)
         }
         return nil
     }

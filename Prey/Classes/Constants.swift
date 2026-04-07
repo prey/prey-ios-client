@@ -7,46 +7,46 @@
 //  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
-import Foundation
-import UserNotifications
 import CoreLocation
-import UIKit
+import Foundation
 import LocalAuthentication
 import OSLog
+import UIKit
+import UserNotifications
 
-// Storyboard controllerId
+/// Storyboard controllerId
 enum StoryboardIdVC: String {
     case PreyStoryBoard, alert, navigation, home, currentLocation, settings, homeWeb, rename
 }
 
 // Def type device
-public let IS_IPAD: Bool  = (UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone)
-public let IS_IPHONE4S: Bool  = (UIScreen.main.bounds.size.height-480 == 0)
-public let IS_IPHONEX: Bool  = (UIScreen.main.bounds.size.height-812 == 0)
-public let IS_OS_8_OR_LATER: Bool  = ((UIDevice.current.systemVersion as NSString).floatValue >= 8.0)
-public let IS_OS_12: Bool  = ((UIDevice.current.systemVersion as NSString).intValue == 12)
+public let IS_IPAD: Bool = (UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone)
+public let IS_IPHONE4S: Bool = (UIScreen.main.bounds.size.height - 480 == 0)
+public let IS_IPHONEX: Bool = (UIScreen.main.bounds.size.height - 812 == 0)
+public let IS_OS_8_OR_LATER: Bool = ((UIDevice.current.systemVersion as NSString).floatValue >= 8.0)
+public let IS_OS_12: Bool = ((UIDevice.current.systemVersion as NSString).intValue == 12)
 
-// Number of Reload for Connection
+/// Number of Reload for Connection
 public let reloadConnection: Int = 5
 
-// Delay for Reload connection
+/// Delay for Reload connection
 public let delayTime: Double = 2
 
-// TimeoutInterval for URLRequest
+/// TimeoutInterval for URLRequest
 public let timeoutIntervalRequest: Double = 30.0
 
-// Email RegExp
+/// Email RegExp
 public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b"
 
-// App Version
+/// App Version
 public let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
 
-// GAI code
-public let GAICode  = "UA-8743344-7"
+/// GAI code
+public let GAICode = "UA-8743344-7"
 
 // Font
-public let fontTitilliumBold    =  "TitilliumWeb-Bold"
-public let fontTitilliumRegular =  "TitilliumWeb-Regular"
+public let fontTitilliumBold = "TitilliumWeb-Bold"
+public let fontTitilliumRegular = "TitilliumWeb-Regular"
 
 // MARK: - Logging
 
@@ -60,6 +60,7 @@ public enum PreyLogLevel {
 }
 
 // MARK: - File Logging
+
 private class PreyFileLogger {
     static let shared = PreyFileLogger()
     private let logQueue = DispatchQueue(label: "com.prey.filelogger", qos: .utility)
@@ -180,7 +181,7 @@ public func PreyLogger(_ message: String, level: PreyLogLevel = .debug, file: St
     #endif
 }
 
-// Convenience explicit level helpers for future use
+/// Convenience explicit level helpers for future use
 public func PreyLoggerInfo(_ message: String, file: String = #file, line: Int = #line) {
     PreyLogger(message, level: .info, file: file, line: line)
 }
@@ -206,6 +207,7 @@ public func PreyLoggerCritical(_ message: String, file: String = #file, line: In
 }
 
 // MARK: - Log File Access
+
 public func getPreyLogFileURL() -> URL {
     return PreyFileLogger.shared.getLogFileURL()
 }
@@ -215,27 +217,29 @@ public func getPreyLogFilePath() -> String {
 }
 
 // MARK: - Debug Local Notifications (DEBUG only)
+
 public func PreyDebugNotify(_ message: String) {
     #if DEBUG
-    let content = UNMutableNotificationContent()
-    content.title = "DEBUG"
-    content.body = message.count > 180 ? String(message.prefix(180)) + "…" : message
-    content.sound = .default
-    let request = UNNotificationRequest(
-        identifier: "prey.debug." + UUID().uuidString,
-        content: content,
-        trigger: nil
-    )
-    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        let content = UNMutableNotificationContent()
+        content.title = "DEBUG"
+        content.body = message.count > 180 ? String(message.prefix(180)) + "…" : message
+        content.sound = .default
+        let request = UNNotificationRequest(
+            identifier: "prey.debug." + UUID().uuidString,
+            content: content,
+            trigger: nil
+        )
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     #endif
 }
 
 // MARK: - App-wide Notifications
+
 extension Notification.Name {
     static let preyLocationUpdated = Notification.Name("prey.location.updated")
 }
 
-// Biometric authentication
+/// Biometric authentication
 public let biometricAuth: String = {
     let textID: String
     let context = LAContext()
@@ -259,18 +263,17 @@ public let biometricAuth: String = {
     return textID
 }()
 
-// Category notification
+/// Category notification
 public let categoryNotifPreyAlert = "PreyAlert"
 
-// Validate email expression
+/// Validate email expression
 public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
-
     var isInvalid = true
     let regex: NSRegularExpression
 
     do {
         regex = try NSRegularExpression(pattern: withPattern, options: NSRegularExpression.Options.caseInsensitive)
-        let textRange  = NSRange(location: 0, length: userEmail.count)
+        let textRange = NSRange(location: 0, length: userEmail.count)
         let matchRange = regex.rangeOfFirstMatch(in: userEmail, options: NSRegularExpression.MatchingOptions.reportProgress, range: textRange)
 
         if matchRange.location != NSNotFound {
@@ -283,11 +286,11 @@ public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
     return isInvalid
 }
 
-// Display error alert
+/// Display error alert
 public func displayErrorAlert(_ alertMessage: String, titleMessage: String) {
     DispatchQueue.main.async {
         let alertController = UIAlertController(title: titleMessage, message: alertMessage, preferredStyle: .alert)
-        let OKAction        = UIAlertAction(title: "OK".localized, style: .default, handler: nil)
+        let OKAction = UIAlertAction(title: "OK".localized, style: .default, handler: nil)
         alertController.addAction(OKAction)
 
         guard let appWindow = UIApplication.shared.delegate?.window else {
@@ -307,22 +310,22 @@ public func displayErrorAlert(_ alertMessage: String, titleMessage: String) {
     }
 }
 
-// ReactViews actions
+/// ReactViews actions
 enum ReactViews: String {
-    case CHECKID       = "checktouchid"
-    case QRCODE        = "qrcode"
-    case LOGIN         = "login"
-    case TERMS         = "terms"
-    case PRIVACY       = "privacy"
-    case FORGOT        = "forgot"
+    case CHECKID = "checktouchid"
+    case QRCODE = "qrcode"
+    case LOGIN = "login"
+    case TERMS = "terms"
+    case PRIVACY = "privacy"
+    case FORGOT = "forgot"
     case CREATEACCOUNT = "createaccount"
-    case AUTHLOC       = "authlocation"
-    case BIOAUTH       = "biometricauth"
-    case GOTOSETTING   = "settingspwd"
-    case GOTOPANEL     = "panelpwd"
-    case GOTORENAME    = "renamepwd"
-    case GOTOCLOSE     = "closepwd"
-    case RENAME        = "rename"
-    case NAMEDEVICE    = "namedevice"
-    case INDEX         = "index"
+    case AUTHLOC = "authlocation"
+    case BIOAUTH = "biometricauth"
+    case GOTOSETTING = "settingspwd"
+    case GOTOPANEL = "panelpwd"
+    case GOTORENAME = "renamepwd"
+    case GOTOCLOSE = "closepwd"
+    case RENAME = "rename"
+    case NAMEDEVICE = "namedevice"
+    case INDEX = "index"
 }

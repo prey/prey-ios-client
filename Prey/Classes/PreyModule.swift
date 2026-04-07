@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 class PreyModule {
-
     // MARK: Properties
 
     static let sharedInstance = PreyModule()
@@ -28,14 +27,14 @@ class PreyModule {
 
     // MARK: Functions
 
-    // Centralized status device request with throttling
+    /// Centralized status device request with throttling
     func requestStatusDevice(context: String = "unknown", onCompletion: @escaping (_ isSuccess: Bool) -> Void = { _ in }) {
         let now = Date()
 
         // Check if we should throttle this call
         if let lastCallTime = PreyModule.lastStatusDeviceCallTime,
-           now.timeIntervalSince(lastCallTime) < PreyModule.statusDeviceThrottleInterval {
-
+           now.timeIntervalSince(lastCallTime) < PreyModule.statusDeviceThrottleInterval
+        {
             // If there's already a request in progress, queue this callback
             if PreyModule.isStatusDeviceInProgress {
                 PreyLogger("StatusDevice - Throttled (\(context)): adding callback to pending queue")
@@ -101,7 +100,7 @@ class PreyModule {
         }
     }
 
-    // Sync device name only when it changes
+    /// Sync device name only when it changes
     func syncDeviceNameIfChanged() {
         guard PreyConfig.sharedInstance.isRegistered, let username = PreyConfig.sharedInstance.userApiKey else { return }
         let currentName = UIDevice.current.name
@@ -133,7 +132,7 @@ class PreyModule {
         )
     }
 
-    // Check actionArrayStatus
+    /// Check actionArrayStatus
     func checkActionArrayStatus() {
         // Fix: Check app state on main thread to avoid Main Thread Checker warning
         var appStateString = "Unknown"
@@ -178,7 +177,7 @@ class PreyModule {
                 }
             }
 
-            if !hasLocationAction && isAppInBackground {
+            if !hasLocationAction, isAppInBackground {
                 // Prefer continuous aware mode when in background
                 let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.start_location_aware, withOptions: nil)
                 actionArray.append(locationAction)
@@ -192,14 +191,12 @@ class PreyModule {
         }
     }
 
-    // Parse actions from panel
+    /// Parse actions from panel
     func parseActionsFromPanel(_ actionsStr: String) {
-
         PreyLogger("Parse actions from panel: \(actionsStr)")
 
         // Convert actionsArray from String to NSData
         guard let jsonData: Data = actionsStr.data(using: String.Encoding.utf8) else {
-
             PreyLogger("Error converting actions array to data")
             PreyNotification.sharedInstance.handlePushError("Failed to parse actions from panel")
 
@@ -215,7 +212,8 @@ class PreyModule {
             // Add Actions in ActionArray
             for dict in jsonObjects {
                 guard let actionDict = dict as? NSDictionary,
-                      let targetName = actionDict.object(forKey: kInstruction.target.rawValue) as? String else {
+                      let targetName = actionDict.object(forKey: kInstruction.target.rawValue) as? String
+                else {
                     continue
                 }
 
@@ -228,7 +226,7 @@ class PreyModule {
             // Check ActionArray empty
             if actionArray.isEmpty {
                 PreyLogger("All actions processed successfully")
-                if let app = UIApplication.shared.delegate as? AppDelegate {app.stopBackgroundTask()}
+                if let app = UIApplication.shared.delegate as? AppDelegate { app.stopBackgroundTask() }
             }
 
         } catch let error as NSError {
@@ -237,9 +235,8 @@ class PreyModule {
         }
     }
 
-    // Add actions to Array
+    /// Add actions to Array
     func addAction(_ jsonDict: NSDictionary) {
-
         // Check cmd command
         if let jsonCMD = jsonDict.object(forKey: kInstruction.cmd.rawValue) as? NSDictionary {
             // Recursive Function
@@ -252,7 +249,7 @@ class PreyModule {
             PreyLogger("Error with ActionName")
             return
         }
-        guard let actionName: kAction = kAction(rawValue: jsonName) else {
+        guard let actionName = kAction(rawValue: jsonName) else {
             PreyLogger("Error with ActionName:rawValue")
             return
         }
@@ -262,7 +259,7 @@ class PreyModule {
             PreyLogger("Error with ActionCmd")
             return
         }
-        guard let actionCmd: kCommand = kCommand(rawValue: jsonCmd) else {
+        guard let actionCmd = kCommand(rawValue: jsonCmd) else {
             PreyLogger("Error with ActionCmd:rawvalue")
             return
         }
@@ -272,14 +269,14 @@ class PreyModule {
 
         // Check if action already exists to prevent duplicates
         for existingAction in actionArray {
-            if existingAction.target == actionName && existingAction.command == actionCmd {
+            if existingAction.target == actionName, existingAction.command == actionCmd {
                 PreyLogger("Action already exists: \(actionName.rawValue) with command: \(actionCmd.rawValue)")
                 return
             }
         }
 
         // Add new Prey Action
-        if let action: PreyAction = PreyAction.newAction(withName: actionName, withCommand: actionCmd, withOptions: actionOptions) {
+        if let action = PreyAction.newAction(withName: actionName, withCommand: actionCmd, withOptions: actionOptions) {
             PreyLogger("Action added")
 
             // Actions MessageId
@@ -300,7 +297,7 @@ class PreyModule {
     private static var isRunningActions = false
     private static var lastActionRunTime: Date?
 
-    // Run action
+    /// Run action
     func runAction() {
         // Prevent multiple simultaneous calls; avoid race by using a time-based stale check
         if PreyModule.isRunningActions {
@@ -315,7 +312,7 @@ class PreyModule {
                 return
             }
             // If it's been a while (>30s) and no action reports active, reset the guard as stale
-            if active.isEmpty && elapsed > 30 {
+            if active.isEmpty, elapsed > 30 {
                 PreyLogger("PreyModule: isRunningActions appears stale (elapsed=\(Int(elapsed))s); resetting guard")
                 PreyModule.isRunningActions = false
             } else {
@@ -349,7 +346,7 @@ class PreyModule {
 
         for action in actionArray {
             // Check selector
-            if action.responds(to: NSSelectorFromString(action.command.rawValue)) && !action.isActive {
+            if action.responds(to: NSSelectorFromString(action.command.rawValue)), !action.isActive {
                 PreyLogger("PreyModule: Running action: \(action.target.rawValue) with command: \(action.command.rawValue)")
 
                 // Enter dispatch group
@@ -382,7 +379,7 @@ class PreyModule {
             }
         }
 
-        if isAppInBackground && !actionArray.isEmpty {
+        if isAppInBackground, !actionArray.isEmpty {
             // Only configure location services if needed
             var needsLocationServices = false
             for action in actionArray {
@@ -412,8 +409,8 @@ class PreyModule {
         }
     }
 
-    // Ensure aware in background if we get passive location updates
-    @objc private func handleLocationUpdateNotification(_ note: Notification) {
+    /// Ensure aware in background if we get passive location updates
+    @objc private func handleLocationUpdateNotification(_: Notification) {
         var isBG = false
         if Thread.isMainThread { isBG = UIApplication.shared.applicationState == .background } else { DispatchQueue.main.sync { isBG = UIApplication.shared.applicationState == .background } }
         guard isBG else { return }
@@ -426,7 +423,7 @@ class PreyModule {
         }
     }
 
-    // Run only a specific action - reuse existing background task if available
+    /// Run only a specific action - reuse existing background task if available
     func runSingleAction(_ action: PreyAction) {
         // Don't create a new background task if actions are already running
         if PreyModule.isRunningActions {
@@ -434,7 +431,7 @@ class PreyModule {
         }
 
         // Check selector
-        if action.responds(to: NSSelectorFromString(action.command.rawValue)) && !action.isActive {
+        if action.responds(to: NSSelectorFromString(action.command.rawValue)), !action.isActive {
             PreyLogger("Running single action: \(action.target.rawValue) with command: \(action.command.rawValue)")
             action.performSelector(onMainThread: NSSelectorFromString(action.command.rawValue), with: nil, waitUntilDone: true)
         } else if action.isActive {
@@ -447,7 +444,7 @@ class PreyModule {
         PreyLogger("Single action completed: \(action.target.rawValue)")
     }
 
-    // Force cleanup of any background tasks (called from AppDelegate on background entry)
+    /// Force cleanup of any background tasks (called from AppDelegate on background entry)
     func forceBackgroundTaskCleanup() {
         PreyLogger("🧹 PreyModule: Forcing cleanup of any active background tasks")
 
@@ -470,9 +467,8 @@ class PreyModule {
         PreyLogger("Background time remaining after cleanup: \(UIApplication.shared.backgroundTimeRemaining)s")
     }
 
-    // Check action status
+    /// Check action status
     func checkStatus(_ action: PreyAction) {
-
         PreyLogger("Check action")
 
         // Check if preyAction isn't active
@@ -483,11 +479,11 @@ class PreyModule {
         // Check ActionArray empty
         if actionArray.isEmpty {
             PreyLogger("All actions completed")
-            if let app = UIApplication.shared.delegate as? AppDelegate {app.stopBackgroundTask()}
+            if let app = UIApplication.shared.delegate as? AppDelegate { app.stopBackgroundTask() }
         }
     }
 
-    // Delete action
+    /// Delete action
     func deleteAction(_ action: PreyAction) {
         PreyLogger("Start Delete action")
         // Search for preyAction

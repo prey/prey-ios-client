@@ -7,18 +7,17 @@
 //  Copyright (c) 2014 Prey, Inc. All rights reserved.
 //
 
-import UIKit
 import BackgroundTasks
 import CoreLocation
+import UIKit
 import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, CLLocationManagerDelegate {
-
     // MARK: Properties
 
     var window: UIWindow?
-    // Optional bgTask
+    /// Optional bgTask
     var bgTask: UIBackgroundTaskIdentifier?
 
     static let appRefreshTaskIdentifier = "\(Bundle.main.bundleIdentifier!).appRefresh"
@@ -49,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // MARK: Methods
 
-    // Display screen - This method seems UI-related and should be called on the main thread
+    /// Display screen - This method seems UI-related and should be called on the main thread
     func displayScreen() {
         DispatchQueue.main.async { // Ensure UI updates are on main thread
             // Check PreyModule Status
@@ -58,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             // Relaunch viewController
             let homeIdentifier = StoryboardIdVC.homeWeb.rawValue
             self.window = UIWindow(frame: UIScreen.main.bounds)
-            let mainStoryboard: UIStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
+            let mainStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
             let rootVC: UINavigationController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
             let controller: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: homeIdentifier)
 
@@ -71,12 +70,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // stopBackgroundTask: Unified method for ending UIBackgroundTaskIdentifier
     func stopBackgroundTask(_ taskId: UIBackgroundTaskIdentifier? = nil) {
-        let taskToStop = taskId ?? self.bgTask
+        let taskToStop = taskId ?? bgTask
         if let currentTask = taskToStop, currentTask != .invalid {
             PreyLogger("Ending background task with ID: \(currentTask.rawValue), time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
             UIApplication.shared.endBackgroundTask(currentTask)
-            if currentTask == self.bgTask { // Only invalidate if it's the main bgTask
-                self.bgTask = nil // Set to nil instead of .invalid for clarity
+            if currentTask == bgTask { // Only invalidate if it's the main bgTask
+                bgTask = nil // Set to nil instead of .invalid for clarity
             }
             PreyLogger("Background task ended: \(currentTask.rawValue)")
         }
@@ -84,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // MARK: UIApplicationDelegate
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Install crash/exception handlers as early as possible
         CrashHandler.install()
 
@@ -134,17 +133,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         PreyLogger("Set UNUserNotificationCenter delegate to AppDelegate and registered categories")
 
         #if DEBUG
-        // Integration test hooks (enable via Scheme Environment Variables)
-        if ProcessInfo.processInfo.environment["PREY_FORCE_CRASH"] == "1" {
-            PreyLogger("[CrashTest] Forcing a crash in 2s to test CrashHandler (SIGABRT)")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { CrashHandler.forceCrashForTesting() }
-        }
-        if ProcessInfo.processInfo.environment["PREY_FORCE_EXCEPTION"] == "1" {
-            PreyLogger("[CrashTest] Forcing an NSException in 2s to test CrashHandler (NSException)")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                NSException(name: .invalidArgumentException, reason: "Forced test exception", userInfo: nil).raise()
+            // Integration test hooks (enable via Scheme Environment Variables)
+            if ProcessInfo.processInfo.environment["PREY_FORCE_CRASH"] == "1" {
+                PreyLogger("[CrashTest] Forcing a crash in 2s to test CrashHandler (SIGABRT)")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { CrashHandler.forceCrashForTesting() }
             }
-        }
+            if ProcessInfo.processInfo.environment["PREY_FORCE_EXCEPTION"] == "1" {
+                PreyLogger("[CrashTest] Forcing an NSException in 2s to test CrashHandler (NSException)")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    NSException(name: .invalidArgumentException, reason: "Forced test exception", userInfo: nil).raise()
+                }
+            }
         #endif
 
         // Start centralized LocationService only if device is registered
@@ -207,10 +206,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         CrashHandler.uploadPendingReportsIfPossible()
 
         return true
-        }
+    }
 
-        // UI transition (snapshotting for multitasking)
-        func applicationWillResignActive(_ application: UIApplication) {
+    /// UI transition (snapshotting for multitasking)
+    func applicationWillResignActive(_: UIApplication) {
         PreyLogger("applicationWillResignActive")
         // Hide mainView for multitasking preview
         let backgroundImg = UIImageView(image: UIImage(named: "BgWelcome"))
@@ -221,7 +220,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         window?.addSubview(backgroundImg)
         window?.bringSubviewToFront(backgroundImg)
 
-        UIView.animate(withDuration: 0.2, animations: {() in backgroundImg.alpha = 1.0})
+        UIView.animate(withDuration: 0.2, animations: { () in backgroundImg.alpha = 1.0 })
 
         // Ensure foreground timer is stopped to save battery
         foregroundPollingTimer?.invalidate()
@@ -236,7 +235,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let lastBuild = defaults.string(forKey: lastKnownBuildKey)
 
         let isFirstLaunch = (lastVersion == nil || lastBuild == nil)
-        let upgraded = (!isFirstLaunch) && (lastVersion != currentVersion || lastBuild != currentBuild)
+        let upgraded = !isFirstLaunch && (lastVersion != currentVersion || lastBuild != currentBuild)
 
         // Persist current values
         defaults.set(currentVersion, forKey: lastKnownVersionKey)
@@ -248,16 +247,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
 
-    // This is where app state changes from foreground to background.
-    // Heavy lifting for background processing should use BGTaskScheduler or specific background modes (e.g., location).
-    func applicationDidEnterBackground(_ application: UIApplication) {
+    /// This is where app state changes from foreground to background.
+    /// Heavy lifting for background processing should use BGTaskScheduler or specific background modes (e.g., location).
+    func applicationDidEnterBackground(_: UIApplication) {
         PreyLogger("applicationDidEnterBackground")
 
         // Hide keyboard (UI-related, safe here)
         window?.endEditing(true)
 
         // End any pending background tasks immediately
-        stopBackgroundTask(self.bgTask) // Explicitly end the launch-related task
+        stopBackgroundTask(bgTask) // Explicitly end the launch-related task
 
         // Force cleanup of any orphaned background tasks
         PreyLogger("⚠️ Performing aggressive background task cleanup on entering background")
@@ -282,30 +281,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // Check for shared location data from extension (read-only, efficient)
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
-           let lastLocation = userDefaults.dictionary(forKey: "lastLocation") {
+           let lastLocation = userDefaults.dictionary(forKey: "lastLocation")
+        {
             PreyLogger("Found shared location data: \(lastLocation)")
             // Process location data if needed (should be quick or trigger a BGTask)
         }
-
     }
 
-        // Foreground entry
-        func applicationWillEnterForeground(_ application: UIApplication) {
+    /// Foreground entry
+    func applicationWillEnterForeground(_: UIApplication) {
         PreyLogger("applicationWillEnterForeground")
         // Ensure any remaining short-lived background tasks are ended
-        stopBackgroundTask(self.bgTask)
+        stopBackgroundTask(bgTask)
         // Also cancel any scheduled BGTasks to avoid immediate re-triggering if not desired on foreground
         BGTaskScheduler.shared.cancelAllTaskRequests()
     }
 
-        // App became active
-        func applicationDidBecomeActive(_ application: UIApplication) {
+    /// App became active
+    func applicationDidBecomeActive(_: UIApplication) {
         PreyLogger("applicationDidBecomeActive")
 
         // Show mainView (UI-related, on main thread)
         if let backgroundImg = window?.viewWithTag(1985) {
-            UIView.animate(withDuration: 0.2, animations: {() in backgroundImg.alpha = 0},
-                           completion: {(_) in backgroundImg.removeFromSuperview()})
+            UIView.animate(withDuration: 0.2, animations: { () in backgroundImg.alpha = 0 },
+                           completion: { _ in backgroundImg.removeFromSuperview() })
         }
 
         // Sync if registered
@@ -341,10 +340,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         displayScreen()
     }
 
-    // App termination: end background tasks and cancel BG tasks
-    func applicationWillTerminate(_ application: UIApplication) {
+    /// App termination: end background tasks and cancel BG tasks
+    func applicationWillTerminate(_: UIApplication) {
         PreyLogger("applicationWillTerminate")
-        stopBackgroundTask(self.bgTask)
+        stopBackgroundTask(bgTask)
         BGTaskScheduler.shared.cancelAllTaskRequests()
     }
 
@@ -370,12 +369,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             PreyLogger("BGTaskScheduler failed, performing fallback operations")
             PreyModule.sharedInstance.checkActionArrayStatus()
 
-            self.bgTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+            bgTask = UIApplication.shared.beginBackgroundTask { [weak self] in
                 PreyLogger("⚠️ Short fallback background task expiring")
                 self?.stopBackgroundTask()
             }
 
-            if let bgTask = self.bgTask, bgTask != .invalid {
+            if let bgTask = bgTask, bgTask != .invalid {
                 PreyLogger("Started short fallback background task: \(bgTask.rawValue)")
 
                 DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 5) { [weak self] in
@@ -404,7 +403,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         // Check for shared location data from extension (read-only, efficient)
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
-           let lastLocation = userDefaults.dictionary(forKey: "lastLocation") {
+           let lastLocation = userDefaults.dictionary(forKey: "lastLocation")
+        {
             PreyLogger("Found shared location data: \(lastLocation)")
         }
         dispatchGroup.enter()
@@ -456,7 +456,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
 
-    // Handler for BGProcessingTask (more intensive background work)
+    /// Handler for BGProcessingTask (more intensive background work)
     func handleAppProcessing(_ task: BGProcessingTask) {
         PreyLogger("Background processing task started. Time remaining: \(UIApplication.shared.backgroundTimeRemaining)")
 
@@ -518,8 +518,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // MARK: Notification
 
-    // Did register notifications
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    /// Did register notifications
+    func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         PreyLogger("didRegisterForRemoteNotificationsWithDeviceToken")
         UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in // Added weak self
             guard let self = self else { return }
@@ -546,6 +546,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     // MARK: Location Push Monitoring
+
     private func startMonitoringLocationPushes() {
         guard PreyConfig.sharedInstance.isRegistered else { return }
         if locationPushManager == nil { locationPushManager = CLLocationManager() }
@@ -600,9 +601,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
 
-    // Retries when authorization changes
+    /// Retries when authorization changes
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        guard manager === self.locationPushManager else { return }
+        guard manager === locationPushManager else { return }
         let status = manager.authorizationStatus
         permissionLocationChanged(status)
         PreyLogger("LocationPush auth changed: \(status.rawValue)")
@@ -621,21 +622,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func permissionLocationChanged(_ authorizationStatus: CLAuthorizationStatus) {
-        var locationAccessOld=PreyConfig.sharedInstance.locationAccess
+        var locationAccessOld = PreyConfig.sharedInstance.locationAccess
         let locationAccessNew = Location.getLocationStatusString(authorizationStatus)
-        PreyConfig.sharedInstance.locationAccess=locationAccessNew
-        if locationAccessOld==nil {
+        PreyConfig.sharedInstance.locationAccess = locationAccessNew
+        if locationAccessOld == nil {
             locationAccessOld = LocationAccess.UNKNOWN.rawValue
         }
         if locationAccessNew != locationAccessOld! {
             let paramsInfo: [String: String] = [
                 "permission_name": "location",
                 "new": locationAccessNew,
-                "old": locationAccessOld!
+                "old": locationAccessOld!,
             ]
             let params: [String: Any] = [
                 "name": "permission_changed",
-                "info": paramsInfo]
+                "info": paramsInfo,
+            ]
             if let username = PreyConfig.sharedInstance.userApiKey {
                 PreyHTTPClient.sharedInstance.sendDataToPrey(username, password: "x", params: params, messageId: nil, httpMethod: Method.POST.rawValue, endPoint: eventsDeviceEndpoint, onCompletion: PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction: nil, onCompletion: { success in
                     if success {
@@ -652,8 +654,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // MARK: Foreground API sync
 
-    // Renamed foregroundTimer to foregroundPollingTimer for clarity
-    // timeInterval set to 180s (3 min)
+    /// Renamed foregroundTimer to foregroundPollingTimer for clarity
+    /// timeInterval set to 180s (3 min)
     func setupForegroundTimer() {
         foregroundPollingTimer?.invalidate()
 
@@ -683,7 +685,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         syncWithServer()
     }
 
-    // Server sync logic
+    /// Server sync logic
     func syncWithServer() {
         // Only sync if not already in progress and not done within the last 10 seconds
         let shouldSync = !serverSyncInProgress &&
@@ -779,11 +781,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // MARK: UNUserNotificationCenterDelegate (Push Notifications)
 
-    // Handle notification response (user interaction with notification)
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
+    /// Handle notification response (user interaction with notification)
+    func userNotificationCenter(_: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-
+                                withCompletionHandler completionHandler: @escaping () -> Void)
+    {
         let userInfo = response.notification.request.content.userInfo
         PreyLogger("Received notification response: \(response.actionIdentifier) with userInfo: \(userInfo)")
 
@@ -813,19 +815,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         completionHandler() // Call completion handler promptly
     }
 
-    // Handle notification presentation while app is in foreground
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
+    /// Handle notification presentation while app is in foreground
+    func userNotificationCenter(_: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+    {
         PreyLogger("Will present notification in foreground: \(notification.request.identifier)")
 
         // Show notifications normally
         completionHandler([.banner, .sound, .badge, .list])
     }
 
-    // Fail register notifications (no changes, good)
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    /// Fail register notifications (no changes, good)
+    func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         PreyLogger("📱 PUSH REGISTRATION ERROR: 🚨 \(error.localizedDescription)")
 
         let nsError = error as NSError
@@ -838,8 +840,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
 
-    // Did receive remote notification (for background push)
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    /// Did receive remote notification (for background push)
+    func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // Background fetch with limited time; call completionHandler promptly
         var notificationBgTask: UIBackgroundTaskIdentifier = .invalid // Use local var to avoid conflicts with AppDelegate's bgTask
         var didCompleteFetch = false
@@ -954,22 +956,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func checkSettingsToBackup() {
         let fileManager = FileManager.default
         let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
-        let docURL = urls[urls.endIndex-1]
+        let docURL = urls[urls.endIndex - 1]
         let storeURL = docURL.appendingPathComponent("skpBckp")
 
         if !fileManager.fileExists(atPath: storeURL.path) {
-            if PreyConfig.sharedInstance.isRegistered && PreyConfig.sharedInstance.existBackup {
+            if PreyConfig.sharedInstance.isRegistered, PreyConfig.sharedInstance.existBackup {
                 PreyConfig.sharedInstance.resetValues()
             }
             fileManager.createFile(atPath: storeURL.path, contents: nil, attributes: nil)
-            _ = self.addSkipBackupAttributeToItemAtURL(filePath: storeURL.path)
+            _ = addSkipBackupAttributeToItemAtURL(filePath: storeURL.path)
             PreyConfig.sharedInstance.existBackup = true
             PreyConfig.sharedInstance.saveValues()
         }
     }
 
     func addSkipBackupAttributeToItemAtURL(filePath: String) -> Bool {
-        let URL: NSURL = NSURL.fileURL(withPath: filePath) as NSURL
+        let URL = NSURL.fileURL(withPath: filePath) as NSURL
         assert(FileManager.default.fileExists(atPath: filePath), "File \(filePath) does not exist")
         var success: Bool
         do {

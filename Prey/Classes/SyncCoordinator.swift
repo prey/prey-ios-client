@@ -1,9 +1,9 @@
 import Foundation
 
-// Centralized sync entry points for key lifecycle events
+/// Centralized sync entry points for key lifecycle events
 enum SyncReason: String {
-    case postLogin = "postLogin"
-    case appUpgrade = "appUpgrade"
+    case postLogin
+    case appUpgrade
 }
 
 class SyncCoordinator {

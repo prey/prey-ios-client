@@ -9,7 +9,6 @@
 import UIKit
 
 class AlertVC: UIViewController {
-
     // MARK: Properties
 
     @IBOutlet var messageLbl: UILabel!
@@ -24,7 +23,7 @@ class AlertVC: UIViewController {
         super.viewDidLoad()
 
         // View title for GAnalytics
-       // self.screenName = "Alert"
+        // self.screenName = "Alert"
 
         // Set message
         messageLbl.text = messageToShow
@@ -33,7 +32,7 @@ class AlertVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         // Hide navigationBar when appear this ViewController
-        self.navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
 
         super.viewWillAppear(animated)
     }
@@ -42,17 +41,18 @@ class AlertVC: UIViewController {
         super.viewDidDisappear(animated)
 
         // Hide navigationBar when appear this ViewController
-        self.navigationController?.isNavigationBarHidden = false
+        navigationController?.isNavigationBarHidden = false
     }
 
-    @IBAction func closeButton(_ sender: UIButton) {
+    @IBAction func closeButton(_: UIButton) {
         PreyLogger("Alert close button tapped")
 
         // UI transitions don't require background tasks - perform immediately
 
         // Get application delegate and window
         guard let appDelegate = UIApplication.shared.delegate,
-              let appWindow = appDelegate.window else {
+              let appWindow = appDelegate.window
+        else {
             PreyLogger("Error with sharedApplication or window")
             return
         }
@@ -72,7 +72,5 @@ class AlertVC: UIViewController {
 
             PreyLogger("Set new root view controller")
         }
-
     }
-
 }

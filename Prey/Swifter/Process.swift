@@ -8,7 +8,6 @@
 import Foundation
 
 public class Process {
-
     public static var pid: Int {
         return Int(getpid())
     }
@@ -28,7 +27,7 @@ public class Process {
 
     public static func watchSignals(_ callback: @escaping (Int32) -> Void) {
         if !signalsObserved {
-            [SIGTERM, SIGHUP, SIGSTOP, SIGINT].forEach { item in
+            for item in [SIGTERM, SIGHUP, SIGSTOP, SIGINT] {
                 signal(item) { signum in
                     Process.signalsWatchers.forEach { $0(signum) }
                 }

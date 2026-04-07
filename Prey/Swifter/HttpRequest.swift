@@ -8,7 +8,6 @@
 import Foundation
 
 public class HttpRequest {
-
     public var path: String = ""
     public var queryParams: [(String, String)] = []
     public var method: String = ""
@@ -23,7 +22,7 @@ public class HttpRequest {
         guard let headerValue = headers[headerName] else {
             return false
         }
-        return headerValue.components(separatedBy: ",").filter({ $0.trimmingCharacters(in: .whitespaces).lowercased() == token }).count > 0
+        return headerValue.components(separatedBy: ",").filter { $0.trimmingCharacters(in: .whitespaces).lowercased() == token }.count > 0
     }
 
     public func parseUrlencodedForm() -> [(String, String)] {
@@ -49,7 +48,6 @@ public class HttpRequest {
     }
 
     public struct MultiPart {
-
         public let headers: [String: String]
         public let body: [UInt8]
 
@@ -67,14 +65,14 @@ public class HttpRequest {
                     return combined
                 }
                 let headerValueParams = header.value.components(separatedBy: ";").map { $0.trimmingCharacters(in: .whitespaces) }
-                return headerValueParams.reduce(combined, { (results, token) -> [String] in
+                return headerValueParams.reduce(combined) { results, token -> [String] in
                     let parameterTokens = token.components(separatedBy: "=")
                     if parameterTokens.first == parameter, let value = parameterTokens.last {
                         return results + [value]
                     }
                     return results
-                })
-                }.first
+                }
+            }.first
         }
     }
 
@@ -87,12 +85,12 @@ public class HttpRequest {
             return []
         }
         var boundary: String?
-        contentTypeHeaderTokens.forEach({
-            let tokens = $0.components(separatedBy: "=")
-            if let key = tokens.first, key == "boundary" && tokens.count == 2 {
+        for contentTypeHeaderToken in contentTypeHeaderTokens {
+            let tokens = contentTypeHeaderToken.components(separatedBy: "=")
+            if let key = tokens.first, key == "boundary", tokens.count == 2 {
                 boundary = tokens.last
             }
-        })
+        }
         if let boundary = boundary, boundary.utf8.count > 0 {
             return parseMultiPartFormData(body, boundary: "--\(boundary)")
         }
@@ -151,13 +149,13 @@ public class HttpRequest {
         let boundaryArray = [UInt8](boundary.utf8)
         var matchOffset = 0
         while let x = generator.next() {
-            matchOffset = ( x == boundaryArray[matchOffset] ? matchOffset + 1 : 0 )
+            matchOffset = (x == boundaryArray[matchOffset] ? matchOffset + 1 : 0)
             body.append(x)
             if matchOffset == boundaryArray.count {
                 #if swift(>=4.2)
-                body.removeSubrange(body.count-matchOffset ..< body.count)
+                    body.removeSubrange(body.count - matchOffset ..< body.count)
                 #else
-                body.removeSubrange(CountableRange<Int>(body.count-matchOffset ..< body.count))
+                    body.removeSubrange(CountableRange<Int>(body.count - matchOffset ..< body.count))
                 #endif
                 if body.last == HttpRequest.NL {
                     body.removeLast()

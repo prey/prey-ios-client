@@ -6,15 +6,14 @@
 //  Copyright © 2023 Prey, Inc. All rights reserved.
 //
 
-import Foundation
-import CoreLocation
 import AVFoundation
-import UserNotifications
+import CoreLocation
+import Foundation
 import Photos
 import UIKit
+import UserNotifications
 
 class ListPermissions: PreyAction, @unchecked Sendable {
-
     // MARK: Properties
 
     // MARK: Functions
@@ -23,18 +22,19 @@ class ListPermissions: PreyAction, @unchecked Sendable {
         get()
     }
 
-    // Prey command
+    /// Prey command
     override func get() {
         // send start list_permissions
         let paramsStart = getParamsTo(kAction.list_permissions.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
-        self.sendData(paramsStart, toEndpoint: responseDeviceEndpoint)
+        sendData(paramsStart, toEndpoint: responseDeviceEndpoint)
 
         // get permissions asynchronously
         getPermissionsAsync { permissionParam in
             // send listPermissions
             let params: [String: Any] = [
                 kEvent.info.rawValue: permissionParam,
-                kEvent.name.rawValue: "list_permission"]
+                kEvent.name.rawValue: "list_permission",
+            ]
             PreyLogger("listPermissions: \(params)")
             self.sendData(params, toEndpoint: eventsDeviceEndpoint)
 
@@ -44,7 +44,7 @@ class ListPermissions: PreyAction, @unchecked Sendable {
         }
     }
 
-    // Get all permissions asynchronously
+    /// Get all permissions asynchronously
     private func getPermissionsAsync(completion: @escaping ([String: Any]) -> Void) {
         // Get location status string
         let authStatus = DeviceAuth.sharedInstance.authLocation.authorizationStatus
@@ -77,7 +77,7 @@ class ListPermissions: PreyAction, @unchecked Sendable {
                         kPermission.camera.rawValue: String(camera),
                         kPermission.background_app_refresh.rawValue: String(backgroundAppRefresh),
                         kPermission.notification.rawValue: String(notification),
-                        kPermission.photos.rawValue: String(photos)
+                        kPermission.photos.rawValue: String(photos),
                     ]
 
                     completion(permissionParam)
@@ -86,7 +86,7 @@ class ListPermissions: PreyAction, @unchecked Sendable {
         }
     }
 
-    // Check camera permission without requesting
+    /// Check camera permission without requesting
     private func checkCameraPermission(completion: @escaping (Bool) -> Void) {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
 
@@ -100,7 +100,7 @@ class ListPermissions: PreyAction, @unchecked Sendable {
         }
     }
 
-    // Check photos permission without requesting
+    /// Check photos permission without requesting
     private func checkPhotosPermission(completion: @escaping (Bool) -> Void) {
         let status = PHPhotoLibrary.authorizationStatus()
 

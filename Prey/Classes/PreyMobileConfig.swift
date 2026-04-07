@@ -11,16 +11,13 @@ import Foundation
 import UIKit
 
 class PreyMobileConfig: NSObject, UIActionSheetDelegate {
-
     // MARK: Singleton
 
     static let sharedInstance = PreyMobileConfig()
-    fileprivate override init() {
+    override fileprivate init() {}
 
-    }
-
-    // Start service
-  func startService(authToken: String, urlServer: String, accountId: Int) {
+    /// Start service
+    func startService(authToken: String, urlServer: String, accountId: Int) {
         PreyLogger("📣 PREY CONFIG: Starting service")
         let defaultSessionConfiguration = URLSessionConfiguration.default
         let defaultSession = URLSession(configuration: defaultSessionConfiguration)
@@ -37,7 +34,8 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         let params: [String: Any] = [
             "account_id": accountId,
             "user_key": userKey,
-            "device_key": PreyConfig.sharedInstance.getDeviceKey()]
+            "device_key": PreyConfig.sharedInstance.getDeviceKey(),
+        ]
 
         do {
             urlRequest.httpBody = try JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
@@ -49,7 +47,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         urlRequest.addValue("Bearer " + authToken, forHTTPHeaderField: "Authorization")
         urlRequest.httpMethod = Method.POST.rawValue
 
-        let dataTask = defaultSession.dataTask(with: urlRequest) { (data, response, error) in
+        let dataTask = defaultSession.dataTask(with: urlRequest) { data, response, error in
             PreyLogger("PreyResponse: data:\(String(describing: data)) \nresponse:\(String(describing: response)) \nerror:\(String(describing: error))")
 
             guard error == nil else {
@@ -74,8 +72,8 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         case Stopped, Ready, InstalledConfig, BackToApp
     }
 
-    internal let listeningPort: in_port_t = 8080
-    internal var configName: String = "Profile install"
+    let listeningPort: in_port_t = 8080
+    var configName: String = "Profile install"
     private var localServer: HttpServer!
     private var returnURL: String = ""
     private var configData: Data!
@@ -91,12 +89,12 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
 
     // MARK: - Control functions
 
-    internal func start(data: Data) {
-        self.configData = data
-        self.localServer = HttpServer()
-        self.setupHandlers()
+    func start(data: Data) {
+        configData = data
+        localServer = HttpServer()
+        setupHandlers()
 
-        let page = self.baseURL(pathComponent: "install/")
+        let page = baseURL(pathComponent: "install/")
         let url = URL(string: page)!
         if UIApplication.shared.canOpenURL(url as URL) {
             do {
@@ -118,7 +116,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         }
     }
 
-    internal func stop() {
+    func stop() {
         if serverState != .Stopped {
             serverState = .Stopped
             unregisterFromNotifications()
@@ -134,13 +132,13 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
                 return .notFound
             case .Ready:
                 self.serverState = .InstalledConfig
-                return HttpResponse.raw(200, "OK", ["Content-Type": "application/x-apple-aspen-config"], { writer in
+                return HttpResponse.raw(200, "OK", ["Content-Type": "application/x-apple-aspen-config"]) { writer in
                     do {
                         try writer.write(self.configData)
                     } catch {
                         PreyLogger("Failed to write response data")
                     }
-                })
+                }
             case .InstalledConfig:
                 return .movedPermanently(self.returnURL)
             case .BackToApp:
@@ -159,9 +157,9 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     }
 
     private func basePage(pathComponent: String?) -> String {
-        var page = "<!doctype html><html>" + "<head><meta charset='utf-8'><title>\(self.configName)</title></head>"
+        var page = "<!doctype html><html>" + "<head><meta charset='utf-8'><title>\(configName)</title></head>"
         if let component = pathComponent {
-            let script = "function load() {  window.location.href='\(self.baseURL(pathComponent: component))'; }window.setInterval(load, 800);"
+            let script = "function load() {  window.location.href='\(baseURL(pathComponent: component))'; }window.setInterval(load, 800);"
 
             page += "<script>\(script)</script>"
         }
@@ -194,13 +192,13 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         }
     }
 
-    @objc internal func didEnterBackground(notification: NSNotification) {
+    @objc func didEnterBackground(notification _: NSNotification) {
         if serverState != .Stopped {
             startBackgroundTask()
         }
     }
 
-    @objc internal func willEnterForeground(notification: NSNotification) {
+    @objc func willEnterForeground(notification _: NSNotification) {
         if backgroundTask != UIBackgroundTaskIdentifier.invalid {
             stopBackgroundTask()
             returnedToApp()
@@ -235,7 +233,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     private func stopBackgroundTask() {
         if backgroundTask != UIBackgroundTaskIdentifier.invalid {
             PreyLogger("Stopping PreyMobileConfig background task: \(backgroundTask.rawValue)")
-            UIApplication.shared.endBackgroundTask(self.backgroundTask)
+            UIApplication.shared.endBackgroundTask(backgroundTask)
             backgroundTask = UIBackgroundTaskIdentifier.invalid
         }
     }

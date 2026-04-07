@@ -8,11 +8,9 @@
 import Foundation
 
 open class HttpRouter {
-
     public init() {}
 
     private class Node {
-
         /// The children nodes that form the route
         var nodes = [String: Node]()
 
@@ -74,7 +72,6 @@ open class HttpRouter {
     }
 
     private func inflate(_ node: inout Node, generator: inout IndexingIterator<[String]>) -> Node {
-
         var currentNode = node
 
         while let pathSegment = generator.next() {
@@ -91,7 +88,6 @@ open class HttpRouter {
     }
 
     private func findHandler(_ node: inout Node, params: inout [String: String], generator: inout IndexingIterator<[String]>) -> ((HttpRequest) -> HttpResponse)? {
-
         var matchedRoutes = [Node]()
         let pattern = generator.map { $0 }
         let numberOfElements = pattern.count
@@ -111,16 +107,14 @@ open class HttpRouter {
     ///   - index: The index of current position in the generator
     ///   - count: The number of elements if the route to match
     private func findHandler(_ node: inout Node, params: inout [String: String], pattern: [String], matchedNodes: inout [Node], index: Int, count: Int) {
-
         if index < count, let pathToken = pattern[index].removingPercentEncoding {
-
             var currentIndex = index + 1
             let variableNodes = node.nodes.filter { $0.0.first == ":" }
             if let variableNode = variableNodes.first {
-                if currentIndex == count && variableNode.1.isEndOfRoute {
+                if currentIndex == count, variableNode.1.isEndOfRoute {
                     // if it's the last element of the pattern and it's a variable, stop the search and
                     // append a tail as a value for the variable.
-                    let tail = pattern[currentIndex..<count].joined(separator: "/")
+                    let tail = pattern[currentIndex ..< count].joined(separator: "/")
                     if tail.count > 0 {
                         params[variableNode.0] = pathToken + "/" + tail
                     } else {
@@ -154,7 +148,7 @@ open class HttpRouter {
             }
         }
 
-        if node.isEndOfRoute && index == count {
+        if node.isEndOfRoute, index == count {
             // if it's the last element and the path to match is done then it's a pattern matching
             matchedNodes.append(node)
             return
@@ -170,9 +164,7 @@ open class HttpRouter {
 }
 
 extension String {
-
     func split(_ separator: Character) -> [String] {
-        return self.split { $0 == separator }.map(String.init)
+        return split { $0 == separator }.map(String.init)
     }
-
 }

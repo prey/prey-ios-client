@@ -1,5 +1,5 @@
 //
-//  TriggersEvents+CoreDataProperties.swift
+//  TriggersEvents+Properties.swift
 //  Prey
 //
 //  Created by Javier Cala Uribe on 17/7/19.
@@ -7,17 +7,15 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
-extension TriggersEvents {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<TriggersEvents> {
+public extension TriggersEvents {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<TriggersEvents> {
         return NSFetchRequest<TriggersEvents>(entityName: "TriggersEvents")
     }
 
-    @NSManaged public var info: String?
-    @NSManaged public var type: String?
-    @NSManaged public var trigger: Triggers?
-
+    @NSManaged var info: String?
+    @NSManaged var type: String?
+    @NSManaged var trigger: Triggers?
 }

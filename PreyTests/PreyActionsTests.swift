@@ -5,14 +5,13 @@
 //  Comprehensive test suite for all Prey actions
 //
 
-import XCTest
-import CoreLocation
 import AVFoundation
+import CoreLocation
 import Photos
 @testable import Prey
+import XCTest
 
 class PreyActionsTests: XCTestCase {
-
     // MARK: - ListPermissions Tests
 
     func testListPermissionsGetPermissions() {

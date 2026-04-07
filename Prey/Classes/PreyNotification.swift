@@ -12,16 +12,14 @@ import UIKit
 import UserNotifications
 
 class PreyNotification {
-
     // MARK: Properties
 
     static let sharedInstance = PreyNotification()
-    fileprivate init() {
-    }
+    fileprivate init() {}
 
     // MARK: Functions
 
-    // Handle notification response
+    /// Handle notification response
     func handleNotificationResponse(_ response: UNNotificationResponse) {
         let userInfo = response.notification.request.content.userInfo
         PreyLogger("Handling notification response: \(response.actionIdentifier) with userInfo: \(userInfo)")
@@ -37,7 +35,7 @@ class PreyNotification {
         }
     }
 
-    // Register Device to Apple Push Notification Service
+    /// Register Device to Apple Push Notification Service
     func registerForRemoteNotifications() {
         // Create notification actions
         let viewAction = UNNotificationAction(
@@ -65,7 +63,7 @@ class PreyNotification {
 
         // Request authorization including critical alerts for iOS 15+
         UNUserNotificationCenter.current()
-            .requestAuthorization(options: [.alert, .sound, .badge, .providesAppNotificationSettings, .criticalAlert]) { (granted, error) in
+            .requestAuthorization(options: [.alert, .sound, .badge, .providesAppNotificationSettings, .criticalAlert]) { granted, error in
                 // Log permission result
                 PreyLogger("Permission request result: \(granted)")
                 if let error = error {
@@ -97,16 +95,15 @@ class PreyNotification {
             }
     }
 
-    // Did Register Remote Notifications
+    /// Did Register Remote Notifications
     func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
         NotificationTokenRegistrar.store(tokenHex: tokenAsString)
         NotificationTokenRegistrar.sendIfPossible(source: "didRegisterForRemoteNotifications")
     }
 
-    // Did Receive Remote Notifications with improved completion handling
+    /// Did Receive Remote Notifications with improved completion handling
     func didReceiveRemoteNotifications(_ userInfo: [AnyHashable: Any], completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-
         PreyLogger("📣 PN PROCESSING: Starting to process remote notification")
         PreyLogger("📣 PN PAYLOAD: \(userInfo)")
 
@@ -121,14 +118,15 @@ class PreyNotification {
 
         // Currently not being used
         // if let cmdArray = userInfo["instruction"] as? NSArray {
-            // PreyLogger("📣 PN TYPE: instruction payload detected with \(cmdArray.count) items")
-            // parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
-            // receivedData = true
+        // PreyLogger("📣 PN TYPE: instruction payload detected with \(cmdArray.count) items")
+        // parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
+        // receivedData = true
         // }
 
         // APNS silent notification check (content-available = 1)
         if let aps = userInfo["aps"] as? [String: Any],
-           let contentAvailable = aps["content-available"] as? Int, contentAvailable == 1 {
+           let contentAvailable = aps["content-available"] as? Int, contentAvailable == 1
+        {
             PreyLogger("📣 PN TYPE: Silent notification detected with content-available=1")
 
             // Check for remote actions when receiving silent push notification
@@ -156,14 +154,14 @@ class PreyNotification {
         }
     }
 
-    // Parse payload info on push notification
+    /// Parse payload info on push notification
     func parsePayloadPreyMDMFromPushNotification(parameters: NSDictionary) {
         // This token is generated BE-side and guards the enrollment service
         // against data pollution attacks
         guard let token = parameters["token"] as? String else {
-          PreyLogger("error reading token from json")
-          handlePushError("Missing token in preymdm payload")
-          return
+            PreyLogger("error reading token from json")
+            handlePushError("Missing token in preymdm payload")
+            return
         }
 
         guard let accountID = parameters["account_id"] as? Int else {
@@ -181,7 +179,7 @@ class PreyNotification {
         PreyMobileConfig.sharedInstance.startService(authToken: token, urlServer: urlServer, accountId: accountID)
     }
 
-    // Parse payload info on push notification
+    /// Parse payload info on push notification
     func parsePayloadInfoFromPushNotification(instructionArray: NSArray) {
         PreyLogger("📣 PN PARSE: Starting to parse instruction array with \(instructionArray.count) items")
 
@@ -207,12 +205,12 @@ class PreyNotification {
         }
     }
 
-    // Helper method for handling errors from push notifications
+    /// Helper method for handling errors from push notifications
     func handlePushError(_ error: String) {
         PreyLogger("📣 PN ERROR: 🚨 \(error)")
     }
 
-    // Check for remote actions when receiving silent push notification
+    /// Check for remote actions when receiving silent push notification
     private func checkRemoteActionsFromSilentPush(completion: @escaping (Bool) -> Void) {
         PreyLogger("📣 PN REMOTE: Starting remote action check from silent push")
 

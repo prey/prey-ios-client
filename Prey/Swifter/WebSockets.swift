@@ -1,5 +1,5 @@
 //
-//  HttpHandlers+WebSockets.swift
+//  WebSockets.swift
 //  Swifter
 //
 //  Copyright © 2014-2016 Damian Kołakowski. All rights reserved.
@@ -10,7 +10,8 @@ import Foundation
 @available(*, deprecated, message: "Use websocket(text:binary:pong:connected:disconnected:) instead.")
 public func websocket(_ text: @escaping (WebSocketSession, String) -> Void,
                       _ binary: @escaping (WebSocketSession, [UInt8]) -> Void,
-                      _ pong: @escaping (WebSocketSession, [UInt8]) -> Void) -> ((HttpRequest) -> HttpResponse) {
+                      _ pong: @escaping (WebSocketSession, [UInt8]) -> Void) -> ((HttpRequest) -> HttpResponse)
+{
     return websocket(text: text, binary: binary, pong: pong)
 }
 
@@ -20,7 +21,8 @@ public func websocket(
     binary: ((WebSocketSession, [UInt8]) -> Void)? = nil,
     pong: ((WebSocketSession, [UInt8]) -> Void)? = nil,
     connected: ((WebSocketSession) -> Void)? = nil,
-    disconnected: ((WebSocketSession) -> Void)? = nil) -> ((HttpRequest) -> HttpResponse) {
+    disconnected: ((WebSocketSession) -> Void)? = nil
+) -> ((HttpRequest) -> HttpResponse) {
     return { request in
         guard request.hasTokenForHeader("upgrade", token: "websocket") else {
             return .badRequest(.text("Invalid value of 'Upgrade' header: \(request.headers["upgrade"] ?? "unknown")"))
@@ -101,7 +103,7 @@ public func websocket(
                     }
                 case .pong:
                     if let handlePong = pong {
-                       handlePong(session, frame.payload)
+                        handlePong(session, frame.payload)
                     }
                 }
             }
@@ -117,7 +119,7 @@ public func websocket(
 
             do {
                 try read()
-            } catch let error {
+            } catch {
                 switch error {
                 case WebSocketSession.Control.close:
                     // Normal close
@@ -148,7 +150,6 @@ public func websocket(
 }
 
 public class WebSocketSession: Hashable, Equatable {
-
     public enum WsError: Error { case unknownOpCode(String), unMaskedFrame(String), protocolError(String), invalidUTF8(String) }
     public enum OpCode: UInt8 { case `continue` = 0x00, close = 0x08, ping = 0x09, pong = 0x0A, text = 0x01, binary = 0x02 }
     public enum Control: Error { case close }
@@ -174,24 +175,24 @@ public class WebSocketSession: Hashable, Equatable {
     }
 
     public func writeText(_ text: String) {
-        self.writeFrame(ArraySlice(text.utf8), OpCode.text)
+        writeFrame(ArraySlice(text.utf8), OpCode.text)
     }
 
     public func writeBinary(_ binary: [UInt8]) {
-        self.writeBinary(ArraySlice(binary))
+        writeBinary(ArraySlice(binary))
     }
 
     public func writeBinary(_ binary: ArraySlice<UInt8>) {
-        self.writeFrame(binary, OpCode.binary)
+        writeFrame(binary, OpCode.binary)
     }
 
     public func writeFrame(_ data: ArraySlice<UInt8>, _ op: OpCode, _ fin: Bool = true) {
         let finAndOpCode = UInt8(fin ? 0x80 : 0x00) | op.rawValue
         let maskAndLngth = encodeLengthAndMaskFlag(UInt64(data.count), false)
         do {
-            try self.socket.writeUInt8([finAndOpCode])
-            try self.socket.writeUInt8(maskAndLngth)
-            try self.socket.writeUInt8(data)
+            try socket.writeUInt8([finAndOpCode])
+            try socket.writeUInt8(maskAndLngth)
+            try socket.writeUInt8(data)
         } catch {
             print(error)
         }
@@ -205,9 +206,9 @@ public class WebSocketSession: Hashable, Equatable {
         let encodedLngth = UInt8(masked ? 0x80 : 0x00)
         var encodedBytes = [UInt8]()
         switch len {
-        case 0...125:
+        case 0 ... 125:
             encodedBytes.append(encodedLngth | UInt8(len))
-        case 126...UInt64(UINT16_MAX):
+        case 126 ... UInt64(UINT16_MAX):
             encodedBytes.append(encodedLngth | 0x7E)
             encodedBytes.append(UInt8(len >> 8 & 0xFF))
             encodedBytes.append(UInt8(len >> 0 & 0xFF))
@@ -234,7 +235,7 @@ public class WebSocketSession: Hashable, Equatable {
         frm.rsv2 = fst & 0x20
         frm.rsv3 = fst & 0x10
         guard frm.rsv1 == 0 && frm.rsv2 == 0 && frm.rsv3 == 0
-            else {
+        else {
             throw WsError.protocolError("Reserved frame bit has not been negocitated.")
         }
         let opc = fst & 0x0F
@@ -263,25 +264,25 @@ public class WebSocketSession: Hashable, Equatable {
         }
         var len = UInt64(sec & 0x7F)
         if len == 0x7E {
-            let b0 = UInt64(try socket.read()) << 8
-            let b1 = UInt64(try socket.read())
+            let b0 = try UInt64(socket.read()) << 8
+            let b1 = try UInt64(socket.read())
             len = UInt64(littleEndian: b0 | b1)
         } else if len == 0x7F {
-            let b0 = UInt64(try socket.read()) << 54
-            let b1 = UInt64(try socket.read()) << 48
-            let b2 = UInt64(try socket.read()) << 40
-            let b3 = UInt64(try socket.read()) << 32
-            let b4 = UInt64(try socket.read()) << 24
-            let b5 = UInt64(try socket.read()) << 16
-            let b6 = UInt64(try socket.read()) << 8
-            let b7 = UInt64(try socket.read())
+            let b0 = try UInt64(socket.read()) << 54
+            let b1 = try UInt64(socket.read()) << 48
+            let b2 = try UInt64(socket.read()) << 40
+            let b3 = try UInt64(socket.read()) << 32
+            let b4 = try UInt64(socket.read()) << 24
+            let b5 = try UInt64(socket.read()) << 16
+            let b6 = try UInt64(socket.read()) << 8
+            let b7 = try UInt64(socket.read())
             len = UInt64(littleEndian: b0 | b1 | b2 | b3 | b4 | b5 | b6 | b7)
         }
 
-        let mask = [try socket.read(), try socket.read(), try socket.read(), try socket.read()]
+        let mask = try [socket.read(), socket.read(), socket.read(), socket.read()]
         // Read payload all at once, then apply mask (calling `socket.read` byte-by-byte is super slow).
         frm.payload = try socket.read(length: Int(len))
-        for index in 0..<len {
+        for index in 0 ..< len {
             frm.payload[Int(index)] ^= mask[Int(index % 4)]
         }
         return frm

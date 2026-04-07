@@ -8,34 +8,34 @@
 
 import Foundation
 
-// Prey Instructions struct
+/// Prey Instructions struct
 enum kInstruction: String {
     case target, command, options, cmd
 }
 
-// Prey actions definitions
+/// Prey actions definitions
 enum kAction: String {
     case location, detach, list_permissions, logretrieval
 }
 
-// Prey options definitions
+/// Prey options definitions
 enum kOptions: String {
     case messageID, device_job_id, trigger_id
-    case MESSAGE    = "alert_message"
-    case IDLOCAL    = "url"
+    case MESSAGE = "alert_message"
+    case IDLOCAL = "url"
 }
 
-// Prey status definitions
+/// Prey status definitions
 enum kStatus: String {
     case started, stopped
 }
 
-// Prey command definitions
+/// Prey command definitions
 enum kCommand: String {
     case start, stop, get, start_location_aware
 }
 
-// Prey location params
+/// Prey location params
 enum kLocation: String {
     case lng, lat, alt, accuracy, method
 }
@@ -48,12 +48,12 @@ enum kEvent: String {
     case name, info
 }
 
-// Prey location data
+/// Prey location data
 enum kDataLocation: String {
     case skip_toast
 }
 
-// Prey /Data Endpoint struct
+/// Prey /Data Endpoint struct
 enum kData: String {
     case status, target, command, reason
 }
@@ -85,39 +85,55 @@ public let URLTermsPrey: String = "http://preyproject.com/terms"
 
 public let URLPrivacyPrey: String = "http://preyproject.com/privacy"
 
-// Endpoint for Token
+/// Endpoint for Token
 public let tokenEndpoint: String = "/get_token.json"
 
-// Endpoint for LogIn
+/// Endpoint for LogIn
 public let logInEndpoint: String = "/profile.json"
 
-// Endpoint for Add Devices
+/// Endpoint for Add Devices
 public let devicesEndpoint: String = "/devices.json"
 
-// Endpoint for Device Status
-public var statusDeviceEndpoint: String {return String(format: "/devices/%@/status.json", (PreyConfig.sharedInstance.getDeviceKey()))}
+/// Endpoint for Device Status
+public var statusDeviceEndpoint: String {
+    return String(format: "/devices/%@/status.json", PreyConfig.sharedInstance.getDeviceKey())
+}
 
-// Endpoint for Device Location Aware
-public var locationAwareEndpoint: String {return String(format: "/devices/%@/location.json", (PreyConfig.sharedInstance.getDeviceKey()))}
+/// Endpoint for Device Location Aware
+public var locationAwareEndpoint: String {
+    return String(format: "/devices/%@/location.json", PreyConfig.sharedInstance.getDeviceKey())
+}
 
-// Endpoint for Device Data
-public var dataDeviceEndpoint: String {return String(format: "/devices/%@/data", (PreyConfig.sharedInstance.getDeviceKey()))}
+/// Endpoint for Device Data
+public var dataDeviceEndpoint: String {
+    return String(format: "/devices/%@/data", PreyConfig.sharedInstance.getDeviceKey())
+}
 
-// Endpoint for Response Data
-public var responseDeviceEndpoint: String {return String(format: "/devices/%@/response", (PreyConfig.sharedInstance.getDeviceKey()))}
+/// Endpoint for Response Data
+public var responseDeviceEndpoint: String {
+    return String(format: "/devices/%@/response", PreyConfig.sharedInstance.getDeviceKey())
+}
 
-// Endpoint for Events Data
-public var eventsDeviceEndpoint: String {return String(format: "/devices/%@/events", (PreyConfig.sharedInstance.getDeviceKey()))}
+/// Endpoint for Events Data
+public var eventsDeviceEndpoint: String {
+    return String(format: "/devices/%@/events", PreyConfig.sharedInstance.getDeviceKey())
+}
 
-// Endpoint for Device Actions
-public var actionsDeviceEndpoint: String {return String(format: "/devices/%@.json", (PreyConfig.sharedInstance.getDeviceKey()))}
+/// Endpoint for Device Actions
+public var actionsDeviceEndpoint: String {
+    return String(format: "/devices/%@.json", PreyConfig.sharedInstance.getDeviceKey())
+}
 
-// Endpoint for Delete Device
-public var deleteDeviceEndpoint: String {return String(format: "/devices/%@", (PreyConfig.sharedInstance.getDeviceKey()))}
+/// Endpoint for Delete Device
+public var deleteDeviceEndpoint: String {
+    return String(format: "/devices/%@", PreyConfig.sharedInstance.getDeviceKey())
+}
 
-public var infoEndpoint: String {return String(format: "/devices/%@/info.json", (PreyConfig.sharedInstance.getDeviceKey()))}
+public var infoEndpoint: String {
+    return String(format: "/devices/%@/info.json", PreyConfig.sharedInstance.getDeviceKey())
+}
 
-// Http method definitions
+/// Http method definitions
 public enum Method: String {
     case GET, POST, PUT, DELETE
 }

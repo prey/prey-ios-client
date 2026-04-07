@@ -7,28 +7,26 @@
 //
 
 import Foundation
+import LocalAuthentication
 import UIKit
 import WebKit
-import LocalAuthentication
 
 class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
-
     // MARK: Properties
 
-    var webView     = WKWebView()
-    var showPanel   = false
-    var checkAuth   = true
-    var actInd      = UIActivityIndicatorView()
-    let rectView    = UIScreen.main.bounds
+    var webView = WKWebView()
+    var showPanel = false
+    var checkAuth = true
+    var actInd = UIActivityIndicatorView()
+    let rectView = UIScreen.main.bounds
     var request: URLRequest {
-
         let mode = PreyConfig.sharedInstance.getDarkModeState(self)
 
         // Set language for webView
         let language: String = Locale.preferredLanguages[0] as String
-        var languageES  = (language as NSString).substring(to: 2)
-        if languageES != "es" {languageES = "en"}
-        let indexPage   = "index"
+        var languageES = (language as NSString).substring(to: 2)
+        if languageES != "es" { languageES = "en" }
+        let indexPage = "index"
         let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource: indexPage, ofType: "html", inDirectory: "ReactViews")!)
         let startState = "start"
         let pathURL = (PreyConfig.sharedInstance.isRegistered) ? "#/\(languageES)/index\(mode)" : "#/\(languageES)/\(startState)\(mode)"
@@ -42,79 +40,78 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         if PreyConfig.sharedInstance.isSystemDarkMode {
             return
         }
-        self.overrideUserInterfaceStyle = PreyConfig.sharedInstance.isDarkMode ? .dark : .light
+        overrideUserInterfaceStyle = PreyConfig.sharedInstance.isDarkMode ? .dark : .light
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor       = UIColor.black
+        view.backgroundColor = UIColor.black
 
         // Config webView
-        let webConfiguration            = WKWebViewConfiguration()
+        let webConfiguration = WKWebViewConfiguration()
         webConfiguration.userContentController.add(self, name: "prey")
-        webView                         = WKWebView(frame: rectView, configuration: webConfiguration)
-        webView.backgroundColor         = UIColor.black
-        webView.uiDelegate              = self
-        webView.navigationDelegate      = self
-        webView.isMultipleTouchEnabled  = true
+        webView = WKWebView(frame: rectView, configuration: webConfiguration)
+        webView.backgroundColor = UIColor.black
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
+        webView.isMultipleTouchEnabled = true
         webView.allowsBackForwardNavigationGestures = false
 
         // Load request
         webView.load(request)
 
         // Add webView to View
-        self.view.addSubview(webView)
+        view.addSubview(webView)
 
-        self.actInd                     = UIActivityIndicatorView(initInView: self.view, withText: "Please wait".localized)
+        actInd = UIActivityIndicatorView(initInView: view, withText: "Please wait".localized)
         webView.addSubview(actInd)
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
         // Hide navigationBar when appear this ViewController
-        self.navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
 
         super.viewWillAppear(animated)
     }
 
-    // Check device auth
+    /// Check device auth
     func checkDeviceAuth(webView: WKWebView) {
         guard checkAuth == true else {
             return
         }
         DeviceAuth.sharedInstance.checkAllDeviceAuthorization { granted in
             DispatchQueue.main.async {
-                let titleTxt            = granted ? "protected".localized : "unprotected".localized
+                let titleTxt = granted ? "protected".localized : "unprotected".localized
                 self.evaluateJS(webView, code: "document.getElementById('txtStatusDevice').innerHTML = '\(titleTxt)';")
                 self.checkAuth = false
             }
         }
     }
 
-    // Open URL from Safari
+    /// Open URL from Safari
     func openBrowserWith(_ url: URL?) {
         if let urlRequest = url {
             UIApplication.shared.open(urlRequest, options: [:], completionHandler: nil)
         }
     }
 
-    // Navigate to destination after successful auth
+    /// Navigate to destination after successful auth
     func navigateAfterAuth(_ back: String) {
-        self.evaluateJS(self.webView, code: "var btn = document.getElementById('cancelBtn'); if(btn) btn.click();")
+        evaluateJS(webView, code: "var btn = document.getElementById('cancelBtn'); if(btn) btn.click();")
         switch back {
         case "panel":
-            self.goToControlPanel()
+            goToControlPanel()
         case "setting", "settings":
-            self.goToLocalSettings()
+            goToLocalSettings()
         case "close":
-            self.goToCloseAccount()
+            goToCloseAccount()
         default:
-            self.goToRename()
+            goToRename()
         }
     }
 
-    // Authenticate with biometrics, fallback to password
+    /// Authenticate with biometrics, fallback to password
     func authenticateWithBiometrics(back: String) {
         PreyLogger("authenticateWithBiometrics back: \(back)")
 
@@ -147,15 +144,14 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         }
     }
 
-    // Notify React to show password fallback
+    /// Notify React to show password fallback
     func notifyAuthFallback(_ back: String) {
         let js = "window.dispatchEvent(new CustomEvent('preyAuthFallback', {detail: {back: '\(back)'}}));"
         evaluateJS(webView, code: js)
     }
 
-    // Check password
-    func checkPassword(_ pwd: String?, view: UIView, back: String) {
-
+    /// Check password
+    func checkPassword(_ pwd: String?, view _: UIView, back: String) {
         // Check password length
         guard let pwdInput = pwd else {
             displayErrorAlert("Password must be at least 6 characters".localized,
@@ -169,11 +165,11 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         }
 
         // Hide keyboard
-        self.view.endEditing(true)
+        view.endEditing(true)
 
         // Show ActivityIndicator
-        let actInd          = UIActivityIndicatorView(initInView: self.view, withText: "Please wait".localized)
-        self.view.addSubview(actInd)
+        let actInd = UIActivityIndicatorView(initInView: view, withText: "Please wait".localized)
+        view.addSubview(actInd)
         actInd.startAnimating()
 
         // Check userApiKey length
@@ -184,8 +180,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         }
 
         // Get Token for Control Panel
-        PreyUser.getTokenFromPanel(userApiKey, userPassword: pwdInput, onCompletion: {(isSuccess: Bool) in
-
+        PreyUser.getTokenFromPanel(userApiKey, userPassword: pwdInput, onCompletion: { (isSuccess: Bool) in
             // Hide ActivityIndicator
             DispatchQueue.main.async {
                 actInd.stopAnimating()
@@ -203,28 +198,27 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         })
     }
 
-    // Send GAnalytics event
+    /// Send GAnalytics event
     func sendEventGAnalytics() {
 //        if let tracker = GAI.sharedInstance().defaultTracker {
-//            
+//
 //            let dimensionValue = PreyConfig.sharedInstance.isPro ? "Pro" : "Free"
 //            tracker.set(GAIFields.customDimension(for: 1), value:dimensionValue)
-//            
+//
 //            let params:NSObject = GAIDictionaryBuilder.createEvent(withCategory: "UserActivity", action:"Log In", label:"Log In", value:nil).build()
 //            tracker.send(params as! [NSObject : AnyObject])
 //        }
     }
 
-    // Add device with QRCode
+    /// Add device with QRCode
     func addDeviceWithQRCode() {
-        let controller: QRCodeScannerVC = QRCodeScannerVC()
-        if #available(iOS 13, *) {controller.modalPresentationStyle = .fullScreen}
-        self.navigationController?.present(controller, animated: true, completion: nil)
+        let controller = QRCodeScannerVC()
+        if #available(iOS 13, *) { controller.modalPresentationStyle = .fullScreen }
+        navigationController?.present(controller, animated: true, completion: nil)
     }
 
-    // Add device
+    /// Add device
     func addDeviceWithLogin(_ email: String?, password: String?) {
-
         // Check valid email
         if isInvalidEmail(email!, withPattern: emailRegExp) {
             displayErrorAlert("Enter a valid email address".localized,
@@ -240,16 +234,15 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         }
 
         // Hide keyboard
-        self.view.endEditing(true)
+        view.endEditing(true)
 
         // Show ActivityIndicator
-        let actInd          = UIActivityIndicatorView(initInView: self.view, withText: "Attaching device...".localized)
-        self.view.addSubview(actInd)
+        let actInd = UIActivityIndicatorView(initInView: view, withText: "Attaching device...".localized)
+        view.addSubview(actInd)
         actInd.startAnimating()
 
         // LogIn to Panel Prey
-        PreyUser.logInToPrey(email!, userPassword: password!, onCompletion: {(isSuccess: Bool) in
-
+        PreyUser.logInToPrey(email!, userPassword: password!, onCompletion: { (isSuccess: Bool) in
             // LogIn isn't Success
             guard isSuccess else {
                 // Hide ActivityIndicator
@@ -263,8 +256,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
             // PreyUser.getTokenFromPanel(email!, userPassword:password!, onCompletion: {_ in })
 
             // Add Device to Panel Prey
-            PreyDevice.addDeviceWith({(isSuccess: Bool) in
-
+            PreyDevice.addDeviceWith { (isSuccess: Bool) in
                 // AddDevice isn't success
                 guard isSuccess else {
                     DispatchQueue.main.async {
@@ -274,19 +266,19 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
                 }
 
                 // Fetch device info to get the name assigned by the backend
-                PreyDevice.infoDevice({(infoSuccess: Bool) in
+                PreyDevice.infoDevice { (infoSuccess: Bool) in
                     PreyLogger("infoDevice after addDevice isSuccess:\(infoSuccess)")
                     DispatchQueue.main.async {
                         actInd.stopAnimating()
                         self.loadViewOnWebView("activation")
                     }
-                })
-            })
+                }
+            }
         })
     }
 
     func renameDevice(_ newName: String?) {
-        PreyDevice.renameDevice(newName!, onCompletion: {(isSuccess: Bool) in
+        PreyDevice.renameDevice(newName!, onCompletion: { (isSuccess: Bool) in
             if isSuccess {
                 PreyConfig.sharedInstance.nameDevice = newName
                 PreyConfig.sharedInstance.saveValues()
@@ -296,26 +288,26 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         })
     }
 
-    // Show webView on modal
+    /// Show webView on modal
     func showWebViewModal(_ urlString: String, pageTitle: String) {
         let controller: UIViewController
         if #available(iOS 10.0, *) {
-            controller       = WebKitVC(withURL: URL(string: urlString)!, withParameters: nil, withTitle: pageTitle)
+            controller = WebKitVC(withURL: URL(string: urlString)!, withParameters: nil, withTitle: pageTitle)
         } else {
-            controller       = WebVC(withURL: URL(string: urlString)!, withParameters: nil, withTitle: pageTitle)
+            controller = WebVC(withURL: URL(string: urlString)!, withParameters: nil, withTitle: pageTitle)
         }
-        if #available(iOS 13, *) {controller.modalPresentationStyle = .fullScreen}
-        self.present(controller, animated: true, completion: nil)
+        if #available(iOS 13, *) { controller.modalPresentationStyle = .fullScreen }
+        present(controller, animated: true, completion: nil)
     }
 
-    // Load view on webView
+    /// Load view on webView
     func loadViewOnWebView(_ view: String) {
         let mode = PreyConfig.sharedInstance.getDarkModeState(self)
         var request: URLRequest
         let language: String = Locale.preferredLanguages[0] as String
-        var languageES  = (language as NSString).substring(to: 2)
-        if languageES != "es" {languageES = "en"}
-        let indexPage   = "index"
+        var languageES = (language as NSString).substring(to: 2)
+        if languageES != "es" { languageES = "en" }
+        let indexPage = "index"
         let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource: indexPage, ofType: "html", inDirectory: "ReactViews")!)
         let pathURL = "#/\(languageES)/\(view)\(mode)"
         request = URLRequest(url: URL(string: pathURL, relativeTo: baseURL)!)
@@ -323,44 +315,44 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         webView.load(request)
     }
 
-    // Go to Control Panel
+    /// Go to Control Panel
     func goToControlPanel() {
         if let token = PreyConfig.sharedInstance.tokenPanel {
-            let params           = String(format: "token=%@", token)
+            let params = String(format: "token=%@", token)
             let controller: UIViewController
 
             if #available(iOS 10.0, *) {
-                controller       = WebKitVC(withURL: URL(string: URLSessionPanel)!, withParameters: params, withTitle: "Control Panel Web")
+                controller = WebKitVC(withURL: URL(string: URLSessionPanel)!, withParameters: params, withTitle: "Control Panel Web")
             } else {
-                controller       = WebVC(withURL: URL(string: URLSessionPanel)!, withParameters: params, withTitle: "Control Panel Web")
+                controller = WebVC(withURL: URL(string: URLSessionPanel)!, withParameters: params, withTitle: "Control Panel Web")
             }
-            if #available(iOS 13, *) {controller.modalPresentationStyle = .fullScreen}
-            self.present(controller, animated: true, completion: nil)
+            if #available(iOS 13, *) { controller.modalPresentationStyle = .fullScreen }
+            present(controller, animated: true, completion: nil)
         } else {
             displayErrorAlert("Error, retry later.".localized,
                               titleMessage: "We have a situation!".localized)
         }
     }
 
-    // Go to Close Account
+    /// Go to Close Account
     func goToCloseAccount() {
         if let token = PreyConfig.sharedInstance.tokenPanel {
-            let params           = String(format: "token=%@", token)
+            let params = String(format: "token=%@", token)
             let controller: UIViewController
             if #available(iOS 10.0, *) {
-                controller       = WebKitVC(withURL: URL(string: URLCloseAccount)!, withParameters: params, withTitle: "Control Panel Web")
+                controller = WebKitVC(withURL: URL(string: URLCloseAccount)!, withParameters: params, withTitle: "Control Panel Web")
             } else {
-                controller       = WebVC(withURL: URL(string: URLCloseAccount)!, withParameters: params, withTitle: "Control Panel Web")
+                controller = WebVC(withURL: URL(string: URLCloseAccount)!, withParameters: params, withTitle: "Control Panel Web")
             }
-            if #available(iOS 13, *) {controller.modalPresentationStyle = .fullScreen}
-            self.present(controller, animated: true, completion: nil)
+            if #available(iOS 13, *) { controller.modalPresentationStyle = .fullScreen }
+            present(controller, animated: true, completion: nil)
         } else {
             displayErrorAlert("Error, retry later.".localized,
-                                  titleMessage: "We have a situation!".localized)
+                              titleMessage: "We have a situation!".localized)
         }
     }
 
-    // Go to Local Settings
+    /// Go to Local Settings
     func goToLocalSettings() {
         guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
@@ -371,19 +363,19 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
             return
         }
 
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
+        let mainStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
         let resultController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.settings.rawValue)
         (rootVC as! UINavigationController).pushViewController(resultController, animated: true)
     }
 
     func goToRename() {
-        self.loadViewOnWebView("rename")
-        self.webView.reload()
+        loadViewOnWebView("rename")
+        webView.reload()
     }
 
     // MARK: WKUIDelegate
 
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+    func webView(_: WKWebView, didStartProvisionalNavigation _: WKNavigation!) {
         PreyLogger("Start load WKWebView")
         // Show ActivityIndicator
         DispatchQueue.main.async { self.actInd.startAnimating() }
@@ -423,7 +415,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         return decisionHandler(.allow)
     }
 
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
         PreyLogger("Finish load WKWebView")
         // Hide ActivityIndicator
         DispatchQueue.main.async { self.actInd.stopAnimating() }
@@ -451,7 +443,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         }
     }
 
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    func webView(_: WKWebView, didFail _: WKNavigation!, withError _: Error) {
         PreyLogger("Error loading WKWebView")
         // Hide ActivityIndicator
         DispatchQueue.main.async { self.actInd.stopAnimating() }
@@ -467,10 +459,11 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
 
     // MARK: WKScriptMessageHandler
 
-    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+    func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
         guard message.name == "prey",
               let body = message.body as? [String: Any],
-              let action = body["action"] as? String else {
+              let action = body["action"] as? String
+        else {
             return
         }
         PreyLogger("postMessage action: \(action) body: \(body)")
@@ -529,5 +522,4 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
             }
         }
     }
-
 }

@@ -11,38 +11,36 @@ import UIKit
 import WebKit
 
 class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
-
     // MARK: Properties
 
-    var webView     = WKWebView()
+    var webView = WKWebView()
 
-    var actInd      = UIActivityIndicatorView()
+    var actInd = UIActivityIndicatorView()
 
-    var titleView   = String()
+    var titleView = String()
 
     // MARK: Init
 
-    // Init customize
+    /// Init customize
     convenience init(withURL url: URL, withParameters: String?, withTitle: String) {
-
         self.init(nibName: nil, bundle: nil)
 
-        self.titleView                  = withTitle
+        titleView = withTitle
 
-        self.view.backgroundColor       = UIColor.black
+        view.backgroundColor = UIColor.black
 
-        let rectView                    = UIScreen.main.bounds
+        let rectView = UIScreen.main.bounds
         // Config webView
-        let webConfiguration            = WKWebViewConfiguration()
-        webView                         = WKWebView(frame: rectView, configuration: webConfiguration)
-        webView.backgroundColor         = UIColor.black
-        webView.uiDelegate              = self
-        webView.navigationDelegate      = self
-        webView.isMultipleTouchEnabled  = true
+        let webConfiguration = WKWebViewConfiguration()
+        webView = WKWebView(frame: rectView, configuration: webConfiguration)
+        webView.backgroundColor = UIColor.black
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
+        webView.isMultipleTouchEnabled = true
         webView.allowsBackForwardNavigationGestures = true
 
-        var request                     = URLRequest(url: url)
-        request.timeoutInterval         = timeoutIntervalRequest
+        var request = URLRequest(url: url)
+        request.timeoutInterval = timeoutIntervalRequest
 
         // Set params to request
         if let params = withParameters {
@@ -53,35 +51,34 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         }
 
         // Add webView to View
-        self.view.addSubview(webView)
+        view.addSubview(webView)
 
-        self.actInd                     = UIActivityIndicatorView(initInView: self.view, withText: "Please wait".localized)
+        actInd = UIActivityIndicatorView(initInView: view, withText: "Please wait".localized)
         webView.addSubview(actInd)
 
         // Config cancel button
-        let ipadFc: CGFloat             = (IS_IPAD) ? 2 : 1
-        let posX                        = rectView.size.width - 50*ipadFc
-        let rectBtn                     = CGRect(x: posX, y: 7*ipadFc, width: 38*ipadFc, height: 34*ipadFc)
-        let cancelButton                = UIButton(frame: rectBtn)
-        cancelButton.backgroundColor    = UIColor.clear
+        let ipadFc: CGFloat = IS_IPAD ? 2 : 1
+        let posX = rectView.size.width - 50 * ipadFc
+        let rectBtn = CGRect(x: posX, y: 7 * ipadFc, width: 38 * ipadFc, height: 34 * ipadFc)
+        let cancelButton = UIButton(frame: rectBtn)
+        cancelButton.backgroundColor = UIColor.clear
         cancelButton.setBackgroundImage(UIImage(named: "BtCloseOff"), for: .normal)
         cancelButton.setBackgroundImage(UIImage(named: "BtCloseOn"), for: .highlighted)
         cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
-        self.view.addSubview(cancelButton)
+        view.addSubview(cancelButton)
     }
 
-    // Send request with parameter to panel
+    /// Send request with parameter to panel
     func sendRequestWithToken(params: String, request: URLRequest) {
-        var req                 = request
-        req.httpMethod          = Method.POST.rawValue
-        req.httpBody            = params.data(using: String.Encoding.utf8)
+        var req = request
+        req.httpMethod = Method.POST.rawValue
+        req.httpBody = params.data(using: String.Encoding.utf8)
 
-        let sessionConfig       = URLSessionConfiguration.default
+        let sessionConfig = URLSessionConfiguration.default
         sessionConfig.httpAdditionalHeaders = ["User-Agent": "Mozilla/5.0"]
 
         let session = URLSession(configuration: sessionConfig)
-        let task    = session.dataTask(with: req) { (_, response, error) in
-
+        let task = session.dataTask(with: req) { _, response, error in
             guard error == nil, let resp = response, let urlResp = resp.url else {
                 PreyLogger("Error loading WKWebView")
                 // Hide ActivityIndicator
@@ -97,8 +94,8 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
 
             let urlPath = urlResp.absoluteString + "?webview" + "&token=" + PreyConfig.sharedInstance.tokenPanel!
             // PreyLogger("request path:\(urlPath)")
-            let urlPanel        = URL(string: urlPath)
-            var panelRequest    = URLRequest(url: urlPanel!)
+            let urlPanel = URL(string: urlPath)
+            var panelRequest = URLRequest(url: urlPanel!)
             panelRequest.addValue("Mozilla/5.0", forHTTPHeaderField: "User-Agent")
             panelRequest.timeoutInterval = timeoutIntervalRequest
 
@@ -109,12 +106,12 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         task.resume()
     }
 
-    // Close viewController
+    /// Close viewController
     @objc func cancel() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
-    // Open URL from Safari
+    /// Open URL from Safari
     func openBrowserWith(_ url: URL?) {
         if let urlRequest = url {
             UIApplication.shared.open(urlRequest, options: [:], completionHandler: nil)
@@ -123,7 +120,7 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
 
     // MARK: WKUIDelegate
 
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+    func webView(_: WKWebView, didStartProvisionalNavigation _: WKNavigation!) {
         PreyLogger("Start load WKWebView")
 
         // Show ActivityIndicator
@@ -136,27 +133,26 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         let mainRequest = navigationAction.request
 
         if let host = mainRequest.url?.host {
-
             switch host {
-                // Help Prey
+            // Help Prey
             case BlockHost.HELPPREY.rawValue:
                 openBrowserWith(URL(string: URLHelpPrey))
                 decisionHandler(.cancel)
                 return
 
-                // Panel Prey
+            // Panel Prey
             case BlockHost.PANELPREY.rawValue:
                 webView.evaluateJavaScript("var printBtn = document.getElementById('print'); printBtn.style.display='none';", completionHandler: nil)
                 decisionHandler(.allow)
                 return
 
-                // Google Maps and image reports
+            // Google Maps and image reports
             case BlockHost.S3AMAZON.rawValue:
                 openBrowserWith(mainRequest.url)
                 decisionHandler(.cancel)
                 return
 
-                // Default true
+            // Default true
             default:
                 PreyLogger("Ok")
                 // decisionHandler(.allow)
@@ -165,7 +161,7 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         decisionHandler(.allow)
     }
 
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
         PreyLogger("Finish load WKWebView")
 
         // Hide ActivityIndicator
@@ -184,7 +180,7 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
         webView.evaluateJavaScript("var printBtn = document.getElementById('print'); printBtn.style.display='none';", completionHandler: nil)
     }
 
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    func webView(_: WKWebView, didFail _: WKNavigation!, withError _: Error) {
         PreyLogger("Error loading WKWebView")
 
         // Hide ActivityIndicator
