@@ -30,7 +30,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         if (languageES != "es") {languageES = "en"}
         let indexPage   = "index"
         let baseURL = URL(fileURLWithPath: Bundle.main.path(forResource:indexPage, ofType:"html", inDirectory:"ReactViews")!)
-        let startState = (PreyConfig.sharedInstance.validationUserEmail == PreyUserEmailValidation.pending.rawValue) ? "emailsent" : "start"
+        let startState = "start"
         let pathURL = (PreyConfig.sharedInstance.isRegistered) ? "#/\(languageES)/index\(mode)" : "#/\(languageES)/\(startState)\(mode)"
         return URLRequest(url:URL(string: pathURL, relativeTo: baseURL)!)
     }

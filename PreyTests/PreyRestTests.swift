@@ -70,8 +70,12 @@ class PreyRestTests: XCTestCase {
     }
     
     // Test add device
-    func testRest04AddDevice() {
-        
+    func testRest04AddDevice() throws {
+        try XCTSkipIf(
+            ProcessInfo.processInfo.environment["CI"] == "true",
+            "Skipping network-dependent test in CI."
+        )
+
         let expectation     = self.expectation(description: "Expecta Test: Add Device")
         
         // Add Device to Panel Prey
@@ -90,8 +94,12 @@ class PreyRestTests: XCTestCase {
     }
     
     // Test check status for device
-    func testRest05CheckStatusForDevice() {
-        
+    func testRest05CheckStatusForDevice() throws {
+        try XCTSkipIf(
+            ProcessInfo.processInfo.environment["CI"] == "true",
+            "Skipping network-dependent test in CI."
+        )
+
         let expectation     = self.expectation(description: "Expecta Test: Check Status")
         
         let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
@@ -122,8 +130,12 @@ class PreyRestTests: XCTestCase {
     }
     
     // Test NotificationId
-    func testRest06CheckNotificationId() {
-        
+    func testRest06CheckNotificationId() throws {
+        try XCTSkipIf(
+            ProcessInfo.processInfo.environment["CI"] == "true",
+            "Skipping network-dependent test in CI."
+        )
+
         let expectation     = self.expectation(description: "Expecta Test: Check NotificationId")
     
         let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
@@ -184,8 +196,12 @@ class PreyRestTests: XCTestCase {
     }
     
     // Test Response Device
-    func testRest10ResponseDevice() {
-        
+    func testRest10ResponseDevice() throws {
+        try XCTSkipIf(
+            ProcessInfo.processInfo.environment["CI"] == "true",
+            "Skipping network-dependent test in CI."
+        )
+
         let expectation     = self.expectation(description: "Expecta Test: Response Device")
 
         let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
@@ -203,7 +219,7 @@ class PreyRestTests: XCTestCase {
         // Params struct
         let params:[String: Any] = [
             kData.status.rawValue   : kStatus.started.rawValue,
-            kData.target.rawValue   : kAction.camouflage.rawValue,
+            kData.target.rawValue   : kAction.location.rawValue,
             kData.command.rawValue  : kCommand.start.rawValue]
         
         // Send info to panel
@@ -217,54 +233,13 @@ class PreyRestTests: XCTestCase {
         self.waitForExpectations(timeout: 15, handler:nil)
     }
     
-    // Test Send Report
-    func testRest11SendReport() throws {
+    // Test Delete Device
+    func testRest12DeleteDevice() throws {
         try XCTSkipIf(
             ProcessInfo.processInfo.environment["CI"] == "true",
             "Skipping network-dependent test in CI."
         )
-        
-        let expectation     = self.expectation(description: "Expecta Test: Response Device")
-        
-        let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
-            
-            // Error is nil
-            XCTAssertNil(error)
-            
-            let httpURLResponse = response as! HTTPURLResponse
-            
-            XCTAssertEqual(httpURLResponse.statusCode,409) // Device isn't missing on web panel
-            
-            expectation.fulfill()
-        }
-        
-        let reportData   = NSMutableDictionary()
-        let reportImages = NSMutableDictionary()
-        
-        // Params struct
-        let params:[String : Any] = [
-            kReportLocation.LONGITURE.rawValue    : 0,
-            kReportLocation.LATITUDE.rawValue     : 0,
-            kReportLocation.ALTITUDE.rawValue     : 0,
-            kReportLocation.ACCURACY.rawValue     : 0]
-        
-        // Save location to reportData
-        reportData.addEntries(from: params)
-        
-        // Send info to panel
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.sendDataReportToPrey(username, password:"x", params:reportData, images:reportImages, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:reportDataDeviceEndpoint, onCompletion:response)
-        } else {
-            // Check if apiKey is nil
-            XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
-        }
-        
-        self.waitForExpectations(timeout: 15, handler:nil)
-    }
-    
-    // Test Delete Device
-    func testRest12DeleteDevice() {
-        
+
         let expectation     = self.expectation(description: "Expecta Test: Delete Device")
         
         // Check if deviceKey is nil

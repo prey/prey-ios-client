@@ -196,11 +196,7 @@ class PreyModule {
     func parseActionsFromPanel(_ actionsStr:String) {
 
         PreyLogger("Parse actions from panel: \(actionsStr)")
-        
-        // Track whether we've added any critical actions that should always run
-        var addedCriticalActions = false
-        let criticalActions = [kAction.alert.rawValue, kAction.alarm.rawValue]
-        
+
         // Convert actionsArray from String to NSData
         guard let jsonData: Data = actionsStr.data(using: String.Encoding.utf8) else {
             
@@ -223,19 +219,10 @@ class PreyModule {
                     continue
                 }
                 
-                // If this is a critical action, mark that we should process it
-                if criticalActions.contains(targetName) {
-                    addedCriticalActions = true
-                    PreyLogger("Critical action found: \(targetName)")
-                }
-                
                 addAction(actionDict)
             }
             
             // Run actions
-            if addedCriticalActions {
-                PreyLogger("Critical actions added, running immediately...")
-            }
             runAction()
             
             // Check ActionArray empty

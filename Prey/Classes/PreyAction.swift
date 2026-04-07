@@ -100,27 +100,6 @@ class PreyAction : Operation, @unchecked Sendable {
         }
     }
 
-    // Send report to panel
-    func sendDataReport(_ params:NSMutableDictionary, images:NSMutableDictionary, toEndpoint:String) {
-        // Check userApiKey isn't empty
-        if let username = PreyConfig.sharedInstance.userApiKey, PreyConfig.sharedInstance.isRegistered {
-            PreyHTTPClient.sharedInstance.sendDataReportToPrey(username, password:"x", params:params, images: images, messageId:messageId, httpMethod:Method.POST.rawValue, endPoint:toEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction:self, onCompletion:{(isSuccess: Bool) in PreyLogger("Request dataSend")}))
-        } else {
-            PreyLogger("Error send data auth")
-        }
-        
-    }
-
-    // Check Triggers
-    func checkTriggers(_ action:Trigger) {
-        // Check userApiKey isn't empty
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:triggerEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.trigger, preyAction:action, onCompletion:{(isSuccess: Bool) in PreyLogger("Request triggers on panel")}))
-        } else {
-            PreyLogger("Error auth check Triggers")
-        }
-    }
-
     // Delete device in Panel
     func sendDeleteDevice(_ onCompletion:@escaping (_ isSuccess: Bool) -> Void) {
         

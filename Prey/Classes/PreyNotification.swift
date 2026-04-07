@@ -29,19 +29,6 @@ class PreyNotification {
         // Extract message from userInfo
         if let message = userInfo[kOptions.IDLOCAL.rawValue] as? String {
             PreyLogger("Show message from notification: \(message)")
-            
-            // Add alert action
-            let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
-            let alertAction = Alert(withTarget: kAction.alert, withCommand: kCommand.start, withOptions: alertOptions)
-            
-            // Set trigger ID if available
-            if let triggerId = userInfo[kOptions.trigger_id.rawValue] as? String {
-                alertAction.triggerId = triggerId
-            }
-            
-            // Add and run the action
-            PreyModule.sharedInstance.actionArray.append(alertAction)
-            PreyModule.sharedInstance.runAction()
         }
         
         // Reset badge count
