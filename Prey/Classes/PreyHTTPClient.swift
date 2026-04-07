@@ -9,26 +9,24 @@
 import Foundation
 import UIKit
 
-class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate {
-    
+class PreyHTTPClient: NSObject, URLSessionDataDelegate, URLSessionTaskDelegate {
     // MARK: Properties
-    
+
     static let sharedInstance = PreyHTTPClient()
-    fileprivate override init() {
-    }
-    
-    // Define delay to request
+    override fileprivate init() {}
+
+    /// Define delay to request
     let delayRequest = 7.0
-    
-    // Define retry request for statusCode 503
+
+    /// Define retry request for statusCode 503
     let retryRequest = 10
-    
+
     // HTTP Request throttling
     private let throttleInterval: TimeInterval = 5.0 // 5 seconds
     private var lastRequestTimes: [String: Date] = [:]
     private let throttleQueue = DispatchQueue(label: "http.throttler", qos: .utility)
-    
-    // Shared default session (HTTP/2/3, keep‑alive)
+
+    /// Shared default session (HTTP/2/3, keep‑alive)
     private lazy var sharedSession: URLSession = {
         let cfg = URLSessionConfiguration.default
         cfg.waitsForConnectivity = true
@@ -46,21 +44,20 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     private var dataByTask = [ObjectIdentifier: NSMutableData]()
     private var completionByTask = [ObjectIdentifier: (Data?, URLResponse?, Error?) -> Void]()
     private var retryByTask = [ObjectIdentifier: Int]()
-    
-    
-    // Encoding Character
-    struct EncodingCharacters {
+
+    /// Encoding Character
+    enum EncodingCharacters {
         static let CRLF = "\r\n"
     }
 
-    // Define UserAgent
-    var userAgent : String {
+    /// Define UserAgent
+    var userAgent: String {
         let systemVersion = UIDevice.current.systemVersion
-        let appVersion    = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         return "Prey/\(appVersion) (iOS \(systemVersion))"
     }
 
-    // Apply per-request headers (move dynamic headers from session to request)
+    /// Apply per-request headers (move dynamic headers from session to request)
     private func applyHeaders(_ request: inout URLRequest, authString: String, messageId: String?, endPoint: String, contentType: String?) {
         request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         request.setValue(contentType ?? "application/json", forHTTPHeaderField: "Content-Type")
@@ -79,12 +76,11 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             }
         }
         var isBG = false
-        if Thread.isMainThread { isBG = UIApplication.shared.applicationState == .background }
-        else { DispatchQueue.main.sync { isBG = UIApplication.shared.applicationState == .background } }
+        if Thread.isMainThread { isBG = UIApplication.shared.applicationState == .background } else { DispatchQueue.main.sync { isBG = UIApplication.shared.applicationState == .background } }
         request.networkServiceType = isBG ? .background : .default
     }
 
-    // Encode Authorization for HTTP Header
+    /// Encode Authorization for HTTP Header
     func encodeAuthorization(_ authString: String) -> String {
         guard let userAuthorizationData = authString.data(using: String.Encoding.utf8) else {
             return "Basic 3rr0r"
@@ -92,17 +88,18 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         let encodedCredential = userAuthorizationData.base64EncodedString(options: [])
         return "Basic \(encodedCredential)"
     }
-    
-    
+
     // MARK: Requests to Prey API
 
     // MARK: Request Throttling
-    
-    // Simple FNV-1a 64-bit fingerprint for payloads
+
+    /// Simple FNV-1a 64-bit fingerprint for payloads
     private func fingerprint64(of string: String) -> String {
         let data = Data(string.utf8)
-        var hash: UInt64 = 0xcbf29ce484222325
-        for b in data { hash ^= UInt64(b); hash = hash &* 0x100000001b3 }
+        var hash: UInt64 = 0xCBF2_9CE4_8422_2325
+        for b in data {
+            hash ^= UInt64(b); hash = hash &* 0x100_0000_01B3
+        }
         return String(format: "%016llx", hash)
     }
 
@@ -115,58 +112,56 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             return "\(method.uppercased()) \(endpoint)"
         }
     }
-    
-    // send data to Control Panel
-    func sendDataToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
-        
+
+    /// send data to Control Panel
+    func sendDataToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId: String?, httpMethod: String, endPoint: String, onCompletion: @escaping (_ dataRequest: Data?, _ responseRequest: URLResponse?, _ error: Error?) -> Void) {
         // Encode username and pwd
-        let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
-        
+        let userAuthorization = encodeAuthorization(NSString(format: "%@:%@", username, password) as String)
+
         // Set Endpoint
         guard let requestURL = URL(string: URLControlPanel + endPoint) else {
             return
         }
 
-        var request = URLRequest(url:requestURL)
+        var request = URLRequest(url: requestURL)
         request.timeoutInterval = timeoutIntervalRequest
         applyHeaders(&request, authString: userAuthorization, messageId: msgId, endPoint: endPoint, contentType: nil)
-        
+
         // Set params
         if let parameters = params {
             do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options:JSONSerialization.WritingOptions.prettyPrinted)
-            } catch let error as NSError{
+                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: JSONSerialization.WritingOptions.prettyPrinted)
+            } catch let error as NSError {
                 PreyConfig.sharedInstance.reportError(error)
                 PreyLogger("params error: \(error.localizedDescription)")
             }
         }
 
-        request.httpMethod  = httpMethod
-        
+        request.httpMethod = httpMethod
+
         // Start on shared session
         startTask(request, completion: onCompletion)
     }
 
-    // Uploads files
-    func sendFileToPrey(_ username: String, password: String, file: Data, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
-        
+    /// Uploads files
+    func sendFileToPrey(_ username: String, password: String, file: Data, messageId msgId: String?, httpMethod: String, endPoint: String, onCompletion: @escaping (_ dataRequest: Data?, _ responseRequest: URLResponse?, _ error: Error?) -> Void) {
         // Encode username and pwd
-        let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
-        
+        let userAuthorization = encodeAuthorization(NSString(format: "%@:%@", username, password) as String)
+
         // Set Endpoint
-        guard let requestURL = URL(string:endPoint) else {
+        guard let requestURL = URL(string: endPoint) else {
             return
         }
-       
-        var request = URLRequest(url:requestURL)
+
+        var request = URLRequest(url: requestURL)
         request.timeoutInterval = timeoutIntervalRequest
         applyHeaders(&request, authString: userAuthorization, messageId: msgId, endPoint: endPoint, contentType: "application/octet-stream")
         request.httpBodyStream = InputStream(data: file)
-        request.httpMethod  = httpMethod
+        request.httpMethod = httpMethod
         startTask(request, completion: onCompletion)
     }
-    
-    // Start URLSessionDataTask with per-task state
+
+    /// Start URLSessionDataTask with per-task state
     private func startTask(_ request: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         let task = sharedSession.dataTask(with: request)
         let key = ObjectIdentifier(task)
@@ -178,18 +173,18 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         task.resume()
     }
 
-    // Public wrapper for arbitrary URLRequest
+    /// Public wrapper for arbitrary URLRequest
     func performRequest(_ request: URLRequest, onCompletion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         startTask(request, completion: onCompletion)
     }
-    
-    // Delay dispatch function
-    func delay(_ delay:Double, closure:@escaping ()->()) {
+
+    /// Delay dispatch function
+    func delay(_ delay: Double, closure: @escaping () -> Void) {
         let when = DispatchTime.now() + delay
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
-    
-    // Check error to retry request
+
+    /// Check error to retry request
     func checkToRetryRequest(err: Error) -> Bool {
         switch (err as NSError).code {
         case NSURLErrorSecureConnectionFailed, NSURLErrorNotConnectedToInternet, NSURLErrorNetworkConnectionLost, NSURLErrorCannotFindHost, NSURLErrorTimedOut:
@@ -198,11 +193,11 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             return false
         }
     }
-    
+
     // MARK: URLSession Delegates
-    
-    // URLSessionTaskDelegate : didCompleteWithError
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+
+    /// URLSessionTaskDelegate : didCompleteWithError
+    func urlSession(_: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         // Retry 503 with backoff per task
         if let httpURLResponse = task.response as? HTTPURLResponse, httpURLResponse.statusCode == 503, let request = task.originalRequest {
             let key = ObjectIdentifier(task)
@@ -211,7 +206,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             if attempt <= retryRequest {
                 stateQueue.async { self.retryByTask[key] = attempt }
                 let backoff = min(pow(2.0, Double(attempt)), 60.0)
-                let jitter = Double.random(in: 0...0.5)
+                let jitter = Double.random(in: 0 ... 0.5)
                 delay(backoff + jitter) { self.retryTask(task, with: request) }
             }
             return
@@ -224,7 +219,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             if attempt <= retryRequest {
                 stateQueue.async { self.retryByTask[key] = attempt }
                 let backoff = min(pow(2.0, Double(attempt)), 60.0)
-                let jitter = Double.random(in: 0...0.5)
+                let jitter = Double.random(in: 0 ... 0.5)
                 delay(backoff + jitter) { self.retryTask(task, with: request) }
             }
             return
@@ -246,9 +241,9 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             }
         }
     }
-    
-    // URLSessionDataDelegate : dataTask didReceive Data
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+
+    /// URLSessionDataDelegate : dataTask didReceive Data
+    func urlSession(_: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         let key = ObjectIdentifier(dataTask)
         stateQueue.async {
             let buf = self.dataByTask[key] ?? NSMutableData()
@@ -256,15 +251,15 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             self.dataByTask[key] = buf
         }
     }
-    
-    // URLSessionDataDelegate : dataTask didReceive Response
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping @Sendable (URLSession.ResponseDisposition) -> Void) {
+
+    /// URLSessionDataDelegate : dataTask didReceive Response
+    func urlSession(_: URLSession, dataTask _: URLSessionDataTask, didReceive _: URLResponse, completionHandler: @escaping @Sendable (URLSession.ResponseDisposition) -> Void) {
         completionHandler(.allow)
     }
-    
-    // URLSessionDelegate didReceive challenge
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping @Sendable (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        guard let serverTrust = challenge.protectionSpace.serverTrust else {return}
+
+    /// URLSessionDelegate didReceive challenge
+    func urlSession(_: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping @Sendable (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        guard let serverTrust = challenge.protectionSpace.serverTrust else { return }
         completionHandler(
             .useCredential,
             URLCredential(trust: serverTrust)
@@ -272,7 +267,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     }
 
     // Metrics: log payload/body
-    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+    func urlSession(_: URLSession, task: URLSessionTask, didFinishCollecting _: URLSessionTaskMetrics) {
         guard let req = task.originalRequest, let urlStr = req.url?.absoluteString else { return }
         let method = req.httpMethod ?? "GET"
 
@@ -296,7 +291,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         PreyLogger("Network payload -> \(method) \(urlStr) body=\(bodyDesc)")
     }
 
-    // Retry helper: new task preserving completion and attempt count
+    /// Retry helper: new task preserving completion and attempt count
     private func retryTask(_ oldTask: URLSessionTask, with request: URLRequest) {
         let oldKey = ObjectIdentifier(oldTask)
         var completion: ((Data?, URLResponse?, Error?) -> Void)?

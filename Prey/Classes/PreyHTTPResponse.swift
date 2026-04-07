@@ -10,120 +10,110 @@
 import Foundation
 import UIKit
 
-// Prey Request Tpype
+/// Prey Request Tpype
 enum RequestType {
     case getToken, logIn, renameDevice, addDevice, deleteDevice, actionDevice, dataSend, statusDevice, infoDevice, settings
 }
 
 class PreyHTTPResponse {
-
     // MARK: Functions
 
-    // Check Response from Server
-    class func checkResponse(_ requestType:RequestType, preyAction:PreyAction?, onCompletion:@escaping (_ isSuccess: Bool) -> Void) -> (Data?, URLResponse?, Error?) -> Void {
-
-        let completionResponse: (Data?, URLResponse?, Error?) -> Void = ({(data, response, error) in
-
+    /// Check Response from Server
+    class func checkResponse(_ requestType: RequestType, preyAction: PreyAction?, onCompletion: @escaping (_ isSuccess: Bool) -> Void) -> (Data?, URLResponse?, Error?) -> Void {
+        return { data, response, error in
             // Check error with URLSession request
             guard error == nil else {
-                callResponseWith(requestType, isResponseSuccess:false, withAction:preyAction, withData:data, withError:error, statusCode:nil, onCompletion:onCompletion)
+                callResponseWith(requestType, isResponseSuccess: false, withAction: preyAction, withData: data, withError: error, statusCode: nil, onCompletion: onCompletion)
                 return
             }
 
-            //PreyLogger("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
-            //PreyLogger("PreyData:"+String(decoding: data!, as: UTF8.self))
-            
-            let httpURLResponse = response as! HTTPURLResponse
-            let code            = httpURLResponse.statusCode
-            let success         = (200...299 ~= code) ? true : false
+            // PreyLogger("PreyResponse: data:\(data) \nresponse:\(response) \nerror:\(error)")
+            // PreyLogger("PreyData:"+String(decoding: data!, as: UTF8.self))
 
-            callResponseWith(requestType, isResponseSuccess:success, withAction:preyAction, withData:data, withError:error, statusCode:code, onCompletion:onCompletion)
-        })
-        
-        return completionResponse
+            let httpURLResponse = response as! HTTPURLResponse
+            let code = httpURLResponse.statusCode
+            let success = (200 ... 299 ~= code) ? true : false
+
+            callResponseWith(requestType, isResponseSuccess: success, withAction: preyAction, withData: data, withError: error, statusCode: code, onCompletion: onCompletion)
+        }
     }
-    
-    // Check Request Type
-    class func callResponseWith(_ requestType:RequestType, isResponseSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode code:Int?, onCompletion:(_ isSuccess:Bool) -> Void) {
-        
+
+    /// Check Request Type
+    class func callResponseWith(_ requestType: RequestType, isResponseSuccess: Bool, withAction action: PreyAction?, withData data: Data?, withError error: Error?, statusCode code: Int?, onCompletion: (_ isSuccess: Bool) -> Void) {
         switch requestType {
-            
         case .getToken:
-            checkToken(isResponseSuccess, withData:data, withError:error, statusCode:code)
-            
+            checkToken(isResponseSuccess, withData: data, withError: error, statusCode: code)
+
         case .logIn:
-            checkLogIn(isResponseSuccess, withData:data, withError:error, statusCode:code)
-            
+            checkLogIn(isResponseSuccess, withData: data, withError: error, statusCode: code)
+
         case .renameDevice:
-            checkRenameDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
-            
+            checkRenameDevice(isResponseSuccess, withData: data, withError: error, statusCode: code)
+
         case .addDevice:
-            checkAddDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
-            
+            checkAddDevice(isResponseSuccess, withData: data, withError: error, statusCode: code)
+
         case .deleteDevice:
-            checkDeleteDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
+            checkDeleteDevice(isResponseSuccess, withData: data, withError: error, statusCode: code)
 
         case .actionDevice:
-            checkActionDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
-
+            checkActionDevice(isResponseSuccess, withData: data, withError: error, statusCode: code)
 
         case .dataSend:
-            checkDataSend(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
+            checkDataSend(isResponseSuccess, withAction: action, withData: data, withError: error, statusCode: code)
 
         case .statusDevice:
-            checkStatusDevice(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
-        
+            checkStatusDevice(isResponseSuccess, withAction: action, withData: data, withError: error, statusCode: code)
+
         case .settings:
-            settings(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
+            settings(isResponseSuccess, withAction: action, withData: data, withError: error, statusCode: code)
 
         case .infoDevice:
-            let out=checkInfoDevice(isResponseSuccess, withAction:action, withData:data, withError:error, statusCode:code)
+            let out = checkInfoDevice(isResponseSuccess, withAction: action, withData: data, withError: error, statusCode: code)
             onCompletion(out)
             return
         }
-        
+
         onCompletion(isResponseSuccess)
     }
-    
-    // Check Get Token response
-    class func checkToken(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
-        
+
+    /// Check Get Token response
+    class func checkToken(_ isSuccess: Bool, withData data: Data?, withError error: Error?, statusCode: Int?) {
         guard isSuccess else {
-            showErrorLogIn(error, statusCode:statusCode, data:data)
+            showErrorLogIn(error, statusCode: statusCode, data: data)
             return
         }
-        
+
         do {
             guard let dataResponse = data else {
                 return
             }
-            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-            
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+
             if let tokenPanelStr = jsonObject.object(forKey: "token") as? String {
                 PreyConfig.sharedInstance.tokenPanel = tokenPanelStr
                 PreyConfig.sharedInstance.tokenWebTimestamp = CFAbsoluteTimeGetCurrent()
                 PreyConfig.sharedInstance.saveValues()
             }
-        } catch let error {
+        } catch {
             PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")
         }
     }
-    
-    // Check LogIn response
-    class func checkLogIn(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
-        
+
+    /// Check LogIn response
+    class func checkLogIn(_ isSuccess: Bool, withData data: Data?, withError error: Error?, statusCode: Int?) {
         guard isSuccess else {
-            showErrorLogIn(error, statusCode:statusCode, data:data)
+            showErrorLogIn(error, statusCode: statusCode, data: data)
             return
         }
-        
+
         do {
             guard let dataResponse = data else {
                 return
             }
-            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-            
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+
             guard let userApiKeyStr = jsonObject.object(forKey: "key") as? String else {
                 return
             }
@@ -133,30 +123,29 @@ class PreyHTTPResponse {
             guard let mspAccount = jsonObject.object(forKey: "msp_account") as? NSNumber else {
                 return
             }
-            
-            PreyConfig.sharedInstance.userApiKey    = userApiKeyStr
-            PreyConfig.sharedInstance.isPro         = userIsProStr.boolValue
-            PreyConfig.sharedInstance.isMsp         = mspAccount.boolValue
+
+            PreyConfig.sharedInstance.userApiKey = userApiKeyStr
+            PreyConfig.sharedInstance.isPro = userIsProStr.boolValue
+            PreyConfig.sharedInstance.isMsp = mspAccount.boolValue
             PreyConfig.sharedInstance.saveValues()
             // After API key is saved, perform a consolidated sync (tokens + status + info)
             SyncCoordinator.performPostAuthOrUpgradeSync(reason: .postLogin)
-            
-        } catch let error {
+        } catch {
             PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")
         }
     }
-    
-    class func getErrorFromData(data:Data?) -> String {
+
+    class func getErrorFromData(data: Data?) -> String {
         var errorFromServer = "Error"
         do {
             guard let dataResponse = data else {
                 return errorFromServer
             }
-            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-            
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+
             for (_, value) in jsonObject {
-                guard let errorArray = value as? Array<Any> else {
+                guard let errorArray = value as? [Any] else {
                     return errorFromServer
                 }
                 if let errorMsg = errorArray[0] as? String {
@@ -164,39 +153,39 @@ class PreyHTTPResponse {
                 }
                 break
             }
-        } catch let error {
+        } catch {
             PreyConfig.sharedInstance.reportError(error)
         }
         return errorFromServer
     }
-    
-    class func showErrorLogIn(_ error:Error?, statusCode:Int?, data:Data?) {
+
+    class func showErrorLogIn(_ error: Error?, statusCode: Int?, data: Data?) {
         // Check error with URLSession request
         guard error == nil else {
             PreyConfig.sharedInstance.reportError(error)
             let alertMessage = error?.localizedDescription
-            displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't check your password".localized)
+            displayErrorAlert(alertMessage!.localized, titleMessage: "Couldn't check your password".localized)
             return
         }
-        
-        var alertMessage: String = "Error"
-        
+
+        var alertMessage = "Error"
+
         if statusCode == 401 {
-            alertMessage = getErrorFromData(data:data)
-            //alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
+            alertMessage = getErrorFromData(data: data)
+            // alertMessage = (PreyConfig.sharedInstance.userEmail != nil) ? "Please make sure the password you entered is valid." : "There was a problem getting your account information. Please make sure the email address you entered is valid, as well as your password."
         } else {
-            if ( (statusCode == 502) || (statusCode == 503) ) {
+            if (statusCode == 502) || (statusCode == 503) {
                 alertMessage = "We couldn't reach our servers due to a connection error. please ensure you have a stable connection".localized
-            }else{
+            } else {
                 PreyConfig.sharedInstance.reportError("LogIn", statusCode: statusCode, errorDescription: "LogIn error")
             }
         }
-        
-        displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't check your password".localized)
+
+        displayErrorAlert(alertMessage.localized, titleMessage: "Couldn't check your password".localized)
     }
-    
-    // Check rename device response
-    class func checkRenameDevice(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
+
+    /// Check rename device response
+    class func checkRenameDevice(_ isSuccess: Bool, withData _: Data?, withError error: Error?, statusCode: Int?) {
         guard isSuccess else {
             guard error == nil else {
                 PreyConfig.sharedInstance.reportError(error)
@@ -209,54 +198,51 @@ class PreyHTTPResponse {
         }
         PreyLogger("Rename device: OK")
     }
-    
-    // Check add device response
-    class func checkAddDevice(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
 
+    /// Check add device response
+    class func checkAddDevice(_ isSuccess: Bool, withData data: Data?, withError error: Error?, statusCode: Int?) {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
                 PreyConfig.sharedInstance.reportError(error)
                 let alertMessage = error?.localizedDescription
-                displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't add your device".localized)
+                displayErrorAlert(alertMessage!.localized, titleMessage: "Couldn't add your device".localized)
                 return
             }
-            
+
             let alertMessage: String
-            
-            if ( (statusCode == 302) || (statusCode == 403) ) {
+
+            if (statusCode == 302) || (statusCode == 403) {
                 alertMessage = "It seems you've reached your limit for devices on the Control Panel. Try removing this device from your account if you had already added.".localized
             } else {
-                alertMessage = String(format:"Error code: %d",statusCode!)
+                alertMessage = String(format: "Error code: %d", statusCode!)
                 PreyConfig.sharedInstance.reportError("AddDevice", statusCode: statusCode, errorDescription: "AddDevice error")
             }
-            
-            displayErrorAlert(alertMessage.localized, titleMessage:"Couldn't add your device".localized)
+
+            displayErrorAlert(alertMessage.localized, titleMessage: "Couldn't add your device".localized)
             return
         }
-        
+
         do {
             guard let dataResponse = data else {
                 return
             }
-            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-            
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+
             if let deviceKeyStr = jsonObject.object(forKey: "key") as? String {
-                PreyConfig.sharedInstance.deviceKey     = deviceKeyStr
-                PreyConfig.sharedInstance.isRegistered  = true
+                PreyConfig.sharedInstance.deviceKey = deviceKeyStr
+                PreyConfig.sharedInstance.isRegistered = true
                 PreyConfig.sharedInstance.isTouchIDEnabled = true
                 PreyConfig.sharedInstance.saveValues()
             }
-            
-        } catch let error {
+        } catch {
             PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")
         }
     }
 
-    // Check delete device response
-    class func checkDeleteDevice(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
-        
+    /// Check delete device response
+    class func checkDeleteDevice(_ isSuccess: Bool, withData _: Data?, withError error: Error?, statusCode: Int?) {
         if isSuccess {
             return
         }
@@ -265,19 +251,18 @@ class PreyHTTPResponse {
         guard error == nil else {
             PreyConfig.sharedInstance.reportError(error)
             let alertMessage = error?.localizedDescription
-            displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't delete your device".localized)
+            displayErrorAlert(alertMessage!.localized, titleMessage: "Couldn't delete your device".localized)
             return
         }
-        
+
         let titleMsg = "Couldn't delete your device".localized
         let alertMsg = "Device not ready!".localized
-        displayErrorAlert(alertMsg, titleMessage:titleMsg)
+        displayErrorAlert(alertMsg, titleMessage: titleMsg)
         PreyConfig.sharedInstance.reportError("DeleteDevice", statusCode: statusCode, errorDescription: "DeleteDevice error")
     }
 
-    // Check Action Devices response
-    class func checkActionDevice(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
-
+    /// Check Action Devices response
+    class func checkActionDevice(_ isSuccess: Bool, withData data: Data?, withError error: Error?, statusCode: Int?) {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
@@ -289,7 +274,7 @@ class PreyHTTPResponse {
 
             if statusCode == 406 {
                 PreyLogger("Deleted device, triggering detach")
-                let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
+                let detachModule = Detach(withTarget: kAction.detach, withCommand: kCommand.start, withOptions: nil)
                 detachModule.start()
             } else {
                 PreyConfig.sharedInstance.reportError("ActionDevice", statusCode: statusCode, errorDescription: "ActionDevice error")
@@ -298,32 +283,31 @@ class PreyHTTPResponse {
             PreyNotification.sharedInstance.handlePushError("Failed to check action from panel")
             return
         }
-        
+
         guard let dataResponse = data else {
             PreyConfig.sharedInstance.reportError("ActionDeviceData", statusCode: statusCode, errorDescription: "ActionDeviceData error")
 
             PreyNotification.sharedInstance.handlePushError("Failed to check action from panel - no data")
             return
         }
-        
+
         // Log the response for debugging
         let responseStr = String(decoding: dataResponse, as: UTF8.self)
         PreyLogger("Action device response: \(responseStr)")
-        
+
         // First, try to parse as JSON to check for 'command' nodes
         do {
             let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options: .mutableContainers)
-            
+
             // Try to extract commands from different structures
             if let dict = jsonObject as? [String: Any] {
-                
                 // Look for device status
                 if let deviceStatus = dict["status"] as? String {
                     // Check string for status
                     let isMissingDevice = deviceStatus == "missing" ? true : false
-                    
+
                     PreyLogger("Device missing status: \(isMissingDevice)")
-                    
+
                     // Save isMissing value
                     if PreyConfig.sharedInstance.isMissing != isMissingDevice {
                         PreyConfig.sharedInstance.isMissing = isMissingDevice
@@ -331,14 +315,14 @@ class PreyHTTPResponse {
                         PreyLogger("Updated device missing status to: \(isMissingDevice)")
                     }
                 }
-                
+
                 // Try to find instructions or commands
                 var foundCommands = false
-                
+
                 // Check for instructions array
-                if let instructions = dict["instruction"] as? NSArray, instructions.count > 0 {
+                if let instructions = dict["instruction"] as? NSArray, !instructions.isEmpty {
                     PreyLogger("Found instruction array with \(instructions.count) items")
-                    
+
                     let jsonData = try JSONSerialization.data(withJSONObject: instructions, options: .prettyPrinted)
                     if let jsonString = String(data: jsonData, encoding: .utf8) {
                         PreyLogger("Parsing instructions from response: \(jsonString)")
@@ -346,11 +330,11 @@ class PreyHTTPResponse {
                         foundCommands = true
                     }
                 }
-                
+
                 // Check for command array
-                if let commands = dict["command"] as? NSArray, commands.count > 0 {
+                if let commands = dict["command"] as? NSArray, !commands.isEmpty {
                     PreyLogger("Found command array with \(commands.count) items")
-                    
+
                     let jsonData = try JSONSerialization.data(withJSONObject: commands, options: .prettyPrinted)
                     if let jsonString = String(data: jsonData, encoding: .utf8) {
                         PreyLogger("Parsing commands from response: \(jsonString)")
@@ -358,12 +342,12 @@ class PreyHTTPResponse {
                         foundCommands = true
                     }
                 }
-                
+
                 // If no commands were found, try parsing the whole response as an array
                 if !foundCommands {
                     PreyLogger("No commands found in object structure, trying raw response")
                 }
-            } else if let array = jsonObject as? NSArray, array.count > 0 {
+            } else if let array = jsonObject as? NSArray, !array.isEmpty {
                 let jsonData = try JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
                     PreyModule.sharedInstance.parseActionsFromPanel(jsonString)
@@ -372,9 +356,9 @@ class PreyHTTPResponse {
         } catch {
             // If JSON parsing fails, try the traditional approach
             PreyLogger("JSON parsing failed, trying raw string approach: \(error.localizedDescription)")
-            
+
             // Only use fallback if JSON parsing actually failed
-            if let actionArray: String = String(data:dataResponse, encoding:String.Encoding.utf8) {
+            if let actionArray = String(data: dataResponse, encoding: String.Encoding.utf8) {
                 DispatchQueue.main.async {
                     PreyLogger("Parsing actions from raw string response")
                     PreyModule.sharedInstance.parseActionsFromPanel(actionArray)
@@ -385,14 +369,13 @@ class PreyHTTPResponse {
                 PreyNotification.sharedInstance.handlePushError("Failed to check action from panel - string decoding failed")
             }
         }
-        
+
         // Mark verification as succeeded
         // No need to call any verification method here as the action was successful
     }
-    
-    // Check Data Send response
-    class func checkDataSend(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
-        
+
+    /// Check Data Send response
+    class func checkDataSend(_ isSuccess: Bool, withAction action: PreyAction?, withData data: Data?, withError error: Error?, statusCode: Int?) {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
@@ -402,7 +385,7 @@ class PreyHTTPResponse {
             }
             if statusCode == 406 {
                 PreyLogger("Deleted device, triggering detach")
-                let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
+                let detachModule = Detach(withTarget: kAction.detach, withCommand: kCommand.start, withOptions: nil)
                 detachModule.start()
             } else {
                 PreyConfig.sharedInstance.reportError("DataSend", statusCode: statusCode, errorDescription: "DataSend error")
@@ -418,7 +401,7 @@ class PreyHTTPResponse {
             }
             return
         }
-        
+
         // Check response panel to stop location aware
         if statusCode == 201 {
             if action == nil || action is Location {
@@ -432,16 +415,16 @@ class PreyHTTPResponse {
                 }
             }
         }
-        
+
         PreyLogger("Data send: OK")
 
         if let preyAction = action {
             PreyModule.sharedInstance.checkStatus(preyAction)
         }
     }
-    
-    //Retrieves configuration data
-    class func settings(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
+
+    /// Retrieves configuration data
+    class func settings(_ isSuccess: Bool, withAction _: PreyAction?, withData data: Data?, withError error: Error?, statusCode: Int?) {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
@@ -453,19 +436,19 @@ class PreyHTTPResponse {
             PreyLogger("Failed check status device")
             return
         }
-        
+
         do {
             guard let dataResponse = data else {
                 PreyLogger("No data in status device response")
                 return
             }
-            
+
             // Log the response for debugging
             let responseStr = String(decoding: dataResponse, as: UTF8.self)
             PreyLogger("Status device response: \(responseStr)")
-            
-            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-            
+
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+
             // Also check for settings/location_aware
             if let dict = jsonObject as? [String: Any],
                let settings = dict["settings"] as? [String: Any],
@@ -474,15 +457,14 @@ class PreyHTTPResponse {
                 PreyLogger("Location aware setting found isActiveLocationAware: \(isActiveLocationAware)")
                 PreyConfig.sharedInstance.isActiveAware = isActiveLocationAware
             }
-        } catch let error {
+        } catch {
             PreyConfig.sharedInstance.reportError(error)
             PreyLogger("JSON error in settings device: \(error.localizedDescription)")
         }
     }
 
-    // Check Status Devices response
-    class func checkStatusDevice(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) {
-
+    /// Check Status Devices response
+    class func checkStatusDevice(_ isSuccess: Bool, withAction action: PreyAction?, withData data: Data?, withError error: Error?, statusCode: Int?) {
         guard isSuccess else {
             // Check error with URLSession request
             guard error == nil else {
@@ -492,7 +474,7 @@ class PreyHTTPResponse {
             }
             if statusCode == 406 {
                 PreyLogger("Deleted device on status check, triggering detach")
-                let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
+                let detachModule = Detach(withTarget: kAction.detach, withCommand: kCommand.start, withOptions: nil)
                 detachModule.start()
             } else {
                 PreyConfig.sharedInstance.reportError("StatusDevice", statusCode: statusCode, errorDescription: "StatusDevice error")
@@ -500,23 +482,23 @@ class PreyHTTPResponse {
             }
             return
         }
-        
+
         do {
             guard let dataResponse = data else {
                 PreyLogger("No data in status device response")
                 return
             }
-            
+
             // Log the response for debugging
             let responseStr = String(decoding: dataResponse, as: UTF8.self)
             PreyLogger("Status device response: \(responseStr)")
-            
-            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-            
+
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+
             // Check for commands in the response
-            if let commands = jsonObject["command"] as? NSArray, commands.count > 0 {
+            if let commands = jsonObject["command"] as? NSArray, !commands.isEmpty {
                 PreyLogger("Found commands in status device response: \(commands.count) commands")
-                
+
                 // Process commands from the response
                 let jsonData = try JSONSerialization.data(withJSONObject: commands, options: .prettyPrinted)
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
@@ -524,28 +506,27 @@ class PreyHTTPResponse {
                     PreyModule.sharedInstance.parseActionsFromPanel(jsonString)
                 }
             }
-            
+
             // Also check for settings/location_aware
             if let dict = jsonObject as? [String: Any],
                let settings = dict["settings"] as? [String: Any],
                let localSettings = settings["local"] as? [String: Any],
                let isActiveLocationAware = localSettings["location_aware"] as? Bool {
-                
                 PreyLogger("Location aware setting found: \(isActiveLocationAware)")
-                
+
                 if isActiveLocationAware == true {
                     // Active location aware action
                     let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.start_location_aware, withOptions: nil)
-                    
+
                     // Check if this action already exists
                     var hasLocationAwareAction = false
                     for action in PreyModule.sharedInstance.actionArray {
-                        if action.target == kAction.location && action.command == kCommand.start_location_aware {
+                        if action.target == kAction.location, action.command == kCommand.start_location_aware {
                             hasLocationAwareAction = true
                             break
                         }
                     }
-                    
+
                     if !hasLocationAwareAction {
                         PreyLogger("Adding location_aware action from status device")
                         PreyModule.sharedInstance.actionArray.append(locationAction)
@@ -553,26 +534,26 @@ class PreyHTTPResponse {
                     }
                 }
             }
-        } catch let error {
+        } catch {
             PreyConfig.sharedInstance.reportError(error)
             PreyLogger("JSON error in status device: \(error.localizedDescription)")
         }
     }
-    
-    class func checkInfoDevice(_ isSuccess:Bool, withAction action:PreyAction?, withData data:Data?, withError error:Error?, statusCode:Int?) ->Bool{
+
+    class func checkInfoDevice(_: Bool, withAction _: PreyAction?, withData data: Data?, withError error: Error?, statusCode _: Int?) -> Bool {
         do {
             guard let dataResponse = data else {
                 return true
             }
-            
-            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options:JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-                        
+
+            let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+
             if let nameDevice = jsonObject.object(forKey: "name") as? String {
                 PreyConfig.sharedInstance.nameDevice = nameDevice
                 PreyConfig.sharedInstance.saveValues()
             }
             return true
-        } catch let error {
+        } catch {
             PreyLogger("json error: \(error.localizedDescription)")
             return false
         }

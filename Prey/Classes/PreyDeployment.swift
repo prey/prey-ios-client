@@ -10,33 +10,27 @@ import Foundation
 import UIKit
 
 class PreyDeployment {
-    
-    
     // MARK: Singleton
-    
-    static let sharedInstance   = PreyDeployment()
-    fileprivate init() {
-    }
-    
-    
+
+    static let sharedInstance = PreyDeployment()
+    fileprivate init() {}
+
     // MARK: Properties
-    
-    // The Managed app configuration dictionary pushed down from an MDM server are stored in this key.
-    let kConfigurationKey       = "com.apple.configuration.managed"
-    
-    // The dictionary that is sent back to the MDM server as feedback must be stored in this key.
-    let kFeedbackKey            = "com.apple.feedback.managed"
 
-    let kConfigurationApiKey    = "apiKeyPrey"
+    /// The Managed app configuration dictionary pushed down from an MDM server are stored in this key.
+    let kConfigurationKey = "com.apple.configuration.managed"
+
+    /// The dictionary that is sent back to the MDM server as feedback must be stored in this key.
+    let kFeedbackKey = "com.apple.feedback.managed"
+
+    let kConfigurationApiKey = "apiKeyPrey"
     let kConfigurationDeviceKey = "deviceKeyPrey"
-    let kFeedbackSuccessKey     = "success"
+    let kFeedbackSuccessKey = "success"
 
-    
     // MARK: Methods
-    
-    // Run deployment
+
+    /// Run deployment
     func runPreyDeployment() {
-        
         // Check read defaults values
         guard !readDefaultsValues() else {
             return
@@ -44,98 +38,94 @@ class PreyDeployment {
 
         do {
             // Check if config prey file exist
-            let preyFiles           = NSMutableArray()
-            let path                = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let preyFiles = NSMutableArray()
+            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let publicDocoumentsDir = path.first! as NSString
-            let files               = try FileManager.default.contentsOfDirectory(atPath: publicDocoumentsDir as String) as [NSString]
+            let files = try FileManager.default.contentsOfDirectory(atPath: publicDocoumentsDir as String) as [NSString]
 
             for file in files {
-                if (file.pathExtension.compare("prey", options:.caseInsensitive, range:nil, locale:nil) == ComparisonResult.orderedSame) {
+                if file.pathExtension.compare("prey", options: .caseInsensitive, range: nil, locale: nil) == ComparisonResult.orderedSame {
                     let fullPath = publicDocoumentsDir.appendingPathComponent(file as String)
                     preyFiles.add(fullPath)
                 }
             }
-            
-            if preyFiles.count == 0 {
+
+            if preyFiles.isEmpty {
                 return
             }
-            
+
             guard let fileData = try? Data(contentsOf: URL(fileURLWithPath: preyFiles.object(at: 0) as! String)) else {
                 return
             }
-            
-            guard let apiKeyUser = NSString(data:fileData, encoding:String.Encoding.utf8.rawValue) else {
+
+            guard let apiKeyUser = NSString(data: fileData, encoding: String.Encoding.utf8.rawValue) else {
                 return
             }
 
             // Add device to panel
-            addDeviceWith(apiKeyUser as String, fromQRCode:false)
-            
-        } catch let error as NSError{
+            addDeviceWith(apiKeyUser as String, fromQRCode: false)
+        } catch let error as NSError {
             PreyLogger("files error: \(error.localizedDescription)")
             return
         }
     }
 
-    // Check defaults values
+    /// Check defaults values
     func readDefaultsValues() -> Bool {
-        
         var successValue = false
-        
+
         guard let serverConfig = UserDefaults.standard.dictionary(forKey: kConfigurationKey) else {
             successManagedAppConfig(successValue)
             return successValue
         }
-        
-        guard let serverApiKey:String = serverConfig[kConfigurationApiKey] as? String else {
+
+        guard let serverApiKey: String = serverConfig[kConfigurationApiKey] as? String else {
             successManagedAppConfig(successValue)
             return successValue
         }
-        
+
         // Check if file configuration has deviceKey
-        if let serverDeviceKey:String = serverConfig[kConfigurationDeviceKey] as? String, serverDeviceKey != "" {
-            addDeviceWith(serverApiKey, deviceKey:serverDeviceKey)
+        if let serverDeviceKey: String = serverConfig[kConfigurationDeviceKey] as? String, serverDeviceKey != "" {
+            addDeviceWith(serverApiKey, deviceKey: serverDeviceKey)
         } else {
             // Add device to panel
-            addDeviceWith(serverApiKey, fromQRCode:false)
-        }        
-        
+            addDeviceWith(serverApiKey, fromQRCode: false)
+        }
+
         successValue = true
-        
+
         successManagedAppConfig(successValue)
         return successValue
     }
-    
-    // Add Device with userApiKey and deviceKey
-    func addDeviceWith(_ apiKey:String, deviceKey:String) {
-        PreyConfig.sharedInstance.userApiKey    = apiKey
-        PreyConfig.sharedInstance.deviceKey     = deviceKey
-        PreyConfig.sharedInstance.isRegistered  = true
+
+    /// Add Device with userApiKey and deviceKey
+    func addDeviceWith(_ apiKey: String, deviceKey: String) {
+        PreyConfig.sharedInstance.userApiKey = apiKey
+        PreyConfig.sharedInstance.deviceKey = deviceKey
+        PreyConfig.sharedInstance.isRegistered = true
         PreyConfig.sharedInstance.isTouchIDEnabled = true
         PreyConfig.sharedInstance.saveValues()
         // Show CongratVC
-        self.showCongratsVC()
+        showCongratsVC()
     }
-    
-    // Add Device with apiKey
-    func addDeviceWith(_ apiKey:String, fromQRCode:Bool) {
 
+    /// Add Device with apiKey
+    func addDeviceWith(_ apiKey: String, fromQRCode: Bool) {
         var actInd = UIActivityIndicatorView()
-        
+
         if fromQRCode {
-            let appWindow   = UIApplication.shared.delegate?.window
-            let navigationController:UINavigationController = appWindow!!.rootViewController as! UINavigationController
+            let appWindow = UIApplication.shared.delegate?.window
+            let navigationController: UINavigationController = appWindow!!.rootViewController as! UINavigationController
             // Show ActivityIndicator
-            actInd          = UIActivityIndicatorView(initInView: navigationController.view, withText: "Attaching device...".localized)
+            actInd = UIActivityIndicatorView(initInView: navigationController.view, withText: "Attaching device...".localized)
             navigationController.view.addSubview(actInd)
             actInd.startAnimating()
         }
-        
-        PreyConfig.sharedInstance.userApiKey = apiKey
-        
-        // Add Device to Panel Prey
-        PreyDevice.addDeviceWith({(isSuccess: Bool) in
 
+        PreyConfig.sharedInstance.userApiKey = apiKey
+
+        // Add Device to Panel Prey
+        PreyDevice.addDeviceWith { (isSuccess: Bool) in
             // AddDevice isn't success
             guard isSuccess else {
                 DispatchQueue.main.async {
@@ -145,7 +135,7 @@ class PreyDeployment {
             }
 
             // Fetch device info to get the name assigned by the backend
-            PreyDevice.infoDevice({(infoSuccess: Bool) in
+            PreyDevice.infoDevice { (infoSuccess: Bool) in
                 PreyLogger("infoDevice after addDevice (QR) isSuccess:\(infoSuccess)")
                 DispatchQueue.main.async {
                     if fromQRCode { actInd.stopAnimating() }
@@ -155,40 +145,35 @@ class PreyDeployment {
 
                     // Show CongratVC
                     self.showCongratsVC()
-                    PreyUser.logInToPrey(apiKey, userPassword: "x" , onCompletion: {(isSuccess: Bool) in
+                    PreyUser.logInToPrey(apiKey, userPassword: "x", onCompletion: { (_: Bool) in
                     })
                 }
-            })
-        })
-
+            }
+        }
     }
-    
-    // Show CongratsVC
+
+    /// Show CongratsVC
     func showCongratsVC() {
-        
         // Get SharedApplication delegate
         guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
         }
-        
-        let navigationController:UINavigationController = appWindow!.rootViewController as! UINavigationController
-        if let homeWebVC:HomeWebVC = navigationController.topViewController as? HomeWebVC {
+
+        let navigationController: UINavigationController = appWindow!.rootViewController as! UINavigationController
+        if let homeWebVC: HomeWebVC = navigationController.topViewController as? HomeWebVC {
             homeWebVC.loadViewOnWebView("activation")
         }
     }
-    
-    // SuccessManagedAppConfig
-    func successManagedAppConfig(_ isSuccess:Bool) {
-        
+
+    /// SuccessManagedAppConfig
+    func successManagedAppConfig(_ isSuccess: Bool) {
         guard var feedback = UserDefaults.standard.dictionary(forKey: kFeedbackKey) else {
-            let newFeedback = [kFeedbackKey : isSuccess]
-            UserDefaults.standard.set(newFeedback, forKey:kFeedbackKey)
+            let newFeedback = [kFeedbackKey: isSuccess]
+            UserDefaults.standard.set(newFeedback, forKey: kFeedbackKey)
             return
         }
         feedback[kFeedbackKey] = isSuccess
-        UserDefaults.standard.set(feedback, forKey:kFeedbackKey)
+        UserDefaults.standard.set(feedback, forKey: kFeedbackKey)
     }
 }
-
-

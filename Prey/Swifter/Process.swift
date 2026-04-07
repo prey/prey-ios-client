@@ -8,11 +8,10 @@
 import Foundation
 
 public class Process {
-    
     public static var pid: Int {
         return Int(getpid())
     }
-    
+
     public static var tid: UInt64 {
         #if os(Linux)
             return UInt64(pthread_self())
@@ -22,13 +21,13 @@ public class Process {
             return UInt64(tid)
         #endif
     }
-    
+
     private static var signalsWatchers = [(Int32) -> Void]()
     private static var signalsObserved = false
-    
+
     public static func watchSignals(_ callback: @escaping (Int32) -> Void) {
         if !signalsObserved {
-            [SIGTERM, SIGHUP, SIGSTOP, SIGINT].forEach { item in
+            for item in [SIGTERM, SIGHUP, SIGSTOP, SIGINT] {
                 signal(item) { signum in
                     Process.signalsWatchers.forEach { $0(signum) }
                 }

@@ -7,9 +7,9 @@
 
 import Foundation
 
-internal let DEFAULT_MIME_TYPE = "application/octet-stream"
+let DEFAULT_MIME_TYPE = "application/octet-stream"
 
-internal let mimeTypes = [
+let mimeTypes = [
     "html": "text/html",
     "htm": "text/html",
     "shtml": "text/html",
@@ -112,30 +112,30 @@ internal let mimeTypes = [
     "asx": "video/x-ms-asf",
     "asf": "video/x-ms-asf",
     "wmv": "video/x-ms-wmv",
-    "avi": "video/x-msvideo"
+    "avi": "video/x-msvideo",
 ]
 
-internal func matchMimeType(extens: String?) -> String {
+func matchMimeType(extens: String?) -> String {
     if extens != nil && mimeTypes.contains(where: { $0.0 == extens!.lowercased() }) {
         return mimeTypes[extens!.lowercased()]!
     }
     return DEFAULT_MIME_TYPE
 }
 
-extension NSURL {
-    public func mimeType() -> String {
-        return matchMimeType(extens: self.pathExtension)
+public extension NSURL {
+    func mimeType() -> String {
+        return matchMimeType(extens: pathExtension)
     }
 }
 
-extension NSString {
-    public func mimeType() -> String {
-        return matchMimeType(extens: self.pathExtension)
+public extension NSString {
+    func mimeType() -> String {
+        return matchMimeType(extens: pathExtension)
     }
 }
 
-extension String {
-    public func mimeType() -> String {
-        return (NSString(string: self)).mimeType()
+public extension String {
+    func mimeType() -> String {
+        return NSString(string: self).mimeType()
     }
 }

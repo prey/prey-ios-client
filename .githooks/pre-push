@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Pre-push hook: run SwiftLint before pushing
+# Only checks for errors (warnings are allowed)
+
+if ! command -v swiftlint &> /dev/null; then
+    echo "⚠️  SwiftLint not installed. Install with: brew install swiftlint"
+    echo "   Skipping lint check."
+    exit 0
+fi
+
+echo "Running SwiftLint..."
+
+# Run SwiftLint (without --strict, so only real errors block the push)
+RESULT=$(swiftlint lint --quiet 2>&1)
+ERRORS=$(echo "$RESULT" | grep ": error:" | wc -l | tr -d ' ')
+
+if [ "$ERRORS" -gt 0 ]; then
+    echo ""
+    echo "❌ SwiftLint found $ERRORS error(s). Push blocked."
+    echo ""
+    echo "$RESULT" | grep ": error:"
+    echo ""
+    echo "Fix errors and try again. Run 'swiftlint --fix' for auto-corrections."
+    exit 1
+fi
+
+echo "✅ SwiftLint passed."
+exit 0

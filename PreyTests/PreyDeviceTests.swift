@@ -6,13 +6,11 @@
 //  Copyright © 2026 Prey, Inc. All rights reserved.
 //
 
+@testable import Prey
 import UIKit
 import XCTest
 
-@testable import Prey
-
 class PreyDeviceTests: XCTestCase {
-
     var sut: PreyDevice!
 
     override func setUp() {
@@ -40,7 +38,7 @@ class PreyDeviceTests: XCTestCase {
 
     func testTypeIsPhoneOrTablet() {
         XCTAssertTrue(sut.type == "Phone" || sut.type == "Tablet",
-                       "type should be either 'Phone' or 'Tablet', got '\(sut.type!)'")
+                      "type should be either 'Phone' or 'Tablet', got '\(sut.type!)'")
     }
 
     func testInitSetsOS() {
@@ -66,22 +64,22 @@ class PreyDeviceTests: XCTestCase {
                        "macAddress should be the iOS default")
     }
 
-    func testInitSetsRamSize() {
+    func testInitSetsRamSize() throws {
         XCTAssertNotNil(sut.ramSize, "ramSize should not be nil")
-        let ramInt = UInt64(sut.ramSize!) ?? 0
+        let ramInt = try UInt64(XCTUnwrap(sut.ramSize)) ?? 0
         XCTAssertGreaterThan(ramInt, 0, "ramSize should be > 0")
     }
 
-    func testInitSetsCpuCores() {
+    func testInitSetsCpuCores() throws {
         XCTAssertNotNil(sut.cpuCores, "cpuCores should not be nil")
-        let cores = Int(sut.cpuCores!) ?? 0
+        let cores = try Int(XCTUnwrap(sut.cpuCores)) ?? 0
         XCTAssertGreaterThan(cores, 0, "cpuCores should be > 0")
         XCTAssertEqual(cores, ProcessInfo.processInfo.processorCount)
     }
 
-    func testInitSetsMachineIdentifier() {
+    func testInitSetsMachineIdentifier() throws {
         XCTAssertNotNil(sut.machineIdentifier, "machineIdentifier should not be nil")
-        XCTAssertFalse(sut.machineIdentifier!.isEmpty, "machineIdentifier should not be empty")
+        XCTAssertFalse(try XCTUnwrap(sut.machineIdentifier?.isEmpty), "machineIdentifier should not be empty")
         XCTAssertEqual(sut.machineIdentifier, UIDevice.current.machineIdentifier)
     }
 

@@ -5,22 +5,13 @@
 //  Comprehensive test suite for all Prey actions
 //
 
-import XCTest
-import CoreLocation
 import AVFoundation
+import CoreLocation
 import Photos
 @testable import Prey
+import XCTest
 
 class PreyActionsTests: XCTestCase {
-
-    override func setUp() {
-        super.setUp()
-    }
-
-    override func tearDown() {
-        super.tearDown()
-    }
-
     // MARK: - ListPermissions Tests
 
     func testListPermissionsGetPermissions() {

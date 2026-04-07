@@ -8,10 +8,9 @@
 import Foundation
 
 class LogRetrieval: PreyAction, @unchecked Sendable {
-
     // MARK: Commands
 
-    // Some panels may send `get`; treat it like `start`
+    /// Some panels may send `get`; treat it like `start`
     override func get() {
         start()
     }
@@ -25,7 +24,7 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
                                       command: kCommand.start.rawValue,
                                       status: kStatus.started.rawValue)
         sendData(startParams, toEndpoint: responseDeviceEndpoint)
-        
+
         // Locate prey.log file
         let logURL = getPreyLogFileURL()
         guard let fullData = try? Data(contentsOf: logURL) else {
@@ -37,7 +36,7 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
         let preyLogData = fullData
         let zipData = ZipBuilder.build(entries: [(name: "prey.log", data: Data(preyLogData))])
 
-        // Build absolute upload URL with deviceKey 
+        // Build absolute upload URL with deviceKey
         var uploadURL = logRetrievalEndpoint
         if let deviceKey = PreyConfig.sharedInstance.getDeviceKey() as String? {
             let sep = uploadURL.contains("?") ? "&" : "?"
@@ -54,9 +53,9 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
                 messageId: nil,
                 httpMethod: Method.POST.rawValue,
                 endPoint: uploadURL,
-                onCompletion: { data, response, error in
+                onCompletion: { _, response, error in
                     let code = (response as? HTTPURLResponse)?.statusCode
-                    if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
+                    if let http = response as? HTTPURLResponse, (200 ... 299).contains(http.statusCode) {
                         PreyLogger("LogRetrieval: ✅ uploaded archive (\(zipData.count) bytes)")
                     } else {
                         PreyLogger("LogRetrieval: ❌ upload failed (HTTP=\(String(describing: code)) err=\(error?.localizedDescription ?? "nil"))")
@@ -79,4 +78,4 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
         // Ensure the action is cleaned up from the queue even if the network path differs
         PreyModule.sharedInstance.checkStatus(self)
     }
-    }
+}

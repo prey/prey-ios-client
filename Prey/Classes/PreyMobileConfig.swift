@@ -11,16 +11,13 @@ import Foundation
 import UIKit
 
 class PreyMobileConfig: NSObject, UIActionSheetDelegate {
-    
     // MARK: Singleton
-    
-    static let sharedInstance = PreyMobileConfig()
-    fileprivate override init() {
 
-    }
-    
-    // Start service
-  func startService(authToken: String, urlServer: String, accountId: Int) {
+    static let sharedInstance = PreyMobileConfig()
+    override fileprivate init() {}
+
+    /// Start service
+    func startService(authToken: String, urlServer: String, accountId: Int) {
         PreyLogger("📣 PREY CONFIG: Starting service")
         let defaultSessionConfiguration = URLSessionConfiguration.default
         let defaultSession = URLSession(configuration: defaultSessionConfiguration)
@@ -28,80 +25,81 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         let url = URL(string: urlServer)
         var urlRequest = URLRequest(url: url!)
         urlRequest.timeoutInterval = timeoutIntervalRequest
-        
+
         guard let userKey = PreyConfig.sharedInstance.userApiKey else {
-            displayErrorAlert("Error loading web, please try again.".localized, titleMessage:"Couldn't add your device".localized)
+            displayErrorAlert("Error loading web, please try again.".localized, titleMessage: "Couldn't add your device".localized)
             return
         }
 
-        let params : [String:Any] = [
-            "account_id"        : accountId,
-            "user_key"          : userKey,
-            "device_key"        : PreyConfig.sharedInstance.getDeviceKey()]
+        let params: [String: Any] = [
+            "account_id": accountId,
+            "user_key": userKey,
+            "device_key": PreyConfig.sharedInstance.getDeviceKey()
+        ]
 
         do {
-            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: params, options:JSONSerialization.WritingOptions.prettyPrinted)
-        } catch let error as NSError{
+            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions.prettyPrinted)
+        } catch let error as NSError {
             PreyConfig.sharedInstance.reportError(error)
             PreyLogger("params error: \(error.localizedDescription)")
         }
-        
+
         urlRequest.addValue("Bearer " + authToken, forHTTPHeaderField: "Authorization")
         urlRequest.httpMethod = Method.POST.rawValue
-        
-        let dataTask = defaultSession.dataTask(with: urlRequest) { (data, response, error) in
+
+        let dataTask = defaultSession.dataTask(with: urlRequest) { data, response, error in
             PreyLogger("PreyResponse: data:\(String(describing: data)) \nresponse:\(String(describing: response)) \nerror:\(String(describing: error))")
-            
+
             guard error == nil else {
                 PreyConfig.sharedInstance.reportError(error)
                 let alertMessage = error?.localizedDescription
-                displayErrorAlert(alertMessage!.localized, titleMessage:"Couldn't add your device".localized)
+                displayErrorAlert(alertMessage!.localized, titleMessage: "Couldn't add your device".localized)
                 return
             }
-            
+
             if let dat = data {
                 DispatchQueue.main.async {
                     self.start(data: dat)
                 }
             }
         }
-        
+
         // Fire the request
         dataTask.resume()
     }
-    
+
     private enum ConfigState: Int {
         case Stopped, Ready, InstalledConfig, BackToApp
     }
-    
-    internal let listeningPort: in_port_t = 8080
-    internal var configName: String = "Profile install"
+
+    let listeningPort: in_port_t = 8080
+    var configName: String = "Profile install"
     private var localServer: HttpServer!
     private var returnURL: String = ""
     private var configData: Data!
-    
+
     private var serverState: ConfigState = .Stopped
     private var startTime: NSDate!
     private var registeredForNotifications = false
     private var backgroundTask = UIBackgroundTaskIdentifier.invalid
-    
+
     deinit {
         unregisterFromNotifications()
     }
-    
-    //MARK:- Control functions
-    
-    internal func start(data: Data) {
-        self.configData = data
-        self.localServer = HttpServer()
-        self.setupHandlers()
-        
-        let page = self.baseURL(pathComponent: "install/")
+
+    // MARK: - Control functions
+
+    func start(data: Data) {
+        configData = data
+        localServer = HttpServer()
+        setupHandlers()
+
+        let page = baseURL(pathComponent: "install/")
         let url = URL(string: page)!
         if UIApplication.shared.canOpenURL(url as URL) {
             do {
                 try localServer.start(listeningPort, forceIPv4: false, priority: .default)
-                
+
                 startTime = NSDate()
                 serverState = .Ready
                 registerForNotifications()
@@ -117,30 +115,30 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
             }
         }
     }
-    
-    internal func stop() {
+
+    func stop() {
         if serverState != .Stopped {
             serverState = .Stopped
             unregisterFromNotifications()
         }
     }
-    
-    //MARK:- Private functions
-    
+
+    // MARK: - Private functions
+
     private func setupHandlers() {
-        localServer["/install"] = { request in
+        localServer["/install"] = { _ in
             switch self.serverState {
             case .Stopped:
                 return .notFound
             case .Ready:
                 self.serverState = .InstalledConfig
-                return HttpResponse.raw(200, "OK", ["Content-Type": "application/x-apple-aspen-config"], { writer in
+                return HttpResponse.raw(200, "OK", ["Content-Type": "application/x-apple-aspen-config"]) { writer in
                     do {
                         try writer.write(self.configData)
                     } catch {
                         PreyLogger("Failed to write response data")
                     }
-                })
+                }
             case .InstalledConfig:
                 return .movedPermanently(self.returnURL)
             case .BackToApp:
@@ -149,7 +147,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
             }
         }
     }
-    
+
     private func baseURL(pathComponent: String?) -> String {
         var page = "http://localhost:\(listeningPort)"
         if let component = pathComponent {
@@ -157,25 +155,25 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         }
         return page
     }
-    
+
     private func basePage(pathComponent: String?) -> String {
-        var page = "<!doctype html><html>" + "<head><meta charset='utf-8'><title>\(self.configName)</title></head>"
+        var page = "<!doctype html><html>" + "<head><meta charset='utf-8'><title>\(configName)</title></head>"
         if let component = pathComponent {
-            let script = "function load() {  window.location.href='\(self.baseURL(pathComponent: component))'; }window.setInterval(load, 800);"
-            
+            let script = "function load() {  window.location.href='\(baseURL(pathComponent: component))'; }window.setInterval(load, 800);"
+
             page += "<script>\(script)</script>"
         }
         page += "<body></body></html>"
         return page
     }
-    
+
     private func returnedToApp() {
         if serverState != .Stopped {
             serverState = .BackToApp
             localServer.stop()
         }
     }
-    
+
     private func registerForNotifications() {
         if !registeredForNotifications {
             let notificationCenter = NotificationCenter.default
@@ -184,7 +182,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
             registeredForNotifications = true
         }
     }
-    
+
     private func unregisterFromNotifications() {
         if registeredForNotifications {
             let notificationCenter = NotificationCenter.default
@@ -193,20 +191,20 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
             registeredForNotifications = false
         }
     }
-    
-    @objc internal func didEnterBackground(notification: NSNotification) {
+
+    @objc func didEnterBackground(notification _: NSNotification) {
         if serverState != .Stopped {
             startBackgroundTask()
         }
     }
-    
-    @objc internal func willEnterForeground(notification: NSNotification) {
+
+    @objc func willEnterForeground(notification _: NSNotification) {
         if backgroundTask != UIBackgroundTaskIdentifier.invalid {
             stopBackgroundTask()
             returnedToApp()
         }
     }
-    
+
     private func startBackgroundTask() {
         let application = UIApplication.shared
         backgroundTask = application.beginBackgroundTask(expirationHandler: { [weak self] in
@@ -217,10 +215,10 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
                 self?.stop()
             }
         })
-        
+
         if backgroundTask != .invalid {
             PreyLogger("Started PreyMobileConfig background task: \(backgroundTask.rawValue)")
-            
+
             // Add 25-second timeout for safety
             DispatchQueue.main.asyncAfter(deadline: .now() + 25.0) { [weak self] in
                 if let self = self, self.backgroundTask != .invalid {
@@ -231,11 +229,11 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
             }
         }
     }
-    
+
     private func stopBackgroundTask() {
         if backgroundTask != UIBackgroundTaskIdentifier.invalid {
             PreyLogger("Stopping PreyMobileConfig background task: \(backgroundTask.rawValue)")
-            UIApplication.shared.endBackgroundTask(self.backgroundTask)
+            UIApplication.shared.endBackgroundTask(backgroundTask)
             backgroundTask = UIBackgroundTaskIdentifier.invalid
         }
     }
