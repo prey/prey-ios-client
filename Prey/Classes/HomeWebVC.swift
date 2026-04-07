@@ -236,7 +236,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         
         // Check valid email
         if isInvalidEmail(email!, withPattern:emailRegExp) {
-            displayErrorAlert("Enter a valid e-mail address".localized,
+            displayErrorAlert("Enter a valid email address".localized,
                               titleMessage:"We have a situation!".localized)
             return
         }
