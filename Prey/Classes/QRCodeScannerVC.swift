@@ -54,7 +54,6 @@ class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate 
             setupScanner(inputDevice)
             // Start scanning
             startScanning()
-
         } catch let error as NSError {
             PreyLogger("QrCode error: \(error.localizedDescription)")
             displayErrorAlert("Couldn't add your device".localized,

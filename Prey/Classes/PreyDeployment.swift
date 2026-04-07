@@ -50,7 +50,7 @@ class PreyDeployment {
                 }
             }
 
-            if preyFiles.count == 0 {
+            if preyFiles.isEmpty {
                 return
             }
 
@@ -64,7 +64,6 @@ class PreyDeployment {
 
             // Add device to panel
             addDeviceWith(apiKeyUser as String, fromQRCode: false)
-
         } catch let error as NSError {
             PreyLogger("files error: \(error.localizedDescription)")
             return

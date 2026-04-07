@@ -34,7 +34,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
         let params: [String: Any] = [
             "account_id": accountId,
             "user_key": userKey,
-            "device_key": PreyConfig.sharedInstance.getDeviceKey(),
+            "device_key": PreyConfig.sharedInstance.getDeviceKey()
         ]
 
         do {

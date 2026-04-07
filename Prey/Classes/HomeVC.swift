@@ -195,7 +195,6 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
             }
             if #available(iOS 13, *) { controller.modalPresentationStyle = .fullScreen }
             present(controller, animated: true, completion: nil)
-
         } else {
             displayErrorAlert("Error, retry later.".localized,
                               titleMessage: "We have a situation!".localized)

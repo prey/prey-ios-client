@@ -71,7 +71,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             PreferencesViewSection.information.rawValue: 0,
             PreferencesViewSection.settings.rawValue: 1,
             PreferencesViewSection.about.rawValue: 2,
-            PreferencesViewSection.numberSections.rawValue: 3,
+            PreferencesViewSection.numberSections.rawValue: 3
         ]
 
         // View title for GAnalytics

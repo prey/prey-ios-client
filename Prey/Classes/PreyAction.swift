@@ -68,7 +68,7 @@ class PreyAction: Operation, @unchecked Sendable {
         var params: [String: Any] = [
             kData.status.rawValue: status,
             kData.target.rawValue: target,
-            kData.command.rawValue: command,
+            kData.command.rawValue: command
         ]
 
         if let jobId = deviceJobId {

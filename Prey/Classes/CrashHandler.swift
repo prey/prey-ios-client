@@ -41,7 +41,7 @@ enum CrashHandler {
         // Persist minimal info; full payload is built on next launch
         let info: [String: Any] = [
             "message": (exception.reason?.isEmpty == false ? exception.reason! : exception.name.rawValue),
-            "backtrace": exception.callStackSymbols.joined(separator: "\n"),
+            "backtrace": exception.callStackSymbols.joined(separator: "\n")
         ]
         do {
             let data = try JSONSerialization.data(withJSONObject: info, options: [])
@@ -121,7 +121,6 @@ enum CrashHandler {
                         PreyLogger("upload failed for signals.log; will retry on next launch")
                     }
                 }
-
             } catch {
                 // Keep file for next launch
                 continue
@@ -224,7 +223,7 @@ enum CrashHandler {
             "gid": gid,
             "uid": uid,
             "pid": pid,
-            "memory": memory,
+            "memory": memory
         ]
     }
 
@@ -268,7 +267,7 @@ enum CrashHandler {
         if kerr == KERN_SUCCESS {
             return [
                 "resident_size": NSNumber(value: info.resident_size),
-                "virtual_size": NSNumber(value: info.virtual_size),
+                "virtual_size": NSNumber(value: info.virtual_size)
             ]
         } else {
             return ["error": Int(kerr)]

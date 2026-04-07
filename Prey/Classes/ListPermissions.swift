@@ -33,7 +33,7 @@ class ListPermissions: PreyAction, @unchecked Sendable {
             // send listPermissions
             let params: [String: Any] = [
                 kEvent.info.rawValue: permissionParam,
-                kEvent.name.rawValue: "list_permission",
+                kEvent.name.rawValue: "list_permission"
             ]
             PreyLogger("listPermissions: \(params)")
             self.sendData(params, toEndpoint: eventsDeviceEndpoint)
@@ -77,7 +77,7 @@ class ListPermissions: PreyAction, @unchecked Sendable {
                         kPermission.camera.rawValue: String(camera),
                         kPermission.background_app_refresh.rawValue: String(backgroundAppRefresh),
                         kPermission.notification.rawValue: String(notification),
-                        kPermission.photos.rawValue: String(photos),
+                        kPermission.photos.rawValue: String(photos)
                     ]
 
                     completion(permissionParam)

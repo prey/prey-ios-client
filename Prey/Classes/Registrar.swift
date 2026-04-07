@@ -21,8 +21,7 @@ class TokenRegistrationValidator {
         logPrefix _: String
     ) -> Bool {
         if let lastToken = suite.string(forKey: lastValueKey),
-           let lastSent = suite.object(forKey: lastSentKey) as? Date
-        {
+           let lastSent = suite.object(forKey: lastSentKey) as? Date {
             let elapsed = Date().timeIntervalSince(lastSent)
             if lastToken == tokenHex && elapsed < cacheDuration { return false }
         }
@@ -69,19 +68,19 @@ class NotificationTokenRegistrar {
         let preyDevice = PreyDevice()
         let firmwareInfo: [String: String] = [
             "vendor_name": preyDevice.vendor ?? "",
-            "machine_id": UIDevice.current.machineIdentifier,
+            "machine_id": UIDevice.current.machineIdentifier
         ]
         let processorInfo: [String: String] = [
-            "cores": preyDevice.cpuCores ?? "",
+            "cores": preyDevice.cpuCores ?? ""
         ]
         let specs: [String: Any] = [
             "processor_info": processorInfo,
-            "firmware_info": firmwareInfo,
+            "firmware_info": firmwareInfo
         ]
         let params: [String: Any] = [
             "notification_id": tokenHex,
             "specs": specs,
-            "device_name": UIDevice.current.name,
+            "device_name": UIDevice.current.name
         ]
         PreyNetworkRetry.sendDataWithBackoff(
             username: username,
@@ -135,7 +134,7 @@ class LocationPushRegistrar {
             logPrefix: "LOCATION-PUSH REGISTER"
         ) else { return }
         let params: [String: Any] = [
-            "notification_id_extra": tokenHex,
+            "notification_id_extra": tokenHex
         ]
         PreyNetworkRetry.sendDataWithBackoff(
             username: apiKey,

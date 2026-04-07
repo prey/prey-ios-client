@@ -177,7 +177,7 @@ class PreyRestTests: XCTestCase {
         let params: [String: Any] = [
             kData.status.rawValue: kStatus.started.rawValue,
             kData.target.rawValue: kAction.location.rawValue,
-            kData.command.rawValue: kCommand.start.rawValue,
+            kData.command.rawValue: kCommand.start.rawValue
         ]
 
         // Send info to panel
@@ -211,7 +211,6 @@ class PreyRestTests: XCTestCase {
 
                 expectation.fulfill()
             }))
-
         } else {
             // Check if apiKey is nil
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)

@@ -19,7 +19,7 @@ class Location: PreyAction, CLLocationManagerDelegate, LocationDelegate, @unchec
 
     var isLocationAwareActive = false
     /// Ensure only one Location instance owns the location-aware delegate at a time
-    private weak static var activeAwareOwner: Location?
+    private static weak var activeAwareOwner: Location?
 
     /// Stop the global location-aware session if running
     static func stopLocationAwareIfRunning() {
@@ -158,8 +158,7 @@ class Location: PreyAction, CLLocationManagerDelegate, LocationDelegate, @unchec
 
         // Check if we have a very recent location (< 30 seconds) - reuse it for fast response
         if let lastLoc = LocationService.shared.getLastLocation(),
-           abs(lastLoc.timestamp.timeIntervalSinceNow) < 30
-        {
+           abs(lastLoc.timestamp.timeIntervalSinceNow) < 30 {
             PreyLogger("Location.get(): reusing recent location (\(Int(abs(lastLoc.timestamp.timeIntervalSinceNow)))s old)", level: .info)
             locationReceived(lastLoc)
             return
@@ -244,7 +243,7 @@ class Location: PreyAction, CLLocationManagerDelegate, LocationDelegate, @unchec
             kLocation.lat.rawValue: location.coordinate.latitude,
             kLocation.alt.rawValue: location.altitude,
             kLocation.accuracy.rawValue: location.horizontalAccuracy,
-            kLocation.method.rawValue: "native",
+            kLocation.method.rawValue: "native"
         ]
 
         // Save location to shared container
@@ -255,7 +254,7 @@ class Location: PreyAction, CLLocationManagerDelegate, LocationDelegate, @unchec
                 "alt": location.altitude,
                 "accuracy": location.horizontalAccuracy,
                 "method": "native",
-                "timestamp": Date().timeIntervalSince1970,
+                "timestamp": Date().timeIntervalSince1970
             ]
 
             userDefaults.set(locationDict, forKey: "lastLocation")

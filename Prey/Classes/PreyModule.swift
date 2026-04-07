@@ -33,8 +33,7 @@ class PreyModule {
 
         // Check if we should throttle this call
         if let lastCallTime = PreyModule.lastStatusDeviceCallTime,
-           now.timeIntervalSince(lastCallTime) < PreyModule.statusDeviceThrottleInterval
-        {
+           now.timeIntervalSince(lastCallTime) < PreyModule.statusDeviceThrottleInterval {
             // If there's already a request in progress, queue this callback
             if PreyModule.isStatusDeviceInProgress {
                 PreyLogger("StatusDevice - Throttled (\(context)): adding callback to pending queue")
@@ -228,7 +227,6 @@ class PreyModule {
                 PreyLogger("All actions processed successfully")
                 if let app = UIApplication.shared.delegate as? AppDelegate { app.stopBackgroundTask() }
             }
-
         } catch let error as NSError {
             PreyLogger("JSON parsing error: \(error.localizedDescription)")
             PreyNotification.sharedInstance.handlePushError("Failed to parse actions: \(error.localizedDescription)")

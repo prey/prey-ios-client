@@ -73,7 +73,7 @@ class PreyDevice {
             "uuid": device.uuid!,
             "serial_number": device.uuid!,
             "cpu_cores": device.cpuCores!,
-            "ram_size": device.ramSize!,
+            "ram_size": device.ramSize!
         ]
 
         let params: [String: Any] = [
@@ -84,7 +84,7 @@ class PreyDevice {
             "machine_id": device.machineIdentifier!,
             "os": device.os!,
             "physical_address": device.macAddress!,
-            "hardware_attributes": hardwareInfo,
+            "hardware_attributes": hardwareInfo
         ]
 
         guard let username = PreyConfig.sharedInstance.userApiKey else {
@@ -103,7 +103,7 @@ class PreyDevice {
     class func renameDevice(_ newName: String, onCompletion: @escaping (_ isSuccess: Bool) -> Void) {
         let params: [String: Any] = [
             "name": "device_renamed",
-            "info": ["new_name": newName],
+            "info": ["new_name": newName]
         ]
 
         guard let username = PreyConfig.sharedInstance.userApiKey else {

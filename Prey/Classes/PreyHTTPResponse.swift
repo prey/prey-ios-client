@@ -130,7 +130,6 @@ class PreyHTTPResponse {
             PreyConfig.sharedInstance.saveValues()
             // After API key is saved, perform a consolidated sync (tokens + status + info)
             SyncCoordinator.performPostAuthOrUpgradeSync(reason: .postLogin)
-
         } catch {
             PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")
@@ -236,7 +235,6 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.isTouchIDEnabled = true
                 PreyConfig.sharedInstance.saveValues()
             }
-
         } catch {
             PreyConfig.sharedInstance.reportError(error)
             PreyLogger("json error: \(error.localizedDescription)")
@@ -322,7 +320,7 @@ class PreyHTTPResponse {
                 var foundCommands = false
 
                 // Check for instructions array
-                if let instructions = dict["instruction"] as? NSArray, instructions.count > 0 {
+                if let instructions = dict["instruction"] as? NSArray, !instructions.isEmpty {
                     PreyLogger("Found instruction array with \(instructions.count) items")
 
                     let jsonData = try JSONSerialization.data(withJSONObject: instructions, options: .prettyPrinted)
@@ -334,7 +332,7 @@ class PreyHTTPResponse {
                 }
 
                 // Check for command array
-                if let commands = dict["command"] as? NSArray, commands.count > 0 {
+                if let commands = dict["command"] as? NSArray, !commands.isEmpty {
                     PreyLogger("Found command array with \(commands.count) items")
 
                     let jsonData = try JSONSerialization.data(withJSONObject: commands, options: .prettyPrinted)
@@ -349,7 +347,7 @@ class PreyHTTPResponse {
                 if !foundCommands {
                     PreyLogger("No commands found in object structure, trying raw response")
                 }
-            } else if let array = jsonObject as? NSArray, array.count > 0 {
+            } else if let array = jsonObject as? NSArray, !array.isEmpty {
                 let jsonData = try JSONSerialization.data(withJSONObject: array, options: .prettyPrinted)
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
                     PreyModule.sharedInstance.parseActionsFromPanel(jsonString)
@@ -455,8 +453,7 @@ class PreyHTTPResponse {
             if let dict = jsonObject as? [String: Any],
                let settings = dict["settings"] as? [String: Any],
                let localSettings = settings["local"] as? [String: Any],
-               let isActiveLocationAware = localSettings["location_aware"] as? Bool
-            {
+               let isActiveLocationAware = localSettings["location_aware"] as? Bool {
                 PreyLogger("Location aware setting found isActiveLocationAware: \(isActiveLocationAware)")
                 PreyConfig.sharedInstance.isActiveAware = isActiveLocationAware
             }
@@ -499,7 +496,7 @@ class PreyHTTPResponse {
             let jsonObject = try JSONSerialization.jsonObject(with: dataResponse, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
 
             // Check for commands in the response
-            if let commands = jsonObject["command"] as? NSArray, commands.count > 0 {
+            if let commands = jsonObject["command"] as? NSArray, !commands.isEmpty {
                 PreyLogger("Found commands in status device response: \(commands.count) commands")
 
                 // Process commands from the response
@@ -514,8 +511,7 @@ class PreyHTTPResponse {
             if let dict = jsonObject as? [String: Any],
                let settings = dict["settings"] as? [String: Any],
                let localSettings = settings["local"] as? [String: Any],
-               let isActiveLocationAware = localSettings["location_aware"] as? Bool
-            {
+               let isActiveLocationAware = localSettings["location_aware"] as? Bool {
                 PreyLogger("Location aware setting found: \(isActiveLocationAware)")
 
                 if isActiveLocationAware == true {

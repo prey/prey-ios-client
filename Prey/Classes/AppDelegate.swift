@@ -188,7 +188,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
             // Perform initial sync with server. This will also set up foreground timer.
             syncWithServer()
-
         } else {
             PreyDeployment.sharedInstance.runPreyDeployment()
         }
@@ -281,8 +280,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // Check for shared location data from extension (read-only, efficient)
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
-           let lastLocation = userDefaults.dictionary(forKey: "lastLocation")
-        {
+           let lastLocation = userDefaults.dictionary(forKey: "lastLocation") {
             PreyLogger("Found shared location data: \(lastLocation)")
             // Process location data if needed (should be quick or trigger a BGTask)
         }
@@ -403,8 +401,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         // Check for shared location data from extension (read-only, efficient)
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios"),
-           let lastLocation = userDefaults.dictionary(forKey: "lastLocation")
-        {
+           let lastLocation = userDefaults.dictionary(forKey: "lastLocation") {
             PreyLogger("Found shared location data: \(lastLocation)")
         }
         dispatchGroup.enter()
@@ -632,11 +629,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let paramsInfo: [String: String] = [
                 "permission_name": "location",
                 "new": locationAccessNew,
-                "old": locationAccessOld!,
+                "old": locationAccessOld!
             ]
             let params: [String: Any] = [
                 "name": "permission_changed",
-                "info": paramsInfo,
+                "info": paramsInfo
             ]
             if let username = PreyConfig.sharedInstance.userApiKey {
                 PreyHTTPClient.sharedInstance.sendDataToPrey(username, password: "x", params: params, messageId: nil, httpMethod: Method.POST.rawValue, endPoint: eventsDeviceEndpoint, onCompletion: PreyHTTPResponse.checkResponse(RequestType.dataSend, preyAction: nil, onCompletion: { success in
@@ -784,8 +781,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     /// Handle notification response (user interaction with notification)
     func userNotificationCenter(_: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void)
-    {
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         PreyLogger("Received notification response: \(response.actionIdentifier) with userInfo: \(userInfo)")
 
@@ -818,8 +814,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     /// Handle notification presentation while app is in foreground
     func userNotificationCenter(_: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
-    {
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         PreyLogger("Will present notification in foreground: \(notification.request.identifier)")
 
         // Show notifications normally

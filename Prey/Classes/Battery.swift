@@ -52,7 +52,7 @@ class Battery: NSObject {
 
         let params: [String: Any] = [
             kEvent.info.rawValue: "",
-            kEvent.name.rawValue: kBattery.LOW.rawValue,
+            kEvent.name.rawValue: kBattery.LOW.rawValue
         ]
 
         // Check userApiKey isn't empty
@@ -69,7 +69,7 @@ class Battery: NSObject {
     func getHeaderPreyStatus() -> [String: Any] {
         let info: [String: Any] = [
             kBattery.STATE.rawValue: (UIDevice.current.batteryState == .unplugged) ? "discharging" : "charging",
-            kBattery.LEVEL.rawValue: (UIDevice.current.batteryLevel >= 0) ? String(describing: UIDevice.current.batteryLevel * 100.0) : "0.0",
+            kBattery.LEVEL.rawValue: (UIDevice.current.batteryLevel >= 0) ? String(describing: UIDevice.current.batteryLevel * 100.0) : "0.0"
         ]
 
         return [kBattery.STATUS.rawValue: info]

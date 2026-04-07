@@ -109,8 +109,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
 
         // Present the alert
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first?.rootViewController
-        {
+           let rootViewController = windowScene.windows.first?.rootViewController {
             rootViewController.present(alertController, animated: true)
         }
     }
@@ -183,8 +182,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
             }))
             // Present
             if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let root = scene.windows.first?.rootViewController
-            {
+               let root = scene.windows.first?.rootViewController {
                 root.present(alert, animated: true)
             }
         case .denied, .restricted:
@@ -203,8 +201,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
     func checkLocationBackground() -> Bool {
         var locationAuth = false
         if CLLocationManager.locationServicesEnabled() &&
-            authLocation.authorizationStatus == .authorizedAlways
-        {
+            authLocation.authorizationStatus == .authorizedAlways {
             locationAuth = true
         }
         return locationAuth

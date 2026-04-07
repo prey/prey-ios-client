@@ -125,8 +125,7 @@ class PreyNotification {
 
         // APNS silent notification check (content-available = 1)
         if let aps = userInfo["aps"] as? [String: Any],
-           let contentAvailable = aps["content-available"] as? Int, contentAvailable == 1
-        {
+           let contentAvailable = aps["content-available"] as? Int, contentAvailable == 1 {
             PreyLogger("📣 PN TYPE: Silent notification detected with content-available=1")
 
             // Check for remote actions when receiving silent push notification

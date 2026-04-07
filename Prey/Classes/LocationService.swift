@@ -216,7 +216,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
                 "alt": location.altitude,
                 "accuracy": location.horizontalAccuracy,
                 "method": "native",
-                "timestamp": Date().timeIntervalSince1970,
+                "timestamp": Date().timeIntervalSince1970
             ]
             userDefaults.set(dict, forKey: "lastLocation")
         }
@@ -286,7 +286,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
             "lat": loc.coordinate.latitude,
             "lon": loc.coordinate.longitude,
             "acc": loc.horizontalAccuracy,
-            "ts": loc.timestamp.timeIntervalSince1970,
+            "ts": loc.timestamp.timeIntervalSince1970
         ])
         // Fulfill one-shot if pending
         if let c = oneShotCompletion { oneShotCompletion = nil; c(loc) }
