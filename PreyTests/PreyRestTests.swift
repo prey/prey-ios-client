@@ -30,8 +30,12 @@ class PreyRestTests: XCTestCase {
     }
 
     // Test log user
-    func testRest01LogInUser() {
-        
+    func testRest01LogInUser() throws {
+        try XCTSkipIf(
+            ProcessInfo.processInfo.environment["CI"] == "true",
+            "Skipping network-dependent test in CI."
+        )
+
         let expectation     = self.expectation(description: "Expecta Test: Log In")
         
         // LogIn to Panel Prey
@@ -50,8 +54,12 @@ class PreyRestTests: XCTestCase {
     }
     
     // Test get token from panel
-    func testRest03GetToken() {
-        
+    func testRest03GetToken() throws {
+        try XCTSkipIf(
+            ProcessInfo.processInfo.environment["CI"] == "true",
+            "Skipping network-dependent test in CI."
+        )
+
         let expectation     = self.expectation(description: "Expecta Test: Get Token")
         
         // Get token from panel
@@ -155,38 +163,6 @@ class PreyRestTests: XCTestCase {
         // Check userApiKey isn't empty
         if let username = PreyConfig.sharedInstance.userApiKey {
             PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:dataDeviceEndpoint, onCompletion:response)
-        } else {
-            // Check if apiKey is nil
-            XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
-        }
-        
-        self.waitForExpectations(timeout: 15, handler:nil)
-    }
-    
-    // Test Transaction InAppPurchase
-    func testRest07TransactionInAppPurchase() {
-        
-        let expectation                 = self.expectation(description: "Expecta Test: Transaction InAppPurchase")
-        
-        let receipt                     = "t3stT0k3n".data(using: String.Encoding.utf8, allowLossyConversion: true)! as Data
-        let receiptDataString           = receipt.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-        
-        let params:[String: String]  = ["receipt-data" : receiptDataString]
-
-        let response: (Data?, URLResponse?, Error?) -> Void = { (data, response, error) in
-            
-            // Error is nil
-            XCTAssertNil(error)
-            
-            let httpURLResponse = response as! HTTPURLResponse
-            
-            XCTAssertEqual(httpURLResponse.statusCode,403)
-            
-            expectation.fulfill()
-        }
-        
-        if let username = PreyConfig.sharedInstance.userApiKey {
-            PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:params, messageId:nil, httpMethod:Method.POST.rawValue, endPoint:subscriptionEndpoint, onCompletion:response)
         } else {
             // Check if apiKey is nil
             XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)

@@ -17,7 +17,6 @@
 		0592E44D2E60A3B2000EE115 /* ZipUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E44C2E60A3B2000EE115 /* ZipUtils.swift */; };
 		3B0E79C11CDA2E02000065A0 /* PreyHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E79C01CDA2E02000065A0 /* PreyHTTPResponse.swift */; };
 		3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2445FA1D24717B005DF09C /* AlertVC.swift */; };
-		3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */; };
 		3B33A76420F69D0B00F3B64E /* Battery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B33A76320F69D0B00F3B64E /* Battery.swift */; };
 		3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38BA8E1D22C03D00B6799B /* WebVC.swift */; };
 		3B38BA931D231B1C00B6799B /* Detach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B38BA921D231B1C00B6799B /* Detach.swift */; };
@@ -29,11 +28,9 @@
 		3B41BDB11D05FFF0003DF0CE /* PreyCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */; };
 		3B42A2671D2581EF002848C0 /* large9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B42A2661D2581EF002848C0 /* large9.ttf */; };
 		3B42A2691D25A9EA002848C0 /* PreyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */; };
-		3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4E40611D3D3E2D00A45FBD /* GrettingsProVC.swift */; };
 		3B4F67A31CEA085200F58FAD /* shutter.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A11CEA085200F58FAD /* shutter.aiff */; };
 		3B4F67A41CEA085200F58FAD /* siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3B4F67A21CEA085200F58FAD /* siren.mp3 */; };
 		3B51FFB21D3EB77C00CFE4E8 /* QRCodeScannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B51FFB11D3EB77C00CFE4E8 /* QRCodeScannerVC.swift */; };
-		3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67A01B1D381A890028255E /* PreyStoreManager.swift */; };
 		3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D709F1CD7D62A00DEB461 /* UIDeviceExt.swift */; };
 		3B6D70A31CD7E3D400DEB461 /* SwiftExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6D70A21CD7E3D400DEB461 /* SwiftExt.swift */; };
 		3B77804E1A600CCE0050C747 /* PreyUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B77804D1A600CCE0050C747 /* PreyUser.swift */; };
@@ -65,7 +62,6 @@
 		3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D21A2E7B530027179E /* AppDelegate.swift */; };
 		3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D41A2E7B530027179E /* HomeVC.swift */; };
 		3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */; };
-		3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D71A2E7B530027179E /* PurchasesVC.swift */; };
 		3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D81A2E7B530027179E /* SettingsVC.swift */; };
 		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
 		3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC971CDB9CD70052A21D /* Location.swift */; };
@@ -80,7 +76,6 @@
 		3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342FF22710B360088F3D3 /* MimeTypes.swift */; };
 		3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21C1D47CAC500074E97 /* StoreKit.framework */; };
 		3BB6E21F1D47CACD00074E97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21E1D47CACD00074E97 /* MapKit.framework */; };
-		3BB6E2251D47F42100074E97 /* PreyRateUs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB6E2241D47F42100074E97 /* PreyRateUs.swift */; };
 		3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3C0971C9733BA00D08D62 /* Constants.swift */; };
 		3BC4FC1F1D3699F800C58878 /* CurrentLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */; };
 		3BCD4C881C985A3100CDEE1C /* PreyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */; };
@@ -160,7 +155,6 @@
 		3B2445FA1D24717B005DF09C /* AlertVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertVC.swift; path = Classes/AlertVC.swift; sourceTree = "<group>"; };
 		3B2A76BA205AB5EA008912BC /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		3B2A76BB205AB5EA008912BC /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyStoreProduct.swift; path = Classes/PreyStoreProduct.swift; sourceTree = "<group>"; };
 		3B33A76320F69D0B00F3B64E /* Battery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Battery.swift; path = Classes/Battery.swift; sourceTree = "<group>"; };
 		3B38BA8E1D22C03D00B6799B /* WebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebVC.swift; path = Classes/WebVC.swift; sourceTree = "<group>"; };
 		3B38BA921D231B1C00B6799B /* Detach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Detach.swift; path = Classes/Detach.swift; sourceTree = "<group>"; };
@@ -172,11 +166,9 @@
 		3B41BDB01D05FFF0003DF0CE /* PreyCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyCoreData.swift; path = Classes/PreyCoreData.swift; sourceTree = "<group>"; };
 		3B42A2661D2581EF002848C0 /* large9.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = large9.ttf; sourceTree = "<group>"; };
 		3B42A2681D25A9EA002848C0 /* PreyProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyProtocol.swift; path = Classes/PreyProtocol.swift; sourceTree = "<group>"; };
-		3B4E40611D3D3E2D00A45FBD /* GrettingsProVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrettingsProVC.swift; path = Classes/GrettingsProVC.swift; sourceTree = "<group>"; };
 		3B4F67A11CEA085200F58FAD /* shutter.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = shutter.aiff; sourceTree = "<group>"; };
 		3B4F67A21CEA085200F58FAD /* siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = siren.mp3; sourceTree = "<group>"; };
 		3B51FFB11D3EB77C00CFE4E8 /* QRCodeScannerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QRCodeScannerVC.swift; path = Classes/QRCodeScannerVC.swift; sourceTree = "<group>"; };
-		3B67A01B1D381A890028255E /* PreyStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyStoreManager.swift; path = Classes/PreyStoreManager.swift; sourceTree = "<group>"; };
 		3B6D709F1CD7D62A00DEB461 /* UIDeviceExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIDeviceExt.swift; path = Classes/UIDeviceExt.swift; sourceTree = "<group>"; };
 		3B6D70A21CD7E3D400DEB461 /* SwiftExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftExt.swift; path = Classes/SwiftExt.swift; sourceTree = "<group>"; };
 		3B77804D1A600CCE0050C747 /* PreyUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyUser.swift; path = Classes/PreyUser.swift; sourceTree = "<group>"; };
@@ -211,7 +203,6 @@
 		3B8E57D21A2E7B530027179E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Classes/AppDelegate.swift; sourceTree = "<group>"; };
 		3B8E57D41A2E7B530027179E /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeVC.swift; path = Classes/HomeVC.swift; sourceTree = "<group>"; };
 		3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPClient.swift; path = Classes/PreyHTTPClient.swift; sourceTree = "<group>"; };
-		3B8E57D71A2E7B530027179E /* PurchasesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchasesVC.swift; path = Classes/PurchasesVC.swift; sourceTree = "<group>"; };
 		3B8E57D81A2E7B530027179E /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsVC.swift; path = Classes/SettingsVC.swift; sourceTree = "<group>"; };
 		3B9DDC951CDB891C0052A21D /* PreyAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyAction.swift; path = Classes/PreyAction.swift; sourceTree = "<group>"; };
 		3B9DDC971CDB9CD70052A21D /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Classes/Location.swift; sourceTree = "<group>"; };
@@ -228,7 +219,6 @@
 		3BB6E21C1D47CAC500074E97 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3BB6E21E1D47CACD00074E97 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		3BB6E2221D47CC3C00074E97 /* Prey.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Prey.entitlements; path = Plist/Prey.entitlements; sourceTree = "<group>"; };
-		3BB6E2241D47F42100074E97 /* PreyRateUs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyRateUs.swift; path = Classes/PreyRateUs.swift; sourceTree = "<group>"; };
 		3BC3C0971C9733BA00D08D62 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Classes/Constants.swift; sourceTree = "<group>"; };
 		3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CurrentLocationVC.swift; path = Classes/CurrentLocationVC.swift; sourceTree = "<group>"; };
 		3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyConfig.swift; path = Classes/PreyConfig.swift; sourceTree = "<group>"; };
@@ -338,9 +328,6 @@
 				3B86297A1EF039E800BE92D4 /* PreyMobileConfig.swift */,
 				3BCD4C871C985A3100CDEE1C /* PreyConfig.swift */,
 				3BFF007F1D3E7EAC00BEF7E0 /* PreyDeployment.swift */,
-				3B67A01B1D381A890028255E /* PreyStoreManager.swift */,
-				3B3029AB1D391FD70039AEF4 /* PreyStoreProduct.swift */,
-				3BB6E2241D47F42100074E97 /* PreyRateUs.swift */,
 				3B41BDA61D05FEFA003DF0CE /* DeviceAuth.swift */,
 				3BC3C0971C9733BA00D08D62 /* Constants.swift */,
 				A9C0CAFE2F00000100000001 /* CrashHandler.swift */,
@@ -483,8 +470,6 @@
 				3BDF988020338AC70023D4AA /* HomeWebVC.swift */,
 				3B8E57D81A2E7B530027179E /* SettingsVC.swift */,
 				3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */,
-				3B8E57D71A2E7B530027179E /* PurchasesVC.swift */,
-				3B4E40611D3D3E2D00A45FBD /* GrettingsProVC.swift */,
 				3B2445FA1D24717B005DF09C /* AlertVC.swift */,
 			);
 			name = ViewController;
@@ -788,7 +773,6 @@
 				3B8629961EF03CB400BE92D4 /* HttpRouter.swift in Sources */,
 				3BCD4C8A1C9867E200CDEE1C /* PreyDevice.swift in Sources */,
 				3BAB25CF23A923C300BDA263 /* Triggers+Class.swift in Sources */,
-				3B3029AC1D391FD70039AEF4 /* PreyStoreProduct.swift in Sources */,
 				3B38BA931D231B1C00B6799B /* Detach.swift in Sources */,
 				0592E4452E609B65000EE115 /* Registrar.swift in Sources */,
 				3B8629991EF03CB400BE92D4 /* Process.swift in Sources */,
@@ -798,7 +782,6 @@
 				3B6D70A31CD7E3D400DEB461 /* SwiftExt.swift in Sources */,
 				3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */,
 				3B41BDA71D05FEFA003DF0CE /* DeviceAuth.swift in Sources */,
-				3B67A01C1D381A8A0028255E /* PreyStoreManager.swift in Sources */,
 				3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */,
 				3BAB25D423A923C300BDA263 /* Triggers+Properties.swift in Sources */,
 				3B38BA8F1D22C03D00B6799B /* WebVC.swift in Sources */,
@@ -816,7 +799,6 @@
 				3B41BDB11D05FFF0003DF0CE /* PreyCoreData.swift in Sources */,
 				3B51FFB21D3EB77C00CFE4E8 /* QRCodeScannerVC.swift in Sources */,
 				3BC4FC1F1D3699F800C58878 /* CurrentLocationVC.swift in Sources */,
-				3B8E57DF1A2E7B530027179E /* PurchasesVC.swift in Sources */,
 				3B8629901EF03CB400BE92D4 /* DemoServer.swift in Sources */,
 				3B8629951EF03CB400BE92D4 /* HttpResponse.swift in Sources */,
 				3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */,
@@ -834,7 +816,6 @@
 				3B9DDC9A1CDBBF030052A21D /* PreyModule.swift in Sources */,
 				3BAB25D323A923C300BDA263 /* TriggersEvents+Properties.swift in Sources */,
 				747FA51E2BAB1683003242C7 /* ListPermissions.swift in Sources */,
-				3B4E40621D3D3E2D00A45FBD /* GrettingsProVC.swift in Sources */,
 				3B6D70A01CD7D62A00DEB461 /* UIDeviceExt.swift in Sources */,
 				3B8629921EF03CB400BE92D4 /* Files.swift in Sources */,
 				3B8629A01EF03CB400BE92D4 /* String+Misc.swift in Sources */,
@@ -846,7 +827,6 @@
 				3B2445FB1D24717B005DF09C /* AlertVC.swift in Sources */,
 				3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */,
 				3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */,
-				3BB6E2251D47F42100074E97 /* PreyRateUs.swift in Sources */,
 				A9C0CAFE2F00000100000002 /* CrashHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

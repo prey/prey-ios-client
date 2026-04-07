@@ -69,10 +69,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         self.actInd                     = UIActivityIndicatorView(initInView:self.view, withText:"Please wait".localized)
         webView.addSubview(actInd)
         
-        if (PreyConfig.sharedInstance.isRegistered) {
-            // Check for Rate us
-            PreyRateUs.sharedInstance.askForReview()
-        }
     }
     
     override func didReceiveMemoryWarning() {

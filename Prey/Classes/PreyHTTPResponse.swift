@@ -12,7 +12,7 @@ import UIKit
 
 // Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, renameDevice, addDevice, deleteDevice, subscriptionReceipt, actionDevice, dataSend, statusDevice, infoDevice, settings
+    case getToken, logIn, renameDevice, addDevice, deleteDevice, actionDevice, dataSend, statusDevice, infoDevice, settings
 }
 
 class PreyHTTPResponse {
@@ -62,9 +62,6 @@ class PreyHTTPResponse {
             
         case .deleteDevice:
             checkDeleteDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
-
-        case .subscriptionReceipt:
-            checkSubscriptionReceipt(isResponseSuccess, withData:data, withError:error, statusCode:code)
 
         case .actionDevice:
             checkActionDevice(isResponseSuccess, withData:data, withError:error, statusCode:code)
@@ -278,27 +275,6 @@ class PreyHTTPResponse {
         PreyConfig.sharedInstance.reportError("DeleteDevice", statusCode: statusCode, errorDescription: "DeleteDevice error")
     }
 
-    // Check subsciption receipt
-    class func checkSubscriptionReceipt(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
-        
-        if isSuccess {
-            return
-        }
-
-        // Check error with URLSession request
-        guard error == nil else {
-            PreyConfig.sharedInstance.reportError(error)
-            let alertMessage = error?.localizedDescription
-            displayErrorAlert(alertMessage!.localized, titleMessage:"Error".localized)
-            return
-        }
-        
-        let titleMsg = "Error".localized
-        let alertMsg = "Transaction Error".localized
-        displayErrorAlert(alertMsg, titleMessage:titleMsg)
-        PreyConfig.sharedInstance.reportError("SubscriptionReceipt", statusCode: statusCode, errorDescription: "SubscriptionReceipt error")
-    }
-    
     // Check Action Devices response
     class func checkActionDevice(_ isSuccess:Bool, withData data:Data?, withError error:Error?, statusCode:Int?) {
 
