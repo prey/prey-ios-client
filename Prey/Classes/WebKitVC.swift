@@ -17,33 +17,33 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     var webView     = WKWebView()
 
     var actInd      = UIActivityIndicatorView()
-    
+
     var titleView   = String()
-    
+
     // MARK: Init
 
     // Init customize
-    convenience init(withURL url: URL, withParameters:String?, withTitle:String) {
-        
-        self.init(nibName:nil, bundle:nil)
-        
+    convenience init(withURL url: URL, withParameters: String?, withTitle: String) {
+
+        self.init(nibName: nil, bundle: nil)
+
         self.titleView                  = withTitle
 
         self.view.backgroundColor       = UIColor.black
-    
+
         let rectView                    = UIScreen.main.bounds
         // Config webView
         let webConfiguration            = WKWebViewConfiguration()
-        webView                         = WKWebView(frame:rectView, configuration:webConfiguration)
+        webView                         = WKWebView(frame: rectView, configuration: webConfiguration)
         webView.backgroundColor         = UIColor.black
         webView.uiDelegate              = self
         webView.navigationDelegate      = self
         webView.isMultipleTouchEnabled  = true
         webView.allowsBackForwardNavigationGestures = true
-        
-        var request                     = URLRequest(url:url)
+
+        var request                     = URLRequest(url: url)
         request.timeoutInterval         = timeoutIntervalRequest
-        
+
         // Set params to request
         if let params = withParameters {
             sendRequestWithToken(params: params, request: request)
@@ -51,115 +51,102 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
             // Load request
             webView.load(request)
         }
-        
+
         // Add webView to View
         self.view.addSubview(webView)
-        
-        self.actInd                     = UIActivityIndicatorView(initInView:self.view, withText:"Please wait".localized)
+
+        self.actInd                     = UIActivityIndicatorView(initInView: self.view, withText: "Please wait".localized)
         webView.addSubview(actInd)
-        
+
         // Config cancel button
         let ipadFc: CGFloat             = (IS_IPAD) ? 2 : 1
         let posX                        = rectView.size.width - 50*ipadFc
         let rectBtn                     = CGRect(x: posX, y: 7*ipadFc, width: 38*ipadFc, height: 34*ipadFc)
         let cancelButton                = UIButton(frame: rectBtn)
         cancelButton.backgroundColor    = UIColor.clear
-        cancelButton.setBackgroundImage(UIImage(named:"BtCloseOff"), for:.normal)
-        cancelButton.setBackgroundImage(UIImage(named:"BtCloseOn"),  for:.highlighted)
-        cancelButton.addTarget(self, action: #selector(cancel), for:.touchUpInside)
+        cancelButton.setBackgroundImage(UIImage(named: "BtCloseOff"), for: .normal)
+        cancelButton.setBackgroundImage(UIImage(named: "BtCloseOn"), for: .highlighted)
+        cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         self.view.addSubview(cancelButton)
     }
 
     // Send request with parameter to panel
-    func sendRequestWithToken(params: String, request:URLRequest) {
+    func sendRequestWithToken(params: String, request: URLRequest) {
         var req                 = request
         req.httpMethod          = Method.POST.rawValue
         req.httpBody            = params.data(using: String.Encoding.utf8)
-        
+
         let sessionConfig       = URLSessionConfiguration.default
-        sessionConfig.httpAdditionalHeaders = ["User-Agent" : "Mozilla/5.0"]
-        
+        sessionConfig.httpAdditionalHeaders = ["User-Agent": "Mozilla/5.0"]
+
         let session = URLSession(configuration: sessionConfig)
-        let task    = session.dataTask(with: req) { (data, response, error) in
-            
+        let task    = session.dataTask(with: req) { (_, response, error) in
+
             guard error == nil, let resp = response, let urlResp = resp.url else {
                 PreyLogger("Error loading WKWebView")
                 // Hide ActivityIndicator
                 DispatchQueue.main.async { self.actInd.stopAnimating() }
                 displayErrorAlert("Error loading web, please try again.".localized,
-                                  titleMessage:"We have a situation!".localized)
+                                  titleMessage: "We have a situation!".localized)
                 return
             }
-            
-            //let info = String(data:data!, encoding:String.Encoding.utf8)
-            //PreyLogger("response:\(response)")
-            //PreyLogger("data:\(info)")
-            
+
+            // let info = String(data:data!, encoding:String.Encoding.utf8)
+            // PreyLogger("response:\(response)")
+            // PreyLogger("data:\(info)")
+
             let urlPath = urlResp.absoluteString + "?webview" + "&token=" + PreyConfig.sharedInstance.tokenPanel!
-            //PreyLogger("request path:\(urlPath)")
+            // PreyLogger("request path:\(urlPath)")
             let urlPanel        = URL(string: urlPath)
             var panelRequest    = URLRequest(url: urlPanel!)
             panelRequest.addValue("Mozilla/5.0", forHTTPHeaderField: "User-Agent")
             panelRequest.timeoutInterval = timeoutIntervalRequest
-            
+
             DispatchQueue.main.async {
                 self.webView.load(panelRequest)
             }
         }
         task.resume()
     }
-    
-    
+
     // Close viewController
     @objc func cancel() {
-        self.dismiss(animated: true, completion:nil)
+        self.dismiss(animated: true, completion: nil)
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // View title for GAnalytics
-        //self.screenName = titleView
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-        
+
     // Open URL from Safari
-    func openBrowserWith(_ url:URL?) {
+    func openBrowserWith(_ url: URL?) {
         if let urlRequest = url {
             UIApplication.shared.open(urlRequest, options: [:], completionHandler: nil)
         }
     }
-    
-    
+
     // MARK: WKUIDelegate
-    
+
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         PreyLogger("Start load WKWebView")
-        
+
         // Show ActivityIndicator
         DispatchQueue.main.async { self.actInd.startAnimating() }
     }
-    
+
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         PreyLogger("Should load request: WKWebView:\(navigationAction.request)")
-        
+
         let mainRequest = navigationAction.request
-        
+
         if let host = mainRequest.url?.host {
-            
+
             switch host {
                 // Help Prey
             case BlockHost.HELPPREY.rawValue:
-                openBrowserWith(URL(string:URLHelpPrey))
+                openBrowserWith(URL(string: URLHelpPrey))
                 decisionHandler(.cancel)
                 return
-            
+
                 // Panel Prey
             case BlockHost.PANELPREY.rawValue:
-                webView.evaluateJavaScript("var printBtn = document.getElementById('print'); printBtn.style.display='none';", completionHandler:nil)
+                webView.evaluateJavaScript("var printBtn = document.getElementById('print'); printBtn.style.display='none';", completionHandler: nil)
                 decisionHandler(.allow)
                 return
 
@@ -168,42 +155,42 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
                 openBrowserWith(mainRequest.url)
                 decisionHandler(.cancel)
                 return
-                
+
                 // Default true
             default:
                 PreyLogger("Ok")
-                //decisionHandler(.allow)
+                // decisionHandler(.allow)
             }
         }
         decisionHandler(.allow)
     }
-    
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         PreyLogger("Finish load WKWebView")
-        
+
         // Hide ActivityIndicator
         DispatchQueue.main.async { self.actInd.stopAnimating() }
 
         // Hide ViewMap class
-        webView.evaluateJavaScript("var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border')[1]; viewMapBtn.style.display='none';", completionHandler:nil)
-        
+        webView.evaluateJavaScript("var viewMapBtn = document.getElementsByClassName('btn btn-block btn-border')[1]; viewMapBtn.style.display='none';", completionHandler: nil)
+
         // Hide addDeviceBtn
-        webView.evaluateJavaScript("var addDeviceBtn = document.getElementsByClassName('btn btn-success pull-right')[0]; addDeviceBtn.style.display='none';", completionHandler:nil)
-        
+        webView.evaluateJavaScript("var addDeviceBtn = document.getElementsByClassName('btn btn-success pull-right')[0]; addDeviceBtn.style.display='none';", completionHandler: nil)
+
         // Hide accountPlans
-        webView.evaluateJavaScript("var accountPlans = document.getElementById('account-plans'); accountPlans.style.display='none';", completionHandler:nil)
-        
+        webView.evaluateJavaScript("var accountPlans = document.getElementById('account-plans'); accountPlans.style.display='none';", completionHandler: nil)
+
         // Hide print option
-        webView.evaluateJavaScript("var printBtn = document.getElementById('print'); printBtn.style.display='none';", completionHandler:nil)
+        webView.evaluateJavaScript("var printBtn = document.getElementById('print'); printBtn.style.display='none';", completionHandler: nil)
     }
-    
+
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         PreyLogger("Error loading WKWebView")
-        
+
         // Hide ActivityIndicator
         DispatchQueue.main.async { self.actInd.stopAnimating() }
-        
+
         displayErrorAlert("Error loading web, please try again.".localized,
-                          titleMessage:"We have a situation!".localized)
+                          titleMessage: "We have a situation!".localized)
     }
 }

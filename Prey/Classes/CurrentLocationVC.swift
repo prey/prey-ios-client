@@ -13,17 +13,16 @@ import CoreLocation
 
 class CurrentLocationVC: UIViewController, MKMapViewDelegate {
 
-    
     // MARK: Properties
-    
-    let mapRadius   :Double = 200
-    
-    var actInd      : UIActivityIndicatorView!
-    
-    @IBOutlet var mapLocationView    : MKMapView!
+
+    let mapRadius: Double = 200
+
+    var actInd: UIActivityIndicatorView!
+
+    @IBOutlet var mapLocationView: MKMapView!
 
     // MARK: Init
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         if PreyConfig.sharedInstance.isSystemDarkMode {
@@ -31,35 +30,34 @@ class CurrentLocationVC: UIViewController, MKMapViewDelegate {
         }
         self.overrideUserInterfaceStyle = PreyConfig.sharedInstance.isDarkMode ? .dark : .light
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // View title for GAnalytics
-        //self.screenName = "Device Map"
-        
+        // self.screenName = "Device Map"
+
         // Set title
         self.title = "Current Location".localized
-        
+
         // Config MapView
         mapLocationView.showsUserLocation = true
     }
-    
-    
-    // MARK:MKMapViewDelegate
-    
+
+    // MARK: MKMapViewDelegate
+
     // DidUpdateUserLocation
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         let region = MKCoordinateRegion.init(center: userLocation.coordinate, latitudinalMeters: mapRadius, longitudinalMeters: mapRadius)
-        mapLocationView.setRegion(region, animated:true)
+        mapLocationView.setRegion(region, animated: true)
     }
-    
+
     // WillStartLoadingMap
     func mapViewWillStartLoadingMap(_ mapView: MKMapView) {
         PreyLogger("start loading map")
 
         // Show ActivityIndicator
-        actInd = UIActivityIndicatorView(initInView: self.view, withText:"Please wait".localized)
+        actInd = UIActivityIndicatorView(initInView: self.view, withText: "Please wait".localized)
         self.view.addSubview(actInd)
         actInd.startAnimating()
     }
@@ -71,15 +69,15 @@ class CurrentLocationVC: UIViewController, MKMapViewDelegate {
         // Hide ActivityIndicator
         actInd.stopAnimating()
     }
-    
+
     // DidFailLoadingMap
     func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
         PreyLogger("fail loading map")
-        
+
         // Hide ActivityIndicator
         actInd.stopAnimating()
-        
+
         displayErrorAlert("Error loading map, please try again.".localized,
-                          titleMessage:"We have a situation!".localized)
+                          titleMessage: "We have a situation!".localized)
     }
 }

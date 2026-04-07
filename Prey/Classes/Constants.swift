@@ -20,11 +20,11 @@ enum StoryboardIdVC: String {
 }
 
 // Def type device
-public let IS_IPAD          : Bool  = (UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone)
-public let IS_IPHONE4S      : Bool  = (UIScreen.main.bounds.size.height-480 == 0)
-public let IS_IPHONEX       : Bool  = (UIScreen.main.bounds.size.height-812 == 0)
-public let IS_OS_8_OR_LATER : Bool  = ((UIDevice.current.systemVersion as NSString).floatValue >= 8.0)
-public let IS_OS_12         : Bool  = ((UIDevice.current.systemVersion as NSString).intValue == 12)
+public let IS_IPAD: Bool  = (UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone)
+public let IS_IPHONE4S: Bool  = (UIScreen.main.bounds.size.height-480 == 0)
+public let IS_IPHONEX: Bool  = (UIScreen.main.bounds.size.height-812 == 0)
+public let IS_OS_8_OR_LATER: Bool  = ((UIDevice.current.systemVersion as NSString).floatValue >= 8.0)
+public let IS_OS_12: Bool  = ((UIDevice.current.systemVersion as NSString).intValue == 12)
 
 // Number of Reload for Connection
 public let reloadConnection: Int = 5
@@ -65,43 +65,43 @@ private class PreyFileLogger {
     private let logQueue = DispatchQueue(label: "com.prey.filelogger", qos: .utility)
     private let maxLogFileSize: Int = 5 * 1024 * 1024 // 5MB
     private let maxLogFiles: Int = 3
-    
+
     private var logFileURL: URL {
         // Use Documents directory - removed on app uninstall
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return documentsPath.appendingPathComponent("prey.log")
     }
-    
+
     private init() {
         createLogFileIfNeeded()
     }
-    
+
     private func createLogFileIfNeeded() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         let timestamp = dateFormatter.string(from: Date())
         let success = FileManager.default.createFile(atPath: logFileURL.path, contents: nil, attributes: nil)
-        
+
         if !FileManager.default.fileExists(atPath: logFileURL.path) {
             print("[\(timestamp)] [debug] [Constants.swift] Creating log file at: \(logFileURL.path) - Success: \(success)")
         } else {
             print("[\(timestamp)] [debug] [Constants.swift] Log file already exists at \(logFileURL.path)")
         }
     }
-    
+
     func writeLog(_ message: String, level: PreyLogLevel, file: String, line: Int) {
         logQueue.async { [weak self] in
             guard let self = self else { return }
-            
+
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
             let timestamp = dateFormatter.string(from: Date())
             let fileName = (file as NSString).lastPathComponent
             let logEntry = "[\(timestamp)] [\(level)] [\(fileName):\(line)] \(message)\n"
-            
+
             // Rotate logs if needed
             self.rotateLogsIfNeeded()
-            
+
             // Write to file
             if let data = logEntry.data(using: .utf8) {
                 if let fileHandle = FileHandle(forWritingAtPath: self.logFileURL.path) {
@@ -115,35 +115,35 @@ private class PreyFileLogger {
             }
         }
     }
-    
+
     private func rotateLogsIfNeeded() {
         guard let attributes = try? FileManager.default.attributesOfItem(atPath: logFileURL.path),
               let fileSize = attributes[.size] as? Int,
               fileSize > maxLogFileSize else { return }
-        
+
         // Rotate files: prey.log -> prey.log.1 -> prey.log.2 -> deleted
         let baseURL = logFileURL.deletingPathExtension()
         let ext = logFileURL.pathExtension
-        
+
         // Delete the oldest file
         let oldestFile = baseURL.appendingPathExtension("\(ext).\(maxLogFiles - 1)")
         try? FileManager.default.removeItem(at: oldestFile)
-        
+
         // Rotate existing files
         for i in stride(from: maxLogFiles - 2, through: 1, by: -1) {
             let oldFile = baseURL.appendingPathExtension("\(ext).\(i)")
             let newFile = baseURL.appendingPathExtension("\(ext).\(i + 1)")
             try? FileManager.default.moveItem(at: oldFile, to: newFile)
         }
-        
+
         // Move current file
         let newFile = baseURL.appendingPathExtension("\(ext).1")
         try? FileManager.default.moveItem(at: logFileURL, to: newFile)
-        
+
         // Create new file
         createLogFileIfNeeded()
     }
-    
+
     func getLogFileURL() -> URL {
         return logFileURL
     }
@@ -152,7 +152,7 @@ private class PreyFileLogger {
 /// Explicit logging API with level and category
 public func PreyLogger(_ message: String, level: PreyLogLevel = .debug, file: String = #file, line: Int = #line) {
     PreyFileLogger.shared.writeLog(message, level: level, file: file, line: line)
-    
+
     #if DEBUG
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
@@ -236,12 +236,12 @@ extension Notification.Name {
 }
 
 // Biometric authentication
-public let biometricAuth : String = {
-    let textID : String
+public let biometricAuth: String = {
+    let textID: String
     let context = LAContext()
     if #available(iOS 11, *) {
-        let _ = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
-        switch(context.biometryType) {
+        _ = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+        switch context.biometryType {
         case .none:
             textID = ""
         case .touchID:
@@ -269,11 +269,11 @@ public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
     let regex: NSRegularExpression
 
     do {
-        regex = try NSRegularExpression(pattern:withPattern, options:NSRegularExpression.Options.caseInsensitive)
-        let textRange  = NSMakeRange(0, userEmail.count)
-        let matchRange = regex.rangeOfFirstMatch(in: userEmail, options:NSRegularExpression.MatchingOptions.reportProgress, range:textRange)
-        
-        if (matchRange.location != NSNotFound) {
+        regex = try NSRegularExpression(pattern: withPattern, options: NSRegularExpression.Options.caseInsensitive)
+        let textRange  = NSRange(location: 0, length: userEmail.count)
+        let matchRange = regex.rangeOfFirstMatch(in: userEmail, options: NSRegularExpression.MatchingOptions.reportProgress, range: textRange)
+
+        if matchRange.location != NSNotFound {
             isInvalid = false
         }
     } catch let error as NSError {
@@ -283,14 +283,13 @@ public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
     return isInvalid
 }
 
-
 // Display error alert
-public func displayErrorAlert(_ alertMessage: String, titleMessage:String) {
+public func displayErrorAlert(_ alertMessage: String, titleMessage: String) {
     DispatchQueue.main.async {
-        let alertController = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle:.alert)
-        let OKAction        = UIAlertAction(title: "OK".localized, style: .default, handler:nil)
+        let alertController = UIAlertController(title: titleMessage, message: alertMessage, preferredStyle: .alert)
+        let OKAction        = UIAlertAction(title: "OK".localized, style: .default, handler: nil)
         alertController.addAction(OKAction)
-        
+
         guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
@@ -299,11 +298,11 @@ public func displayErrorAlert(_ alertMessage: String, titleMessage:String) {
             PreyLogger("error with rootVC")
             return
         }
-        
+
         if let presentedVC = rootVC.presentedViewController {
-            presentedVC.present(alertController, animated:true, completion:nil)
+            presentedVC.present(alertController, animated: true, completion: nil)
         } else {
-            rootVC.present(alertController, animated:true, completion:nil)
+            rootVC.present(alertController, animated: true, completion: nil)
         }
     }
 }

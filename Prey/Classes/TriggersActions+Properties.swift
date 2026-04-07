@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension TriggersActions {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<TriggersActions> {

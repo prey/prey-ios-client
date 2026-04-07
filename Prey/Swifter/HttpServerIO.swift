@@ -170,7 +170,7 @@ public class HttpServerIO {
 
         // Some web-socket clients (like Jetfire) expects to have header section in a single packet.
         // We can't promise that but make sure we invoke "write" only once for response header section.
-        
+
         var responseHeader = String()
 
         responseHeader.append("HTTP/1.1 \(response.statusCode()) \(response.reasonPhrase())\r\n")

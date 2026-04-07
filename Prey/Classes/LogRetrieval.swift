@@ -25,7 +25,7 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
                                       command: kCommand.start.rawValue,
                                       status: kStatus.started.rawValue)
         sendData(startParams, toEndpoint: responseDeviceEndpoint)
-        
+
         // Locate prey.log file
         let logURL = getPreyLogFileURL()
         guard let fullData = try? Data(contentsOf: logURL) else {
@@ -54,7 +54,7 @@ class LogRetrieval: PreyAction, @unchecked Sendable {
                 messageId: nil,
                 httpMethod: Method.POST.rawValue,
                 endPoint: uploadURL,
-                onCompletion: { data, response, error in
+                onCompletion: { _, response, error in
                     let code = (response as? HTTPURLResponse)?.statusCode
                     if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
                         PreyLogger("LogRetrieval: ✅ uploaded archive (\(zipData.count) bytes)")

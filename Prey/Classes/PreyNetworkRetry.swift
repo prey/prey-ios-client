@@ -39,7 +39,7 @@ class PreyNetworkRetry {
 
         func attemptSend(_ attempt: Int) {
             guard let req = buildRequest() else { onCompletion(false); return }
-            PreyHTTPClient.sharedInstance.performRequest(req) { data, response, error in
+            PreyHTTPClient.sharedInstance.performRequest(req) { _, response, error in
                 if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
                     PreyLogger("\(tag): ✅ Success (HTTP \(http.statusCode))")
                     onCompletion(true)
@@ -134,7 +134,7 @@ class PreyNetworkRetry {
                             // Detect device deleted from backend
                             if http.statusCode == 406 {
                                 PreyLogger("\(tag): Device deleted from panel, triggering detach")
-                                let detachModule = Detach(withTarget:kAction.detach, withCommand:kCommand.start, withOptions:nil)
+                                let detachModule = Detach(withTarget: kAction.detach, withCommand: kCommand.start, withOptions: nil)
                                 detachModule.start()
                                 onCompletion(false)
                                 return
@@ -166,4 +166,3 @@ class PreyNetworkRetry {
         attemptSend(1)
     }
 }
-

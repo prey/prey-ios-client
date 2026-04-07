@@ -21,81 +21,81 @@ protocol LocationDelegate: AnyObject {
 class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, LocationDelegate {
 
     // MARK: Singleton
-    
+
     static let sharedInstance = DeviceAuth()
     override fileprivate init() {
     }
 
     // Location Service Auth
     let authLocation = CLLocationManager()
-    
+
     // MARK: Methods
-    
+
     // Check all device auth
-    func checkAllDeviceAuthorization(completionHandler:@escaping (_ granted: Bool) -> Void){
+    func checkAllDeviceAuthorization(completionHandler: @escaping (_ granted: Bool) -> Void) {
         DispatchQueue.main.async {
             let granted = self.checkLocation() && self.checkCamera()
             completionHandler(granted)
         }
     }
-    
+
     // Check location
     func checkLocation() -> Bool {
         var locationAuth = false
-        
+
         // Use instance method to avoid main thread blocking
         if CLLocationManager.locationServicesEnabled() {
             let status = authLocation.authorizationStatus
-            
+
             if status == .notDetermined {
                 // Request WhenInUse first per iOS policy, upgrade later
                 authLocation.requestWhenInUseAuthorization()
             }
-            
+
             if status == .authorizedAlways || status == .authorizedWhenInUse {
                 locationAuth = true
             }
         }
-        
+
         if !locationAuth {
             displayMessage("To fully protect your device Prey must have access to its location at all times. In Settings, go to Location and select Always.".localized,
                            titleMessage: "Enable Location".localized,
                            cancelBtn: "Later".localized
             )
         }
-        
+
         return locationAuth
     }
-    
+
     // Check camera
     func checkCamera() -> Bool {
-        
+
         var cameraAuth = false
-        
+
         if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) == .authorized {
             cameraAuth = true
         } else {
-            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler:{(granted: Bool) in
+            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: {(granted: Bool) in
                 cameraAuth = granted
             })
         }
-        
+
         if !cameraAuth {
             displayMessage("Camera is disabled for Prey. Reports will not be sent.".localized,
-                           titleMessage:"Enable Camera".localized)
+                           titleMessage: "Enable Camera".localized)
         }
-        
+
         return cameraAuth
     }
-    
+
     // Display message
-    func displayMessage(_ alertMessage:String, titleMessage:String, cancelBtn:String = "Cancel".localized) {
+    func displayMessage(_ alertMessage: String, titleMessage: String, cancelBtn: String = "Cancel".localized) {
         let alertController = UIAlertController(
             title: titleMessage,
             message: alertMessage,
             preferredStyle: .alert
         )
-        
+
         alertController.addAction(UIAlertAction(
             title: "Go to Settings".localized,
             style: .default,
@@ -105,12 +105,12 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
                 }
             }
         ))
-        
+
         alertController.addAction(UIAlertAction(
             title: cancelBtn,
             style: .cancel
         ))
-        
+
         // Present the alert
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootViewController = windowScene.windows.first?.rootViewController {
@@ -132,7 +132,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
             homeWebVC.evaluateJS(homeWebVC.webView, code: js)
         }
     }
-    
+
     // Request auth location
     func requestAuthLocation() {
         authLocation.delegate = self
@@ -201,41 +201,38 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
         }
     }
 
-    
     func checkLocationBackground() -> Bool {
         var locationAuth = false
-        if (CLLocationManager.locationServicesEnabled() &&
-            authLocation.authorizationStatus == .authorizedAlways) {
+        if CLLocationManager.locationServicesEnabled() &&
+            authLocation.authorizationStatus == .authorizedAlways {
             locationAuth = true
         }
         return locationAuth
     }
-       
+
     func checkBackgroundRefreshStatus() -> Bool {
         return UIApplication.shared.backgroundRefreshStatus == .available
     }
-
 
     // MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         let granted = status == .authorizedAlways || status == .authorizedWhenInUse
         notifyPermissionResult("location", granted: granted)
     }
-    
-    
+
     // Track if background location is already configured to avoid redundant setup
     private static var isBackgroundLocationConfigured = false
     private static var lastConfigTime: Date?
-    
+
     // Location delegates for consolidated location management
     private var locationDelegates: [LocationDelegate] = []
 
     // MARK: Location Delegate Management
-    
+
     func isBackgroundLocationManagerActive() -> Bool {
         return DeviceAuth.isBackgroundLocationConfigured || LocationService.shared.isRunning()
     }
-    
+
     func addLocationDelegate(_ delegate: LocationDelegate) {
         // Avoid duplicate delegates
         if !locationDelegates.contains(where: { $0 === delegate }) {
@@ -243,12 +240,12 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
             PreyLogger("Added location delegate")
         }
     }
-    
+
     func removeLocationDelegate(_ delegate: LocationDelegate) {
         locationDelegates.removeAll { $0 === delegate }
         PreyLogger("Removed location delegate")
     }
-    
+
     private func notifyLocationDelegates(_ location: CLLocation) {
         for delegate in locationDelegates {
             delegate.didReceiveLocationUpdate(location)
@@ -263,17 +260,17 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
     // Add a method to ensure background location is properly configured
     func ensureBackgroundLocationIsConfigured() {
         // Don't reconfigure if we've done it recently (within 60 seconds)
-        let shouldConfigure = !DeviceAuth.isBackgroundLocationConfigured || 
+        let shouldConfigure = !DeviceAuth.isBackgroundLocationConfigured ||
                               DeviceAuth.lastConfigTime == nil ||
                               Date().timeIntervalSince(DeviceAuth.lastConfigTime!) > 60
-        
+
         if !shouldConfigure {
             // Avoid spamming logs
             return
         }
-        
+
         PreyLogger("Ensuring background location is configured - Auth status: \(authLocation.authorizationStatus.rawValue)")
-        
+
         if authLocation.authorizationStatus == .authorizedAlways {
             // Use centralized LocationService only
             LocationService.shared.addDelegate(self)
@@ -282,7 +279,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
             DeviceAuth.lastConfigTime = Date()
         } else {
             PreyLogger("Cannot configure background location - no always authorization")
-            
+
             // Request authorization anyway, but don't spam
             if DeviceAuth.lastConfigTime == nil || Date().timeIntervalSince(DeviceAuth.lastConfigTime!) > 300 {
                 let locationManager = CLLocationManager()
@@ -291,7 +288,7 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
             }
         }
     }
-    
+
     // Bridge updates from LocationService (via separate delegate function)
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) { }
 }

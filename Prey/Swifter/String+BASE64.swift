@@ -8,13 +8,13 @@
 import Foundation
 
 extension String {
-    
+
     private static let CODES = [UInt8]("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".utf8)
-    
+
     public static func toBase64(_ data: [UInt8]) -> String? {
-        
+
         // Based on: https://en.wikipedia.org/wiki/Base64#Sample_Implementation_in_Java
-        
+
         var result = [UInt8]()
         var tmp: UInt8
         for index in stride(from: 0, to: data.count, by: 3) {

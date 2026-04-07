@@ -72,20 +72,20 @@ class PreyDevice {
         let device = PreyDevice()
 
         let hardwareInfo: [String: String] = [
-            "uuid"         : device.uuid!,
+            "uuid": device.uuid!,
             "serial_number": device.uuid!,
-            "cpu_cores"    : device.cpuCores!,
-            "ram_size"     : device.ramSize!]
+            "cpu_cores": device.cpuCores!,
+            "ram_size": device.ramSize!]
 
         let params: [String: Any] = [
-            "name"                : device.name!,
-            "device_type"         : device.type!,
-            "os_version"          : device.version!,
-            "vendor_name"         : device.vendor!,
-            "machine_id"          : device.machineIdentifier!,
-            "os"                  : device.os!,
-            "physical_address"    : device.macAddress!,
-            "hardware_attributes" : hardwareInfo]
+            "name": device.name!,
+            "device_type": device.type!,
+            "os_version": device.version!,
+            "vendor_name": device.vendor!,
+            "machine_id": device.machineIdentifier!,
+            "os": device.os!,
+            "physical_address": device.macAddress!,
+            "hardware_attributes": hardwareInfo]
 
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             displayErrorAlert("Error user ID".localized, titleMessage: "Couldn't add your device".localized)
@@ -102,8 +102,8 @@ class PreyDevice {
     class func renameDevice(_ newName: String, onCompletion: @escaping (_ isSuccess: Bool) -> Void) {
 
         let params: [String: Any] = [
-            "name" : "device_renamed",
-            "info" : ["new_name": newName]]
+            "name": "device_renamed",
+            "info": ["new_name": newName]]
 
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             PreyLogger("Error renameDevice")

@@ -53,7 +53,6 @@ enum kDataLocation: String {
     case skip_toast
 }
 
-
 // Prey /Data Endpoint struct
 enum kData: String {
     case status, target, command, reason
@@ -61,63 +60,62 @@ enum kData: String {
 
 // Definition of URLs
 #if DEBUG
-    public let URLControlPanel      : String = "https://solid.preyproject.com/api/v2"
-    public let URLForgotPanel       : String = "https://panel.preyproject.com/forgot?embeddable=true"
-    public let URLCreateAccountPanel       : String = "https://panel.preyproject.com/checkout/starter"
-    public let URLSessionPanel      : String = "https://panel.preyproject.com/login_mobile"
+    public let URLControlPanel: String = "https://solid.preyproject.com/api/v2"
+    public let URLForgotPanel: String = "https://panel.preyproject.com/forgot?embeddable=true"
+    public let URLCreateAccountPanel: String = "https://panel.preyproject.com/checkout/starter"
+    public let URLSessionPanel: String = "https://panel.preyproject.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://solid.preyproject.com/upload/upload"
-    public let logRetrievalEndpoint : String = "https://solid.preyproject.com/upload/log"
-    public let URLCloseAccount      : String = "https://panel.preyproject.com/settings/account"
-    public let exceptionsUrl        : String = "https://exceptions-stg.preyhq.com"
+    public let logRetrievalEndpoint: String = "https://solid.preyproject.com/upload/log"
+    public let URLCloseAccount: String = "https://panel.preyproject.com/settings/account"
+    public let exceptionsUrl: String = "https://exceptions-stg.preyhq.com"
 #else
-    public let URLControlPanel      : String = "https://solid.preyproject.com/api/v2"
-    public let URLForgotPanel       : String = "https://panel.preyproject.com/forgot?embeddable=true"
-    public let URLCreateAccountPanel       : String = "https://panel.preyproject.com/checkout/starter"
-    public let URLSessionPanel      : String = "https://panel.preyproject.com/login_mobile"
+    public let URLControlPanel: String = "https://solid.preyproject.com/api/v2"
+    public let URLForgotPanel: String = "https://panel.preyproject.com/forgot?embeddable=true"
+    public let URLCreateAccountPanel: String = "https://panel.preyproject.com/checkout/starter"
+    public let URLSessionPanel: String = "https://panel.preyproject.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://solid.preyproject.com/upload/upload"
-    public let logRetrievalEndpoint : String = "https://solid.preyproject.com/upload/log"
-    public let URLCloseAccount      : String = "https://panel.preyproject.com/settings/account"
-    public let exceptionsUrl        : String = "https://exceptions.preyproject.com"
+    public let logRetrievalEndpoint: String = "https://solid.preyproject.com/upload/log"
+    public let URLCloseAccount: String = "https://panel.preyproject.com/settings/account"
+    public let exceptionsUrl: String = "https://exceptions.preyproject.com"
 #endif
 
+public let URLHelpPrey: String = "http://help.preyproject.com"
 
-public let URLHelpPrey              : String = "http://help.preyproject.com"
+public let URLTermsPrey: String = "http://preyproject.com/terms"
 
-public let URLTermsPrey             : String = "http://preyproject.com/terms"
-
-public let URLPrivacyPrey           : String = "http://preyproject.com/privacy"
+public let URLPrivacyPrey: String = "http://preyproject.com/privacy"
 
 // Endpoint for Token
-public let tokenEndpoint            : String = "/get_token.json"
+public let tokenEndpoint: String = "/get_token.json"
 
 // Endpoint for LogIn
-public let logInEndpoint            : String = "/profile.json"
+public let logInEndpoint: String = "/profile.json"
 
 // Endpoint for Add Devices
-public let devicesEndpoint          : String = "/devices.json"
+public let devicesEndpoint: String = "/devices.json"
 
 // Endpoint for Device Status
-public var statusDeviceEndpoint : String {return String(format:"/devices/%@/status.json",(PreyConfig.sharedInstance.getDeviceKey()))}
+public var statusDeviceEndpoint: String {return String(format: "/devices/%@/status.json", (PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Device Location Aware
-public var locationAwareEndpoint : String {return String(format:"/devices/%@/location.json",(PreyConfig.sharedInstance.getDeviceKey()))}
+public var locationAwareEndpoint: String {return String(format: "/devices/%@/location.json", (PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Device Data
-public var dataDeviceEndpoint : String {return String(format:"/devices/%@/data",(PreyConfig.sharedInstance.getDeviceKey()))}
+public var dataDeviceEndpoint: String {return String(format: "/devices/%@/data", (PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Response Data
-public var responseDeviceEndpoint : String {return String(format:"/devices/%@/response",(PreyConfig.sharedInstance.getDeviceKey()))}
+public var responseDeviceEndpoint: String {return String(format: "/devices/%@/response", (PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Events Data
-public var eventsDeviceEndpoint : String {return String(format:"/devices/%@/events",(PreyConfig.sharedInstance.getDeviceKey()))}
+public var eventsDeviceEndpoint: String {return String(format: "/devices/%@/events", (PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Device Actions
-public var actionsDeviceEndpoint : String {return String(format:"/devices/%@.json",(PreyConfig.sharedInstance.getDeviceKey()))}
+public var actionsDeviceEndpoint: String {return String(format: "/devices/%@.json", (PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Endpoint for Delete Device
-public var deleteDeviceEndpoint : String {return String(format:"/devices/%@",(PreyConfig.sharedInstance.getDeviceKey()))}
+public var deleteDeviceEndpoint: String {return String(format: "/devices/%@", (PreyConfig.sharedInstance.getDeviceKey()))}
 
-public var infoEndpoint : String {return String(format:"/devices/%@/info.json",(PreyConfig.sharedInstance.getDeviceKey()))}
+public var infoEndpoint: String {return String(format: "/devices/%@/info.json", (PreyConfig.sharedInstance.getDeviceKey()))}
 
 // Http method definitions
 public enum Method: String {

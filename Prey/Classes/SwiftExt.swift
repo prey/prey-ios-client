@@ -18,19 +18,19 @@ extension String {
 
 // Extension for UIActivityIndicatorView
 extension UIActivityIndicatorView {
-    
-    convenience init(initInView view: UIView, withText text:String) {
-        
+
+    convenience init(initInView view: UIView, withText text: String) {
+
         // Config ActivityIndicator
-        self.init(style:.medium)
+        self.init(style: .medium)
         self.hidesWhenStopped       = true
         self.transform              = CGAffineTransform(scaleX: 2, y: 2)
         self.center                 = CGPoint(x: view.center.x, y: view.center.y - self.frame.width)
-        
+
         // Set background
         let centerX                 = self.frame.width*3/4
         let bgRect                  = CGRect(x: -centerX, y: -self.frame.width/2, width: self.frame.width*2, height: self.frame.width*2)
-        let bgView                  = UIView(frame:bgRect)
+        let bgView                  = UIView(frame: bgRect)
         bgView.backgroundColor      = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         bgView.clipsToBounds        = true
         bgView.layer.cornerRadius   = 10

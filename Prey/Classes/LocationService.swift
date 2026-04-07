@@ -66,13 +66,13 @@ class LocationService: NSObject, CLLocationManagerDelegate {
 
     func requestOneShot(_ completion: @escaping (CLLocation?) -> Void) {
         configureIfNeeded()
-        
+
         // Verify permissions before proceeding
         if !ensurePermissions() {
             completion(nil)
             return
         }
-        
+
         // Use existing last if very recent
         if let last = lastLocation, abs(last.timestamp.timeIntervalSinceNow) < 10 {
             completion(last); return
@@ -97,7 +97,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         manager.pausesLocationUpdatesAutomatically = false // Never pause for security
         manager.desiredAccuracy = kCLLocationAccuracyBest // Maximum available accuracy
         manager.distanceFilter = optimalDistanceFilter // 10m to balance accuracy/battery
-        
+
         // Ensure significant changes is always active as a fallback
         if CLLocationManager.significantLocationChangeMonitoringAvailable() {
             manager.startMonitoringSignificantLocationChanges()
@@ -110,7 +110,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         UIDevice.current.isBatteryMonitoringEnabled = true
         let batteryLevel = UIDevice.current.batteryLevel
         let isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
-        
+
         if batteryLevel < 0.10 || isLowPowerMode { // Only with critically low battery
             // For a security app, keep functionality even with low battery
             manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -122,7 +122,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
             manager.distanceFilter = optimalDistanceFilter
         }
     }
-    
+
     private func ensurePermissions() -> Bool {
         let status = manager.authorizationStatus
         if status != .authorizedAlways && status != .authorizedWhenInUse {
@@ -246,15 +246,15 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         guard let loc = locations.last else { oneShotCompletion?(nil); oneShotCompletion = nil; return }
         // Basic validation
         guard CLLocationCoordinate2DIsValid(loc.coordinate),
-              !(loc.coordinate.latitude == 0 && loc.coordinate.longitude == 0) else { 
+              !(loc.coordinate.latitude == 0 && loc.coordinate.longitude == 0) else {
             PreyLogger("LocationService: Invalid coordinates received", level: .error)
-            return 
+            return
         }
-        
+
         UIDevice.current.isBatteryMonitoringEnabled = true
         let batteryLevel = UIDevice.current.batteryLevel
         PreyLogger("LocationService: lat=\(loc.coordinate.latitude) lon=\(loc.coordinate.longitude) speed=\(loc.speed) acc=\(loc.horizontalAccuracy) battery=\(batteryLevel)", level: .info)
-        
+
         lastLocation = loc
         persistToAppGroup(loc)
         // Maintain a rolling geofence to catch moderate moves even when suspended
@@ -265,7 +265,7 @@ class LocationService: NSObject, CLLocationManagerDelegate {
         if delegates.isEmpty {
             PreyLogger("LocationService: no delegates registered to consume updates", level: .info)
         }
-        
+
         for d in delegates { d.didReceiveLocationUpdate(loc) }
         // Broadcast to app-level observers (e.g., PreyModule)
         NotificationCenter.default.post(name: .preyLocationUpdated, object: nil, userInfo: [

@@ -9,25 +9,25 @@
 import Foundation
 import UIKit
 
-class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate {
-    
+class PreyHTTPClient: NSObject, URLSessionDataDelegate, URLSessionTaskDelegate {
+
     // MARK: Properties
-    
+
     static let sharedInstance = PreyHTTPClient()
     fileprivate override init() {
     }
-    
+
     // Define delay to request
     let delayRequest = 7.0
-    
+
     // Define retry request for statusCode 503
     let retryRequest = 10
-    
+
     // HTTP Request throttling
     private let throttleInterval: TimeInterval = 5.0 // 5 seconds
     private var lastRequestTimes: [String: Date] = [:]
     private let throttleQueue = DispatchQueue(label: "http.throttler", qos: .utility)
-    
+
     // Shared default session (HTTP/2/3, keep‑alive)
     private lazy var sharedSession: URLSession = {
         let cfg = URLSessionConfiguration.default
@@ -46,15 +46,14 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     private var dataByTask = [ObjectIdentifier: NSMutableData]()
     private var completionByTask = [ObjectIdentifier: (Data?, URLResponse?, Error?) -> Void]()
     private var retryByTask = [ObjectIdentifier: Int]()
-    
-    
+
     // Encoding Character
     struct EncodingCharacters {
         static let CRLF = "\r\n"
     }
 
     // Define UserAgent
-    var userAgent : String {
+    var userAgent: String {
         let systemVersion = UIDevice.current.systemVersion
         let appVersion    = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         return "Prey/\(appVersion) (iOS \(systemVersion))"
@@ -79,8 +78,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             }
         }
         var isBG = false
-        if Thread.isMainThread { isBG = UIApplication.shared.applicationState == .background }
-        else { DispatchQueue.main.sync { isBG = UIApplication.shared.applicationState == .background } }
+        if Thread.isMainThread { isBG = UIApplication.shared.applicationState == .background } else { DispatchQueue.main.sync { isBG = UIApplication.shared.applicationState == .background } }
         request.networkServiceType = isBG ? .background : .default
     }
 
@@ -92,12 +90,11 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
         let encodedCredential = userAuthorizationData.base64EncodedString(options: [])
         return "Basic \(encodedCredential)"
     }
-    
-    
+
     // MARK: Requests to Prey API
 
     // MARK: Request Throttling
-    
+
     // Simple FNV-1a 64-bit fingerprint for payloads
     private func fingerprint64(of string: String) -> String {
         let data = Data(string.utf8)
@@ -115,57 +112,57 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             return "\(method.uppercased()) \(endpoint)"
         }
     }
-    
+
     // send data to Control Panel
-    func sendDataToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
-        
+    func sendDataToPrey(_ username: String, password: String, params: [String: Any]?, messageId msgId: String?, httpMethod: String, endPoint: String, onCompletion: @escaping (_ dataRequest: Data?, _ responseRequest: URLResponse?, _ error: Error?) -> Void) {
+
         // Encode username and pwd
-        let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
-        
+        let userAuthorization = encodeAuthorization(NSString(format: "%@:%@", username, password) as String)
+
         // Set Endpoint
         guard let requestURL = URL(string: URLControlPanel + endPoint) else {
             return
         }
 
-        var request = URLRequest(url:requestURL)
+        var request = URLRequest(url: requestURL)
         request.timeoutInterval = timeoutIntervalRequest
         applyHeaders(&request, authString: userAuthorization, messageId: msgId, endPoint: endPoint, contentType: nil)
-        
+
         // Set params
         if let parameters = params {
             do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options:JSONSerialization.WritingOptions.prettyPrinted)
-            } catch let error as NSError{
+                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: JSONSerialization.WritingOptions.prettyPrinted)
+            } catch let error as NSError {
                 PreyConfig.sharedInstance.reportError(error)
                 PreyLogger("params error: \(error.localizedDescription)")
             }
         }
 
         request.httpMethod  = httpMethod
-        
+
         // Start on shared session
         startTask(request, completion: onCompletion)
     }
 
     // Uploads files
-    func sendFileToPrey(_ username: String, password: String, file: Data, messageId msgId:String?, httpMethod: String, endPoint: String, onCompletion:@escaping (_ dataRequest: Data?, _ responseRequest:URLResponse?, _ error:Error?)->Void) {
-        
+    func sendFileToPrey(_ username: String, password: String, file: Data, messageId msgId: String?, httpMethod: String, endPoint: String, onCompletion: @escaping (_ dataRequest: Data?, _ responseRequest: URLResponse?, _ error: Error?) -> Void) {
+
         // Encode username and pwd
-        let userAuthorization = encodeAuthorization(NSString(format:"%@:%@", username, password) as String)
-        
+        let userAuthorization = encodeAuthorization(NSString(format: "%@:%@", username, password) as String)
+
         // Set Endpoint
-        guard let requestURL = URL(string:endPoint) else {
+        guard let requestURL = URL(string: endPoint) else {
             return
         }
-       
-        var request = URLRequest(url:requestURL)
+
+        var request = URLRequest(url: requestURL)
         request.timeoutInterval = timeoutIntervalRequest
         applyHeaders(&request, authString: userAuthorization, messageId: msgId, endPoint: endPoint, contentType: "application/octet-stream")
         request.httpBodyStream = InputStream(data: file)
         request.httpMethod  = httpMethod
         startTask(request, completion: onCompletion)
     }
-    
+
     // Start URLSessionDataTask with per-task state
     private func startTask(_ request: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         let task = sharedSession.dataTask(with: request)
@@ -182,13 +179,13 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
     func performRequest(_ request: URLRequest, onCompletion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         startTask(request, completion: onCompletion)
     }
-    
+
     // Delay dispatch function
-    func delay(_ delay:Double, closure:@escaping ()->()) {
+    func delay(_ delay: Double, closure: @escaping () -> Void) {
         let when = DispatchTime.now() + delay
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
-    
+
     // Check error to retry request
     func checkToRetryRequest(err: Error) -> Bool {
         switch (err as NSError).code {
@@ -198,9 +195,9 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             return false
         }
     }
-    
+
     // MARK: URLSession Delegates
-    
+
     // URLSessionTaskDelegate : didCompleteWithError
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         // Retry 503 with backoff per task
@@ -246,7 +243,7 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             }
         }
     }
-    
+
     // URLSessionDataDelegate : dataTask didReceive Data
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         let key = ObjectIdentifier(dataTask)
@@ -256,12 +253,12 @@ class PreyHTTPClient : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate 
             self.dataByTask[key] = buf
         }
     }
-    
+
     // URLSessionDataDelegate : dataTask didReceive Response
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping @Sendable (URLSession.ResponseDisposition) -> Void) {
         completionHandler(.allow)
     }
-    
+
     // URLSessionDelegate didReceive challenge
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping @Sendable (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         guard let serverTrust = challenge.protectionSpace.serverTrust else {return}

@@ -13,14 +13,6 @@ import XCTest
 
 class DeviceHardwareTests: XCTestCase {
 
-    override func setUp() {
-        super.setUp()
-    }
-
-    override func tearDown() {
-        super.tearDown()
-    }
-
     // MARK: - machineIdentifier
 
     func testMachineIdentifierNotEmpty() {

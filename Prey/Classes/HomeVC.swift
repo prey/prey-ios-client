@@ -10,56 +10,53 @@ import UIKit
 
 class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
 
-    
     // MARK: Properties
-    
-    @IBOutlet var titleLbl             : UILabel!
-    @IBOutlet var subtitleLbl          : UILabel!
-    @IBOutlet var shieldImg            : UIImageView!
-    @IBOutlet var camouflageImg        : UIImageView!
-    @IBOutlet var passwordInput        : UITextField!
-    @IBOutlet var loginBtn             : UIButton!
-    @IBOutlet var forgotBtn            : UIButton!
-    
-    @IBOutlet var accountImg           : UIImageView!
-    @IBOutlet var accountSbtLbl        : UILabel!
-    @IBOutlet var accountTlLbl         : UILabel!
-    @IBOutlet var accountBtn           : UIButton!
-    @IBOutlet var settingsImg          : UIImageView!
-    @IBOutlet var settingsSbtLbl       : UILabel!
-    @IBOutlet var settingsTlLbl        : UILabel!
-    @IBOutlet var settingsBtn          : UIButton!
-        
+
+    @IBOutlet var titleLbl: UILabel!
+    @IBOutlet var subtitleLbl: UILabel!
+    @IBOutlet var shieldImg: UIImageView!
+    @IBOutlet var camouflageImg: UIImageView!
+    @IBOutlet var passwordInput: UITextField!
+    @IBOutlet var loginBtn: UIButton!
+    @IBOutlet var forgotBtn: UIButton!
+
+    @IBOutlet var accountImg: UIImageView!
+    @IBOutlet var accountSbtLbl: UILabel!
+    @IBOutlet var accountTlLbl: UILabel!
+    @IBOutlet var accountBtn: UIButton!
+    @IBOutlet var settingsImg: UIImageView!
+    @IBOutlet var settingsSbtLbl: UILabel!
+    @IBOutlet var settingsTlLbl: UILabel!
+    @IBOutlet var settingsBtn: UIButton!
+
     var hidePasswordInput = false
-    
+
     // MARK: Init
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+
         // View title for GAnalytics
-        //self.screenName = "Login"        
-        
+        // self.screenName = "Login"        
+
         // Dismiss Keyboard on tap outside
-        let recognizer = UITapGestureRecognizer(target: self, action:#selector(self.dismissKeyboard(_:)))
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard(_:)))
         view.addGestureRecognizer(recognizer)
-        
+
         // Config init
         hidePasswordInputOption(hidePasswordInput)
-        
+
         // Config texts
         configureTexts()
-                
-        
-       
+
     }
 
     func configureTexts() {
 
-        loginBtn.setTitle("Log In".localized, for:.normal)
-        forgotBtn.setTitle("Forgot your password?".localized, for:.normal)
-        
+        loginBtn.setTitle("Log In".localized, for: .normal)
+        forgotBtn.setTitle("Forgot your password?".localized, for: .normal)
+
         passwordInput.placeholder   = "Type in your password".localized
         subtitleLbl.text            = "current device status".localized
         accountTlLbl.text           = "PREY ACCOUNT".localized
@@ -67,114 +64,109 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
         settingsTlLbl.text          = "PREY SETTINGS".localized
         settingsSbtLbl.text         = "CONFIGURE".localized
     }
-        
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewWillAppear(_ animated: Bool){
+
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         // Hide navigationBar when appear this ViewController
         self.navigationController?.isNavigationBarHidden = true
-        
+
         // Listen for changes to keyboard visibility so that we can adjust the text view accordingly.
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(HomeVC.handleKeyboardWillShowNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(HomeVC.handleKeyboardWillHideNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
         // Hide navigationBar when appear this ViewController
         self.navigationController?.isNavigationBarHidden = false
-        
+
         let notificationCenter = NotificationCenter.default
         notificationCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
+
     // Hide password input
-    func hidePasswordInputOption(_ value:Bool) {
+    func hidePasswordInputOption(_ value: Bool) {
         // Input subview
-        self.changeHiddenFor(view:self.passwordInput,   value:value)
-        self.changeHiddenFor(view:self.loginBtn,        value:value)
-        self.changeHiddenFor(view:self.forgotBtn,       value:value)
-        
+        self.changeHiddenFor(view: self.passwordInput, value: value)
+        self.changeHiddenFor(view: self.loginBtn, value: value)
+        self.changeHiddenFor(view: self.forgotBtn, value: value)
+
         // Menu subview
-        self.changeHiddenFor(view:self.accountImg,      value:!value)
-        self.changeHiddenFor(view:self.accountSbtLbl,   value:!value)
-        self.changeHiddenFor(view:self.accountTlLbl,    value:!value)
-        self.changeHiddenFor(view:self.accountBtn,      value:!value)
-        self.changeHiddenFor(view:self.settingsImg,     value:!value)
-        self.changeHiddenFor(view:self.settingsSbtLbl,  value:!value)
-        self.changeHiddenFor(view:self.settingsTlLbl,   value:!value)
-        self.changeHiddenFor(view:self.settingsBtn,     value:!value)
+        self.changeHiddenFor(view: self.accountImg, value: !value)
+        self.changeHiddenFor(view: self.accountSbtLbl, value: !value)
+        self.changeHiddenFor(view: self.accountTlLbl, value: !value)
+        self.changeHiddenFor(view: self.accountBtn, value: !value)
+        self.changeHiddenFor(view: self.settingsImg, value: !value)
+        self.changeHiddenFor(view: self.settingsSbtLbl, value: !value)
+        self.changeHiddenFor(view: self.settingsTlLbl, value: !value)
+        self.changeHiddenFor(view: self.settingsBtn, value: !value)
     }
-    
+
     // Set hidden object
-    func changeHiddenFor(view:UIView!, value:Bool) {
+    func changeHiddenFor(view: UIView!, value: Bool) {
         if view != nil {
             view.isHidden = value
         }
     }
-    
+
     // MARK: Keyboard Event Notifications
-    
+
     @objc func handleKeyboardWillShowNotification(_ notification: Notification) {
         keyboardWillChangeFrameWithNotification(notification, showsKeyboard: true)
     }
-    
+
     @objc func handleKeyboardWillHideNotification(_ notification: Notification) {
         keyboardWillChangeFrameWithNotification(notification, showsKeyboard: false)
     }
-    
+
     @objc func dismissKeyboard(_ tapGesture: UITapGestureRecognizer) {
         // Dismiss keyboard if is inside from UIView
-        if (self.view.frame.contains(tapGesture.location(in: self.view))) {
-            self.view.endEditing(true);
+        if self.view.frame.contains(tapGesture.location(in: self.view)) {
+            self.view.endEditing(true)
         }
     }
-    
+
     func keyboardWillChangeFrameWithNotification(_ notification: Notification, showsKeyboard: Bool) {
         let userInfo = (notification as NSNotification).userInfo!
-        
+
         let animationDuration: TimeInterval = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
-        
+
         // Convert the keyboard frame from screen to view coordinates.
         let keyboardScreenBeginFrame = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        
+
         let keyboardViewBeginFrame = view.convert(keyboardScreenBeginFrame, from: view.window)
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         let originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y
-        
+
         self.view.center.y += originDelta
-        
+
         view.setNeedsUpdateConstraints()
-        
+
         UIView.animate(withDuration: animationDuration, delay: 0, options: .beginFromCurrentState, animations: {
             self.view.layoutIfNeeded()
             }, completion: nil)
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        let nextTage = textField.tag + 1;
+
+        let nextTage = textField.tag + 1
 
         // Try to find next responder
         let nextResponder = textField.superview?.viewWithTag(nextTage)
-        
-        if (nextResponder == nil) {
+
+        if nextResponder == nil {
             checkPassword(nil)
         }
         return false
     }
-    
+
     // MARK: Functions
-    
+
     // Send GAnalytics event
     func sendEventGAnalytics() {
 //        if let tracker = GAI.sharedInstance().defaultTracker {
@@ -189,82 +181,82 @@ class HomeVC: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate
 
     // Go to Settings
     @IBAction func goToSettings(_ sender: UIButton) {
-        
+
         if let resultController = self.storyboard!.instantiateViewController(withIdentifier: StoryboardIdVC.settings.rawValue) as? SettingsVC {
             self.navigationController?.pushViewController(resultController, animated: true)
         }
     }
-    
+
     // Go to Control Panel
     @IBAction func goToControlPanel(_ sender: UIButton) {
 
         if let token = PreyConfig.sharedInstance.tokenPanel {
-            let params           = String(format:"token=%@", token)
-            let controller : UIViewController
+            let params           = String(format: "token=%@", token)
+            let controller: UIViewController
 
             if #available(iOS 10.0, *) {
-                controller       = WebKitVC(withURL:URL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
+                controller       = WebKitVC(withURL: URL(string: URLSessionPanel)!, withParameters: params, withTitle: "Control Panel Web")
             } else {
-                controller       = WebVC(withURL:URL(string:URLSessionPanel)!, withParameters:params, withTitle:"Control Panel Web")
+                controller       = WebVC(withURL: URL(string: URLSessionPanel)!, withParameters: params, withTitle: "Control Panel Web")
             }
             if #available(iOS 13, *) {controller.modalPresentationStyle = .fullScreen}
-            self.present(controller, animated:true, completion:nil)
-            
+            self.present(controller, animated: true, completion: nil)
+
         } else {
             displayErrorAlert("Error, retry later.".localized,
-                              titleMessage:"We have a situation!".localized)
+                              titleMessage: "We have a situation!".localized)
         }
     }
-    
+
     // Run web forgot
     @IBAction func runWebForgot(_ sender: UIButton) {
-        let controller : UIViewController
+        let controller: UIViewController
         if #available(iOS 10.0, *) {
-            controller       = WebKitVC(withURL:URL(string:URLForgotPanel)!, withParameters:nil, withTitle:"Forgot Password Web")
+            controller       = WebKitVC(withURL: URL(string: URLForgotPanel)!, withParameters: nil, withTitle: "Forgot Password Web")
         } else {
-            controller       = WebVC(withURL:URL(string:URLForgotPanel)!, withParameters:nil, withTitle:"Forgot Password Web")
+            controller       = WebVC(withURL: URL(string: URLForgotPanel)!, withParameters: nil, withTitle: "Forgot Password Web")
         }
         if #available(iOS 13, *) {controller.modalPresentationStyle = .fullScreen}
-        self.present(controller, animated:true, completion:nil)
+        self.present(controller, animated: true, completion: nil)
     }
-    
+
     // Check password
     @IBAction func checkPassword(_ sender: UIButton?) {
-        
+
         // Check password length
         guard let pwdInput = passwordInput.text else {
             displayErrorAlert("Password must be at least 6 characters".localized,
-                              titleMessage:"We have a situation!".localized)
+                              titleMessage: "We have a situation!".localized)
             return
         }
         if pwdInput.count < 6 {
             displayErrorAlert("Password must be at least 6 characters".localized,
-                              titleMessage:"We have a situation!".localized)
+                              titleMessage: "We have a situation!".localized)
             return
         }
-        
+
         // Hide keyboard
         self.view.endEditing(true)
-        
+
         // Show ActivityIndicator
-        let actInd          = UIActivityIndicatorView(initInView: self.view, withText:"Please wait".localized)
+        let actInd          = UIActivityIndicatorView(initInView: self.view, withText: "Please wait".localized)
         self.view.addSubview(actInd)
         actInd.startAnimating()
 
         // Check userApiKey length
         guard let userApiKey = PreyConfig.sharedInstance.userApiKey else {
             displayErrorAlert("Wrong password. Try again.".localized,
-                              titleMessage:"We have a situation!".localized)
+                              titleMessage: "We have a situation!".localized)
             return
         }
-        
+
         // Get Token for Control Panel
-        PreyUser.getTokenFromPanel(userApiKey, userPassword:pwdInput, onCompletion:{(isSuccess: Bool) in
+        PreyUser.getTokenFromPanel(userApiKey, userPassword: pwdInput, onCompletion: {(isSuccess: Bool) in
 
             // Hide ActivityIndicator
             DispatchQueue.main.async {
                 actInd.stopAnimating()
-             
+
                 // Change inputView
                 if isSuccess {
                     self.sendEventGAnalytics()

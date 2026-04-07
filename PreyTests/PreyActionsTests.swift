@@ -13,14 +13,6 @@ import Photos
 
 class PreyActionsTests: XCTestCase {
 
-    override func setUp() {
-        super.setUp()
-    }
-
-    override func tearDown() {
-        super.tearDown()
-    }
-
     // MARK: - ListPermissions Tests
 
     func testListPermissionsGetPermissions() {

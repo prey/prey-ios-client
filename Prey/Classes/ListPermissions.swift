@@ -13,32 +13,32 @@ import UserNotifications
 import Photos
 import UIKit
 
-class ListPermissions : PreyAction, @unchecked Sendable {
-    
+class ListPermissions: PreyAction, @unchecked Sendable {
+
     // MARK: Properties
-    
+
     // MARK: Functions
-    
+
     override func start() {
         get()
     }
-    
+
     // Prey command
     override func get() {
-        //send start list_permissions
+        // send start list_permissions
         let paramsStart = getParamsTo(kAction.list_permissions.rawValue, command: kCommand.start.rawValue, status: kStatus.started.rawValue)
         self.sendData(paramsStart, toEndpoint: responseDeviceEndpoint)
 
-        //get permissions asynchronously
+        // get permissions asynchronously
         getPermissionsAsync { permissionParam in
-            //send listPermissions
-            let params:[String: Any] = [
-                kEvent.info.rawValue : permissionParam,
-                kEvent.name.rawValue : "list_permission"]
+            // send listPermissions
+            let params: [String: Any] = [
+                kEvent.info.rawValue: permissionParam,
+                kEvent.name.rawValue: "list_permission"]
             PreyLogger("listPermissions: \(params)")
             self.sendData(params, toEndpoint: eventsDeviceEndpoint)
 
-            //send stop list_permissions
+            // send stop list_permissions
             let paramsStop = self.getParamsTo(kAction.list_permissions.rawValue, command: kCommand.stop.rawValue, status: kStatus.stopped.rawValue)
             self.sendData(paramsStop, toEndpoint: responseDeviceEndpoint)
         }
@@ -85,7 +85,6 @@ class ListPermissions : PreyAction, @unchecked Sendable {
             }
         }
     }
-
 
     // Check camera permission without requesting
     private func checkCameraPermission(completion: @escaping (Bool) -> Void) {

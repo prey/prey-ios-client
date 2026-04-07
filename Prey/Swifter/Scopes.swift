@@ -334,9 +334,9 @@ var scopesBuffer = [UInt64: String]()
 
 // swiftlint:disable cyclomatic_complexity function_body_length
 private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ closure: Closure) {
-    
+
     // Push the attributes.
-    
+
     let stackid = idd
     let stackdir = dir
     let stackrel = rel
@@ -459,9 +459,9 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ closur
     let stackmarginheight = marginheight
     let stackacceptCharset = acceptCharset
     let stackinner = inner
-    
+
     // Reset the values before a nested scope evalutation.
-    
+
     idd = nil
     dir = nil
     rel = nil
@@ -584,25 +584,25 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ closur
     marginheight = nil
     acceptCharset = nil
     inner = nil
-    
+
     scopesBuffer[Process.tid] = (scopesBuffer[Process.tid] ?? "") + "<" + node
-    
+
     // Save the current output before the nested scope evalutation.
-    
+
     var output = scopesBuffer[Process.tid] ?? ""
-    
+
     // Clear the output buffer for the evalutation.
-    
+
     scopesBuffer[Process.tid] = ""
-    
+
     // Evaluate the nested scope.
-    
+
     closure()
-    
+
     // Render attributes set by the evalutation.
-    
+
     var mergedAttributes = [String: String?]()
-    
+
     if let idd = idd { mergedAttributes["id"] = idd }
     if let dir = dir { mergedAttributes["dir"] = dir }
     if let rel = rel { mergedAttributes["rel"] = rel }
@@ -724,11 +724,11 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ closur
     if let placeholder = placeholder { mergedAttributes["placeholder"] = placeholder }
     if let marginheight = marginheight { mergedAttributes["marginheight"] = marginheight }
     if let acceptCharset = acceptCharset { mergedAttributes["accept-charset"] = acceptCharset }
-    
+
     for item in attrs.enumerated() {
         mergedAttributes.updateValue(item.element.1, forKey: item.element.0)
     }
-    
+
     output += mergedAttributes.reduce("") { result, item in
         if let value = item.value {
             return result + " \(item.key)=\"\(value)\""
@@ -736,16 +736,16 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ closur
             return result
         }
     }
-    
+
     if let inner = inner {
         scopesBuffer[Process.tid] = output + ">" + (inner) + "</" + node + ">"
     } else {
         let current = scopesBuffer[Process.tid]  ?? ""
         scopesBuffer[Process.tid] = output + ">" + current + "</" + node + ">"
     }
-    
+
     // Pop the attributes.
-    
+
     idd = stackid
     dir = stackdir
     rel = stackrel
@@ -867,6 +867,6 @@ private func evaluate(_ node: String, _ attrs: [String: String?] = [:], _ closur
     cellspacing = stackcellspacing
     marginheight = stackmarginheight
     acceptCharset = stackacceptCharset
-    
+
     inner = stackinner
 }

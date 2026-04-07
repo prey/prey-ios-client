@@ -65,14 +65,14 @@ class NotificationTokenRegistrar {
         let preyDevice = PreyDevice()
         let firmwareInfo: [String: String] = [
             "vendor_name": preyDevice.vendor ?? "",
-            "machine_id": UIDevice.current.machineIdentifier,
+            "machine_id": UIDevice.current.machineIdentifier
         ]
         let processorInfo: [String: String] = [
-            "cores": preyDevice.cpuCores ?? "",
+            "cores": preyDevice.cpuCores ?? ""
         ]
         let specs: [String: Any] = [
             "processor_info": processorInfo,
-            "firmware_info": firmwareInfo,
+            "firmware_info": firmwareInfo
         ]
         let params: [String: Any] = [
             "notification_id": tokenHex,
@@ -157,4 +157,3 @@ class LocationPushRegistrar {
         }
     }
 }
-

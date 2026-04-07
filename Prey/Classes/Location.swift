@@ -10,14 +10,14 @@ import Foundation
 import CoreLocation
 import UIKit
 
-class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unchecked Sendable {
-    
+class Location: PreyAction, CLLocationManagerDelegate, LocationDelegate, @unchecked Sendable {
+
     // MARK: Properties
-    
+
     let locManager   = CLLocationManager()
-    
+
     var lastLocation: CLLocation?
-    
+
     var isLocationAwareActive = false
     // Ensure only one Location instance owns the location-aware delegate at a time
     private static weak var activeAwareOwner: Location?
@@ -36,25 +36,25 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
     // Simple burst limiter for general data endpoint (reduce 403 on resume)
     private var lastGeneralSendAt: Date?
     private let generalMinInterval: TimeInterval = 10 // seconds between general sends
-    
+
     var index = 0
 
     // Track if we reported any location during the current request session
     private var hasReportedThisSession = false
-    
+
     // Mark when this action was created specifically for the daily location check
     // Used to stamp the last-successful daily send only on success
     var isDailyUpdateRun = false
-    
+
     // MARK: Constants
     private static let cachedLocationMaxAge: TimeInterval = 300 // 5 minutes
-    
+
     // Daily location check constants
     private static let dailyLocationInterval: TimeInterval = 24 * 60 * 60 // 24 hours - parametrizable
     private static let dailyLocationCheckKey = "PreyLastDailyLocationCheck"
-    
+
     // MARK: Functions
-    
+
     // MARK: LocationDelegate Implementation
     func didReceiveLocationUpdate(_ location: CLLocation) {
         PreyLogger("Received location update from service: \(location.coordinate.latitude), \(location.coordinate.longitude)", level: .info)
@@ -86,30 +86,30 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         }
         lastLocation = location
     }
-    
+
     // MARK: Daily Location Check Implementation
-    
+
     // Check if daily location update is needed (similar to DeviceAuth pattern)
     class func checkDailyLocationUpdate() {
         let now = Date()
         let lastCheckTime = UserDefaults.standard.object(forKey: Location.dailyLocationCheckKey) as? Date
-        
+
         // If never checked or more than dailyLocationInterval has passed
         let shouldCheck = lastCheckTime == nil || now.timeIntervalSince(lastCheckTime!) >= Location.dailyLocationInterval
-        
+
         if shouldCheck {
             PreyLogger("Daily location check needed - last check: \(String(describing: lastCheckTime))", level: .info)
-            
+
             // Check if we have valid API key (following DeviceAuth pattern)
             guard let _ = PreyConfig.sharedInstance.userApiKey else {
                 PreyLogger("Cannot perform daily location check - no API key")
                 return
             }
-            
+
             // Create a location action to ensure location is sent
             let locationAction = Location(withTarget: kAction.location, withCommand: kCommand.get, withOptions: nil)
             locationAction.isDailyUpdateRun = true
-            
+
             // Check if there's already a location action in the array
             var hasLocationAction = false
             for action in PreyModule.sharedInstance.actionArray {
@@ -118,36 +118,36 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
                     break
                 }
             }
-            
+
             if !hasLocationAction {
                 PreyLogger("Adding daily location action", level: .info)
                 PreyModule.sharedInstance.actionArray.append(locationAction)
             }
-            
+
             // Run the location action to get current location
             PreyModule.sharedInstance.runSingleAction(locationAction)
-            
+
             PreyLogger("Daily location check initiated", level: .info)
         } else {
             let timeUntilNext = Location.dailyLocationInterval - now.timeIntervalSince(lastCheckTime!)
             PreyLogger("Daily location check not needed - next check in: \(timeUntilNext/3600) hours", level: .info)
         }
     }
-    
+
     // Get configured daily location interval (allows for future server configuration)
     class func getDailyLocationInterval() -> TimeInterval {
         // Could be extended to read from server config or PreyConfig
         return dailyLocationInterval
     }
-    
+
     // Factory: allow creating actions for classic on-demand (.get) and aware mode
-    class func initLocationAction(withTarget target:kAction, withCommand cmd:kCommand, withOptions opt:NSDictionary?) -> Location? {
+    class func initLocationAction(withTarget target: kAction, withCommand cmd: kCommand, withOptions opt: NSDictionary?) -> Location? {
         if cmd == kCommand.start_location_aware || cmd == kCommand.get {
             return Location(withTarget: target, withCommand: cmd, withOptions: opt)
         }
         return nil
     }
-    
+
     // Prey command
     override func get() {
         // Server sends this command only to devices without location push token
@@ -176,14 +176,14 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             }
         }
     }
-    
+
     // Start location aware
     @objc func start_location_aware() {
         // Check location aware action on device status
      if let username = PreyConfig.sharedInstance.userApiKey {
-       PreyHTTPClient.sharedInstance.sendDataToPrey(username, password:"x", params:nil, messageId:nil, httpMethod:Method.GET.rawValue, endPoint:statusDeviceEndpoint, onCompletion:PreyHTTPResponse.checkResponse(RequestType.settings, preyAction:nil, onCompletion:{(isSuccess: Bool) in
-      //location_aware is true
-      if(PreyConfig.sharedInstance.isActiveAware){
+       PreyHTTPClient.sharedInstance.sendDataToPrey(username, password: "x", params: nil, messageId: nil, httpMethod: Method.GET.rawValue, endPoint: statusDeviceEndpoint, onCompletion: PreyHTTPResponse.checkResponse(RequestType.settings, preyAction: nil, onCompletion: {(_: Bool) in
+      // location_aware is true
+      if PreyConfig.sharedInstance.isActiveAware {
         // Prevent multiple distinct Location instances from registering as delegates simultaneously
         if let owner = Location.activeAwareOwner, owner !== self {
             PreyLogger("LocationAware already running; ignoring duplicate request", level: .info)
@@ -195,15 +195,15 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         self.isLocationAwareActive = true
         PreyLogger("Start location aware", level: .info)
         PreyDebugNotify("LocationAware: started")
-      } //if isActiveAware
-      })) //sendDataToPrey
-     } //if userApiKey
+      } // if isActiveAware
+      })) // sendDataToPrey
+     } // if userApiKey
     }
-    
+
     // Removed on-demand timer/timeout; Location Push extension handles request-driven fixes
-    
+
     // Start Location Manager with enhanced configuration
-    func startLocationManager()  {
+    func startLocationManager() {
         PreyLogger("Starting location via LocationService (centralized)", level: .info)
         hasReportedThisSession = false
         // Use only centralized LocationService, remove duplicate delegate registration
@@ -214,9 +214,9 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         index = 0
         PreyLogger("Location service burst started", level: .info)
     }
-    
+
     // Stop Location Manager
-    func stopLocationManager()  {
+    func stopLocationManager() {
         PreyLogger("Stop location")
         // Remove from centralized service only
         LocationService.shared.removeDelegate(self)
@@ -229,21 +229,21 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         }
         PreyModule.sharedInstance.checkStatus(self)
     }
-    
+
     // Location received
-    func locationReceived(_ location:CLLocation) {
+    func locationReceived(_ location: CLLocation) {
         PreyLogger("Processing location: \(location.coordinate.latitude), \(location.coordinate.longitude)", level: .info)
         hasReportedThisSession = true
-        
+
         // Create location params - always send fresh location data
-        let params:[String: Any] = [
-            kLocation.lng.rawValue      : location.coordinate.longitude,
-            kLocation.lat.rawValue      : location.coordinate.latitude,
-            kLocation.alt.rawValue      : location.altitude,
-            kLocation.accuracy.rawValue : location.horizontalAccuracy,
-            kLocation.method.rawValue   : "native"
+        let params: [String: Any] = [
+            kLocation.lng.rawValue: location.coordinate.longitude,
+            kLocation.lat.rawValue: location.coordinate.latitude,
+            kLocation.alt.rawValue: location.altitude,
+            kLocation.accuracy.rawValue: location.horizontalAccuracy,
+            kLocation.method.rawValue: "native"
         ]
-        
+
         // Save location to shared container
         if let userDefaults = UserDefaults(suiteName: "group.com.prey.ios") {
             let locationDict: [String: Any] = [
@@ -254,13 +254,13 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
                 "method": "native",
                 "timestamp": Date().timeIntervalSince1970
             ]
-            
+
             userDefaults.set(locationDict, forKey: "lastLocation")
             PreyLogger("Saved location to shared container")
         }
-        
-        let locParam:[String: Any] = [kAction.location.rawValue : params, kDataLocation.skip_toast.rawValue : (index > 0)]
-        
+
+        let locParam: [String: Any] = [kAction.location.rawValue: params, kDataLocation.skip_toast.rawValue: (index > 0)]
+
         if self.isLocationAwareActive {
             // Throttle aware sends to avoid spamming
             let now = Date()
@@ -304,7 +304,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             stopLocationManager()
         }
     }
-    
+
     // Send data to server with simple callback
     private func sendDataWithCallback(_ data: [String: Any], toEndpoint endpoint: String, completion: @escaping (Bool) -> Void) {
         guard let username = PreyConfig.sharedInstance.userApiKey else {
@@ -312,7 +312,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             completion(false)
             return
         }
-        
+
         PreyHTTPClient.sharedInstance.sendDataToPrey(
             username,
             password: "x",
@@ -329,23 +329,23 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             )
         )
     }
-    
+
     // MARK: CLLocationManagerDelegate
-    
+
     // Did Update Locations
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         PreyLogger("New location received on Location", level: .info)
-        
+
         guard let currentLocation = locations.last else {
             return
         }
-        
+
         // Enhanced location validation with anti-spoofing measures
         guard validateLocationQuality(currentLocation) else {
             PreyLogger("Location failed quality validation - discarding", level: .error)
             return
         }
-        
+
         // Send first location
         if lastLocation == nil {
             PreyLogger("Sending first location: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)", level: .info)
@@ -353,9 +353,9 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             lastLocation = currentLocation
             return
         }
-        
+
         let distance = currentLocation.distance(from: lastLocation!)
-        
+
         // Send only if there was real movement (>= 25 m). Do not send for mere accuracy improvements.
         if distance >= 25 {
             PreyLogger("Location update: sending (Δ=\(Int(distance))m)", level: .info)
@@ -363,18 +363,18 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
         }
         lastLocation = currentLocation
     }
-    
+
     // Simplified error handling: just log
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         PreyLogger("Location error: \(error.localizedDescription)", level: .error)
     }
-    
+
     // MARK: Enhanced Methods for Security App
-    
+
     // Removed: using centralized LocationService configuration
 
     // Removed: using centralized LocationService without adaptive parameters
-    
+
     // Enhanced location quality validation
     private func validateLocationQuality(_ location: CLLocation) -> Bool {
         // Fix: Get app state on main thread to avoid Main Thread Checker warning
@@ -415,14 +415,14 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
 
         return true
     }
-    
+
     // Removed retry/queue/emergency helpers: extension + aware mode cover our needs
-    
+
     // Monitor authorization changes
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let status = manager.authorizationStatus
         PreyLogger("Location authorization changed to: \(status.rawValue)", level: .info)
-        
+
         switch status {
         case .notDetermined:
             manager.requestAlwaysAuthorization()
@@ -438,7 +438,7 @@ class Location : PreyAction, CLLocationManagerDelegate, LocationDelegate, @unche
             PreyLogger("Unknown authorization status: \(status)", level: .error)
         }
     }
-    
+
     // Get location status as string
     public static func getLocationStatusString(_ authorizationStatus: CLAuthorizationStatus) -> String {
         switch authorizationStatus {

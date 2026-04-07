@@ -1,6 +1,5 @@
 import Foundation
 import Darwin
-import Darwin.Mach
 import UIKit
 
 final class CrashHandler {
@@ -27,10 +26,10 @@ final class CrashHandler {
 
         // Register minimal, async-signal-safe handlers
         signal(SIGABRT, crashHandlerSignalShim)
-        signal(SIGILL,  crashHandlerSignalShim)
+        signal(SIGILL, crashHandlerSignalShim)
         signal(SIGSEGV, crashHandlerSignalShim)
-        signal(SIGFPE,  crashHandlerSignalShim)
-        signal(SIGBUS,  crashHandlerSignalShim)
+        signal(SIGFPE, crashHandlerSignalShim)
+        signal(SIGBUS, crashHandlerSignalShim)
         signal(SIGPIPE, crashHandlerSignalShim)
     }
 
@@ -181,7 +180,7 @@ final class CrashHandler {
         } catch {
             completion(false); return
         }
-        PreyHTTPClient.sharedInstance.performRequest(req) { data, response, error in
+        PreyHTTPClient.sharedInstance.performRequest(req) { _, response, _ in
             if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
                 completion(true)
             } else {

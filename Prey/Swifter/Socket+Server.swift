@@ -79,9 +79,9 @@ extension Socket {
             #endif
             if let address = listenAddress {
               if address.withCString({ cstring in inet_pton(AF_INET6, cstring, &addr.sin6_addr) }) == 1 {
-                //print("\(address) is converted to \(addr.sin6_addr).")
+                // print("\(address) is converted to \(addr.sin6_addr).")
               } else {
-                //print("\(address) is not converted.")
+                // print("\(address) is not converted.")
               }
             }
             bindResult = withUnsafePointer(to: &addr) {
@@ -102,7 +102,7 @@ extension Socket {
         }
         return Socket(socketFileDescriptor: socketFileDescriptor)
     }
-    
+
     public func acceptClientSocket() throws -> Socket {
         var addr = sockaddr()
         var len: socklen_t = 0
