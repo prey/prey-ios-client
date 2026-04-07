@@ -9,11 +9,10 @@ import Foundation
 
 // swiftlint:disable function_body_length
 public func demoServer(_ publicDir: String) -> HttpServer {
-    
     print(publicDir)
-    
+
     let server = HttpServer()
-    
+
     server["/public/:path"] = shareFilesFromDirectory(publicDir)
 
     server["/files/:path"] = directoryBrowser("/")
@@ -29,9 +28,9 @@ public func demoServer(_ publicDir: String) -> HttpServer {
             }
         }
     }
-    
+
     server["/magic"] = { .ok(.html("You asked for " + $0.path)) }
-    
+
     server["/test/:param1/:param2"] = { request in
         scopes {
             html {
@@ -39,27 +38,27 @@ public func demoServer(_ publicDir: String) -> HttpServer {
                     h3 { inner = "Address: \(request.address ?? "unknown")" }
                     h3 { inner = "Url: \(request.path)" }
                     h3 { inner = "Method: \(request.method)" }
-                    
+
                     h3 { inner = "Query:" }
-                    
+
                     table(request.queryParams) { param in
                         tr {
                             td { inner = param.0 }
                             td { inner = param.1 }
                         }
                     }
-                    
+
                     h3 { inner = "Headers:" }
-                    
+
                     table(request.headers) { header in
                         tr {
                             td { inner = header.0 }
                             td { inner = header.1 }
                         }
                     }
-                    
+
                     h3 { inner = "Route params:" }
-                    
+
                     table(request.params) { param in
                         tr {
                             td { inner = param.0 }
@@ -70,7 +69,7 @@ public func demoServer(_ publicDir: String) -> HttpServer {
             }
         }(request)
     }
-    
+
     server.GET["/upload"] = scopes {
         html {
             body {
@@ -78,11 +77,11 @@ public func demoServer(_ publicDir: String) -> HttpServer {
                     method = "POST"
                     action = "/upload"
                     enctype = "multipart/form-data"
-                    
+
                     input { name = "my_file1"; type = "file" }
                     input { name = "my_file2"; type = "file" }
                     input { name = "my_file3"; type = "file" }
-                    
+
                     button {
                         type = "submit"
                         inner = "Upload"
@@ -91,7 +90,7 @@ public func demoServer(_ publicDir: String) -> HttpServer {
             }
         }
     }
-    
+
     server.POST["/upload"] = { request in
         var response = ""
         for multipart in request.parseMultiPartFormData() {
@@ -100,7 +99,7 @@ public func demoServer(_ publicDir: String) -> HttpServer {
         }
         return HttpResponse.ok(.html(response))
     }
-    
+
     server.GET["/login"] = scopes {
         html {
             head {
@@ -109,11 +108,11 @@ public func demoServer(_ publicDir: String) -> HttpServer {
             }
             body {
                 h3 { inner = "Sign In" }
-                
+
                 form {
                     method = "POST"
                     action = "/login"
-                    
+
                     fieldset {
                         input { placeholder = "E-mail"; name = "email"; type = "email"; autofocus = "" }
                         input { placeholder = "Password"; name = "password"; type = "password"; autofocus = "" }
@@ -125,7 +124,6 @@ public func demoServer(_ publicDir: String) -> HttpServer {
                             }
                         }
                     }
-                    
                 }
                 javascript {
                     src = "http://cdn.staticfile.org/twitter-bootstrap/3.3.0/js/bootstrap.min.js"
@@ -133,12 +131,12 @@ public func demoServer(_ publicDir: String) -> HttpServer {
             }
         }
     }
-    
+
     server.POST["/login"] = { request in
         let formFields = request.parseUrlencodedForm()
-        return HttpResponse.ok(.html(formFields.map({ "\($0.0) = \($0.1)" }).joined(separator: "<br>")))
+        return HttpResponse.ok(.html(formFields.map { "\($0.0) = \($0.1)" }.joined(separator: "<br>")))
     }
-    
+
     server["/demo"] = scopes {
         html {
             body {
@@ -149,58 +147,59 @@ public func demoServer(_ publicDir: String) -> HttpServer {
             }
         }
     }
-    
+
     server["/raw"] = { _ in
-        return HttpResponse.raw(200, "OK", ["XXX-Custom-Header": "value"], { try $0.write([UInt8]("test".utf8)) })
+        HttpResponse.raw(200, "OK", ["XXX-Custom-Header": "value"]) { try $0.write([UInt8]("test".utf8)) }
     }
-    
+
     server["/redirect/permanently"] = { _ in
-        return .movedPermanently("http://www.google.com")
+        .movedPermanently("http://www.google.com")
     }
-    
+
     server["/redirect/temporarily"] = { _ in
-        return .movedTemporarily("http://www.google.com")
+        .movedTemporarily("http://www.google.com")
     }
 
     server["/long"] = { _ in
         var longResponse = ""
-        for index in 0..<1000 { longResponse += "(\(index)),->" }
+        for index in 0 ..< 1000 {
+            longResponse += "(\(index)),->"
+        }
         return .ok(.html(longResponse))
     }
-    
+
     server["/wildcard/*/test/*/:param"] = { request in
-        return .ok(.html(request.path))
+        .ok(.html(request.path))
     }
-    
+
     server["/stream"] = { _ in
-        return HttpResponse.raw(200, "OK", nil, { writer in
-            for index in 0...100 {
+        HttpResponse.raw(200, "OK", nil) { writer in
+            for index in 0 ... 100 {
                 try writer.write([UInt8]("[chunk \(index)]".utf8))
             }
-        })
+        }
     }
-    
-    server["/websocket-echo"] = websocket(text: { (session, text) in
+
+    server["/websocket-echo"] = websocket(text: { session, text in
         session.writeText(text)
-    }, binary: { (session, binary) in
+    }, binary: { session, binary in
         session.writeBinary(binary)
-    }, pong: { (_, _) in
+    }, pong: { _, _ in
         // Got a pong frame
     }, connected: { _ in
         // New client connected
     }, disconnected: { _ in
         // Client disconnected
     })
-    
+
     server.notFoundHandler = { _ in
-        return .movedPermanently("https://github.com/404")
+        .movedPermanently("https://github.com/404")
     }
-    
+
     server.middleware.append { request in
         print("Middleware: \(request.address ?? "unknown address") -> \(request.method) -> \(request.path)")
         return nil
     }
-    
+
     return server
 }
-    

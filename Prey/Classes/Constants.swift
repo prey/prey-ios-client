@@ -7,49 +7,46 @@
 //  Copyright © 2016 Prey, Inc. All rights reserved.
 //
 
-import Foundation
-import UserNotifications
 import CoreLocation
-import UIKit
+import Foundation
 import LocalAuthentication
 import OSLog
+import UIKit
+import UserNotifications
 
-// Storyboard controllerId
+/// Storyboard controllerId
 enum StoryboardIdVC: String {
-    case PreyStoryBoard, alert, navigation, home, currentLocation, purchases, settings, grettings, homeWeb, rename
+    case PreyStoryBoard, alert, navigation, home, currentLocation, settings, homeWeb, rename
 }
 
 // Def type device
-public let IS_IPAD          : Bool  = (UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone)
-public let IS_IPHONE4S      : Bool  = (UIScreen.main.bounds.size.height-480 == 0)
-public let IS_IPHONEX       : Bool  = (UIScreen.main.bounds.size.height-812 == 0)
-public let IS_OS_8_OR_LATER : Bool  = ((UIDevice.current.systemVersion as NSString).floatValue >= 8.0)
-public let IS_OS_12         : Bool  = ((UIDevice.current.systemVersion as NSString).intValue == 12)
+public let IS_IPAD: Bool = (UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone)
+public let IS_IPHONE4S: Bool = (UIScreen.main.bounds.size.height - 480 == 0)
+public let IS_IPHONEX: Bool = (UIScreen.main.bounds.size.height - 812 == 0)
+public let IS_OS_8_OR_LATER: Bool = ((UIDevice.current.systemVersion as NSString).floatValue >= 8.0)
+public let IS_OS_12: Bool = ((UIDevice.current.systemVersion as NSString).intValue == 12)
 
-// Number of Reload for Connection
+/// Number of Reload for Connection
 public let reloadConnection: Int = 5
 
-// Delay for Reload connection
+/// Delay for Reload connection
 public let delayTime: Double = 2
 
-// TimeoutInterval for URLRequest
+/// TimeoutInterval for URLRequest
 public let timeoutIntervalRequest: Double = 30.0
 
-// Email RegExp
+/// Email RegExp
 public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b"
 
-// App Version
+/// App Version
 public let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
 
-// InAppPurchases
-public let subscription1Year = "1year_starter_plan_non_renewing_full"
-
-// GAI code
-public let GAICode  = "UA-8743344-7"
+/// GAI code
+public let GAICode = "UA-8743344-7"
 
 // Font
-public let fontTitilliumBold    =  "TitilliumWeb-Bold"
-public let fontTitilliumRegular =  "TitilliumWeb-Regular"
+public let fontTitilliumBold = "TitilliumWeb-Bold"
+public let fontTitilliumRegular = "TitilliumWeb-Regular"
 
 // MARK: - Logging
 
@@ -63,48 +60,49 @@ public enum PreyLogLevel {
 }
 
 // MARK: - File Logging
+
 private class PreyFileLogger {
     static let shared = PreyFileLogger()
     private let logQueue = DispatchQueue(label: "com.prey.filelogger", qos: .utility)
     private let maxLogFileSize: Int = 5 * 1024 * 1024 // 5MB
     private let maxLogFiles: Int = 3
-    
+
     private var logFileURL: URL {
         // Use Documents directory - removed on app uninstall
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return documentsPath.appendingPathComponent("prey.log")
     }
-    
+
     private init() {
         createLogFileIfNeeded()
     }
-    
+
     private func createLogFileIfNeeded() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         let timestamp = dateFormatter.string(from: Date())
         let success = FileManager.default.createFile(atPath: logFileURL.path, contents: nil, attributes: nil)
-        
+
         if !FileManager.default.fileExists(atPath: logFileURL.path) {
             print("[\(timestamp)] [debug] [Constants.swift] Creating log file at: \(logFileURL.path) - Success: \(success)")
         } else {
             print("[\(timestamp)] [debug] [Constants.swift] Log file already exists at \(logFileURL.path)")
         }
     }
-    
+
     func writeLog(_ message: String, level: PreyLogLevel, file: String, line: Int) {
         logQueue.async { [weak self] in
             guard let self = self else { return }
-            
+
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
             let timestamp = dateFormatter.string(from: Date())
             let fileName = (file as NSString).lastPathComponent
             let logEntry = "[\(timestamp)] [\(level)] [\(fileName):\(line)] \(message)\n"
-            
+
             // Rotate logs if needed
             self.rotateLogsIfNeeded()
-            
+
             // Write to file
             if let data = logEntry.data(using: .utf8) {
                 if let fileHandle = FileHandle(forWritingAtPath: self.logFileURL.path) {
@@ -118,35 +116,35 @@ private class PreyFileLogger {
             }
         }
     }
-    
+
     private func rotateLogsIfNeeded() {
         guard let attributes = try? FileManager.default.attributesOfItem(atPath: logFileURL.path),
               let fileSize = attributes[.size] as? Int,
               fileSize > maxLogFileSize else { return }
-        
+
         // Rotate files: prey.log -> prey.log.1 -> prey.log.2 -> deleted
         let baseURL = logFileURL.deletingPathExtension()
         let ext = logFileURL.pathExtension
-        
+
         // Delete the oldest file
         let oldestFile = baseURL.appendingPathExtension("\(ext).\(maxLogFiles - 1)")
         try? FileManager.default.removeItem(at: oldestFile)
-        
+
         // Rotate existing files
         for i in stride(from: maxLogFiles - 2, through: 1, by: -1) {
             let oldFile = baseURL.appendingPathExtension("\(ext).\(i)")
             let newFile = baseURL.appendingPathExtension("\(ext).\(i + 1)")
             try? FileManager.default.moveItem(at: oldFile, to: newFile)
         }
-        
+
         // Move current file
         let newFile = baseURL.appendingPathExtension("\(ext).1")
         try? FileManager.default.moveItem(at: logFileURL, to: newFile)
-        
+
         // Create new file
         createLogFileIfNeeded()
     }
-    
+
     func getLogFileURL() -> URL {
         return logFileURL
     }
@@ -155,7 +153,7 @@ private class PreyFileLogger {
 /// Explicit logging API with level and category
 public func PreyLogger(_ message: String, level: PreyLogLevel = .debug, file: String = #file, line: Int = #line) {
     PreyFileLogger.shared.writeLog(message, level: level, file: file, line: line)
-    
+
     #if DEBUG
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
@@ -183,7 +181,7 @@ public func PreyLogger(_ message: String, level: PreyLogLevel = .debug, file: St
     #endif
 }
 
-// Convenience explicit level helpers for future use
+/// Convenience explicit level helpers for future use
 public func PreyLoggerInfo(_ message: String, file: String = #file, line: Int = #line) {
     PreyLogger(message, level: .info, file: file, line: line)
 }
@@ -209,6 +207,7 @@ public func PreyLoggerCritical(_ message: String, file: String = #file, line: In
 }
 
 // MARK: - Log File Access
+
 public func getPreyLogFileURL() -> URL {
     return PreyFileLogger.shared.getLogFileURL()
 }
@@ -218,33 +217,35 @@ public func getPreyLogFilePath() -> String {
 }
 
 // MARK: - Debug Local Notifications (DEBUG only)
+
 public func PreyDebugNotify(_ message: String) {
     #if DEBUG
-    let content = UNMutableNotificationContent()
-    content.title = "DEBUG"
-    content.body = message.count > 180 ? String(message.prefix(180)) + "…" : message
-    content.sound = .default
-    let request = UNNotificationRequest(
-        identifier: "prey.debug." + UUID().uuidString,
-        content: content,
-        trigger: nil
-    )
-    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        let content = UNMutableNotificationContent()
+        content.title = "DEBUG"
+        content.body = message.count > 180 ? String(message.prefix(180)) + "…" : message
+        content.sound = .default
+        let request = UNNotificationRequest(
+            identifier: "prey.debug." + UUID().uuidString,
+            content: content,
+            trigger: nil
+        )
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     #endif
 }
 
 // MARK: - App-wide Notifications
+
 extension Notification.Name {
     static let preyLocationUpdated = Notification.Name("prey.location.updated")
 }
 
-// Biometric authentication
-public let biometricAuth : String = {
-    let textID : String
+/// Biometric authentication
+public let biometricAuth: String = {
+    let textID: String
     let context = LAContext()
     if #available(iOS 11, *) {
-        let _ = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
-        switch(context.biometryType) {
+        _ = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+        switch context.biometryType {
         case .none:
             textID = ""
         case .touchID:
@@ -262,21 +263,20 @@ public let biometricAuth : String = {
     return textID
 }()
 
-// Category notification
+/// Category notification
 public let categoryNotifPreyAlert = "PreyAlert"
 
-// Validate email expression
+/// Validate email expression
 public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
-
     var isInvalid = true
     let regex: NSRegularExpression
 
     do {
-        regex = try NSRegularExpression(pattern:withPattern, options:NSRegularExpression.Options.caseInsensitive)
-        let textRange  = NSMakeRange(0, userEmail.count)
-        let matchRange = regex.rangeOfFirstMatch(in: userEmail, options:NSRegularExpression.MatchingOptions.reportProgress, range:textRange)
-        
-        if (matchRange.location != NSNotFound) {
+        regex = try NSRegularExpression(pattern: withPattern, options: NSRegularExpression.Options.caseInsensitive)
+        let textRange = NSRange(location: 0, length: userEmail.count)
+        let matchRange = regex.rangeOfFirstMatch(in: userEmail, options: NSRegularExpression.MatchingOptions.reportProgress, range: textRange)
+
+        if matchRange.location != NSNotFound {
             isInvalid = false
         }
     } catch let error as NSError {
@@ -286,14 +286,13 @@ public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
     return isInvalid
 }
 
-
-// Display error alert
-public func displayErrorAlert(_ alertMessage: String, titleMessage:String) {
+/// Display error alert
+public func displayErrorAlert(_ alertMessage: String, titleMessage: String) {
     DispatchQueue.main.async {
-        let alertController = UIAlertController(title:titleMessage, message:alertMessage, preferredStyle:.alert)
-        let OKAction        = UIAlertAction(title: "OK".localized, style: .default, handler:nil)
+        let alertController = UIAlertController(title: titleMessage, message: alertMessage, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK".localized, style: .default, handler: nil)
         alertController.addAction(OKAction)
-        
+
         guard let appWindow = UIApplication.shared.delegate?.window else {
             PreyLogger("error with sharedApplication")
             return
@@ -302,36 +301,31 @@ public func displayErrorAlert(_ alertMessage: String, titleMessage:String) {
             PreyLogger("error with rootVC")
             return
         }
-        
+
         if let presentedVC = rootVC.presentedViewController {
-            presentedVC.present(alertController, animated:true, completion:nil)
+            presentedVC.present(alertController, animated: true, completion: nil)
         } else {
-            rootVC.present(alertController, animated:true, completion:nil)
+            rootVC.present(alertController, animated: true, completion: nil)
         }
     }
 }
 
-// ReactViews actions
+/// ReactViews actions
 enum ReactViews: String {
-    case CHECKID     = "ioschecktouchid"
-    case QRCODE      = "iosqrcode"
-    case LOGIN       = "ioslogin"
-    case EMAILRESEND = "iosemailresend"
-    case CHECKSIGNUP = "ioschecksignup"
-    case SIGNUP      = "iossignup"
-    case TERMS       = "iosterms"
-    case PRIVACY     = "iosprivacy"
-    case FORGOT      = "iosforgot"
-    case AUTHLOC     = "iosauthlocation"
-    case AUTHPHOTO   = "iosauthphotos"
-    case AUTHCAMERA  = "iosauthcamera"
-    case AUTHNOTIF   = "iosauthnotification"
-    case REPORTEXAMP = "iosreportexample"
-    case GOTOSETTING = "iossettingspwd"
-    case GOTOPANEL   = "iospanelpwd"
-    case GOTORENAME  = "iosrenamepwd"
-    case GOTOCLOSE   = "iosclosepwd"
-    case RENAME      = "iosrename"
-    case NAMEDEVICE  = "iosnamedevice"
-    case INDEX       = "iosindex"
+    case CHECKID = "checktouchid"
+    case QRCODE = "qrcode"
+    case LOGIN = "login"
+    case TERMS = "terms"
+    case PRIVACY = "privacy"
+    case FORGOT = "forgot"
+    case CREATEACCOUNT = "createaccount"
+    case AUTHLOC = "authlocation"
+    case BIOAUTH = "biometricauth"
+    case GOTOSETTING = "settingspwd"
+    case GOTOPANEL = "panelpwd"
+    case GOTORENAME = "renamepwd"
+    case GOTOCLOSE = "closepwd"
+    case RENAME = "rename"
+    case NAMEDEVICE = "namedevice"
+    case INDEX = "index"
 }
