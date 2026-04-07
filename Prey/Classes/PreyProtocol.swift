@@ -96,9 +96,6 @@ public let logInEndpoint            : String = "/profile.json"
 // Endpoint for Add Devices
 public let devicesEndpoint          : String = "/devices.json"
 
-// Endpoint for Subscriptions Receipt
-public let subscriptionEndpoint     : String = "/subscriptions/receipt"
-
 // Endpoint for Device Status
 public var statusDeviceEndpoint : String {return String(format:"/devices/%@/status.json",(PreyConfig.sharedInstance.getDeviceKey()))}
 

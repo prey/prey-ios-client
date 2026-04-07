@@ -16,7 +16,7 @@ import OSLog
 
 // Storyboard controllerId
 enum StoryboardIdVC: String {
-    case PreyStoryBoard, alert, navigation, home, currentLocation, purchases, settings, grettings, homeWeb, rename
+    case PreyStoryBoard, alert, navigation, home, currentLocation, settings, homeWeb, rename
 }
 
 // Def type device
@@ -40,9 +40,6 @@ public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]
 
 // App Version
 public let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-
-// InAppPurchases
-public let subscription1Year = "1year_starter_plan_non_renewing_full"
 
 // GAI code
 public let GAICode  = "UA-8743344-7"

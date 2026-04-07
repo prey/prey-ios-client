@@ -98,6 +98,8 @@ jobs:
           rm -rf "$DERIVED_DATA/Build/Products/Debug-iphonesimulator/Prey.app/PlugIns/LocationPushService.appex"
 
       - name: Test without building
+        env:
+          CI: "true"
         run: |
           set -o pipefail
           DEVICE_UDID=$(xcrun simctl list devices available | awk '

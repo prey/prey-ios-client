@@ -17,7 +17,7 @@ enum PreferencesViewSection : String {
 
 // SectionInformation Items
 enum SectionInformation : Int {
-    case currentLocation=0, upgradeToPro, numberSectionInformation
+    case currentLocation=0, numberSectionInformation
 }
 
 // SectionSettings Items
@@ -90,11 +90,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             showViewControllerWithId(StoryboardIdVC.currentLocation.rawValue)
         }
         
-        // Init PreyStoreManager
-        if !PreyConfig.sharedInstance.isPro {
-            PreyStoreManager.sharedInstance.requestProductData()
-        }
-
         tableView.backgroundColor = getTableBackgroundColor()
         tableView.separatorColor  = getTableSeparatorColor()
         colorTxtLbl = getTextLblColor(1.0)
@@ -139,9 +134,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         case viewSection[PreferencesViewSection.information.rawValue] :
             
             numberRows = SectionInformation.numberSectionInformation.rawValue
-            if PreyConfig.sharedInstance.isPro {
-                numberRows -= 1
-            }
             
             // Settings
         case viewSection[PreferencesViewSection.settings.rawValue] :
@@ -238,13 +230,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         case SectionInformation.currentLocation.rawValue :
             cell.textLabel?.text    = "Current Location".localized
             
-        case SectionInformation.upgradeToPro.rawValue :
-            cell.textLabel?.text    = "Upgrade to Pro".localized
-            
         default : break
         }
     }
-    
+
     // Config SettingsSection
     func configCellForSettingsSection(_ index:Int, withCell cell:UITableViewCell) {
         
@@ -355,10 +344,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 // Current Location
             case SectionInformation.currentLocation.rawValue:
                 showViewControllerWithId(StoryboardIdVC.currentLocation.rawValue)
-                
-                // Upgrade to Pro
-            case SectionInformation.upgradeToPro.rawValue:
-                showViewControllerWithId(StoryboardIdVC.purchases.rawValue)
                 
             default : break
             }
