@@ -74,7 +74,6 @@
 		3BAB25D423A923C300BDA263 /* Triggers+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB25CE23A923C300BDA263 /* Triggers+Properties.swift */; };
 		3BAE5815214ACDA000DB4BAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BAE5812214ACD9F00DB4BAB /* InfoPlist.strings */; };
 		3BB3430022710B360088F3D3 /* MimeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342FF22710B360088F3D3 /* MimeTypes.swift */; };
-		3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21C1D47CAC500074E97 /* StoreKit.framework */; };
 		3BB6E21F1D47CACD00074E97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB6E21E1D47CACD00074E97 /* MapKit.framework */; };
 		3BC3C0981C9733BA00D08D62 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3C0971C9733BA00D08D62 /* Constants.swift */; };
 		3BC4FC1F1D3699F800C58878 /* CurrentLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */; };
@@ -216,7 +215,6 @@
 		3BAE5813214ACD9F00DB4BAB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BAE5814214ACD9F00DB4BAB /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BB342FF22710B360088F3D3 /* MimeTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MimeTypes.swift; sourceTree = "<group>"; };
-		3BB6E21C1D47CAC500074E97 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3BB6E21E1D47CACD00074E97 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		3BB6E2221D47CC3C00074E97 /* Prey.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Prey.entitlements; path = Plist/Prey.entitlements; sourceTree = "<group>"; };
 		3BC3C0971C9733BA00D08D62 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Classes/Constants.swift; sourceTree = "<group>"; };
@@ -272,7 +270,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B40AB6B1DB90B57003045C1 /* WebKit.framework in Frameworks */,
-				3BB6E21D1D47CAC500074E97 /* StoreKit.framework in Frameworks */,
 				3BB6E21F1D47CACD00074E97 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -507,7 +504,6 @@
 				3B2A76BA205AB5EA008912BC /* iAd.framework */,
 				3B40AB6A1DB90B57003045C1 /* WebKit.framework */,
 				3BB6E21E1D47CACD00074E97 /* MapKit.framework */,
-				3BB6E21C1D47CAC500074E97 /* StoreKit.framework */,
 				3BCE96EF2302191B00AF1AD4 /* UserNotifications.framework */,
 				3BCE96F12302191B00AF1AD4 /* UserNotificationsUI.framework */,
 			);
@@ -631,9 +627,6 @@
 						CreatedOnToolsVersion = 6.0;
 						LastSwiftMigration = 1020;
 						SystemCapabilities = {
-							com.apple.InAppPurchase = {
-								enabled = 1;
-							};
 							com.apple.Keychain = {
 								enabled = 1;
 							};
