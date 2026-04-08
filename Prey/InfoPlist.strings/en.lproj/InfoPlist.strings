@@ -1,11 +1,7 @@
-"NSCameraUsageDescription" = "Prey utilizes the device's camera to take pictures when you request evidence reports.";
+"NSCameraUsageDescription" = "Prey uses the device's camera only to scan the QR code and add the device.";
 
 "NSLocationAlwaysAndWhenInUseUsageDescription" = "Prey needs your location to help you track and find this device using our platform.";
 
 "NSLocationAlwaysUsageDescription" = "Prey needs your location to help you track and find this device using our platform.";
 
 "NSLocationWhenInUseUsageDescription" = "Prey needs your location to help you track and find this device using our platform.";
-
-"NSPhotoLibraryAddUsageDescription" = "Prey needs access to your library to help you remotely retrieve your personal photos if your device is lost or stolen.";
-
-"NSPhotoLibraryUsageDescription" = "Prey needs access to your library to help you remotely retrieve your personal photos if your device is lost or stolen.";
