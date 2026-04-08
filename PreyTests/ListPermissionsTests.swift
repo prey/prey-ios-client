@@ -45,19 +45,11 @@ class ListPermissionsTests: XCTestCase {
 
     /// Test location status string mapping
     func testLocationStatusString() {
-        let expectation = self.expectation(description: "Check location status")
-
-        // Access the private method through reflection or make it internal for testing
-        // For now, we'll test indirectly by triggering get()
-        listPermissions.get()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            // Check that PreyLogger was called with location status
-            // In production, you should check the actual output
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 3.0, handler: nil)
+        XCTAssertEqual(Location.getLocationStatusString(.notDetermined), LocationAccess.NEVER.rawValue)
+        XCTAssertEqual(Location.getLocationStatusString(.restricted), LocationAccess.RESTRICTED.rawValue)
+        XCTAssertEqual(Location.getLocationStatusString(.denied), LocationAccess.DENIED.rawValue)
+        XCTAssertEqual(Location.getLocationStatusString(.authorizedAlways), LocationAccess.ALWAYS.rawValue)
+        XCTAssertEqual(Location.getLocationStatusString(.authorizedWhenInUse), LocationAccess.WHEN_IN_USE.rawValue)
     }
 
     /// Manual test to print all permissions
