@@ -37,7 +37,7 @@ class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate 
         view.addSubview(navBar)
 
         // Config navItem
-        let navItem = UINavigationItem(title: "Prey Control Panel".localized)
+        let navItem = UINavigationItem(title: "")
         navItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
         navBar.pushItem(navItem, animated: false)
 

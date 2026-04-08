@@ -115,8 +115,8 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
     func authenticateWithBiometrics(back: String) {
         PreyLogger("authenticateWithBiometrics back: \(back)")
 
-        guard PreyConfig.sharedInstance.isTouchIDEnabled else {
-            PreyLogger("Biometric auth disabled by user")
+        guard PreyConfig.isBiometricAuthEnabled, PreyConfig.sharedInstance.isTouchIDEnabled else {
+            PreyLogger("Biometric auth disabled")
             notifyAuthFallback(back)
             return
         }
@@ -278,7 +278,13 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
     }
 
     func renameDevice(_ newName: String?) {
-        PreyDevice.renameDevice(newName!, onCompletion: { (isSuccess: Bool) in
+        let trimmedName = newName?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        guard !trimmedName.isEmpty else {
+            displayErrorAlert("Device name cannot be empty".localized,
+                              titleMessage: "We have a situation!".localized)
+            return
+        }
+        PreyDevice.renameDevice(trimmedName, onCompletion: { (isSuccess: Bool) in
             if isSuccess {
                 PreyConfig.sharedInstance.nameDevice = newName
                 PreyConfig.sharedInstance.saveValues()
@@ -508,7 +514,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
                 self.checkPassword(params["pwdLogin"], view: self.view, back: "close")
             case ReactViews.NAMEDEVICE.rawValue:
                 let nameDevice = PreyConfig.sharedInstance.nameDevice ?? UIDevice.current.name
-                self.evaluateJS(self.webView, code: "document.getElementById('currentName').value = '\(nameDevice)';")
+                self.evaluateJS(self.webView, code: "document.getElementById('currentName').innerText = '\(nameDevice)';")
                 self.evaluateJS(self.webView, code: "document.getElementById('name_device_1').innerText = '\(nameDevice)';")
                 if PreyConfig.sharedInstance.isMsp {
                     self.evaluateJS(self.webView, code: "document.getElementById('name_device_0').innerText = '\(nameDevice)';")
