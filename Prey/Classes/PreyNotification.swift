@@ -12,95 +12,80 @@ import UIKit
 import UserNotifications
 
 class PreyNotification {
-
     // MARK: Properties
-    
+
     static let sharedInstance = PreyNotification()
-    fileprivate init() {
-    }
-    
+    fileprivate init() {}
+
     // MARK: Functions
-    
-    // Handle notification response
+
+    /// Handle notification response
     func handleNotificationResponse(_ response: UNNotificationResponse) {
         let userInfo = response.notification.request.content.userInfo
         PreyLogger("Handling notification response: \(response.actionIdentifier) with userInfo: \(userInfo)")
-        
+
         // Extract message from userInfo
         if let message = userInfo[kOptions.IDLOCAL.rawValue] as? String {
             PreyLogger("Show message from notification: \(message)")
-            
-            // Add alert action
-            let alertOptions = [kOptions.MESSAGE.rawValue: message] as NSDictionary
-            let alertAction = Alert(withTarget: kAction.alert, withCommand: kCommand.start, withOptions: alertOptions)
-            
-            // Set trigger ID if available
-            if let triggerId = userInfo[kOptions.trigger_id.rawValue] as? String {
-                alertAction.triggerId = triggerId
-            }
-            
-            // Add and run the action
-            PreyModule.sharedInstance.actionArray.append(alertAction)
-            PreyModule.sharedInstance.runAction()
         }
-        
+
         // Reset badge count
         DispatchQueue.main.async {
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
     }
-    
-    // Register Device to Apple Push Notification Service
+
+    /// Register Device to Apple Push Notification Service
     func registerForRemoteNotifications() {
         // Create notification actions
         let viewAction = UNNotificationAction(
-            identifier: "VIEW_ACTION", 
-            title: "View Details", 
+            identifier: "VIEW_ACTION",
+            title: "View Details",
             options: [.foreground]
         )
-        
+
         let dismissAction = UNNotificationAction(
-            identifier: "DISMISS_ACTION", 
-            title: "Dismiss", 
+            identifier: "DISMISS_ACTION",
+            title: "Dismiss",
             options: [.destructive]
         )
-        
+
         // Create the category with the actions
         let alertCategory = UNNotificationCategory(
-            identifier: categoryNotifPreyAlert, 
-            actions: [viewAction, dismissAction], 
-            intentIdentifiers: [], 
+            identifier: categoryNotifPreyAlert,
+            actions: [viewAction, dismissAction],
+            intentIdentifiers: [],
             options: [.customDismissAction]
         )
-        
+
         // Register the notification categories
         UNUserNotificationCenter.current().setNotificationCategories(Set([alertCategory]))
-        
+
         // Request authorization including critical alerts for iOS 15+
         UNUserNotificationCenter.current()
-            .requestAuthorization(options: [.alert, .sound, .badge, .providesAppNotificationSettings, .criticalAlert]) { (granted, error) in
+            .requestAuthorization(options: [.alert, .sound, .badge, .providesAppNotificationSettings, .criticalAlert]) { granted, error in
                 // Log permission result
                 PreyLogger("Permission request result: \(granted)")
                 if let error = error {
                     PreyLogger("Permission request error: \(error.localizedDescription)")
                 }
-                
+
                 // Check permission granted
-                guard granted else { 
+                guard granted else {
                     PreyLogger("Push notification permissions not granted")
-                    return 
+                    return
                 }
-                
+
                 // Get current settings and register for remote
                 UNUserNotificationCenter.current().getNotificationSettings { settings in
                     // Check notification settings
                     PreyLogger("Current notification authorization status: \(settings.authorizationStatus.rawValue)")
-                    
-                    guard settings.authorizationStatus == .authorized else { 
+
+                    guard settings.authorizationStatus == .authorized else {
                         PreyLogger("Notification authorization not available")
-                        return 
+                        return
                     }
-                    
+
                     // Register for remote notifications on main thread
                     DispatchQueue.main.async {
                         UIApplication.shared.registerForRemoteNotifications()
@@ -109,41 +94,40 @@ class PreyNotification {
                 }
             }
     }
-    
-    // Did Register Remote Notifications
+
+    /// Did Register Remote Notifications
     func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
         NotificationTokenRegistrar.store(tokenHex: tokenAsString)
         NotificationTokenRegistrar.sendIfPossible(source: "didRegisterForRemoteNotifications")
     }
-    
-    // Did Receive Remote Notifications with improved completion handling
+
+    /// Did Receive Remote Notifications with improved completion handling
     func didReceiveRemoteNotifications(_ userInfo: [AnyHashable: Any], completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
         PreyLogger("📣 PN PROCESSING: Starting to process remote notification")
         PreyLogger("📣 PN PAYLOAD: \(userInfo)")
-        
+
         // Track whether we received any data to return appropriate completion result
         var receivedData = false
-        
+
         if let cmdInstruction = userInfo["cmd"] as? NSArray {
             PreyLogger("📣 PN TYPE: cmd instruction payload detected with \(cmdInstruction.count) items")
             parsePayloadInfoFromPushNotification(instructionArray: cmdInstruction)
             receivedData = true
         }
-        
+
         // Currently not being used
         // if let cmdArray = userInfo["instruction"] as? NSArray {
-            // PreyLogger("📣 PN TYPE: instruction payload detected with \(cmdArray.count) items")
-            // parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
-            // receivedData = true
+        // PreyLogger("📣 PN TYPE: instruction payload detected with \(cmdArray.count) items")
+        // parsePayloadInfoFromPushNotification(instructionArray: cmdArray)
+        // receivedData = true
         // }
-        
+
         // APNS silent notification check (content-available = 1)
         if let aps = userInfo["aps"] as? [String: Any],
            let contentAvailable = aps["content-available"] as? Int, contentAvailable == 1 {
             PreyLogger("📣 PN TYPE: Silent notification detected with content-available=1")
-            
+
             // Check for remote actions when receiving silent push notification
             checkRemoteActionsFromSilentPush { hasActions in
                 if hasActions {
@@ -152,7 +136,7 @@ class PreyNotification {
                 } else {
                     PreyLogger("📣 PN ACTION: No remote actions found")
                 }
-                
+
                 // Complete with result after async operation finishes
                 let result = receivedData ? UIBackgroundFetchResult.newData : UIBackgroundFetchResult.noData
                 PreyLogger("📣 PN COMPLETE: Finishing notification processing with result: \(result == .newData ? "newData" : "noData")")
@@ -161,53 +145,53 @@ class PreyNotification {
             // Don't set receivedData = true here, let the async callback handle it
         } else {
             PreyLogger("📣 PN CHECK: No content-available=1 found in aps payload")
-            
+
             // Complete immediately if no silent notification
             let result = receivedData ? UIBackgroundFetchResult.newData : UIBackgroundFetchResult.noData
             PreyLogger("📣 PN COMPLETE: Finishing notification processing with result: \(result == .newData ? "newData" : "noData")")
             completionHandler(result)
         }
     }
-    
-    // Parse payload info on push notification
-    func parsePayloadPreyMDMFromPushNotification(parameters:NSDictionary) {
+
+    /// Parse payload info on push notification
+    func parsePayloadPreyMDMFromPushNotification(parameters: NSDictionary) {
         // This token is generated BE-side and guards the enrollment service
         // against data pollution attacks
         guard let token = parameters["token"] as? String else {
-          PreyLogger("error reading token from json")
-          handlePushError("Missing token in preymdm payload")
-          return
+            PreyLogger("error reading token from json")
+            handlePushError("Missing token in preymdm payload")
+            return
         }
-      
+
         guard let accountID = parameters["account_id"] as? Int else {
             PreyLogger("error reading account_id from json")
             handlePushError("Missing account_id in preymdm payload")
             return
         }
-        
+
         guard let urlServer = parameters["url"] as? String else {
             PreyLogger("error reading url from json")
             handlePushError("Missing url in preymdm payload")
             return
         }
-      
+
         PreyMobileConfig.sharedInstance.startService(authToken: token, urlServer: urlServer, accountId: accountID)
     }
-    
-    // Parse payload info on push notification
-    func parsePayloadInfoFromPushNotification(instructionArray:NSArray) {
+
+    /// Parse payload info on push notification
+    func parsePayloadInfoFromPushNotification(instructionArray: NSArray) {
         PreyLogger("📣 PN PARSE: Starting to parse instruction array with \(instructionArray.count) items")
-        
+
         do {
             let data = try JSONSerialization.data(withJSONObject: instructionArray, options: JSONSerialization.WritingOptions.prettyPrinted)
-            if let json = String(data: data, encoding:String.Encoding.utf8) {
+            if let json = String(data: data, encoding: String.Encoding.utf8) {
                 PreyLogger("📣 PN PARSE: Instruction JSON: \(json)")
-                
+
                 // Log the first action if available for debugging
                 if let firstItem = instructionArray.firstObject as? [String: Any] {
                     PreyLogger("📣 PN PARSE: First instruction item: \(firstItem)")
                 }
-                
+
                 PreyLogger("📣 PN PARSE: Sending to parseActionsFromPanel")
                 PreyModule.sharedInstance.parseActionsFromPanel(json)
                 PreyLogger("📣 PN PARSE: Completed parsing actions from panel")
@@ -219,22 +203,22 @@ class PreyNotification {
             handlePushError("Failed to parse instruction payload: \(error.localizedDescription)")
         }
     }
-    
-    // Helper method for handling errors from push notifications
+
+    /// Helper method for handling errors from push notifications
     func handlePushError(_ error: String) {
         PreyLogger("📣 PN ERROR: 🚨 \(error)")
     }
-    
-    // Check for remote actions when receiving silent push notification
+
+    /// Check for remote actions when receiving silent push notification
     private func checkRemoteActionsFromSilentPush(completion: @escaping (Bool) -> Void) {
         PreyLogger("📣 PN REMOTE: Starting remote action check from silent push")
-        
+
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             PreyLogger("📣 PN REMOTE: No API key available for remote action check")
             completion(false)
             return
         }
-        
+
         // Use PreyHTTPResponse.checkResponse for actionsDevice endpoint
         PreyHTTPClient.sharedInstance.sendDataToPrey(
             username,
@@ -248,17 +232,17 @@ class PreyNotification {
                 preyAction: nil,
                 onCompletion: { isSuccess in
                     PreyLogger("📣 PN REMOTE: Remote action check completed with success: \(isSuccess)")
-                    
+
                     if isSuccess {
                         // Check if any actions were added to the action array
                         let hasActions = !PreyModule.sharedInstance.actionArray.isEmpty
                         PreyLogger("📣 PN REMOTE: Found \(PreyModule.sharedInstance.actionArray.count) actions from remote check")
-                        
+
                         if hasActions {
                             // Run the actions that were retrieved
                             PreyModule.sharedInstance.runAction()
                         }
-                        
+
                         completion(hasActions)
                     } else {
                         PreyLogger("📣 PN REMOTE: Failed to retrieve remote actions")

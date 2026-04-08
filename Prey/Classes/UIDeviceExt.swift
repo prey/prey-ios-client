@@ -9,10 +9,9 @@
 import Foundation
 import UIKit
 
-// Extension for UIDevice
+/// Extension for UIDevice
 extension UIDevice {
-
-    // Return raw machine identifier (e.g. "iPhone18,1")
+    /// Return raw machine identifier (e.g. "iPhone18,1")
     var machineIdentifier: String {
         var systemInfo = utsname()
         uname(&systemInfo)
@@ -30,12 +29,12 @@ extension UIDevice {
         return identifier
     }
 
-    // Return Cpu Cores (dynamic via ProcessInfo)
+    /// Return Cpu Cores (dynamic via ProcessInfo)
     var cpuCores: String {
         return String(ProcessInfo.processInfo.processorCount)
     }
 
-    // Return Ram Size in MB (dynamic via ProcessInfo)
+    /// Return Ram Size in MB (dynamic via ProcessInfo)
     var ramSize: String {
         let ramMB = ProcessInfo.processInfo.physicalMemory / 1024 / 1024
         return String(ramMB)

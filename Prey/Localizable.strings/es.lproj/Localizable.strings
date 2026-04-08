@@ -99,8 +99,6 @@
 
 "Attaching device..." = "Agregando dispositivo...";
 
-"Camouflage mode" = "Modo camuflado";
-
 "Checking your password..." = "Comprobando contraseña...";
 
 "Choose a password of at least 6 characters" = "Contraseña debe ser mínimo de 6 caracteres";
@@ -129,7 +127,7 @@
 
 "Device ready" = "Dispositivo protegido";
 
-"Enter a valid e-mail address" = "Ingresa un e-mail válido";
+"Enter a valid email address" = "Ingresa un email válido";
 
 "Help" = "Ayuda";
 
@@ -233,10 +231,6 @@
 
 "Canceled transaction, please try again." = "Transacción cancelada. Vuelva a intentarlo más tarde.";
 
-"Alert notification disabled" = "Notificaciones de alerta deshabilitadas";
-
-"You need to grant Prey access to show alert notifications in order to remotely mark it as missing." = "Es necesario garantizar el acceso a Prey para poder mostrar las notificaciones de alerta al marcarlo como perdido.";
-
 "The internet connection appears to be offline" = "La conexión a internet parece estar desactivada";
 
 "Authenticate for login?" = "¿Autenticar para inicio de sesión?";
@@ -276,8 +270,6 @@
 "protected" = "protegido";
 
 "unprotected" = "desprotegido";
-
-"IMPORTANT ALERT" = "ALERTA IMPORTANTE";
 
 "Use device settings" = "Configuración del dispositivo";
 

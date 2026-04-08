@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 class PreyDevice {
-
     // MARK: Properties
 
     var deviceKey: String?
@@ -33,18 +32,18 @@ class PreyDevice {
 
     init() {
         // Device identity
-        name              = UIDevice.current.name
-        type              = IS_IPAD ? "Tablet" : "Phone"
-        os                = "iOS"
-        vendor            = "Apple"
-        version           = UIDevice.current.systemVersion
-        uuid              = UIDevice.current.identifierForVendor?.uuidString
-        macAddress        = "02:00:00:00:00:00"
+        name = UIDevice.current.name
+        type = IS_IPAD ? "Tablet" : "Phone"
+        os = "iOS"
+        vendor = "Apple"
+        version = UIDevice.current.systemVersion
+        uuid = UIDevice.current.identifierForVendor?.uuidString
+        macAddress = "02:00:00:00:00:00"
         machineIdentifier = UIDevice.current.machineIdentifier
 
         // Dynamic hardware info
-        cpuCores             = UIDevice.current.cpuCores
-        ramSize              = UIDevice.current.ramSize
+        cpuCores = UIDevice.current.cpuCores
+        ramSize = UIDevice.current.ramSize
 
         // logDeviceInfo()
     }
@@ -68,24 +67,25 @@ class PreyDevice {
     // MARK: API
 
     class func addDeviceWith(_ onCompletion: @escaping (_ isSuccess: Bool) -> Void) {
-
         let device = PreyDevice()
 
         let hardwareInfo: [String: String] = [
-            "uuid"         : device.uuid!,
+            "uuid": device.uuid!,
             "serial_number": device.uuid!,
-            "cpu_cores"    : device.cpuCores!,
-            "ram_size"     : device.ramSize!]
+            "cpu_cores": device.cpuCores!,
+            "ram_size": device.ramSize!
+        ]
 
         let params: [String: Any] = [
-            "name"                : device.name!,
-            "device_type"         : device.type!,
-            "os_version"          : device.version!,
-            "vendor_name"         : device.vendor!,
-            "machine_id"          : device.machineIdentifier!,
-            "os"                  : device.os!,
-            "physical_address"    : device.macAddress!,
-            "hardware_attributes" : hardwareInfo]
+            "name": device.name!,
+            "device_type": device.type!,
+            "os_version": device.version!,
+            "vendor_name": device.vendor!,
+            "machine_id": device.machineIdentifier!,
+            "os": device.os!,
+            "physical_address": device.macAddress!,
+            "hardware_attributes": hardwareInfo
+        ]
 
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             displayErrorAlert("Error user ID".localized, titleMessage: "Couldn't add your device".localized)
@@ -96,14 +96,15 @@ class PreyDevice {
         PreyHTTPClient.sharedInstance.sendDataToPrey(
             username, password: "x", params: params, messageId: nil,
             httpMethod: Method.POST.rawValue, endPoint: devicesEndpoint,
-            onCompletion: PreyHTTPResponse.checkResponse(RequestType.addDevice, preyAction: nil, onCompletion: onCompletion))
+            onCompletion: PreyHTTPResponse.checkResponse(RequestType.addDevice, preyAction: nil, onCompletion: onCompletion)
+        )
     }
 
     class func renameDevice(_ newName: String, onCompletion: @escaping (_ isSuccess: Bool) -> Void) {
-
         let params: [String: Any] = [
-            "name" : "device_renamed",
-            "info" : ["new_name": newName]]
+            "name": "device_renamed",
+            "info": ["new_name": newName]
+        ]
 
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             PreyLogger("Error renameDevice")
@@ -113,23 +114,21 @@ class PreyDevice {
         PreyHTTPClient.sharedInstance.sendDataToPrey(
             username, password: "x", params: params, messageId: nil,
             httpMethod: Method.POST.rawValue, endPoint: eventsDeviceEndpoint,
-            onCompletion: PreyHTTPResponse.checkResponse(RequestType.signUp, preyAction: nil, onCompletion: onCompletion))
+            onCompletion: PreyHTTPResponse.checkResponse(RequestType.renameDevice, preyAction: nil, onCompletion: onCompletion)
+        )
     }
 
     class func infoDevice(_ onCompletion: @escaping (_ isSuccess: Bool) -> Void) {
-
         guard let username = PreyConfig.sharedInstance.userApiKey else {
             PreyLogger("Error infoDevice - No API key available")
             onCompletion(false)
             return
         }
 
-        PreyNetworkRetry.sendDataWithBackoff(
-            username: username, password: "x", params: nil, messageId: nil,
+        PreyHTTPClient.sharedInstance.sendDataToPrey(
+            username, password: "x", params: nil, messageId: nil,
             httpMethod: Method.GET.rawValue, endPoint: infoEndpoint,
-            tag: "infoDevice", maxAttempts: 5, nonRetryStatusCodes: [401]
-        ) { success in
-            onCompletion(success)
-        }
+            onCompletion: PreyHTTPResponse.checkResponse(RequestType.infoDevice, preyAction: nil, onCompletion: onCompletion)
+        )
     }
 }

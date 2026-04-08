@@ -8,21 +8,21 @@
 
 import Foundation
 
-// Centralized helper to send requests with exponential backoff and rich error logging.
+/// Centralized helper to send requests with exponential backoff and rich error logging.
 class PreyNetworkRetry {
-    // Simple unauthenticated JSON POST/PUT with retry and backoff
+    /// Simple unauthenticated JSON POST/PUT with retry and backoff
     static func sendJSONNoAuth(
         urlString: String,
         payload: [String: Any],
         httpMethod: String = "POST",
         tag: String = "NETWORK",
         maxAttempts: Int = 5,
-        nonRetryStatusCodes: Set<Int> = Set(400...499),
+        nonRetryStatusCodes: Set<Int> = Set(400 ... 499),
         onCompletion: @escaping (Bool) -> Void
     ) {
         func delayForAttempt(_ attempt: Int) -> TimeInterval {
             let base = pow(2.0, Double(min(attempt - 1, 5)))
-            let jitter = Double.random(in: 0...1)
+            let jitter = Double.random(in: 0 ... 1)
             return min(60.0, base + jitter)
         }
 
@@ -39,8 +39,8 @@ class PreyNetworkRetry {
 
         func attemptSend(_ attempt: Int) {
             guard let req = buildRequest() else { onCompletion(false); return }
-            PreyHTTPClient.sharedInstance.performRequest(req) { data, response, error in
-                if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
+            PreyHTTPClient.sharedInstance.performRequest(req) { _, response, error in
+                if let http = response as? HTTPURLResponse, (200 ... 299).contains(http.statusCode) {
                     PreyLogger("\(tag): ✅ Success (HTTP \(http.statusCode))")
                     onCompletion(true)
                     return
@@ -50,7 +50,7 @@ class PreyNetworkRetry {
                     PreyLogger("\(tag): ❌ Error (attempt \(attempt)/\(maxAttempts)): domain=\(error.domain) code=\(error.code) desc=\(error.localizedDescription)")
                 }
                 if let http = response as? HTTPURLResponse {
-                    if !(200...299).contains(http.statusCode) {
+                    if !(200 ... 299).contains(http.statusCode) {
                         let localized = HTTPURLResponse.localizedString(forStatusCode: http.statusCode)
                         PreyLogger("\(tag): ❌ HTTP \(http.statusCode) \(localized) (attempt \(attempt)/\(maxAttempts))")
                         if nonRetryStatusCodes.contains(http.statusCode) {
@@ -93,7 +93,7 @@ class PreyNetworkRetry {
     ) {
         func delayForAttempt(_ attempt: Int) -> TimeInterval {
             let base = pow(2.0, Double(min(attempt - 1, 5)))
-            let jitter = Double.random(in: 0...1)
+            let jitter = Double.random(in: 0 ... 1)
             return min(60.0, base + jitter)
         }
 
@@ -118,7 +118,7 @@ class PreyNetworkRetry {
                 httpMethod: httpMethod,
                 endPoint: endPoint,
                 onCompletion: { data, response, error in
-                    if let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) {
+                    if let http = response as? HTTPURLResponse, (200 ... 299).contains(http.statusCode) {
                         PreyLogger("\(tag): ✅ Success (HTTP \(http.statusCode))")
                         onCompletion(true)
                         return
@@ -128,9 +128,17 @@ class PreyNetworkRetry {
                         PreyLogger("\(tag): ❌ Error (attempt \(attempt)/\(maxAttempts)): domain=\(error.domain) code=\(error.code) desc=\(error.localizedDescription)")
                     }
                     if let http = response as? HTTPURLResponse {
-                        if !(200...299).contains(http.statusCode) {
+                        if !(200 ... 299).contains(http.statusCode) {
                             let localized = HTTPURLResponse.localizedString(forStatusCode: http.statusCode)
                             PreyLogger("\(tag): ❌ HTTP \(http.statusCode) \(localized) (attempt \(attempt)/\(maxAttempts)). Body: \(bodySnippet(data))")
+                            // Detect device deleted from backend
+                            if http.statusCode == 406 {
+                                PreyLogger("\(tag): Device deleted from panel, triggering detach")
+                                let detachModule = Detach(withTarget: kAction.detach, withCommand: kCommand.start, withOptions: nil)
+                                detachModule.start()
+                                onCompletion(false)
+                                return
+                            }
                             if nonRetryStatusCodes.contains(http.statusCode) {
                                 PreyLogger("\(tag): 🚫 Not retrying due to non-retryable status \(http.statusCode)")
                                 onCompletion(false)
@@ -158,4 +166,3 @@ class PreyNetworkRetry {
         attemptSend(1)
     }
 }
-

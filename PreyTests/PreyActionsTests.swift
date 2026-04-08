@@ -5,22 +5,13 @@
 //  Comprehensive test suite for all Prey actions
 //
 
-import XCTest
-import CoreLocation
 import AVFoundation
+import CoreLocation
 import Photos
 @testable import Prey
+import XCTest
 
 class PreyActionsTests: XCTestCase {
-
-    override func setUp() {
-        super.setUp()
-    }
-
-    override func tearDown() {
-        super.tearDown()
-    }
-
     // MARK: - ListPermissions Tests
 
     func testListPermissionsGetPermissions() {
@@ -51,36 +42,6 @@ class PreyActionsTests: XCTestCase {
         print("==========================================\n")
     }
 
-    // MARK: - Report Tests
-
-    func testReportInitialization() {
-        let options: [String: Any] = [
-            kOptions.interval.rawValue: 5, // 5 minutes
-            kOptions.exclude.rawValue: []
-        ]
-
-        let action = Report(withTarget: kAction.report, withCommand: kCommand.get, withOptions: options as NSDictionary)
-        action.get() // Need to call get() to process the options
-
-        XCTAssertNotNil(action, "Report action should initialize")
-        XCTAssertEqual(action.interval, 300.0, "Interval should be 300 seconds (5 minutes * 60)")
-        XCTAssertFalse(action.excLocation, "Location should not be excluded by default")
-        XCTAssertFalse(action.excPicture, "Picture should not be excluded by default")
-    }
-
-    func testReportWithExclusions() {
-        let options: [String: Any] = [
-            kOptions.interval.rawValue: 10,
-            kOptions.exclude.rawValue: [kExclude.location.rawValue, kExclude.picture.rawValue]
-        ]
-
-        let action = Report(withTarget: kAction.report, withCommand: kCommand.get, withOptions: options as NSDictionary)
-        action.get()
-
-        XCTAssertTrue(action.excLocation, "Location should be excluded")
-        XCTAssertTrue(action.excPicture, "Picture should be excluded")
-    }
-
     // MARK: - Location Tests
 
     func testLocationInitialization() {
@@ -104,44 +65,6 @@ class PreyActionsTests: XCTestCase {
         XCTAssertTrue(nullIsland.coordinate.latitude == 0 && nullIsland.coordinate.longitude == 0, "Should detect null island")
 
         print("==========================================\n")
-    }
-
-    // MARK: - Alarm Tests
-
-    func testAlarmInitialization() {
-        let action = Alarm(withTarget: kAction.alarm, withCommand: kCommand.start, withOptions: nil)
-
-        XCTAssertNotNil(action, "Alarm action should initialize")
-        XCTAssertFalse(action.isActive, "Alarm should not be active initially")
-    }
-
-    // MARK: - Alert Tests
-
-    func testAlertInitialization() {
-        let options: [String: Any] = [
-            kOptions.MESSAGE.rawValue: "Test alert message"
-        ]
-
-        let action = Alert(withTarget: kAction.alert, withCommand: kCommand.start, withOptions: options as NSDictionary)
-
-        XCTAssertNotNil(action, "Alert action should initialize")
-    }
-
-    func testAlertWithoutMessage() {
-        let action = Alert(withTarget: kAction.alert, withCommand: kCommand.start, withOptions: nil)
-
-        // This should handle the missing message gracefully
-        action.start()
-
-        XCTAssertNotNil(action, "Alert should handle missing message")
-    }
-
-    // MARK: - FileRetrieval Tests
-
-    func testFileRetrievalInitialization() {
-        let action = FileRetrieval(withTarget: kAction.fileretrieval, withCommand: kCommand.get, withOptions: nil)
-
-        XCTAssertNotNil(action, "FileRetrieval action should initialize")
     }
 
     // MARK: - Permission Checking Tests

@@ -5,14 +5,13 @@
 //  Created for testing ListPermissions functionality
 //
 
-import XCTest
-import CoreLocation
 import AVFoundation
+import CoreLocation
 import Photos
 @testable import Prey
+import XCTest
 
 class ListPermissionsTests: XCTestCase {
-
     var listPermissions: ListPermissions!
 
     override func setUp() {
@@ -25,7 +24,7 @@ class ListPermissionsTests: XCTestCase {
         super.tearDown()
     }
 
-    // Test that permissions are collected and sent correctly
+    /// Test that permissions are collected and sent correctly
     func testGetPermissionsAsync() {
         let expectation = self.expectation(description: "Get permissions async")
 
@@ -44,7 +43,7 @@ class ListPermissionsTests: XCTestCase {
         }
     }
 
-    // Test location status string mapping
+    /// Test location status string mapping
     func testLocationStatusString() {
         let expectation = self.expectation(description: "Check location status")
 
@@ -61,7 +60,7 @@ class ListPermissionsTests: XCTestCase {
         waitForExpectations(timeout: 3.0, handler: nil)
     }
 
-    // Manual test to print all permissions
+    /// Manual test to print all permissions
     func testPrintAllPermissions() {
         let expectation = self.expectation(description: "Print all permissions")
 
