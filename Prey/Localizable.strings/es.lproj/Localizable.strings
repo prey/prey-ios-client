@@ -269,6 +269,10 @@
 
 "Name can't be blank" = "El nombre no puede estar en blanco";
 
+"Use Touch ID" = "Usar Touch ID";
+
+"Use Face ID" = "Usar Face ID";
+
 "Would you like to use Touch ID to access the Prey settings?" = "¿Te gustaría usar Touch ID para acceder a la configuración de Prey?";
 
 "Would you like to use Face ID to access the Prey settings?" = "¿Te gustaría usar Face ID para acceder a la configuración de Prey?";
