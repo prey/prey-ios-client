@@ -230,7 +230,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             touchIDEnabled.addTarget(self, action: #selector(touchIDEnabledState), for: UIControl.Event.valueChanged)
             touchIDEnabled.setOn(PreyConfig.sharedInstance.isTouchIDEnabled, animated: false)
             cell.accessoryView = touchIDEnabled
-            cell.textLabel?.text = "Use " + biometricAuth
+            let localizedBiometricOption = "Use \(biometricAuth)".localized
+            cell.textLabel?.text = localizedBiometricOption == "Use \(biometricAuth)"
+                ? "Use Touch ID".localized
+                : localizedBiometricOption
 
         default: break
         }
