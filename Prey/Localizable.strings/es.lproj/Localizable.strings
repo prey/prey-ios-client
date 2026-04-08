@@ -145,6 +145,8 @@
 
 "Password must be at least 6 characters" = "Contraseña debe tener al menos 6 caracteres";
 
+"Device name cannot be empty" = "El nombre del dispositivo no puede estar vacío";
+
 "Passwords do not match" = "Contraseñas no coinciden";
 
 "Please wait" = "Espera un segundo";
@@ -175,7 +177,7 @@
 
 "Warning" = "Advertencia";
 
-"We have a situation!" = "¡Tenemos un problema!";
+"We have a situation!" = "Error";
 
 "Wrong password. Try again." = "Contraseña incorrecta. Recuerda que tienes que verificar tu email para poder ingresar.";
 

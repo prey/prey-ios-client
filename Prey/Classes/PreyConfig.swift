@@ -80,6 +80,10 @@ class PreyConfig: NSObject {
     var isSystemDarkMode: Bool
     var updatedSettings: Bool
     var isTouchIDEnabled: Bool
+
+    /// Feature flag: controls whether biometric authentication is available.
+    /// Set to `false` to disable biometric auth globally.
+    static let isBiometricAuthEnabled = false
     var existBackup: Bool
     var nameDevice: String?
     var isMsp: Bool

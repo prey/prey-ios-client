@@ -144,6 +144,8 @@
 
 "Password must be at least 6 characters" = "Password must be at least 6 characters";
 
+"Device name cannot be empty" = "Device name cannot be empty";
+
 "Passwords do not match" = "Passwords do not match";
 
 "Please wait" = "Please wait";
@@ -174,7 +176,7 @@
 
 "Warning" = "Warning";
 
-"We have a situation!" = "We have a situation!";
+"We have a situation!" = "Error";
 
 "Wrong password. Try again." = "Wrong password. Try again.";
 

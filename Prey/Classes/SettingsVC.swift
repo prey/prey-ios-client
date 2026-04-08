@@ -124,7 +124,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
         // Settings
         case viewSection[PreferencesViewSection.settings.rawValue]:
-            if LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
+            if PreyConfig.isBiometricAuthEnabled, LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
                 numberRows = SectionSettings.numberSectionSettings.rawValue
             } else {
                 numberRows = SectionSettings.numberSectionSettings.rawValue - 1
