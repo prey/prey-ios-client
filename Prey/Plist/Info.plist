@@ -50,7 +50,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Prey utilizes the device&apos;s camera to take pictures when you request evidence reports.</string>
+	<string>Prey uses the device&apos;s camera only to scan the QR code and add the device.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Prey utilizes the biometric authentication to access device settings.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -59,10 +59,6 @@
 	<string>Prey needs your location to help you track and find this device using our platform.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Prey needs your location to help you track and find this device using our platform.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Prey needs access to the library for you to retrieve images with the File Retrieval.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Prey needs access to the library for you to retrieve images with the File Retrieval.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>large9.ttf</string>
