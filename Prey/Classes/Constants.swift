@@ -318,7 +318,6 @@ enum ReactViews: String {
     case TERMS = "terms"
     case PRIVACY = "privacy"
     case FORGOT = "forgot"
-    case CREATEACCOUNT = "createaccount"
     case AUTHLOC = "authlocation"
     case BIOAUTH = "biometricauth"
     case GOTOSETTING = "settingspwd"

@@ -497,8 +497,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
                 self.showWebViewModal(URLTermsPrey, pageTitle: "Terms of Service".localized)
             case ReactViews.PRIVACY.rawValue:
                 self.showWebViewModal(URLPrivacyPrey, pageTitle: "Privacy Policy".localized)
-            case ReactViews.CREATEACCOUNT.rawValue:
-                self.showWebViewModal(URLCreateAccountPanel, pageTitle: "Create Account Web")
             case ReactViews.FORGOT.rawValue:
                 self.showWebViewModal(URLForgotPanel, pageTitle: "Forgot Password Web")
             case ReactViews.BIOAUTH.rawValue:
