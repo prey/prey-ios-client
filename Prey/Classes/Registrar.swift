@@ -41,10 +41,19 @@ class TokenRegistrationValidator {
 }
 
 class NotificationTokenRegistrar {
-    private static let suiteName = "group.com.prey.ios"
-    private static let tokenKey = "APNSTokenHex"
-    private static let lastSentKey = "APNSTokenLastSent"
-    private static let lastValueKey = "APNSTokenLastValue"
+    static let suiteName = "group.com.prey.ios"
+    static let tokenKey = "APNSTokenHex"
+    static let lastSentKey = "APNSTokenLastSent"
+    static let lastValueKey = "APNSTokenLastValue"
+
+    static func clearCache() {
+        guard let suite = UserDefaults(suiteName: suiteName) else { return }
+        suite.removeObject(forKey: tokenKey)
+        suite.removeObject(forKey: lastSentKey)
+        suite.removeObject(forKey: lastValueKey)
+        suite.synchronize()
+    }
+
     static func store(tokenHex: String) {
         if let suite = UserDefaults(suiteName: suiteName) {
             suite.set(tokenHex, forKey: tokenKey)
@@ -109,10 +118,19 @@ class NotificationTokenRegistrar {
 }
 
 class LocationPushRegistrar {
-    private static let suiteName = "group.com.prey.ios"
-    private static let tokenKey = "LocationPushToken"
-    private static let lastSentKey = "LocationPushTokenLastSent"
-    private static let lastValueKey = "LocationPushTokenLastValue"
+    static let suiteName = "group.com.prey.ios"
+    static let tokenKey = "LocationPushToken"
+    static let lastSentKey = "LocationPushTokenLastSent"
+    static let lastValueKey = "LocationPushTokenLastValue"
+
+    static func clearCache() {
+        guard let suite = UserDefaults(suiteName: suiteName) else { return }
+        suite.removeObject(forKey: tokenKey)
+        suite.removeObject(forKey: lastSentKey)
+        suite.removeObject(forKey: lastValueKey)
+        suite.synchronize()
+    }
+
     static func store(tokenHex: String) {
         if let suite = UserDefaults(suiteName: suiteName) {
             suite.set(tokenHex, forKey: tokenKey)

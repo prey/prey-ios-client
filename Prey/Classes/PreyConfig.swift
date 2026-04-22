@@ -138,6 +138,11 @@ class PreyConfig: NSObject {
         isActiveAware = false
 
         saveValues()
+
+        // Drop cached push-token registration state so a re-attach re-sends
+        // the token to the backend instead of hitting the 1-hour dedup cache.
+        NotificationTokenRegistrar.clearCache()
+        LocationPushRegistrar.clearCache()
     }
 
     /// Method get deviceKey

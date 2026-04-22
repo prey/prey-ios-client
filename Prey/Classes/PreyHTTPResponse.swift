@@ -234,6 +234,7 @@ class PreyHTTPResponse {
                 PreyConfig.sharedInstance.isRegistered = true
                 PreyConfig.sharedInstance.isTouchIDEnabled = true
                 PreyConfig.sharedInstance.saveValues()
+                SyncCoordinator.performPostAuthOrUpgradeSync(reason: .postLogin)
             }
         } catch {
             PreyConfig.sharedInstance.reportError(error)

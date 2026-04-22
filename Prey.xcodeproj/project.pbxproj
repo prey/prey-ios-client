@@ -12,6 +12,7 @@
 		0592B8B82EAADBFC00DB9294 /* PreyActionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8B72EAADBFC00DB9294 /* PreyActionsTests.swift */; };
 		0592B8BE2EAADECA00DB9294 /* DeviceHardwareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8BD2EAADECA00DB9294 /* DeviceHardwareTests.swift */; };
 		0592B8C02EAB000000DB9294 /* PreyConfigBiometricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8BF2EAB000000DB9294 /* PreyConfigBiometricTests.swift */; };
+		0592B8C22EAB110000DB9294 /* PreyTokenRegistrarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8C12EAB110000DB9294 /* PreyTokenRegistrarTests.swift */; };
 		0592E4452E609B65000EE115 /* Registrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4442E609B5E000EE115 /* Registrar.swift */; };
 		0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4452E60A0A5000EE115 /* LocationService.swift */; };
 		0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */; };
@@ -148,6 +149,7 @@
 		0592B8B72EAADBFC00DB9294 /* PreyActionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyActionsTests.swift; sourceTree = "<group>"; };
 		0592B8BD2EAADECA00DB9294 /* DeviceHardwareTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceHardwareTests.swift; sourceTree = "<group>"; };
 		0592B8BF2EAB000000DB9294 /* PreyConfigBiometricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyConfigBiometricTests.swift; sourceTree = "<group>"; };
+		0592B8C12EAB110000DB9294 /* PreyTokenRegistrarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyTokenRegistrarTests.swift; sourceTree = "<group>"; };
 		0592E4442E609B5E000EE115 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Registrar.swift; path = Classes/Registrar.swift; sourceTree = "<group>"; };
 		0592E4452E60A0A5000EE115 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Classes/LocationService.swift; sourceTree = "<group>"; };
 		0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreyNetworkRetry.swift; path = Classes/PreyNetworkRetry.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				0592B8B52EAAD97200DB9294 /* ListPermissionsTests.swift */,
 				0592B8BD2EAADECA00DB9294 /* DeviceHardwareTests.swift */,
 				0592B8BF2EAB000000DB9294 /* PreyConfigBiometricTests.swift */,
+				0592B8C12EAB110000DB9294 /* PreyTokenRegistrarTests.swift */,
 				3B828405199198E6000E4545 /* PreyRestTests.swift */,
 				3B828403199198E6000E4545 /* Supporting Files */,
 			);
@@ -836,6 +839,7 @@
 				0592B8B82EAADBFC00DB9294 /* PreyActionsTests.swift in Sources */,
 				0592B8BE2EAADECA00DB9294 /* DeviceHardwareTests.swift in Sources */,
 				0592B8C02EAB000000DB9294 /* PreyConfigBiometricTests.swift in Sources */,
+				0592B8C22EAB110000DB9294 /* PreyTokenRegistrarTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
