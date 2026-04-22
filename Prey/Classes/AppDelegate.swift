@@ -126,9 +126,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Register the notification categories
         UNUserNotificationCenter.current().setNotificationCategories([alertCategory])
 
-        // Register for remote notifications (silent pushes don't require user permission)
-        UIApplication.shared.registerForRemoteNotifications()
-        PreyLogger("📱 PUSH INIT: Registered for remote notifications (silent push)")
+        // Request provisional authorization: no prompt, notifications get delivered
+        // quietly to Notification Center. Needed so a preymdm push can wake a
+        // terminated app when the user taps it. Silent pushes work regardless.
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .provisional]) { granted, error in
+            if let error = error {
+                PreyLogger("📱 PUSH INIT: provisional auth error: \(error.localizedDescription)")
+            }
+            PreyLogger("📱 PUSH INIT: provisional auth granted=\(granted)")
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+                PreyLogger("📱 PUSH INIT: Registered for remote notifications")
+            }
+        }
 
         PreyLogger("Set UNUserNotificationCenter delegate to AppDelegate and registered categories")
 
@@ -304,6 +314,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UIView.animate(withDuration: 0.2, animations: { () in backgroundImg.alpha = 0 },
                            completion: { _ in backgroundImg.removeFromSuperview() })
         }
+
+        // Pick up any preymdm payload that arrived while the app was backgrounded
+        // and start the enrollment server. No-op if there's nothing pending.
+        PreyNotification.sharedInstance.consumePendingMDMPayload()
 
         // Sync if registered
         if PreyConfig.sharedInstance.isRegistered {

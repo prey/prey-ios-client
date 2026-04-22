@@ -14,6 +14,7 @@
 		0592B8C02EAB000000DB9294 /* PreyConfigBiometricTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8BF2EAB000000DB9294 /* PreyConfigBiometricTests.swift */; };
 		0592B8C22EAB110000DB9294 /* PreyTokenRegistrarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8C12EAB110000DB9294 /* PreyTokenRegistrarTests.swift */; };
 		0592B8C42EAB120000DB9294 /* QRCodeScannerVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8C32EAB120000DB9294 /* QRCodeScannerVCTests.swift */; };
+		0592B8C62EAB130000DB9294 /* PreyNotificationMDMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592B8C52EAB130000DB9294 /* PreyNotificationMDMTests.swift */; };
 		0592E4452E609B65000EE115 /* Registrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4442E609B5E000EE115 /* Registrar.swift */; };
 		0592E4462E60A0A5000EE115 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4452E60A0A5000EE115 /* LocationService.swift */; };
 		0592E4492E60A1B6000EE115 /* PreyNetworkRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */; };
@@ -152,6 +153,7 @@
 		0592B8BF2EAB000000DB9294 /* PreyConfigBiometricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyConfigBiometricTests.swift; sourceTree = "<group>"; };
 		0592B8C12EAB110000DB9294 /* PreyTokenRegistrarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyTokenRegistrarTests.swift; sourceTree = "<group>"; };
 		0592B8C32EAB120000DB9294 /* QRCodeScannerVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerVCTests.swift; sourceTree = "<group>"; };
+		0592B8C52EAB130000DB9294 /* PreyNotificationMDMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreyNotificationMDMTests.swift; sourceTree = "<group>"; };
 		0592E4442E609B5E000EE115 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Registrar.swift; path = Classes/Registrar.swift; sourceTree = "<group>"; };
 		0592E4452E60A0A5000EE115 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Classes/LocationService.swift; sourceTree = "<group>"; };
 		0592E4482E60A1B6000EE115 /* PreyNetworkRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreyNetworkRetry.swift; path = Classes/PreyNetworkRetry.swift; sourceTree = "<group>"; };
@@ -425,6 +427,7 @@
 				0592B8BF2EAB000000DB9294 /* PreyConfigBiometricTests.swift */,
 				0592B8C12EAB110000DB9294 /* PreyTokenRegistrarTests.swift */,
 				0592B8C32EAB120000DB9294 /* QRCodeScannerVCTests.swift */,
+				0592B8C52EAB130000DB9294 /* PreyNotificationMDMTests.swift */,
 				3B828405199198E6000E4545 /* PreyRestTests.swift */,
 				3B828403199198E6000E4545 /* Supporting Files */,
 			);
@@ -844,6 +847,7 @@
 				0592B8C02EAB000000DB9294 /* PreyConfigBiometricTests.swift in Sources */,
 				0592B8C22EAB110000DB9294 /* PreyTokenRegistrarTests.swift in Sources */,
 				0592B8C42EAB120000DB9294 /* QRCodeScannerVCTests.swift in Sources */,
+				0592B8C62EAB130000DB9294 /* PreyNotificationMDMTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -915,7 +919,7 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = LocationPushService/LocationPushService.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = M2J57RQ35B;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -962,7 +966,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M2J57RQ35B;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -1117,7 +1121,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M2J57RQ35B;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1155,7 +1159,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M2J57RQ35B;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "x86_64 i386";
