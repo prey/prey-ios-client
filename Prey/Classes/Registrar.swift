@@ -46,9 +46,12 @@ class NotificationTokenRegistrar {
     static let lastSentKey = "APNSTokenLastSent"
     static let lastValueKey = "APNSTokenLastValue"
 
+    /// Drop only the dedup cache so a re-attach re-sends the token.
+    /// The APNs token itself is preserved because iOS won't re-deliver it
+    /// within the same app session — removing it strands the re-attach flow
+    /// with nothing to POST to the backend.
     static func clearCache() {
         guard let suite = UserDefaults(suiteName: suiteName) else { return }
-        suite.removeObject(forKey: tokenKey)
         suite.removeObject(forKey: lastSentKey)
         suite.removeObject(forKey: lastValueKey)
         suite.synchronize()
@@ -59,13 +62,27 @@ class NotificationTokenRegistrar {
             suite.set(tokenHex, forKey: tokenKey)
             suite.synchronize()
             PreyLoggerInfo("TOKEN REGISTER: stored APNs token \(String(tokenHex))")
-            if PreyConfig.sharedInstance.userApiKey != nil { sendIfPossible() }
+            if PreyConfig.sharedInstance.userApiKey != nil { sendIfPossible(source: "store") }
         }
     }
 
     static func sendIfPossible(source: String = "unspecified") {
-        guard let suite = UserDefaults(suiteName: suiteName), let tokenHex = suite.string(forKey: tokenKey) else { return }
-        guard let username = PreyConfig.sharedInstance.userApiKey else { return }
+        guard let suite = UserDefaults(suiteName: suiteName) else {
+            PreyLogger("TOKEN REGISTER: skip (source=\(source)) — missing app-group suite")
+            return
+        }
+        guard let tokenHex = suite.string(forKey: tokenKey) else {
+            PreyLogger("TOKEN REGISTER: skip (source=\(source)) — no APNs token stored yet")
+            return
+        }
+        guard let username = PreyConfig.sharedInstance.userApiKey else {
+            PreyLogger("TOKEN REGISTER: skip (source=\(source)) — no userApiKey yet")
+            return
+        }
+        guard PreyConfig.sharedInstance.isRegistered, PreyConfig.sharedInstance.deviceKey != nil else {
+            PreyLogger("TOKEN REGISTER: skip (source=\(source)) — device not registered yet")
+            return
+        }
         PreyLogger("TOKEN REGISTER: invoked (source=\(source))")
         guard TokenRegistrationValidator.shouldSendToken(
             tokenHex: tokenHex,
@@ -73,7 +90,10 @@ class NotificationTokenRegistrar {
             lastValueKey: lastValueKey,
             lastSentKey: lastSentKey,
             logPrefix: "TOKEN REGISTER"
-        ) else { return }
+        ) else {
+            PreyLogger("TOKEN REGISTER: skip (source=\(source)) — dedup cache hit")
+            return
+        }
         let preyDevice = PreyDevice()
         let firmwareInfo: [String: String] = [
             "vendor_name": preyDevice.vendor ?? "",
@@ -123,9 +143,10 @@ class LocationPushRegistrar {
     static let lastSentKey = "LocationPushTokenLastSent"
     static let lastValueKey = "LocationPushTokenLastValue"
 
+    /// Drop only the dedup cache so a re-attach re-sends the token.
+    /// The token itself is preserved — see `NotificationTokenRegistrar.clearCache()`.
     static func clearCache() {
         guard let suite = UserDefaults(suiteName: suiteName) else { return }
-        suite.removeObject(forKey: tokenKey)
         suite.removeObject(forKey: lastSentKey)
         suite.removeObject(forKey: lastValueKey)
         suite.synchronize()
@@ -141,8 +162,22 @@ class LocationPushRegistrar {
     }
 
     static func sendIfPossible(source: String = "unspecified") {
-        guard let suite = UserDefaults(suiteName: suiteName), let tokenHex = suite.string(forKey: tokenKey) else { return }
-        guard let apiKey = PreyConfig.sharedInstance.userApiKey else { return }
+        guard let suite = UserDefaults(suiteName: suiteName) else {
+            PreyLogger("LOCATION-PUSH REGISTER: skip (source=\(source)) — missing app-group suite")
+            return
+        }
+        guard let tokenHex = suite.string(forKey: tokenKey) else {
+            PreyLogger("LOCATION-PUSH REGISTER: skip (source=\(source)) — no token stored yet")
+            return
+        }
+        guard let apiKey = PreyConfig.sharedInstance.userApiKey else {
+            PreyLogger("LOCATION-PUSH REGISTER: skip (source=\(source)) — no userApiKey yet")
+            return
+        }
+        guard PreyConfig.sharedInstance.isRegistered, PreyConfig.sharedInstance.deviceKey != nil else {
+            PreyLogger("LOCATION-PUSH REGISTER: skip (source=\(source)) — device not registered yet")
+            return
+        }
         PreyLogger("LOCATION-PUSH REGISTER: invoked (source=\(source))")
         guard TokenRegistrationValidator.shouldSendToken(
             tokenHex: tokenHex,
@@ -150,7 +185,10 @@ class LocationPushRegistrar {
             lastValueKey: lastValueKey,
             lastSentKey: lastSentKey,
             logPrefix: "LOCATION-PUSH REGISTER"
-        ) else { return }
+        ) else {
+            PreyLogger("LOCATION-PUSH REGISTER: skip (source=\(source)) — dedup cache hit")
+            return
+        }
         let params: [String: Any] = [
             "notification_id_extra": tokenHex
         ]
