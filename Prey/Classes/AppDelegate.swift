@@ -558,7 +558,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     // MARK: Location Push Monitoring
 
-    private func startMonitoringLocationPushes() {
+    /// Idempotent. Safe to call whenever `isRegistered` becomes true —
+    /// `hasStartedLocationPushMonitoring` gates repeat starts. `SyncCoordinator`
+    /// calls this right after a fresh attach so the registration token is
+    /// requested as soon as we have a deviceKey, instead of waiting for the
+    /// next app launch.
+    func startMonitoringLocationPushes() {
         guard PreyConfig.sharedInstance.isRegistered else { return }
         if locationPushManager == nil { locationPushManager = CLLocationManager() }
         guard let lm = locationPushManager else { return }
