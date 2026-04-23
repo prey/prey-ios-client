@@ -41,8 +41,8 @@ import XCTest
 /// ## Which backend is hit?
 ///
 /// The backend URL is baked into `PreyProtocol.swift` by `#if DEBUG`:
-///   - Debug build (default for `Cmd+U`) → `solid.preyhq.com` (staging).
-///   - Release build                     → `solid.preyproject.com` (prod).
+///   - Debug build (default for `Cmd+U`) → staging backend.
+///   - Release build                     → production backend.
 /// So by default your credentials must be for a **staging** panel account.
 ///
 /// ## Execution order matters

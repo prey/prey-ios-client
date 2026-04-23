@@ -19,7 +19,7 @@ class PreyNotificationMDMTests: XCTestCase {
         let params: NSDictionary = [
             "token": "abc123",
             "account_id": 42,
-            "url": "https://solid.preyproject.com/mdm/enroll"
+            "url": "https://mdm.example.com/enroll"
         ]
 
         let payload = PreyNotification.parsePreyMDMPayload(params)
@@ -29,7 +29,7 @@ class PreyNotificationMDMTests: XCTestCase {
             PreyNotification.PreyMDMPayload(
                 token: "abc123",
                 accountId: 42,
-                url: "https://solid.preyproject.com/mdm/enroll"
+                url: "https://mdm.example.com/enroll"
             )
         )
     }
@@ -153,7 +153,7 @@ class PreyNotificationMDMTests: XCTestCase {
         let payload = PreyNotification.PreyMDMPayload(
             token: "stored-token",
             accountId: 7,
-            url: "https://solid.preyproject.com/mdm/enroll"
+            url: "https://mdm.example.com/enroll"
         )
         PreyNotification.PendingMDMPayloadStore.save(payload)
 
