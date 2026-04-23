@@ -197,6 +197,73 @@ class PreyNotificationMDMTests: XCTestCase {
                      "Even on rejection the slot must be cleared so a future valid push can land")
     }
 
+    // MARK: - MDM dispatch (active vs. not-active routing)
+
+    /// With the app already `.active` the push parser must start the server
+    /// synchronously AND leave the pending store empty. Otherwise a second
+    /// server start fires when the user returns from Safari and
+    /// `applicationDidBecomeActive` calls `consumePendingMDMPayload()`.
+    /// This is the regression guard for the double-start bug.
+    func testDispatchWithActiveAppClearsPendingAndStartsImmediately() {
+        let suite = UserDefaults(suiteName: "group.com.prey.ios")!
+        suite.removeObject(forKey: "PendingPreyMDMPayload")
+        defer { suite.removeObject(forKey: "PendingPreyMDMPayload") }
+
+        let payload = PreyNotification.PreyMDMPayload(
+            token: "live-tok", accountId: 1, url: "https://example.com"
+        )
+
+        let decision = PreyNotification.dispatchForMDMPayload(payload, appIsActive: true)
+
+        XCTAssertEqual(decision, .startImmediately)
+        XCTAssertNil(suite.dictionary(forKey: "PendingPreyMDMPayload"),
+                     "Active path must not persist the payload — otherwise didBecomeActive re-runs the server")
+    }
+
+    func testDispatchWithInactiveAppSavesAndDefers() {
+        let suite = UserDefaults(suiteName: "group.com.prey.ios")!
+        suite.removeObject(forKey: "PendingPreyMDMPayload")
+        defer { suite.removeObject(forKey: "PendingPreyMDMPayload") }
+
+        let payload = PreyNotification.PreyMDMPayload(
+            token: "background-tok", accountId: 9, url: "https://example.com/enroll"
+        )
+
+        let decision = PreyNotification.dispatchForMDMPayload(payload, appIsActive: false)
+
+        XCTAssertEqual(decision, .deferUntilActive)
+        XCTAssertEqual(
+            PreyNotification.PendingMDMPayloadStore.take(),
+            payload,
+            "Inactive path must persist the payload so didBecomeActive can consume it"
+        )
+    }
+
+    /// Background push arrives first (payload saved), then a new push lands
+    /// while the app is active — the active path must clear the stale payload
+    /// so returning from Safari doesn't re-start the server.
+    func testDispatchActiveAfterInactiveDropsStalePending() {
+        let suite = UserDefaults(suiteName: "group.com.prey.ios")!
+        suite.removeObject(forKey: "PendingPreyMDMPayload")
+        defer { suite.removeObject(forKey: "PendingPreyMDMPayload") }
+
+        let stale = PreyNotification.PreyMDMPayload(
+            token: "stale", accountId: 1, url: "https://example.com/stale"
+        )
+        _ = PreyNotification.dispatchForMDMPayload(stale, appIsActive: false)
+        XCTAssertNotNil(suite.dictionary(forKey: "PendingPreyMDMPayload"),
+                        "Precondition: inactive path must have persisted the stale payload")
+
+        let fresh = PreyNotification.PreyMDMPayload(
+            token: "fresh", accountId: 2, url: "https://example.com/fresh"
+        )
+        let decision = PreyNotification.dispatchForMDMPayload(fresh, appIsActive: true)
+
+        XCTAssertEqual(decision, .startImmediately)
+        XCTAssertNil(suite.dictionary(forKey: "PendingPreyMDMPayload"),
+                     "Active path must drop stale pending so didBecomeActive isn't fooled into a second start")
+    }
+
     // MARK: - Architectural invariant: never prompt the "hard" notification dialog
 
     /// Prey must only request notification authorization with `.provisional`.

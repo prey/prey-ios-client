@@ -166,15 +166,39 @@ class PreyNotification {
         return PreyMDMPayload(token: token, accountId: accountId, url: url)
     }
 
-    /// Parse preymdm push. Always persists the payload; only starts the
-    /// enrollment server when the app is `.active`.
+    /// Decision for an incoming preymdm push.
+    enum MDMDispatch: Equatable {
+        /// App is `.active`; start the MobileConfig server now.
+        case startImmediately
+        /// App is not `.active`; payload has been persisted for
+        /// `applicationDidBecomeActive` to consume.
+        case deferUntilActive
+    }
+
+    /// Decide what to do with a freshly-parsed payload and update
+    /// `PendingMDMPayloadStore` accordingly. Testable without touching
+    /// UIApplication or the HTTP server:
+    /// - Active: clear any stale pending payload so `didBecomeActive` can't
+    ///   re-run the server a second time after the user returns from Safari.
+    /// - Not active: persist so `didBecomeActive` picks it up later.
+    static func dispatchForMDMPayload(_ payload: PreyMDMPayload, appIsActive: Bool) -> MDMDispatch {
+        if appIsActive {
+            PendingMDMPayloadStore.clear()
+            return .startImmediately
+        }
+        PendingMDMPayloadStore.save(payload)
+        return .deferUntilActive
+    }
+
+    /// Parse preymdm push.
     ///
-    /// Reason: `PreyMobileConfig.start(data:)` calls `UIApplication.shared.open(url)`
-    /// to bounce the user through Safari → Settings, which requires the app to
-    /// be active. Calling it from a silent-push wakeup would half-start the
-    /// HTTP server (taking port 8080) but never bring Safari forward, leaving
-    /// the port held and blocking the next attempt. So in non-active states we
-    /// just save the payload and let `applicationDidBecomeActive` consume it.
+    /// `PreyMobileConfig.start(data:)` calls `UIApplication.shared.open(url)`
+    /// to bounce the user through Safari → Settings, which requires the app
+    /// to be active. Calling it from a silent-push wakeup would half-start
+    /// the HTTP server (taking port 8080) but never bring Safari forward,
+    /// leaving the port held and blocking the next attempt. So in non-active
+    /// states we just save the payload and let `applicationDidBecomeActive`
+    /// consume it.
     func parsePayloadPreyMDMFromPushNotification(parameters: NSDictionary) {
         guard let payload = PreyNotification.parsePreyMDMPayload(parameters) else {
             PreyLogger("📣 PN MDM: Invalid preymdm payload, missing token/account_id/url")
@@ -182,18 +206,17 @@ class PreyNotification {
             return
         }
 
-        PendingMDMPayloadStore.save(payload)
-
-        guard appIsActive() else {
+        switch PreyNotification.dispatchForMDMPayload(payload, appIsActive: appIsActive()) {
+        case .deferUntilActive:
             PreyLogger("📣 PN MDM: App not active, deferring server start to applicationDidBecomeActive")
             return
+        case .startImmediately:
+            PreyMobileConfig.sharedInstance.startService(
+                authToken: payload.token,
+                urlServer: payload.url,
+                accountId: payload.accountId
+            )
         }
-
-        PreyMobileConfig.sharedInstance.startService(
-            authToken: payload.token,
-            urlServer: payload.url,
-            accountId: payload.accountId
-        )
     }
 
     private func appIsActive() -> Bool {
