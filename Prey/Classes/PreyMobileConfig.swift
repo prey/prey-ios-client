@@ -90,6 +90,12 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     // MARK: - Control functions
 
     func start(data: Data) {
+        // Tear down any leftover server from a previous attempt before creating
+        // a new one — otherwise `localServer.start(listeningPort)` throws
+        // "address in use" and we silently fall into the catch block below.
+        localServer?.stop()
+        serverState = .Stopped
+
         configData = data
         localServer = HttpServer()
         setupHandlers()
@@ -119,6 +125,7 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     func stop() {
         if serverState != .Stopped {
             serverState = .Stopped
+            localServer?.stop() // free the listening port
             unregisterFromNotifications()
         }
     }

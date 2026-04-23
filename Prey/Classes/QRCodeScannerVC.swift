@@ -48,17 +48,80 @@ class QRCodeScannerVC: UIViewController, AVCaptureMetadataOutputObjectsDelegate 
             return
         }
 
-        // Config session QR-Code
+        // Camera permission is requested here (and only here) so the user
+        // sees the prompt on the QR scan screen instead of on app launch.
+        requestCameraAccessIfNeeded { [weak self] granted in
+            guard let self = self else { return }
+            guard granted else {
+                self.showCameraDeniedAlert()
+                return
+            }
+            self.configureSession()
+        }
+    }
+
+    /// Decision for the camera access flow, given an authorization status.
+    /// Kept as a pure function so it can be unit-tested without touching AVFoundation.
+    enum CameraAccessDecision: Equatable {
+        case grant
+        case prompt
+        case deny
+    }
+
+    static func cameraAccessDecision(for status: AVAuthorizationStatus) -> CameraAccessDecision {
+        switch status {
+        case .authorized:
+            return .grant
+        case .notDetermined:
+            return .prompt
+        case .denied, .restricted:
+            return .deny
+        @unknown default:
+            return .deny
+        }
+    }
+
+    /// Request camera access if the status is notDetermined; otherwise resolve immediately.
+    private func requestCameraAccessIfNeeded(completion: @escaping (Bool) -> Void) {
+        switch QRCodeScannerVC.cameraAccessDecision(for: AVCaptureDevice.authorizationStatus(for: .video)) {
+        case .grant:
+            completion(true)
+        case .prompt:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async { completion(granted) }
+            }
+        case .deny:
+            completion(false)
+        }
+    }
+
+    private func showCameraDeniedAlert() {
+        let alert = UIAlertController(
+            title: "Enable Camera".localized,
+            message: "Prey uses the device's camera only to scan the QR code and add the device.".localized,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Go to Settings".localized, style: .default) { _ in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url)
+            }
+            self.dismiss(animated: true)
+        })
+        alert.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel) { _ in
+            self.dismiss(animated: true)
+        })
+        present(alert, animated: true)
+    }
+
+    private func configureSession() {
         do {
             let inputDevice: AVCaptureDeviceInput = try AVCaptureDeviceInput(device: device)
             setupScanner(inputDevice)
-            // Start scanning
             startScanning()
         } catch let error as NSError {
             PreyLogger("QrCode error: \(error.localizedDescription)")
             displayErrorAlert("Couldn't add your device".localized,
                               titleMessage: "The scanned QR code is invalid".localized)
-            return
         }
     }
 

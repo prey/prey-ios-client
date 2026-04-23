@@ -35,66 +35,6 @@ class PreyNotification {
         }
     }
 
-    /// Register Device to Apple Push Notification Service
-    func registerForRemoteNotifications() {
-        // Create notification actions
-        let viewAction = UNNotificationAction(
-            identifier: "VIEW_ACTION",
-            title: "View Details",
-            options: [.foreground]
-        )
-
-        let dismissAction = UNNotificationAction(
-            identifier: "DISMISS_ACTION",
-            title: "Dismiss",
-            options: [.destructive]
-        )
-
-        // Create the category with the actions
-        let alertCategory = UNNotificationCategory(
-            identifier: categoryNotifPreyAlert,
-            actions: [viewAction, dismissAction],
-            intentIdentifiers: [],
-            options: [.customDismissAction]
-        )
-
-        // Register the notification categories
-        UNUserNotificationCenter.current().setNotificationCategories(Set([alertCategory]))
-
-        // Request authorization including critical alerts for iOS 15+
-        UNUserNotificationCenter.current()
-            .requestAuthorization(options: [.alert, .sound, .badge, .providesAppNotificationSettings, .criticalAlert]) { granted, error in
-                // Log permission result
-                PreyLogger("Permission request result: \(granted)")
-                if let error = error {
-                    PreyLogger("Permission request error: \(error.localizedDescription)")
-                }
-
-                // Check permission granted
-                guard granted else {
-                    PreyLogger("Push notification permissions not granted")
-                    return
-                }
-
-                // Get current settings and register for remote
-                UNUserNotificationCenter.current().getNotificationSettings { settings in
-                    // Check notification settings
-                    PreyLogger("Current notification authorization status: \(settings.authorizationStatus.rawValue)")
-
-                    guard settings.authorizationStatus == .authorized else {
-                        PreyLogger("Notification authorization not available")
-                        return
-                    }
-
-                    // Register for remote notifications on main thread
-                    DispatchQueue.main.async {
-                        UIApplication.shared.registerForRemoteNotifications()
-                        PreyLogger("Registered for remote notifications")
-                    }
-                }
-            }
-    }
-
     /// Did Register Remote Notifications
     func didRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
         let tokenAsString = deviceToken.reduce("") { $0 + String(format: "%02x", $1) }
@@ -109,6 +49,14 @@ class PreyNotification {
 
         // Track whether we received any data to return appropriate completion result
         var receivedData = false
+
+        // MDM enrollment push: handle silently, no user-facing notification needed.
+        // Starts the local config server so the backend can push the MobileConfig.
+        if let cmdPreyMDM = userInfo["preymdm"] as? NSDictionary {
+            PreyLogger("📣 PN TYPE: preymdm payload detected")
+            parsePayloadPreyMDMFromPushNotification(parameters: cmdPreyMDM)
+            receivedData = true
+        }
 
         if let cmdInstruction = userInfo["cmd"] as? NSArray {
             PreyLogger("📣 PN TYPE: cmd instruction payload detected with \(cmdInstruction.count) items")
@@ -153,29 +101,129 @@ class PreyNotification {
         }
     }
 
-    /// Parse payload info on push notification
+    /// Validated payload for a preymdm enrollment push.
+    struct PreyMDMPayload: Equatable {
+        let token: String
+        let accountId: Int
+        let url: String
+    }
+
+    /// Persists a preymdm payload to the app-group suite so it survives across
+    /// backgrounding, low-memory kills, and being opened from the home icon.
+    /// Consumed (and cleared) by `consumePending()` on the next foreground.
+    enum PendingMDMPayloadStore {
+        private static let suiteName = "group.com.prey.ios"
+        private static let key = "PendingPreyMDMPayload"
+
+        static func save(_ payload: PreyMDMPayload) {
+            guard let suite = UserDefaults(suiteName: suiteName) else { return }
+            let dict: [String: Any] = [
+                "token": payload.token,
+                "account_id": payload.accountId,
+                "url": payload.url
+            ]
+            suite.set(dict, forKey: key)
+            suite.synchronize()
+        }
+
+        static func take() -> PreyMDMPayload? {
+            guard let suite = UserDefaults(suiteName: suiteName),
+                  let dict = suite.dictionary(forKey: key) else { return nil }
+            suite.removeObject(forKey: key)
+            suite.synchronize()
+            return PreyNotification.parsePreyMDMPayload(dict as NSDictionary)
+        }
+
+        static func clear() {
+            guard let suite = UserDefaults(suiteName: suiteName) else { return }
+            suite.removeObject(forKey: key)
+            suite.synchronize()
+        }
+    }
+
+    /// Consume any preymdm payload persisted by an earlier push and start the
+    /// enrollment server. Safe to call from `applicationDidBecomeActive`.
+    func consumePendingMDMPayload() {
+        guard let payload = PendingMDMPayloadStore.take() else { return }
+        PreyLogger("📣 PN MDM: Consuming pending preymdm payload")
+        PreyMobileConfig.sharedInstance.startService(
+            authToken: payload.token,
+            urlServer: payload.url,
+            accountId: payload.accountId
+        )
+    }
+
+    /// Pure validator for the preymdm push body. Returns nil if any required
+    /// field is missing or of the wrong type. Kept static/pure so it can be
+    /// unit-tested without starting the mobileconfig server.
+    static func parsePreyMDMPayload(_ parameters: NSDictionary) -> PreyMDMPayload? {
+        guard let token = parameters["token"] as? String, !token.isEmpty,
+              let accountId = parameters["account_id"] as? Int,
+              let url = parameters["url"] as? String, !url.isEmpty
+        else {
+            return nil
+        }
+        return PreyMDMPayload(token: token, accountId: accountId, url: url)
+    }
+
+    /// Decision for an incoming preymdm push.
+    enum MDMDispatch: Equatable {
+        /// App is `.active`; start the MobileConfig server now.
+        case startImmediately
+        /// App is not `.active`; payload has been persisted for
+        /// `applicationDidBecomeActive` to consume.
+        case deferUntilActive
+    }
+
+    /// Decide what to do with a freshly-parsed payload and update
+    /// `PendingMDMPayloadStore` accordingly. Testable without touching
+    /// UIApplication or the HTTP server:
+    /// - Active: clear any stale pending payload so `didBecomeActive` can't
+    ///   re-run the server a second time after the user returns from Safari.
+    /// - Not active: persist so `didBecomeActive` picks it up later.
+    static func dispatchForMDMPayload(_ payload: PreyMDMPayload, appIsActive: Bool) -> MDMDispatch {
+        if appIsActive {
+            PendingMDMPayloadStore.clear()
+            return .startImmediately
+        }
+        PendingMDMPayloadStore.save(payload)
+        return .deferUntilActive
+    }
+
+    /// Parse preymdm push.
+    ///
+    /// `PreyMobileConfig.start(data:)` calls `UIApplication.shared.open(url)`
+    /// to bounce the user through Safari → Settings, which requires the app
+    /// to be active. Calling it from a silent-push wakeup would half-start
+    /// the HTTP server (taking port 8080) but never bring Safari forward,
+    /// leaving the port held and blocking the next attempt. So in non-active
+    /// states we just save the payload and let `applicationDidBecomeActive`
+    /// consume it.
     func parsePayloadPreyMDMFromPushNotification(parameters: NSDictionary) {
-        // This token is generated BE-side and guards the enrollment service
-        // against data pollution attacks
-        guard let token = parameters["token"] as? String else {
-            PreyLogger("error reading token from json")
-            handlePushError("Missing token in preymdm payload")
+        guard let payload = PreyNotification.parsePreyMDMPayload(parameters) else {
+            PreyLogger("📣 PN MDM: Invalid preymdm payload, missing token/account_id/url")
+            handlePushError("Invalid preymdm payload")
             return
         }
 
-        guard let accountID = parameters["account_id"] as? Int else {
-            PreyLogger("error reading account_id from json")
-            handlePushError("Missing account_id in preymdm payload")
+        switch PreyNotification.dispatchForMDMPayload(payload, appIsActive: appIsActive()) {
+        case .deferUntilActive:
+            PreyLogger("📣 PN MDM: App not active, deferring server start to applicationDidBecomeActive")
             return
+        case .startImmediately:
+            PreyMobileConfig.sharedInstance.startService(
+                authToken: payload.token,
+                urlServer: payload.url,
+                accountId: payload.accountId
+            )
         }
+    }
 
-        guard let urlServer = parameters["url"] as? String else {
-            PreyLogger("error reading url from json")
-            handlePushError("Missing url in preymdm payload")
-            return
+    private func appIsActive() -> Bool {
+        if Thread.isMainThread {
+            return UIApplication.shared.applicationState == .active
         }
-
-        PreyMobileConfig.sharedInstance.startService(authToken: token, urlServer: urlServer, accountId: accountID)
+        return DispatchQueue.main.sync { UIApplication.shared.applicationState == .active }
     }
 
     /// Parse payload info on push notification

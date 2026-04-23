@@ -30,9 +30,14 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
     // MARK: Methods
 
     /// Check all device auth
+    ///
+    /// Camera is not requested here; iOS only shows the camera prompt when
+    /// the user opens QRCodeScannerVC. We just read the current status so
+    /// the "protected/unprotected" indicator stays accurate.
     func checkAllDeviceAuthorization(completionHandler: @escaping (_ granted: Bool) -> Void) {
         DispatchQueue.main.async {
-            let granted = self.checkLocation() && self.checkCamera()
+            let cameraAuthorized = AVCaptureDevice.authorizationStatus(for: .video) == .authorized
+            let granted = self.checkLocation() && cameraAuthorized
             completionHandler(granted)
         }
     }
@@ -62,26 +67,6 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
         }
 
         return locationAuth
-    }
-
-    /// Check camera
-    func checkCamera() -> Bool {
-        var cameraAuth = false
-
-        if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) == .authorized {
-            cameraAuth = true
-        } else {
-            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted: Bool) in
-                cameraAuth = granted
-            })
-        }
-
-        if !cameraAuth {
-            displayMessage("Camera is disabled for Prey. Reports will not be sent.".localized,
-                           titleMessage: "Enable Camera".localized)
-        }
-
-        return cameraAuth
     }
 
     /// Display message
