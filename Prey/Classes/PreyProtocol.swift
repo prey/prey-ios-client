@@ -60,7 +60,8 @@ enum kData: String {
 
 // Definition of URLs
 #if DEBUG
-    public let URLControlPanel: String = "https://solid.preyhq.com/api/v2"
+    public let URLPanel: String = "https://panel.preyhq.com"
+    public let URLSolid: String = "https://solid.preyhq.com"
     public let URLForgotPanel: String = "https://panel.preyhq.com/forgot?embeddable=true"
     public let URLSessionPanel: String = "https://panel.preyhq.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://solid.preyhq.com/upload/upload"
@@ -68,7 +69,8 @@ enum kData: String {
     public let URLCloseAccount: String = "https://panel.preyhq.com/settings/account"
     public let exceptionsUrl: String = "https://exceptions-stg.preyhq.com"
 #else
-    public let URLControlPanel: String = "https://solid.preyproject.com/api/v2"
+    public let URLPanel: String = "https://panel.preyproject.com"
+    public let URLSolid: String = "https://solid.preyproject.com"
     public let URLForgotPanel: String = "https://panel.preyproject.com/forgot?embeddable=true"
     public let URLSessionPanel: String = "https://panel.preyproject.com/login_mobile"
     public let fileRetrievalEndpoint: String = "https://solid.preyproject.com/upload/upload"
