@@ -12,7 +12,7 @@ import UIKit
 
 /// Prey Request Tpype
 enum RequestType {
-    case getToken, logIn, renameDevice, addDevice, deleteDevice, actionDevice, dataSend, statusDevice, infoDevice, settings
+    case getToken, logIn, addDevice, deleteDevice, actionDevice, dataSend, statusDevice, infoDevice, settings
 }
 
 class PreyHTTPResponse {
@@ -46,9 +46,6 @@ class PreyHTTPResponse {
 
         case .logIn:
             checkLogIn(isResponseSuccess, withData: data, withError: error, statusCode: code)
-
-        case .renameDevice:
-            checkRenameDevice(isResponseSuccess, withData: data, withError: error, statusCode: code)
 
         case .addDevice:
             checkAddDevice(isResponseSuccess, withData: data, withError: error, statusCode: code)
@@ -182,21 +179,6 @@ class PreyHTTPResponse {
         }
 
         displayErrorAlert(alertMessage.localized, titleMessage: "Couldn't check your password".localized)
-    }
-
-    /// Check rename device response
-    class func checkRenameDevice(_ isSuccess: Bool, withData _: Data?, withError error: Error?, statusCode: Int?) {
-        guard isSuccess else {
-            guard error == nil else {
-                PreyConfig.sharedInstance.reportError(error)
-                PreyLogger("Error renaming device: \(String(describing: error))")
-                return
-            }
-            PreyConfig.sharedInstance.reportError("RenameDevice", statusCode: statusCode, errorDescription: "Rename device error")
-            PreyLogger("Failed to rename device")
-            return
-        }
-        PreyLogger("Rename device: OK")
     }
 
     /// Check add device response
