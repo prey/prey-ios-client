@@ -119,7 +119,7 @@ class PreyHTTPClient: NSObject, URLSessionDataDelegate, URLSessionTaskDelegate {
         let userAuthorization = encodeAuthorization(NSString(format: "%@:%@", username, password) as String)
 
         // Set Endpoint
-        guard let requestURL = URL(string: URLSolid + "api/v2" + endPoint) else {
+        guard let requestURL = URL(string: URLSolid + "/api/v2" + endPoint) else {
             return
         }
 
