@@ -101,21 +101,68 @@ class PreyDevice {
     }
 
     class func renameDevice(_ newName: String, onCompletion: @escaping (_ isSuccess: Bool) -> Void) {
-        let params: [String: Any] = [
-            "name": "device_renamed",
-            "info": ["new_name": newName]
-        ]
-
         guard let username = PreyConfig.sharedInstance.userApiKey else {
-            PreyLogger("Error renameDevice")
+            PreyLogger("Error renameDevice - No API key available")
+            onCompletion(false)
             return
         }
 
-        PreyHTTPClient.sharedInstance.sendDataToPrey(
-            username, password: "x", params: params, messageId: nil,
-            httpMethod: Method.POST.rawValue, endPoint: eventsDeviceEndpoint,
-            onCompletion: PreyHTTPResponse.checkResponse(RequestType.renameDevice, preyAction: nil, onCompletion: onCompletion)
-        )
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: ["name": newName], options: []) else {
+            PreyLogger("Error renameDevice - Failed to encode body")
+            onCompletion(false)
+            return
+        }
+
+        let endPoint = actionsDeviceEndpoint
+        let auth = PreyHTTPClient.sharedInstance.encodeAuthorization("\(username):x")
+        let userAgent = PreyHTTPClient.sharedInstance.userAgent
+        let deviceKey = PreyConfig.sharedInstance.deviceKey
+
+        func buildRequest(baseURL: String) -> URLRequest? {
+            guard let url = URL(string: baseURL + "/api/v2" + endPoint) else { return nil }
+            var request = URLRequest(url: url)
+            request.httpMethod = Method.PUT.rawValue
+            request.timeoutInterval = 3.0
+            request.httpBody = httpBody
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue(auth, forHTTPHeaderField: "Authorization")
+            request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+            if let deviceKey = deviceKey {
+                request.setValue(deviceKey, forHTTPHeaderField: "X-Prey-Device-Id")
+            }
+            return request
+        }
+
+        func send(_ request: URLRequest, completion: @escaping (Bool, Error?) -> Void) {
+            URLSession.shared.dataTask(with: request) { _, response, error in
+                if let error = error {
+                    completion(false, error)
+                    return
+                }
+                let code = (response as? HTTPURLResponse)?.statusCode ?? 0
+                completion((200 ... 299).contains(code), nil)
+            }.resume()
+        }
+
+        guard let solidRequest = buildRequest(baseURL: URLSolid) else {
+            onCompletion(false)
+            return
+        }
+
+        send(solidRequest) { success, error in
+            if error == nil {
+                DispatchQueue.main.async { onCompletion(success) }
+                return
+            }
+            PreyLogger("renameDevice URLSolid failed (\(error?.localizedDescription ?? "unknown")) — falling back to URLPanel")
+            guard let panelRequest = buildRequest(baseURL: URLPanel) else {
+                DispatchQueue.main.async { onCompletion(false) }
+                return
+            }
+            send(panelRequest) { fallbackSuccess, _ in
+                DispatchQueue.main.async { onCompletion(fallbackSuccess) }
+            }
+        }
     }
 
     class func infoDevice(_ onCompletion: @escaping (_ isSuccess: Bool) -> Void) {

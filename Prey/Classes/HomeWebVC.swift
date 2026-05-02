@@ -285,10 +285,13 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
             return
         }
         PreyDevice.renameDevice(trimmedName, onCompletion: { (isSuccess: Bool) in
-            if isSuccess {
-                PreyConfig.sharedInstance.nameDevice = newName
-                PreyConfig.sharedInstance.saveValues()
+            guard isSuccess else {
+                displayErrorAlert("Couldn't rename your device. Please try again.".localized,
+                                  titleMessage: "We have a situation!".localized)
+                return
             }
+            PreyConfig.sharedInstance.nameDevice = newName
+            PreyConfig.sharedInstance.saveValues()
             self.loadViewOnWebView("index")
             self.webView.reload()
         })

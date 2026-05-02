@@ -135,4 +135,20 @@ class PreyDeviceTests: XCTestCase {
 
         PreyConfig.sharedInstance.userApiKey = originalKey
     }
+
+    // MARK: - renameDevice Tests
+
+    func testRenameDeviceWithNoApiKeyCallsCompletionWithFalse() {
+        let originalKey = PreyConfig.sharedInstance.userApiKey
+        PreyConfig.sharedInstance.userApiKey = nil
+
+        let expectation = self.expectation(description: "renameDevice completion")
+        PreyDevice.renameDevice("test-name") { isSuccess in
+            XCTAssertFalse(isSuccess, "Should fail when no API key is set")
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 3.0)
+
+        PreyConfig.sharedInstance.userApiKey = originalKey
+    }
 }

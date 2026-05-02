@@ -60,22 +60,20 @@ enum kData: String {
 
 // Definition of URLs
 #if DEBUG
-    public let URLControlPanel: String = "https://solid.preyhq.com/api/v2"
-    public let URLForgotPanel: String = "https://panel.preyhq.com/forgot?embeddable=true"
-    public let URLSessionPanel: String = "https://panel.preyhq.com/login_mobile"
-    public let fileRetrievalEndpoint: String = "https://solid.preyhq.com/upload/upload"
-    public let logRetrievalEndpoint: String = "https://solid.preyhq.com/upload/log"
-    public let URLCloseAccount: String = "https://panel.preyhq.com/settings/account"
+    public let URLPanel: String = "https://panel.preyhq.com"
+    public let URLSolid: String = "https://solid.preyhq.com"
     public let exceptionsUrl: String = "https://exceptions-stg.preyhq.com"
 #else
-    public let URLControlPanel: String = "https://solid.preyproject.com/api/v2"
-    public let URLForgotPanel: String = "https://panel.preyproject.com/forgot?embeddable=true"
-    public let URLSessionPanel: String = "https://panel.preyproject.com/login_mobile"
-    public let fileRetrievalEndpoint: String = "https://solid.preyproject.com/upload/upload"
-    public let logRetrievalEndpoint: String = "https://solid.preyproject.com/upload/log"
-    public let URLCloseAccount: String = "https://panel.preyproject.com/settings/account"
+    public let URLPanel: String = "https://panel.preyproject.com"
+    public let URLSolid: String = "https://solid.preyproject.com"
     public let exceptionsUrl: String = "https://exceptions.preyproject.com"
 #endif
+
+public let URLForgotPanel: String = URLPanel + "/forgot?embeddable=true"
+public let URLSessionPanel: String = URLPanel + "/login_mobile"
+public let URLCloseAccount: String = URLPanel + "/settings/account"
+public let fileRetrievalEndpoint: String = URLSolid + "/upload/upload"
+public let logRetrievalEndpoint: String = URLSolid + "/upload/log"
 
 public let URLHelpPrey: String = "http://help.preyproject.com"
 

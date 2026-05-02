@@ -257,6 +257,25 @@ class PreyRestTests: XCTestCase {
         waitForExpectations(timeout: 15, handler: nil)
     }
 
+    /// Test Rename Device
+    func testRest11RenameDevice() throws {
+        try skipUnlessNetworkTestsEnabled()
+
+        // Requires a deviceKey created by testRest04AddDevice.
+        XCTAssertNotNil(PreyConfig.sharedInstance.deviceKey)
+        XCTAssertNotNil(PreyConfig.sharedInstance.userApiKey)
+
+        let expectation = self.expectation(description: "Expecta Test: Rename Device")
+
+        let newName = "prey-ios-test-\(Int(Date().timeIntervalSince1970))"
+        PreyDevice.renameDevice(newName) { (isSuccess: Bool) in
+            XCTAssertTrue(isSuccess, "Rename device should succeed against a live backend")
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 15, handler: nil)
+    }
+
     /// Test Delete Device
     func testRest12DeleteDevice() throws {
         try skipUnlessNetworkTestsEnabled()
