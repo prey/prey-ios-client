@@ -75,7 +75,6 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
     let listeningPort: in_port_t = 8080
     var configName: String = "Profile install"
     private var localServer: HttpServer!
-    private var returnURL: String = ""
     private var configData: Data!
 
     private var serverState: ConfigState = .Stopped
@@ -137,17 +136,20 @@ class PreyMobileConfig: NSObject, UIActionSheetDelegate {
             switch self.serverState {
             case .Stopped:
                 return .notFound
-            case .Ready:
+            // Keep serving the profile on repeat requests: a download can be dismissed
+            // ("Ignore") or cancelled, and the old empty 301 here made Safari loop on itself.
+            case .Ready, .InstalledConfig:
                 self.serverState = .InstalledConfig
-                return HttpResponse.raw(200, "OK", ["Content-Type": "application/x-apple-aspen-config"]) { writer in
+                return HttpResponse.raw(200, "OK", [
+                    "Content-Type": "application/x-apple-aspen-config",
+                    "Cache-Control": "no-store"
+                ]) { writer in
                     do {
                         try writer.write(self.configData)
                     } catch {
                         PreyLogger("Failed to write response data")
                     }
                 }
-            case .InstalledConfig:
-                return .movedPermanently(self.returnURL)
             case .BackToApp:
                 let page = self.basePage(pathComponent: nil)
                 return .ok(.html(page))
