@@ -208,6 +208,66 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
 //        }
     }
 
+    /// Add device
+    func addDeviceWithLogin(_ email: String?, password: String?) {
+        // Check valid email
+        if isInvalidEmail(email!, withPattern: emailRegExp) {
+            displayErrorAlert("Enter a valid email address".localized,
+                              titleMessage: "We have a situation!".localized)
+            return
+        }
+
+        // Check password length
+        if password!.count < 6 {
+            displayErrorAlert("Password must be at least 6 characters".localized,
+                              titleMessage: "We have a situation!".localized)
+            return
+        }
+
+        // Hide keyboard
+        view.endEditing(true)
+
+        // Show ActivityIndicator
+        let actInd = UIActivityIndicatorView(initInView: view, withText: "Attaching device...".localized)
+        view.addSubview(actInd)
+        actInd.startAnimating()
+
+        // LogIn to Panel Prey
+        PreyUser.logInToPrey(email!, userPassword: password!, onCompletion: { (isSuccess: Bool) in
+            // LogIn isn't Success
+            guard isSuccess else {
+                // Hide ActivityIndicator
+                DispatchQueue.main.async {
+                    actInd.stopAnimating()
+                }
+                return
+            }
+
+            // Get Token for Control Panel
+            // PreyUser.getTokenFromPanel(email!, userPassword:password!, onCompletion: {_ in })
+
+            // Add Device to Panel Prey
+            PreyDevice.addDeviceWith { (isSuccess: Bool) in
+                // AddDevice isn't success
+                guard isSuccess else {
+                    DispatchQueue.main.async {
+                        actInd.stopAnimating()
+                    }
+                    return
+                }
+
+                // Fetch device info to get the name assigned by the backend
+                PreyDevice.infoDevice { (infoSuccess: Bool) in
+                    PreyLogger("infoDevice after addDevice isSuccess:\(infoSuccess)")
+                    DispatchQueue.main.async {
+                        actInd.stopAnimating()
+                        self.loadViewOnWebView("activation")
+                    }
+                }
+            }
+        })
+    }
+
     /// Add device with QRCode
     func addDeviceWithQRCode() {
         let controller = QRCodeScannerVC()
@@ -390,7 +450,12 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
             case ReactViews.AUTHLOC.rawValue:
                 DeviceAuth.sharedInstance.requestAuthLocation()
             case ReactViews.LOGIN.rawValue:
-                self.openBrowserWith(URL(string: URLLoginPanel))
+                // Link screen sends credentials; the home Login button sends none and goes to Safari.
+                if let email = params["preyEmailLogin"], let password = params["preyPassLogin"] {
+                    self.addDeviceWithLogin(email, password: password)
+                } else {
+                    self.openBrowserWith(URL(string: URLLoginPanel))
+                }
             case ReactViews.QRCODE.rawValue:
                 self.addDeviceWithQRCode()
             case ReactViews.CHECKID.rawValue:
