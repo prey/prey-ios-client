@@ -16,33 +16,17 @@ import UserNotifications
 
 /// Storyboard controllerId
 enum StoryboardIdVC: String {
-    case PreyStoryBoard, alert, navigation, home, currentLocation, settings, homeWeb, rename
+    case PreyStoryBoard, alert, navigation, currentLocation, settings, homeWeb, rename
 }
 
 // Def type device
 public let IS_IPAD: Bool = (UIDevice.current.userInterfaceIdiom != UIUserInterfaceIdiom.phone)
-public let IS_IPHONE4S: Bool = (UIScreen.main.bounds.size.height - 480 == 0)
-public let IS_IPHONEX: Bool = (UIScreen.main.bounds.size.height - 812 == 0)
-public let IS_OS_8_OR_LATER: Bool = ((UIDevice.current.systemVersion as NSString).floatValue >= 8.0)
-public let IS_OS_12: Bool = ((UIDevice.current.systemVersion as NSString).intValue == 12)
-
-/// Number of Reload for Connection
-public let reloadConnection: Int = 5
-
-/// Delay for Reload connection
-public let delayTime: Double = 2
 
 /// TimeoutInterval for URLRequest
 public let timeoutIntervalRequest: Double = 30.0
 
-/// Email RegExp
-public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b"
-
 /// App Version
 public let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-
-/// GAI code
-public let GAICode = "UA-8743344-7"
 
 // Font
 public let fontTitilliumBold = "TitilliumWeb-Bold"
@@ -186,34 +170,14 @@ public func PreyLoggerInfo(_ message: String, file: String = #file, line: Int = 
     PreyLogger(message, level: .info, file: file, line: line)
 }
 
-public func PreyLoggerWarn(_ message: String, file: String = #file, line: Int = #line) {
-    PreyLogger(message, level: .warning, file: file, line: line)
-}
-
 public func PreyLoggerError(_ message: String, file: String = #file, line: Int = #line) {
     PreyLogger(message, level: .error, file: file, line: line)
-}
-
-public func PreyLoggerDebug(_ message: String, file: String = #file, line: Int = #line) {
-    PreyLogger(message, level: .debug, file: file, line: line)
-}
-
-public func PreyLoggerNotice(_ message: String, file: String = #file, line: Int = #line) {
-    PreyLogger(message, level: .notice, file: file, line: line)
-}
-
-public func PreyLoggerCritical(_ message: String, file: String = #file, line: Int = #line) {
-    PreyLogger(message, level: .critical, file: file, line: line)
 }
 
 // MARK: - Log File Access
 
 public func getPreyLogFileURL() -> URL {
     return PreyFileLogger.shared.getLogFileURL()
-}
-
-public func getPreyLogFilePath() -> String {
-    return PreyFileLogger.shared.getLogFileURL().path
 }
 
 // MARK: - Debug Local Notifications (DEBUG only)
@@ -266,26 +230,6 @@ public let biometricAuth: String = {
 /// Category notification
 public let categoryNotifPreyAlert = "PreyAlert"
 
-/// Validate email expression
-public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
-    var isInvalid = true
-    let regex: NSRegularExpression
-
-    do {
-        regex = try NSRegularExpression(pattern: withPattern, options: NSRegularExpression.Options.caseInsensitive)
-        let textRange = NSRange(location: 0, length: userEmail.count)
-        let matchRange = regex.rangeOfFirstMatch(in: userEmail, options: NSRegularExpression.MatchingOptions.reportProgress, range: textRange)
-
-        if matchRange.location != NSNotFound {
-            isInvalid = false
-        }
-    } catch let error as NSError {
-        PreyLogger("error RegEx: \(error.localizedDescription)")
-    }
-
-    return isInvalid
-}
-
 /// Display error alert
 public func displayErrorAlert(_ alertMessage: String, titleMessage: String) {
     DispatchQueue.main.async {
@@ -317,13 +261,10 @@ enum ReactViews: String {
     case LOGIN = "login"
     case TERMS = "terms"
     case PRIVACY = "privacy"
-    case FORGOT = "forgot"
     case AUTHLOC = "authlocation"
     case BIOAUTH = "biometricauth"
     case GOTOSETTING = "settingspwd"
-    case GOTOPANEL = "panelpwd"
     case GOTORENAME = "renamepwd"
-    case GOTOCLOSE = "closepwd"
     case RENAME = "rename"
     case NAMEDEVICE = "namedevice"
     case INDEX = "index"
