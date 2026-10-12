@@ -69,10 +69,7 @@ enum kData: String {
     public let exceptionsUrl: String = "https://exceptions.preyproject.com"
 #endif
 
-public let URLForgotPanel: String = URLPanel + "/forgot?embeddable=true"
-public let URLSessionPanel: String = URLPanel + "/login_mobile"
-public let URLCloseAccount: String = URLPanel + "/settings/account"
-public let fileRetrievalEndpoint: String = URLSolid + "/upload/upload"
+public let URLLoginPanel: String = URLPanel + "/login"
 public let logRetrievalEndpoint: String = URLSolid + "/upload/log"
 
 public let URLHelpPrey: String = "http://help.preyproject.com"

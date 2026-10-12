@@ -1,31 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "71b05afca6cbdd89a772",
+    "revision": "614f89734f2ba698e014",
     "url": "./static/css/main.f3053157.chunk.css"
   },
   {
-    "revision": "71b05afca6cbdd89a772",
-    "url": "./static/js/main.71b05afc.chunk.js"
+    "revision": "614f89734f2ba698e014",
+    "url": "./static/js/main.614f8973.chunk.js"
   },
   {
     "revision": "8c97409f0ee389fe75da",
     "url": "./static/js/runtime~main.8c97409f.js"
   },
   {
-    "revision": "7066c6a4cb8fc3abdee7",
-    "url": "./static/js/2.7066c6a4.chunk.js"
+    "revision": "109b46fd9bc0e74ffe10",
+    "url": "./static/js/2.109b46fd.chunk.js"
   },
   {
     "revision": "c3679e2d8686db6f8013ffe2ad603c2c",
     "url": "./static/media/prey-logo-monotono-alt.c3679e2d.svg"
-  },
-  {
-    "revision": "6e26bdc9c9316e31084263223a3aa74e",
-    "url": "./static/media/missing-report.6e26bdc9.png"
-  },
-  {
-    "revision": "f191bb3e890aa96d2413ace76baa1fb1",
-    "url": "./static/media/4.f191bb3e.svg"
   },
   {
     "revision": "0169ebee5333ac5afdc9518e25975bfb",
@@ -60,6 +52,10 @@ self.__precacheManifest = [
     "url": "./static/media/settings.2638a976.svg"
   },
   {
+    "revision": "f591a42505f4c6ebabf2843079cb667d",
+    "url": "./static/media/permissions-01.f591a425.png"
+  },
+  {
     "revision": "ad86f207be0b7561bf7713abb394935e",
     "url": "./static/media/1.ad86f207.svg"
   },
@@ -72,19 +68,15 @@ self.__precacheManifest = [
     "url": "./static/media/3.dfea8390.svg"
   },
   {
+    "revision": "f191bb3e890aa96d2413ace76baa1fb1",
+    "url": "./static/media/4.f191bb3e.svg"
+  },
+  {
     "revision": "39a0759c0d968d3ae84697cdab6424f8",
     "url": "./static/media/5.39a0759c.svg"
   },
   {
-    "revision": "ce31486d2c6e0b6d55bbf5dbf26992f0",
-    "url": "./static/media/prey-iso-monotono-alt.ce31486d.svg"
-  },
-  {
-    "revision": "f591a42505f4c6ebabf2843079cb667d",
-    "url": "./static/media/permissions-01.f591a425.png"
-  },
-  {
-    "revision": "5f0b7a6c6659bd3cbf4bcf3c10426125",
+    "revision": "a41797e7bea741da77e9fae7d53b4975",
     "url": "./index.html"
   }
 ];

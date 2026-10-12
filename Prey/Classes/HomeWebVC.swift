@@ -100,14 +100,12 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
     func navigateAfterAuth(_ back: String) {
         evaluateJS(webView, code: "var btn = document.getElementById('cancelBtn'); if(btn) btn.click();")
         switch back {
-        case "panel":
-            goToControlPanel()
         case "setting", "settings":
             goToLocalSettings()
-        case "close":
-            goToCloseAccount()
-        default:
+        case "rename":
             goToRename()
+        default:
+            PreyLogger("Unknown auth destination: \(back)")
         }
     }
 
@@ -217,66 +215,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
         navigationController?.present(controller, animated: true, completion: nil)
     }
 
-    /// Add device
-    func addDeviceWithLogin(_ email: String?, password: String?) {
-        // Check valid email
-        if isInvalidEmail(email!, withPattern: emailRegExp) {
-            displayErrorAlert("Enter a valid email address".localized,
-                              titleMessage: "We have a situation!".localized)
-            return
-        }
-
-        // Check password length
-        if password!.count < 6 {
-            displayErrorAlert("Password must be at least 6 characters".localized,
-                              titleMessage: "We have a situation!".localized)
-            return
-        }
-
-        // Hide keyboard
-        view.endEditing(true)
-
-        // Show ActivityIndicator
-        let actInd = UIActivityIndicatorView(initInView: view, withText: "Attaching device...".localized)
-        view.addSubview(actInd)
-        actInd.startAnimating()
-
-        // LogIn to Panel Prey
-        PreyUser.logInToPrey(email!, userPassword: password!, onCompletion: { (isSuccess: Bool) in
-            // LogIn isn't Success
-            guard isSuccess else {
-                // Hide ActivityIndicator
-                DispatchQueue.main.async {
-                    actInd.stopAnimating()
-                }
-                return
-            }
-
-            // Get Token for Control Panel
-            // PreyUser.getTokenFromPanel(email!, userPassword:password!, onCompletion: {_ in })
-
-            // Add Device to Panel Prey
-            PreyDevice.addDeviceWith { (isSuccess: Bool) in
-                // AddDevice isn't success
-                guard isSuccess else {
-                    DispatchQueue.main.async {
-                        actInd.stopAnimating()
-                    }
-                    return
-                }
-
-                // Fetch device info to get the name assigned by the backend
-                PreyDevice.infoDevice { (infoSuccess: Bool) in
-                    PreyLogger("infoDevice after addDevice isSuccess:\(infoSuccess)")
-                    DispatchQueue.main.async {
-                        actInd.stopAnimating()
-                        self.loadViewOnWebView("activation")
-                    }
-                }
-            }
-        })
-    }
-
     func renameDevice(_ newName: String?) {
         let trimmedName = newName?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         guard !trimmedName.isEmpty else {
@@ -325,42 +263,6 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
     }
 
     /// Go to Control Panel
-    func goToControlPanel() {
-        if let token = PreyConfig.sharedInstance.tokenPanel {
-            let params = String(format: "token=%@", token)
-            let controller: UIViewController
-
-            if #available(iOS 10.0, *) {
-                controller = WebKitVC(withURL: URL(string: URLSessionPanel)!, withParameters: params, withTitle: "Control Panel Web")
-            } else {
-                controller = WebVC(withURL: URL(string: URLSessionPanel)!, withParameters: params, withTitle: "Control Panel Web")
-            }
-            if #available(iOS 13, *) { controller.modalPresentationStyle = .fullScreen }
-            present(controller, animated: true, completion: nil)
-        } else {
-            displayErrorAlert("Error, retry later.".localized,
-                              titleMessage: "We have a situation!".localized)
-        }
-    }
-
-    /// Go to Close Account
-    func goToCloseAccount() {
-        if let token = PreyConfig.sharedInstance.tokenPanel {
-            let params = String(format: "token=%@", token)
-            let controller: UIViewController
-            if #available(iOS 10.0, *) {
-                controller = WebKitVC(withURL: URL(string: URLCloseAccount)!, withParameters: params, withTitle: "Control Panel Web")
-            } else {
-                controller = WebVC(withURL: URL(string: URLCloseAccount)!, withParameters: params, withTitle: "Control Panel Web")
-            }
-            if #available(iOS 13, *) { controller.modalPresentationStyle = .fullScreen }
-            present(controller, animated: true, completion: nil)
-        } else {
-            displayErrorAlert("Error, retry later.".localized,
-                              titleMessage: "We have a situation!".localized)
-        }
-    }
-
     /// Go to Local Settings
     func goToLocalSettings() {
         guard let appWindow = UIApplication.shared.delegate?.window else {
@@ -488,7 +390,7 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
             case ReactViews.AUTHLOC.rawValue:
                 DeviceAuth.sharedInstance.requestAuthLocation()
             case ReactViews.LOGIN.rawValue:
-                self.addDeviceWithLogin(params["preyEmailLogin"], password: params["preyPassLogin"])
+                self.openBrowserWith(URL(string: URLLoginPanel))
             case ReactViews.QRCODE.rawValue:
                 self.addDeviceWithQRCode()
             case ReactViews.CHECKID.rawValue:
@@ -500,19 +402,13 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
                 self.showWebViewModal(URLTermsPrey, pageTitle: "Terms of Service".localized)
             case ReactViews.PRIVACY.rawValue:
                 self.showWebViewModal(URLPrivacyPrey, pageTitle: "Privacy Policy".localized)
-            case ReactViews.FORGOT.rawValue:
-                self.showWebViewModal(URLForgotPanel, pageTitle: "Forgot Password Web")
             case ReactViews.BIOAUTH.rawValue:
                 let back = params["back"] ?? "setting"
                 self.authenticateWithBiometrics(back: back)
             case ReactViews.GOTOSETTING.rawValue:
                 self.checkPassword(params["pwdLogin"], view: self.view, back: "setting")
-            case ReactViews.GOTOPANEL.rawValue:
-                self.checkPassword(params["pwdLogin"], view: self.view, back: "panel")
             case ReactViews.GOTORENAME.rawValue:
                 self.checkPassword(params["pwdLogin"], view: self.view, back: "rename")
-            case ReactViews.GOTOCLOSE.rawValue:
-                self.checkPassword(params["pwdLogin"], view: self.view, back: "close")
             case ReactViews.NAMEDEVICE.rawValue:
                 let nameDevice = PreyConfig.sharedInstance.nameDevice ?? UIDevice.current.name
                 self.evaluateJS(self.webView, code: "document.getElementById('currentName').innerText = '\(nameDevice)';")

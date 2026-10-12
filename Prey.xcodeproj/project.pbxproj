@@ -65,7 +65,6 @@
 		3B8629A11EF03CB400BE92D4 /* String+SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298E1EF03CB400BE92D4 /* String+SHA1.swift */; };
 		3B8629A21EF03CB400BE92D4 /* WebSockets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B86298F1EF03CB400BE92D4 /* WebSockets.swift */; };
 		3B8E57DA1A2E7B530027179E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D21A2E7B530027179E /* AppDelegate.swift */; };
-		3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D41A2E7B530027179E /* HomeVC.swift */; };
 		3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */; };
 		3B8E57E01A2E7B530027179E /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E57D81A2E7B530027179E /* SettingsVC.swift */; };
 		3B9DDC961CDB891C0052A21D /* PreyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9DDC951CDB891C0052A21D /* PreyAction.swift */; };
@@ -210,7 +209,6 @@
 		3B86298E1EF03CB400BE92D4 /* String+SHA1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+SHA1.swift"; sourceTree = "<group>"; };
 		3B86298F1EF03CB400BE92D4 /* WebSockets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSockets.swift; sourceTree = "<group>"; };
 		3B8E57D21A2E7B530027179E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Classes/AppDelegate.swift; sourceTree = "<group>"; };
-		3B8E57D41A2E7B530027179E /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeVC.swift; path = Classes/HomeVC.swift; sourceTree = "<group>"; };
 		3B8E57D61A2E7B530027179E /* PreyHTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyHTTPClient.swift; path = Classes/PreyHTTPClient.swift; sourceTree = "<group>"; };
 		3B8E57D81A2E7B530027179E /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsVC.swift; path = Classes/SettingsVC.swift; sourceTree = "<group>"; };
 		3B9DDC951CDB891C0052A21D /* PreyAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreyAction.swift; path = Classes/PreyAction.swift; sourceTree = "<group>"; };
@@ -478,7 +476,6 @@
 				3B51FFB11D3EB77C00CFE4E8 /* QRCodeScannerVC.swift */,
 				3B40AB681DB901F1003045C1 /* WebKitVC.swift */,
 				3B38BA8E1D22C03D00B6799B /* WebVC.swift */,
-				3B8E57D41A2E7B530027179E /* HomeVC.swift */,
 				3BDF988020338AC70023D4AA /* HomeWebVC.swift */,
 				3B8E57D81A2E7B530027179E /* SettingsVC.swift */,
 				3BC4FC1E1D3699F800C58878 /* CurrentLocationVC.swift */,
@@ -809,7 +806,6 @@
 				3BC4FC1F1D3699F800C58878 /* CurrentLocationVC.swift in Sources */,
 				3B8629901EF03CB400BE92D4 /* DemoServer.swift in Sources */,
 				3B8629951EF03CB400BE92D4 /* HttpResponse.swift in Sources */,
-				3B8E57DC1A2E7B530027179E /* HomeVC.swift in Sources */,
 				3B8629981EF03CB400BE92D4 /* HttpServerIO.swift in Sources */,
 				3B8E57DE1A2E7B530027179E /* PreyHTTPClient.swift in Sources */,
 				3B9DDC981CDB9CD70052A21D /* Location.swift in Sources */,
