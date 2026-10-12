@@ -230,6 +230,29 @@ public let biometricAuth: String = {
 /// Category notification
 public let categoryNotifPreyAlert = "PreyAlert"
 
+/// Email RegExp
+public let emailRegExp = "\\b([a-zA-Z0-9%_.+\\-]+)@([a-zA-Z0-9.\\-]+?\\.[a-zA-Z]{2,21})\\b"
+
+/// Validate email expression
+public func isInvalidEmail(_ userEmail: String, withPattern: String) -> Bool {
+    var isInvalid = true
+    let regex: NSRegularExpression
+
+    do {
+        regex = try NSRegularExpression(pattern: withPattern, options: NSRegularExpression.Options.caseInsensitive)
+        let textRange = NSRange(location: 0, length: userEmail.count)
+        let matchRange = regex.rangeOfFirstMatch(in: userEmail, options: NSRegularExpression.MatchingOptions.reportProgress, range: textRange)
+
+        if matchRange.location != NSNotFound {
+            isInvalid = false
+        }
+    } catch let error as NSError {
+        PreyLogger("error RegEx: \(error.localizedDescription)")
+    }
+
+    return isInvalid
+}
+
 /// Display error alert
 public func displayErrorAlert(_ alertMessage: String, titleMessage: String) {
     DispatchQueue.main.async {
