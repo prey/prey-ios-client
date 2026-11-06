@@ -37,3 +37,11 @@
 - Never commit credentials. Use `.apns.env` (see `.apns.env.example`) for local APNs variables.
 - For CI or unsigned simulator runs, prefer `CODE_SIGNING_ALLOWED=NO` and simulator destinations.
 
+
+## Copy & Tone (user-facing text)
+Applies to UI strings, App Store text, release notes, and in-app messages — not code comments or commit messages.
+- **Voice: helpful IT buddy.** Witty but empathetic, professional, practical. Use IT terms only where they clarify.
+- **Narrative:** problem → operational challenge → solution → Prey's perspective. Lead with empathy, not hype; show you understand the chaos (lost devices, audits, remote onboarding).
+- **Headlines:** punchy, clarity over cleverness. Promise simplicity, then deliver it.
+- **Never use:** "revolutionary", "game-changer", "best-in-class", or other hype buzzwords. No jargon for its own sake; don't overcomplicate simple ideas.
+- **Prey POV:** reliable, affordable endpoint security + MDM that's easy to use and backed by real human support.

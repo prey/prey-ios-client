@@ -283,7 +283,7 @@ class PreyConfig: NSObject {
 
     /// Report Error
     func reportError(_ error: Error?) {
-        if let err = error {
+        if error != nil {
             // TODO: enable
 //            Crashlytics.sharedInstance().recordError(err)
         }
@@ -291,7 +291,7 @@ class PreyConfig: NSObject {
 
     /// Report Error custom
     func reportError(_: String, statusCode: Int?, errorDescription _: String) {
-        if let code = statusCode {
+        if statusCode != nil {
 //            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: code, userInfo: [String(code) : errorDescription]))
         } else {
 //            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: 1985, userInfo: ["1985" : errorDescription]))
