@@ -29,17 +29,19 @@ class DeviceAuth: NSObject, UIAlertViewDelegate, CLLocationManagerDelegate, Loca
 
     // MARK: Methods
 
-    /// Check all device auth
-    ///
-    /// Camera is not requested here; iOS only shows the camera prompt when
-    /// the user opens QRCodeScannerVC. We just read the current status so
-    /// the "protected/unprotected" indicator stays accurate.
+    /// Check all device auth, prompting for location if needed.
+    /// Camera is left out: it's only asked for by the QR scanner, so email-linked devices never have it.
     func checkAllDeviceAuthorization(completionHandler: @escaping (_ granted: Bool) -> Void) {
         DispatchQueue.main.async {
-            let cameraAuthorized = AVCaptureDevice.authorizationStatus(for: .video) == .authorized
-            let granted = self.checkLocation() && cameraAuthorized
-            completionHandler(granted)
+            completionHandler(self.checkLocation())
         }
+    }
+
+    /// Protection status without prompts or alerts.
+    var isLocationAuthorized: Bool {
+        guard CLLocationManager.locationServicesEnabled() else { return false }
+        let status = authLocation.authorizationStatus
+        return status == .authorizedAlways || status == .authorizedWhenInUse
     }
 
     /// Check location

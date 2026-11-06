@@ -77,16 +77,20 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
 
     /// Check device auth
     func checkDeviceAuth(webView: WKWebView) {
-        guard checkAuth == true else {
+        // The bundle renders "Protected" by default, so every load must overwrite it; only the first one may alert.
+        guard checkAuth else {
+            setDeviceStatus(DeviceAuth.sharedInstance.isLocationAuthorized, on: webView)
             return
         }
+        checkAuth = false
         DeviceAuth.sharedInstance.checkAllDeviceAuthorization { granted in
-            DispatchQueue.main.async {
-                let titleTxt = granted ? "protected".localized : "unprotected".localized
-                self.evaluateJS(webView, code: "document.getElementById('txtStatusDevice').innerHTML = '\(titleTxt)';")
-                self.checkAuth = false
-            }
+            self.setDeviceStatus(granted, on: webView)
         }
+    }
+
+    func setDeviceStatus(_ granted: Bool, on webView: WKWebView) {
+        let titleTxt = granted ? "protected".localized : "unprotected".localized
+        evaluateJS(webView, code: "var s = document.getElementById('txtStatusDevice'); if (s) s.innerHTML = '\(titleTxt)';")
     }
 
     /// Open URL from Safari

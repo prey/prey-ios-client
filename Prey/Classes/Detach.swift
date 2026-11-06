@@ -94,33 +94,28 @@ class Detach: PreyAction, @unchecked Sendable {
     func showDetachDeviceAction(_ view: UIView) {
         guard let viewController = view.findViewController() else { return }
 
+        // An alert, not an action sheet: iPad popovers drop the cancel button.
         let alertController = UIAlertController(
-            title: "You're about to delete this device from the Control Panel.\n Are you sure?".localized,
-            message: nil,
-            preferredStyle: .actionSheet
+            title: "Remove this device?".localized,
+            message: "Prey will stop protecting it, so you won't be able to locate it or sound an alarm on it. You can link it again anytime.".localized,
+            preferredStyle: .alert
         )
 
         let deleteAction = UIAlertAction(
-            title: "Yes, remove from my account".localized,
+            title: "Remove device".localized,
             style: .destructive
         ) { _ in
             self.sendDetachDeviceToPanel()
         }
 
         let cancelAction = UIAlertAction(
-            title: "No, don't delete".localized,
+            title: "Cancel".localized,
             style: .cancel,
             handler: nil
         )
 
-        alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
-
-        // Configure for iPad
-        if let popover = alertController.popoverPresentationController {
-            popover.sourceView = view
-            popover.sourceRect = view.bounds
-        }
+        alertController.addAction(deleteAction)
 
         viewController.present(alertController, animated: true)
     }

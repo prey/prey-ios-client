@@ -125,7 +125,6 @@
 
 "New user" = "Nuevo usuario";
 
-"No, don't delete" = "No borrar";
 
 "OK" = "OK";
 
@@ -166,11 +165,13 @@
 
 "Wrong password. Try again." = "Contraseña incorrecta. Recuerda que tienes que verificar tu email para poder ingresar.";
 
-"Yes, remove from my account" = "Sí, remover de mi cuenta";
 
 "You have successfully associated this device with your Prey Control Panel account." = "Has asociado exitosamente el dispositivo con tu cuenta del Panel de Control de Prey";
 
-"You're about to delete this device from the Control Panel.\n Are you sure?" = "Vas a remover este dispositivo del Panel de Control. ¿Estás seguro?";
+"Remove this device?" = "¿Eliminar este dispositivo?";
+"Prey will stop protecting it, so you won't be able to locate it or sound an alarm on it. You can link it again anytime." = "Prey dejará de protegerlo, así que no podrás ubicarlo ni hacerlo sonar. Puedes vincularlo de nuevo cuando quieras.";
+"Remove device" = "Eliminar dispositivo";
+"Cancel" = "Cancelar";
 
 "Your device is protected and waiting for the activation signal." = "Tu dispositivo está protegido y a la espera de la señal de activación.";
 

@@ -125,7 +125,6 @@
 
 "New user" = "New user";
 
-"No, don't delete" = "No, don't delete";
 
 "OK" = "OK";
 
@@ -166,11 +165,13 @@
 
 "Wrong password. Try again." = "Wrong password. Try again.";
 
-"Yes, remove from my account" = "Yes, remove from my account";
 
 "You have successfully associated this device with your Prey Control Panel account." = "You have successfully associated this device with your Prey Control Panel account.";
 
-"You're about to delete this device from the Control Panel.\n Are you sure?" = "You're about to delete this device from the Control Panel.\n Are you sure?";
+"Remove this device?" = "Remove this device?";
+"Prey will stop protecting it, so you won't be able to locate it or sound an alarm on it. You can link it again anytime." = "Prey will stop protecting it, so you won't be able to locate it or sound an alarm on it. You can link it again anytime.";
+"Remove device" = "Remove device";
+"Cancel" = "Cancel";
 
 "Your device is protected and waiting for the activation signal." = "Your device is protected and waiting for the activation signal.";
 

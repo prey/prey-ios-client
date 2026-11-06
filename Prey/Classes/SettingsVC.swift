@@ -77,14 +77,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         title = nameDevice
 
-        tableView.backgroundColor = getTableBackgroundColor()
-        tableView.separatorColor = getTableSeparatorColor()
-        colorTxtLbl = getTextLblColor(1.0)
-        colorDetailLbl = getTextLblColor(0.3)
-
-        if #available(iOS 11.0, *) {
-            tableView.contentInset = UIEdgeInsets(top: 35.0, left: 0.0, bottom: 0.0, right: 0.0)
-        }
+        // Keeps the inset cards at a readable width instead of stretching across an iPad.
+        tableView.cellLayoutMarginsFollowReadableWidth = true
+        tableView.rowHeight = IS_IPAD ? 52 : 44
+        applyColors()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -384,10 +380,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
     /// Reload tableView
     func reloadViewController() {
-        tableView.backgroundColor = getTableBackgroundColor()
-        tableView.separatorColor = getTableSeparatorColor()
-        colorTxtLbl = getTextLblColor(1.0)
-        colorDetailLbl = getTextLblColor(0.3)
+        applyColors()
         tableView.reloadData()
         PreyConfig.sharedInstance.configNavigationBar()
         configNavigationBar()
@@ -410,9 +403,19 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
         navBar.barTintColor = PreyConfig.sharedInstance.getNavBarTintColor()
         navBar.tintColor = UIColor.black
+        PreyConfig.sharedInstance.applyOpaqueAppearance(to: navBar)
     }
 
     // MARK: Dark Mode colors
+
+    func applyColors() {
+        // The nav bar is transparent at the scroll edge, so the view behind it must match the table.
+        view.backgroundColor = getTableBackgroundColor()
+        tableView.backgroundColor = getTableBackgroundColor()
+        tableView.separatorColor = getTableSeparatorColor()
+        colorTxtLbl = getTextLblColor(1.0)
+        colorDetailLbl = getTextLblColor(0.3)
+    }
 
     func getTableBackgroundColor() -> UIColor {
         guard #available(iOS 13.0, *) else {
@@ -431,7 +434,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if PreyConfig.sharedInstance.isSystemDarkMode {
             return UIColor(named: "TableSeparator")!
         }
-        return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 40 / 255, green: 54 / 255, blue: 74 / 255, alpha: 1.0) : UIColor.white
+        return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 68 / 255, green: 84 / 255, blue: 108 / 255, alpha: 1.0) : UIColor(white: 226 / 255, alpha: 1.0)
     }
 
     func getTextLblColor(_ alpha: CGFloat) -> UIColor {
@@ -451,7 +454,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if PreyConfig.sharedInstance.isSystemDarkMode {
             return UIColor(named: "TableCell")!
         }
-        return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 40 / 255, green: 54 / 255, blue: 74 / 255, alpha: 1.0) : UIColor.white
+        return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 52 / 255, green: 68 / 255, blue: 92 / 255, alpha: 1.0) : UIColor.white
     }
 
     // MARK: WKUIDelegate, WKNavigationDelegate
