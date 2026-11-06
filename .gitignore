@@ -8,3 +8,6 @@ GoogleService-Info.plist
 .aider*
 scripts/apns/*
 .worktrees/
+
+# Personal Claude Code permissions
+.claude/settings.local.json
