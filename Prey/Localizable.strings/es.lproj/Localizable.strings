@@ -12,17 +12,6 @@
 
 "New" = "Nuevo";
 
-"You don't have geofences" = "No tienes Geocercas agregadas";
-
-"KEEP TRACK OF YOUR DEVICES WITH GEOFENCING" = "NUNCA PIERDAS DE VISTA TUS EQUIPOS CON GEOCERCAS";
-
-"Get our Home plan and use our Geofencing feature to get notifications whenever your devices leave or enter an area" = "Suscríbete a nuestro plan Home y usa Geocercas para recibir notificaciones cuando tus dispositivos entren o salgan de un área";
-
-"FULL PROTECTION FOR YOUR DEVICES" = "PROTECCIÓN COMPLETA PARA TUS DISPOSITIVOS";
-
-"100 reports per device \nUltra-fast frecuency for reports \nScan hardware for changes \nGeofencing for Home plans and over \nPriority support" = "100 reportes por dispositivo \nAlta frecuenta de reportes \nDetección de cambios en el hardware \nGeocercas para planes Home en adelante \nSoporte prioritario";
-
-"Personal Plan, 1 year" = "Plan Starter, 1 año";
 
 "Recovery Stories" = "Historias de recuperación";
 
@@ -81,8 +70,6 @@
 "PREY SETTINGS" = "PREY";
 
 
-
-
 "About" = "Acerca de";
 
 "Access Denied" = "Acceso denegado";
@@ -119,7 +106,6 @@
 
 "Creating account..." = "Creando cuenta...";
 
-"Current Location" = "Ubicación actual";
 
 "Detach device" = "Eliminar dispositivo";
 
@@ -139,7 +125,6 @@
 
 "New user" = "Nuevo usuario";
 
-"No, don't delete" = "No borrar";
 
 "OK" = "OK";
 
@@ -169,7 +154,6 @@
 
 "Unable to fetch location data. Is this device on airplane mode?" = "No fue posible obtener información de localización. ¿Está el dispositivo en modo avión?";
 
-"Upgrade to Pro" = "Cámbiate a Pro";
 
 "User couldn't be created" = "El usuario no pudo ser creado";
 
@@ -181,11 +165,13 @@
 
 "Wrong password. Try again." = "Contraseña incorrecta. Recuerda que tienes que verificar tu email para poder ingresar.";
 
-"Yes, remove from my account" = "Sí, remover de mi cuenta";
 
 "You have successfully associated this device with your Prey Control Panel account." = "Has asociado exitosamente el dispositivo con tu cuenta del Panel de Control de Prey";
 
-"You're about to delete this device from the Control Panel.\n Are you sure?" = "Vas a remover este dispositivo del Panel de Control. ¿Estás seguro?";
+"Remove this device?" = "¿Eliminar este dispositivo?";
+"Prey will stop protecting it, so you won't be able to locate it or sound an alarm on it. You can link it again anytime." = "Prey dejará de protegerlo, así que no podrás ubicarlo ni hacerlo sonar. Puedes vincularlo de nuevo cuando quieras.";
+"Remove device" = "Eliminar dispositivo";
+"Cancel" = "Cancelar";
 
 "Your device is protected and waiting for the activation signal." = "Tu dispositivo está protegido y a la espera de la señal de activación.";
 
@@ -201,11 +187,6 @@
 
 "Yes, rate Prey!" = "Sí, calificar a Prey!";
 
-"Information" = "Información";
-
-"Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team." = "Ahora tienes acceso a todas las características Pro de Prey, como por ejemplo el soporte directo con nuestro equipo técnico.";
-
-"Congrats,\nyou're now Pro" = "Enhorabuena,\nYa eres Pro";
 
 "Your password" = "Contraseña";
 

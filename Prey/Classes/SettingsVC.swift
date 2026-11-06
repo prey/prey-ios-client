@@ -12,12 +12,7 @@ import WebKit
 
 /// Settings TableView Items
 enum PreferencesViewSection: String {
-    case information, settings, about, darkmode, numberSections
-}
-
-/// SectionInformation Items
-enum SectionInformation: Int {
-    case currentLocation = 0, numberSectionInformation
+    case settings, about, darkmode, numberSections
 }
 
 /// SectionSettings Items
@@ -51,7 +46,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var detachModule: Detach!
 
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var iPadView: UIView!
 
     // MARK: Init
 
@@ -68,10 +62,9 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
         // remove dark mode
         viewSection = [
-            PreferencesViewSection.information.rawValue: 0,
-            PreferencesViewSection.settings.rawValue: 1,
-            PreferencesViewSection.about.rawValue: 2,
-            PreferencesViewSection.numberSections.rawValue: 3
+            PreferencesViewSection.settings.rawValue: 0,
+            PreferencesViewSection.about.rawValue: 1,
+            PreferencesViewSection.numberSections.rawValue: 2
         ]
 
         // View title for GAnalytics
@@ -84,19 +77,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         title = nameDevice
 
-        // Set iPadView
-        if IS_IPAD {
-            showViewControllerWithId(StoryboardIdVC.currentLocation.rawValue)
-        }
-
-        tableView.backgroundColor = getTableBackgroundColor()
-        tableView.separatorColor = getTableSeparatorColor()
-        colorTxtLbl = getTextLblColor(1.0)
-        colorDetailLbl = getTextLblColor(0.3)
-
-        if #available(iOS 11.0, *) {
-            tableView.contentInset = UIEdgeInsets(top: 35.0, left: 0.0, bottom: 0.0, right: 0.0)
-        }
+        // Keeps the inset cards at a readable width instead of stretching across an iPad.
+        tableView.cellLayoutMarginsFollowReadableWidth = true
+        tableView.rowHeight = IS_IPAD ? 52 : 44
+        applyColors()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -118,10 +102,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         var numberRows = 0
 
         switch section {
-        // Information
-        case viewSection[PreferencesViewSection.information.rawValue]:
-            numberRows = SectionInformation.numberSectionInformation.rawValue
-
         // Settings
         case viewSection[PreferencesViewSection.settings.rawValue]:
             if PreyConfig.isBiometricAuthEnabled, LAContext().canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
@@ -149,9 +129,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         var titleSection = ""
 
         switch section {
-        case viewSection[PreferencesViewSection.information.rawValue]:
-            titleSection = "Information".localized
-
         case viewSection[PreferencesViewSection.settings.rawValue]:
             titleSection = "Settings".localized
 
@@ -185,9 +162,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
         // Set cell info
         switch (indexPath as NSIndexPath).section {
-        case viewSection[PreferencesViewSection.information.rawValue]:
-            configCellForInformationSection((indexPath as NSIndexPath).row, withCell: cell)
-
         case viewSection[PreferencesViewSection.settings.rawValue]:
             configCellForSettingsSection((indexPath as NSIndexPath).row, withCell: cell)
 
@@ -201,19 +175,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
 
         return cell
-    }
-
-    /// Config InformationSection
-    func configCellForInformationSection(_ index: Int, withCell cell: UITableViewCell) {
-        cell.selectionStyle = UITableViewCell.SelectionStyle.blue
-        cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-
-        switch index {
-        case SectionInformation.currentLocation.rawValue:
-            cell.textLabel?.text = "Current Location".localized
-
-        default: break
-        }
     }
 
     /// Config SettingsSection
@@ -292,7 +253,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
     /// Height for header
     func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == viewSection[PreferencesViewSection.information.rawValue] ? 1 : 35
+        return 35
     }
 
     /// Height for footer
@@ -312,16 +273,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Set cell info
         switch (indexPath as NSIndexPath).section {
-        // === INFORMATION ===
-        case viewSection[PreferencesViewSection.information.rawValue]:
-            switch (indexPath as NSIndexPath).row {
-            // Current Location
-            case SectionInformation.currentLocation.rawValue:
-                showViewControllerWithId(StoryboardIdVC.currentLocation.rawValue)
-
-            default: break
-            }
-
         // === SETTINGS ===
         case viewSection[PreferencesViewSection.settings.rawValue]:
             // Detach Device
@@ -334,7 +285,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             switch (indexPath as NSIndexPath).row {
             // Help
             case SectionAbout.help.rawValue:
-                showWebController(URLHelpPrey, withTitle: "Help".localized)
+                if let url = URL(string: URLHelpPrey) { UIApplication.shared.open(url) }
 
             // Term of Service
             case SectionAbout.termService.rawValue:
@@ -352,40 +303,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
 
     // MARK: Methods
-
-    /// Show ViewController
-    func showViewControllerWithId(_ controllerId: String) {
-        let controller: UIViewController = storyboard!.instantiateViewController(withIdentifier: controllerId)
-        if IS_IPAD {
-            showViewControllerOniPad(controller)
-        } else {
-            navigationController?.pushViewController(controller, animated: true)
-        }
-    }
-
-    /// Show ViewController for iPad
-    func showViewControllerOniPad(_ controller: UIViewController) {
-        // RemovePreviewViewController
-        removePreviewViewControler()
-
-        // Config container viewController
-        let rect = CGRect(x: 0, y: 0, width: iPadView.frame.width, height: iPadView.frame.height)
-        controller.view.frame = rect
-
-        iPadView.addSubview(controller.view)
-
-        addChild(controller)
-        controller.didMove(toParent: self)
-    }
-
-    /// Remove PreviewViewController
-    func removePreviewViewControler() {
-        if let lastVC = children.last {
-            lastVC.willMove(toParent: nil)
-            lastVC.view.removeFromSuperview()
-            lastVC.removeFromParent()
-        }
-    }
 
     /// DetachDeviceAction
     func showDetachDeviceAction() {
@@ -412,11 +329,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
         controller.title = title
 
-        if IS_IPAD {
-            showViewControllerOniPad(controller)
-        } else {
-            navigationController?.pushViewController(controller, animated: true)
-        }
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     /// TouchID State
@@ -467,10 +380,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
     /// Reload tableView
     func reloadViewController() {
-        tableView.backgroundColor = getTableBackgroundColor()
-        tableView.separatorColor = getTableSeparatorColor()
-        colorTxtLbl = getTextLblColor(1.0)
-        colorDetailLbl = getTextLblColor(0.3)
+        applyColors()
         tableView.reloadData()
         PreyConfig.sharedInstance.configNavigationBar()
         configNavigationBar()
@@ -493,9 +403,19 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
         navBar.barTintColor = PreyConfig.sharedInstance.getNavBarTintColor()
         navBar.tintColor = UIColor.black
+        PreyConfig.sharedInstance.applyOpaqueAppearance(to: navBar)
     }
 
     // MARK: Dark Mode colors
+
+    func applyColors() {
+        // The nav bar is transparent at the scroll edge, so the view behind it must match the table.
+        view.backgroundColor = getTableBackgroundColor()
+        tableView.backgroundColor = getTableBackgroundColor()
+        tableView.separatorColor = getTableSeparatorColor()
+        colorTxtLbl = getTextLblColor(1.0)
+        colorDetailLbl = getTextLblColor(0.3)
+    }
 
     func getTableBackgroundColor() -> UIColor {
         guard #available(iOS 13.0, *) else {
@@ -514,7 +434,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if PreyConfig.sharedInstance.isSystemDarkMode {
             return UIColor(named: "TableSeparator")!
         }
-        return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 40 / 255, green: 54 / 255, blue: 74 / 255, alpha: 1.0) : UIColor.white
+        return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 68 / 255, green: 84 / 255, blue: 108 / 255, alpha: 1.0) : UIColor(white: 226 / 255, alpha: 1.0)
     }
 
     func getTextLblColor(_ alpha: CGFloat) -> UIColor {
@@ -534,7 +454,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if PreyConfig.sharedInstance.isSystemDarkMode {
             return UIColor(named: "TableCell")!
         }
-        return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 40 / 255, green: 54 / 255, blue: 74 / 255, alpha: 1.0) : UIColor.white
+        return PreyConfig.sharedInstance.isDarkMode ? UIColor(red: 52 / 255, green: 68 / 255, blue: 92 / 255, alpha: 1.0) : UIColor.white
     }
 
     // MARK: WKUIDelegate, WKNavigationDelegate
@@ -552,9 +472,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
 
-    func webView(_: WKWebView, decidePolicyFor _: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    func webView(_: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         PreyLogger("Should load request WKWebView")
-        decisionHandler(.allow)
+        // Legal pages link to /pricing; following links in-app breaks App Review 3.1.3(f).
+        decisionHandler(navigationAction.navigationType == .linkActivated ? .cancel : .allow)
     }
 
     func webView(_: WKWebView, didFinish _: WKNavigation!) {

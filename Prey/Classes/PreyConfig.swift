@@ -229,6 +229,24 @@ class PreyConfig: NSObject {
 
         UINavigationBar.appearance().barTintColor = getNavBarTintColor()
         UINavigationBar.appearance().tintColor = colorItem
+        applyOpaqueAppearance(to: UINavigationBar.appearance())
+    }
+
+    /// iOS 15+ leaves the bar transparent at the scroll edge and ignores barTintColor there,
+    /// so a white web page shows through behind the light title.
+    func applyOpaqueAppearance(to navBar: UINavigationBar) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = getNavBarTintColor()
+        appearance.titleTextAttributes = navBar.titleTextAttributes ?? [:]
+        if let fontItem = UIFont(name: fontTitilliumBold, size: IS_IPAD ? 18 : 12) {
+            let buttonAttributes: [NSAttributedString.Key: Any] = [.font: fontItem, .foregroundColor: getNavBarItemColor()]
+            appearance.buttonAppearance.normal.titleTextAttributes = buttonAttributes
+            appearance.backButtonAppearance.normal.titleTextAttributes = buttonAttributes
+        }
+        navBar.standardAppearance = appearance
+        navBar.scrollEdgeAppearance = appearance
+        navBar.compactAppearance = appearance
     }
 
     // MARK: Dark Mode colors
@@ -265,7 +283,7 @@ class PreyConfig: NSObject {
 
     /// Report Error
     func reportError(_ error: Error?) {
-        if let err = error {
+        if error != nil {
             // TODO: enable
 //            Crashlytics.sharedInstance().recordError(err)
         }
@@ -273,7 +291,7 @@ class PreyConfig: NSObject {
 
     /// Report Error custom
     func reportError(_: String, statusCode: Int?, errorDescription _: String) {
-        if let code = statusCode {
+        if statusCode != nil {
 //            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: code, userInfo: [String(code) : errorDescription]))
         } else {
 //            Crashlytics.sharedInstance().recordError(NSError(domain: domain, code: 1985, userInfo: ["1985" : errorDescription]))

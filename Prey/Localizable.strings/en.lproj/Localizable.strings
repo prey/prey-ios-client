@@ -12,17 +12,6 @@
 
 "New" = "New";
 
-"You don't have geofences" = "You don't have geofences";
-
-"KEEP TRACK OF YOUR DEVICES WITH GEOFENCING" = "KEEP TRACK OF YOUR DEVICES WITH GEOFENCING";
-
-"Get our Home plan and use our Geofencing feature to get notifications whenever your devices leave or enter an area" = "Get our Home plan and use our Geofencing feature to get notifications whenever your devices leave or enter an area";
-
-"FULL PROTECTION FOR YOUR DEVICES" = "FULL PROTECTION FOR YOUR DEVICES";
-
-"100 reports per device \nUltra-fast frecuency for reports \nScan hardware for changes \nGeofencing for Home plans and over \nPriority support" = "100 reports per device \nUltra-fast frecuency for reports \nScan hardware for changes \nGeofencing for Home plans and over \nPriority support";
-
-"Personal Plan, 1 year" = "Starter Plan, 1 year";
 
 "Recovery Stories" = "Recovery Stories";
 
@@ -81,7 +70,6 @@
 "PREY SETTINGS" = "PREY SETTINGS";
 
 
-
 "About" = "About";
 
 "Access Denied" = "Access Denied";
@@ -118,7 +106,6 @@
 
 "Creating account..." = "Creating account...";
 
-"Current Location" = "Current Location";
 
 "Detach device" = "Detach device";
 
@@ -138,7 +125,6 @@
 
 "New user" = "New user";
 
-"No, don't delete" = "No, don't delete";
 
 "OK" = "OK";
 
@@ -168,7 +154,6 @@
 
 "Unable to fetch location data. Is this device on airplane mode?" = "Unable to fetch location data. Is this device on airplane mode?";
 
-"Upgrade to Pro" = "Upgrade to Pro";
 
 "User couldn't be created" = "User couldn't be created";
 
@@ -180,11 +165,13 @@
 
 "Wrong password. Try again." = "Wrong password. Try again.";
 
-"Yes, remove from my account" = "Yes, remove from my account";
 
 "You have successfully associated this device with your Prey Control Panel account." = "You have successfully associated this device with your Prey Control Panel account.";
 
-"You're about to delete this device from the Control Panel.\n Are you sure?" = "You're about to delete this device from the Control Panel.\n Are you sure?";
+"Remove this device?" = "Remove this device?";
+"Prey will stop protecting it, so you won't be able to locate it or sound an alarm on it. You can link it again anytime." = "Prey will stop protecting it, so you won't be able to locate it or sound an alarm on it. You can link it again anytime.";
+"Remove device" = "Remove device";
+"Cancel" = "Cancel";
 
 "Your device is protected and waiting for the activation signal." = "Your device is protected and waiting for the activation signal.";
 
@@ -200,11 +187,6 @@
 
 "Yes, rate Prey!" = "Yes, rate Prey!";
 
-"Information" = "Information";
-
-"Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team." = "Thanks for your support. You've just gained access to all the Pro features, including private and direct support from us, the Prey Team.";
-
-"Congrats,\nyou're now Pro" = "Congrats,\nyou're now Pro";
 
 "Your password" = "Your password";
 
