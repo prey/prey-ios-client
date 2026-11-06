@@ -16,7 +16,7 @@ import UserNotifications
 
 /// Storyboard controllerId
 enum StoryboardIdVC: String {
-    case PreyStoryBoard, alert, navigation, currentLocation, settings, homeWeb, rename
+    case PreyStoryBoard, alert, navigation, settings, homeWeb, rename
 }
 
 // Def type device

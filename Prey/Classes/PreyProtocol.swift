@@ -69,14 +69,16 @@ enum kData: String {
     public let exceptionsUrl: String = "https://exceptions.preyproject.com"
 #endif
 
-public let URLLoginPanel: String = URLPanel + "/login"
 public let logRetrievalEndpoint: String = URLSolid + "/upload/log"
 
-public let URLHelpPrey: String = "http://help.preyproject.com"
+public var URLHelpPrey: String {
+    let isSpanish = Locale.preferredLanguages.first?.hasPrefix("es") ?? false
+    return isSpanish ? "https://support.preyproject.com/hc/es-419" : "https://support.preyproject.com/hc/en-us"
+}
 
-public let URLTermsPrey: String = "http://preyproject.com/terms"
+public let URLTermsPrey: String = "https://preyproject.com/terms"
 
-public let URLPrivacyPrey: String = "http://preyproject.com/privacy"
+public let URLPrivacyPrey: String = "https://preyproject.com/privacy"
 
 /// Endpoint for Token
 public let tokenEndpoint: String = "/get_token.json"

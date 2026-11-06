@@ -72,88 +72,23 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="jGz-JY-FhR">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="250" id="wRx-ZK-EtQ"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="wRx-ZK-EtQ"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <mask key="constraints">
-                                        <include reference="wRx-ZK-EtQ"/>
-                                    </mask>
-                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="b1G-ow-zIc" id="hhQ-rd-n1H"/>
                                     <outlet property="delegate" destination="b1G-ow-zIc" id="Rk5-hc-3b0"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MKI-cb-WiX">
-                                <rect key="frame" x="250" y="20" width="774" height="1346"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="MKI-cb-WiX" secondAttribute="trailing" id="1nh-kx-h3o"/>
                             <constraint firstAttribute="trailing" secondItem="jGz-JY-FhR" secondAttribute="trailing" id="2hp-a8-MYH"/>
                             <constraint firstItem="cEt-fU-id3" firstAttribute="top" secondItem="jGz-JY-FhR" secondAttribute="bottom" id="39Z-Nk-tgL"/>
-                            <constraint firstItem="jGz-JY-FhR" firstAttribute="leading" secondItem="Pv8-DE-Wdt" secondAttribute="leading" id="8VZ-er-2ku"/>
-                            <constraint firstItem="MKI-cb-WiX" firstAttribute="top" secondItem="LXN-qH-fiK" secondAttribute="bottom" id="MlT-EO-9aM"/>
-                            <constraint firstItem="jGz-JY-FhR" firstAttribute="top" secondItem="LXN-qH-fiK" secondAttribute="bottom" id="b4b-pH-D0l"/>
-                            <constraint firstItem="cEt-fU-id3" firstAttribute="top" secondItem="MKI-cb-WiX" secondAttribute="bottom" id="f8W-CZ-fbm"/>
-                            <constraint firstItem="MKI-cb-WiX" firstAttribute="leading" secondItem="jGz-JY-FhR" secondAttribute="trailing" id="iKJ-zF-nZT"/>
-                            <constraint firstItem="cEt-fU-id3" firstAttribute="top" secondItem="jGz-JY-FhR" secondAttribute="bottom" id="jjP-gB-oi9"/>
                             <constraint firstItem="jGz-JY-FhR" firstAttribute="top" secondItem="LXN-qH-fiK" secondAttribute="bottom" id="swP-Rn-gnp"/>
                             <constraint firstItem="jGz-JY-FhR" firstAttribute="leading" secondItem="Pv8-DE-Wdt" secondAttribute="leading" id="taA-7K-NKQ"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="MKI-cb-WiX"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="2hp-a8-MYH"/>
-                                <exclude reference="8VZ-er-2ku"/>
-                                <exclude reference="b4b-pH-D0l"/>
-                                <exclude reference="swP-Rn-gnp"/>
-                                <exclude reference="taA-7K-NKQ"/>
-                                <exclude reference="39Z-Nk-tgL"/>
-                                <exclude reference="f8W-CZ-fbm"/>
-                                <exclude reference="jjP-gB-oi9"/>
-                                <exclude reference="1nh-kx-h3o"/>
-                                <exclude reference="MlT-EO-9aM"/>
-                                <exclude reference="iKJ-zF-nZT"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="constraints">
-                                <include reference="2hp-a8-MYH"/>
-                                <include reference="swP-Rn-gnp"/>
-                                <include reference="taA-7K-NKQ"/>
-                                <include reference="39Z-Nk-tgL"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=regular">
-                            <mask key="subviews">
-                                <include reference="MKI-cb-WiX"/>
-                            </mask>
-                            <mask key="constraints">
-                                <include reference="8VZ-er-2ku"/>
-                                <include reference="b4b-pH-D0l"/>
-                                <include reference="f8W-CZ-fbm"/>
-                                <include reference="jjP-gB-oi9"/>
-                                <include reference="1nh-kx-h3o"/>
-                                <include reference="MlT-EO-9aM"/>
-                                <include reference="iKJ-zF-nZT"/>
-                            </mask>
-                        </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="iPadView" destination="MKI-cb-WiX" id="W1L-vm-w3l"/>
                         <outlet property="tableView" destination="jGz-JY-FhR" id="9bN-4g-lFa"/>
                     </connections>
                 </viewController>
@@ -235,43 +170,6 @@
             <point key="canvasLocation" x="2802.898550724638" y="939.94565217391312"/>
         </scene>
         <!--Current LocationVC-->
-        <scene sceneID="jT1-Xr-JKL">
-            <objects>
-                <viewController storyboardIdentifier="currentLocation" id="8VK-zz-uxV" customClass="CurrentLocationVC" customModule="Prey" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="kG2-2b-Tox"/>
-                        <viewControllerLayoutGuide type="bottom" id="EYA-gE-RWq"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="oSg-lV-BZ2">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TnI-K6-r3n">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                                <connections>
-                                    <outlet property="delegate" destination="8VK-zz-uxV" id="EyV-Mt-P8E"/>
-                                </connections>
-                            </mapView>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="TnI-K6-r3n" secondAttribute="trailing" id="2jZ-Tm-hKL"/>
-                            <constraint firstItem="TnI-K6-r3n" firstAttribute="centerY" secondItem="oSg-lV-BZ2" secondAttribute="centerY" id="4Vp-jk-L44"/>
-                            <constraint firstItem="TnI-K6-r3n" firstAttribute="centerX" secondItem="oSg-lV-BZ2" secondAttribute="centerX" id="8KY-yN-pcO"/>
-                            <constraint firstItem="TnI-K6-r3n" firstAttribute="leading" secondItem="oSg-lV-BZ2" secondAttribute="leading" id="USr-LB-Tr2"/>
-                            <constraint firstItem="TnI-K6-r3n" firstAttribute="top" secondItem="oSg-lV-BZ2" secondAttribute="top" id="p4w-ht-cvZ"/>
-                            <constraint firstAttribute="bottom" secondItem="TnI-K6-r3n" secondAttribute="bottom" id="w8f-NI-U9Q"/>
-                        </constraints>
-                    </view>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <connections>
-                        <outlet property="mapLocationView" destination="TnI-K6-r3n" id="TwF-yr-ARr"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XVC-39-yKE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2091" y="950"/>
-        </scene>
     </scenes>
     <resources>
         <image name="BgWelcome" width="320" height="480"/>

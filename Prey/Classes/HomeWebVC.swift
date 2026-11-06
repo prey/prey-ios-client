@@ -450,12 +450,12 @@ class HomeWebVC: UIViewController, WKUIDelegate, WKNavigationDelegate, WKScriptM
             case ReactViews.AUTHLOC.rawValue:
                 DeviceAuth.sharedInstance.requestAuthLocation()
             case ReactViews.LOGIN.rawValue:
-                // Link screen sends credentials; the home Login button sends none and goes to Safari.
-                if let email = params["preyEmailLogin"], let password = params["preyPassLogin"] {
-                    self.addDeviceWithLogin(email, password: password)
-                } else {
-                    self.openBrowserWith(URL(string: URLLoginPanel))
+                // No path to the panel login (App Review 3.1.1): only the link-device form is handled.
+                guard let email = params["preyEmailLogin"], let password = params["preyPassLogin"] else {
+                    PreyLogger("login without credentials ignored")
+                    return
                 }
+                self.addDeviceWithLogin(email, password: password)
             case ReactViews.QRCODE.rawValue:
                 self.addDeviceWithQRCode()
             case ReactViews.CHECKID.rawValue:

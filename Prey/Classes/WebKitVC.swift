@@ -130,6 +130,12 @@ class WebKitVC: UIViewController, WKUIDelegate, WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         PreyLogger("Should load request: WKWebView:\(navigationAction.request)")
 
+        // Legal pages link to /pricing; following links in-app breaks App Review 3.1.3(f).
+        if navigationAction.navigationType == .linkActivated {
+            decisionHandler(.cancel)
+            return
+        }
+
         let mainRequest = navigationAction.request
 
         if let host = mainRequest.url?.host {
